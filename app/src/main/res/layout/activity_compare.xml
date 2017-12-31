@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".App.CompareActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:contentPadding="6dp"
+        card_view:cardBackgroundColor="@color/white_dark"
+        card_view:cardCornerRadius="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        card_view:cardElevation="4dp"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/card_date_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/card_date_edit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                app:srcCompat="@drawable/edit_primary"
+                android:gravity="center"
+                android:adjustViewBounds="true"
+                android:layout_below="@+id/card_date_title"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:layout_alignParentRight="true" />
+
+            <TextView
+                android:id="@+id/card_date_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/card_date_edit"
+                android:layout_alignBottom="@+id/card_date_edit"
+                android:text="@string/loading"
+                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"
+                android:layout_toLeftOf="@+id/card_date_edit"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/card_date"
+        android:text="@string/no_data"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_date"
+        android:layout_marginTop="6dp">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/heading_sdsp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/value1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:textSize="17.5sp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/diagram_sdsp1"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/heading_sdsp1"/>
+
+            <TextView
+                android:id="@+id/heading_sdsp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/value2"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/diagram_sdsp1"
+                android:textSize="17.5sp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/diagram_sdsp2"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/heading_sdsp2"/>
+
+            <TextView
+                android:id="@+id/heading_temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/temperature"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/diagram_sdsp2"
+                android:textSize="17.5sp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/diagram_temp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/heading_temp"/>
+
+            <TextView
+                android:id="@+id/heading_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/humidity"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/diagram_temp"
+                android:textSize="17.5sp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/diagram_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/heading_humidity"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

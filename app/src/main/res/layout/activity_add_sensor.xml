@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".App.AddSensorActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:theme="@style/toolbarStyle"
+        android:title="@string/app_name"
+        android:fitsSystemWindows="true"
+        android:elevation="1dp"/>
+
+    <View
+        android:id="@+id/reveal_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toolbar"
+        android:fitsSystemWindows="false"
+        android:background="@color/colorPrimary"/>
+
+    <View
+        android:id="@+id/reveal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toolbar"
+        android:fitsSystemWindows="false"
+        android:background="@color/colorPrimary"/>
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/sensor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_alignTop="@+id/sensor_name_value"
+            android:layout_alignBottom="@+id/sensor_name_value"/>
+
+        <EditText
+            android:id="@+id/sensor_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sensor_name"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/sensor_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sensor_id_"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_alignTop="@+id/sensor_id_value"
+            android:layout_alignBottom="@+id/sensor_id_value"/>
+
+        <EditText
+            android:id="@+id/sensor_id_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sensor_name"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/sensor_name_value"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/sensor_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/simple_circle"
+            android:layout_below="@+id/sensor_id_value"
+            android:elevation="5dp"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <Button
+            android:id="@+id/choose_sensor_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_color"
+            android:layout_toRightOf="@+id/sensor_color"
+            android:layout_below="@+id/sensor_id_value"
+            android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+</RelativeLayout>

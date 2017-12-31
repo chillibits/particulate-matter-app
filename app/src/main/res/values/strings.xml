@@ -1,0 +1,66 @@
+<resources>
+    <!-- Common Strings -->
+    <string name="app_name">Feinstaub App</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="ok">OK</string>
+    <string name="next">Weiter</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="error_try_again">Fehler! Bitte erneut versuchen.</string>
+    <string name="error">Fehler</string>
+    <string name="exit">Beenden</string>
+    <string name="settings">Einstellungen</string>
+    <string name="no_data">Keine Daten</string>
+    <string name="loading">Laden ...</string>
+    <string name="loading_data">Daten werden geladen ...</string>
+    <string name="internet_is_not_available">Internet nicht verfügbar</string>
+    <string name="activate_wlan">Wlan aktivieren</string>
+
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
+    <string name="show_details">Sensordetails anzeigen</string>
+    <string name="compare_sensors">Sesoren vergleichen</string>
+    <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten auf +, um einen Feinstaubsensor zu verknüpfen.</string>
+
+    <!-- AddSensorActivity -->
+    <string name="add_sensor">Sensor hinzufügen</string>
+    <string name="done">Fertig</string>
+    <string name="name_">Anzeigename:</string>
+    <string name="sensor_id_">Sensor-ID:</string>
+    <string name="choose_color">Farbe wählen</string>
+
+    <!-- SensorActivity -->
+    <string name="date">Datum</string>
+    <string name="change_date">Datum ändern</string>
+    <string name="tab_diagram">Diagramm</string>
+    <string name="tab_data">Datensätze</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="record">Aufnahme</string>
+    <string name="start_record">Aufnahme starten</string>
+    <string name="stop_record">Aufnahme beenden</string>
+    <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
+    <string name="time">Zeit</string>
+    <string name="value1">PM10</string>
+    <string name="value2">PM2.5</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatur</string>
+    <string name="humidity_short">Lfkt</string>
+    <string name="humidity">Luftfeuchtigkeit</string>
+    <string name="sensor_id_t">Sensor-ID</string>
+    <string name="sensor_id_m">Bitte Sensor-ID eingeben:</string>
+    <string name="custom_diagram">Benutzerdefiniertes Diagramm</string>
+    <string name="no_diagram_selected">Kein Diagramm ausgewählt</string>
+    <string name="from">von</string>
+    <string name="to">bis</string>
+    <string name="device1">Sensor 1</string>
+    <string name="device2">Sensor 2</string>
+    <string name="device3">Sensor 3</string>
+
+    <!-- DiagramActivity -->
+
+    <!-- Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="pref_header_general">Allgemein</string>
+    <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="seconds">Sekunden</string>
+</resources>

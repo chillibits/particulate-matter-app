@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00cab7</color>
+    <color name="colorPrimaryDark">#00a798</color>
+    <color name="colorAccent">#ff114d</color>
+
+    <!-- Common Colors -->
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="white_dark">#f1f1f1</color>
+    <color name="gray_light">#BBB</color>
+    <color name="transparent">#00000000</color>
+    <color name="red">#F00</color>
+
+    <!-- Series Colors -->
+    <color name="series1">#129726</color>
+    <color name="series2">#00dcdc</color>
+    <color name="series3">#f29500</color>
+    <color name="series4">#df004e</color>
+
+    <!-- Device Colors -->
+    <color name="device1">#1ff52d</color>
+    <color name="device2">#2546b1</color>
+    <color name="device3">#c6bf0d</color>
+</resources>
