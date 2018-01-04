@@ -74,7 +74,7 @@ public class SensorActivity extends AppCompatActivity {
     //Variablen
     private String current_date_string;
     private String date_string;
-    public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht! Bei verstellen arbeitet der ViewPagerAdapterSensor nicht mehr richtig
+    public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
     public static boolean custom_sdsp1 = true;
     public static boolean custom_sdsp2 = true;
     public static boolean custom_temp = false;

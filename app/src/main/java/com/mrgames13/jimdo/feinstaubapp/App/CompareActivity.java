@@ -17,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -26,6 +28,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,10 +125,55 @@ public class CompareActivity extends AppCompatActivity {
             }
         });
 
+        final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
+
         diagram_sdsp1 = findViewById(R.id.diagram_sdsp1);
+        diagram_sdsp1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if(!isValueX) return super.formatLabel(value, isValueX);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) value);
+                return sdf_time.format(cal.getTime());
+            }
+        });
+
+
         diagram_sdsp2 = findViewById(R.id.diagram_sdsp2);
+        diagram_sdsp2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if(!isValueX) return super.formatLabel(value, isValueX);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) value);
+                return sdf_time.format(cal.getTime());
+            }
+        });
+        //diagram_sdsp2.getViewport().setScalable(true);
+
         diagram_temp = findViewById(R.id.diagram_temp);
+        diagram_temp.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if(!isValueX) return super.formatLabel(value, isValueX);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) value);
+                return sdf_time.format(cal.getTime());
+            }
+        });
+        //diagram_temp.getViewport().setScalable(true);
+
         diagram_humidity = findViewById(R.id.diagram_humidity);
+        diagram_humidity.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if(!isValueX) return super.formatLabel(value, isValueX);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) value);
+                return sdf_time.format(cal.getTime());
+            }
+        });
+        //diagram_humidity.getViewport().setScalable(true);
 
         reloadData(true);
     }
@@ -172,62 +220,80 @@ public class CompareActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //ArrayList leeren
+                records.clear();
                 //Diagramme leeren
                 diagram_sdsp1.removeAllSeries();
                 diagram_sdsp2.removeAllSeries();
                 diagram_humidity.removeAllSeries();
                 diagram_temp.removeAllSeries();
 
-                no_data = true;
-                for(Sensor s : sensors) {
-                    if(from_server && smu.isInternetAvailable()) smu.downloadCSVFile(date_string, s.getId());
+                SimpleDateFormat sdf_data = new SimpleDateFormat("HH:mm:ss");
+                long first_time = Long.MAX_VALUE;
+                for(int i = 0; i < sensors.size(); i++) {
+                    if(from_server && smu.isInternetAvailable()) smu.downloadCSVFile(date_string, sensors.get(i).getId());
+                    records.add(getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getId())));
+                    try{
+                        long current_first_time = sdf_data.parse(records.get(i).get(0).getTime()).getTime();
+                        first_time = current_first_time < first_time ? current_first_time : first_time;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                    ArrayList<DataRecord> current_records = getDataRecordsFromCSV(su.getCSVFromFile(date_string, s.getId()));
+                no_data = true;
+                for(int i = 0; i < sensors.size(); i++) {
+                    ArrayList<DataRecord> current_records = records.get(i);
                     if(current_records.size() > 0) {
                         no_data = false;
                         try{
-                            SimpleDateFormat sdf_data = new SimpleDateFormat("HH:mm:ss");
-                            long first_time = sdf_data.parse(current_records.get(0).getTime()).getTime() / 1000;
-
                             series_sdsp1 = new LineGraphSeries<>();
-                            series_sdsp1.setColor(s.getColor());
+                            series_sdsp1.setColor(sensors.get(i).getColor());
                             for(DataRecord record : fitArrayList(current_records)) {
                                 Date time = sdf_data.parse(record.getTime());
                                 try{
-                                    series_sdsp1.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
+                                    series_sdsp1.appendData(new DataPoint(time.getTime(), record.getSdsp1()), false, 1000000);
                                 } catch (Exception e) {}
                             }
                             diagram_sdsp1.addSeries(series_sdsp1);
+                            diagram_sdsp1.getViewport().setScalable(true);
+                            diagram_sdsp1.getViewport().setScalable(false);
 
                             series_sdsp2 = new LineGraphSeries<>();
-                            series_sdsp2.setColor(s.getColor());
+                            series_sdsp2.setColor(sensors.get(i).getColor());
                             for(DataRecord record : fitArrayList(current_records)) {
                                 Date time = sdf_data.parse(record.getTime());
                                 try{
-                                    series_sdsp2.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
+                                    series_sdsp2.appendData(new DataPoint(time.getTime(), record.getSdsp2()), false, 1000000);
                                 } catch (Exception e) {}
                             }
                             diagram_sdsp2.addSeries(series_sdsp2);
+                            diagram_sdsp2.getViewport().setScalable(true);
+                            diagram_sdsp2.getViewport().setScalable(false);
 
                             series_temp = new LineGraphSeries<>();
-                            series_temp.setColor(s.getColor());
+                            series_temp.setColor(sensors.get(i).getColor());
                             for(DataRecord record : fitArrayList(current_records)) {
                                 Date time = sdf_data.parse(record.getTime());
                                 try{
-                                    series_temp.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
+                                    series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
                                 } catch (Exception e) {}
                             }
                             diagram_temp.addSeries(series_temp);
+                            diagram_temp.getViewport().setScalable(true);
+                            diagram_temp.getViewport().setScalable(false);
 
                             series_humidity = new LineGraphSeries<>();
-                            series_humidity.setColor(s.getColor());
+                            series_humidity.setColor(sensors.get(i).getColor());
                             for(DataRecord record : fitArrayList(current_records)) {
                                 Date time = sdf_data.parse(record.getTime());
                                 try{
-                                    series_humidity.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                                    series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
                                 } catch (Exception e) {}
                             }
                             diagram_humidity.addSeries(series_humidity);
+                            diagram_humidity.getViewport().setScalable(true);
+                            diagram_humidity.getViewport().setScalable(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -21,6 +22,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
@@ -61,21 +63,31 @@ public class DiagramActivity extends AppCompatActivity {
         show_series_3 = i.hasExtra("Show3") && i.getBooleanExtra("Show3", false);
         show_series_4 = i.hasExtra("Show4") && i.getBooleanExtra("Show4", false);
 
+        //Diagramm initialisieren
         try{
-            //Diagramm initialisieren
             graph_view = findViewById(R.id.diagram);
 
-            long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
-
-            graph_view.getViewport().setMinX(Math.abs(sdf.parse(records.get(records.size() -1).getTime()).getTime() / 1000 - first_time - 600));
-            graph_view.getViewport().setMaxX(Math.abs(sdf.parse(records.get(records.size() -1).getTime()).getTime() / 1000 - first_time));
+            //Initialisierungen am Viewpurt und an der Legende vornehmen
+            graph_view.getViewport().setMinX(Math.abs(sdf.parse(records.get(records.size() -1).getTime()).getTime() - 1000000));
+            graph_view.getViewport().setMaxX(Math.abs(sdf.parse(records.get(records.size() -1).getTime()).getTime()));
             graph_view.getViewport().setScalable(true);
             graph_view.getViewport().setScrollable(true);
-            graph_view.getGridLabelRenderer().setHorizontalAxisTitle(res.getString(R.string.time));
-            graph_view.getLegendRenderer().setVisible(true);
             graph_view.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
             graph_view.getLegendRenderer().setTextColor(res.getColor(R.color.white));
             graph_view.getLegendRenderer().setBackgroundColor(res.getColor(R.color.colorPrimary));
+            graph_view.getLegendRenderer().setVisible(true);
+
+            //Label-Formatter auf Zeit stellen
+            final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
+            graph_view.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if(!isValueX) return super.formatLabel(value, isValueX);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTimeInMillis((long) value);
+                    return sdf_time.format(cal.getTime());
+                }
+            });
 
             LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
             LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
@@ -85,10 +97,10 @@ public class DiagramActivity extends AppCompatActivity {
             series2.setDrawDataPoints(true);
             series3.setDrawDataPoints(true);
             series4.setDrawDataPoints(true);
-            series1.setDataPointsRadius(10);
-            series2.setDataPointsRadius(10);
-            series3.setDataPointsRadius(10);
-            series4.setDataPointsRadius(10);
+            series1.setDataPointsRadius(8);
+            series2.setDataPointsRadius(8);
+            series3.setDataPointsRadius(8);
+            series4.setDataPointsRadius(8);
             series1.setColor(res.getColor(R.color.series1));
             series2.setColor(res.getColor(R.color.series2));
             series3.setColor(res.getColor(R.color.series3));
@@ -100,10 +112,10 @@ public class DiagramActivity extends AppCompatActivity {
             for(DataRecord record : records) {
                 try{
                     Date time = sdf.parse(record.getTime());
-                    series1.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
-                    series2.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
-                    series3.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
-                    series4.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                    series1.appendData(new DataPoint(time.getTime(), record.getSdsp1()), false, 1000000);
+                    series2.appendData(new DataPoint(time.getTime(), record.getSdsp2()), false, 1000000);
+                    series3.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
+                    series4.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
                 } catch (Exception e) {}
             }
             series1.setOnDataPointTapListener(new OnDataPointTapListener() {

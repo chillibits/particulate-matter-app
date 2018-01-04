@@ -48,7 +48,9 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/diagram"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"/>
+                android:layout_height="230dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"/>
 
             <CheckBox
                 android:id="@+id/custom_sdsp1"
