@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 
+import java.util.Date;
+
 public class DataRecord implements Comparable {
 
     //Konstanten
@@ -11,27 +13,25 @@ public class DataRecord implements Comparable {
     //Variablen als Objekte
 
     //Variablen
-    private String time;
+    private Date date_time;
     private Double sdsp1;
     private Double sdsp2;
     private Double temp;
     private Double humidity;
 
-    public DataRecord() {}
-
-    public DataRecord(String time, Double sdsp1, Double sdsp2, Double temp, Double humidity) {
-        this.time = time;
+    public DataRecord(Date time, Double sdsp1, Double sdsp2, Double temp, Double humidity) {
+        this.date_time = time;
         this.sdsp1 = sdsp1;
         this.sdsp2 = sdsp2;
         this.temp = temp;
         this.humidity = humidity;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDateTime(Date date_time) {
+        this.date_time = date_time;
     }
-    public String getTime() {
-        return time;
+    public Date getDateTime() {
+        return date_time;
     }
 
     public void setSdsp1(Double sdsp1) {
@@ -67,47 +67,16 @@ public class DataRecord implements Comparable {
         try{
             DataRecord other_record = (DataRecord) another;
 
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_ASC) {
-                int other_int = Integer.parseInt(other_record.getTime().replace(":", ""));
-                int current_int = Integer.parseInt(getTime().replace(":", ""));
-                return other_int < current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) {
-                int other_int = Integer.parseInt(other_record.getTime().replace(":", ""));
-                int current_int = Integer.parseInt(getTime().replace(":", ""));
-                return other_int > current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getSdsp1()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getSdsp1()).replace(".", ""));
-                return other_int < current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_DESC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getSdsp1()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getSdsp1()).replace(".", ""));
-                return other_int > current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getSdsp2()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getSdsp2()).replace(".", ""));
-                return other_int < current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_DESC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getSdsp2()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getSdsp2()).replace(".", ""));
-                return other_int > current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getTemp()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getTemp()).replace(".", ""));
-                return other_int < current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getTemp()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getTemp()).replace(".", ""));
-                return other_int > current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getHumidity()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getHumidity()).replace(".", ""));
-                return other_int < current_int ? 1 : -1;
-            } else if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) {
-                int other_int = Integer.parseInt(String.valueOf(other_record.getHumidity()).replace(".", ""));
-                int current_int = Integer.parseInt(String.valueOf(getHumidity()).replace(".", ""));
-                return other_int > current_int ? 1 : -1;
-            }
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_ASC) return getDateTime().compareTo(other_record.getDateTime());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) return other_record.getDateTime().compareTo(getDateTime());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) return getSdsp1().compareTo(other_record.getSdsp1());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_DESC) return other_record.getSdsp1().compareTo(getSdsp1());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) return getSdsp2().compareTo(other_record.getSdsp2());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_DESC) return other_record.getSdsp2().compareTo(getSdsp2());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) return getTemp().compareTo(other_record.getTemp());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) return other_record.getTemp().compareTo(getTemp());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) return getHumidity().compareTo(other_record.getHumidity());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return other_record.getHumidity().compareTo(getHumidity());
         } catch (Exception e) {}
         return 0;
     }

@@ -14,12 +14,12 @@
         android:id="@+id/card_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:contentPadding="6dp"
+        card_view:contentPadding="5dp"
         card_view:cardBackgroundColor="@color/white_dark"
         card_view:cardCornerRadius="3dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
         card_view:cardElevation="4dp"
         android:layout_below="@+id/toolbar">
 
@@ -80,11 +80,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/card_date"
-        android:layout_marginTop="6dp">
+        android:layout_marginTop="5dp">
 
         <RelativeLayout
             android:id="@+id/container"
-            android:padding="6dp"
+            android:padding="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -1,11 +1,17 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -16,12 +22,17 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -105,12 +116,78 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_main);
 
         EditTextPreference sync_cycle = (EditTextPreference) findPreference("sync_cycle");
-        sync_cycle.setSummary(su.getString("sync_cycle", "10") + " " + res.getString(R.string.seconds));
+        sync_cycle.setSummary(su.getString("sync_cycle", "10") + " " + (Integer.parseInt(su.getString("sync_cycle", "10")) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
         sync_cycle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                preference.setSummary(String.valueOf(o) + " " + res.getString(R.string.seconds));
+                preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
                 return true;
+            }
+        });
+
+        final Preference about_opensouces = findPreference("about_opensourcelicenses");
+        about_opensouces.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SpannableString s = new SpannableString(res.getString(R.string.openSourceLicense));
+                Linkify.addLinks(s, Linkify.ALL);
+
+                AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle(about_opensouces.getTitle())
+                        .setMessage(Html.fromHtml(s.toString()))
+                        .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                d.show();
+                ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                return false;
+            }
+        });
+
+        Preference version = findPreference("about_appversion");
+        PackageInfo pinfo;
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version.setSummary("Version " + pinfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {}
+        version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String appPackageName = getPackageName();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+                return false;
+            }
+        });
+
+        Preference developers = findPreference("about_developers");
+        developers.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(res.getString(R.string.link_homepage)));
+                startActivity(i);
+                return false;
+            }
+        });
+
+        Preference more_apps = findPreference("about_moreapps");
+        more_apps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(res.getString(R.string.link_playstore_developer_site_market))));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(res.getString(R.string.link_playstore_developer_site))));
+                }
+                return false;
             }
         });
     }

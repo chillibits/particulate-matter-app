@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -27,14 +26,10 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
 
-import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -66,6 +61,7 @@ public class SensorActivity extends AppCompatActivity {
     private ScheduledExecutorService service;
     public static ArrayList<DataRecord> records = new ArrayList<>();
     private Sensor sensor;
+    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
 
     //Utils-Pakete
     private ServerMessagingUtils smu;
@@ -124,12 +120,10 @@ public class SensorActivity extends AppCompatActivity {
 
         //Kalender initialisieren
         calendar = Calendar.getInstance();
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        current_date_string = sdf.format(calendar.getTime());
+        current_date_string = sdf_date.format(calendar.getTime());
         date_string = current_date_string;
 
         //CardView-Komponenten initialisieren
-        CardView card_date = findViewById(R.id.card_date);
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
 
@@ -145,7 +139,7 @@ public class SensorActivity extends AppCompatActivity {
                         calendar.set(Calendar.MONTH, month);
                         calendar.set(Calendar.DAY_OF_MONTH, day);
 
-                        date_string = sdf.format(calendar.getTime());
+                        date_string = sdf_date.format(calendar.getTime());
                         card_date_value.setText(date_string);
 
                         //Daten für ausgewähltes Datum laden
@@ -193,14 +187,13 @@ public class SensorActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         //Toolbar Text und Farbe setzen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(ColorUtils.darkenColor(res.getColor(R.color.colorPrimary)));
 
         //RefreshPeriod setzen
         int period = REFRESH_PERIOD;
-        if(period == 0) period = 1000 * Integer.parseInt(su.getString("sync_cycle", "10"));
+        if(period == 0) period = Integer.parseInt(su.getString("sync_cycle", "10"));
 
         //ScheduledExecutorService aufsetzen
         service = Executors.newSingleThreadScheduledExecutor();
@@ -212,7 +205,7 @@ public class SensorActivity extends AppCompatActivity {
                     loadData(false);
                 }
             }
-        }, period, period, TimeUnit.MILLISECONDS);
+        }, period, period, TimeUnit.SECONDS);
 
         if(!sensor.getId().equals("no_id")) loadData(true);
     }
@@ -231,18 +224,42 @@ public class SensorActivity extends AppCompatActivity {
         if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
         if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
+            //Internet ist verfügbar
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //Daten analysieren
-                    records = new ArrayList<>();
-                    if(smu.downloadCSVFile(date_string, sensor.getId())) {
-                        //Inhalt der Datei auslesen
-                        String csv_string = su.getCSVFromFile(date_string, sensor.getId());
-                        records = getDataRecordsFromCSV(csv_string);
-                        view_pager_adapter.records = records;
-                        resortData();
+                    //Date String von Gestern ermitteln
+                    String date_yesterday = date_string;
+                    try{
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(sdf_date.parse(date_yesterday));
+                        c.add(Calendar.DATE, -1);
+                        date_yesterday = sdf_date.format(c.getTime());
+                    } catch (Exception e) {}
+
+                    //Die CSV-Dateien für Heute und Gestern herunterladen
+                    if(smu.getLastModified(date_string, sensor.getId()) > su.getLong("LM_" + date_string + "_" + sensor.getId())) {
+                        Log.i("FA", "Downloading CSV1 ...");
+                        smu.downloadCSVFile(date_string, sensor.getId());
+                    } else {
+                        Log.i("FA", "No need to download CSV1");
                     }
+                    if(smu.getLastModified(date_yesterday, sensor.getId()) > su.getLong("LM_" + date_yesterday + "_" + sensor.getId())) {
+                        Log.i("FA", "Downloading CSV2 ...");
+                        smu.downloadCSVFile(date_yesterday, sensor.getId());
+                    } else {
+                        Log.i("FA", "No need to download CSV2");
+                    }
+                    //Inhalt der Datei auslesen
+                    String csv_string = su.getCSVFromFile(date_string, sensor.getId());
+                    String csv_string_yesterday = su.getCSVFromFile(date_yesterday, sensor.getId());
+                    //CSV-Strings zu Objekten machen
+                    records = su.getDataRecordsFromCSV(csv_string_yesterday);
+                    records.addAll(su.getDataRecordsFromCSV(csv_string));
+                    //Datensätze zuschneiden
+                    view_pager_adapter.records = records = su.trimDataRecords(records, date_string);
+                    //Sortieren
+                    resortData();
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -256,76 +273,46 @@ public class SensorActivity extends AppCompatActivity {
                 }
             }).start();
         } else {
-            try{
-                //Datum umformatieren
-                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                Date newDate = format.parse(date_string);
-                format = new SimpleDateFormat("yyyy-MM-dd");
+            //Kein Internet
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Date String von Gestern ermitteln
+                    String date_yesterday = date_string;
+                    try{
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(sdf_date.parse(date_yesterday));
+                        c.add(Calendar.DATE, -1);
+                        date_yesterday = sdf_date.format(c.getTime());
+                    } catch (Exception e) {}
 
-                //Datei ermitteln
-                String file_name = format.format(newDate) + ".csv";
-                File dir = new File(getFilesDir(), "/SensorData");
-                File file = new File(dir, sensor.getId() + file_name);
-
-                if(su.isFileExisting(file.getAbsolutePath())) {
-                    new Thread(new Runnable() {
+                    if(su.isCSVFileExisting(date_string, sensor.getId())) {
+                        //Inhalt der Datei auslesen
+                        String csv_string = su.getCSVFromFile(date_string, sensor.getId());
+                        String csv_string_yesterday = su.getCSVFromFile(date_yesterday, sensor.getId());
+                        //CSV-Strings zu Objekten machen
+                        records = su.getDataRecordsFromCSV(csv_string_yesterday);
+                        records.addAll(su.getDataRecordsFromCSV(csv_string));
+                        //Datensätze zuschneiden
+                        view_pager_adapter.records = records = su.trimDataRecords(records, date_string);
+                        //Sortieren
+                        resortData();
+                    } else {
+                        records.clear();
+                        view_pager_adapter.records.clear();
+                    }
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //Inhalt der Datei auslesen
-                            String csv_string = su.getCSVFromFile(date_string, sensor.getId());
-                            records = getDataRecordsFromCSV(csv_string);
-                            view_pager_adapter.records = records;
-                            resortData();
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //ViewpagerAdapter refreshen
-                                    view_pager_adapter.refreshFragments();
-                                    //ProgressMenuItem zurücksetzen
-                                    if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                                }
-                            });
+                            //ViewpagerAdapter refreshen
+                            view_pager_adapter.refreshFragments();
+                            //ProgressMenuItem zurücksetzen
+                            if(progress_menu_item != null) progress_menu_item.setActionView(null);
                         }
-                    }).start();
+                    });
                 }
-            } catch (Exception e) {}
+            }).start();
         }
-    }
-
-    private ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
-        try{
-            ArrayList<DataRecord> records = new ArrayList<>();
-            //In Zeilen aufspalten
-            String[] lines = csv_string.split("\\r?\\n");
-            for(int i = 1; i < lines.length; i++) {
-                String time = "00:00";
-                Double sdsp1 = 0.0;
-                Double sdsp2 = 0.0;
-                Double temp = 0.0;
-                Double humidity = 0.0;
-                //Zeile aufspalten
-                String[] line_contents = lines[i].split(";");
-                if(!line_contents[0].equals("")) time = line_contents[0].substring(line_contents[0].indexOf(" ") +1);
-                if(!line_contents[7].equals("")) sdsp1 = Double.parseDouble(line_contents[7]);
-                if(!line_contents[8].equals("")) sdsp2 = Double.parseDouble(line_contents[8]);
-                if(!line_contents[9].equals("")) temp = Double.parseDouble(line_contents[9]);
-                if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]);
-                if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]);
-                if(!line_contents[12].equals("")) humidity = Double.parseDouble(line_contents[12]);
-
-                //Unsere Zeitzone einstellen
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-                format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
-                SimpleDateFormat format_out = new SimpleDateFormat("HH:mm:ss");
-                try { time = format_out.format(format.parse(time)); } catch (ParseException e) {}
-                records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity));
-            }
-            return records;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static void resortData() {

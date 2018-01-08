@@ -31,7 +31,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:weightSum="5.04">
+        android:weightSum="5.04"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/heading_time"
@@ -43,7 +44,7 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="@string/time"/>
+            android:text="@string/date_time"/>
 
         <ImageView
             android:id="@+id/sort_time"
@@ -182,8 +183,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_above="@+id/record_conter"
+        android:layout_above="@+id/record_counter"
         android:weightSum="5.04"
+        android:background="@color/white_dark"
         android:visibility="invisible">
 
         <TextView
@@ -210,7 +212,6 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:gravity="center"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -228,7 +229,6 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:gravity="center"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -246,7 +246,6 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:gravity="center"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -264,7 +263,6 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:gravity="center"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -282,7 +280,7 @@
         android:layout_centerInParent="true"/>
 
     <TextView
-        android:id="@+id/record_conter"
+        android:id="@+id/record_counter"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_vertical"

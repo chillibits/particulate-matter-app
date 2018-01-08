@@ -19,7 +19,10 @@
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
     <string name="show_details">Sensordetails anzeigen</string>
-    <string name="compare_sensors">Sesoren vergleichen</string>
+    <string name="compare_sensors">Sensoren vergleichen</string>
+    <string name="edit_sensor">Sensor bearbeiten</string>
+    <string name="delete_sensor">Sensor löschen</string>
+    <string name="really_delete_sensor">Wollen Sie den ausgewählten Sensor wirklich löschen</string>
     <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten auf +, um einen Feinstaubsensor zu verknüpfen.</string>
 
     <!-- AddSensorActivity -->
@@ -28,6 +31,9 @@
     <string name="name_">Anzeigename:</string>
     <string name="sensor_id_">Sensor-ID:</string>
     <string name="choose_color">Farbe wählen</string>
+    <string name="not_all_filled">Bitte alle Felder füllen</string>
+    <string name="id_7_chars">ID muss aus 7 Zahlen bestehen</string>
+    <string name="sensor_existing">Sensor ist bereits verknüpft</string>
 
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -39,7 +45,7 @@
     <string name="start_record">Aufnahme starten</string>
     <string name="stop_record">Aufnahme beenden</string>
     <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
-    <string name="time">Zeit</string>
+    <string name="date_time">Zeit</string>
     <string name="value1">PM10</string>
     <string name="value2">PM2.5</string>
     <string name="temperature_short">Temp</string>
@@ -57,10 +63,7 @@
     <string name="device3">Sensor 3</string>
 
     <!-- DiagramActivity -->
+    <string name="time_">Messzeit:</string>
+    <string name="value_">Wert:</string>
 
-    <!-- Settings -->
-    <string name="pref_header_sync">Synchronisation</string>
-    <string name="pref_header_general">Allgemein</string>
-    <string name="sync_cycle">Synchronisationszyklus</string>
-    <string name="seconds">Sekunden</string>
 </resources>

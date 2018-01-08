@@ -1,10 +1,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory
+    <!--<PreferenceCategory
         android:title="@string/pref_header_general"
         android:key="sensor_settings" >
 
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory
         android:title="@string/pref_header_sync"
@@ -16,5 +16,30 @@
             android:title="@string/sync_cycle"
             android:inputType="number"
             android:summary="%s Sekunden"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_about"
+        android:key="about_settings" >
+
+        <Preference
+            android:key="about_opensourcelicenses"
+            android:title="@string/pref_opensource_t"
+            android:summary="@string/pref_opensource_m"/>
+
+        <Preference
+            android:key="about_appversion"
+            android:title="@string/pref_appversion"
+            android:summary="@string/loading"/>
+
+        <Preference
+            android:key="about_developers"
+            android:title="@string/pref_developers_t"
+            android:summary="@string/pref_developers_m"/>
+
+        <Preference
+            android:key="about_moreapps"
+            android:title="@string/pref_more_apps_t"
+            android:summary="@string/pref_more_apps_m"/>
     </PreferenceCategory>
 </PreferenceScreen>

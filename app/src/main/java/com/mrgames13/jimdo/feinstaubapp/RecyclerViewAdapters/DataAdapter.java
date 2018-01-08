@@ -11,11 +11,14 @@ import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
+import java.text.SimpleDateFormat;
+
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClass> {
 
     //Konstanten
 
     //Variablen als Objekte
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     //Variablen
 
@@ -49,7 +52,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClas
     public void onBindViewHolder(final ViewHolderClass holder, final int pos) {
         //Daten befüllen
         DataRecord record = SensorActivity.records.get(pos);
-        holder.item_time.setText(record.getTime());
+        holder.item_time.setText(sdf.format(record.getDateTime()));
         holder.item_sdsp1.setText(String.valueOf(record.getSdsp1()));
         holder.item_sdsp2.setText(String.valueOf(record.getSdsp2()));
         holder.item_temp.setText(String.valueOf(record.getTemp()));

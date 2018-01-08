@@ -1,6 +1,7 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.animation.LayoutTransition;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,9 +108,31 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("ID", sensor.getId());
             i.putExtra("Color", sensor.getColor());
             startActivity(i);
+        } else if(id == R.id.action_edit) {
+            Sensor sensor = selected_sensors.get(0);
+            Intent i = new Intent(this, AddSensorActivity.class);
+            i.putExtra("Mode", AddSensorActivity.MODE_EDIT);
+            i.putExtra("Name", sensor.getName());
+            i.putExtra("ID", sensor.getId());
+            i.putExtra("Color", sensor.getColor());
+            startActivity(i);
+        } else if(id == R.id.action_delete) {
+            AlertDialog d = new AlertDialog.Builder(this)
+                    .setCancelable(true)
+                    .setTitle(R.string.delete_sensor)
+                    .setMessage(R.string.really_delete_sensor)
+                    .setNegativeButton(R.string.cancel,null)
+                    .setPositiveButton(R.string.delete_sensor, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Sensor aus der Datenbank löschen
+                            su.deleteSensor(selected_sensors.get(0).getId());
+                            refresh();
+                        }
+                    })
+                    .create();
+            d.show();
         } else if(id == R.id.action_compare) {
-            String title = selected_sensors.get(0).getName();
-            for(int i = 1; i < selected_sensors.size(); i++) title+= " / " + selected_sensors.get(i).getName();
             startActivity(new Intent(MainActivity.this, CompareActivity.class));
         } else if(id == R.id.action_exit) {
             finish();
@@ -117,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refresh() {
+        selected_sensors.clear();
+        invalidateOptionsMenu();
         sensors = su.getAllSensors();
         sensor_view_adapter = new SensorAdapter(this, sensors);
         sensor_view.setAdapter(sensor_view_adapter);

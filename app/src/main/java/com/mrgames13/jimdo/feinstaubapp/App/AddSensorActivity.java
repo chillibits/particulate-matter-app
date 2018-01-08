@@ -2,6 +2,7 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,6 +16,7 @@ import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -27,6 +29,8 @@ import java.util.Random;
 public class AddSensorActivity extends AppCompatActivity {
 
     //Konstanten
+    public static final int MODE_NEW = 10001;
+    public static final int MODE_EDIT = 10002;
 
     //Variablen als Objekte
     private Resources res;
@@ -44,6 +48,7 @@ public class AddSensorActivity extends AppCompatActivity {
 
     //Variablen
     int current_color;
+    int mode = MODE_NEW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,16 @@ public class AddSensorActivity extends AppCompatActivity {
 
         name = findViewById(R.id.sensor_name_value);
         id = findViewById(R.id.sensor_id_value);
+
+        //Intent-Extras auslesen
+        Intent i = getIntent();
+        if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
+            name.setText(i.getStringExtra("Name"));
+            id.setText(i.getStringExtra("ID"));
+            id.setEnabled(false);
+            current_color = i.getIntExtra("Color", current_color);
+            iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+        }
     }
 
     @Override
@@ -103,10 +118,32 @@ public class AddSensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_done) {
-            //Sensor speichern
-            su.addSensor(new Sensor(this.id.getText().toString(), name.getText().toString(), current_color));
-            MainActivity.own_instance.refresh();
-            finish();
+            String sensor_id = this.id.getText().toString().trim();
+            String sensor_name = name.getText().toString().trim();
+            if(!sensor_id.equals("") && !sensor_name.equals("")) {
+                if(sensor_id.length() == 7) {
+                    if(mode == MODE_NEW) {
+                        if(!su.isSensorExisting(sensor_id)) {
+                            //Neuen Sensor speichern
+                            su.addSensor(new Sensor(sensor_id, sensor_name.toString(), current_color));
+                        } else {
+                            //Sensor ist bereits verknüpft
+                            Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                        }
+                    } else if(mode == MODE_EDIT) {
+                        //Sensor aktualisieren
+                        su.updateSensor(new Sensor(sensor_id, sensor_name.toString(), current_color));
+                    }
+                    MainActivity.own_instance.refresh();
+                    finish();
+                } else {
+                    //Die Sensor-ID hat keine 7 Zeichen
+                    Toast.makeText(this, res.getString(R.string.id_7_chars), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                //Es sind nicht alle Felder ausgefüllt
+                Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

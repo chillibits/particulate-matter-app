@@ -11,11 +11,9 @@ import android.view.View;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -48,43 +46,21 @@ public class ServerMessagingUtils {
         this.wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
 
-    public String parseCSVString(String date) {
-        try{
-            //Datum umformatieren
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            Date newDate = format.parse(date);
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            date = format.format(newDate);
-
-            URL url = new URL(DATA_URL + "/data-esp8266-" + su.getString("sensor_id") + "-" + date + ".csv");
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String csv_string = "";
-            String input_line;
-            while ((input_line = in.readLine()) != null) csv_string += input_line;
-            in.close();
-
-            return csv_string;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
     public boolean downloadCSVFile(String date, String sensor_id) {
         try {
             //Datum umformatieren
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             Date newDate = format.parse(date);
             format = new SimpleDateFormat("yyyy-MM-dd");
-            date = format.format(newDate);
+            String new_date = format.format(newDate);
 
-            String file_name = date + ".csv";
+            String file_name = new_date + ".csv";
 
             URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + file_name);
             URLConnection connection = url.openConnection();
             connection.connect();
-            final int downloadSize = connection.getContentLength();
+            //LastModified speichern
+            su.putLong("LM_" + date + "_" + sensor_id, connection.getLastModified());
             //InputStream erstellen
             InputStream i = new BufferedInputStream(connection.getInputStream(), 1024);
             //Dateien initialisieren
@@ -109,6 +85,24 @@ public class ServerMessagingUtils {
             return true;
         } catch (Exception e) {}
         return false;
+    }
+
+    public long getLastModified(String date, String sensor_id) {
+        try {
+            //Datum umformatieren
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            Date newDate = format.parse(date);
+            format = new SimpleDateFormat("yyyy-MM-dd");
+            date = format.format(newDate);
+
+            String file_name = date + ".csv";
+
+            URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + file_name);
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            return connection.getLastModified();
+        } catch (Exception e) {}
+        return -1;
     }
 
     public boolean checkConnection(View v) {

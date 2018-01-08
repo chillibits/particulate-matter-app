@@ -46,11 +46,13 @@
         <!-- AddSensorActivity -->
         <activity
             android:name=".App.AddSensorActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- CompareActivity -->
         <activity
             android:name=".App.CompareActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
     </application>

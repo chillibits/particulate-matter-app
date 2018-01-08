@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,11 @@ import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
-import com.turingtechnologies.materialscrollbar.DragScrollBar;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
@@ -45,6 +43,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     private ArrayList<String> tabTitles = new ArrayList<>();
     private static Handler h;
     public static ArrayList<DataRecord> records = new ArrayList<>();
+    private static SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm:ss");
 
     //Variablen
 
@@ -180,13 +179,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             if(value) {
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
+                    long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series1 = new LineGraphSeries<>();
                     series1.setColor(res.getColor(R.color.series1));
                     for(DataRecord record : fitArrayList(records)) {
-                        Date time = sdf.parse(record.getTime());
-                        series1.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
+                        series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
                     }
                     graph_view.addSeries(series1);
                 } catch (Exception e) {
@@ -201,13 +199,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             if(value) {
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
+                    long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series2 = new LineGraphSeries<>();
                     series2.setColor(res.getColor(R.color.series2));
                     for(DataRecord record : fitArrayList(records)) {
-                        Date time = sdf.parse(record.getTime());
-                        series2.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
+                        series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
                     }
                     graph_view.addSeries(series2);
                 } catch (Exception e) {
@@ -222,13 +219,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             if(value) {
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
+                    long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series3 = new LineGraphSeries<>();
                     series3.setColor(res.getColor(R.color.series3));
                     for(DataRecord record : fitArrayList(records)) {
-                        Date time = sdf.parse(record.getTime());
-                        series3.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
+                        series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
                     }
                     graph_view.addSeries(series3);
                 } catch (Exception e) {
@@ -243,13 +239,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             if(value) {
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
+                    long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series4 = new LineGraphSeries<>();
                     series4.setColor(res.getColor(R.color.series4));
                     for(DataRecord record : fitArrayList(records)) {
-                        Date time = sdf.parse(record.getTime());
-                        series4.appendData(new DataPoint(time.getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                        series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
                     }
                     graph_view.addSeries(series4);
                 } catch (Exception e) {
@@ -274,9 +269,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
                     try{
                         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        long first_time = sdf.parse(records.get(0).getTime()).getTime() / 1000;
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
                         graph_view.getViewport().setMinX(0);
-                        graph_view.getViewport().setMaxX(Math.abs(sdf.parse(records.get(records.size() -1).getTime()).getTime() / 1000 - first_time));
+                        graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -294,6 +289,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     updateSDSP2(false);
                     updateTemp(false);
                     updateHumidity(false);
+                    contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
             } else {
@@ -301,6 +297,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 updateSDSP2(false);
                 updateTemp(false);
                 updateHumidity(false);
+                contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
             }
         }
@@ -322,7 +319,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static RecyclerView data_view;
         private static DataAdapter data_view_adapter;
         private RecyclerView.LayoutManager data_view_manager;
-        private static DragScrollBar scroll_bar;
 
         private TextView heading_time;
         private ImageView heading_time_arrow;
@@ -356,7 +352,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             if(records != null) {
                 contentView.findViewById(R.id.loading).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
-                contentView.findViewById(R.id.data_footer).setVisibility(records.size() == 0 ? View.GONE : View.VISIBLE);
+                contentView.findViewById(R.id.data_footer).setVisibility(records.size() == 0 ? View.INVISIBLE : View.VISIBLE);
 
                 heading_time = contentView.findViewById(R.id.heading_time);
                 heading_time_arrow = contentView.findViewById(R.id.sort_time);
@@ -435,8 +431,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     }
                 });
             }
-
-            scroll_bar = contentView.findViewById(R.id.scroll_bar);
 
             return contentView;
         }
@@ -540,10 +534,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
 
                     if (records.size() > 0) {
-                        contentView.findViewById(R.id.data_footer).setVisibility(records.size() == 0 ? View.GONE : View.VISIBLE);
-                        record_conter = contentView.findViewById(R.id.record_conter);
+                        record_conter = contentView.findViewById(R.id.record_counter);
                         record_conter.setVisibility(View.VISIBLE);
-                        String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + records.get(0).getTime() + " " + res.getString(R.string.to) + " " + records.get(records.size() - 1).getTime();
+                        contentView.findViewById(R.id.data_heading).setVisibility(View.VISIBLE);
+                        contentView.findViewById(R.id.data_footer).setVisibility(View.VISIBLE);
+                        String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + sdf_time.format(records.get(0).getDateTime()) + " " + res.getString(R.string.to) + " " + sdf_time.format(records.get(records.size() - 1).getDateTime());
                         record_conter.setText(String.valueOf(footer_string));
 
                         double average_sdsp1 = 0;
@@ -560,11 +555,19 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         average_sdsp2 = average_sdsp2 / records.size();
                         average_temp = average_temp / records.size();
                         average_humidity = average_humidity / records.size();
-                        footer_sdsp1.setText(String.valueOf(average_sdsp1));
-                        footer_sdsp2.setText(String.valueOf(average_sdsp2));
-                        footer_temp.setText(String.valueOf(average_temp));
-                        footer_humidity.setText(String.valueOf(average_humidity));
+                        footer_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 2)));
+                        footer_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 2)));
+                        footer_temp.setText(String.valueOf(Tools.round(average_temp, 1)));
+                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)));
+                    } else {
+                        contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
+                        contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);
                     }
+                } else {
+                    contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
+                    contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);
+                    contentView.findViewById(R.id.record_counter).setVisibility(View.INVISIBLE);
+                    contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {}
         }
