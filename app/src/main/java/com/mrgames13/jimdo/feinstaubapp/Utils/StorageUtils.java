@@ -260,14 +260,14 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public boolean isSensorExisting(String sensor_id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = " + sensor_id, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + sensor_id + "'", null);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;
     }
 
     public void updateSensor(Sensor sensor) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = " + sensor.getName() + ", sensor_color = " + String.valueOf(sensor.getColor()) + " WHERE sensor_id = " + sensor.getId() + ";");
+        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + sensor.getName() + "', sensor_color = '" + String.valueOf(sensor.getColor()) + "' WHERE sensor_id = '" + sensor.getId() + "';");
     }
 
     public void deleteSensor(String sensor_id) {

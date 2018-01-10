@@ -98,6 +98,7 @@ public class AddSensorActivity extends AppCompatActivity {
         //Intent-Extras auslesen
         Intent i = getIntent();
         if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
+            mode = MODE_EDIT;
             name.setText(i.getStringExtra("Name"));
             id.setText(i.getStringExtra("ID"));
             id.setEnabled(false);
