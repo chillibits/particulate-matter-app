@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -94,6 +95,14 @@ public class AddSensorActivity extends AppCompatActivity {
 
         name = findViewById(R.id.sensor_name_value);
         id = findViewById(R.id.sensor_id_value);
+
+        ImageView info = findViewById(R.id.sensor_id_info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(res.getString(R.string.link_id_info))));
+            }
+        });
 
         //Intent-Extras auslesen
         Intent i = getIntent();

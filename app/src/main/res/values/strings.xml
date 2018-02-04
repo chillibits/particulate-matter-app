@@ -23,13 +23,15 @@
     <string name="edit_sensor">Sensor bearbeiten</string>
     <string name="delete_sensor">Sensor löschen</string>
     <string name="really_delete_sensor">Wollen Sie den ausgewählten Sensor wirklich löschen</string>
-    <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten auf +, um einen Feinstaubsensor zu verknüpfen.</string>
+    <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten, um einen Feinstaubsensor zu verknüpfen.</string>
+    <string name="add_global_sensor">Sensor hinzufügen</string>
+    <string name="add_private_sensor">Eigenen Sensor hinzufügen</string>
 
     <!-- AddSensorActivity -->
     <string name="add_sensor">Sensor hinzufügen</string>
     <string name="done">Fertig</string>
     <string name="name_">Anzeigename:</string>
-    <string name="sensor_id_">Sensor-ID:</string>
+    <string name="sensor_id_">Chip-ID:</string>
     <string name="choose_color">Farbe wählen</string>
     <string name="not_all_filled">Bitte alle Felder füllen</string>
     <string name="id_7_chars">ID muss aus 7 Zahlen bestehen</string>

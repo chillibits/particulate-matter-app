@@ -7,8 +7,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 102
-        versionName "1.0.2"
+        versionCode 103
+        versionName "1.0.3"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -17,6 +17,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    aaptOptions {
+        cruncherEnabled = false
     }
 }
 
@@ -42,4 +45,5 @@ dependencies {
     implementation 'com.github.turing-tech:MaterialScrollBar:12.5.+'
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.+'
     implementation 'com.github.lguipeng:AnimCheckBox:1.0.+'
+    implementation 'com.github.clans:fab:1.6.+'
 }

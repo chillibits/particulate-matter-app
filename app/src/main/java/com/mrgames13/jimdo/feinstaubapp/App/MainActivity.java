@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     //Variablen als Objekte
     private Resources res;
     private Toolbar toolbar;
-    private FloatingActionButton add_sensor;
+    private FloatingActionMenu fab_menu;
+    private FloatingActionButton add_private_sensor;
+    private FloatingActionButton add_global_sensor;
     private RecyclerView sensor_view;
     private SensorAdapter sensor_view_adapter;
     private ArrayList<Sensor> sensors;
@@ -70,10 +73,40 @@ public class MainActivity extends AppCompatActivity {
         su = new StorageUtils(this);
 
         //Komponenten initialisieren
-        add_sensor = findViewById(R.id.add_sensor);
-        add_sensor.setOnClickListener(new View.OnClickListener() {
+        /*fab_menu = findViewById(R.id.fab_menu);
+
+        add_global_sensor = findViewById(R.id.add_global_sensor);
+        add_global_sensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_menu.close(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, AddSensorActivity.class));
+                    }
+                }, 300);
+            }
+        });
+
+        add_private_sensor = findViewById(R.id.add_private_sensor);
+        add_private_sensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fab_menu.close(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, AddSensorActivity.class));
+                    }
+                }, 300);
+            }
+        });*/
+
+        android.support.design.widget.FloatingActionButton add_sensor = findViewById(R.id.add_sensor);
+        add_sensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, AddSensorActivity.class));
             }
         });
@@ -101,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if(id == R.id.action_add) {
+            if(fab_menu.isOpened()) {
+                fab_menu.close(true);
+            } else {
+                fab_menu.open(true);
+            }
         } else if(id == R.id.action_details) {
             Sensor sensor = selected_sensors.get(0);
             Intent i = new Intent(this, SensorActivity.class);
