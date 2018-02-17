@@ -89,6 +89,7 @@ public class AddSensorActivity extends AppCompatActivity {
             }
         });
 
+        //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
         random = new Random();
         current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
@@ -159,6 +160,7 @@ public class AddSensorActivity extends AppCompatActivity {
     }
 
     private void selectNewColor() {
+        //Farb-Auswahl-Dialog anzeigen
         color_picker = new ColorPickerDialog(AddSensorActivity.this, current_color);
         color_picker.setAlphaSliderVisible(false);
         color_picker.setHexValueEnabled(true);
@@ -167,14 +169,15 @@ public class AddSensorActivity extends AppCompatActivity {
             @Override
             public void onColorChanged(int color) {
                 current_color = color;
-                animateAppAndStatusBar(color);
+                animateToolAndStatusBar(color);
                 iv_color.setColorFilter(color, PorterDuff.Mode.SRC);
             }
         });
         color_picker.show();
     }
 
-    private void animateAppAndStatusBar(final int toColor) {
+    private void animateToolAndStatusBar(final int toColor) {
+        //Animation für die Toolbar und die Statusleiste anzeigen
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Animator animator = ViewAnimationUtils.createCircularReveal(reveal_view, toolbar.getWidth() / 2, toolbar.getHeight() / 2, 0, toolbar.getWidth() / 2 + 50);
             animator.addListener(new AnimatorListenerAdapter() {

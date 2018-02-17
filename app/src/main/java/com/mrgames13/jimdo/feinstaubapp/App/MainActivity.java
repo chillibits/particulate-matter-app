@@ -1,6 +1,5 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.animation.LayoutTransition;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setLayoutTransition(new LayoutTransition());
         toolbar.setTitle(res.getString(R.string.app_name));
         setSupportActionBar(toolbar);
         if(Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(ColorUtils.darkenColor(res.getColor(R.color.colorPrimary)));

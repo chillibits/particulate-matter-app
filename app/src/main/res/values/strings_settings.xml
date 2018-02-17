@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General Settings -->
+    <string name="pref_header_general">Allgemein</string>
+
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="seconds">Sekunden</string>
+    <string name="second">Sekunde</string>
+
+    <!-- About Settings -->
+    <string name="pref_header_about">Über die Feinstaub-App</string>
+    <string name="pref_opensource_t">Open-Source-Lizenzen</string>
+    <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_appversion">App-Version</string>
+    <string name="pref_developers_t">Die Entwickler</string>
+    <string name="pref_developers_m">M&amp;R Games</string>
+    <string name="pref_more_apps_t">Mehr Apps von uns</string>
+    <string name="pref_more_apps_m">Unsere Playstore-Seite</string>
+
+</resources>

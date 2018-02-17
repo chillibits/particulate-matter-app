@@ -1,6 +1,5 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -86,7 +85,6 @@ public class SensorActivity extends AppCompatActivity {
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setLayoutTransition(new LayoutTransition());
         setSupportActionBar(toolbar);
 
         //StorageUtils initialisieren
@@ -126,27 +124,48 @@ public class SensorActivity extends AppCompatActivity {
         //CardView-Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_back = findViewById(R.id.card_date_back);
+        ImageView card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(date_string);
+        card_date_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auswählen
+                chooseDate(card_date_value);
+            }
+        });
         card_date_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Datum auswählen
-                date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                chooseDate(card_date_value);
+            }
+        });
+        card_date_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag zurück gehen
+                calendar.add(Calendar.DATE, -1);
 
-                        date_string = sdf_date.format(calendar.getTime());
-                        card_date_value.setText(date_string);
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
 
-                        //Daten für ausgewähltes Datum laden
-                        loadData(true);
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                date_picker_dialog.show();
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        });
+        card_date_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag vor gehen
+                calendar.add(Calendar.DATE, 1);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
             }
         });
 
@@ -158,6 +177,25 @@ public class SensorActivity extends AppCompatActivity {
         }
         if(getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
         if(getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+    }
+
+    private void chooseDate(final TextView card_date_value) {
+        //Datum auswählen
+        date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        date_picker_dialog.show();
     }
 
     @Override
@@ -173,10 +211,11 @@ public class SensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_refresh) {
-            Log.i("FA", "User refreshing ...");
             //Daten neu laden
+            Log.i("FA", "User refreshing ...");
             loadData(true);
         } else if(id == R.id.action_settings) {
+            //SettingsActivity starten
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_exit) {
             finish();
@@ -223,41 +262,85 @@ public class SensorActivity extends AppCompatActivity {
         //ProgressMenuItem setzen
         if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
-        if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
-            //Internet ist verfügbar
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //Date String von Gestern ermitteln
-                    String date_yesterday = date_string;
-                    try{
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(sdf_date.parse(date_yesterday));
-                        c.add(Calendar.DATE, -1);
-                        date_yesterday = sdf_date.format(c.getTime());
-                    } catch (Exception e) {}
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Datensätze leeren
+                records.clear();
 
+                //Date String von Gestern ermitteln
+                String date_yesterday = date_string;
+                try{
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(sdf_date.parse(date_yesterday));
+                    c.add(Calendar.DATE, -1);
+                    date_yesterday = sdf_date.format(c.getTime());
+                } catch (Exception e) {}
+
+                //Prüfen, ob Intenet verfügbar ist
+                if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
+                    //Internet ist verfügbar
                     //Die CSV-Dateien für Heute und Gestern herunterladen
-                    if(smu.getLastModified(date_string, sensor.getId()) > su.getLong("LM_" + date_string + "_" + sensor.getId())) {
-                        Log.i("FA", "Downloading CSV1 ...");
-                        smu.downloadCSVFile(date_string, sensor.getId());
+                    //Heute
+                    if(smu.isCSVFileExisting(date_string, sensor.getId())) {
+                        //CSV-Datei existiert und kann heruntergeladen werden
+                        if(smu.getCSVLastModified(date_string, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_string)) {
+                            //Lade CSV-Datei herunter
+                            Log.i("FA", "Downloading CSV1 ...");
+                            smu.downloadCSVFile(date_string, sensor.getId());
+                        } else {
+                            //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
+                            Log.i("FA", "No need to download CSV1");
+                        }
                     } else {
-                        Log.i("FA", "No need to download CSV1");
+                        //CSV-Datei existiert nicht
+                        if(smu.isZipFileExisting(date_string, sensor.getId())) {
+                            //Zip-Datei existiert und kann heruntergeladen werden
+                            if(smu.getZipLastModified(date_string, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_string)) {
+                                Log.i("FA", "Downloading ZIP1 ...");
+                                if(smu.downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
+                            } else {
+                                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                                Log.i("FA", "No need to download ZIP1");
+                            }
+                        }
                     }
-                    if(smu.getLastModified(date_yesterday, sensor.getId()) > su.getLong("LM_" + date_yesterday + "_" + sensor.getId())) {
-                        Log.i("FA", "Downloading CSV2 ...");
-                        smu.downloadCSVFile(date_yesterday, sensor.getId());
+                    //Gestern
+                    if(smu.isCSVFileExisting(date_yesterday, sensor.getId())) {
+                        //CSV-Datei existiert und kann heruntergeladen werden
+                        if(smu.getCSVLastModified(date_yesterday, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
+                            //Lade CSV-Datei herunter
+                            Log.i("FA", "Downloading CSV2 ...");
+                            smu.downloadCSVFile(date_yesterday, sensor.getId());
+                        } else {
+                            //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
+                            Log.i("FA", "No need to download CSV2");
+                        }
                     } else {
-                        Log.i("FA", "No need to download CSV2");
+                        //CSV-Datei existiert nicht
+                        if(smu.isZipFileExisting(date_yesterday, sensor.getId())) {
+                            //Zip-Datei existiert und kann heruntergeladen werden
+                            if(smu.getZipLastModified(date_yesterday, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
+                                Log.i("FA", "Downloading ZIP2 ...");
+                                if(smu.downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
+                            } else {
+                                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                                Log.i("FA", "No need to download ZIP2");
+                            }
+                        }
                     }
-                    //Inhalt der Datei auslesen
+                }
+                //Kein Internet
+                if(su.isCSVFileExisting(date_string, sensor.getId()) || su.isCSVFileExisting(date_yesterday, sensor.getId())) {
+                    Log.d("FA", "Local CSV Files existing");
+                    //Inhalt der lokalen Datei auslesen
                     String csv_string = su.getCSVFromFile(date_string, sensor.getId());
                     String csv_string_yesterday = su.getCSVFromFile(date_yesterday, sensor.getId());
                     //CSV-Strings zu Objekten machen
                     records = su.getDataRecordsFromCSV(csv_string_yesterday);
                     records.addAll(su.getDataRecordsFromCSV(csv_string));
                     //Datensätze zuschneiden
-                    view_pager_adapter.records = records = su.trimDataRecords(records, date_string);
+                    ViewPagerAdapterSensor.records = records = su.trimDataRecords(records, date_string);
                     //Sortieren
                     resortData();
 
@@ -270,37 +353,8 @@ public class SensorActivity extends AppCompatActivity {
                             if(progress_menu_item != null) progress_menu_item.setActionView(null);
                         }
                     });
-                }
-            }).start();
-        } else {
-            //Kein Internet
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //Date String von Gestern ermitteln
-                    String date_yesterday = date_string;
-                    try{
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(sdf_date.parse(date_yesterday));
-                        c.add(Calendar.DATE, -1);
-                        date_yesterday = sdf_date.format(c.getTime());
-                    } catch (Exception e) {}
-
-                    if(su.isCSVFileExisting(date_string, sensor.getId())) {
-                        //Inhalt der Datei auslesen
-                        String csv_string = su.getCSVFromFile(date_string, sensor.getId());
-                        String csv_string_yesterday = su.getCSVFromFile(date_yesterday, sensor.getId());
-                        //CSV-Strings zu Objekten machen
-                        records = su.getDataRecordsFromCSV(csv_string_yesterday);
-                        records.addAll(su.getDataRecordsFromCSV(csv_string));
-                        //Datensätze zuschneiden
-                        view_pager_adapter.records = records = su.trimDataRecords(records, date_string);
-                        //Sortieren
-                        resortData();
-                    } else {
-                        records.clear();
-                        view_pager_adapter.records.clear();
-                    }
+                } else {
+                    Log.d("FA", "No CSV File existing");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -311,8 +365,8 @@ public class SensorActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }).start();
-        }
+            }
+        }).start();
     }
 
     public static void resortData() {

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class ServerMessagingUtils {
             //Dateien initialisieren
             File dir = new File(context.getFilesDir(), "/SensorData");
             if(!dir.exists()) dir.mkdirs();
-            File file = new File(dir, sensor_id + file_name);
+            File file = new File(dir, sensor_id + "-" + file_name);
             //FileOutputStreams erstellen
             OutputStream o = new FileOutputStream(file);
             //In Datei hineinschreiben
@@ -87,7 +88,79 @@ public class ServerMessagingUtils {
         return false;
     }
 
-    public long getLastModified(String date, String sensor_id) {
+    public boolean downloadZipFile(String date, String sensor_id) {
+        try {
+            String month = date.substring(3, 5);
+            String year = date.substring(6);
+
+            URL url = new URL(DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            //LastModified speichern
+            su.putLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip", connection.getLastModified());
+            //InputStream erstellen
+            InputStream i = new BufferedInputStream(connection.getInputStream(), 1024);
+            //Dateien initialisieren
+            File dir = new File(context.getFilesDir(), "/SensorData");
+            if(!dir.exists()) dir.mkdirs();
+            File file = new File(dir, sensor_id + "_" + year + "_" + month + ".zip");
+            //FileOutputStreams erstellen
+            OutputStream o = new FileOutputStream(file);
+            //In Datei hineinschreiben
+            byte[] buffer = new byte[1024];
+            int read;
+            byteCounter = 0;
+            while((read = i.read(buffer)) != -1) {
+                byteCounter+=read;
+                o.write(buffer, 0, read);
+            }
+            //Streams schließen
+            o.flush();
+            o.close();
+            i.close();
+
+            return true;
+        } catch (Exception e) {}
+        return false;
+    }
+
+    public boolean isCSVFileExisting(String date, String sensor_id) {
+        try{
+            //Datum umformatieren
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            Date newDate = format.parse(date);
+            format = new SimpleDateFormat("yyyy-MM-dd");
+            String new_date = format.format(newDate);
+
+            String url = DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv";
+            return isOnlineResourceExisting(url);
+        } catch (Exception e) {}
+        return false;
+    }
+
+    public boolean isZipFileExisting(String date, String sensor_id) {
+        try{
+            String month = date.substring(3, 5);
+            String year = date.substring(6);
+            String url = DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip";
+            return isOnlineResourceExisting(url);
+        } catch (Exception e) {}
+        return false;
+    }
+
+    public boolean isOnlineResourceExisting(String url) {
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+            con.setRequestMethod("HEAD");
+            return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public long getCSVLastModified(String date, String sensor_id) {
         try {
             //Datum umformatieren
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -95,9 +168,20 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             date = format.format(newDate);
 
-            String file_name = date + ".csv";
+            URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + date + ".csv");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            return connection.getLastModified();
+        } catch (Exception e) {}
+        return -1;
+    }
 
-            URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + file_name);
+    public long getZipLastModified(String date, String sensor_id) {
+        try {
+            String month = date.substring(3, 5);
+            String year = date.substring(6);
+
+            URL url = new URL(DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();

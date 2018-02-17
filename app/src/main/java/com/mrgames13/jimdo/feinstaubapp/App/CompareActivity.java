@@ -93,34 +93,54 @@ public class CompareActivity extends AppCompatActivity {
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_back = findViewById(R.id.card_date_back);
+        ImageView card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(date_string);
+        card_date_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auswählen
+                chooseDate(card_date_value);
+            }
+        });
         card_date_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Datum auswählen
-                date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                chooseDate(card_date_value);
+            }
+        });
+        card_date_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag zurück gehen
+                calendar.add(Calendar.DATE, -1);
 
-                        date_string = sdf_date.format(calendar.getTime());
-                        card_date_value.setText(date_string);
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
 
-                        //Daten für ausgewähltes Datum laden
-                        reloadData(true);
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                date_picker_dialog.show();
+                //Daten für ausgewähltes Datum laden
+                reloadData(true);
+            }
+        });
+        card_date_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag vor gehen
+                calendar.add(Calendar.DATE, 1);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                reloadData(true);
             }
         });
 
         diagram_sdsp1 = findViewById(R.id.diagram_sdsp1);
         diagram_sdsp1.getGridLabelRenderer().setNumHorizontalLabels(3);
         diagram_sdsp1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
             public String formatLabel(double value, boolean isValueX) {
                 if(isValueX) {
                     Calendar cal = Calendar.getInstance();
@@ -208,6 +228,25 @@ public class CompareActivity extends AppCompatActivity {
         });
 
         reloadData(true);
+    }
+
+    private void chooseDate(final TextView card_date_value) {
+        //Datum auswählen
+        date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                reloadData(true);
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        date_picker_dialog.show();
     }
 
     @Override

@@ -12,14 +12,20 @@ import android.util.Log;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class StorageUtils extends SQLiteOpenHelper {
 
@@ -55,7 +61,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             date = format.format(newDate);
 
             //Datei ermitteln
-            String file_name = sensor_id + date + ".csv";
+            String file_name = sensor_id + "-" + date + ".csv";
             File dir = new File(context.getFilesDir(), "/SensorData");
             File file = new File(dir, file_name);
 
@@ -72,7 +78,9 @@ public class StorageUtils extends SQLiteOpenHelper {
             }
             br.close();
             return text.toString();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "";
     }
 
@@ -84,7 +92,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             format = new SimpleDateFormat("yyyy-MM-dd");
             date = format.format(newDate);
 
-            String file_name = sensor_id + date + ".csv";
+            String file_name = sensor_id + "-" + date + ".csv";
             File dir = new File(context.getFilesDir(), "/SensorData");
             return new File(dir, file_name).exists();
         } catch (Exception e) {}
@@ -135,6 +143,66 @@ public class StorageUtils extends SQLiteOpenHelper {
     public boolean isFileExisting(String path) {
         File file = new File(path);
         return file.exists();
+    }
+
+    public boolean unpackZipFile(String sensor_id, String date) {
+        try {
+            //Datum umformatieren
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            Date newDate = format.parse(date);
+            format = new SimpleDateFormat("yyyy-MM-dd");
+            String new_date = format.format(newDate);
+
+            String month = date.substring(3, 5);
+            String year = date.substring(6);
+
+            File dir = new File(context.getFilesDir(), "/SensorData");
+            if(!dir.exists()) dir.mkdirs();
+            String path = new File(dir, sensor_id + "_" + year + "_" + month + ".zip").getAbsolutePath();
+
+            InputStream is;
+            ZipInputStream zis;
+
+            String filename;
+            is = new FileInputStream(path);
+            zis = new ZipInputStream(new BufferedInputStream(is));
+            ZipEntry ze;
+            byte[] buffer = new byte[1024];
+            int count;
+
+            while((ze = zis.getNextEntry()) != null) {
+                filename = ze.getName();
+
+                if (ze.isDirectory()) {
+                    File file = new File(path + filename);
+                    file.mkdirs();
+                } else {
+                    FileOutputStream fout = new FileOutputStream(dir.getAbsolutePath() + "/" + filename.substring(13));
+
+                    while((count = zis.read(buffer)) != -1) fout.write(buffer, 0, count);
+
+                    fout.close();
+                    zis.closeEntry();
+                }
+            }
+            zis.close();
+
+            //Zip-Datei löschen
+            return new File(path).delete();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public long getCSVLastModified(String sensor_id, String date_string) {
+        return getLong("LM_" + date_string + "_" + sensor_id);
+    }
+
+    public long getZipLastModified(String sensor_id, String date_string) {
+        String month = date_string.substring(3, 5);
+        String year = date_string.substring(6);
+        return getLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip");
     }
 
     //---------------------------------------SharedPreferences--------------------------------------
