@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Long Strings -->
-    <string name="openSourceLicense" translatable="false"><![CDATA[<b>This application may use or contain portions of libraries subject to the following licenses:</b><br><br>- appcompat-v7<br>- design<br>- recyclerview-v7:<br>- palette-v7<br>- support-v4<br>- support-vector-drawable<br>- cardview-v7<br>- graphview<br>- MaterialScrollBar<br>- ColorPickerPreference<br>- AnimCheckBox<br>- clans:fab<br><br><b><a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a></b>]]></string>
+    <string name="openSourceLicense" translatable="false"><![CDATA[<b>This application may use or contain portions of libraries subject to the following licenses:</b><br><br>- appcompat-v7<br>- design<br>- recyclerview-v7<br>- palette-v7<br>- support-v4<br>- support-vector-drawable<br>- cardview-v7<br>- graphview<br>- MaterialScrollBar<br>- ColorPickerPreference<br>- AnimCheckBox<br><br><b><a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a></b>]]></string>
 </resources>
