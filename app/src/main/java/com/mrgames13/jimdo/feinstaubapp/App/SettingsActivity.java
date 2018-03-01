@@ -116,7 +116,7 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_main);
 
         EditTextPreference sync_cycle = (EditTextPreference) findPreference("sync_cycle");
-        sync_cycle.setSummary(su.getString("sync_cycle", "10") + " " + (Integer.parseInt(su.getString("sync_cycle", "10")) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
+        sync_cycle.setSummary(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)) + " " + (Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE))) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
         sync_cycle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {

@@ -101,11 +101,11 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
         if(csv_string.equals("")) return new ArrayList<>();
-        try{
-            ArrayList<DataRecord> records = new ArrayList<>();
-            //In Zeilen aufspalten
-            String[] lines = csv_string.split("\\r?\\n");
-            for(int i = 1; i < lines.length; i++) {
+        ArrayList<DataRecord> records = new ArrayList<>();
+        //In Zeilen aufspalten
+        String[] lines = csv_string.split("\\r?\\n");
+        for(int i = 1; i < lines.length; i++) {
+            try{
                 Date time = new Date();
                 Double sdsp1 = 0.0;
                 Double sdsp2 = 0.0;
@@ -126,10 +126,9 @@ public class StorageUtils extends SQLiteOpenHelper {
                 if(!line_contents[12].equals("")) humidity = Double.parseDouble(line_contents[12]);
 
                 records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity));
-            }
-            return records;
-        } catch (Exception e) {}
-        return null;
+            } catch (Exception e) {}
+        }
+        return records;
     }
 
     public ArrayList<DataRecord> trimDataRecords(ArrayList<DataRecord> records, String current_date_string) {

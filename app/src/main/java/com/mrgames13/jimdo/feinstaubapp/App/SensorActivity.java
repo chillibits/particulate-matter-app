@@ -232,7 +232,7 @@ public class SensorActivity extends AppCompatActivity {
 
         //RefreshPeriod setzen
         int period = REFRESH_PERIOD;
-        if(period == 0) period = Integer.parseInt(su.getString("sync_cycle", "10"));
+        if(period == 0) period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
         //ScheduledExecutorService aufsetzen
         service = Executors.newSingleThreadScheduledExecutor();
