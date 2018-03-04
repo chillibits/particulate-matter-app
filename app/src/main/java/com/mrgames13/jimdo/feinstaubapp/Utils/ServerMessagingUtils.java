@@ -6,8 +6,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 
+import com.mrgames13.jimdo.feinstaubapp.App.Constants;
+import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.io.BufferedInputStream;
@@ -45,6 +48,58 @@ public class ServerMessagingUtils {
         this.su = su;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+    }
+
+    public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
+        //Die CSV-Dateien für Heute und Gestern herunterladen
+        //Heute
+        if(isCSVFileExisting(date_string, sensor.getId())) {
+            //CSV-Datei existiert und kann heruntergeladen werden
+            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(date_string, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_string)) {
+                //Lade CSV-Datei herunter
+                Log.i("FA", "Downloading CSV1 ...");
+                downloadCSVFile(date_string, sensor.getId());
+            } else {
+                //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
+                Log.i("FA", "No need to download CSV1");
+            }
+        } else {
+            //CSV-Datei existiert nicht
+            if(isZipFileExisting(date_string, sensor.getId())) {
+                //Zip-Datei existiert und kann heruntergeladen werden
+                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(date_string, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_string)) {
+                    Log.i("FA", "Downloading ZIP1 ...");
+                    if(downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
+                } else {
+                    //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                    Log.i("FA", "No need to download ZIP1");
+                }
+            }
+        }
+        //Gestern
+        if(isCSVFileExisting(date_yesterday, sensor.getId())) {
+            //CSV-Datei existiert und kann heruntergeladen werden
+            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(date_yesterday, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
+                //Lade CSV-Datei herunter
+                Log.i("FA", "Downloading CSV2 ...");
+                downloadCSVFile(date_yesterday, sensor.getId());
+            } else {
+                //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
+                Log.i("FA", "No need to download CSV2");
+            }
+        } else {
+            //CSV-Datei existiert nicht
+            if(isZipFileExisting(date_yesterday, sensor.getId())) {
+                //Zip-Datei existiert und kann heruntergeladen werden
+                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(date_yesterday, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
+                    Log.i("FA", "Downloading ZIP2 ...");
+                    if(downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
+                } else {
+                    //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                    Log.i("FA", "No need to download ZIP2");
+                }
+            }
+        }
     }
 
     public boolean downloadCSVFile(String date, String sensor_id) {

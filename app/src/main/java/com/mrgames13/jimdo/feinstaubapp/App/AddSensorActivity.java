@@ -132,7 +132,7 @@ public class AddSensorActivity extends AppCompatActivity {
             String sensor_id = this.id.getText().toString().trim();
             String sensor_name = name.getText().toString().trim();
             if(!sensor_id.equals("") && !sensor_name.equals("")) {
-                if(sensor_id.length() == 7) {
+                if(sensor_id.length() == 7 || sensor_id.length() == 8) {
                     if(mode == MODE_NEW) {
                         if(!su.isSensorExisting(sensor_id)) {
                             //Neuen Sensor speichern

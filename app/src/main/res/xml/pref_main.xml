@@ -1,11 +1,4 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <!--<PreferenceCategory
-        android:title="@string/pref_header_general"
-        android:key="sensor_settings" >
-
-
-    </PreferenceCategory>-->
-
     <PreferenceCategory
         android:title="@string/pref_header_sync"
         android:key="sensor_settings" >
@@ -16,6 +9,23 @@
             android:title="@string/sync_cycle"
             android:inputType="number"
             android:summary="%s Sekunden"/>
+
+        <SwitchPreference
+            android:key="reduce_data_consumption"
+            android:defaultValue="true"
+            android:title="@string/reduce_data_consumption"
+            android:summary="@string/reduce_data_consumption_s"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_performance"
+        android:key="performance_settings" >
+
+        <SwitchPreference
+            android:key="increase_diagram_performance"
+            android:defaultValue="false"
+            android:title="@string/pref_increase_diagram_performance"
+            android:summary="@string/pref_increase_diagram_performance_s"/>
     </PreferenceCategory>
 
     <PreferenceCategory

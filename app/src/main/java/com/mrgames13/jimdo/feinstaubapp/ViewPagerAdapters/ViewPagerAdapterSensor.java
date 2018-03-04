@@ -22,11 +22,13 @@ import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.mrgames13.jimdo.feinstaubapp.App.Constants;
 import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
+import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
@@ -45,13 +47,17 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     public static ArrayList<DataRecord> records = new ArrayList<>();
     private static SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm:ss");
 
+    //Utils-Pakete
+    private static StorageUtils su;
+
     //Variablen
 
-    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity) {
+    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su) {
         super(manager);
-        this.res = activity.getResources();
-        this.activity = activity;
-        this.h = new Handler();
+        res = activity.getResources();
+        ViewPagerAdapterSensor.activity = activity;
+        h = new Handler();
+        ViewPagerAdapterSensor.su = su;
         tabTitles.add(res.getString(R.string.tab_diagram));
         tabTitles.add(res.getString(R.string.tab_data));
     }
@@ -303,7 +309,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         }
 
         private static ArrayList<DataRecord> fitArrayList(ArrayList<DataRecord> records) {
-            int divider = records.size() / 200;
+            if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
+            int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
             if(divider == 0) return records;
             ArrayList<DataRecord> new_records = new ArrayList<>();
             for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));

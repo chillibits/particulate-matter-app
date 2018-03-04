@@ -100,11 +100,6 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_add) {
-            /*if(fab_menu.isOpened()) {
-                fab_menu.close(true);
-            } else {
-                fab_menu.open(true);
-            }*/
             startActivity(new Intent(MainActivity.this, AddSensorActivity.class));
         } else if(id == R.id.action_details) {
             Sensor sensor = selected_sensors.get(0);

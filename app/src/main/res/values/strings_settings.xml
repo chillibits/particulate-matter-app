@@ -9,6 +9,13 @@
     <string name="sync_cycle">Synchronisationszyklus</string>
     <string name="seconds">Sekunden</string>
     <string name="second">Sekunde</string>
+    <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
+    <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
+
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performance</string>
+    <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
+    <string name="pref_increase_diagram_performance_s">Info: Diagramm wird möglicherweise ungenau</string>
 
     <!-- About Settings -->
     <string name="pref_header_about">Über die Feinstaub-App</string>

@@ -45,7 +45,7 @@ public class CompareActivity extends AppCompatActivity {
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
 
     //Utils-Pakete
-    private StorageUtils su;
+    private static StorageUtils su;
     private ServerMessagingUtils smu;
 
     //Komponenten
@@ -121,7 +121,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_value.setText(date_string);
 
                 //Daten für ausgewähltes Datum laden
-                reloadData(true);
+                reloadData();
             }
         });
         card_date_next.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_value.setText(date_string);
 
                 //Daten für ausgewähltes Datum laden
-                reloadData(true);
+                reloadData();
             }
         });
 
@@ -227,7 +227,7 @@ public class CompareActivity extends AppCompatActivity {
             }
         });
 
-        reloadData(true);
+        reloadData();
     }
 
     private void chooseDate(final TextView card_date_value) {
@@ -243,7 +243,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_value.setText(date_string);
 
                 //Daten für ausgewähltes Datum laden
-                reloadData(true);
+                reloadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         date_picker_dialog.show();
@@ -264,7 +264,7 @@ public class CompareActivity extends AppCompatActivity {
         } else if(id == R.id.action_refresh) {
             Log.i("FA", "User refreshing ...");
             //Daten neu laden
-            reloadData(true);
+            reloadData();
         } else if(id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
@@ -272,15 +272,7 @@ public class CompareActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static ArrayList<DataRecord> fitArrayList(ArrayList<DataRecord> records) {
-        int divider = records.size() / 200;
-        if(divider == 0) return records;
-        ArrayList<DataRecord> new_records = new ArrayList<>();
-        for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
-        return new_records;
-    }
-
-    private void reloadData(final boolean from_server) {
+    private void reloadData() {
         //ProgressMenuItem setzen
         if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
@@ -312,8 +304,8 @@ public class CompareActivity extends AppCompatActivity {
                 long first_time = Long.MAX_VALUE;
                 long last_time = Long.MIN_VALUE;
                 for(int i = 0; i < sensors.size(); i++) {
-                    if(from_server && smu.checkConnection(findViewById(R.id.container))) smu.downloadCSVFile(date_string, sensors.get(i).getId());
-                    if(from_server && smu.isInternetAvailable()) smu.downloadCSVFile(date_yesterday, sensors.get(i).getId());
+                    smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
+
                     ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getId()));
                     temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getId())));
                     temp = su.trimDataRecords(temp, date_string);
@@ -410,5 +402,14 @@ public class CompareActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    private static ArrayList<DataRecord> fitArrayList(ArrayList<DataRecord> records) {
+        if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
+        int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
+        if(divider == 0) return records;
+        ArrayList<DataRecord> new_records = new ArrayList<>();
+        for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
+        return new_records;
     }
 }

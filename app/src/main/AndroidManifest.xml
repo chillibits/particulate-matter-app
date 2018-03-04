@@ -19,7 +19,8 @@
         <activity
             android:name=".App.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

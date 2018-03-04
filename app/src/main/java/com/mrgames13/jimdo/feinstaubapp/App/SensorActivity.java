@@ -95,7 +95,7 @@ public class SensorActivity extends AppCompatActivity {
 
         //ViewPager initialisieren
         view_pager = findViewById(R.id.view_pager);
-        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this);
+        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su);
         view_pager.setAdapter(view_pager_adapter);
 
         //TabLayout aufsetzen
@@ -280,55 +280,7 @@ public class SensorActivity extends AppCompatActivity {
                 //Prüfen, ob Intenet verfügbar ist
                 if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
                     //Internet ist verfügbar
-                    //Die CSV-Dateien für Heute und Gestern herunterladen
-                    //Heute
-                    if(smu.isCSVFileExisting(date_string, sensor.getId())) {
-                        //CSV-Datei existiert und kann heruntergeladen werden
-                        if(smu.getCSVLastModified(date_string, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_string)) {
-                            //Lade CSV-Datei herunter
-                            Log.i("FA", "Downloading CSV1 ...");
-                            smu.downloadCSVFile(date_string, sensor.getId());
-                        } else {
-                            //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
-                            Log.i("FA", "No need to download CSV1");
-                        }
-                    } else {
-                        //CSV-Datei existiert nicht
-                        if(smu.isZipFileExisting(date_string, sensor.getId())) {
-                            //Zip-Datei existiert und kann heruntergeladen werden
-                            if(smu.getZipLastModified(date_string, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_string)) {
-                                Log.i("FA", "Downloading ZIP1 ...");
-                                if(smu.downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
-                            } else {
-                                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
-                                Log.i("FA", "No need to download ZIP1");
-                            }
-                        }
-                    }
-                    //Gestern
-                    if(smu.isCSVFileExisting(date_yesterday, sensor.getId())) {
-                        //CSV-Datei existiert und kann heruntergeladen werden
-                        if(smu.getCSVLastModified(date_yesterday, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
-                            //Lade CSV-Datei herunter
-                            Log.i("FA", "Downloading CSV2 ...");
-                            smu.downloadCSVFile(date_yesterday, sensor.getId());
-                        } else {
-                            //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
-                            Log.i("FA", "No need to download CSV2");
-                        }
-                    } else {
-                        //CSV-Datei existiert nicht
-                        if(smu.isZipFileExisting(date_yesterday, sensor.getId())) {
-                            //Zip-Datei existiert und kann heruntergeladen werden
-                            if(smu.getZipLastModified(date_yesterday, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
-                                Log.i("FA", "Downloading ZIP2 ...");
-                                if(smu.downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
-                            } else {
-                                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
-                                Log.i("FA", "No need to download ZIP2");
-                            }
-                        }
-                    }
+                    smu.manageDownloads(sensor, date_string, date_yesterday);
                 }
                 //Kein Internet
                 if(su.isCSVFileExisting(date_string, sensor.getId()) || su.isCSVFileExisting(date_yesterday, sensor.getId())) {
