@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 public class SensorActivity extends AppCompatActivity {
 
     //Konstanten
-    private final int REFRESH_PERIOD = 0; // 0 für den Wert der über die Einstellugen eingestellt wurde
     public static final int SORT_MODE_TIME_ASC = 101;
     public static final int SORT_MODE_TIME_DESC = 102;
     public static final int SORT_MODE_VALUE1_ASC = 103;
@@ -67,8 +66,8 @@ public class SensorActivity extends AppCompatActivity {
     private StorageUtils su;
 
     //Variablen
-    private String current_date_string;
-    private String date_string;
+    public static String current_date_string;
+    public static String date_string;
     public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
     public static boolean custom_sdsp1 = true;
     public static boolean custom_sdsp2 = true;
@@ -231,8 +230,7 @@ public class SensorActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(ColorUtils.darkenColor(res.getColor(R.color.colorPrimary)));
 
         //RefreshPeriod setzen
-        int period = REFRESH_PERIOD;
-        if(period == 0) period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
+        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
         //ScheduledExecutorService aufsetzen
         service = Executors.newSingleThreadScheduledExecutor();
@@ -285,38 +283,27 @@ public class SensorActivity extends AppCompatActivity {
                 //Kein Internet
                 if(su.isCSVFileExisting(date_string, sensor.getId()) || su.isCSVFileExisting(date_yesterday, sensor.getId())) {
                     Log.d("FA", "Local CSV Files existing");
-                    //Inhalt der lokalen Datei auslesen
-                    String csv_string = su.getCSVFromFile(date_string, sensor.getId());
-                    String csv_string_yesterday = su.getCSVFromFile(date_yesterday, sensor.getId());
+                    //Inhalt der lokalen Dateien auslesen
+                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getId());
+                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getId());
+                    String csv_string_today = su.getCSVFromFile(current_date_string, sensor.getId());
                     //CSV-Strings zu Objekten machen
-                    records = su.getDataRecordsFromCSV(csv_string_yesterday);
-                    records.addAll(su.getDataRecordsFromCSV(csv_string));
+                    records = su.getDataRecordsFromCSV(csv_string_day_before);
+                    records.addAll(su.getDataRecordsFromCSV(csv_string_day));
                     //Datensätze zuschneiden
                     ViewPagerAdapterSensor.records = records = su.trimDataRecords(records, date_string);
                     //Sortieren
                     resortData();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //ViewpagerAdapter refreshen
-                            view_pager_adapter.refreshFragments();
-                            //ProgressMenuItem zurücksetzen
-                            if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                        }
-                    });
-                } else {
-                    Log.d("FA", "No CSV File existing");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //ViewpagerAdapter refreshen
-                            view_pager_adapter.refreshFragments();
-                            //ProgressMenuItem zurücksetzen
-                            if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                        }
-                    });
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //ViewpagerAdapter refreshen
+                        view_pager_adapter.refreshFragments();
+                        //ProgressMenuItem zurücksetzen
+                        if(progress_menu_item != null) progress_menu_item.setActionView(null);
+                    }
+                });
             }
         }).start();
     }

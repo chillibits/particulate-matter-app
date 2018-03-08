@@ -63,6 +63,8 @@
     <string name="device1">Sensor 1</string>
     <string name="device2">Sensor 2</string>
     <string name="device3">Sensor 3</string>
+    <string name="current_values">Aktuelle Messwerte</string>
+    <string name="state_of_">Stand</string>
 
     <!-- DiagramActivity -->
     <string name="time_">Messzeit:</string>

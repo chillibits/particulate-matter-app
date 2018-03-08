@@ -100,6 +100,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static LineGraphSeries<DataPoint> series2;
         private static LineGraphSeries<DataPoint> series3;
         private static LineGraphSeries<DataPoint> series4;
+        private static TextView cv_sdsp1;
+        private static TextView cv_sdsp2;
+        private static TextView cv_temp;
+        private static TextView cv_humidity;
+        private static TextView cv_time;
 
         //Variablen
 
@@ -146,32 +151,54 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
             custom_sdsp1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                public void onCheckedChanged(CompoundButton cb, boolean value) {
+                    if(!value && !custom_sdsp2.isChecked() && !custom_temp.isChecked() && !custom_humidity.isChecked()) {
+                        cb.setChecked(true);
+                        return;
+                    }
                     SensorActivity.custom_sdsp1 = value;
                     updateSDSP1(value);
                 }
             });
             custom_sdsp2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                public void onCheckedChanged(CompoundButton cb, boolean value) {
+                    if(!custom_sdsp1.isChecked() && !value && !custom_temp.isChecked() && !custom_humidity.isChecked()) {
+                        cb.setChecked(true);
+                        return;
+                    }
                     SensorActivity.custom_sdsp2 = value;
                     updateSDSP2(value);
                 }
             });
             custom_temp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                public void onCheckedChanged(CompoundButton cb, boolean value) {
+                    if(!custom_sdsp1.isChecked() && !custom_sdsp2.isChecked() && !value && !custom_humidity.isChecked()) {
+                        cb.setChecked(true);
+                        return;
+                    }
                     SensorActivity.custom_temp = value;
                     updateTemp(value);
                 }
             });
             custom_humidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                public void onCheckedChanged(CompoundButton cb, boolean value) {
+                    if(!custom_sdsp1.isChecked() && !custom_sdsp2.isChecked() && !custom_temp.isChecked() && !value) {
+                        cb.setChecked(true);
+                        return;
+                    }
                     SensorActivity.custom_humidity = value;
                     updateHumidity(value);
                 }
             });
+
+            cv_sdsp1 = contentView.findViewById(R.id.cv_sdsp1);
+            cv_sdsp2 = contentView.findViewById(R.id.cv_sdsp2);
+            cv_temp = contentView.findViewById(R.id.cv_temp);
+            cv_humidity = contentView.findViewById(R.id.cv_humidity);
+            cv_time = contentView.findViewById(R.id.cv_time);
 
             return contentView;
         }
@@ -184,7 +211,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateSDSP1(boolean value) {
             if(value) {
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series1 = new LineGraphSeries<>();
@@ -204,7 +230,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateSDSP2(boolean value) {
             if(value) {
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series2 = new LineGraphSeries<>();
@@ -224,7 +249,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateTemp(boolean value) {
             if(value) {
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series3 = new LineGraphSeries<>();
@@ -244,7 +268,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateHumidity(boolean value) {
             if(value) {
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     long first_time = records.get(0).getDateTime().getTime() / 1000;
 
                     series4 = new LineGraphSeries<>();
@@ -261,6 +284,23 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
+        private static void updateLastValues() {
+            if(SensorActivity.records.size() > 0 && SensorActivity.date_string.equals(SensorActivity.current_date_string)) {
+                cv_sdsp1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp1()));
+                cv_sdsp2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp2()));
+                cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()));
+                cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()));
+                SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                cv_time.setText(res.getString(R.string.state_of_) + " " + sdf_date.format(SensorActivity.records.get(SensorActivity.records.size() -1).getDateTime()));
+
+                contentView.findViewById(R.id.title_current_values).setVisibility(View.VISIBLE);
+                contentView.findViewById(R.id.cv_container).setVisibility(View.VISIBLE);
+            } else {
+                contentView.findViewById(R.id.title_current_values).setVisibility(View.GONE);
+                contentView.findViewById(R.id.cv_container).setVisibility(View.GONE);
+            }
+        }
+
         public static void refresh() {
             if(records != null) {
                 contentView.findViewById(R.id.loading).setVisibility(View.GONE);
@@ -274,7 +314,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     SensorActivity.sort_mode = tmp;
 
                     try{
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                         long first_time = records.get(0).getDateTime().getTime() / 1000;
                         graph_view.getViewport().setMinX(0);
                         graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time));
@@ -298,6 +337,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
+
+                updateLastValues();
             } else {
                 updateSDSP1(false);
                 updateSDSP2(false);

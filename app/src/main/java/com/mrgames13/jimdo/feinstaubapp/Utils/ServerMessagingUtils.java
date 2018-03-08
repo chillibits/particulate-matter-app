@@ -51,11 +51,11 @@ public class ServerMessagingUtils {
     }
 
     public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
-        //Die CSV-Dateien für Heute und Gestern herunterladen
-        //Heute
+        //Die CSV-Dateien für Tag und Tag davor herunterladen
+        //Eingestellter Tag
         if(isCSVFileExisting(date_string, sensor.getId())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(date_string, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_string)) {
+            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_string) > su.getCSVLastModified(sensor.getId(), date_string)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV1 ...");
                 downloadCSVFile(date_string, sensor.getId());
@@ -67,7 +67,7 @@ public class ServerMessagingUtils {
             //CSV-Datei existiert nicht
             if(isZipFileExisting(date_string, sensor.getId())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(date_string, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_string)) {
+                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_string) > su.getZipLastModified(sensor.getId(), date_string)) {
                     Log.i("FA", "Downloading ZIP1 ...");
                     if(downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
                 } else {
@@ -76,10 +76,10 @@ public class ServerMessagingUtils {
                 }
             }
         }
-        //Gestern
+        //Tag davor
         if(isCSVFileExisting(date_yesterday, sensor.getId())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(date_yesterday, sensor.getId()) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
+            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_yesterday) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV2 ...");
                 downloadCSVFile(date_yesterday, sensor.getId());
@@ -91,7 +91,7 @@ public class ServerMessagingUtils {
             //CSV-Datei existiert nicht
             if(isZipFileExisting(date_yesterday, sensor.getId())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(date_yesterday, sensor.getId()) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
+                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_yesterday) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
                     Log.i("FA", "Downloading ZIP2 ...");
                     if(downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
                 } else {
@@ -215,7 +215,7 @@ public class ServerMessagingUtils {
         return false;
     }
 
-    public long getCSVLastModified(String date, String sensor_id) {
+    public long getCSVLastModified(String sensor_id, String date) {
         try {
             //Datum umformatieren
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -231,7 +231,7 @@ public class ServerMessagingUtils {
         return -1;
     }
 
-    public long getZipLastModified(String date, String sensor_id) {
+    public long getZipLastModified(String sensor_id, String date) {
         try {
             String month = date.substring(3, 5);
             String year = date.substring(6);

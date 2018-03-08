@@ -139,11 +139,6 @@ public class StorageUtils extends SQLiteOpenHelper {
         return new_records;
     }
 
-    public boolean isFileExisting(String path) {
-        File file = new File(path);
-        return file.exists();
-    }
-
     public boolean unpackZipFile(String sensor_id, String date) {
         try {
             //Datum umformatieren
@@ -266,13 +261,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getBoolean(name, default_value);
     }
 
-    public void removePair(String name) {
-        e = prefs.edit();
-        e.remove(name);
-        e.commit();
-    }
-
-    public void clearData(String name) {
+    public void clearPair(String name) {
         prefs.edit().remove(name).commit();
     }
 
@@ -295,7 +284,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion) {
-
+            //Datenbank-Update
         }
     }
 
@@ -356,12 +345,5 @@ public class StorageUtils extends SQLiteOpenHelper {
             Log.e("ChatLet", "Error loading message", e);
         }
         return new ArrayList<>();
-    }
-
-    public Sensor getSensor(String sensor_id) {
-        for(Sensor s : getAllSensors()) {
-            if(s.getId().equals(sensor_id)) return s;
-        }
-        return null;
     }
 }
