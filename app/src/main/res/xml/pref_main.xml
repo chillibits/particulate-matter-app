@@ -18,6 +18,39 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/pref_header_notifications"
+        android:key="notification_settings" >
+
+        <EditTextPreference
+            android:key="limit_sdsp1"
+            android:defaultValue="40"
+            android:title="@string/pref_limit_sdsp1"
+            android:inputType="number"
+            android:summary="%s µg/m³"/>
+
+        <EditTextPreference
+            android:key="limit_sdsp2"
+            android:defaultValue="25"
+            android:title="@string/pref_limit_sdsp2"
+            android:inputType="number"
+            android:summary="%s µg/m³"/>
+
+        <EditTextPreference
+            android:key="limit_temp"
+            android:defaultValue="0"
+            android:title="@string/pref_limit_temp"
+            android:inputType="number"
+            android:summary="%s °C"/>
+
+        <EditTextPreference
+            android:key="limit_humidity"
+            android:defaultValue="0"
+            android:title="@string/pref_limit_humidity"
+            android:inputType="number"
+            android:summary="%s %"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_header_performance"
         android:key="performance_settings" >
 

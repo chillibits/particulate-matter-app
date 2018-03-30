@@ -3,7 +3,6 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Utils.ColorUtils;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
@@ -85,6 +84,7 @@ public class SensorActivity extends AppCompatActivity {
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);
@@ -213,6 +213,7 @@ public class SensorActivity extends AppCompatActivity {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
             loadData(true);
+            startService(new Intent(SensorActivity.this, SyncService.class));
         } else if(id == R.id.action_settings) {
             //SettingsActivity starten
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
@@ -225,10 +226,6 @@ public class SensorActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Toolbar Text und Farbe setzen
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(ColorUtils.darkenColor(res.getColor(R.color.colorPrimary)));
-
         //RefreshPeriod setzen
         int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
@@ -278,6 +275,8 @@ public class SensorActivity extends AppCompatActivity {
                 //Prüfen, ob Intenet verfügbar ist
                 if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
                     //Internet ist verfügbar
+                    Log.d("FA", date_string);
+                    Log.d("FA", date_yesterday);
                     smu.manageDownloads(sensor, date_string, date_yesterday);
                 }
                 //Kein Internet
@@ -286,7 +285,6 @@ public class SensorActivity extends AppCompatActivity {
                     //Inhalt der lokalen Dateien auslesen
                     String csv_string_day = su.getCSVFromFile(date_string, sensor.getId());
                     String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getId());
-                    String csv_string_today = su.getCSVFromFile(current_date_string, sensor.getId());
                     //CSV-Strings zu Objekten machen
                     records = su.getDataRecordsFromCSV(csv_string_day_before);
                     records.addAll(su.getDataRecordsFromCSV(csv_string_day));

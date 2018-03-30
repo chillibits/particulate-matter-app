@@ -603,10 +603,10 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         average_sdsp2 = average_sdsp2 / records.size();
                         average_temp = average_temp / records.size();
                         average_humidity = average_humidity / records.size();
-                        footer_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 2)));
-                        footer_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 2)));
-                        footer_temp.setText(String.valueOf(Tools.round(average_temp, 1)));
-                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)));
+                        footer_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 1)).replace(".", ",") + " µg/m³");
+                        footer_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 1)).replace(".", ",") + " µg/m³");
+                        footer_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",") + " °C");
+                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",") + "%");
                     } else {
                         contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
                         contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);

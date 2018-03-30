@@ -114,6 +114,7 @@ public class AddSensorActivity extends AppCompatActivity {
             id.setEnabled(false);
             current_color = i.getIntExtra("Color", current_color);
             iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+            toolbar.setTitle(R.string.edit_sensor);
         }
     }
 

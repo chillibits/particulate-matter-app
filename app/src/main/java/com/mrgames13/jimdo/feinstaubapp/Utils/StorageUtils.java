@@ -257,6 +257,10 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getInt(name, default_value);
     }
 
+    public long getLong(String name, long default_value) {
+        return  prefs.getLong(name, default_value);
+    }
+
     public boolean getBoolean(String name, boolean default_value) {
         return prefs.getBoolean(name, default_value);
     }

@@ -3,7 +3,6 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
-import com.mrgames13.jimdo.feinstaubapp.Utils.ColorUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 import java.util.ArrayList;
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(res.getString(R.string.app_name));
         setSupportActionBar(toolbar);
-        if(Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(ColorUtils.darkenColor(res.getColor(R.color.colorPrimary)));
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);

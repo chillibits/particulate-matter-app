@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
 
@@ -53,10 +54,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClas
         //Daten befüllen
         DataRecord record = SensorActivity.records.get(pos);
         holder.item_time.setText(sdf.format(record.getDateTime()));
-        holder.item_sdsp1.setText(String.valueOf(record.getSdsp1()));
-        holder.item_sdsp2.setText(String.valueOf(record.getSdsp2()));
-        holder.item_temp.setText(String.valueOf(record.getTemp()));
-        holder.item_humidity.setText(String.valueOf(record.getHumidity()));
+        holder.item_sdsp1.setText(String.valueOf(Tools.round(record.getSdsp1(), 1)).replace(".", ",") + " µg/m³");
+        holder.item_sdsp2.setText(String.valueOf(Tools.round(record.getSdsp2(), 1)).replace(".", ",") + " µg/m³");
+        holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",") + " °C");
+        holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",") + "%");
     }
 
     @Override

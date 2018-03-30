@@ -70,4 +70,11 @@
     <string name="time_">Messzeit:</string>
     <string name="value_">Wert:</string>
 
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Grenzwert überschritten</string>
+    <string name="limit_exceeded_sdsp1">PM10 Grenzwert überschritten</string>
+    <string name="limit_exceeded_sdsp2">PM2,5 Grenzwert überschritten</string>
+    <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
+    <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
+
 </resources>

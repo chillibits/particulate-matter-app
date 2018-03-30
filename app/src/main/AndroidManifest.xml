@@ -18,7 +18,7 @@
         <!-- MainActivity -->
         <activity
             android:name=".App.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -29,19 +29,19 @@
         <!-- SettingsActivity -->
         <activity
             android:name=".App.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- DiagramActivity -->
         <activity
             android:name=".App.DiagramActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
             android:name=".App.SensorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- AddSensorActivity -->
         <activity
@@ -55,5 +55,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
+        <!-- SyncService -->
+        <service android:name=".Services.SyncService"/>
+        <!-- BootCompletedReceiver -->
+        <receiver android:name=".BroadcastReceiver.BootCompletedReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <!--Für HTC Geräte-->
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
