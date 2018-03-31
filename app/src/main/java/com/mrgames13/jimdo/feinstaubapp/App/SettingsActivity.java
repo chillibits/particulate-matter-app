@@ -1,7 +1,9 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,8 +37,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -50,7 +54,6 @@ public class SettingsActivity extends PreferenceActivity {
     private Toolbar toolbar;
 
     //Variablen
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +129,29 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        EditTextPreference sync_cycle_background = (EditTextPreference) findPreference("sync_cycle_background");
+        sync_cycle_background.setSummary(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND)) + " " + (Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
+        sync_cycle_background.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 1) o = "1";
+                preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
+
+                //AlarmManager updaten
+                int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent start_service_intent = new Intent(SettingsActivity.this, SyncService.class);
+                PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+
+                startService(start_service_intent);
+
+                return true;
+            }
+        });
+
         EditTextPreference limit_sdsp1 = (EditTextPreference) findPreference("limit_sdsp1");
         EditTextPreference limit_sdsp2 = (EditTextPreference) findPreference("limit_sdsp2");
         EditTextPreference limit_temp = (EditTextPreference) findPreference("limit_temp");
@@ -150,6 +176,7 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
+
 
         limit_temp.setSummary(Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT))) > 0 ? su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)) + "°C" : res.getString(R.string.pref_limit_disabled));
         limit_temp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

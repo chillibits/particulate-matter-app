@@ -8,7 +8,16 @@
             android:defaultValue="10"
             android:title="@string/sync_cycle"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:summary="%s Sekunden"/>
+
+        <EditTextPreference
+            android:key="sync_cycle_background"
+            android:defaultValue="5"
+            android:title="@string/sync_cycle_background"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:summary="%s Minuten"/>
 
         <SwitchPreference
             android:key="reduce_data_consumption"
@@ -26,6 +35,7 @@
             android:defaultValue="40"
             android:title="@string/pref_limit_sdsp1"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:summary="%s µg/m³"/>
 
         <EditTextPreference
@@ -33,6 +43,7 @@
             android:defaultValue="25"
             android:title="@string/pref_limit_sdsp2"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:summary="%s µg/m³"/>
 
         <EditTextPreference
@@ -40,6 +51,7 @@
             android:defaultValue="0"
             android:title="@string/pref_limit_temp"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:summary="%s °C"/>
 
         <EditTextPreference
@@ -47,6 +59,7 @@
             android:defaultValue="0"
             android:title="@string/pref_limit_humidity"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:summary="%s %"/>
     </PreferenceCategory>
 

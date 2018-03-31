@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.mrgames13.jimdo.feinstaubapp.App.Constants;
 import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -215,7 +214,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
                     series1 = new LineGraphSeries<>();
                     series1.setColor(res.getColor(R.color.series1));
-                    for(DataRecord record : fitArrayList(records)) {
+                    for(DataRecord record : Tools.fitArrayList(su, records)) {
                         series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
                     }
                     graph_view.addSeries(series1);
@@ -234,7 +233,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
                     series2 = new LineGraphSeries<>();
                     series2.setColor(res.getColor(R.color.series2));
-                    for(DataRecord record : fitArrayList(records)) {
+                    for(DataRecord record : Tools.fitArrayList(su, records)) {
                         series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
                     }
                     graph_view.addSeries(series2);
@@ -253,7 +252,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
                     series3 = new LineGraphSeries<>();
                     series3.setColor(res.getColor(R.color.series3));
-                    for(DataRecord record : fitArrayList(records)) {
+                    for(DataRecord record : Tools.fitArrayList(su, records)) {
                         series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
                     }
                     graph_view.addSeries(series3);
@@ -272,7 +271,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
                     series4 = new LineGraphSeries<>();
                     series4.setColor(res.getColor(R.color.series4));
-                    for(DataRecord record : fitArrayList(records)) {
+                    for(DataRecord record : Tools.fitArrayList(su, records)) {
                         series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
                     }
                     graph_view.addSeries(series4);
@@ -347,15 +346,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
             }
-        }
-
-        private static ArrayList<DataRecord> fitArrayList(ArrayList<DataRecord> records) {
-            if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
-            int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
-            if(divider == 0) return records;
-            ArrayList<DataRecord> new_records = new ArrayList<>();
-            for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
-            return new_records;
         }
     }
 
@@ -606,7 +596,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         footer_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 1)).replace(".", ",") + " µg/m³");
                         footer_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 1)).replace(".", ",") + " µg/m³");
                         footer_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",") + " °C");
-                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",") + "%");
+                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",") + " %");
                     } else {
                         contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
                         contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);

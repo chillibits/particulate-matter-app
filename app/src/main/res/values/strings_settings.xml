@@ -7,8 +7,11 @@
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
     <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
     <string name="seconds">Sekunden</string>
     <string name="second">Sekunde</string>
+    <string name="minutes">Minuten</string>
+    <string name="minute">Minute</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
 
@@ -31,7 +34,7 @@
     <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
-    <string name="pref_developers_m">M&amp;R Games</string>
+    <string name="pref_developers_m" translatable="false">M&amp;R Games</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>
     <string name="pref_more_apps_m">Unsere Playstore-Seite</string>
 

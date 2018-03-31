@@ -3,6 +3,7 @@
     package="com.mrgames13.jimdo.feinstaubapp"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -58,9 +59,8 @@
         <!-- SyncService -->
         <service android:name=".Services.SyncService"/>
         <!-- BootCompletedReceiver -->
-        <receiver android:name=".BroadcastReceiver.BootCompletedReceiver" android:enabled="true" android:exported="true">
+        <receiver android:name=".BroadcastReceiver.BootCompletedReceiver">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <!--Für HTC Geräte-->

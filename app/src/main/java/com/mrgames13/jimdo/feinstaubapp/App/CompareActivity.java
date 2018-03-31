@@ -24,6 +24,7 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -326,7 +327,7 @@ public class CompareActivity extends AppCompatActivity {
                         try{
                             LineGraphSeries<DataPoint> series_sdsp1 = new LineGraphSeries<>();
                             series_sdsp1.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : fitArrayList(current_records)) {
+                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_sdsp1.appendData(new DataPoint(time.getTime(), record.getSdsp1()), false, 1000000);
@@ -341,7 +342,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             LineGraphSeries<DataPoint> series_sdsp2 = new LineGraphSeries<>();
                             series_sdsp2.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : fitArrayList(current_records)) {
+                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_sdsp2.appendData(new DataPoint(time.getTime(), record.getSdsp2()), false, 1000000);
@@ -356,7 +357,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
                             series_temp.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : fitArrayList(current_records)) {
+                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
@@ -371,7 +372,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
                             series_humidity.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : fitArrayList(current_records)) {
+                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
@@ -402,14 +403,5 @@ public class CompareActivity extends AppCompatActivity {
                 });
             }
         }).start();
-    }
-
-    private static ArrayList<DataRecord> fitArrayList(ArrayList<DataRecord> records) {
-        if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
-        int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
-        if(divider == 0) return records;
-        ArrayList<DataRecord> new_records = new ArrayList<>();
-        for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
-        return new_records;
     }
 }
