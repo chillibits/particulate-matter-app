@@ -133,25 +133,20 @@ public class AddSensorActivity extends AppCompatActivity {
             String sensor_id = this.id.getText().toString().trim();
             String sensor_name = name.getText().toString().trim();
             if(!sensor_id.equals("") && !sensor_name.equals("")) {
-                if(sensor_id.length() == 7 || sensor_id.length() == 8) {
-                    if(mode == MODE_NEW) {
-                        if(!su.isSensorExisting(sensor_id)) {
-                            //Neuen Sensor speichern
-                            su.addSensor(new Sensor(sensor_id, sensor_name.toString(), current_color));
-                        } else {
-                            //Sensor ist bereits verknüpft
-                            Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
-                        }
-                    } else if(mode == MODE_EDIT) {
-                        //Sensor aktualisieren
-                        su.updateSensor(new Sensor(sensor_id, sensor_name.toString(), current_color));
+                if(mode == MODE_NEW) {
+                    if(!su.isSensorExisting(sensor_id)) {
+                        //Neuen Sensor speichern
+                        su.addSensor(new Sensor(sensor_id, sensor_name, current_color));
+                    } else {
+                        //Sensor ist bereits verknüpft
+                        Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
                     }
-                    MainActivity.own_instance.refresh();
-                    finish();
-                } else {
-                    //Die Sensor-ID hat keine 7 Zeichen
-                    Toast.makeText(this, res.getString(R.string.id_7_chars), Toast.LENGTH_SHORT).show();
+                } else if(mode == MODE_EDIT) {
+                    //Sensor aktualisieren
+                    su.updateSensor(new Sensor(sensor_id, sensor_name, current_color));
                 }
+                MainActivity.own_instance.refresh();
+                finish();
             } else {
                 //Es sind nicht alle Felder ausgefüllt
                 Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();

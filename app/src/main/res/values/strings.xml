@@ -1,6 +1,7 @@
 <resources>
     <!-- Common Strings -->
     <string name="app_name">Feinstaub App</string>
+    <string name="powered_by">powered by M&amp;R Games</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="ok">Ok</string>
@@ -33,7 +34,6 @@
     <string name="sensor_id_">Chip-ID:</string>
     <string name="choose_color">Farbe wählen</string>
     <string name="not_all_filled">Bitte alle Felder füllen</string>
-    <string name="id_7_chars">ID muss aus 7 oder 8 Zahlen bestehen</string>
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
 
     <!-- SensorActivity -->

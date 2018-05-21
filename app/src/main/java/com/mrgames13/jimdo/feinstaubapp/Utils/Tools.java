@@ -1,7 +1,7 @@
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
-import com.mrgames13.jimdo.feinstaubapp.App.Constants;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

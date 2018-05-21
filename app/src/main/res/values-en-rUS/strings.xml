@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Feinstaub App</string>
+    <string name="powered_by">powered by M&amp;R Games</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Ok</string>
@@ -56,7 +57,6 @@
     <string name="sensor_id_">Chip-ID:</string>
     <string name="choose_color">Choose color</string>
     <string name="not_all_filled">Please fill all fields</string>
-    <string name="id_7_chars">ID must have 7 or 8 numbers</string>
     <string name="sensor_existing">Sensor is already linked</string>
     <string name="date">Date</string>
     <string name="change_date">Change date</string>

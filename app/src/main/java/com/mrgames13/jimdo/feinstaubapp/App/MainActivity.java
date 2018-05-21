@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;

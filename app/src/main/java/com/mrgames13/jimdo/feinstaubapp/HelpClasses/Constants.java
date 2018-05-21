@@ -1,4 +1,4 @@
-package com.mrgames13.jimdo.feinstaubapp.App;
+package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 public class Constants {
 

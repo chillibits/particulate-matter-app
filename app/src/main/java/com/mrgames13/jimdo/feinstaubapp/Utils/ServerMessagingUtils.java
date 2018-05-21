@@ -9,8 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
-import com.mrgames13.jimdo.feinstaubapp.App.Constants;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.io.BufferedInputStream;
