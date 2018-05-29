@@ -2,7 +2,6 @@
 <resources>
 
     <!-- General Settings -->
-    <string name="pref_header_general">Allgemein</string>
 
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
@@ -21,6 +20,7 @@
     <string name="pref_limit_sdsp2">PM2.5 Grenzwert</string>
     <string name="pref_limit_temp">Temperatur Grenzwert</string>
     <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
+    <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
     <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
 
     <!-- Performance Settings -->

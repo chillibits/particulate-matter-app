@@ -101,16 +101,18 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
         if(csv_string.equals("")) return new ArrayList<>();
+        Log.d("FA", csv_string);
         ArrayList<DataRecord> records = new ArrayList<>();
         //In Zeilen aufspalten
         String[] lines = csv_string.split("\\r?\\n");
-        for(int i = 1; i < lines.length; i++) {
+        for(int i = 1; i < lines.length; i ++) {
             try{
                 Date time = new Date();
                 Double sdsp1 = 0.0;
                 Double sdsp2 = 0.0;
                 Double temp = 0.0;
                 Double humidity = 0.0;
+                Double pressure = 0.0;
                 //SimpleDateFormat initialisieren
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 sdf.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
@@ -124,8 +126,11 @@ public class StorageUtils extends SQLiteOpenHelper {
                 if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]);
                 if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]);
                 if(!line_contents[12].equals("")) humidity = Double.parseDouble(line_contents[12]);
+                if(!line_contents[13+2].equals("")) temp = Double.parseDouble(line_contents[13+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
+                if(!line_contents[14+2].equals("")) humidity = Double.parseDouble(line_contents[14+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
+                if(!line_contents[15+2].equals("")) pressure = Double.parseDouble(line_contents[15+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
 
-                records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity));
+                records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity, pressure));
             } catch (Exception e) {}
         }
         return records;

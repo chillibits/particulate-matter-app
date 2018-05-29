@@ -8,7 +8,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:weightSum="5.04">
+        android:weightSum="6.05">
 
         <TextView
             android:id="@+id/item_time"
@@ -80,6 +80,23 @@
 
         <TextView
             android:id="@+id/item_humidity"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/loading"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.01"
+            android:background="@color/gray_light"/>
+
+        <TextView
+            android:id="@+id/item_pressure"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"

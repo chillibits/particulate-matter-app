@@ -34,7 +34,6 @@
             android:text="@string/no_sensors" />
 
         <ImageView
-            android:id="@+id/no_data_image"
             android:layout_width="200dp"
             android:layout_height="300dp"
             android:layout_centerHorizontal="true"

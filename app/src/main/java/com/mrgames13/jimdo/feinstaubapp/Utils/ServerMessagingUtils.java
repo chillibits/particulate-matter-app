@@ -1,7 +1,6 @@
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -31,7 +30,6 @@ public class ServerMessagingUtils {
     private final String DATA_URL = "https://www.madavi.de/sensor/data";
 
     //Variablen als Objekte
-    private Resources res;
     private Context context;
     private ConnectivityManager cm;
     private WifiManager wifiManager;
@@ -44,7 +42,6 @@ public class ServerMessagingUtils {
 
     public ServerMessagingUtils(Context context, StorageUtils su) {
         this.context = context;
-        this.res = context.getResources();
         this.su = su;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);

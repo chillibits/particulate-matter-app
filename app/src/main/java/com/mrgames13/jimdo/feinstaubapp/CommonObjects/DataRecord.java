@@ -18,13 +18,15 @@ public class DataRecord implements Comparable {
     private Double sdsp2;
     private Double temp;
     private Double humidity;
+    private Double pressure;
 
-    public DataRecord(Date time, Double sdsp1, Double sdsp2, Double temp, Double humidity) {
+    public DataRecord(Date time, Double sdsp1, Double sdsp2, Double temp, Double humidity, Double pressure) {
         this.date_time = time;
         this.sdsp1 = sdsp1;
         this.sdsp2 = sdsp2;
         this.temp = temp;
         this.humidity = humidity;
+        this.pressure = pressure;
     }
 
     public void setDateTime(Date date_time) {
@@ -62,6 +64,13 @@ public class DataRecord implements Comparable {
         return humidity;
     }
 
+    public void setPressure(Double pressure) {
+        this.pressure = pressure;
+    }
+    public Double getPressure() {
+        return pressure;
+    }
+
     @Override
     public int compareTo(@NonNull Object another) {
         try{
@@ -77,6 +86,8 @@ public class DataRecord implements Comparable {
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) return other_record.getTemp().compareTo(getTemp());
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) return getHumidity().compareTo(other_record.getHumidity());
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return other_record.getHumidity().compareTo(getHumidity());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) return getPressure().compareTo(other_record.getPressure());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_DESC) return other_record.getPressure().compareTo(getPressure());
         } catch (Exception e) {}
         return 0;
     }

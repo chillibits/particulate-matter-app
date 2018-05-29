@@ -17,7 +17,6 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_data"
@@ -26,248 +25,293 @@
             android:textSize="17sp"/>
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/data_heading"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:weightSum="5.04"
-        android:visibility="invisible">
-
-        <TextView
-            android:id="@+id/heading_time"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/date_time"/>
-
-        <ImageView
-            android:id="@+id/sort_time"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            app:srcCompat="@drawable/arrow_drop_down_grey"
-            android:visibility="visible"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/heading_sdsp1"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/value1"/>
-
-        <ImageView
-            android:id="@+id/sort_sdsp1"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            app:srcCompat="@drawable/arrow_drop_down_grey"
-            android:visibility="invisible"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/heading_sdsp2"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/value2"/>
-
-        <ImageView
-            android:id="@+id/sort_sdsp2"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            app:srcCompat="@drawable/arrow_drop_down_grey"
-            android:visibility="invisible"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/heading_temp"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/temperature_short"/>
-
-        <ImageView
-            android:id="@+id/sort_temp"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            app:srcCompat="@drawable/arrow_drop_down_grey"
-            android:visibility="invisible"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/heading_humidity"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/humidity_short"/>
-
-        <ImageView
-            android:id="@+id/sort_humidity"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            app:srcCompat="@drawable/arrow_drop_down_grey"
-            android:visibility="invisible"/>
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/data"
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@+id/data_heading"
-        android:layout_above="@+id/data_footer"
-        android:layout_toRightOf="@+id/no_data"
-        android:layout_toEndOf="@+id/no_data" />
+        android:layout_above="@+id/record_counter">
+
+        <RelativeLayout
+            android:layout_width="530dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/data_heading"
+                android:orientation="horizontal"
+                android:layout_width="530dp"
+                android:layout_height="30dp"
+                android:weightSum="6.05"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/heading_time"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/date_time"/>
+
+                <ImageView
+                    android:id="@+id/sort_time"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="visible"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/heading_sdsp1"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/value1"/>
+
+                <ImageView
+                    android:id="@+id/sort_sdsp1"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="invisible"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/heading_sdsp2"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/value2"/>
+
+                <ImageView
+                    android:id="@+id/sort_sdsp2"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="invisible"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/heading_temp"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/temperature_short"/>
+
+                <ImageView
+                    android:id="@+id/sort_temp"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="invisible"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/heading_humidity"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/humidity_short"/>
+
+                <ImageView
+                    android:id="@+id/sort_humidity"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="invisible"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/heading_pressure"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/pressure_short"/>
+
+                <ImageView
+                    android:id="@+id/sort_pressure"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/arrow_drop_down_grey"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/data"
+                android:layout_width="530dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/data_heading"
+                android:layout_above="@+id/data_footer"/>
+
+            <LinearLayout
+                android:id="@+id/data_footer"
+                android:orientation="horizontal"
+                android:layout_width="530dp"
+                android:layout_height="30dp"
+                android:weightSum="6.05"
+                android:background="@color/white_dark"
+                android:layout_alignParentBottom="true"
+                android:visibility="invisible">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Ø" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/footer_sdsp1"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/loading"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/footer_sdsp2"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/loading"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/footer_temp"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/loading"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/footer_humidity"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/loading"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/gray_light"/>
+
+                <TextView
+                    android:id="@+id/footer_pressure"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/loading"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </HorizontalScrollView>
 
     <com.turingtechnologies.materialscrollbar.DragScrollBar
-        android:id="@+id/scroll_bar"
         android:layout_width="wrap_content"
         app:msb_recyclerView="@id/data"
         app:msb_lightOnTouch="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/data"
-        android:layout_alignBottom="@+id/data"
+        android:layout_alignTop="@+id/scroll_view"
+        android:layout_alignBottom="@+id/scroll_view"
         android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:id="@+id/data_footer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_above="@+id/record_counter"
-        android:weightSum="5.04"
-        android:background="@color/white_dark"
-        android:visibility="invisible">
-
-        <TextView
-            android:id="@+id/footer_time"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="Ø" />
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/footer_sdsp1"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/footer_sdsp2"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/footer_temp"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/footer_humidity"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-    </LinearLayout>
 
     <TextView
         android:id="@+id/no_data"

@@ -61,6 +61,14 @@
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:summary="%s %"/>
+
+        <EditTextPreference
+            android:key="limit_pressure"
+            android:defaultValue="0"
+            android:title="@string/pref_limit_pressure"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:summary="%s Pa"/>
     </PreferenceCategory>
 
     <PreferenceCategory

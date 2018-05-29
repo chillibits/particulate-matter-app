@@ -12,6 +12,7 @@ public class Constants {
     public static final int DEFAULT_SDSP2_LIMIT = 25;
     public static final int DEFAULT_TEMP_LIMIT = 0;
     public static final int DEFAULT_HUMIDITY_LIMIT = 0;
+    public static final int DEFAULT_PRESSURE_LIMIT = 0;
 
     //Globale Requestcodes
     public static final int REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001;

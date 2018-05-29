@@ -185,6 +185,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@+id/heading_humidity"/>
+
+            <TextView
+                android:id="@+id/heading_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pressure"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/diagram_humidity"
+                android:textSize="17.5sp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/diagram_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/heading_pressure"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

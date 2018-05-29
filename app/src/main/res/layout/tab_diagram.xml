@@ -16,7 +16,6 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_data"
@@ -100,6 +99,14 @@
                         android:text="@string/humidity"
                         android:layout_below="@+id/custom_temp"
                         android:buttonTint="@color/series4"/>
+
+                    <CheckBox
+                        android:id="@+id/custom_pressure"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pressure"
+                        android:layout_below="@+id/custom_humidity"
+                        android:buttonTint="@color/series5"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -132,7 +139,6 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/lbl_cv_sdsp1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white_dark"
@@ -157,7 +163,6 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/lbl_cv_sdsp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/value2"
@@ -182,7 +187,6 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/lbl_cv_temp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/temperature"
@@ -207,7 +211,6 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/lbl_cv_humidity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/humidity"
@@ -223,6 +226,30 @@
                         android:padding="5dp"
                         android:layout_weight="1"
                         android:background="@color/white_dark"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pressure"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/white_dark"/>
+
+                    <TextView
+                        android:id="@+id/cv_pressure"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"/>
                 </LinearLayout>
 
                 <TextView

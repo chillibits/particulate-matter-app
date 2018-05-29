@@ -46,6 +46,7 @@ public class DiagramActivity extends AppCompatActivity {
     private boolean show_series_2;
     private boolean show_series_3;
     private boolean show_series_4;
+    private boolean show_series_5;
     private int mode = MODE_SENSOR_DATA;
 
     @Override
@@ -63,6 +64,7 @@ public class DiagramActivity extends AppCompatActivity {
         show_series_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
         show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
         show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
+        show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
 
         if(mode == MODE_SENSOR_DATA) {
             //Daten von der SensorActivity übernehmen
@@ -125,28 +127,34 @@ public class DiagramActivity extends AppCompatActivity {
                 LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
                 LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>();
                 LineGraphSeries<DataPoint> series4 = new LineGraphSeries<>();
+                LineGraphSeries<DataPoint> series5 = new LineGraphSeries<>();
                 series1.setDrawDataPoints(true);
                 series2.setDrawDataPoints(true);
                 series3.setDrawDataPoints(true);
                 series4.setDrawDataPoints(true);
+                series5.setDrawDataPoints(true);
                 series1.setDataPointsRadius(8);
                 series2.setDataPointsRadius(8);
                 series3.setDataPointsRadius(8);
                 series4.setDataPointsRadius(8);
+                series5.setDataPointsRadius(8);
                 series1.setColor(res.getColor(R.color.series1));
                 series2.setColor(res.getColor(R.color.series2));
                 series3.setColor(res.getColor(R.color.series3));
                 series4.setColor(res.getColor(R.color.series4));
+                series5.setColor(res.getColor(R.color.series5));
                 series1.setTitle(res.getString(R.string.value1));
                 series2.setTitle(res.getString(R.string.value2));
                 series3.setTitle(res.getString(R.string.temperature));
                 series4.setTitle(res.getString(R.string.humidity));
+                series5.setTitle(res.getString(R.string.pressure));
                 for(DataRecord record : records) {
                     try{
                         series1.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp1()), false, 1000000);
                         series2.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp2()), false, 1000000);
                         series3.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
                         series4.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
+                        series5.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
                     } catch (Exception e) {}
                 }
                 series1.setOnDataPointTapListener(new OnDataPointTapListener() {
@@ -173,10 +181,17 @@ public class DiagramActivity extends AppCompatActivity {
                         showDetailPopup(dataPoint);
                     }
                 });
+                series5.setOnDataPointTapListener(new OnDataPointTapListener() {
+                    @Override
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
+                    }
+                });
                 if(show_series_1) graph_view.addSeries(series1);
                 if(show_series_2) graph_view.addSeries(series2);
                 if(show_series_3) graph_view.addSeries(series3);
                 if(show_series_4) graph_view.addSeries(series4);
+                if(show_series_5) graph_view.addSeries(series5);
             } else if(mode == MODE_COMPARE_DATA) {
                 for(int i = 0; i < compare_sensors.size(); i++) {
                     LineGraphSeries<DataPoint> current_series = new LineGraphSeries<>();
@@ -191,6 +206,8 @@ public class DiagramActivity extends AppCompatActivity {
                         current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.temperature));
                     } else if(show_series_4) {
                         current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.humidity));
+                    } else if(show_series_5) {
+                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.pressure));
                     }
 
                     for(DataRecord record : compare_records.get(i)) {
@@ -203,6 +220,8 @@ public class DiagramActivity extends AppCompatActivity {
                                 current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
                             } else if(show_series_4) {
                                 current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
+                            } else if(show_series_5) {
+                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

@@ -37,6 +37,7 @@ public class SyncService extends Service {
     private int max_limit_sdsp2;
     private int max_limit_temp;
     private int max_limit_humidity;
+    private int max_limit_pressure;
 
     @Nullable
     @Override
@@ -70,6 +71,7 @@ public class SyncService extends Service {
                     max_limit_sdsp2 = Integer.parseInt(su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT)));
                     max_limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
                     max_limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
+                    max_limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
 
                     //Date String von Heute ermitteln
                     Calendar calendar = Calendar.getInstance();
@@ -118,6 +120,11 @@ public class SyncService extends Service {
                                     Log.i("FA", "Humidity limit exceeded");
                                     //Luftfeuchtigkeit Notification
                                     nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), Integer.parseInt(s.getId()), r.getDateTime().getTime());
+                                }
+                                if(max_limit_pressure > 0 && r.getPressure() > max_limit_pressure) {
+                                    Log.i("FA", "Pressure limit exceeded");
+                                    //Luftdruck Notification
+                                    nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), Integer.parseInt(s.getId()), r.getDateTime().getTime());
                                 }
                             }
                         }

@@ -157,8 +157,9 @@ public class SettingsActivity extends PreferenceActivity {
         EditTextPreference limit_sdsp2 = (EditTextPreference) findPreference("limit_sdsp2");
         EditTextPreference limit_temp = (EditTextPreference) findPreference("limit_temp");
         EditTextPreference limit_humidity = (EditTextPreference) findPreference("limit_humidity");
+        EditTextPreference limit_pressure = (EditTextPreference) findPreference("limit_pressure");
 
-        limit_sdsp1.setSummary(Integer.parseInt(su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_TEMP_LIMIT))) > 0 ? su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_sdsp1.setSummary(Integer.parseInt(su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT))) > 0 ? su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
         limit_sdsp1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -168,7 +169,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_sdsp2.setSummary(Integer.parseInt(su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_TEMP_LIMIT))) > 0 ? su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_sdsp2.setSummary(Integer.parseInt(su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT))) > 0 ? su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
         limit_sdsp2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -189,12 +190,22 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_TEMP_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)) + "%" : res.getString(R.string.pref_limit_disabled));
+        limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)) + "%" : res.getString(R.string.pref_limit_disabled));
         limit_humidity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
                 preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + "%" : res.getString(R.string.pref_limit_disabled));
+                return false;
+            }
+        });
+
+        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " Pa" : res.getString(R.string.pref_limit_disabled));
+        limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " Pa" : res.getString(R.string.pref_limit_disabled));
                 return false;
             }
         });

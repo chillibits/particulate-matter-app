@@ -46,6 +46,8 @@ public class SensorActivity extends AppCompatActivity {
     public static final int SORT_MODE_TEMP_DESC = 108;
     public static final int SORT_MODE_HUMIDITY_ASC = 109;
     public static final int SORT_MODE_HUMIDITY_DESC = 110;
+    public static final int SORT_MODE_PRESSURE_ASC = 111;
+    public static final int SORT_MODE_PRESSURE_DESC = 112;
 
     //Variablen als Objekte
     private Resources res;
@@ -73,6 +75,7 @@ public class SensorActivity extends AppCompatActivity {
     public static boolean custom_sdsp2 = true;
     public static boolean custom_temp = false;
     public static boolean custom_humidity = false;
+    public static boolean custom_pressure = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

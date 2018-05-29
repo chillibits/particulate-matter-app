@@ -54,6 +54,7 @@ public class CompareActivity extends AppCompatActivity {
     private GraphView diagram_sdsp2;
     private GraphView diagram_temp;
     private GraphView diagram_humidity;
+    private GraphView diagram_pressure;
     private DatePickerDialog date_picker_dialog;
 
     //Variablen
@@ -228,6 +229,27 @@ public class CompareActivity extends AppCompatActivity {
             }
         });
 
+        diagram_pressure = findViewById(R.id.diagram_pressure);
+        diagram_pressure.getGridLabelRenderer().setNumHorizontalLabels(3);
+        diagram_pressure.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if(!isValueX) return super.formatLabel(value, isValueX);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) value);
+                return sdf_time.format(cal.getTime());
+            }
+        });
+        diagram_pressure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
+                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
+                i.putExtra("Show5", true);
+                startActivity(i);
+            }
+        });
+
         reloadData();
     }
 
@@ -291,6 +313,7 @@ public class CompareActivity extends AppCompatActivity {
                 diagram_sdsp2.removeAllSeries();
                 diagram_humidity.removeAllSeries();
                 diagram_temp.removeAllSeries();
+                diagram_pressure.removeAllSeries();
 
                 //Date String von Gestern ermitteln
                 String date_yesterday = date_string;
@@ -384,6 +407,21 @@ public class CompareActivity extends AppCompatActivity {
                             diagram_humidity.getViewport().setMaxX(last_time);
                             diagram_humidity.getViewport().scrollToEnd();
                             diagram_humidity.getViewport().setScalable(false);
+
+                            LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
+                            series_pressure.setColor(sensors.get(i).getColor());
+                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                                Date time = record.getDateTime();
+                                try{
+                                    series_pressure.appendData(new DataPoint(time.getTime(), record.getPressure()), false, 1000000);
+                                } catch (Exception e) {}
+                            }
+                            diagram_pressure.addSeries(series_pressure);
+                            diagram_pressure.getViewport().setScalable(true);
+                            diagram_pressure.getViewport().setMinX(first_time);
+                            diagram_pressure.getViewport().setMaxX(last_time);
+                            diagram_pressure.getViewport().scrollToEnd();
+                            diagram_pressure.getViewport().setScalable(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

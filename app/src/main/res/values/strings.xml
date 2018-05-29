@@ -2,13 +2,8 @@
     <!-- Common Strings -->
     <string name="app_name">Feinstaub App</string>
     <string name="powered_by">powered by M&amp;R Games</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nein</string>
     <string name="ok">Ok</string>
-    <string name="next">Weiter</string>
     <string name="cancel">Abbrechen</string>
-    <string name="error_try_again">Fehler! Bitte erneut versuchen.</string>
-    <string name="error">Fehler</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
     <string name="no_data">Keine Daten</string>
@@ -25,7 +20,6 @@
     <string name="delete_sensor">Sensor löschen</string>
     <string name="really_delete_sensor">Wollen Sie den ausgewählten Sensor wirklich löschen</string>
     <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten, um einen Feinstaubsensor zu verknüpfen.</string>
-    <string name="add_private_sensor">Eigenen Sensor hinzufügen</string>
 
     <!-- AddSensorActivity -->
     <string name="add_sensor">Sensor hinzufügen</string>
@@ -38,7 +32,6 @@
 
     <!-- SensorActivity -->
     <string name="date">Datum</string>
-    <string name="change_date">Datum ändern</string>
     <string name="tab_diagram">Diagramm</string>
     <string name="tab_data">Datensätze</string>
     <string name="refresh">Aktualisieren</string>
@@ -48,17 +41,13 @@
     <string name="value2" translatable="false">PM2.5</string>
     <string name="temperature_short">Temp</string>
     <string name="temperature">Temperatur</string>
-    <string name="humidity_short">Lfkt</string>
+    <string name="humidity_short">Luftftk</string>
+    <string name="pressure_short">Luftdrk</string>
     <string name="humidity">Luftfeuchtigkeit</string>
-    <string name="sensor_id_t">Sensor-ID</string>
-    <string name="sensor_id_m">Bitte Sensor-ID eingeben:</string>
-    <string name="custom_diagram">Benutzerdefiniertes Diagramm</string>
+    <string name="pressure">Luftdruck</string>
     <string name="no_diagram_selected">Kein Diagramm ausgewählt</string>
     <string name="from">von</string>
     <string name="to">bis</string>
-    <string name="device1">Sensor 1</string>
-    <string name="device2">Sensor 2</string>
-    <string name="device3">Sensor 3</string>
     <string name="current_values">Aktuelle Messwerte</string>
     <string name="state_of_">Stand</string>
 
@@ -72,6 +61,6 @@
     <string name="limit_exceeded_sdsp2">PM2,5 Grenzwert überschritten</string>
     <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
     <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
-    <string name="add_global_sensor">Add sensor</string>
+    <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
 
 </resources>

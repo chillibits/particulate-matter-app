@@ -30,7 +30,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClas
         TextView item_sdsp2;
         TextView item_temp;
         TextView item_humidity;
-
+        TextView item_pressure;
 
         public ViewHolderClass(View itemView) {
             super(itemView);
@@ -40,6 +40,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClas
             item_sdsp2 = itemView.findViewById(R.id.item_sdsp2);
             item_temp = itemView.findViewById(R.id.item_temp);
             item_humidity = itemView.findViewById(R.id.item_humidity);
+            item_pressure = itemView.findViewById(R.id.item_pressure);
         }
     }
 
@@ -58,6 +59,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderClas
         holder.item_sdsp2.setText(String.valueOf(Tools.round(record.getSdsp2(), 1)).replace(".", ",") + " µg/m³");
         holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",") + " °C");
         holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",") + " %");
+        holder.item_pressure.setText(String.valueOf((int) Math.round(record.getPressure())).replace(".", ",") + " Pa");
     }
 
     @Override
