@@ -124,7 +124,7 @@ public class SettingsActivity extends PreferenceActivity {
         sync_cycle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 1) o = "1";
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 20) return false;
                 preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
                 return true;
             }
@@ -135,7 +135,7 @@ public class SettingsActivity extends PreferenceActivity {
         sync_cycle_background.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 1) o = "1";
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 10) return false;
                 preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
 
                 //AlarmManager updaten

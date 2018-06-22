@@ -4,7 +4,7 @@ public class Constants {
 
     //Standardwerte
     public static final int DEFAULT_SYNC_CYCLE = 30; // 30 Sekunden
-    public static final int DEFAULT_SYNC_CYCLE_BACKGROUND = 5; // 30 Minuten
+    public static final int DEFAULT_SYNC_CYCLE_BACKGROUND = 10; // 10 Minuten
     public static final boolean DEFAULT_REDUCE_DATA_CONSUMPTION = true;
     public static final boolean DEFAULT_FIT_ARRAY_LIST_ENABLED = true;
     public static final int DEFAULT_FIT_ARRAY_LIST_CONSTANT = 200; // bei über 200 Datensätzen wird optimiert

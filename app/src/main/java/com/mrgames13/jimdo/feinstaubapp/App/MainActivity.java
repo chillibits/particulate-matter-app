@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         sensor_view.setLayoutManager(new LinearLayoutManager(this));
 
         refresh();
+
+        //Update 1.2.1 TODO: BITTE SPÄTER ENTFERNEN
+        if(Integer.parseInt(su.getString("sync_cycle")) < 20) su.putString("sync_cycle", "30");
+        if(Integer.parseInt(su.getString("sync_cycle_background")) < 10) su.putString("sync_cycle_background", "10");
     }
 
     @Override

@@ -5,17 +5,17 @@
 
         <EditTextPreference
             android:key="sync_cycle"
-            android:defaultValue="10"
             android:title="@string/sync_cycle"
             android:inputType="number"
+            android:defaultValue="30"
             android:selectAllOnFocus="true"
             android:summary="%s Sekunden"/>
 
         <EditTextPreference
             android:key="sync_cycle_background"
-            android:defaultValue="5"
             android:title="@string/sync_cycle_background"
             android:inputType="number"
+            android:defaultValue="10"
             android:selectAllOnFocus="true"
             android:summary="%s Minuten"/>
 
