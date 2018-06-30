@@ -76,4 +76,8 @@
     <string name="pressure">Pressure</string>
     <string name="pref_limit_pressure">Pressure limit</string>
     <string name="limit_exceeded_pressure">Pressure limit exceeded</string>
+    <string name="nc_system_name">System notifications</string>
+    <string name="nc_limit_name">limit exceedings</string>
+    <string name="nc_system_description">System notifications from the Feinstaub-App.</string>
+    <string name="nc_limit_description">Display notifications in the status bar, when one of the adjusted limit is exceeded.</string>
 </resources>

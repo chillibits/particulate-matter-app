@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- General Settings -->
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">System-Benachrichtigungen</string>
+    <string name="nc_system_description">System-Benachrichtigungen der Feinstaub-App.</string>
+    <string name="nc_limit_name">Grenzwertüberschreitungen</string>
+    <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
 
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>

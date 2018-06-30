@@ -1,13 +1,16 @@
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -42,11 +45,27 @@ public class NotificationUtils {
         nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
     }
 
-    public void displayLimitExceededNotification(String title, String message, int id, long time) {
-        displayNotification(title, message, id, new Intent(context, MainActivity.class), PRIORITY_NORMAL, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+    public static void createNotificationChannels(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            //System-Channel
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel_system = new NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance);
+            channel_system.setDescription(context.getString(R.string.nc_system_description));
+            notificationManager.createNotificationChannel(channel_system);
+            //Limit-Channel
+            importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel_limit = new NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance);
+            channel_limit.setDescription(context.getString(R.string.nc_limit_description));
+            notificationManager.createNotificationChannel(channel_limit);
+        }
     }
 
-    public void displayNotification(String title, String message, int id, Intent i, int priority, int light_lenght, long[] vibration, long time) {
+    public void displayLimitExceededNotification(String title, String message, int id, long time) {
+        displayNotification(Constants.CHANNEL_LIMIT, title, message, id, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+    }
+
+    public void displayNotification(String channel_id, String title, String message, int id, Intent i, int priority, int light_lenght, long[] vibration, long time) {
         //Notification aufbauen
         NotificationCompat.Builder n = buildNotification(title, message);
         n.setAutoCancel(true);
@@ -66,6 +85,7 @@ public class NotificationUtils {
         } else if(priority == PRIORITY_LOW) {
             n.setPriority(NotificationCompat.PRIORITY_LOW);
         }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) n.setChannelId(channel_id);
         nm.notify(id, n.build());
     }
 

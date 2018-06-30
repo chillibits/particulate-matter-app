@@ -228,14 +228,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateSDSP1(boolean value) {
             if(value) {
                 try {
-                    long first_time = records.get(0).getDateTime().getTime() / 1000;
+                    if(records.size() > 0) {
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
 
-                    series1 = new LineGraphSeries<>();
-                    series1.setColor(res.getColor(R.color.series1));
-                    for(DataRecord record : Tools.fitArrayList(su, records)) {
-                        series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
+                        series1 = new LineGraphSeries<>();
+                        series1.setColor(res.getColor(R.color.series1));
+                        for(DataRecord record : Tools.fitArrayList(su, records)) {
+                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
+                        }
+                        graph_view.addSeries(series1);
                     }
-                    graph_view.addSeries(series1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -247,14 +249,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateSDSP2(boolean value) {
             if(value) {
                 try {
-                    long first_time = records.get(0).getDateTime().getTime() / 1000;
+                    if(records.size() > 0) {
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
 
-                    series2 = new LineGraphSeries<>();
-                    series2.setColor(res.getColor(R.color.series2));
-                    for(DataRecord record : Tools.fitArrayList(su, records)) {
-                        series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
+                        series2 = new LineGraphSeries<>();
+                        series2.setColor(res.getColor(R.color.series2));
+                        for(DataRecord record : Tools.fitArrayList(su, records)) {
+                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
+                        }
+                        graph_view.addSeries(series2);
                     }
-                    graph_view.addSeries(series2);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -266,14 +270,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateTemp(boolean value) {
             if(value) {
                 try {
-                    long first_time = records.get(0).getDateTime().getTime() / 1000;
+                    if(records.size() > 0) {
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
 
-                    series3 = new LineGraphSeries<>();
-                    series3.setColor(res.getColor(R.color.series3));
-                    for(DataRecord record : Tools.fitArrayList(su, records)) {
-                        series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
+                        series3 = new LineGraphSeries<>();
+                        series3.setColor(res.getColor(R.color.series3));
+                        for(DataRecord record : Tools.fitArrayList(su, records)) {
+                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
+                        }
+                        graph_view.addSeries(series3);
                     }
-                    graph_view.addSeries(series3);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -285,14 +291,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updateHumidity(boolean value) {
             if(value) {
                 try {
-                    long first_time = records.get(0).getDateTime().getTime() / 1000;
+                    if(records.size() > 0) {
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
 
-                    series4 = new LineGraphSeries<>();
-                    series4.setColor(res.getColor(R.color.series4));
-                    for(DataRecord record : Tools.fitArrayList(su, records)) {
-                        series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                        series4 = new LineGraphSeries<>();
+                        series4.setColor(res.getColor(R.color.series4));
+                        for(DataRecord record : Tools.fitArrayList(su, records)) {
+                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                        }
+                        graph_view.addSeries(series4);
                     }
-                    graph_view.addSeries(series4);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -304,14 +312,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static void updatePressure(boolean value) {
             if(value) {
                 try {
-                    long first_time = records.get(0).getDateTime().getTime() / 1000;
+                    if(records.size() > 0) {
+                        long first_time = records.get(0).getDateTime().getTime() / 1000;
 
-                    series5 = new LineGraphSeries<>();
-                    series5.setColor(res.getColor(R.color.series5));
-                    for(DataRecord record : Tools.fitArrayList(su, records)) {
-                        series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
+                        series5 = new LineGraphSeries<>();
+                        series5.setColor(res.getColor(R.color.series5));
+                        for(DataRecord record : Tools.fitArrayList(su, records)) {
+                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
+                        }
+                        graph_view.addSeries(series5);
                     }
-                    graph_view.addSeries(series5);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -322,11 +332,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
         private static void updateLastValues() {
             if(SensorActivity.records.size() > 0 && SensorActivity.date_string.equals(SensorActivity.current_date_string)) {
-                cv_sdsp1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp1()));
-                cv_sdsp2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp2()));
-                cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()));
-                cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()));
-                cv_pressure.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure()));
+                cv_sdsp1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp1()) + " µg/m³");
+                cv_sdsp2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getSdsp2()) + " µg/m³");
+                cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()) + " °C");
+                cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()) + " %");
+                cv_pressure.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure()) + " Pa");
                 SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 cv_time.setText(res.getString(R.string.state_of_) + " " + sdf_date.format(SensorActivity.records.get(SensorActivity.records.size() -1).getDateTime()));
 

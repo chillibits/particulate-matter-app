@@ -7,8 +7,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 120
-        versionName "1.2.0"
+        versionCode 122
+        versionName "1.2.2"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -42,5 +42,4 @@ dependencies {
     implementation 'com.github.turing-tech:MaterialScrollBar:13.+'
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
     implementation 'com.github.lguipeng:AnimCheckBox:1.0.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

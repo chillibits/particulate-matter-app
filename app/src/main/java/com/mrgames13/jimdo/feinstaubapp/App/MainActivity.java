@@ -26,6 +26,7 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 import java.util.ArrayList;
@@ -82,7 +83,13 @@ public class MainActivity extends AppCompatActivity {
         sensor_view = findViewById(R.id.sensor_view);
         sensor_view.setLayoutManager(new LinearLayoutManager(this));
 
+        NotificationUtils.createNotificationChannels(this);
+
         refresh();
+
+        //Update 1.2.1 TODO: BITTE SPÄTER ENTFERNEN
+        if(!su.getString("sync_cycle").equals("") && Integer.parseInt(su.getString("sync_cycle")) < 20) su.putString("sync_cycle", "30");
+        if(!su.getString("sync_cycle_background").equals("") && Integer.parseInt(su.getString("sync_cycle_background")) < 10) su.putString("sync_cycle_background", "10");
     }
 
     @Override

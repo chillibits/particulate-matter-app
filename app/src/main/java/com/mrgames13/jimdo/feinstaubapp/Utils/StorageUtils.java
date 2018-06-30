@@ -101,7 +101,6 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
         if(csv_string.equals("")) return new ArrayList<>();
-        Log.d("FA", csv_string);
         ArrayList<DataRecord> records = new ArrayList<>();
         //In Zeilen aufspalten
         String[] lines = csv_string.split("\\r?\\n");

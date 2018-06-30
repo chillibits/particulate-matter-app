@@ -13,8 +13,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.MutedVideoView;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
 
     //Variablen als Objekte
     private RelativeLayout container;
-    private VideoView animation;
+    private MutedVideoView animation;
     private ImageView app_icon;
     private TextView app_name;
     private TextView powered_by;

@@ -27,7 +27,7 @@ public class ServerMessagingUtils {
 
     //Konstanten
     private final String REPOSITORY_URL = "https://www.madavi.de/sensor/csvfiles.php";
-    private final String DATA_URL = "https://www.madavi.de/sensor/data";
+    private final String DATA_URL = "https://www.madavi.de/sensor/data_csv";
 
     //Variablen als Objekte
     private Context context;
@@ -52,7 +52,7 @@ public class ServerMessagingUtils {
         //Eingestellter Tag
         if(isCSVFileExisting(date_string, sensor.getId())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_string) > su.getCSVLastModified(sensor.getId(), date_string)) {
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_string) > su.getCSVLastModified(sensor.getId(), date_string)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV1 ...");
                 downloadCSVFile(date_string, sensor.getId());
@@ -64,7 +64,7 @@ public class ServerMessagingUtils {
             //CSV-Datei existiert nicht
             if(isZipFileExisting(date_string, sensor.getId())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_string) > su.getZipLastModified(sensor.getId(), date_string)) {
+                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_string) > su.getZipLastModified(sensor.getId(), date_string)) {
                     Log.i("FA", "Downloading ZIP1 ...");
                     if(downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
                 } else {
@@ -76,7 +76,7 @@ public class ServerMessagingUtils {
         //Tag davor
         if(isCSVFileExisting(date_yesterday, sensor.getId())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_yesterday) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_yesterday) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV2 ...");
                 downloadCSVFile(date_yesterday, sensor.getId());
@@ -88,7 +88,7 @@ public class ServerMessagingUtils {
             //CSV-Datei existiert nicht
             if(isZipFileExisting(date_yesterday, sensor.getId())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_yesterday) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
+                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_yesterday) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
                     Log.i("FA", "Downloading ZIP2 ...");
                     if(downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
                 } else {
@@ -136,7 +136,9 @@ public class ServerMessagingUtils {
             i.close();
 
             return true;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -172,7 +174,9 @@ public class ServerMessagingUtils {
             i.close();
 
             return true;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -184,9 +188,13 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             String new_date = format.format(newDate);
 
+            Log.d("FA",DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv");
+
             String url = DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv";
             return isOnlineResourceExisting(url);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -196,7 +204,9 @@ public class ServerMessagingUtils {
             String year = date.substring(6);
             String url = DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip";
             return isOnlineResourceExisting(url);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -224,7 +234,9 @@ public class ServerMessagingUtils {
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return -1;
     }
 
@@ -237,7 +249,9 @@ public class ServerMessagingUtils {
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return -1;
     }
 
