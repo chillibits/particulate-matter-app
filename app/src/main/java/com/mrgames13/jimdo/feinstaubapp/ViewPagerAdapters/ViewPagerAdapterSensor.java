@@ -220,11 +220,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             return contentView;
         }
 
-        @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-        }
-
         private static void updateSDSP1(boolean value) {
             if(value) {
                 try {
@@ -234,7 +229,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series1 = new LineGraphSeries<>();
                         series1.setColor(res.getColor(R.color.series1));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
+                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getSdsp1()), false, 1000000);
                         }
                         graph_view.addSeries(series1);
                     }
@@ -255,7 +250,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series2 = new LineGraphSeries<>();
                         series2.setColor(res.getColor(R.color.series2));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
+                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getSdsp2()), false, 1000000);
                         }
                         graph_view.addSeries(series2);
                     }
@@ -276,7 +271,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series3 = new LineGraphSeries<>();
                         series3.setColor(res.getColor(R.color.series3));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
+                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getTemp()), false, 1000000);
                         }
                         graph_view.addSeries(series3);
                     }
@@ -297,7 +292,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series4 = new LineGraphSeries<>();
                         series4.setColor(res.getColor(R.color.series4));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
+                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getHumidity()), false, 1000000);
                         }
                         graph_view.addSeries(series4);
                     }
@@ -318,7 +313,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series5 = new LineGraphSeries<>();
                         series5.setColor(res.getColor(R.color.series5));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
+                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getPressure()), false, 1000000);
                         }
                         graph_view.addSeries(series5);
                     }
@@ -541,11 +536,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
 
             return contentView;
-        }
-
-        @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
         }
 
         private void timeSortClicked() {

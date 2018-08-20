@@ -44,7 +44,7 @@ public class ServerMessagingUtils {
         this.context = context;
         this.su = su;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
@@ -99,7 +99,7 @@ public class ServerMessagingUtils {
         }
     }
 
-    public boolean downloadCSVFile(String date, String sensor_id) {
+    public void downloadCSVFile(String date, String sensor_id) {
         try {
             //Datum umformatieren
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -135,11 +135,9 @@ public class ServerMessagingUtils {
             o.close();
             i.close();
 
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public boolean downloadZipFile(String date, String sensor_id) {

@@ -54,7 +54,7 @@
     <string name="tab_diagram">Diagram</string>
     <string name="tab_data">Data records</string>
     <string name="refresh">Refresh</string>
-    <string name="no_data_date">No data for this date existing</string>
+    <string name="no_data_date">No data existing for this date</string>
     <string name="date_time">Time</string>
     <string name="temperature_short">Temp</string>
     <string name="temperature">Temperature</string>

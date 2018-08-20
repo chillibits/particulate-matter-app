@@ -116,7 +116,7 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void setupPreferencesScreen() {
-        if (!isSimplePreferences(this)) return;
+        if (isSimplePreferences(this)) return;
         addPreferencesFromResource(R.xml.pref_main);
 
         EditTextPreference sync_cycle = (EditTextPreference) findPreference("sync_cycle");
@@ -279,7 +279,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onIsMultiPane() {
-        return isXLargeTablet(this) && !isSimplePreferences(this);
+        return isXLargeTablet(this) && isSimplePreferences(this);
     }
 
     private static boolean isXLargeTablet(Context context) {
@@ -287,13 +287,13 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private static boolean isSimplePreferences(Context context) {
-        return ALWAYS_SIMPLE_PREFS || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB || !isXLargeTablet(context);
+        return !ALWAYS_SIMPLE_PREFS && isXLargeTablet(context);
     }
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
-        if (!isSimplePreferences(this)) loadHeadersFromResource(R.xml.prefs_headers, target);
+        if (isSimplePreferences(this)) loadHeadersFromResource(R.xml.prefs_headers, target);
     }
 
     private static Preference.OnPreferenceChangeListener value_listener = new Preference.OnPreferenceChangeListener() {

@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -31,9 +30,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     //Konstanten
     private final String DEFAULT_STRING_VALUE = "";
-    private final int DEFAULT_INT_VALUE = -1;
     private final int DEFAULT_LONG_VALUE = -1;
-    private final boolean DEFAULT_BOOLEAN_VALUE = false;
     public static final String TABLE_SENSORS = "Sensors";
 
     //Variablen als Objekte
@@ -107,11 +104,11 @@ public class StorageUtils extends SQLiteOpenHelper {
         for(int i = 1; i < lines.length; i ++) {
             try{
                 Date time = new Date();
-                Double sdsp1 = 0.0;
-                Double sdsp2 = 0.0;
-                Double temp = 0.0;
-                Double humidity = 0.0;
-                Double pressure = 0.0;
+                double sdsp1 = 0.0;
+                double sdsp2 = 0.0;
+                double temp = 0.0;
+                double humidity = 0.0;
+                double pressure = 0.0;
                 //SimpleDateFormat initialisieren
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 sdf.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
@@ -143,14 +140,8 @@ public class StorageUtils extends SQLiteOpenHelper {
         return new_records;
     }
 
-    public boolean unpackZipFile(String sensor_id, String date) {
+    public void unpackZipFile(String sensor_id, String date) {
         try {
-            //Datum umformatieren
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            Date newDate = format.parse(date);
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            String new_date = format.format(newDate);
-
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
@@ -186,10 +177,9 @@ public class StorageUtils extends SQLiteOpenHelper {
             zis.close();
 
             //Zip-Datei löschen
-            return new File(path).delete();
+            new File(path).delete();
         } catch(Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -208,57 +198,23 @@ public class StorageUtils extends SQLiteOpenHelper {
     public void putString(String name, String value) {
         e = prefs.edit();
         e.putString(name, value);
-        e.commit();
-    }
-
-    public void putInt(String name, int value) {
-        e = prefs.edit();
-        e.putInt(name, value);
-        e.commit();
+        e.apply();
     }
 
     public void putLong(String name, long value) {
         e = prefs.edit();
         e.putLong(name, value);
-        e.commit();
-    }
-
-    public void putBoolean(String name, boolean value) {
-        e = prefs.edit();
-        e.putBoolean(name, value);
-        e.commit();
-    }
-
-    public void putStringSet(String name, Set<String> value) {
-        e = prefs.edit();
-        e.putStringSet(name, value);
-        e.commit();
+        e.apply();
     }
 
     public String getString(String name) {
         return prefs.getString(name, DEFAULT_STRING_VALUE);
     }
 
-    public int getInt(String name) {
-        return prefs.getInt(name, DEFAULT_INT_VALUE);
-    }
-
     public long getLong(String name) { return prefs.getLong(name, DEFAULT_LONG_VALUE); }
-
-    public boolean getBoolean(String name) {
-        return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE);
-    }
-
-    public Set<String> getStringSet(String name) {
-        return prefs.getStringSet(name, null);
-    }
 
     public String getString(String name, String default_value) {
         return prefs.getString(name, default_value);
-    }
-
-    public int getInt(String name, int default_value) {
-        return prefs.getInt(name, default_value);
     }
 
     public long getLong(String name, long default_value) {
@@ -267,14 +223,6 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public boolean getBoolean(String name, boolean default_value) {
         return prefs.getBoolean(name, default_value);
-    }
-
-    public void clearPair(String name) {
-        prefs.edit().remove(name).commit();
-    }
-
-    public void clear() {
-        prefs.edit().clear().commit();
     }
 
     //------------------------------------------------Datenbank---------------------------------------------
@@ -296,15 +244,9 @@ public class StorageUtils extends SQLiteOpenHelper {
         }
     }
 
-    public long addRecord(String table, ContentValues values) {
+    public void addRecord(String table, ContentValues values) {
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(table, null, values);
-        return id;
-    }
-
-    public void removeRecord(String table, String id) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(table, "ROWID", new String[] {id});
     }
 
     public void execSQL(String command) {

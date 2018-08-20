@@ -29,44 +29,26 @@ public class DataRecord implements Comparable {
         this.pressure = pressure;
     }
 
-    public void setDateTime(Date date_time) {
-        this.date_time = date_time;
-    }
     public Date getDateTime() {
         return date_time;
     }
 
-    public void setSdsp1(Double sdsp1) {
-        this.sdsp1 = sdsp1;
-    }
     public Double getSdsp1() {
         return sdsp1;
     }
 
-    public void setSdsp2(Double sdsp2) {
-        this.sdsp2 = sdsp2;
-    }
     public Double getSdsp2() {
         return sdsp2;
     }
 
-    public void setTemp(Double temp) {
-        this.temp = temp;
-    }
     public Double getTemp() {
         return temp;
     }
 
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
-    }
     public Double getHumidity() {
         return humidity;
     }
 
-    public void setPressure(Double pressure) {
-        this.pressure = pressure;
-    }
     public Double getPressure() {
         return pressure;
     }

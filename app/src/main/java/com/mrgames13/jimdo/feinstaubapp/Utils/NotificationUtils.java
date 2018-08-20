@@ -16,19 +16,13 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class NotificationUtils {
-    //Konstanten
-        //Priorities
-        public final int PRIORITY_MAX = 2;
-        public final int PRIORITY_HIGH = 1;
+    public final int PRIORITY_HIGH = 1;
         public final int PRIORITY_NORMAL = 0;
         public final int PRIORITY_LOW = -1;
-        public final int PRIORITY_MIN = -2;
-        //Vibrations
+    //Vibrations
         public final int VIBRATION_SHORT = 300;
-        public final int VIBRATION_LONG = 600;
-        //Lights
+    //Lights
         public final int LIGHT_SHORT = 500;
-        public final int LIGHT_LONG = 1000;
 
 
     //Variablen als Objekte
@@ -87,14 +81,6 @@ public class NotificationUtils {
         }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) n.setChannelId(channel_id);
         nm.notify(id, n.build());
-    }
-
-    public void clearNotification(int id) {
-        nm.cancel(id);
-    }
-
-    public void clearNotifications() {
-        nm.cancelAll();
     }
 
     private NotificationCompat.Builder buildNotification(String title, String message) {

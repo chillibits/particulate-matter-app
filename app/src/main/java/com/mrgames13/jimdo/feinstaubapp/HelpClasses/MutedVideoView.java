@@ -136,10 +136,6 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
         info.setClassName(MutedVideoView.class.getName());
     }
 
-    public int resolveAdjustedSize(int desiredSize, int measureSpec) {
-        return getDefaultSize(desiredSize, measureSpec);
-    }
-
     private void initVideoView() {
         mVideoWidth = 0;
         mVideoHeight = 0;
@@ -148,13 +144,9 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();
-        mPendingSubtitleTracks = new Vector<Pair<InputStream, MediaFormat>>();
+        mPendingSubtitleTracks = new Vector<>();
         mCurrentState = STATE_IDLE;
         mTargetState  = STATE_IDLE;
-    }
-
-    public void setVideoPath(String path) {
-        setVideoURI(Uri.parse(path));
     }
 
     public void setVideoURI(Uri uri) {
@@ -213,22 +205,14 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-            return;
         } catch (IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-            return;
         } finally {
             mPendingSubtitleTracks.clear();
         }
-    }
-
-    public void setMediaController(MediaController controller) {
-        if (mMediaController != null) mMediaController.hide();
-        mMediaController = controller;
-        attachMediaController();
     }
 
     private void attachMediaController() {
@@ -322,14 +306,6 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
 
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener l) {
         mOnCompletionListener = l;
-    }
-
-    public void setOnErrorListener(MediaPlayer.OnErrorListener l) {
-        mOnErrorListener = l;
-    }
-
-    public void setOnInfoListener(MediaPlayer.OnInfoListener l) {
-        mOnInfoListener = l;
     }
 
     SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
@@ -446,14 +422,6 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
             }
         }
         mTargetState = STATE_PAUSED;
-    }
-
-    public void suspend() {
-        release(false);
-    }
-
-    public void resume() {
-        openVideo();
     }
 
     @Override
