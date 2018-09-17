@@ -469,7 +469,7 @@ public class CompareActivity extends AppCompatActivity {
             final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
             final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
             AlertDialog d = new AlertDialog.Builder(this)
-                    .setTitle(R.string.export_data)
+                    .setTitle(R.string.export_diagram)
                     .setView(v)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {

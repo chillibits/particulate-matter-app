@@ -41,6 +41,8 @@
     <string name="pref_developers_t">The developers</string>
     <string name="pref_more_apps_t">More apps from us</string>
     <string name="pref_more_apps_m">Our PlayStore site</string>
+    <string name="value1" translatable="false">PM10</string>
+    <string name="value2" translatable="false">PM2.5</string>
     <string name="add_sensor">Add sensor</string>
     <string name="done">Done</string>
     <string name="name_">Display name</string>
@@ -89,5 +91,6 @@
     <string name="export_data">Export data</string>
     <string name="export_diagram">Export diagram</string>
     <string name="export_data_records">Export data records</string>
+    <string name="pref_developers_m" translatable="false">M&amp;R Games</string>
 
 </resources>
