@@ -1,10 +1,17 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -34,6 +42,7 @@ import java.util.Date;
 public class CompareActivity extends AppCompatActivity {
 
     //Konstanten
+    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
     private Resources res;
@@ -72,8 +81,8 @@ public class CompareActivity extends AppCompatActivity {
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.compare_sensors);
         setSupportActionBar(toolbar);
-        if(getIntent().hasExtra("Title")) getSupportActionBar().setTitle(getIntent().getStringExtra("Title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Kalender initialisieren
@@ -284,6 +293,8 @@ public class CompareActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == android.R.id.home) {
             finish();
+        } else if(id == R.id.action_export) {
+            exportData();
         } else if(id == R.id.action_refresh) {
             Log.i("FA", "User refreshing ...");
             //Daten neu laden
@@ -293,6 +304,12 @@ public class CompareActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
     }
 
     private void reloadData() {
@@ -441,5 +458,40 @@ public class CompareActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    private void exportData() {
+        if(ContextCompat.checkSelfPermission(CompareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
+            final RadioButton export_sdsp1 = v.findViewById(R.id.export_diagram_sdsp1);
+            final RadioButton export_sdsp2 = v.findViewById(R.id.export_diagram_sdsp2);
+            final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
+            final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
+            final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
+            AlertDialog d = new AlertDialog.Builder(this)
+                    .setTitle(R.string.export_data)
+                    .setView(v)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(export_sdsp1.isChecked()) {
+                                diagram_sdsp1.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            } else if(export_sdsp2.isChecked()) {
+                                diagram_sdsp2.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            } else if(export_temp.isChecked()) {
+                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            } else if(export_humidity.isChecked()) {
+                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            } else if(export_pressure.isChecked()) {
+                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            }
+                        }
+                    })
+                    .create();
+            d.show();
+        } else {
+            ActivityCompat.requestPermissions(CompareActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
+        }
     }
 }

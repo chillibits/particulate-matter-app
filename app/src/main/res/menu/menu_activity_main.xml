@@ -8,6 +8,18 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/action_rate"
+        android:title="@string/rate_app"
+        android:icon="@drawable/ic_star_border"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share_app"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
         app:showAsAction="never"/>

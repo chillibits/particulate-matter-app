@@ -2,15 +2,19 @@ package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -19,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,6 +99,27 @@ public class StorageUtils extends SQLiteOpenHelper {
             return new File(dir, file_name).exists();
         } catch (Exception e) {}
         return false;
+    }
+
+    public void shareCSVFile(String date, String sensor_id) {
+        try{
+            //Datum umformatieren
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            Date newDate = format.parse(date);
+            format = new SimpleDateFormat("yyyy-MM-dd");
+            date = format.format(newDate);
+
+            String file_name = sensor_id + "-" + date + ".csv";
+            File dir = new File(context.getFilesDir(), "/SensorData");
+            File file = new File(dir, file_name);
+
+            Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", file);
+
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType(URLConnection.guessContentTypeFromName(file.getName()));
+            i.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(Intent.createChooser(i, context.getString(R.string.export_data_records)));
+        } catch (Exception e) {}
     }
 
     public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {

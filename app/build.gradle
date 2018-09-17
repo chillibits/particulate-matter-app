@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 123
-        versionName "1.2.3"
+        versionCode 125
+        versionName "1.2.5"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -31,15 +30,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.+'
-    implementation 'com.android.support:design:27.+'
-    implementation 'com.android.support:recyclerview-v7:27.+'
-    implementation 'com.android.support:palette-v7:27.+'
-    implementation 'com.android.support:support-v4:27.+'
-    implementation 'com.android.support:support-vector-drawable:27.+'
-    implementation 'com.android.support:cardview-v7:27.+'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:palette-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.turing-tech:MaterialScrollBar:13.3.0'
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
     implementation 'com.github.lguipeng:AnimCheckBox:1.0.1'
+    implementation 'com.github.mrgames13:SplashScreen:1.0.0'
 }

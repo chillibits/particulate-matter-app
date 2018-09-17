@@ -145,7 +145,7 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
+            URL url = new URL(DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
             URLConnection connection = url.openConnection();
             connection.connect();
             //LastModified speichern
@@ -186,8 +186,6 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             String new_date = format.format(newDate);
 
-            Log.d("FA",DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv");
-
             String url = DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
@@ -200,7 +198,7 @@ public class ServerMessagingUtils {
         try{
             String month = date.substring(3, 5);
             String year = date.substring(6);
-            String url = DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip";
+            String url = DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -243,7 +241,7 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/" + year + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
+            URL url = new URL(DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();

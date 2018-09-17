@@ -1,5 +1,6 @@
 package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SeriesReducer;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -83,6 +87,10 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         DataFragment.refresh();
     }
 
+    public void exportDiagram(Context context) {
+        DiagramFragment.exportDiagram(context);
+    }
+
     //-------------------------------------------Fragmente------------------------------------------
 
     public static class DiagramFragment extends Fragment {
@@ -96,6 +104,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private CheckBox custom_temp;
         private CheckBox custom_humidity;
         private CheckBox custom_pressure;
+        private static SeekBar curve_smoothness;
         private static LineGraphSeries<DataPoint> series1;
         private static LineGraphSeries<DataPoint> series2;
         private static LineGraphSeries<DataPoint> series3;
@@ -162,7 +171,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_sdsp1 = value;
-                    updateSDSP1(value);
+                    updateSDSP1(records, value);
                 }
             });
             custom_sdsp2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -173,7 +182,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_sdsp2 = value;
-                    updateSDSP2(value);
+                    updateSDSP2(records, value);
                 }
             });
             custom_temp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -184,7 +193,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_temp = value;
-                    updateTemp(value);
+                    updateTemp(records, value);
                 }
             });
             custom_humidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -195,7 +204,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_humidity = value;
-                    updateHumidity(value);
+                    updateHumidity(records, value);
                 }
             });
             custom_pressure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -206,8 +215,23 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_pressure = value;
-                    updatePressure(value);
+                    updatePressure(records, value);
                 }
+            });
+
+            curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
+            curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
+                    SensorActivity.curve_smoothness = value / 100.0;
+                    updateCurveSmoothness(value / 100.0);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {}
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {}
             });
 
             cv_sdsp1 = contentView.findViewById(R.id.cv_sdsp1);
@@ -220,7 +244,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             return contentView;
         }
 
-        private static void updateSDSP1(boolean value) {
+        private static void updateSDSP1(ArrayList<DataRecord> records, boolean value) {
             if(value) {
                 try {
                     if(records.size() > 0) {
@@ -241,7 +265,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
-        private static void updateSDSP2(boolean value) {
+        private static void updateSDSP2(ArrayList<DataRecord> records, boolean value) {
             if(value) {
                 try {
                     if(records.size() > 0) {
@@ -262,7 +286,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
-        private static void updateTemp(boolean value) {
+        private static void updateTemp(ArrayList<DataRecord> records, boolean value) {
             if(value) {
                 try {
                     if(records.size() > 0) {
@@ -283,7 +307,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
-        private static void updateHumidity(boolean value) {
+        private static void updateHumidity(ArrayList<DataRecord> records, boolean value) {
             if(value) {
                 try {
                     if(records.size() > 0) {
@@ -304,7 +328,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
-        private static void updatePressure(boolean value) {
+        private static void updatePressure(ArrayList<DataRecord> records, boolean value) {
             if(value) {
                 try {
                     if(records.size() > 0) {
@@ -323,6 +347,32 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else {
                 graph_view.removeSeries(series5);
             }
+        }
+
+        private static void updateCurveSmoothness(double epsilon) {
+            ArrayList<Point> reduced_sdsp1 = new ArrayList<>();
+            reduced_sdsp1.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsSDSP1(Tools.fitArrayList(su, records)), epsilon));
+            ArrayList<Point> reduced_sdsp2 = new ArrayList<>();
+            reduced_sdsp2.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsSDSP2(Tools.fitArrayList(su, records)), epsilon));
+            ArrayList<Point> reduced_temp = new ArrayList<>();
+            reduced_temp.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsTemp(Tools.fitArrayList(su, records)), epsilon));
+            ArrayList<Point> reduced_humidity = new ArrayList<>();
+            reduced_humidity.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsHumidity(Tools.fitArrayList(su, records)), epsilon));
+            ArrayList<Point> reduced_pressure = new ArrayList<>();
+            reduced_pressure.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsPressure(Tools.fitArrayList(su, records)), epsilon));
+
+            //Diagram leeren
+            updateSDSP1(null, false);
+            updateSDSP2(null, false);
+            updateTemp(null, false);
+            updateHumidity(null, false);
+            updatePressure(null, false);
+            //Veränderte Kurve einblenden
+            updateSDSP1(Tools.convertPointsToDataRecordsSDSP1(reduced_sdsp1), SensorActivity.custom_sdsp1);
+            updateSDSP2(Tools.convertPointsToDataRecordsSDSP2(reduced_sdsp2), SensorActivity.custom_sdsp2);
+            updateTemp(Tools.convertPointsToDataRecordsTemp(reduced_temp), SensorActivity.custom_temp);
+            updateHumidity(Tools.convertPointsToDataRecordsHumidity(reduced_humidity), SensorActivity.custom_humidity);
+            updatePressure(Tools.convertPointsToDataRecordsPressure(reduced_pressure), SensorActivity.custom_pressure);
         }
 
         private static void updateLastValues() {
@@ -363,36 +413,40 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         e.printStackTrace();
                     }
 
-                    updateSDSP1(false);
-                    updateSDSP1(SensorActivity.custom_sdsp1);
-                    updateSDSP2(false);
-                    updateSDSP2(SensorActivity.custom_sdsp2);
-                    updateTemp(false);
-                    updateTemp(SensorActivity.custom_temp);
-                    updateHumidity(false);
-                    updateHumidity(SensorActivity.custom_humidity);
-                    updatePressure(false);
-                    updatePressure(SensorActivity.custom_pressure);
+                    updateSDSP1(null, false);
+                    updateSDSP1(records, SensorActivity.custom_sdsp1);
+                    updateSDSP2(null, false);
+                    updateSDSP2(records, SensorActivity.custom_sdsp2);
+                    updateTemp(null, false);
+                    updateTemp(records, SensorActivity.custom_temp);
+                    updateHumidity(null, false);
+                    updateHumidity(records, SensorActivity.custom_humidity);
+                    updatePressure(null, false);
+                    updatePressure(records, SensorActivity.custom_pressure);
                 } else {
-                    updateSDSP1(false);
-                    updateSDSP2(false);
-                    updateTemp(false);
-                    updateHumidity(false);
-                    updatePressure(false);
+                    updateSDSP1(null, false);
+                    updateSDSP2(null, false);
+                    updateTemp(null, false);
+                    updateHumidity(null, false);
+                    updatePressure(null, false);
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
 
                 updateLastValues();
             } else {
-                updateSDSP1(false);
-                updateSDSP2(false);
-                updateTemp(false);
-                updateHumidity(false);
-                updatePressure(false);
+                updateSDSP1(null, false);
+                updateSDSP2(null, false);
+                updateTemp(null, false);
+                updateHumidity(null, false);
+                updatePressure(null, false);
                 contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
             }
+        }
+
+        public static void exportDiagram(Context context) {
+            graph_view.takeSnapshotAndShare(context, "export_" + String.valueOf(System.currentTimeMillis()), res.getString(R.string.export_diagram));
         }
     }
 

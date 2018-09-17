@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //SplashScreen anzeigen
+        SplashScreenBuilder.getInstance(this)
+                .setVideo(R.raw.splash_animation)
+                .setImage(R.drawable.app_icon)
+                .show();
 
         //Eigene Intanz initialisieren
         own_instance = this;
@@ -86,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
         NotificationUtils.createNotificationChannels(this);
 
         refresh();
-
-        //Update 1.2.1 TODO: BITTE SPÄTER ENTFERNEN
-        if(!su.getString("sync_cycle").equals("") && Integer.parseInt(su.getString("sync_cycle")) < 20) su.putString("sync_cycle", "30");
-        if(!su.getString("sync_cycle_background").equals("") && Integer.parseInt(su.getString("sync_cycle_background")) < 10) su.putString("sync_cycle_background", "10");
     }
 
     @Override
@@ -127,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if(id == R.id.action_rate) {
+            rateApp();
+        } else if(id == R.id.action_share) {
+            recommendApp();
         } else if(id == R.id.action_add) {
             startActivity(new Intent(MainActivity.this, AddSensorActivity.class));
         } else if(id == R.id.action_details) {
@@ -201,5 +209,60 @@ public class MainActivity extends AppCompatActivity {
     public void updateToolbar(ArrayList<Sensor> selected_sensors) {
         this.selected_sensors = selected_sensors;
         invalidateOptionsMenu();
+    }
+
+    private void rateApp() {
+        AlertDialog d = new AlertDialog.Builder(this)
+                .setTitle(res.getString(R.string.rate))
+                .setMessage(res.getString(R.string.rate_m))
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(true)
+                .setPositiveButton(res.getString(R.string.rate), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        final String app_package_name = getPackageName();
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + app_package_name)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + app_package_name)));
+                        }
+                    }
+                })
+                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        d.show();
+    }
+
+    private void recommendApp() {
+        AlertDialog d = new AlertDialog.Builder(this)
+                .setTitle(res.getString(R.string.share))
+                .setMessage(res.getString(R.string.share_m))
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(true)
+                .setPositiveButton(res.getString(R.string.share), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, res.getString(R.string.recommend_string));
+                        i.setType("text/plain");
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        d.show();
     }
 }

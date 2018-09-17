@@ -1,10 +1,17 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -48,6 +56,7 @@ public class SensorActivity extends AppCompatActivity {
     public static final int SORT_MODE_HUMIDITY_DESC = 110;
     public static final int SORT_MODE_PRESSURE_ASC = 111;
     public static final int SORT_MODE_PRESSURE_DESC = 112;
+    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
     private Resources res;
@@ -76,6 +85,7 @@ public class SensorActivity extends AppCompatActivity {
     public static boolean custom_temp = false;
     public static boolean custom_humidity = false;
     public static boolean custom_pressure = false;
+    public static double curve_smoothness = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +223,8 @@ public class SensorActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == android.R.id.home) {
             finish();
+        } else if(id == R.id.action_export) {
+            exportData();
         } else if(id == R.id.action_refresh) {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
@@ -255,6 +267,16 @@ public class SensorActivity extends AppCompatActivity {
         if(service != null) service.shutdown();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
+    }
+
+    public static void resortData() {
+        try{ Collections.sort(records); } catch (Exception e) {}
+    }
+
     //-----------------------------------Private Methoden-------------------------------------------
 
     private void loadData(final boolean from_user) {
@@ -279,8 +301,6 @@ public class SensorActivity extends AppCompatActivity {
                 //Prüfen, ob Intenet verfügbar ist
                 if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
                     //Internet ist verfügbar
-                    Log.d("FA", date_string);
-                    Log.d("FA", date_yesterday);
                     smu.manageDownloads(sensor, date_string, date_yesterday);
                 }
                 //Kein Internet
@@ -310,7 +330,30 @@ public class SensorActivity extends AppCompatActivity {
         }).start();
     }
 
-    public static void resortData() {
-        try{ Collections.sort(records); } catch (Exception e) {}
+    private void exportData() {
+        if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            View v = getLayoutInflater().inflate(R.layout.dialog_export, null);
+            final RadioButton export_diagram = v.findViewById(R.id.export_diagram);
+            AlertDialog d = new AlertDialog.Builder(this)
+                    .setTitle(R.string.export_data)
+                    .setView(v)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(export_diagram.isChecked()) {
+                                //Diagramm exportieren
+                                view_pager_adapter.exportDiagram(SensorActivity.this);
+                            } else {
+                                //Datensätze exportieren
+                                if(su.isCSVFileExisting(date_string, sensor.getId())) su.shareCSVFile(date_string, sensor.getId());
+                            }
+                        }
+                    })
+                    .create();
+            d.show();
+        } else {
+            ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
+        }
     }
 }

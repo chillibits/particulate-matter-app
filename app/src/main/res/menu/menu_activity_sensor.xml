@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_export"
+        android:title="@string/export_data"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/file_download"/>
+
+    <item
         android:id="@+id/action_refresh"
         android:title="@string/refresh"
         android:orderInCategory="200"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/refresh_white"/>
 
     <item

@@ -145,7 +145,7 @@ public class AddSensorActivity extends AppCompatActivity {
                     //Sensor aktualisieren
                     su.updateSensor(new Sensor(sensor_id, sensor_name, current_color));
                 }
-                MainActivity.own_instance.refresh();
+                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
                 finish();
             } else {
                 //Es sind nicht alle Felder ausgefüllt

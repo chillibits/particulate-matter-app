@@ -111,6 +111,22 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/lbl_curve_smoothness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/curve_smoothness_"
+                android:layout_below="@+id/checkbox_container"
+                android:layout_marginTop="10dp"/>
+
+            <SeekBar
+                android:id="@+id/curve_smoothness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_curve_smoothness"
+                android:max="500"/>
+
+            <TextView
                 android:id="@+id/title_current_values"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +134,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_below="@+id/checkbox_container"
+                android:layout_below="@+id/curve_smoothness"
                 android:gravity="center"
                 android:layout_marginTop="5dp"/>
 

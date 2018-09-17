@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Feinstaub App</string>
-    <string name="powered_by">powered by M&amp;R Games</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="exit">Quit</string>
     <string name="settings">Settings</string>
     <string name="no_data">No data</string>
-    <string name="loading">Loading ...</string>
-    <string name="loading_data">Loading data ...</string>
+    <string name="loading">Loading …</string>
+    <string name="loading_data">Loading data …</string>
     <string name="internet_is_not_available">Internet not available</string>
     <string name="activate_wlan">Activate WiFi</string>
     <string name="tap_again_to_exit_app">Tap again to quit</string>
     <string name="show_details">Show sensor details</string>
-    <string name="compare_sensors">Compare sensors</string>
+    <string name="compare_sensors">Compare data</string>
     <string name="edit_sensor">Edit sensor</string>
     <string name="delete_sensor">Delete sensor</string>
     <string name="really_delete_sensor">Do you really want to delete the selected sensor?</string>
@@ -80,4 +79,16 @@
     <string name="nc_limit_name">limit exceedings</string>
     <string name="nc_system_description">System notifications from the Feinstaub-App.</string>
     <string name="nc_limit_description">Display notifications in the status bar, when one of the adjusted limit is exceeded.</string>
+    <string name="curve_smoothness_">Curve smoothness:</string>
+    <string name="rate_app">rate app</string>
+    <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
+    <string name="share_app">recommend app</string>
+    <string name="share">Recommend</string>
+    <string name="share_m">Recommend The Particulate Matter App to your friends!</string>
+    <string name="recommend_string">Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="rate">Rate</string>
+    <string name="export_data">Export data</string>
+    <string name="export_diagram">Export diagram</string>
+    <string name="export_data_records">Export data records</string>
+
 </resources>
