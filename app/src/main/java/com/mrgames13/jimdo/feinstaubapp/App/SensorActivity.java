@@ -33,6 +33,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -258,6 +259,9 @@ public class SensorActivity extends AppCompatActivity {
         }, period, period, TimeUnit.SECONDS);
 
         if(!sensor.getId().equals("no_id")) loadData(true);
+
+        //Check if sensor is existing on the server
+        checkSensorAvailability();
     }
 
     @Override
@@ -328,6 +332,37 @@ public class SensorActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    private void checkSensorAvailability() {
+        if(!su.getBoolean("DontShowAgain_" + String.valueOf(sensor.getId()))) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensorexisting&sensor_id=" + URLEncoder.encode(sensor.getId()));
+                    if(!Boolean.parseBoolean(result)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AlertDialog d = new AlertDialog.Builder(SensorActivity.this)
+                                        .setCancelable(true)
+                                        .setTitle(R.string.add_sensor)
+                                        .setMessage(R.string.add_sensor_tick_not_set_message)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                su.putBoolean("DontShowAgain_" + String.valueOf(sensor.getId()), true);
+                                            }
+                                        })
+                                        .create();
+                                d.show();
+                            }
+                        });
+                    }
+                }
+            }).start();
+        }
     }
 
     private void exportData() {

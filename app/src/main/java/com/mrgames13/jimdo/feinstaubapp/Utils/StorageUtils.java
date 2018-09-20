@@ -35,6 +35,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     //Konstanten
     private final String DEFAULT_STRING_VALUE = "";
+    private final boolean DEFAULT_BOOLEAN_VALUE = false;
     private final int DEFAULT_LONG_VALUE = -1;
     public static final String TABLE_SENSORS = "Sensors";
 
@@ -227,6 +228,12 @@ public class StorageUtils extends SQLiteOpenHelper {
         e.apply();
     }
 
+    public void putBoolean(String name, boolean value) {
+        e = prefs.edit();
+        e.putBoolean(name, value);
+        e.apply();
+    }
+
     public void putLong(String name, long value) {
         e = prefs.edit();
         e.putLong(name, value);
@@ -237,18 +244,22 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getString(name, DEFAULT_STRING_VALUE);
     }
 
+    public boolean getBoolean(String name) {
+        return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE);
+    }
+
     public long getLong(String name) { return prefs.getLong(name, DEFAULT_LONG_VALUE); }
 
     public String getString(String name, String default_value) {
         return prefs.getString(name, default_value);
     }
 
-    public long getLong(String name, long default_value) {
-        return  prefs.getLong(name, default_value);
-    }
-
     public boolean getBoolean(String name, boolean default_value) {
         return prefs.getBoolean(name, default_value);
+    }
+
+    public long getLong(String name, long default_value) {
+        return  prefs.getLong(name, default_value);
     }
 
     //------------------------------------------------Datenbank---------------------------------------------

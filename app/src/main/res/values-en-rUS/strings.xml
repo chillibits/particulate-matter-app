@@ -42,7 +42,7 @@
     <string name="pref_developers_t">The developers</string>
     <string name="pref_more_apps_t">More apps from us</string>
     <string name="pref_more_apps_m">Our PlayStore site</string>
-    <string name="add_sensor">Add sensor</string>
+    <string name="add_sensor">Add a sensor</string>
     <string name="done">Done</string>
     <string name="name_">Display name</string>
     <string name="sensor_id_">Chip-ID:</string>
@@ -90,5 +90,8 @@
     <string name="export_data">Export data</string>
     <string name="export_diagram">Export diagram</string>
     <string name="export_data_records">Export data records</string>
+    <string name="please_wait_">Please wait …</string>
+    <string name="add_sensor_tick_not_set_message">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor.</string>
+    <string name="dont_show_again">Don\'t show again</string>
 
 </resources>

@@ -2,6 +2,9 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -21,10 +24,12 @@ import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
+import java.net.URLEncoder;
 import java.util.Random;
 
 public class AddSensorActivity extends AppCompatActivity {
@@ -46,6 +51,7 @@ public class AddSensorActivity extends AppCompatActivity {
 
     //Utils-Pakete
     private StorageUtils su;
+    private ServerMessagingUtils smu;
 
     //Variablen
     int current_color;
@@ -67,6 +73,9 @@ public class AddSensorActivity extends AppCompatActivity {
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);
+
+        //ServerMessagingUtils initialisieren
+        smu = new ServerMessagingUtils(this, su);
 
         //RevealView initialisieren
         reveal_view = findViewById(R.id.reveal);
@@ -130,23 +139,67 @@ public class AddSensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_done) {
-            String sensor_id = this.id.getText().toString().trim();
-            String sensor_name = name.getText().toString().trim();
+            final String sensor_id = this.id.getText().toString().trim();
+            final String sensor_name = name.getText().toString().trim();
+
             if(!sensor_id.equals("") && !sensor_name.equals("")) {
                 if(mode == MODE_NEW) {
                     if(!su.isSensorExisting(sensor_id)) {
+                        final ProgressDialog pd = new ProgressDialog(this);
+                        pd.setMessage(res.getString(R.string.please_wait_));
+                        pd.setCancelable(false);
+                        pd.show();
+
                         //Neuen Sensor speichern
                         su.addSensor(new Sensor(sensor_id, sensor_name, current_color));
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String result = smu.sendRequest(findViewById(R.id.container), "command=issensorexisting&sensor_id=" + URLEncoder.encode(sensor_id));
+                                pd.dismiss();
+                                if(Boolean.parseBoolean(result)) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                            finish();
+                                        }
+                                    });
+                                } else {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
+                                                    .setCancelable(false)
+                                                    .setTitle(R.string.add_sensor)
+                                                    .setMessage(R.string.add_sensor_tick_not_set_message)
+                                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                            finish();
+                                                        }
+                                                    })
+                                                    .create();
+                                            d.show();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
                     } else {
                         //Sensor ist bereits verknüpft
                         Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                        try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                        finish();
                     }
                 } else if(mode == MODE_EDIT) {
                     //Sensor aktualisieren
                     su.updateSensor(new Sensor(sensor_id, sensor_name, current_color));
+                    try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                    finish();
                 }
-                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                finish();
             } else {
                 //Es sind nicht alle Felder ausgefüllt
                 Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();

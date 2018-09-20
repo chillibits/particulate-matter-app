@@ -11,6 +11,7 @@
     <string name="loading_data">Daten werden geladen …</string>
     <string name="internet_is_not_available">Internet nicht verfügbar</string>
     <string name="activate_wlan">Wlan aktivieren</string>
+    <string name="please_wait_">Bitte warten …</string>
 
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
@@ -36,6 +37,8 @@
     <string name="choose_color">Farbe wählen</string>
     <string name="not_all_filled">Bitte alle Felder füllen</string>
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Sensor-Konfiguration der Haken bei \'Senden an Feinstaub-App\' gesetzt ist.</string>
+    <string name="dont_show_again">Nicht mehr anzeigen</string>
 
     <!-- SensorActivity -->
     <string name="date">Datum</string>

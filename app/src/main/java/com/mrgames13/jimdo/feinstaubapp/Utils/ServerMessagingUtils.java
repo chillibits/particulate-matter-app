@@ -13,11 +13,16 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -26,13 +31,15 @@ import java.util.Date;
 public class ServerMessagingUtils {
 
     //Konstanten
-    private final String REPOSITORY_URL = "https://www.madavi.de/sensor/csvfiles.php";
+    private final String SERVER_ADRESS = "http://www.h2801469.stratoserver.net/";
+    private final String SERVER_MAIN_SCRIPT = SERVER_ADRESS + "ServerScript.php";
     private final String DATA_URL = "https://www.madavi.de/sensor/data_csv";
 
     //Variablen als Objekte
     private Context context;
     private ConnectivityManager cm;
     private WifiManager wifiManager;
+    private URL url;
 
     //Utils-Pakete
     private StorageUtils su;
@@ -45,6 +52,41 @@ public class ServerMessagingUtils {
         this.su = su;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        //URL erstellen
+        try { url = new URL(SERVER_MAIN_SCRIPT); } catch (MalformedURLException e) {}
+    }
+
+    public String sendRequest(View v, final String param) {
+        if(isInternetAvailable()) {
+            try {
+                //Connection aufbauen
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setFixedLengthStreamingMode(param.getBytes().length);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                //Anfrage senden
+                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                out.write(param);
+                out.flush();
+                out.close();
+                //Antwort empfangen
+                InputStream in = connection.getInputStream();
+                String answer = getAnswerFromInputStream(in);
+                //Connection schließen
+                connection.disconnect();
+                Log.i("FS", "Answer from Server: '" + answer.replace("<br>", "").trim() + "'");
+                //Antwort zurückgeben
+                return answer.replace("<br>", "").trim();
+            } catch (IOException e) {
+                return sendRequest(v, param);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if(v != null) checkConnection(v);
+        }
+        return "";
     }
 
     public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
@@ -265,6 +307,18 @@ public class ServerMessagingUtils {
                     .show();
             return false;
         }
+    }
+
+    private String getAnswerFromInputStream(InputStream in) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder sb = new StringBuilder();
+
+        String currentLine;
+        while((currentLine = reader.readLine()) != null) {
+            sb.append(currentLine);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public boolean isInternetAvailable() {
