@@ -149,9 +149,9 @@ public class StorageUtils extends SQLiteOpenHelper {
                 if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]);
                 if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]);
                 if(!line_contents[12].equals("")) humidity = Double.parseDouble(line_contents[12]);
-                if(!line_contents[13+2].equals("")) temp = Double.parseDouble(line_contents[13+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
-                if(!line_contents[14+2].equals("")) humidity = Double.parseDouble(line_contents[14+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
-                if(!line_contents[15+2].equals("")) pressure = Double.parseDouble(line_contents[15+2]); // Luftdaten.info Bug. Zwei Spalten zu viel
+                if(!line_contents[13].equals("")) temp = Double.parseDouble(line_contents[13]);
+                if(!line_contents[14].equals("")) humidity = Double.parseDouble(line_contents[14]);
+                if(!line_contents[15].equals("")) pressure = Double.parseDouble(line_contents[15]);
 
                 records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity, pressure));
             } catch (Exception e) {}
@@ -193,7 +193,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                     File file = new File(path + filename);
                     file.mkdirs();
                 } else {
-                    FileOutputStream fout = new FileOutputStream(dir.getAbsolutePath() + "/" + filename.substring(13));
+                    FileOutputStream fout = new FileOutputStream(dir.getAbsolutePath() + "/" + sensor_id + filename.substring(4));
 
                     while((count = zis.read(buffer)) != -1) fout.write(buffer, 0, count);
 

@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -294,7 +295,15 @@ public class CompareActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_export) {
-            exportData();
+            boolean empty = true;
+            for(ArrayList<DataRecord> r : records){
+                if(!r.isEmpty()) empty = false;
+            }
+            if(!empty) {
+                exportData();
+            } else {
+                Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+            }
         } else if(id == R.id.action_refresh) {
             Log.i("FA", "User refreshing ...");
             //Daten neu laden

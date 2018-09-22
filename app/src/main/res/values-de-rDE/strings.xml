@@ -84,7 +84,9 @@
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
     <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
     <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
+    <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
     <string name="seconds">Sekunden</string>
     <string name="second">Sekunde</string>
     <string name="minutes">Minuten</string>
@@ -95,10 +97,15 @@
     <!-- NotificationSettings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_limit_sdsp1">PM10 Grenzwert</string>
+    <string name="pref_limit_sdsp1_t">PM10 Grenzwert (µg/m³)</string>
     <string name="pref_limit_sdsp2">PM2.5 Grenzwert</string>
+    <string name="pref_limit_sdsp2_t">PM2,5 Grenzwert (µg/m³)</string>
     <string name="pref_limit_temp">Temperatur Grenzwert</string>
+    <string name="pref_limit_temp_t">Temperatur Grenzwert (°C)</string>
     <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
+    <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (Pa)</string>
     <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
 
     <!-- Performance Settings -->

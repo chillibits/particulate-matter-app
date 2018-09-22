@@ -19,7 +19,9 @@
     <string name="no_sensors">No sensors linked. Tab below to link a sensor.</string>
     <string name="pref_header_sync">Synchronization</string>
     <string name="sync_cycle">Synchronization cycle</string>
+    <string name="sync_cycle_t">Synchronization cycle (sec)</string>
     <string name="sync_cycle_background">Synchronization cycle background</string>
+    <string name="sync_cycle_background_t">Synchronization cycle background (min)</string>
     <string name="seconds">seconds</string>
     <string name="second">second</string>
     <string name="minutes">minutes</string>
@@ -28,9 +30,13 @@
     <string name="reduce_data_consumption_s">Compare alternation dates on download to prevent unnecessary data consumption</string>
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_limit_sdsp1">PM10 limit</string>
+    <string name="pref_limit_sdsp1_t">PM10 limit (µg/m³)</string>
     <string name="pref_limit_sdsp2">PM2,5 limit</string>
+    <string name="pref_limit_sdsp2_t">PM2,5 limit (µg/m³)</string>
     <string name="pref_limit_temp">Temperature limit</string>
+    <string name="pref_limit_temp_t">Temperature limit (°C)</string>
     <string name="pref_limit_humidity">Humidity limit</string>
+    <string name="pref_limit_humidity_t">Humidity limit (%)</string>
     <string name="pref_limit_disabled">Notification disabled</string>
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Increase diagram performance</string>
@@ -74,6 +80,7 @@
     <string name="pressure_short">Pressure</string>
     <string name="pressure">Pressure</string>
     <string name="pref_limit_pressure">Pressure limit</string>
+    <string name="pref_limit_pressure_t">Pressure limit (Pa)</string>
     <string name="limit_exceeded_pressure">Pressure limit exceeded</string>
     <string name="nc_system_name">System notifications</string>
     <string name="nc_limit_name">limit exceedings</string>

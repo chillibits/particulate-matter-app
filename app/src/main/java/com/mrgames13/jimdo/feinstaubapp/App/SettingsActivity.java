@@ -196,7 +196,7 @@ public class SettingsActivity extends PreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
                 preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + "%" : res.getString(R.string.pref_limit_disabled));
-                return false;
+                return true;
             }
         });
 
@@ -206,7 +206,7 @@ public class SettingsActivity extends PreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
                 preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " Pa" : res.getString(R.string.pref_limit_disabled));
-                return false;
+                return true;
             }
         });
 

@@ -33,7 +33,7 @@ public class ServerMessagingUtils {
     //Konstanten
     private final String SERVER_ADRESS = "http://www.h2801469.stratoserver.net/";
     private final String SERVER_MAIN_SCRIPT = SERVER_ADRESS + "ServerScript.php";
-    private final String DATA_URL = "https://www.madavi.de/sensor/data_csv";
+    private final String DATA_URL = "http://www.h2801469.stratoserver.net/data";
 
     //Variablen als Objekte
     private Context context;
@@ -151,8 +151,8 @@ public class ServerMessagingUtils {
 
             String file_name = new_date + ".csv";
 
-            URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + file_name);
-            URLConnection connection = url.openConnection();
+            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + file_name);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + date + "_" + sensor_id, connection.getLastModified());
@@ -187,8 +187,8 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
-            URLConnection connection = url.openConnection();
+            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip", connection.getLastModified());
@@ -228,7 +228,7 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             String new_date = format.format(newDate);
 
-            String url = DATA_URL + "/data-esp8266-" + sensor_id + "-" + new_date + ".csv";
+            String url = DATA_URL + "/esp8266-" + sensor_id + "/data-" + new_date + ".csv";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -240,7 +240,7 @@ public class ServerMessagingUtils {
         try{
             String month = date.substring(3, 5);
             String year = date.substring(6);
-            String url = DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip";
+            String url = DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,7 +268,7 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             date = format.format(newDate);
 
-            URL url = new URL(DATA_URL + "/data-esp8266-" + sensor_id + "-" + date + ".csv");
+            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + date + ".csv");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();
@@ -283,7 +283,7 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/" + year + "/" + month + "/data-esp8266-" + sensor_id + "-" + year + "-" + month + ".zip");
+            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();

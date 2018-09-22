@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
@@ -225,7 +226,11 @@ public class SensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_export) {
-            exportData();
+            if(records.size() > 0) {
+                exportData();
+            } else {
+                Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+            }
         } else if(id == R.id.action_refresh) {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
