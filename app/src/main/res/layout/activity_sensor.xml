@@ -66,6 +66,20 @@
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
                     android:layout_toRightOf="@+id/card_date_back"
+                    android:layout_toLeftOf="@+id/card_date_today"/>
+
+                <ImageView
+                    android:id="@+id/card_date_today"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/today_primary"
+                    android:gravity="center"
+                    android:adjustViewBounds="true"
+                    android:layout_below="@+id/card_date_title"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/card_date_edit"/>
 
                 <ImageView

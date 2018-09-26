@@ -10,13 +10,13 @@
     <item
         android:id="@+id/action_rate"
         android:title="@string/rate_app"
-        android:icon="@drawable/ic_star_border"
+        android:icon="@drawable/star_border"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_share"
         android:title="@string/share_app"
-        android:icon="@drawable/ic_share"
+        android:icon="@drawable/share"
         app:showAsAction="always"/>
 
     <item

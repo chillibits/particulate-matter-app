@@ -105,6 +105,7 @@ public class CompareActivity extends AppCompatActivity {
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
         ImageView card_date_next = findViewById(R.id.card_date_next);
 
@@ -121,6 +122,19 @@ public class CompareActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Datum auswählen
                 chooseDate(card_date_value);
+            }
+        });
+        card_date_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auf den heutigen Tag setzen
+                calendar.setTime(new Date());
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                reloadData();
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {

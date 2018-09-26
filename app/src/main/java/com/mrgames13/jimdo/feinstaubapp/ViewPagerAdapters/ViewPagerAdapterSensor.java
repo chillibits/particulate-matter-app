@@ -3,6 +3,8 @@ package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,12 +107,20 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private CheckBox custom_temp;
         private CheckBox custom_humidity;
         private CheckBox custom_pressure;
+        private static RadioButton custom_nothing;
+        private static RadioButton custom_average;
+        private static RadioButton custom_median;
         private static SeekBar curve_smoothness;
         private static LineGraphSeries<DataPoint> series1;
+        private static LineGraphSeries<DataPoint> series1_average_median;
         private static LineGraphSeries<DataPoint> series2;
+        private static LineGraphSeries<DataPoint> series2_average_median;
         private static LineGraphSeries<DataPoint> series3;
+        private static LineGraphSeries<DataPoint> series3_average_median;
         private static LineGraphSeries<DataPoint> series4;
+        private static LineGraphSeries<DataPoint> series4_average_median;
         private static LineGraphSeries<DataPoint> series5;
+        private static LineGraphSeries<DataPoint> series5_average_median;
         private static TextView cv_sdsp1;
         private static TextView cv_sdsp2;
         private static TextView cv_temp;
@@ -138,6 +149,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         i.putExtra("Show3", SensorActivity.custom_temp);
                         i.putExtra("Show4", SensorActivity.custom_humidity);
                         i.putExtra("Show5", SensorActivity.custom_pressure);
+                        i.putExtra("EnableAverage", custom_average.isChecked());
+                        i.putExtra("EnableMedian", custom_median.isChecked());
                         startActivity(i);
                     } else {
                         Toast.makeText(activity, res.getString(R.string.no_diagram_selected), Toast.LENGTH_SHORT).show();
@@ -151,6 +164,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             custom_temp = contentView.findViewById(R.id.custom_temp);
             custom_humidity = contentView.findViewById(R.id.custom_humidity);
             custom_pressure = contentView.findViewById(R.id.custom_pressure);
+            custom_nothing = contentView.findViewById(R.id.enable_nothing);
+            custom_average = contentView.findViewById(R.id.enable_average);
+            custom_median = contentView.findViewById(R.id.enable_median);
 
             h.post(new Runnable() {
                 @Override
@@ -218,6 +234,51 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     updatePressure(records, value);
                 }
             });
+            custom_nothing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateSDSP1(null, false);
+                    updateSDSP1(records, custom_sdsp1.isChecked());
+                    updateSDSP2(null, false);
+                    updateSDSP2(records, custom_sdsp2.isChecked());
+                    updateTemp(null, false);
+                    updateTemp(records, custom_temp.isChecked());
+                    updateHumidity(null, false);
+                    updateHumidity(records, custom_humidity.isChecked());
+                    updatePressure(null, false);
+                    updatePressure(records, custom_pressure.isChecked());
+                }
+            });
+            custom_average.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateSDSP1(null, false);
+                    updateSDSP1(records, custom_sdsp1.isChecked());
+                    updateSDSP2(null, false);
+                    updateSDSP2(records, custom_sdsp2.isChecked());
+                    updateTemp(null, false);
+                    updateTemp(records, custom_temp.isChecked());
+                    updateHumidity(null, false);
+                    updateHumidity(records, custom_humidity.isChecked());
+                    updatePressure(null, false);
+                    updatePressure(records, custom_pressure.isChecked());
+                }
+            });
+            custom_median.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateSDSP1(null, false);
+                    updateSDSP1(records, custom_sdsp1.isChecked());
+                    updateSDSP2(null, false);
+                    updateSDSP2(records, custom_sdsp2.isChecked());
+                    updateTemp(null, false);
+                    updateTemp(records, custom_temp.isChecked());
+                    updateHumidity(null, false);
+                    updateHumidity(records, custom_humidity.isChecked());
+                    updatePressure(null, false);
+                    updatePressure(records, custom_pressure.isChecked());
+                }
+            });
 
             curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
             curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -253,15 +314,30 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series1 = new LineGraphSeries<>();
                         series1.setColor(res.getColor(R.color.series1));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getSdsp1()), false, 1000000);
+                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp1()), false, 1000000);
                         }
                         graph_view.addSeries(series1);
+
+                        if(custom_average.isChecked()) {
+                            //Mittelwert einzeichnen
+                            double average = 0;
+                            for(DataRecord record : records) average+=record.getSdsp1();
+                            average /= records.size();
+                            series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
+                            graph_view.addSeries(series1_average_median);
+                        } else if(custom_median.isChecked()) {
+                            //Median einzeichnen
+                            double median = records.get(records.size() / 2).getSdsp1();
+                            series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
+                            graph_view.addSeries(series1_average_median);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 graph_view.removeSeries(series1);
+                graph_view.removeSeries(series1_average_median);
             }
         }
 
@@ -274,15 +350,31 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series2 = new LineGraphSeries<>();
                         series2.setColor(res.getColor(R.color.series2));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getSdsp2()), false, 1000000);
+                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getSdsp2()), false, 1000000);
                         }
                         graph_view.addSeries(series2);
+
+                        if(custom_average.isChecked()) {
+                            //Mittelwert einzeichnen
+                            double average = 0;
+                            for(DataRecord record : records) average+=record.getSdsp2();
+                            average /= records.size();
+                            series2_average_median = new LineGraphSeries<>();
+                            series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
+                            graph_view.addSeries(series2_average_median);
+                        } else if(custom_median.isChecked()) {
+                            //Median einzeichnen
+                            double median = records.get(records.size() / 2).getSdsp2();
+                            series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
+                            graph_view.addSeries(series2_average_median);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 graph_view.removeSeries(series2);
+                graph_view.removeSeries(series2_average_median);
             }
         }
 
@@ -295,15 +387,30 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series3 = new LineGraphSeries<>();
                         series3.setColor(res.getColor(R.color.series3));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getTemp()), false, 1000000);
+                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
                         }
                         graph_view.addSeries(series3);
+
+                        if(custom_average.isChecked()) {
+                            //Mittelwert einzeichnen
+                            double average = 0;
+                            for(DataRecord record : records) average+=record.getTemp();
+                            average /= records.size();
+                            series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
+                            graph_view.addSeries(series3_average_median);
+                        } else if(custom_median.isChecked()) {
+                            //Median einzeichnen
+                            double median = records.get(records.size() / 2).getTemp();
+                            series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
+                            graph_view.addSeries(series3_average_median);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 graph_view.removeSeries(series3);
+                graph_view.removeSeries(series3_average_median);
             }
         }
 
@@ -316,15 +423,30 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series4 = new LineGraphSeries<>();
                         series4.setColor(res.getColor(R.color.series4));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getHumidity()), false, 1000000);
+                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
                         }
                         graph_view.addSeries(series4);
+
+                        if(custom_average.isChecked()) {
+                            //Mittelwert einzeichnen
+                            double average = 0;
+                            for(DataRecord record : records) average+=record.getHumidity();
+                            average /= records.size();
+                            series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
+                            graph_view.addSeries(series4_average_median);
+                        } else if(custom_median.isChecked()) {
+                            //Median einzeichnen
+                            double median = records.get(records.size() / 2).getHumidity();
+                            series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
+                            graph_view.addSeries(series4_average_median);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 graph_view.removeSeries(series4);
+                graph_view.removeSeries(series4_average_median);
             }
         }
 
@@ -337,16 +459,48 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         series5 = new LineGraphSeries<>();
                         series5.setColor(res.getColor(R.color.series5));
                         for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000.0f - first_time, record.getPressure()), false, 1000000);
+                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
                         }
                         graph_view.addSeries(series5);
+
+                        if(custom_average.isChecked()) {
+                            //Mittelwert einzeichnen
+                            double average = 0;
+                            for(DataRecord record : records) average+=record.getPressure();
+                            average /= records.size();
+                            series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
+                            graph_view.addSeries(series5_average_median);
+                        } else if(custom_median.isChecked()) {
+                            //Median einzeichnen
+                            double median = records.get(records.size() / 2).getPressure();
+                            series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
+                            graph_view.addSeries(series5_average_median);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 graph_view.removeSeries(series5);
+                graph_view.removeSeries(series5_average_median);
             }
+        }
+
+        private static LineGraphSeries drawAverageMedian(double value, long first_time, int color) {
+            LineGraphSeries series = new LineGraphSeries<>();
+            series.appendData(new DataPoint(0, value), false, 2);
+            series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time, value), false, 2);
+
+            Paint p = new Paint();
+            p.setColor(color);
+            p.setStyle(Paint.Style.STROKE);
+            p.setPathEffect(new DashPathEffect(new float[] { 20, 10 }, 0));
+            p.setStrokeWidth(3);
+
+            series.setDrawAsPath(true);
+            series.setCustomPaint(p);
+            series.setDrawDataPoints(false);
+            return series;
         }
 
         private static void updateCurveSmoothness(double epsilon) {
@@ -471,11 +625,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private ImageView heading_humidity_arrow;
         private TextView heading_pressure;
         private ImageView heading_pressure_arrow;
-        private static TextView footer_sdsp1;
-        private static TextView footer_sdsp2;
-        private static TextView footer_temp;
-        private static TextView footer_humidity;
-        private static TextView footer_pressure;
+        private static TextView footer_average_sdsp1;
+        private static TextView footer_average_sdsp2;
+        private static TextView footer_average_temp;
+        private static TextView footer_average_humidity;
+        private static TextView footer_average_pressure;
+        private static TextView footer_median_sdsp1;
+        private static TextView footer_median_sdsp2;
+        private static TextView footer_median_temp;
+        private static TextView footer_median_humidity;
+        private static TextView footer_median_pressure;
         private static TextView record_conter;
 
         //Variablen
@@ -509,11 +668,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 heading_pressure = contentView.findViewById(R.id.heading_pressure);
                 heading_pressure_arrow = contentView.findViewById(R.id.sort_pressure);
 
-                footer_sdsp1 = contentView.findViewById(R.id.footer_sdsp1);
-                footer_sdsp2 = contentView.findViewById(R.id.footer_sdsp2);
-                footer_temp = contentView.findViewById(R.id.footer_temp);
-                footer_humidity = contentView.findViewById(R.id.footer_humidity);
-                footer_pressure = contentView.findViewById(R.id.footer_pressure);
+                footer_average_sdsp1 = contentView.findViewById(R.id.footer_average_sdsp1);
+                footer_average_sdsp2 = contentView.findViewById(R.id.footer_average_sdsp2);
+                footer_average_temp = contentView.findViewById(R.id.footer_average_temp);
+                footer_average_humidity = contentView.findViewById(R.id.footer_average_humidity);
+                footer_average_pressure = contentView.findViewById(R.id.footer_average_pressure);
+                footer_median_sdsp1 = contentView.findViewById(R.id.footer_median_sdsp1);
+                footer_median_sdsp2 = contentView.findViewById(R.id.footer_median_sdsp2);
+                footer_median_temp = contentView.findViewById(R.id.footer_median_temp);
+                footer_median_humidity = contentView.findViewById(R.id.footer_median_humidity);
+                footer_median_pressure = contentView.findViewById(R.id.footer_median_pressure);
 
                 heading_time.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -713,31 +877,76 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         record_conter.setVisibility(View.VISIBLE);
                         contentView.findViewById(R.id.data_heading).setVisibility(View.VISIBLE);
                         contentView.findViewById(R.id.data_footer).setVisibility(View.VISIBLE);
+                        contentView.findViewById(R.id.data_footer_average).setVisibility(su.getBoolean("enable_daily_average", true) ? View.VISIBLE : View.GONE);
+                        contentView.findViewById(R.id.data_footer_median).setVisibility(su.getBoolean("enable_daily_median", false) ? View.VISIBLE : View.GONE);
                         String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + sdf_time.format(records.get(0).getDateTime()) + " " + res.getString(R.string.to) + " " + sdf_time.format(records.get(records.size() - 1).getDateTime());
                         record_conter.setText(String.valueOf(footer_string));
 
-                        double average_sdsp1 = 0;
-                        double average_sdsp2 = 0;
-                        double average_temp = 0;
-                        double average_humidity = 0;
-                        double average_pressure = 0;
-                        for (DataRecord record : records) {
-                            average_sdsp1 += record.getSdsp1();
-                            average_sdsp2 += record.getSdsp2();
-                            average_temp += record.getTemp();
-                            average_humidity += record.getHumidity();
-                            average_pressure += record.getPressure();
+                        if(su.getBoolean("enable_daily_average", true)) {
+                            //Mittelwerte berechnen
+                            double average_sdsp1 = 0;
+                            double average_sdsp2 = 0;
+                            double average_temp = 0;
+                            double average_humidity = 0;
+                            double average_pressure = 0;
+                            for (DataRecord record : records) {
+                                average_sdsp1 += record.getSdsp1();
+                                average_sdsp2 += record.getSdsp2();
+                                average_temp += record.getTemp();
+                                average_humidity += record.getHumidity();
+                                average_pressure += record.getPressure();
+                            }
+                            average_sdsp1 = average_sdsp1 / records.size();
+                            average_sdsp2 = average_sdsp2 / records.size();
+                            average_temp = average_temp / records.size();
+                            average_humidity = average_humidity / records.size();
+                            average_pressure = average_pressure / records.size();
+
+                            footer_average_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 1)).replace(".", ",") + " µg/m³");
+                            footer_average_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 1)).replace(".", ",") + " µg/m³");
+                            footer_average_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",") + " °C");
+                            footer_average_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",") + " %");
+                            footer_average_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)) + " Pa");
                         }
-                        average_sdsp1 = average_sdsp1 / records.size();
-                        average_sdsp2 = average_sdsp2 / records.size();
-                        average_temp = average_temp / records.size();
-                        average_humidity = average_humidity / records.size();
-                        average_pressure = average_pressure / records.size();
-                        footer_sdsp1.setText(String.valueOf(Tools.round(average_sdsp1, 1)).replace(".", ",") + " µg/m³");
-                        footer_sdsp2.setText(String.valueOf(Tools.round(average_sdsp2, 1)).replace(".", ",") + " µg/m³");
-                        footer_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",") + " °C");
-                        footer_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",") + " %");
-                        footer_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)) + " Pa");
+
+                        if(su.getBoolean("enable_daily_median")) {
+                            //Mediane berechnen
+                            double median_sdsp1;
+                            double median_sdsp2;
+                            double median_temp;
+                            double median_humidity;
+                            double median_pressure;
+                            int current_sort_mode = SensorActivity.sort_mode;
+                            //SDSP1
+                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_ASC;
+                            Collections.sort(records);
+                            median_sdsp1 = records.get(records.size() / 2).getSdsp1();
+                            //SDSP2
+                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_ASC;
+                            Collections.sort(records);
+                            median_sdsp2 = records.get(records.size() / 2).getSdsp2();
+                            //Temp
+                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_ASC;
+                            Collections.sort(records);
+                            median_temp = records.get(records.size() / 2).getTemp();
+                            //Humidity
+                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_ASC;
+                            Collections.sort(records);
+                            median_humidity = records.get(records.size() / 2).getHumidity();
+                            //Pressure
+                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_ASC;
+                            Collections.sort(records);
+                            median_pressure = records.get(records.size() / 2).getPressure();
+                            //Alten SortMode wiederherstellen
+                            SensorActivity.sort_mode = current_sort_mode;
+                            Collections.sort(records);
+
+                            footer_median_sdsp1.setText(String.valueOf(Tools.round(median_sdsp1, 1)).replace(".", ",") + " µg/m³");
+                            footer_median_sdsp2.setText(String.valueOf(Tools.round(median_sdsp2, 1)).replace(".", ",") + " µg/m³");
+                            footer_median_temp.setText(String.valueOf(Tools.round(median_temp, 1)).replace(".", ",") + " °C");
+                            footer_median_humidity.setText(String.valueOf(Tools.round(median_humidity, 1)).replace(".", ",") + " %");
+                            footer_median_pressure.setText(String.valueOf(Tools.round(median_pressure, 1)) + " Pa");
+                        }
                     } else {
                         contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
                         contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);

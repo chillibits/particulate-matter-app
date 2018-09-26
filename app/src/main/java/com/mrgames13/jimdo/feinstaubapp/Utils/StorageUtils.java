@@ -148,7 +148,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                 if(!line_contents[9].equals("")) temp = Double.parseDouble(line_contents[9]);
                 if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]);
                 if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]);
-                if(!line_contents[12].equals("")) humidity = Double.parseDouble(line_contents[12]);
+                if(!line_contents[12].equals("")) pressure = Double.parseDouble(line_contents[12]);
                 if(!line_contents[13].equals("")) temp = Double.parseDouble(line_contents[13]);
                 if(!line_contents[14].equals("")) humidity = Double.parseDouble(line_contents[14]);
                 if(!line_contents[15].equals("")) pressure = Double.parseDouble(line_contents[15]);

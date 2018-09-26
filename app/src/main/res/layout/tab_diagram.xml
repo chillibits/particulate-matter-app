@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:background="?selectableItemBackground"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:focusable="true" />
 
             <LinearLayout
                 android:id="@+id/checkbox_container"
@@ -126,6 +127,33 @@
                 android:layout_below="@+id/lbl_curve_smoothness"
                 android:max="500"/>
 
+            <RadioGroup
+                android:id="@+id/enable_average_median"
+                android:layout_below="@+id/curve_smoothness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <RadioButton
+                    android:id="@+id/enable_nothing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_nothing"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/enable_average"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_daily_average"/>
+
+                <RadioButton
+                    android:id="@+id/enable_median"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_daily_median"/>
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/title_current_values"
                 android:layout_width="match_parent"
@@ -134,7 +162,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_below="@+id/curve_smoothness"
+                android:layout_below="@+id/enable_average_median"
                 android:gravity="center"
                 android:layout_marginTop="5dp"/>
 

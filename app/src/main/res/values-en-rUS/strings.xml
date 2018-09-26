@@ -27,7 +27,7 @@
     <string name="minutes">minutes</string>
     <string name="minute">minute</string>
     <string name="reduce_data_consumption">Reduce data consumption</string>
-    <string name="reduce_data_consumption_s">Compare alternation dates on download to prevent unnecessary data consumption</string>
+    <string name="reduce_data_consumption_s">Compare alternation dates on download to avoid unnecessary data consumption</string>
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_limit_sdsp1">PM10 limit</string>
     <string name="pref_limit_sdsp1_t">PM10 limit (µg/m³)</string>
@@ -100,5 +100,11 @@
     <string name="please_wait_">Please wait …</string>
     <string name="add_sensor_tick_not_set_message">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor.</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="median">Median</string>
+    <string name="pref_header_features">Features</string>
+    <string name="enable_daily_average">Show daily average</string>
+    <string name="enable_daily_median">Show daily median</string>
+    <string name="enable_daily_average_median_s">Displayed below the data records</string>
+    <string name="enable_nothing">Disable average / median</string>
 
 </resources>

@@ -2,6 +2,8 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -40,6 +42,16 @@ public class DiagramActivity extends AppCompatActivity {
     private ArrayList<ArrayList<DataRecord>> compare_records;
     private ArrayList<Sensor> compare_sensors;
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
+    private LineGraphSeries<DataPoint> series1;
+    private LineGraphSeries<DataPoint> series1_average_median;
+    private LineGraphSeries<DataPoint> series2;
+    private LineGraphSeries<DataPoint> series2_average_median;
+    private LineGraphSeries<DataPoint> series3;
+    private LineGraphSeries<DataPoint> series3_average_median;
+    private LineGraphSeries<DataPoint> series4;
+    private LineGraphSeries<DataPoint> series4_average_median;
+    private LineGraphSeries<DataPoint> series5;
+    private LineGraphSeries<DataPoint> series5_average_median;
 
     //Variablen
     private boolean show_series_1;
@@ -47,6 +59,8 @@ public class DiagramActivity extends AppCompatActivity {
     private boolean show_series_3;
     private boolean show_series_4;
     private boolean show_series_5;
+    private boolean enable_average;
+    private boolean enable_median;
     private int mode = MODE_SENSOR_DATA;
 
     @Override
@@ -65,6 +79,8 @@ public class DiagramActivity extends AppCompatActivity {
         show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
         show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
         show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
+        enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
+        enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
 
         if(mode == MODE_SENSOR_DATA) {
             //Daten von der SensorActivity übernehmen
@@ -103,10 +119,12 @@ public class DiagramActivity extends AppCompatActivity {
             }
             graph_view.getViewport().setScalable(true);
             graph_view.getViewport().setScrollable(true);
-            graph_view.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-            graph_view.getLegendRenderer().setTextColor(res.getColor(R.color.white));
-            graph_view.getLegendRenderer().setBackgroundColor(res.getColor(R.color.gray_transparent));
-            graph_view.getLegendRenderer().setVisible(true);
+            if(!enable_average && !enable_median) {
+                graph_view.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                graph_view.getLegendRenderer().setTextColor(res.getColor(R.color.white));
+                graph_view.getLegendRenderer().setBackgroundColor(res.getColor(R.color.gray_transparent));
+                graph_view.getLegendRenderer().setVisible(true);
+            }
 
             //Label-Formatter auf Zeit stellen
             graph_view.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
@@ -123,31 +141,12 @@ public class DiagramActivity extends AppCompatActivity {
             });
 
             if(mode == MODE_SENSOR_DATA) {
-                LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
-                LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
-                LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>();
-                LineGraphSeries<DataPoint> series4 = new LineGraphSeries<>();
-                LineGraphSeries<DataPoint> series5 = new LineGraphSeries<>();
-                series1.setDrawDataPoints(true);
-                series2.setDrawDataPoints(true);
-                series3.setDrawDataPoints(true);
-                series4.setDrawDataPoints(true);
-                series5.setDrawDataPoints(true);
-                series1.setDataPointsRadius(8);
-                series2.setDataPointsRadius(8);
-                series3.setDataPointsRadius(8);
-                series4.setDataPointsRadius(8);
-                series5.setDataPointsRadius(8);
-                series1.setColor(res.getColor(R.color.series1));
-                series2.setColor(res.getColor(R.color.series2));
-                series3.setColor(res.getColor(R.color.series3));
-                series4.setColor(res.getColor(R.color.series4));
-                series5.setColor(res.getColor(R.color.series5));
-                series1.setTitle(res.getString(R.string.value1));
-                series2.setTitle(res.getString(R.string.value2));
-                series3.setTitle(res.getString(R.string.temperature));
-                series4.setTitle(res.getString(R.string.humidity));
-                series5.setTitle(res.getString(R.string.pressure));
+                series1 = drawSeries(res.getString(R.string.value1), res.getColor(R.color.series1));
+                series2 = drawSeries(res.getString(R.string.value2), res.getColor(R.color.series2));
+                series3 = drawSeries(res.getString(R.string.temperature), res.getColor(R.color.series3));
+                series4 = drawSeries(res.getString(R.string.humidity), res.getColor(R.color.series4));
+                series5 = drawSeries(res.getString(R.string.pressure), res.getColor(R.color.series5));
+
                 for(DataRecord record : records) {
                     try{
                         series1.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp1()), false, 1000000);
@@ -187,11 +186,87 @@ public class DiagramActivity extends AppCompatActivity {
                         showDetailPopup(dataPoint);
                     }
                 });
-                if(show_series_1) graph_view.addSeries(series1);
-                if(show_series_2) graph_view.addSeries(series2);
-                if(show_series_3) graph_view.addSeries(series3);
-                if(show_series_4) graph_view.addSeries(series4);
-                if(show_series_5) graph_view.addSeries(series5);
+                long first_time = records.get(0).getDateTime().getTime();
+                if(show_series_1) {
+                    graph_view.addSeries(series1);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getSdsp1();
+                        average /= records.size();
+                        series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
+                        graph_view.addSeries(series1_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        double median = records.get(records.size() / 2).getSdsp1();
+                        series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
+                        graph_view.addSeries(series1_average_median);
+                    }
+                }
+                if(show_series_2) {
+                    graph_view.addSeries(series2);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getSdsp2();
+                        average /= records.size();
+                        series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
+                        graph_view.addSeries(series2_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        double median = records.get(records.size() / 2).getSdsp2();
+                        series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
+                        graph_view.addSeries(series2_average_median);
+                    }
+                }
+                if(show_series_3) {
+                    graph_view.addSeries(series3);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getTemp();
+                        average /= records.size();
+                        series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
+                        graph_view.addSeries(series3_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        double median = records.get(records.size() / 2).getTemp();
+                        series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
+                        graph_view.addSeries(series3_average_median);
+                    }
+                }
+                if(show_series_4) {
+                    graph_view.addSeries(series4);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getHumidity();
+                        average /= records.size();
+                        series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
+                        graph_view.addSeries(series4_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        double median = records.get(records.size() / 2).getHumidity();
+                        series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
+                        graph_view.addSeries(series4_average_median);
+                    }
+                }
+                if(show_series_5) {
+                    graph_view.addSeries(series5);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getPressure();
+                        average /= records.size();
+                        series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
+                        graph_view.addSeries(series5_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        double median = records.get(records.size() / 2).getPressure();
+                        series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
+                        graph_view.addSeries(series5_average_median);
+                    }
+                }
             } else if(mode == MODE_COMPARE_DATA) {
                 for(int i = 0; i < compare_sensors.size(); i++) {
                     LineGraphSeries<DataPoint> current_series = new LineGraphSeries<>();
@@ -239,6 +314,35 @@ public class DiagramActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private LineGraphSeries<DataPoint> drawSeries(String title, int color) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(8);
+        series.setColor(color);
+        series.setTitle(title);
+        series.setAnimated(true);
+        return series;
+    }
+
+    private LineGraphSeries<DataPoint> drawAverageMedian(double value, long first_time, int color) {
+        LineGraphSeries series = new LineGraphSeries<>();
+        series.appendData(new DataPoint(first_time, value), false, 2);
+        series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime(), value), false, 2);
+
+        Paint p = new Paint();
+        p.setColor(color);
+        p.setStyle(Paint.Style.STROKE);
+        p.setPathEffect(new DashPathEffect(new float[] { 20, 10 }, 0));
+        p.setStrokeWidth(3);
+
+        series.setDrawAsPath(true);
+        series.setDrawDataPoints(false);
+        series.setCustomPaint(p);
+        series.setDrawDataPoints(false);
+        series.setAnimated(true);
+        return series;
     }
 
     private void showDetailPopup(DataPointInterface dataPoint) {

@@ -152,42 +152,46 @@ public class AddSensorActivity extends AppCompatActivity {
 
                         //Neuen Sensor speichern
                         su.addSensor(new Sensor(sensor_id, sensor_name, current_color));
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String result = smu.sendRequest(findViewById(R.id.container), "command=issensorexisting&sensor_id=" + URLEncoder.encode(sensor_id));
-                                pd.dismiss();
-                                if(Boolean.parseBoolean(result)) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                                            finish();
-                                        }
-                                    });
-                                } else {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
-                                                    .setCancelable(false)
-                                                    .setTitle(R.string.add_sensor)
-                                                    .setMessage(R.string.add_sensor_tick_not_set_message)
-                                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                                                            finish();
-                                                        }
-                                                    })
-                                                    .create();
-                                            d.show();
-                                        }
-                                    });
+                        if(smu.isInternetAvailable()) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensorexisting&sensor_id=" + URLEncoder.encode(sensor_id));
+                                    pd.dismiss();
+                                    if(Boolean.parseBoolean(result)) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                finish();
+                                            }
+                                        });
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
+                                                        .setCancelable(false)
+                                                        .setTitle(R.string.add_sensor)
+                                                        .setMessage(R.string.add_sensor_tick_not_set_message)
+                                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                                finish();
+                                                            }
+                                                        })
+                                                        .create();
+                                                d.show();
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                        }).start();
+                            }).start();
+                        } else {
+                            try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                            finish();
+                        }
                     } else {
                         //Sensor ist bereits verknüpft
                         Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();

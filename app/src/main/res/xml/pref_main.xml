@@ -1,5 +1,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory
+        android:title="@string/pref_header_features"
+        android:key="feature_settings" >
+
+        <SwitchPreference
+            android:key="enable_daily_average"
+            android:defaultValue="true"
+            android:title="@string/enable_daily_average"
+            android:summary="@string/enable_daily_average_median_s"/>
+
+        <SwitchPreference
+            android:key="enable_daily_median"
+            android:defaultValue="false"
+            android:title="@string/enable_daily_median"
+            android:summary="@string/enable_daily_average_median_s"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_header_sync"
         android:key="sensor_settings" >
 

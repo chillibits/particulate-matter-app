@@ -73,7 +73,7 @@ public class SettingsActivity extends PreferenceActivity {
             toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
             toolbar.setTitleTextColor(res.getColor(R.color.white));
             toolbar.setTitle(res.getString(R.string.settings));
-            Drawable upArrow = res.getDrawable(R.drawable.ic_arrow_back);
+            Drawable upArrow = res.getDrawable(R.drawable.arrow_back);
             upArrow.setColorFilter(res.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             toolbar.setNavigationIcon(upArrow);
             root.addView(toolbar, 0);
@@ -85,7 +85,7 @@ public class SettingsActivity extends PreferenceActivity {
             toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
             toolbar.setTitleTextColor(res.getColor(R.color.white));
             toolbar.setTitle(res.getString(R.string.settings));
-            Drawable upArrow = res.getDrawable(R.drawable.ic_arrow_back);
+            Drawable upArrow = res.getDrawable(R.drawable.arrow_back);
             upArrow.setColorFilter(res.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             toolbar.setNavigationIcon(upArrow);
             int height;

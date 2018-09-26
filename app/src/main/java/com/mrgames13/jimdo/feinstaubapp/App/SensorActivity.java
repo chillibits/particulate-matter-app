@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -139,6 +140,7 @@ public class SensorActivity extends AppCompatActivity {
         //CardView-Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
         ImageView card_date_next = findViewById(R.id.card_date_next);
 
@@ -155,6 +157,19 @@ public class SensorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Datum auswählen
                 chooseDate(card_date_value);
+            }
+        });
+        card_date_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auf den heutigen Tag setzen
+                calendar.setTime(new Date());
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {
@@ -340,7 +355,7 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     private void checkSensorAvailability() {
-        if(!su.getBoolean("DontShowAgain_" + String.valueOf(sensor.getId()))) {
+        if(!su.getBoolean("DontShowAgain_" + String.valueOf(sensor.getId())) && smu.isInternetAvailable()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
