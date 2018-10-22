@@ -50,21 +50,25 @@
         android:key="notification_settings" >
 
         <EditTextPreference
-            android:key="limit_sdsp1"
+            android:key="limit_p1"
             android:defaultValue="40"
-            android:title="@string/pref_limit_sdsp1"
-            android:dialogTitle="@string/pref_limit_sdsp1_t"
+            android:title="@string/pref_limit_p1"
+            android:dialogTitle="@string/pref_limit_p1_t"
+            android:hint="@string/zero_to_disable"
             android:inputType="number"
             android:selectAllOnFocus="true"
+            android:maxLength="6"
             android:summary="%s µg/m³"/>
 
         <EditTextPreference
-            android:key="limit_sdsp2"
+            android:key="limit_p2"
             android:defaultValue="25"
-            android:title="@string/pref_limit_sdsp2"
-            android:dialogTitle="@string/pref_limit_sdsp2_t"
+            android:title="@string/pref_limit_p2"
+            android:dialogTitle="@string/pref_limit_p2_t"
+            android:hint="@string/zero_to_disable"
             android:inputType="number"
             android:selectAllOnFocus="true"
+            android:maxLength="6"
             android:summary="%s µg/m³"/>
 
         <EditTextPreference
@@ -72,8 +76,10 @@
             android:defaultValue="0"
             android:title="@string/pref_limit_temp"
             android:dialogTitle="@string/pref_limit_temp_t"
+            android:hint="@string/zero_to_disable"
             android:inputType="number"
             android:selectAllOnFocus="true"
+            android:maxLength="3"
             android:summary="%s °C"/>
 
         <EditTextPreference
@@ -82,7 +88,9 @@
             android:title="@string/pref_limit_humidity"
             android:dialogTitle="@string/pref_limit_humidity_t"
             android:inputType="number"
+            android:hint="@string/zero_to_disable"
             android:selectAllOnFocus="true"
+            android:maxLength="6"
             android:summary="%s %"/>
 
         <EditTextPreference
@@ -90,9 +98,11 @@
             android:defaultValue="0"
             android:title="@string/pref_limit_pressure"
             android:dialogTitle="@string/pref_limit_pressure_t"
+            android:hint="@string/zero_to_disable"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:summary="%s Pa"/>
+            android:maxLength="7"
+            android:summary="%s kPa"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -109,6 +119,11 @@
     <PreferenceCategory
         android:title="@string/pref_header_about"
         android:key="about_settings" >
+
+        <Preference
+            android:key="about_serverinfo"
+            android:title="@string/pref_serverinfo_t"
+            android:summary="@string/loading"/>
 
         <Preference
             android:key="about_opensourcelicenses"

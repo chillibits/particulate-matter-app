@@ -66,18 +66,18 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/custom_sdsp1"
+                        android:id="@+id/custom_p1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/value1"
                         android:buttonTint="@color/series1"/>
 
                     <CheckBox
-                        android:id="@+id/custom_sdsp2"
+                        android:id="@+id/custom_p2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/value2"
-                        android:layout_below="@+id/custom_sdsp1"
+                        android:layout_below="@+id/custom_p1"
                         android:buttonTint="@color/series2"/>
                 </RelativeLayout>
 
@@ -125,7 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lbl_curve_smoothness"
-                android:max="500"/>
+                android:progress="500"
+                android:max="500" />
 
             <RadioGroup
                 android:id="@+id/enable_average_median"
@@ -191,7 +192,7 @@
                         android:text="@string/value1"/>
 
                     <TextView
-                        android:id="@+id/cv_sdsp1"
+                        android:id="@+id/cv_p1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -215,7 +216,7 @@
                         android:background="@color/white"/>
 
                     <TextView
-                        android:id="@+id/cv_sdsp2"
+                        android:id="@+id/cv_p2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"

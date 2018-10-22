@@ -9,7 +9,7 @@
 
     <include layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_date"
         android:layout_width="match_parent"
@@ -97,6 +97,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/chevron_next"
+                android:tint="@drawable/button_selector"
                 android:padding="2dp"
                 android:gravity="center"
                 android:adjustViewBounds="true"
@@ -105,7 +106,7 @@
                 android:clickable="true"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/no_data"
@@ -131,7 +132,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/heading_sdsp1"
+                android:id="@+id/heading_p1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/value1"
@@ -141,13 +142,13 @@
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
-                android:id="@+id/diagram_sdsp1"
+                android:id="@+id/diagram_p1"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_below="@+id/heading_sdsp1"/>
+                android:layout_below="@+id/heading_p1"/>
 
             <TextView
-                android:id="@+id/heading_sdsp2"
+                android:id="@+id/heading_p2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/value2"
@@ -155,14 +156,14 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_sdsp1"
+                android:layout_below="@+id/diagram_p1"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
-                android:id="@+id/diagram_sdsp2"
+                android:id="@+id/diagram_p2"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_below="@+id/heading_sdsp2"/>
+                android:layout_below="@+id/heading_p2"/>
 
             <TextView
                 android:id="@+id/heading_temp"
@@ -173,7 +174,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_sdsp2"
+                android:layout_below="@+id/diagram_p2"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView

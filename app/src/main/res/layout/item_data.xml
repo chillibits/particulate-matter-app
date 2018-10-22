@@ -28,7 +28,7 @@
             android:background="@color/gray_light"/>
 
         <TextView
-            android:id="@+id/item_sdsp1"
+            android:id="@+id/item_p1"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
             android:background="@color/gray_light"/>
 
         <TextView
-            android:id="@+id/item_sdsp2"
+            android:id="@+id/item_p2"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"

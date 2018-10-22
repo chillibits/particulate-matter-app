@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -18,6 +17,8 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import androidx.annotation.Nullable;
 
 public class SyncService extends Service {
 
@@ -33,8 +34,8 @@ public class SyncService extends Service {
     private NotificationUtils nu;
 
     //Variablen
-    private int max_limit_sdsp1;
-    private int max_limit_sdsp2;
+    private int max_limit_p1;
+    private int max_limit_p2;
     private int max_limit_temp;
     private int max_limit_humidity;
     private int max_limit_pressure;
@@ -67,11 +68,11 @@ public class SyncService extends Service {
                 @Override
                 public void run() {
                     //MaxLimit aus den SharedPreferences auslesen
-                    max_limit_sdsp1 = Integer.parseInt(su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT)));
-                    max_limit_sdsp2 = Integer.parseInt(su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT)));
-                    max_limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
-                    max_limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
-                    max_limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
+                    max_limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)).isEmpty() ? "0" : su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
+                    max_limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)).isEmpty() ? "0" : su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
+                    max_limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)).isEmpty() ? "0" : su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
+                    max_limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)).isEmpty() ? "0" : su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
+                    max_limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)).isEmpty() ? "0" : su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
 
                     //Date String von Heute ermitteln
                     Calendar calendar = Calendar.getInstance();
@@ -86,7 +87,10 @@ public class SyncService extends Service {
                         date_yesterday = sdf_date.format(c.getTime());
                     } catch (Exception e) {}
 
-                    for(Sensor s : su.getAllSensors()) {
+                    ArrayList<Sensor> array = new ArrayList<>();
+                    array.addAll(su.getAllFavourites());
+                    array.addAll(su.getAllOwnSensors());
+                    for(Sensor s : array) {
                         //Dateien Herunterladen
                         smu.manageDownloads(s, date_string, date_yesterday);
                         //Inhalt der lokalen Dateien auslesen
@@ -101,15 +105,15 @@ public class SyncService extends Service {
                             records = trimDataRecordsToSyncTime(records);
                             //Auswerten
                             for(DataRecord r : records) {
-                                if(max_limit_sdsp1 > 0 && r.getSdsp1() > max_limit_sdsp1) {
-                                    Log.i("FA", "SDSP1 limit exceeded");
-                                    //Sdsp1 Notification
-                                    nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_sdsp1), Integer.parseInt(s.getId()), r.getDateTime().getTime());
+                                if(max_limit_p1 > 0 && r.getP1() > max_limit_p1) {
+                                    Log.i("FA", "P1 limit exceeded");
+                                    //P1 Notification
+                                    nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), Integer.parseInt(s.getId()), r.getDateTime().getTime());
                                 }
-                                if(max_limit_sdsp2 > 0 && r.getSdsp2() > max_limit_sdsp2) {
-                                    Log.i("FA", "SDSP2 limit exceeded");
-                                    //Sdsp2 Notification
-                                    nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_sdsp2), Integer.parseInt(s.getId()), r.getDateTime().getTime());
+                                if(max_limit_p2 > 0 && r.getP2() > max_limit_p2) {
+                                    Log.i("FA", "P2 limit exceeded");
+                                    //P2 Notification
+                                    nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), Integer.parseInt(s.getId()), r.getDateTime().getTime());
                                 }
                                 if(max_limit_temp > 0 && r.getTemp() > max_limit_temp) {
                                     Log.i("FA", "Temp limit exceeded");

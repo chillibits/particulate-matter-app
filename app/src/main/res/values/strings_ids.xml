@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Long Strings -->
+    <string name="maps_api_key" translatable="false">AIzaSyDSOlpd29cZ5lxMKSQQyWrgh2KvlTsQur0</string>
+</resources>

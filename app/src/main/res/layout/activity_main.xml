@@ -7,49 +7,88 @@
     android:id="@+id/container"
     tools:context=".App.MainActivity">
 
-    <include layout="@layout/toolbar"/>
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/sensor_view"
+        <include layout="@layout/toolbar" />
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/MaterialSearchViewStyle"/>
+    </FrameLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_below="@+id/toolbar_container"
+        android:layout_above="@+id/bottom_navigation"/>
 
-    <RelativeLayout
-        android:id="@+id/no_data"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/no_data_text"
-            android:layout_width="wrap_content"
-            android:maxWidth="300dp"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/no_sensors" />
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/no_data_text"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/pfeil"/>
-    </RelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_sensor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/add_white"
-        app:fabSize="normal"
+        app:srcCompat="@drawable/fab_anim_search_to_add"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:elevation="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/navigation_selector"
+        app:itemTextColor="@drawable/navigation_selector"
+        app:menu="@menu/bottom_navigation_main"/>
+
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/sheet_fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ft_color="@color/colorPrimary"
+        android:elevation="10dp"/>
+
+    <!-- Selection Mode -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_compare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/multiline_chart"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="10dp"
+        android:visibility="gone"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_compare_dismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        android:backgroundTint="@color/gray_light"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/close_white"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="10dp"
+        android:visibility="gone"/>
+
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/sheet_fab_compare"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ft_color="@color/colorPrimary"
+        android:elevation="10dp"/>
 </RelativeLayout>

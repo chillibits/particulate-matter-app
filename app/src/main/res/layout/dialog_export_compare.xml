@@ -12,14 +12,14 @@
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/export_diagram_sdsp1"
+            android:id="@+id/export_diagram_p1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/value1"
             android:checked="true"/>
 
         <RadioButton
-            android:id="@+id/export_diagram_sdsp2"
+            android:id="@+id/export_diagram_p2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/value2" />

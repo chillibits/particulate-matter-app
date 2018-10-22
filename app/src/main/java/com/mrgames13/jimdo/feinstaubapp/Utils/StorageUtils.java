@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -26,18 +25,23 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import androidx.core.content.FileProvider;
+
 public class StorageUtils extends SQLiteOpenHelper {
 
     //Konstanten
     private final String DEFAULT_STRING_VALUE = "";
+    private final int DEFAULT_INT_VALUE = 0;
     private final boolean DEFAULT_BOOLEAN_VALUE = false;
     private final int DEFAULT_LONG_VALUE = -1;
     public static final String TABLE_SENSORS = "Sensors";
+    public static final String TABLE_FAVOURITES = "Favourites";
 
     //Variablen als Objekte
     private Context context;
@@ -48,7 +52,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     //Variablen
 
     public StorageUtils(Context context) {
-        super(context, "database.db", null, 1);
+        super(context, "database.db", null, 2);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;
     }
@@ -131,8 +135,8 @@ public class StorageUtils extends SQLiteOpenHelper {
         for(int i = 1; i < lines.length; i ++) {
             try{
                 Date time = new Date();
-                double sdsp1 = 0.0;
-                double sdsp2 = 0.0;
+                double p1 = 0.0;
+                double p2 = 0.0;
                 double temp = 0.0;
                 double humidity = 0.0;
                 double pressure = 0.0;
@@ -142,18 +146,28 @@ public class StorageUtils extends SQLiteOpenHelper {
 
                 //Zeile aufspalten
                 String[] line_contents = lines[i].split(";");
-                if(!line_contents[0].equals("")) time = sdf.parse(line_contents[0]);
-                if(!line_contents[7].equals("")) sdsp1 = Double.parseDouble(line_contents[7]);
-                if(!line_contents[8].equals("")) sdsp2 = Double.parseDouble(line_contents[8]);
-                if(!line_contents[9].equals("")) temp = Double.parseDouble(line_contents[9]);
-                if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]);
-                if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]);
-                if(!line_contents[12].equals("")) pressure = Double.parseDouble(line_contents[12]);
-                if(!line_contents[13].equals("")) temp = Double.parseDouble(line_contents[13]);
-                if(!line_contents[14].equals("")) humidity = Double.parseDouble(line_contents[14]);
-                if(!line_contents[15].equals("")) pressure = Double.parseDouble(line_contents[15]);
+                try { if(!line_contents[0].equals("")) time = sdf.parse(line_contents[0]); } catch (Exception e) {}
+                try { if(!line_contents[1].equals("")) p1 = Double.parseDouble(line_contents[1]); } catch (Exception e) {}
+                try { if(!line_contents[2].equals("")) p1 = Double.parseDouble(line_contents[2]); } catch (Exception e) {}
+                try { if(!line_contents[3].equals("")) p1 = Double.parseDouble(line_contents[3]); } catch (Exception e) {}
+                try { if(!line_contents[4].equals("")) p2 = Double.parseDouble(line_contents[4]); } catch (Exception e) {}
+                try { if(!line_contents[5].equals("")) p2 = Double.parseDouble(line_contents[5]); } catch (Exception e) {}
+                try { if(!line_contents[6].equals("")) p2 = Double.parseDouble(line_contents[6]); } catch (Exception e) {}
+                try { if(!line_contents[7].equals("")) p1 = Double.parseDouble(line_contents[7]); } catch (Exception e) {}
+                try { if(!line_contents[8].equals("")) p2 = Double.parseDouble(line_contents[8]); } catch (Exception e) {}
+                try { if(!line_contents[9].equals("")) temp = Double.parseDouble(line_contents[9]); } catch (Exception e) {}
+                try { if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]); } catch (Exception e) {}
+                try { if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]); } catch (Exception e) {}
+                try { if(!line_contents[12].equals("")) pressure = Double.parseDouble(line_contents[12]); } catch (Exception e) {}
+                try { if(!line_contents[13].equals("")) temp = Double.parseDouble(line_contents[13]); } catch (Exception e) {}
+                try { if(!line_contents[14].equals("")) humidity = Double.parseDouble(line_contents[14]); } catch (Exception e) {}
+                try { if(!line_contents[15].equals("")) pressure = Double.parseDouble(line_contents[15]); } catch (Exception e) {}
+                try { if(!line_contents[20].equals("")) p1 = Double.parseDouble(line_contents[20]); } catch (Exception e) {}
+                try { if(!line_contents[21].equals("")) p2 = Double.parseDouble(line_contents[21]); } catch (Exception e) {}
+                try { if(!line_contents[22].equals("")) p1 = Double.parseDouble(line_contents[22]); } catch (Exception e) {}
+                try { if(!line_contents[23].equals("")) p2 = Double.parseDouble(line_contents[23]); } catch (Exception e) {}
 
-                records.add(new DataRecord(time, sdsp1, sdsp2, temp, humidity, pressure));
+                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 1000)));
             } catch (Exception e) {}
         }
         return records;
@@ -228,6 +242,12 @@ public class StorageUtils extends SQLiteOpenHelper {
         e.apply();
     }
 
+    public void putInt(String name, int value) {
+        e = prefs.edit();
+        e.putInt(name, value);
+        e.apply();
+    }
+
     public void putBoolean(String name, boolean value) {
         e = prefs.edit();
         e.putBoolean(name, value);
@@ -244,6 +264,10 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getString(name, DEFAULT_STRING_VALUE);
     }
 
+    public int getInt(String name) {
+        return prefs.getInt(name, DEFAULT_INT_VALUE);
+    }
+
     public boolean getBoolean(String name) {
         return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE);
     }
@@ -254,6 +278,10 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getString(name, default_value);
     }
 
+    public int getInt(String name, int default_value) {
+        return prefs.getInt(name, default_value);
+    }
+
     public boolean getBoolean(String name, boolean default_value) {
         return prefs.getBoolean(name, default_value);
     }
@@ -262,13 +290,14 @@ public class StorageUtils extends SQLiteOpenHelper {
         return  prefs.getLong(name, default_value);
     }
 
-    //------------------------------------------------Datenbank---------------------------------------------
+    //------------------------------------------Datenbank-------------------------------------------
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try{
             //Tabellen erstellen
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SENSORS + " (sensor_id text, sensor_name text, sensor_color integer);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
         } catch (Exception e) {
             Log.e("ChatLet", "Database creation error: ", e);
         }
@@ -276,14 +305,15 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion) {
+        if (newVersion > oldVersion && newVersion == 2) {
             //Datenbank-Update
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
         }
     }
 
     public void addRecord(String table, ContentValues values) {
         SQLiteDatabase db = getWritableDatabase();
-        long id = db.insert(table, null, values);
+        db.insert(table, null, values);
     }
 
     public void execSQL(String command) {
@@ -291,34 +321,35 @@ public class StorageUtils extends SQLiteOpenHelper {
         db.execSQL(command);
     }
 
-    //-----------------------------------------Sensoren---------------------------------------------
+    //---------------------------------------Eigene Sensoren----------------------------------------
 
-    public void addSensor(Sensor sensor) {
+    public void addOwnSensor(Sensor sensor, boolean offline) {
         ContentValues values = new ContentValues();
         values.put("sensor_id", sensor.getId());
         values.put("sensor_name", sensor.getName());
         values.put("sensor_color", sensor.getColor());
         addRecord(TABLE_SENSORS, values);
+        putBoolean(sensor.getId() + "_offline", offline);
     }
 
-    public boolean isSensorExisting(String sensor_id) {
+    public boolean isSensorExistingLocally(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + sensor_id + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;
     }
 
-    public void updateSensor(Sensor sensor) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + sensor.getName() + "', sensor_color = '" + String.valueOf(sensor.getColor()) + "' WHERE sensor_id = '" + sensor.getId() + "';");
+    public void updateOwnSensor(Sensor new_sensor) {
+        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + String.valueOf(new_sensor.getColor()) + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
     }
 
-    public void deleteSensor(String sensor_id) {
+    public void removeOwnSensor(String chip_id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_SENSORS, "sensor_id = ?", new String[]{sensor_id});
+        db.delete(TABLE_SENSORS, "sensor_id = ?", new String[]{chip_id});
     }
 
-    public ArrayList<Sensor> getAllSensors() {
+    public ArrayList<Sensor> getAllOwnSensors() {
         try{
             SQLiteDatabase db = getWritableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS, null);
@@ -327,6 +358,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                 sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
             }
             cursor.close();
+            Collections.sort(sensors);
             return sensors;
         } catch (Exception e) {
             Log.e("ChatLet", "Error loading message", e);
@@ -334,4 +366,51 @@ public class StorageUtils extends SQLiteOpenHelper {
         return new ArrayList<>();
     }
 
+    public boolean isSensorInOfflineMode(String chip_id) {
+        return getBoolean(chip_id + "_offline");
+    }
+
+    //------------------------------------------Favoriten-------------------------------------------
+
+    public void addFavourite(Sensor sensor) {
+        ContentValues values = new ContentValues();
+        values.put("sensor_id", sensor.getId());
+        values.put("sensor_name", sensor.getName());
+        values.put("sensor_color", sensor.getColor());
+        addRecord(TABLE_FAVOURITES, values);
+    }
+
+    public boolean isFavouriteExisting(String chip_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES + " WHERE sensor_id = '" + chip_id + "'", null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
+    public void updateFavourite(Sensor new_sensor) {
+        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + String.valueOf(new_sensor.getColor()) + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
+    }
+
+    public void removeFavourite(String chip_id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_FAVOURITES, "sensor_id = ?", new String[]{chip_id});
+    }
+
+    public ArrayList<Sensor> getAllFavourites() {
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES, null);
+            ArrayList<Sensor> sensors = new ArrayList<>();
+            while(cursor.moveToNext()) {
+                sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
+            }
+            cursor.close();
+            Collections.sort(sensors);
+            return sensors;
+        } catch (Exception e) {
+            Log.e("ChatLet", "Error loading message", e);
+        }
+        return new ArrayList<>();
+    }
 }

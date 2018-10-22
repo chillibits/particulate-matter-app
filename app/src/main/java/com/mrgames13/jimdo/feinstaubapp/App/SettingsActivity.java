@@ -4,12 +4,12 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -22,8 +22,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -35,14 +33,23 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -51,10 +58,15 @@ public class SettingsActivity extends PreferenceActivity {
 
     //Variablen als Objekte
     private Resources res;
-    private StorageUtils su;
     private Toolbar toolbar;
+    private ProgressDialog pd;
+
+    //Utils-Pakete
+    private StorageUtils su;
+    private ServerMessagingUtils smu;
 
     //Variablen
+    private String result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +77,9 @@ public class SettingsActivity extends PreferenceActivity {
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);
+
+        //ServerMessagingUtils initialisieren
+        smu = new ServerMessagingUtils(this, su);
 
         //Toolbar initialisieren
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -153,14 +168,14 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        EditTextPreference limit_sdsp1 = (EditTextPreference) findPreference("limit_sdsp1");
-        EditTextPreference limit_sdsp2 = (EditTextPreference) findPreference("limit_sdsp2");
+        EditTextPreference limit_p1 = (EditTextPreference) findPreference("limit_p1");
+        EditTextPreference limit_p2 = (EditTextPreference) findPreference("limit_p2");
         EditTextPreference limit_temp = (EditTextPreference) findPreference("limit_temp");
         EditTextPreference limit_humidity = (EditTextPreference) findPreference("limit_humidity");
         EditTextPreference limit_pressure = (EditTextPreference) findPreference("limit_pressure");
 
-        limit_sdsp1.setSummary(Integer.parseInt(su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT))) > 0 ? su.getString("limit_sdsp1", String.valueOf(Constants.DEFAULT_SDSP1_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
-        limit_sdsp1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        limit_p1.setSummary(Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT))) > 0 ? su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_p1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
@@ -169,8 +184,8 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_sdsp2.setSummary(Integer.parseInt(su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT))) > 0 ? su.getString("limit_sdsp2", String.valueOf(Constants.DEFAULT_SDSP2_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
-        limit_sdsp2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        limit_p2.setSummary(Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT))) > 0 ? su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_p2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
@@ -200,15 +215,66 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " Pa" : res.getString(R.string.pref_limit_disabled));
+        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " kPa" : res.getString(R.string.pref_limit_disabled));
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " Pa" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " kPa" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });
+
+        final Preference about_serverinfo = findPreference("about_serverinfo");
+        about_serverinfo.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if(smu.isInternetAvailable()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getServerInfo(true, true);
+                        }
+                    }).start();
+                } else {
+                    Toast.makeText(SettingsActivity.this, res.getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+        if(smu.isInternetAvailable()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        //Info vom Server holen
+                        getServerInfo(false, false);
+                        //Result auseinandernehmen
+                        if(!result.isEmpty()) {
+                            JSONArray array = new JSONArray(result);
+                            JSONObject jsonobject = array.getJSONObject(0);
+                            final int server_state_int = jsonobject.getInt("serverstate");
+
+                            //ServerState überschreiben
+                            String server_state = "";
+                            if(server_state_int == 1) server_state = res.getString(R.string.serverstate_1);
+                            if(server_state_int == 2) server_state = res.getString(R.string.serverstate_2);
+                            if(server_state_int == 3) server_state = res.getString(R.string.serverstate_3);
+                            if(server_state_int == 4) server_state = res.getString(R.string.serverstate_4);
+                            final String summary = server_state;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    about_serverinfo.setSummary(summary);
+                                }
+                            });
+                        }
+                    } catch(Exception e) {}
+                }
+            }).start();
+        } else {
+            about_serverinfo.setSummary(res.getString(R.string.internet_is_not_available));
+        }
 
         final Preference about_opensouces = findPreference("about_opensourcelicenses");
         about_opensouces.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -283,7 +349,8 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+        //return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+        return false;
     }
 
     private static boolean isSimplePreferences(Context context) {
@@ -331,5 +398,75 @@ public class SettingsActivity extends PreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("sensor_id"));
             bindPreferenceSummaryToValue(findPreference("sync_cycle"));
         }
+    }
+
+    private String getServerInfo(final boolean showProgressDialog, final boolean showResultDialog) {
+        try {
+            if(showProgressDialog) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Dialog für den Fortschritt anzeigen
+                        pd = new ProgressDialog(SettingsActivity.this);
+                        pd.setMessage(res.getString(R.string.pref_serverinfo_downloading_));
+                        pd.setIndeterminate(true);
+                        pd.setTitle(res.getString(R.string.pref_serverinfo_t));
+                        pd.show();
+                    }
+                });
+            }
+            //Abfrage an den Server senden
+            result = smu.sendRequest(null, "name="+ URLEncoder.encode(su.getString("Username"), "UTF-8")+"&command=getserverinfo");
+            //Result auseinandernehmen
+            if(!result.isEmpty()) {
+                JSONArray array = new JSONArray(result);
+                JSONObject jsonobject = array.getJSONObject(0);
+                final String client_name = jsonobject.getString("clientname");
+                final int server_state = jsonobject.getInt("serverstate");
+                final String min_appversion = jsonobject.getString("min_appversion");
+                final String newest_appversion = jsonobject.getString("newest_appversion");
+                final String owners = jsonobject.getString("owner");
+
+                //Dialog für das Ergebnis anzeigen
+                if(showResultDialog) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(showProgressDialog) pd.dismiss();
+                            //Serverinfo überschreiben
+                            String server_state_display = null;
+                            if(server_state == 1) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_1_short);
+                            if(server_state == 2) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_2_short);
+                            if(server_state == 3) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_3_short);
+                            if(server_state == 4) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_4_short);
+                            //String einzeln zusammensetzen
+                            String client_name_display = res.getString(R.string.client_name) + ": " + client_name;
+                            String min_app_version_display = res.getString(R.string.min_app_version) + ": " + min_appversion;
+                            String newest_app_version_display = res.getString(R.string.newest_app_version) + ": " + newest_appversion;
+                            String owners_display = res.getString(R.string.owners) + ": " + owners;
+                            //String zusammensetzen und Dialog anzeigen
+                            final SpannableString info = new SpannableString(client_name_display + "\n" + server_state_display + "\n" + min_app_version_display + "\n" + newest_app_version_display + "\n" + owners_display);
+                            Linkify.addLinks(info, Linkify.WEB_URLS);
+                            androidx.appcompat.app.AlertDialog.Builder d_Result;
+                            d_Result = new androidx.appcompat.app.AlertDialog.Builder(SettingsActivity.this);
+                            d_Result.setTitle(res.getString(R.string.pref_serverinfo_t))
+                                    .setMessage(info)
+                                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .create();
+                            androidx.appcompat.app.AlertDialog d = d_Result.show();
+                            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                        }
+                    });
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

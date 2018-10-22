@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 142
-        versionName "1.4.2"
+        targetSdkVersion 28
+        versionCode 200
+        versionName "2.0.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -30,16 +30,20 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:palette-v7:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:support-vector-drawable:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.turing-tech:MaterialScrollBar:13.3.0'
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
-    implementation 'com.github.lguipeng:AnimCheckBox:1.0.1'
-    implementation 'com.github.mrgames13:SplashScreen:1.0.0'
+    implementation 'com.github.mrgames13:SplashScreen:1.0.1'
+    implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'eu.davidea:flipview:1.2.0'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }

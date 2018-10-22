@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_sensor_data"
+        android:title="@string/show_measurements"/>
+
+    <item
+        android:id="@+id/action_sensor_edit"
+        android:title="@string/edit_sensor"/>
+
+    <item
+        android:id="@+id/action_sensor_unlink"
+        android:title="@string/unlink_sensor"/>
+
+    <item
+        android:id="@+id/action_sensor_properties"
+        android:title="@string/properties"/>
+</menu>

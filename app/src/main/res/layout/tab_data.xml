@@ -69,7 +69,7 @@
                     android:background="@color/gray_light"/>
 
                 <TextView
-                    android:id="@+id/heading_sdsp1"
+                    android:id="@+id/heading_p1"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -80,7 +80,7 @@
                     android:text="@string/value1"/>
 
                 <ImageView
-                    android:id="@+id/sort_sdsp1"
+                    android:id="@+id/sort_p1"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
                     android:gravity="center"
@@ -94,7 +94,7 @@
                     android:background="@color/gray_light"/>
 
                 <TextView
-                    android:id="@+id/heading_sdsp2"
+                    android:id="@+id/heading_p2"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -105,7 +105,7 @@
                     android:text="@string/value2"/>
 
                 <ImageView
-                    android:id="@+id/sort_sdsp2"
+                    android:id="@+id/sort_p2"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
                     android:gravity="center"
@@ -188,7 +188,7 @@
                     android:visibility="invisible"/>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/data"
                 android:layout_width="530dp"
                 android:layout_height="match_parent"
@@ -229,7 +229,7 @@
                         android:background="@color/gray_light"/>
 
                     <TextView
-                        android:id="@+id/footer_average_sdsp1"
+                        android:id="@+id/footer_average_p1"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
@@ -247,7 +247,7 @@
                         android:background="@color/gray_light"/>
 
                     <TextView
-                        android:id="@+id/footer_average_sdsp2"
+                        android:id="@+id/footer_average_p2"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
@@ -341,7 +341,7 @@
                         android:background="@color/gray_light"/>
 
                     <TextView
-                        android:id="@+id/footer_median_sdsp1"
+                        android:id="@+id/footer_median_p1"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
@@ -359,7 +359,7 @@
                         android:background="@color/gray_light"/>
 
                     <TextView
-                        android:id="@+id/footer_median_sdsp2"
+                        android:id="@+id/footer_median_p2"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"

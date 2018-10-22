@@ -1,6 +1,7 @@
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
 
@@ -34,12 +35,12 @@ public class Tools {
         return new_records;
     }
 
-    public static ArrayList<Point> convertDataRecordsToPointsSDSP1(ArrayList<DataRecord> records) {
+    public static ArrayList<Point> convertDataRecordsToPointsP1(ArrayList<DataRecord> records) {
         ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getSdsp1()));
+        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getP1()));
         return result;
     }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsSDSP1(ArrayList<Point> points) {
+    public static ArrayList<DataRecord> convertPointsToDataRecordsP1(ArrayList<Point> points) {
         ArrayList<DataRecord> result = new ArrayList<>();
         for(Point p : points) {
             Date date = new Date();
@@ -49,12 +50,12 @@ public class Tools {
         return result;
     }
 
-    public static ArrayList<Point> convertDataRecordsToPointsSDSP2(ArrayList<DataRecord> records) {
+    public static ArrayList<Point> convertDataRecordsToPointsP2(ArrayList<DataRecord> records) {
         ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getSdsp2()));
+        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getP2()));
         return result;
     }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsSDSP2(ArrayList<Point> points) {
+    public static ArrayList<DataRecord> convertPointsToDataRecordsP2(ArrayList<Point> points) {
         ArrayList<DataRecord> result = new ArrayList<>();
         for(Point p : points) {
             Date date = new Date();
@@ -107,5 +108,17 @@ public class Tools {
             result.add(new DataRecord(date, 0.0, 0.0, 0.0, 0.0, p.getY()));
         }
         return result;
+    }
+
+    public static ArrayList<Sensor> removeDuplicateSensors(ArrayList<Sensor> sensors) {
+        ArrayList<Sensor> sensors_new = new ArrayList<>();
+        outerloop:
+        for(Sensor s_new : sensors) {
+            for(Sensor s_old : sensors_new) {
+                if(s_old.getId().equals(s_new.getId())) continue outerloop;
+            }
+            sensors_new.add(s_new);
+        }
+        return sensors_new;
     }
 }

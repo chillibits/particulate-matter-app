@@ -3,6 +3,8 @@
     <!-- Common Strings -->
     <string name="app_name">Feinstaub App</string>
     <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
@@ -12,15 +14,27 @@
     <string name="internet_is_not_available">Internet nicht verfügbar</string>
     <string name="activate_wlan">Wlan aktivieren</string>
     <string name="please_wait_">Bitte warten …</string>
+    <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
+    <string name="offline_t">Server offline</string>
+    <string name="offline_m">Der Server ist offline. Solange dies so ist, können Sie keine Daten abrufen.</string>
+    <string name="maintenance_t">Serverwartung</string>
+    <string name="maintenance_m">Der Server wird gewartet. Sie können während der Wartung leider keine Daten abrufen.</string>
+    <string name="support_end_t">App-Unterstützung zu Ende</string>
+    <string name="support_end_m">Es tut uns leid! Die Feinstaub-App wird nicht mehr von M&amp;R Games unterstützt. Sie können diese App nun deinstallieren.</string>
+    <string name="update_necessary_t">Update verfügbar!</string>
+    <string name="update_necessary_m">Damit die Feinstaub-App ordnungsgemäß funktionieren kann, müssen Sie ein Update durchführen.</string>
+    <string name="download_update">Herunterladen</string>
+    <string name="update_available">Update verfügbar</string>
+    <string name="download">Download</string>
 
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
-    <string name="show_details">Sensordetails anzeigen</string>
     <string name="compare_sensors">Sensoren vergleichen</string>
     <string name="edit_sensor">Sensor bearbeiten</string>
-    <string name="delete_sensor">Sensor löschen</string>
-    <string name="really_delete_sensor">Wollen Sie den ausgewählten Sensor wirklich löschen</string>
-    <string name="no_sensors">Keine Sensoren verknüpft. Tippen Sie unten, um einen Feinstaubsensor zu verknüpfen.</string>
+    <string name="complete_sensor">Sensor vervollständigen</string>
+    <string name="unlink_sensor">Sensor entfernen</string>
+    <string name="really_unlink_sensor">Wollen Sie diesen Sensor wirklich entfernen?</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.\n\nTippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
@@ -28,17 +42,48 @@
     <string name="share_app">App weiterempfehlen</string>
     <string name="share_m">Empfehlen Sie die App Ihren Freunden!</string>
     <string name="rate">Bewerten</string>
+    <string name="add_own_sensor">Eigenen Sensor hinzufügen</string>
+    <string name="my_favourites">Meine Favoriten</string>
+    <string name="all_sensors">Alle Sensoren</string>
+    <string name="my_sensors">Meine Sensoren</string>
+    <string name="no_favourites">Noch keine Favouriten vorhanden. Um Favoriten hinzuzufügen, wechseln Sie zu \'Alle Sensoren\', tippen auf einen oder mehrere Sensoren und wählen \'Favorit hinzufügen\'.</string>
+    <string name="show_measurements">Messwerte zeigen</string>
+    <string name="add_favourite">Favorit hinzufügen</string>
+    <string name="favourite_added">Favorit wurde hinzugefügt</string>
+    <string name="properties">Eigenschaften</string>
+    <string name="public_short_">Öffentlich:</string>
+    <string name="online_since_">Online seit:</string>
+    <string name="height_short_">Montagehöhe:</string>
+    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen</string>
+    <string name="enable_location_m">Eigene Position zeigen?</string>
+    <string name="enable_location">Aktivieren</string>
+    <string name="search_for_sensors">Sensoren durchsuchen</string>
+    <string name="enabled_gps_t">Standort aktiviert</string>
+    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
+    <string name="sensor_position_completion_t">Sensoren vervollständigen</string>
+    <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
+    <string name="sensor_position_completion_m">Das Update wurde erfolgreich installiert. Diese Version enthält ein Karten-Feature, mit dem man Zugriff auf alle Sensoren weltweit bekommt. Um Ihre eingenen Sensoren für andere Nutzer einsehbar zu machen, müssen Sie die Daten der Sensoren vervollständigen. Um dies zu tun, wechseln Sie auf die \'Meine Sensoren\'-Seite und tippen auf jedes Ausrufezeichen.</string>
 
     <!-- AddSensorActivity -->
-    <string name="add_sensor">Sensor hinzufügen</string>
     <string name="done">Fertig</string>
     <string name="name_">Anzeigename:</string>
-    <string name="sensor_id_">Chip-ID:</string>
+    <string name="chip_id">Chip-ID:</string>
     <string name="choose_color">Farbe wählen</string>
     <string name="not_all_filled">Bitte alle Felder füllen</string>
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
-    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware der Haken bei \'Senden an Feinstaub-App\' gesetzt ist.</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
     <string name="dont_show_again">Nicht mehr anzeigen</string>
+    <string name="public_sensor">Sensor für andere Nutzer auf der Karte sichtbar machen</string>
+    <string name="choose_location">Genaue Sensor-Position auswählen</string>
+    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="latitude">Breitengrad</string>
+    <string name="latitude_">Breitengrad:</string>
+    <string name="longitude">Längengrad</string>
+    <string name="longitude_">Längengrad:</string>
+    <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
 
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -70,8 +115,8 @@
 
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Grenzwert überschritten</string>
-    <string name="limit_exceeded_sdsp1">PM10 Grenzwert überschritten</string>
-    <string name="limit_exceeded_sdsp2">PM2,5 Grenzwert überschritten</string>
+    <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>
+    <string name="limit_exceeded_p2">PM2,5 Grenzwert überschritten</string>
     <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
     <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
     <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
@@ -104,17 +149,18 @@
 
     <!-- NotificationSettings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
-    <string name="pref_limit_sdsp1">PM10 Grenzwert</string>
-    <string name="pref_limit_sdsp1_t">PM10 Grenzwert (µg/m³)</string>
-    <string name="pref_limit_sdsp2">PM2.5 Grenzwert</string>
-    <string name="pref_limit_sdsp2_t">PM2,5 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_p1">PM10 Grenzwert</string>
+    <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_p2">PM2.5 Grenzwert</string>
+    <string name="pref_limit_p2_t">PM2,5 Grenzwert (µg/m³)</string>
     <string name="pref_limit_temp">Temperatur Grenzwert</string>
     <string name="pref_limit_temp_t">Temperatur Grenzwert (°C)</string>
     <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
-    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (Pa)</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (kPa)</string>
     <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
+    <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
 
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
@@ -123,10 +169,28 @@
 
     <!-- About Settings -->
     <string name="pref_header_about">Über die Feinstaub-App</string>
+    <string name="pref_serverinfo_t">Serverinfo</string>
+    <string name="pref_serverinfo_downloading_">Serverinfo wird heruntergeladen …</string>
+    <string name="server_state">Serverstatus</string>
+    <string name="client_name">Client-Name</string>
+    <string name="min_app_version">Minimalversion</string>
+    <string name="newest_app_version">Neueste Version</string>
+    <string name="owners">Serverinhaber</string>
+    <string name="serverstate_1">Server ist online</string>
+    <string name="serverstate_2">Server ist offline</string>
+    <string name="serverstate_3">Server wird gewartet</string>
+    <string name="serverstate_4">App wird nicht mehr unterstützt</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3_short">Wird gewartet</string>
+    <string name="serverstate_4_short">Nicht mehr unterstützt</string>
     <string name="pref_opensource_t">Open-Source-Lizenzen</string>
     <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>
     <string name="pref_more_apps_m">Unsere Playstore-Seite</string>
+
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
-public class Sensor {
+import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+
+public class Sensor implements Comparable, Serializable {
 
     //Konstanten
 
@@ -38,5 +42,11 @@ public class Sensor {
     }
     public int getColor() {
         return color;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Sensor other = (Sensor) o;
+        return getName().compareTo(other.getName());
     }
 }

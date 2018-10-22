@@ -8,13 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -43,6 +37,13 @@ import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 public class SensorActivity extends AppCompatActivity {
 
@@ -83,8 +84,8 @@ public class SensorActivity extends AppCompatActivity {
     public static String current_date_string;
     public static String date_string;
     public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
-    public static boolean custom_sdsp1 = true;
-    public static boolean custom_sdsp2 = true;
+    public static boolean custom_p1 = true;
+    public static boolean custom_p2 = true;
     public static boolean custom_temp = false;
     public static boolean custom_humidity = false;
     public static boolean custom_pressure = false;
@@ -142,7 +143,7 @@ public class SensorActivity extends AppCompatActivity {
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
         ImageView card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
-        ImageView card_date_next = findViewById(R.id.card_date_next);
+        final ImageView card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(date_string);
         card_date_value.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +169,8 @@ public class SensorActivity extends AppCompatActivity {
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
 
+                card_date_next.setEnabled(false);
+
                 //Daten für ausgewähltes Datum laden
                 loadData(true);
             }
@@ -180,6 +183,13 @@ public class SensorActivity extends AppCompatActivity {
 
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
+
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 loadData(true);
@@ -194,10 +204,18 @@ public class SensorActivity extends AppCompatActivity {
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
 
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
+
                 //Daten für ausgewähltes Datum laden
                 loadData(true);
             }
         });
+        card_date_next.setEnabled(false);
 
         //Intent-Extras auslesen
         sensor = new Sensor();
@@ -359,14 +377,14 @@ public class SensorActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensorexisting&sensor_id=" + URLEncoder.encode(sensor.getId()));
+                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getId()));
                     if(!Boolean.parseBoolean(result)) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 AlertDialog d = new AlertDialog.Builder(SensorActivity.this)
                                         .setCancelable(true)
-                                        .setTitle(R.string.add_sensor)
+                                        .setTitle(R.string.app_name)
                                         .setMessage(R.string.add_sensor_tick_not_set_message)
                                         .setPositiveButton(R.string.ok, null)
                                         .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
@@ -408,6 +426,7 @@ public class SensorActivity extends AppCompatActivity {
                     .create();
             d.show();
         } else {
+            Log.d("FA", "Test");
             ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
         }
     }

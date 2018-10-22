@@ -9,11 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +35,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 public class CompareActivity extends AppCompatActivity {
 
     //Konstanten
@@ -60,8 +61,8 @@ public class CompareActivity extends AppCompatActivity {
     private ServerMessagingUtils smu;
 
     //Komponenten
-    private GraphView diagram_sdsp1;
-    private GraphView diagram_sdsp2;
+    private GraphView diagram_p1;
+    private GraphView diagram_p2;
     private GraphView diagram_temp;
     private GraphView diagram_humidity;
     private GraphView diagram_pressure;
@@ -100,14 +101,18 @@ public class CompareActivity extends AppCompatActivity {
         smu = new ServerMessagingUtils(this, su);
 
         //Sensoren laden
-        sensors = MainActivity.own_instance.selected_sensors;
+        if(!getIntent().hasExtra("Sensors")) {
+            finish();
+            return;
+        }
+        sensors = (ArrayList<Sensor>) getIntent().getSerializableExtra("Sensors");
 
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
         ImageView card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
-        ImageView card_date_next = findViewById(R.id.card_date_next);
+        final ImageView card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(date_string);
         card_date_value.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +138,8 @@ public class CompareActivity extends AppCompatActivity {
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
 
+                card_date_next.setEnabled(false);
+
                 //Daten für ausgewähltes Datum laden
                 reloadData();
             }
@@ -145,6 +152,13 @@ public class CompareActivity extends AppCompatActivity {
 
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
+
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 reloadData();
@@ -159,14 +173,22 @@ public class CompareActivity extends AppCompatActivity {
                 date_string = sdf_date.format(calendar.getTime());
                 card_date_value.setText(date_string);
 
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
+
                 //Daten für ausgewähltes Datum laden
                 reloadData();
             }
         });
+        card_date_next.setEnabled(false);
 
-        diagram_sdsp1 = findViewById(R.id.diagram_sdsp1);
-        diagram_sdsp1.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_sdsp1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+        diagram_p1 = findViewById(R.id.diagram_p1);
+        diagram_p1.getGridLabelRenderer().setNumHorizontalLabels(3);
+        diagram_p1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             public String formatLabel(double value, boolean isValueX) {
                 if(isValueX) {
                     Calendar cal = Calendar.getInstance();
@@ -177,7 +199,7 @@ public class CompareActivity extends AppCompatActivity {
                 }
             }
         });
-        diagram_sdsp1.setOnClickListener(new View.OnClickListener() {
+        diagram_p1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
@@ -187,9 +209,9 @@ public class CompareActivity extends AppCompatActivity {
             }
         });
 
-        diagram_sdsp2 = findViewById(R.id.diagram_sdsp2);
-        diagram_sdsp2.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_sdsp2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+        diagram_p2 = findViewById(R.id.diagram_p2);
+        diagram_p2.getGridLabelRenderer().setNumHorizontalLabels(3);
+        diagram_p2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
                 if(isValueX) {
@@ -201,7 +223,7 @@ public class CompareActivity extends AppCompatActivity {
                 }
             }
         });
-        diagram_sdsp2.setOnClickListener(new View.OnClickListener() {
+        diagram_p2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
@@ -349,8 +371,8 @@ public class CompareActivity extends AppCompatActivity {
                 //ArrayList leeren
                 records.clear();
                 //Diagramme leeren
-                diagram_sdsp1.removeAllSeries();
-                diagram_sdsp2.removeAllSeries();
+                diagram_p1.removeAllSeries();
+                diagram_p2.removeAllSeries();
                 diagram_humidity.removeAllSeries();
                 diagram_temp.removeAllSeries();
                 diagram_pressure.removeAllSeries();
@@ -388,35 +410,35 @@ public class CompareActivity extends AppCompatActivity {
                     if(current_records.size() > 0) {
                         no_data = false;
                         try{
-                            LineGraphSeries<DataPoint> series_sdsp1 = new LineGraphSeries<>();
-                            series_sdsp1.setColor(sensors.get(i).getColor());
+                            LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
+                            series_p1.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
-                                    series_sdsp1.appendData(new DataPoint(time.getTime(), record.getSdsp1()), false, 1000000);
+                                    series_p1.appendData(new DataPoint(time.getTime(), record.getP1()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_sdsp1.addSeries(series_sdsp1);
-                            diagram_sdsp1.getViewport().setScalable(true);
-                            diagram_sdsp1.getViewport().setMinX(first_time);
-                            diagram_sdsp1.getViewport().setMaxX(last_time);
-                            diagram_sdsp1.getViewport().scrollToEnd();
-                            diagram_sdsp1.getViewport().setScalable(false);
+                            diagram_p1.addSeries(series_p1);
+                            diagram_p1.getViewport().setScalable(true);
+                            diagram_p1.getViewport().setMinX(first_time);
+                            diagram_p1.getViewport().setMaxX(last_time);
+                            diagram_p1.getViewport().scrollToEnd();
+                            diagram_p1.getViewport().setScalable(false);
 
-                            LineGraphSeries<DataPoint> series_sdsp2 = new LineGraphSeries<>();
-                            series_sdsp2.setColor(sensors.get(i).getColor());
+                            LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
+                            series_p2.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
-                                    series_sdsp2.appendData(new DataPoint(time.getTime(), record.getSdsp2()), false, 1000000);
+                                    series_p2.appendData(new DataPoint(time.getTime(), record.getP2()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_sdsp2.addSeries(series_sdsp2);
-                            diagram_sdsp2.getViewport().setScalable(true);
-                            diagram_sdsp2.getViewport().setMinX(first_time);
-                            diagram_sdsp2.getViewport().setMaxX(last_time);
-                            diagram_sdsp2.getViewport().scrollToEnd();
-                            diagram_sdsp2.getViewport().setScalable(false);
+                            diagram_p2.addSeries(series_p2);
+                            diagram_p2.getViewport().setScalable(true);
+                            diagram_p2.getViewport().setMinX(first_time);
+                            diagram_p2.getViewport().setMaxX(last_time);
+                            diagram_p2.getViewport().scrollToEnd();
+                            diagram_p2.getViewport().setScalable(false);
 
                             LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
                             series_temp.setColor(sensors.get(i).getColor());
@@ -486,8 +508,8 @@ public class CompareActivity extends AppCompatActivity {
     private void exportData() {
         if(ContextCompat.checkSelfPermission(CompareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
-            final RadioButton export_sdsp1 = v.findViewById(R.id.export_diagram_sdsp1);
-            final RadioButton export_sdsp2 = v.findViewById(R.id.export_diagram_sdsp2);
+            final RadioButton export_p1 = v.findViewById(R.id.export_diagram_p1);
+            final RadioButton export_p2 = v.findViewById(R.id.export_diagram_p2);
             final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
             final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
             final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
@@ -498,10 +520,10 @@ public class CompareActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            if(export_sdsp1.isChecked()) {
-                                diagram_sdsp1.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
-                            } else if(export_sdsp2.isChecked()) {
-                                diagram_sdsp2.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            if(export_p1.isChecked()) {
+                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                            } else if(export_p2.isChecked()) {
+                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
                             } else if(export_temp.isChecked()) {
                                 diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
                             } else if(export_humidity.isChecked()) {

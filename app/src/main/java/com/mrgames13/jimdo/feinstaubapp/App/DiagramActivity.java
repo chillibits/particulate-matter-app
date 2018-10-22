@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DiagramActivity extends AppCompatActivity {
 
@@ -149,8 +150,8 @@ public class DiagramActivity extends AppCompatActivity {
 
                 for(DataRecord record : records) {
                     try{
-                        series1.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp1()), false, 1000000);
-                        series2.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp2()), false, 1000000);
+                        series1.appendData(new DataPoint(record.getDateTime().getTime(), record.getP1()), false, 1000000);
+                        series2.appendData(new DataPoint(record.getDateTime().getTime(), record.getP2()), false, 1000000);
                         series3.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
                         series4.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
                         series5.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
@@ -192,13 +193,13 @@ public class DiagramActivity extends AppCompatActivity {
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
-                        for(DataRecord record : records) average+=record.getSdsp1();
+                        for(DataRecord record : records) average+=record.getP1();
                         average /= records.size();
                         series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
                         graph_view.addSeries(series1_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
-                        double median = records.get(records.size() / 2).getSdsp1();
+                        double median = records.get(records.size() / 2).getP1();
                         series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
                         graph_view.addSeries(series1_average_median);
                     }
@@ -208,13 +209,13 @@ public class DiagramActivity extends AppCompatActivity {
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
-                        for(DataRecord record : records) average+=record.getSdsp2();
+                        for(DataRecord record : records) average+=record.getP2();
                         average /= records.size();
                         series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
                         graph_view.addSeries(series2_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
-                        double median = records.get(records.size() / 2).getSdsp2();
+                        double median = records.get(records.size() / 2).getP2();
                         series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
                         graph_view.addSeries(series2_average_median);
                     }
@@ -269,46 +270,46 @@ public class DiagramActivity extends AppCompatActivity {
                 }
             } else if(mode == MODE_COMPARE_DATA) {
                 for(int i = 0; i < compare_sensors.size(); i++) {
-                    LineGraphSeries<DataPoint> current_series = new LineGraphSeries<>();
-                    current_series.setDrawDataPoints(true);
-                    current_series.setDataPointsRadius(8);
-                    current_series.setColor(compare_sensors.get(i).getColor());
-                    if(show_series_1) {
-                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value1));
-                    } else if(show_series_2) {
-                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value2));
-                    } else if(show_series_3) {
-                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.temperature));
-                    } else if(show_series_4) {
-                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.humidity));
-                    } else if(show_series_5) {
-                        current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.pressure));
-                    }
+                    if(compare_records.get(i).size() > 0) {
+                        LineGraphSeries<DataPoint> current_series = new LineGraphSeries<>();
+                        current_series.setDrawDataPoints(true);
+                        current_series.setDataPointsRadius(8);
+                        current_series.setColor(compare_sensors.get(i).getColor());
+                        if(show_series_1) {
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value1));
+                        } else if(show_series_2) {
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value2));
+                        } else if(show_series_3) {
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.temperature));
+                        } else if(show_series_4) {
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.humidity));
+                        } else if(show_series_5) {
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.pressure));
+                        }
 
-                    for(DataRecord record : compare_records.get(i)) {
-                        try{
-                            if(show_series_1) {
-                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp1()), false, 1000000);
-                            } else if(show_series_2) {
-                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getSdsp2()), false, 1000000);
-                            } else if(show_series_3) {
-                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
-                            } else if(show_series_4) {
-                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
-                            } else if(show_series_5) {
-                                current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
+                        for(DataRecord record : compare_records.get(i)) {
+                            try{
+                                if(show_series_1) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getP1()), false, 1000000);
+                                } else if(show_series_2) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getP2()), false, 1000000);
+                                } else if(show_series_3) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
+                                } else if(show_series_4) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
+                                } else if(show_series_5) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
+                                }
+                            } catch (Exception e) {}
+                        }
+                        current_series.setOnDataPointTapListener(new OnDataPointTapListener() {
+                            @Override
+                            public void onTap(Series series, DataPointInterface dataPoint) {
+                                showDetailPopup(dataPoint);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        });
+                        graph_view.addSeries(current_series);
                     }
-                    current_series.setOnDataPointTapListener(new OnDataPointTapListener() {
-                        @Override
-                        public void onTap(Series series, DataPointInterface dataPoint) {
-                            showDetailPopup(dataPoint);
-                        }
-                    });
-                    graph_view.addSeries(current_series);
                 }
             }
         } catch (Exception e) {

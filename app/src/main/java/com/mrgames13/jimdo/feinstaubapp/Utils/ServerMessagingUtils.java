@@ -4,10 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -28,12 +28,14 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServerMessagingUtils {
 
     //Konstanten
-    private final String SERVER_ADRESS = "http://www.h2801469.stratoserver.net/";
+    private final String SERVER_ADRESS = "https://h2801469.stratoserver.net/";
     private final String SERVER_MAIN_SCRIPT = SERVER_ADRESS + "ServerScript.php";
-    private final String DATA_URL = "http://www.h2801469.stratoserver.net/data";
+    private final String DATA_URL = "https://h2801469.stratoserver.net/data";
 
     //Variablen als Objekte
     private Context context;
@@ -45,7 +47,6 @@ public class ServerMessagingUtils {
     private StorageUtils su;
 
     //Variablen
-    int byteCounter;
 
     public ServerMessagingUtils(Context context, StorageUtils su) {
         this.context = context;
@@ -60,7 +61,7 @@ public class ServerMessagingUtils {
         if(isInternetAvailable()) {
             try {
                 //Connection aufbauen
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setFixedLengthStreamingMode(param.getBytes().length);
                 connection.setDoOutput(true);
@@ -75,10 +76,11 @@ public class ServerMessagingUtils {
                 String answer = getAnswerFromInputStream(in);
                 //Connection schließen
                 connection.disconnect();
-                Log.i("FS", "Answer from Server: '" + answer.replace("<br>", "").trim() + "'");
+                Log.i("FA", "Answer from Server: '" + answer + "'");
                 //Antwort zurückgeben
-                return answer.replace("<br>", "").trim();
+                return answer;
             } catch (IOException e) {
+                e.printStackTrace();
                 return sendRequest(v, param);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -152,7 +154,7 @@ public class ServerMessagingUtils {
             String file_name = new_date + ".csv";
 
             URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + file_name);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + date + "_" + sensor_id, connection.getLastModified());
@@ -167,9 +169,7 @@ public class ServerMessagingUtils {
             //In Datei hineinschreiben
             byte[] buffer = new byte[1024];
             int read;
-            byteCounter = 0;
             while((read = i.read(buffer)) != -1) {
-                byteCounter+=read;
                 o.write(buffer, 0, read);
             }
             //Streams schließen
@@ -188,7 +188,7 @@ public class ServerMessagingUtils {
             String year = date.substring(6);
 
             URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip", connection.getLastModified());
@@ -203,9 +203,7 @@ public class ServerMessagingUtils {
             //In Datei hineinschreiben
             byte[] buffer = new byte[1024];
             int read;
-            byteCounter = 0;
             while((read = i.read(buffer)) != -1) {
-                byteCounter+=read;
                 o.write(buffer, 0, read);
             }
             //Streams schließen
@@ -318,7 +316,7 @@ public class ServerMessagingUtils {
             sb.append(currentLine);
             sb.append("\n");
         }
-        return sb.toString();
+        return sb.toString().replace("<br>", "").trim();
     }
 
     public boolean isInternetAvailable() {
