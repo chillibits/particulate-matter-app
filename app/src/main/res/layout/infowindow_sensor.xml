@@ -12,7 +12,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         app:srcCompat="@drawable/sensor_white"
-        android:tint="@color/colorPrimary"/>
+        app:tint="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/sensor_chip_id"
@@ -34,12 +34,21 @@
         android:layout_below="@+id/sensor_chip_id"
         android:layout_marginLeft="5dp"/>
 
+    <TextView
+        android:id="@+id/sensor_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sensor_icon"
+        android:layout_margin="3dp"
+        android:textSize="11.5sp"
+        android:ellipsize="end" />
+
     <Button
         android:id="@+id/sensor_show_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/show_measurements"
-        android:layout_below="@+id/sensor_icon"/>
+        android:layout_below="@+id/sensor_location"/>
 
     <Button
         android:id="@+id/sensor_link"

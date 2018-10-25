@@ -89,6 +89,7 @@
                 android:layout_below="@+id/card_date_title"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:focusable="true"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/card_date_next"/>
 
@@ -97,13 +98,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/chevron_next"
-                android:tint="@drawable/button_selector"
+                app:tint="@drawable/button_selector"
                 android:padding="2dp"
                 android:gravity="center"
                 android:adjustViewBounds="true"
                 android:layout_below="@+id/card_date_title"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:focusable="true"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

@@ -8,11 +8,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,6 +55,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -147,6 +152,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             contentView = inflater.inflate(R.layout.tab_my_favourites, null);
 
             sensor_view = contentView.findViewById(R.id.sensor_view);
+            sensor_view.setItemViewCacheSize(100);
             sensor_view.setLayoutManager(new LinearLayoutManager(activity));
 
             refresh();
@@ -157,8 +163,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         public static void refresh() {
             sensors = su.getAllFavourites();
             sensors.addAll(su.getAllOwnSensors());
+
             sensor_view_adapter = new SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_FAVOURITES);
             sensor_view.setAdapter(sensor_view_adapter);
+            sensor_view.setHasFixedSize(true);
             sensor_view.setVisibility(sensors.size() == 0 ? View.GONE : View.VISIBLE);
             contentView.findViewById(R.id.no_data).setVisibility(sensors.size() == 0 ? View.VISIBLE : View.GONE);
         }
@@ -270,14 +278,37 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 });
             }
 
+            //Zoom zum aktuellen Land
+            try{
+                TelephonyManager teleMgr = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+                if (teleMgr != null) {
+                    String iso = teleMgr.getSimCountryIso();
+                    LatLng location = Tools.getLocationFromAddress(activity, iso);
+                    if(location != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 5));
+                }
+            } catch (Exception e) {}
+
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(final Marker marker) {
                     View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
                     TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
                     TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
+                    TextView sensor_location = v.findViewById(R.id.sensor_location);
                     Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
                     Button sensor_link = v.findViewById(R.id.sensor_link);
+
+                    try{
+                        Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+                        List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+                        String city = addresses.get(0).getLocality();
+                        marker.setTag(city);
+                        String country = addresses.get(0).getCountryName();
+                        sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
+                    } catch (Exception e) {
+                        sensor_location.setText(R.string.unknown_location);
+                        marker.setTag(marker.getTitle());
+                    }
 
                     sensor_chip_id.setText(marker.getTitle());
                     sensor_coordinates.setText(marker.getSnippet());
@@ -306,7 +337,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 Button choose_color = v.findViewById(R.id.choose_sensor_color);
                                 final ImageView sensor_color = v.findViewById(R.id.sensor_color);
 
-                                name.setHint(marker.getTitle());
+                                name.setHint(marker.getTag().toString());
                                 chip_id.setText(marker.getTitle());
 
                                 //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
@@ -336,7 +367,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 //Neuen Sensor speichern
                                                 String name_string = name.getText().toString().trim();
-                                                if(name_string.isEmpty()) name_string = marker.getTitle();
+                                                if(name_string.isEmpty()) name_string = marker.getTag().toString();
                                                 su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color));
                                                 MyFavouritesFragment.refresh();
                                                 refresh();
@@ -365,9 +396,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(info_window.getWindow().getAttributes());
                     lp.gravity = Gravity.TOP | Gravity.LEFT;
-                    lp.x = screen_pos.x - 250;
-                    lp.y = screen_pos.y - 450;
-                    lp.width = 500;
+                    lp.x = screen_pos.x - 275;
+                    lp.y = screen_pos.y - 530;
+                    lp.width = 550;
                     lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                     info_window.show();
                     info_window.getWindow().setAttributes(lp);
@@ -391,7 +422,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         }
 
         public static void moveCamera(LatLng coords) {
-            if (map != null) map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 13));
+            if (map != null) map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 11));
         }
 
         public static void enableOwnLocation() {
@@ -486,6 +517,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             contentView = inflater.inflate(R.layout.tab_my_sensors, null);
 
             sensor_view = contentView.findViewById(R.id.sensor_view);
+            sensor_view.setItemViewCacheSize(100);
             sensor_view.setLayoutManager(new LinearLayoutManager(activity));
 
             no_data_text = contentView.findViewById(R.id.no_data_text);

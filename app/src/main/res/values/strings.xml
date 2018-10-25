@@ -170,5 +170,6 @@
     <string name="press_color_to_apply">Press on Color to apply</string>
     <string name="gps_will_be_synchronized">If there is a GPS sensor is connected to your sensor system, the position will gets automatically synchronized with the map.</string>
     <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de">contacting us</a>.</string>
+    <string name="unknown_location">Unknown location</string>
 
 </resources>

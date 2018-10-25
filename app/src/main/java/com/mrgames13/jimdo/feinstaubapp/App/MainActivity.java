@@ -601,7 +601,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showFab(boolean show) {
-        if(show) {
+        if(show && selected_page == 0) {
             if(fab.getVisibility() == View.GONE) {
                 Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
                 fab.startAnimation(a);

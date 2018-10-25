@@ -7,4 +7,4 @@
 /build
 /captures
 .externalNativeBuild
-app/src/main/res/values/strings_ids.xml
+/app/src/main/res/values/strings_ids.xml

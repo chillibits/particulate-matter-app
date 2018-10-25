@@ -205,6 +205,11 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        try{
+            Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))); // TODO: Bei nächstem Update entfernen
+        } catch (Exception e) {
+            su.putString("limit_humidity", "0");
+        }
         limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)) + "%" : res.getString(R.string.pref_limit_disabled));
         limit_humidity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -215,6 +220,11 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        try{
+            Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))); // TODO: Bei nächstem Update entfernen
+        } catch (Exception e) {
+            su.putString("limit_pressure", "0");
+        }
         limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " kPa" : res.getString(R.string.pref_limit_disabled));
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

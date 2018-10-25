@@ -1,5 +1,10 @@
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -9,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Tools {
 
@@ -120,5 +126,18 @@ public class Tools {
             sensors_new.add(s_new);
         }
         return sensors_new;
+    }
+
+    public static LatLng getLocationFromAddress(Context context, String strAddress){
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if(address == null) return null;
+            Address location = address.get(0);
+            return new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception e) {}
+        return null;
     }
 }

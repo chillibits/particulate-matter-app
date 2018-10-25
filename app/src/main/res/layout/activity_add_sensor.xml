@@ -74,7 +74,7 @@
             android:layout_toRightOf="@+id/sensor_name"
             android:layout_marginLeft="10dp"
             android:inputType="number"
-            android:maxLength="8"
+            android:maxLength="10"
             android:layout_below="@+id/sensor_name_value"/>
 
         <ImageView
@@ -219,7 +219,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         app:srcCompat="@drawable/info_outline"
-                        android:tint="@color/white_dark"/>
+                        app:tint="@color/white_dark"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -252,7 +252,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/info_outline"
-                    android:tint="@color/white_dark"/>
+                    app:tint="@color/white_dark"/>
 
                 <TextView
                     android:id="@+id/edit_position_info_text"

@@ -52,12 +52,14 @@
         <!-- DiagramActivity -->
         <activity
             android:name=".App.DiagramActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
             android:name=".App.SensorActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
@@ -70,6 +72,7 @@
         <!-- CompareActivity -->
         <activity
             android:name=".App.CompareActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />

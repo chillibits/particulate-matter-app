@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
@@ -28,14 +29,16 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class ServerMessagingUtils {
 
     //Konstanten
-    private final String SERVER_ADRESS = "https://h2801469.stratoserver.net/";
-    private final String SERVER_MAIN_SCRIPT = SERVER_ADRESS + "ServerScript.php";
-    private final String DATA_URL = "https://h2801469.stratoserver.net/data";
+    private final String SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/";
+    private final String SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/";
+    private final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript.php";
+    private final String SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript.php";
+    private final String DATA_URL_HTTP = "http://h2801469.stratoserver.net/data";
+    private final String DATA_URL_HTTPS = "https://h2801469.stratoserver.net/data";
+    private final int MAX_REQUEST_REPEAT = 10;
 
     //Variablen als Objekte
     private Context context;
@@ -47,6 +50,7 @@ public class ServerMessagingUtils {
     private StorageUtils su;
 
     //Variablen
+    private int repeat_count = 0;
 
     public ServerMessagingUtils(Context context, StorageUtils su) {
         this.context = context;
@@ -54,14 +58,14 @@ public class ServerMessagingUtils {
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //URL erstellen
-        try { url = new URL(SERVER_MAIN_SCRIPT); } catch (MalformedURLException e) {}
+        try { url = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? new URL(SERVER_MAIN_SCRIPT_HTTP) : new URL(SERVER_MAIN_SCRIPT_HTTPS); } catch (MalformedURLException e) {}
     }
 
     public String sendRequest(View v, final String param) {
         if(isInternetAvailable()) {
             try {
                 //Connection aufbauen
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setFixedLengthStreamingMode(param.getBytes().length);
                 connection.setDoOutput(true);
@@ -78,10 +82,12 @@ public class ServerMessagingUtils {
                 connection.disconnect();
                 Log.i("FA", "Answer from Server: '" + answer + "'");
                 //Antwort zurückgeben
+                repeat_count = 0;
                 return answer;
             } catch (IOException e) {
                 e.printStackTrace();
-                return sendRequest(v, param);
+                repeat_count++;
+                return repeat_count <= MAX_REQUEST_REPEAT ? sendRequest(v, param) : "";
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,8 +159,8 @@ public class ServerMessagingUtils {
 
             String file_name = new_date + ".csv";
 
-            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + file_name);
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + file_name);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + date + "_" + sensor_id, connection.getLastModified());
@@ -187,8 +193,8 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip", connection.getLastModified());
@@ -226,7 +232,7 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             String new_date = format.format(newDate);
 
-            String url = DATA_URL + "/esp8266-" + sensor_id + "/data-" + new_date + ".csv";
+            String url = (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + new_date + ".csv";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -238,7 +244,7 @@ public class ServerMessagingUtils {
         try{
             String month = date.substring(3, 5);
             String year = date.substring(6);
-            String url = DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip";
+            String url = (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip";
             return isOnlineResourceExisting(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -266,7 +272,7 @@ public class ServerMessagingUtils {
             format = new SimpleDateFormat("yyyy-MM-dd");
             date = format.format(newDate);
 
-            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + date + ".csv");
+            URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + date + ".csv");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();
@@ -281,7 +287,7 @@ public class ServerMessagingUtils {
             String month = date.substring(3, 5);
             String year = date.substring(6);
 
-            URL url = new URL(DATA_URL + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
+            URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
             URLConnection connection = url.openConnection();
             connection.connect();
             return connection.getLastModified();
