@@ -268,7 +268,9 @@ public class SensorActivity extends AppCompatActivity {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
             loadData(true);
-            startService(new Intent(SensorActivity.this, SyncService.class));
+            Intent i = new Intent(SensorActivity.this, SyncService.class);
+            i.putExtra("Mode", SyncService.MODE_FOREGROUND);
+            startService(i);
         } else if(id == R.id.action_settings) {
             //SettingsActivity starten
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));

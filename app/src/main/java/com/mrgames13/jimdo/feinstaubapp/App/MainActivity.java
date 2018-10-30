@@ -52,6 +52,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -89,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //StorageUtils initialisieren
+        su = new StorageUtils(this);
+
+        int state = Integer.parseInt(su.getString("app_theme", "0"));
+        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ?  AppCompatDelegate.MODE_NIGHT_NO :  AppCompatDelegate.MODE_NIGHT_YES));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -108,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(res.getString(R.string.app_name));
         setSupportActionBar(toolbar);
-
-        //StorageUtils initialisieren
-        su = new StorageUtils(this);
 
         //ServerMessagingUtils initialisieren
         smu = new ServerMessagingUtils(this, su);
@@ -601,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showFab(boolean show) {
-        if(show && selected_page == 0) {
+        if(show && pager.getCurrentItem() != 0) {
             if(fab.getVisibility() == View.GONE) {
                 Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
                 fab.startAnimation(a);

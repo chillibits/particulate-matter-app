@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- NightMode -->
+    <color name="colorPrimary">#282828</color>
+    <color name="colorPrimaryDark">#161616</color>
+    <color name="colorPrimaryTransparent">#80141414</color>
+    <color name="colorAccent">#0B9509</color>
+    <color name="bg_dark">#363636</color>
+    <color name="color_selection">#3D3D3D</color>
+    <color name="dark_mode_indicator">@color/colorPrimary</color>
+    <color name="current_values_color">@color/color_selection</color>
+
+</resources>

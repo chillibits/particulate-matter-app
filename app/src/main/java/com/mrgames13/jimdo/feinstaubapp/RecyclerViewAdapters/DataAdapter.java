@@ -60,7 +60,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.item_p2.setText(String.valueOf(Tools.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
         holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",").concat(" °C"));
         holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",").concat(" %"));
-        holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" kPa"));
+        holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
     }
 
     @Override

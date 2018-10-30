@@ -148,15 +148,6 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return true;
                 }
             });
-            h.item_icon.setOnFlippingListener(new FlipView.OnFlippingListener() {
-                @Override
-                public void onFlipped(FlipView flipView, boolean checked) {
-                    if(checked) selected_sensors.add(sensor);
-                    if(!checked) selected_sensors.remove(sensor);
-                    h.itemView.setBackgroundColor(res.getColor(checked ? R.color.white_dark : R.color.transparent));
-                    activity.updateSelectionMode();
-                }
-            });
             h.item_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -170,6 +161,16 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return true;
                 }
             });
+            h.item_icon.setOnFlippingListener(new FlipView.OnFlippingListener() {
+                @Override
+                public void onFlipped(FlipView flipView, boolean checked) {
+                    if(checked) selected_sensors.add(sensor);
+                    if(!checked) selected_sensors.remove(sensor);
+                    h.itemView.setBackgroundColor(res.getColor(checked ? R.color.color_selection : R.color.transparent));
+                    activity.updateSelectionMode();
+                }
+            });
+
             h.item_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -265,16 +266,11 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                                 sensor_lng.setText(String.valueOf(jsonobject.getDouble("lng")).replace(".", ","));
                                                                 sensor_alt.setText(String.valueOf(jsonobject.getDouble("alt")).replace(".", ",").concat(" m"));
                                                             } catch (Exception e) {
-                                                                activity.runOnUiThread(new Runnable() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        sensor_public.setText(res.getString(R.string.no));
-                                                                        sensor_creation.setText("-");
-                                                                        sensor_lat.setText("-");
-                                                                        sensor_lng.setText("-");
-                                                                        sensor_alt.setText("-");
-                                                                    }
-                                                                });
+                                                                sensor_public.setText(res.getString(R.string.no));
+                                                                sensor_creation.setText("-");
+                                                                sensor_lat.setText("-");
+                                                                sensor_lng.setText("-");
+                                                                sensor_alt.setText("-");
                                                             }
                                                         }
                                                     });

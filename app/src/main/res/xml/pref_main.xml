@@ -3,6 +3,14 @@
         android:title="@string/pref_header_features"
         android:key="feature_settings" >
 
+        <!--<ListPreference
+            android:key="show_heatmap"
+            android:defaultValue="1"
+            android:title="@string/show_heatmap_on_map"
+            android:entries="@array/show_heatmap_on_map_array"
+            android:entryValues="@array/show_heatmap_on_map_values"
+            android:summary="%s" />-->
+
         <SwitchPreference
             android:key="enable_daily_average"
             android:defaultValue="true"
@@ -18,7 +26,7 @@
 
     <PreferenceCategory
         android:title="@string/pref_header_sync"
-        android:key="sensor_settings" >
+        android:key="sync_settings" >
 
         <EditTextPreference
             android:key="sync_cycle"
@@ -43,6 +51,19 @@
             android:defaultValue="true"
             android:title="@string/reduce_data_consumption"
             android:summary="@string/reduce_data_consumption_s"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_appearance"
+        android:key="appearance_settings">
+
+        <ListPreference
+            android:key="app_theme"
+            android:defaultValue="0"
+            android:title="@string/pref_theme"
+            android:entries="@array/pref_theme_array"
+            android:entryValues="@array/pref_theme_array_values"
+            android:summary="%s" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -102,7 +123,7 @@
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:maxLength="7"
-            android:summary="%s kPa"/>
+            android:summary="%s hPa"/>
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Feinstaub App</string>
+    <string name="app_name">Particulate Matter App</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="exit">Quit</string>
@@ -78,7 +78,7 @@
     <string name="pressure_short">Pressure</string>
     <string name="pressure">Pressure</string>
     <string name="pref_limit_pressure">Pressure limit</string>
-    <string name="pref_limit_pressure_t">Pressure limit (kPa)</string>
+    <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
     <string name="limit_exceeded_pressure">Pressure limit exceeded</string>
     <string name="nc_system_name">System notifications</string>
     <string name="nc_limit_name">limit exceedings</string>
@@ -171,5 +171,38 @@
     <string name="gps_will_be_synchronized">If there is a GPS sensor is connected to your sensor system, the position will gets automatically synchronized with the map.</string>
     <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de">contacting us</a>.</string>
     <string name="unknown_location">Unknown location</string>
+    <!--<string name="show_heatmap_on_map">Show Heatmap on Map</string>
+    <string-array name="show_heatmap_on_map_array">
+        <item>Over a network</item>
+        <item>Only over WiFi</item>
+        <item>Disabled</item>
+    </string-array>
+    <string-array name="show_heatmap_on_map_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>-->
+    <string name="pref_header_appearance">Appearance</string>
+    <string name="pref_theme">App-Theme</string>
+    <string-array name="pref_theme_array">
+        <item>Automatic by time</item>
+        <item>Light theme</item>
+        <item>Dark theme</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_restart_t">Restart needed</string>
+    <string name="app_restart_m">To apply the changings, a app restart is needed. Would you like to restart now or later?</string>
+    <string name="now">Now</string>
+    <string name="later">Later</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terrain</string>
+    <string name="satellite">Satellite</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="traffic_show">Show traffic</string>
+    <string name="traffic_hide">Hide traffic</string>
 
 </resources>

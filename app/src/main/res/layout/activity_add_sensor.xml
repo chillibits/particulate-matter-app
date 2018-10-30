@@ -154,6 +154,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLength="6"
+                    android:enabled="false"
                     android:hint="@string/latitude"
                     android:inputType="numberDecimal" />
 
@@ -162,6 +164,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLength="7"
+                    android:enabled="false"
                     android:hint="@string/longitude"
                     android:inputType="numberDecimal" />
             </LinearLayout>
@@ -196,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/height"
                 android:inputType="numberDecimal"
-                android:maxLength="4"
+                android:maxLength="2"
                 android:layout_below="@+id/coordinates_container"
                 android:layout_marginLeft="10dp"/>
 
@@ -219,7 +223,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         app:srcCompat="@drawable/info_outline"
-                        app:tint="@color/white_dark"/>
+                        app:tint="@color/color_selection"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -252,7 +256,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/info_outline"
-                    app:tint="@color/white_dark"/>
+                    app:tint="@color/color_selection"/>
 
                 <TextView
                     android:id="@+id/edit_position_info_text"

@@ -536,7 +536,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 cv_p2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP2()).concat(" µg/m³"));
                 cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()).concat(" °C"));
                 cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()).concat(" %"));
-                cv_pressure.setText(String.valueOf(Tools.round(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure(), 3)).concat(" kPa"));
+                cv_pressure.setText(String.valueOf(Tools.round(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure(), 3)).concat(" hPa"));
                 SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 cv_time.setText(res.getString(R.string.state_of_) + " " + sdf_date.format(SensorActivity.records.get(SensorActivity.records.size() -1).getDateTime()));
 
@@ -908,7 +908,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             footer_average_p2.setText(String.valueOf(Tools.round(average_p2, 1)).replace(".", ",").concat(" µg/m³"));
                             footer_average_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",").concat(" °C"));
                             footer_average_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_average_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)).replace(".", ",").concat(" kPa"));
+                            footer_average_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)).replace(".", ",").concat(" hPa"));
                         }
 
                         if(su.getBoolean("enable_daily_median")) {
@@ -947,7 +947,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             footer_median_p2.setText(String.valueOf(Tools.round(median_p2, 1)).replace(".", ",").concat(" µg/m³"));
                             footer_median_temp.setText(String.valueOf(Tools.round(median_temp, 1)).replace(".", ",").concat(" °C"));
                             footer_median_humidity.setText(String.valueOf(Tools.round(median_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_median_pressure.setText(String.valueOf(Tools.round(median_pressure, 1)).replace(".", ",").concat(" kPa"));
+                            footer_median_pressure.setText(String.valueOf(Tools.round(median_pressure, 1)).replace(".", ",").concat(" hPa"));
                         }
                     } else {
                         contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);

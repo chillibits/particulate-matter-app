@@ -168,6 +168,29 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        ListPreference app_theme = (ListPreference) findPreference("app_theme");
+        app_theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle(R.string.app_restart_t)
+                        .setMessage(R.string.app_restart_m)
+                        .setCancelable(true)
+                        .setNegativeButton(R.string.later, null)
+                        .setPositiveButton(R.string.now, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .create();
+                d.show();
+                return true;
+            }
+        });
+
         EditTextPreference limit_p1 = (EditTextPreference) findPreference("limit_p1");
         EditTextPreference limit_p2 = (EditTextPreference) findPreference("limit_p2");
         EditTextPreference limit_temp = (EditTextPreference) findPreference("limit_temp");
@@ -225,12 +248,12 @@ public class SettingsActivity extends PreferenceActivity {
         } catch (Exception e) {
             su.putString("limit_pressure", "0");
         }
-        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " kPa" : res.getString(R.string.pref_limit_disabled));
+        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " hPa" : res.getString(R.string.pref_limit_disabled));
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " kPa" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " hPa" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });

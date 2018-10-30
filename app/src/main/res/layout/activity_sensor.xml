@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:contentPadding="5dp"
-            card_view:cardBackgroundColor="@color/white_dark"
+            card_view:cardBackgroundColor="@color/color_selection"
             card_view:cardCornerRadius="3dp"
             android:layout_marginTop="7dp"
             android:layout_marginLeft="7dp"

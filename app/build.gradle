@@ -6,8 +6,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 202
-        versionName "2.0.2"
+        versionCode 203
+        versionName "2.0.3"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

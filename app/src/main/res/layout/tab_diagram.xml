@@ -186,7 +186,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white_dark"
+                        android:background="@color/color_selection"
                         android:padding="5dp"
                         android:layout_weight="1"
                         android:text="@string/value1"/>
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:layout_weight="1"
-                        android:background="@color/white"
+                        android:background="@color/current_values_color"
                         android:text="@string/loading"/>
                 </LinearLayout>
 
@@ -212,8 +212,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/value2"
                         android:padding="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"/>
+                        android:background="@color/current_values_color"
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/cv_p2"
@@ -222,7 +222,7 @@
                         android:text="@string/loading"
                         android:padding="5dp"
                         android:layout_weight="1"
-                        android:background="@color/white_dark"/>
+                        android:background="@color/color_selection"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -236,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/temperature"
                         android:layout_weight="1"
-                        android:background="@color/white_dark"
+                        android:background="@color/color_selection"
                         android:padding="5dp"/>
 
                     <TextView
@@ -245,8 +245,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
                         android:padding="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"/>
+                        android:background="@color/current_values_color"
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -260,8 +260,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/humidity"
                         android:padding="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"/>
+                        android:background="@color/current_values_color"
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/cv_humidity"
@@ -270,7 +270,7 @@
                         android:text="@string/loading"
                         android:padding="5dp"
                         android:layout_weight="1"
-                        android:background="@color/white_dark"/>
+                        android:background="@color/color_selection"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -285,7 +285,7 @@
                         android:text="@string/pressure"
                         android:padding="5dp"
                         android:layout_weight="1"
-                        android:background="@color/white_dark"/>
+                        android:background="@color/color_selection"/>
 
                     <TextView
                         android:id="@+id/cv_pressure"
@@ -293,8 +293,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
                         android:padding="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"/>
+                        android:background="@color/current_values_color"
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <TextView

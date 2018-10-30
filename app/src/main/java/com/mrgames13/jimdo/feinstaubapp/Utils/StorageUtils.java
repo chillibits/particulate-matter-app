@@ -167,7 +167,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                 try { if(!line_contents[22].equals("")) p1 = Double.parseDouble(line_contents[22]); } catch (Exception e) {}
                 try { if(!line_contents[23].equals("")) p2 = Double.parseDouble(line_contents[23]); } catch (Exception e) {}
 
-                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 1000)));
+                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 100)));
             } catch (Exception e) {}
         }
         return records;

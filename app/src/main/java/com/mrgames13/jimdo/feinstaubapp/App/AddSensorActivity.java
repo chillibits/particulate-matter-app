@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +35,9 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -61,7 +66,7 @@ public class AddSensorActivity extends AppCompatActivity {
     private View reveal_background_view;
     private ImageView iv_color;
     private EditText sensor_name;
-    private EditText sensor_id;
+    private EditText chip_id;
     private SwitchCompat sensor_public;
     private Button choose_location;
     private EditText lat;
@@ -125,7 +130,19 @@ public class AddSensorActivity extends AppCompatActivity {
         iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
 
         sensor_name = findViewById(R.id.sensor_name_value);
-        sensor_id = findViewById(R.id.chip_id_value);
+        chip_id = findViewById(R.id.chip_id_value);
+        chip_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!chip_id.getText().toString().trim().isEmpty() && sensor_public.isChecked()) getSensorInfoFromServer(chip_id.getText().toString().trim());
+            }
+        });
 
         ImageView info = findViewById(R.id.chip_id_info);
         info.setOnClickListener(new View.OnClickListener() {
@@ -185,8 +202,8 @@ public class AddSensorActivity extends AppCompatActivity {
         if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
             mode = MODE_EDIT;
             sensor_name.setText(i.getStringExtra("Name"));
-            sensor_id.setText(i.getStringExtra("ID"));
-            sensor_id.setEnabled(false);
+            chip_id.setText(i.getStringExtra("ID"));
+            chip_id.setEnabled(false);
             current_color = i.getIntExtra("Color", current_color);
             iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
             toolbar.setTitle(R.string.edit_sensor);
@@ -201,8 +218,8 @@ public class AddSensorActivity extends AppCompatActivity {
         } else if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_COMPLETE) {
             mode = MODE_COMPLETE;
             sensor_name.setText(i.getStringExtra("Name"));
-            sensor_id.setText(i.getStringExtra("ID"));
-            sensor_id.setEnabled(false);
+            chip_id.setText(i.getStringExtra("ID"));
+            chip_id.setEnabled(false);
             current_color = i.getIntExtra("Color", current_color);
             iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
             toolbar.setTitle(R.string.complete_sensor);
@@ -230,7 +247,7 @@ public class AddSensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_done) {
-            final String chip_id = this.sensor_id.getText().toString().trim();
+            final String chip_id = this.chip_id.getText().toString().trim();
             final String sensor_name = this.sensor_name.getText().toString().trim();
             final String lat = this.lat.getText().toString();
             final String lng = this.lng.getText().toString();
@@ -388,5 +405,32 @@ public class AddSensorActivity extends AppCompatActivity {
             lng.setText(String.valueOf(Tools.round(place.getLatLng().longitude, 5)));
             choose_location.setText(place.getName());
         }
+    }
+
+    private void getSensorInfoFromServer(final String chip_id) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(chip_id, "UTF-8"));
+                    if(!result.isEmpty()) {
+                        JSONArray array = new JSONArray(result);
+                        final JSONObject jsonobject = array.getJSONObject(0);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    lat.setText(String.valueOf(jsonobject.getDouble("lat")).replace(".", ","));
+                                    lng.setText(String.valueOf(jsonobject.getDouble("lng")).replace(".", ","));
+                                    alt.setText(String.valueOf(jsonobject.getDouble("alt")).replace(".", ",").concat(" m"));
+                                } catch (Exception e) {}
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

@@ -17,14 +17,19 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -200,6 +205,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         //Variablen als Objekte
         private static View contentView;
         private SupportMapFragment map_fragment;
+        private Spinner map_type;
+        private Spinner map_traffic;
         private static GoogleMap map;
         private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
@@ -215,12 +222,64 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             map_fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             map_fragment.getMapAsync(this);
 
+            map_type = contentView.findViewById(R.id.map_type);
+            List<String> map_types = new ArrayList<>();
+            map_types.add(getString(R.string.normal));
+            map_types.add(getString(R.string.terrain));
+            map_types.add(getString(R.string.satellite));
+            map_types.add(getString(R.string.hybrid));
+            final ArrayAdapter<String> adapter_type = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, map_types);
+            adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            map_type.setAdapter(adapter_type);
+            map_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int type, long l) {
+                    if(map != null) {
+                        if(type == 0) {
+                            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        } else if(type == 1) {
+                            map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                        } else if(type == 2) {
+                            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                        } else if(type == 3) {
+                            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {}
+            });
+
+            map_traffic = contentView.findViewById(R.id.map_traffic);
+            List<String> map_traffic_items = new ArrayList<>();
+            map_traffic_items.add(getString(R.string.traffic_hide));
+            map_traffic_items.add(getString(R.string.traffic_show));
+            final ArrayAdapter<String> adapter_traffic = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, map_traffic_items);
+            adapter_traffic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            map_traffic.setAdapter(adapter_traffic);
+            map_traffic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int type, long l) {
+                    if(map != null) {
+                        if(type == 0) {
+                            map.setTrafficEnabled(false);
+                        } else {
+                            map.setTrafficEnabled(true);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {}
+            });
+
             LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             final boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if(!isGpsProviderEnabled && !isNetworkProviderEnabled) {
-                Snackbar.make(contentView, getString(R.string.enable_location_m), Snackbar.LENGTH_LONG)
+                Snackbar.make(contentView.findViewById(R.id.map), getString(R.string.enable_location_m), Snackbar.LENGTH_LONG)
                         .setAction(R.string.enable_location, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -266,7 +325,27 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
             map.getUiSettings().setRotateGesturesEnabled(false);
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, R.raw.map_style_silver));
+            map.getUiSettings().setZoomControlsEnabled(true);
+            /*View googleLogo = contentView.findViewWithTag("GoogleWatermark");
+            RelativeLayout.LayoutParams glLayoutParams = (RelativeLayout.LayoutParams)googleLogo.getLayoutParams();
+            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
+            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+            googleLogo.setLayoutParams(glLayoutParams);*/
+            View zoomControls = map_fragment.getView().findViewById(0x1);
+            if (zoomControls != null && zoomControls.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) zoomControls.getLayoutParams();
+
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+                final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+                params.setMargins(0, 0, 0, margin);
+            }
+
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, getResources().getColor(R.color.colorPrimary) == getResources().getColor(R.color.dark_mode_indicator) ? R.raw.map_style_dark : R.raw.map_style_silver));
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 map.setMyLocationEnabled(true);
                 map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
@@ -466,7 +545,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 @Override
                 public void run() {
                     try{
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall");
+                        int heatmap_state = Integer.parseInt(su.getString("show_heatmap", "1"));
+                        boolean show_heatmap = heatmap_state == 0 || (heatmap_state == 1 && smu.isConnectedWithWifi());
+                        show_heatmap = false; //TODO: Später entfernen
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&hm=" + (show_heatmap ? "1" : "0"));
                         if(!result.isEmpty()) {
                             JSONArray array = new JSONArray(result);
                             sensors = new ArrayList<>();
@@ -476,6 +558,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 sensor.setChipID(jsonobject.getString("chip_id"));
                                 sensor.setLat(jsonobject.getDouble("lat"));
                                 sensor.setLng(jsonobject.getDouble("lng"));
+                                if(show_heatmap) sensor.setHeatmapValue(jsonobject.getDouble("hm_value") > 60 ? 60 : jsonobject.getDouble("hm_value"));
                                 sensors.add(sensor);
                             }
 
@@ -485,7 +568,12 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 public void run() {
                                     if(map != null) {
                                         for(ExternalSensor sensor : sensors) {
-                                            map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(sensor.getLat(), sensor.getLng())).title(sensor.getChipID()).snippet(String.valueOf(sensor.getLat()) + ", " + String.valueOf(sensor.getLng())));
+                                            map.addMarker(new MarkerOptions()
+                                                    .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                    .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                    .title(sensor.getChipID())
+                                                    .snippet(String.valueOf(sensor.getLat()) + ", " + String.valueOf(sensor.getLng()))
+                                            );
                                         }
                                     }
                                 }

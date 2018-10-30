@@ -208,7 +208,7 @@
                     android:layout_width="530dp"
                     android:layout_height="30dp"
                     android:weightSum="6.05"
-                    android:background="@color/white_dark">
+                    android:background="@color/color_selection">
 
                     <TextView
                         android:layout_width="0dp"
@@ -320,7 +320,7 @@
                     android:layout_width="530dp"
                     android:layout_height="30dp"
                     android:weightSum="6.05"
-                    android:background="@color/white_dark">
+                    android:background="@color/color_selection">
 
                     <TextView
                         android:layout_width="0dp"

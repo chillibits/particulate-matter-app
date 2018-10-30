@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common Strings -->
-    <string name="app_name">Feinstaub App</string>
+    <string name="app_name">Feinstaub-App</string>
     <string name="ok">OK</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
@@ -109,6 +109,12 @@
     <string name="export_diagram">Diagramm exportieren</string>
     <string name="export_data_records">Datensätze exportieren</string>
     <string name="median">Median</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terrain</string>
+    <string name="satellite">Satellit</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="traffic_show">Verkehr anzeigen</string>
+    <string name="traffic_hide">Verkehr ausblenden</string>
 
     <!-- DiagramActivity -->
     <string name="time_">Messzeit:</string>
@@ -128,8 +134,19 @@
     <string name="nc_limit_name">Grenzwertüberschreitungen</string>
     <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
 
-    <!-- FeatureSettings -->
+    <!-- Feature Settings -->
     <string name="pref_header_features">Funktionen</string>
+    <!--<string name="show_heatmap_on_map">Heatmap auf Karte zeigen</string>
+    <string-array name="show_heatmap_on_map_array">
+        <item>Über ein Netzwerk</item>
+        <item>Nur über WLAN</item>
+        <item>Ausgeschaltet</item>
+    </string-array>
+    <string-array name="show_heatmap_on_map_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>-->
     <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
@@ -148,7 +165,25 @@
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
 
-    <!-- NotificationSettings -->
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Erscheinungsbild</string>
+    <string name="pref_theme">App-Thema</string>
+    <string-array name="pref_theme_array">
+        <item>Automatisch nach Tageszeit</item>
+        <item>Helles Thema</item>
+        <item>Dunkles Thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_restart_t">Neustart benötigt</string>
+    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden. Wollen Sie den Neustart jetzt oder später durchführen?</string>
+    <string name="now">Jetzt</string>
+    <string name="later">Später</string>
+
+    <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_limit_p1">PM10 Grenzwert</string>
     <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
@@ -159,7 +194,7 @@
     <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
-    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (kPa)</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
     <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
 
