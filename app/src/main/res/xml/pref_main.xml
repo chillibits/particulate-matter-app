@@ -42,7 +42,7 @@
             android:title="@string/sync_cycle_background"
             android:dialogTitle="@string/sync_cycle_background_t"
             android:inputType="number"
-            android:defaultValue="10"
+            android:defaultValue="15"
             android:selectAllOnFocus="true"
             android:summary="%s Minuten"/>
 
@@ -129,6 +129,12 @@
     <PreferenceCategory
         android:title="@string/pref_header_performance"
         android:key="performance_settings" >
+
+        <SwitchPreference
+            android:key="enable_marker_clustering"
+            android:defaultValue="false"
+            android:title="@string/pref_enable_marker_clustering"
+            android:summary="@string/pref_enable_marker_clustering_s"/>
 
         <SwitchPreference
             android:key="increase_diagram_performance"

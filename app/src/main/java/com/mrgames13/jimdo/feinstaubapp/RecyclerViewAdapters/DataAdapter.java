@@ -54,13 +54,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int pos) {
         //Daten befüllen
-        DataRecord record = SensorActivity.records.get(pos);
-        holder.item_time.setText(sdf.format(record.getDateTime()));
-        holder.item_p1.setText(String.valueOf(Tools.round(record.getP1(), 1)).replace(".", ",").concat(" µg/m³"));
-        holder.item_p2.setText(String.valueOf(Tools.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
-        holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",").concat(" °C"));
-        holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",").concat(" %"));
-        holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
+        try{
+            DataRecord record = SensorActivity.records.get(pos);
+            holder.item_time.setText(sdf.format(record.getDateTime()));
+            holder.item_p1.setText(String.valueOf(Tools.round(record.getP1(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_p2.setText(String.valueOf(Tools.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",").concat(" °C"));
+            holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",").concat(" %"));
+            holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
+        } catch (Exception e) {}
     }
 
     @Override

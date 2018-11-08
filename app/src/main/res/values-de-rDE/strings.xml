@@ -26,6 +26,7 @@
     <string name="download_update">Herunterladen</string>
     <string name="update_available">Update verfügbar</string>
     <string name="download">Download</string>
+    <string name="next_update_support_end">Das nächste Update erhöht die minimale Android-Version der App. Das heißt, dass Ihr Gerät ab dem nächsten Update nicht mehr unterstützt wird.</string>
 
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
@@ -34,7 +35,7 @@
     <string name="complete_sensor">Sensor vervollständigen</string>
     <string name="unlink_sensor">Sensor entfernen</string>
     <string name="really_unlink_sensor">Wollen Sie diesen Sensor wirklich entfernen?</string>
-    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.\n\nTippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
@@ -54,15 +55,15 @@
     <string name="public_short_">Öffentlich:</string>
     <string name="online_since_">Online seit:</string>
     <string name="height_short_">Montagehöhe:</string>
-    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen</string>
+    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
     <string name="enable_location_m">Eigene Position zeigen?</string>
     <string name="enable_location">Aktivieren</string>
     <string name="search_for_sensors">Sensoren durchsuchen</string>
     <string name="enabled_gps_t">Standort aktiviert</string>
     <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
-    <string name="sensor_position_completion_t">Sensoren vervollständigen</string>
     <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
-    <string name="sensor_position_completion_m">Das Update wurde erfolgreich installiert. Diese Version enthält ein Karten-Feature, mit dem man Zugriff auf alle Sensoren weltweit bekommt. Um Ihre eingenen Sensoren für andere Nutzer einsehbar zu machen, müssen Sie die Daten der Sensoren vervollständigen. Um dies zu tun, wechseln Sie auf die \'Meine Sensoren\'-Seite und tippen auf jedes Ausrufezeichen.</string>
+    <string name="web_version">Web-Version</string>
+    <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
 
     <!-- AddSensorActivity -->
     <string name="done">Fertig</string>
@@ -74,7 +75,7 @@
     <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
     <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
     <string name="dont_show_again">Nicht mehr anzeigen</string>
-    <string name="public_sensor">Sensor für andere Nutzer auf der Karte sichtbar machen</string>
+    <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
     <string name="sensor_height">Höhe über Grund/Straße (m):</string>
     <string name="latitude">Breitengrad</string>
@@ -202,6 +203,8 @@
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
     <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
+    <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
 
     <!-- About Settings -->
     <string name="pref_header_about">Über die Feinstaub-App</string>
@@ -225,7 +228,7 @@
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>
-    <string name="pref_more_apps_m">Unsere Playstore-Seite</string>
+    <string name="pref_more_apps_m">Unsere PlayStore-Seite</string>
 
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>

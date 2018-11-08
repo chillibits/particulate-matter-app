@@ -38,9 +38,11 @@
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Increase diagram performance</string>
     <string name="pref_increase_diagram_performance_s">Diagram may become inaccurate</string>
-    <string name="pref_header_about">About the Feinstaub-App</string>
+    <string name="pref_enable_marker_clustering">Enable marker clustering</string>
+    <string name="pref_enable_marker_clustering_s">Sensors on the map will be clustered intelligent</string>
+    <string name="pref_header_about">About the Particulate Matter App</string>
     <string name="pref_opensource_t">Open-source licenses</string>
-    <string name="pref_opensource_m">License details for open-source software</string>
+    <string name="pref_opensource_m">License details for open-source-software</string>
     <string name="pref_appversion">App version</string>
     <string name="pref_developers_t">The developers</string>
     <string name="pref_more_apps_t">More apps from us</string>
@@ -82,7 +84,7 @@
     <string name="limit_exceeded_pressure">Pressure limit exceeded</string>
     <string name="nc_system_name">System notifications</string>
     <string name="nc_limit_name">limit exceedings</string>
-    <string name="nc_system_description">System notifications from the Feinstaub-App.</string>
+    <string name="nc_system_description">System notifications from the Particulate Matter App.</string>
     <string name="nc_limit_description">Display notifications in the status bar, when one of the adjusted limit is exceeded.</string>
     <string name="curve_smoothness_">Curve smoothness:</string>
     <string name="rate_app">rate app</string>
@@ -90,7 +92,7 @@
     <string name="share_app">recommend app</string>
     <string name="share">Recommend</string>
     <string name="share_m">Recommend The Particulate Matter App to your friends!</string>
-    <string name="recommend_string">Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="rate">Rate</string>
     <string name="export_data">Export data</string>
     <string name="export_diagram">Export diagram</string>
@@ -107,7 +109,7 @@
     <string name="enable_nothing">Disable average / median</string>
     <string name="enable_daily_average_median_s">Displayed below the data records</string>
     <string name="add_own_sensor">Add own sensor</string>
-    <string name="public_sensor">Make the sensor visible on the map for other users</string>
+    <string name="public_sensor">Show sensor to other users and make it visible on the map</string>
     <string name="choose_location">Choose exact sensor location</string>
     <string name="sensor_height">Height over ground/street (m):</string>
     <string name="latitude">Latitude</string>
@@ -164,9 +166,7 @@
     <string name="search_for_sensors">Search for sensors</string>
     <string name="enabled_gps_t">Location enabled</string>
     <string name="enabled_gps_m">You just enabled the location service. It can last a few moments until your position gets located on the map.</string>
-    <string name="sensor_position_completion_t">Complete sensors</string>
     <string name="sensor_position_completion_m_short">Please complete the sensor data to make the sensor appear on the map.</string>
-    <string name="sensor_position_completion_m">The update was installed successfully. This version includes the new map feature, where you can see all registered sensors over the world. To make your sensor appear on the map, you have to complete the data of each sensor, you own. To do this, go to the \'My Sensors\' page and tap on each exclamation mark.</string>
     <string name="press_color_to_apply">Press on Color to apply</string>
     <string name="gps_will_be_synchronized">If there is a GPS sensor is connected to your sensor system, the position will gets automatically synchronized with the map.</string>
     <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de">contacting us</a>.</string>
@@ -204,5 +204,8 @@
     <string name="hybrid">Hybrid</string>
     <string name="traffic_show">Show traffic</string>
     <string name="traffic_hide">Hide traffic</string>
+    <string name="web_version">Web version</string>
+    <string name="scan_prompt">Open feinstaub.mrgames-server.de on your computer.</string>
+    <string name="next_update_support_end">The next update increases the minimum supported Android version. That means that your device will not longer be supported.</string>
 
 </resources>

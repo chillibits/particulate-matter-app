@@ -5,6 +5,9 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,10 +25,12 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +42,7 @@ import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
@@ -140,7 +145,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 20) return false;
-                preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
+                preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
                 return true;
             }
         });
@@ -150,19 +155,32 @@ public class SettingsActivity extends PreferenceActivity {
         sync_cycle_background.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 10) return false;
-                preference.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 15) return false;
+                preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
 
-                //AlarmManager updaten
-                int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
-                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Intent start_service_intent = new Intent(SettingsActivity.this, SyncService.class);
-                PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //JobScheduler updaten
+                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+                    ComponentName component = new ComponentName(SettingsActivity.this, SyncJobService.class);
+                    JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                            .setPeriodic(background_sync_frequency)
+                            .setPersisted(true);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
+                    JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                    Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+                } else {
+                    //AlarmManager updaten
+                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    Intent start_service_intent = new Intent(SettingsActivity.this, SyncJobService.class);
+                    PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
 
-                startService(start_service_intent);
+                    startService(start_service_intent);
+                }
 
                 return true;
             }
@@ -202,7 +220,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " µg/m³" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });
@@ -212,7 +230,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " µg/m³" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });
@@ -223,37 +241,36 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + "°C" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + "°C" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });
 
-        try{
-            Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))); // TODO: Bei nächstem Update entfernen
-        } catch (Exception e) {
-            su.putString("limit_humidity", "0");
-        }
         limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)) + "%" : res.getString(R.string.pref_limit_disabled));
         limit_humidity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + "%" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + "%" : res.getString(R.string.pref_limit_disabled));
                 return true;
             }
         });
 
-        try{
-            Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))); // TODO: Bei nächstem Update entfernen
-        } catch (Exception e) {
-            su.putString("limit_pressure", "0");
-        }
         limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " hPa" : res.getString(R.string.pref_limit_disabled));
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? String.valueOf(o) + " hPa" : res.getString(R.string.pref_limit_disabled));
+                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " hPa" : res.getString(R.string.pref_limit_disabled));
+                return true;
+            }
+        });
+
+        final SwitchPreference enable_marker_clustering = (SwitchPreference) findPreference("enable_marker_clustering");
+        enable_marker_clustering.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
                 return true;
             }
         });

@@ -23,7 +23,6 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
@@ -225,6 +224,27 @@ public class SensorActivity extends AppCompatActivity {
         }
         if(getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
         if(getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+
+
+        //RefreshPeriod setzen
+        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
+
+        //ScheduledExecutorService aufsetzen
+        service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if(date_string.equals(current_date_string)) {
+                    Log.i("FA", "Auto refreshing ...");
+                    loadData(false);
+                }
+            }
+        }, period, period, TimeUnit.SECONDS);
+
+        if(!sensor.getId().equals("no_id")) loadData(true);
+
+        //Check if sensor is existing on the server
+        checkSensorAvailability();
     }
 
     private void chooseDate(final TextView card_date_value) {
@@ -268,9 +288,6 @@ public class SensorActivity extends AppCompatActivity {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
             loadData(true);
-            Intent i = new Intent(SensorActivity.this, SyncService.class);
-            i.putExtra("Mode", SyncService.MODE_FOREGROUND);
-            startService(i);
         } else if(id == R.id.action_settings) {
             //SettingsActivity starten
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
@@ -281,33 +298,8 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        //RefreshPeriod setzen
-        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
-
-        //ScheduledExecutorService aufsetzen
-        service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                if(date_string.equals(current_date_string)) {
-                    Log.i("FA", "Auto refreshing ...");
-                    loadData(false);
-                }
-            }
-        }, period, period, TimeUnit.SECONDS);
-
-        if(!sensor.getId().equals("no_id")) loadData(true);
-
-        //Check if sensor is existing on the server
-        checkSensorAvailability();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onDestroy() {
+        super.onDestroy();
         if(service != null) service.shutdown();
     }
 
@@ -375,7 +367,7 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     private void checkSensorAvailability() {
-        if(!su.getBoolean("DontShowAgain_" + String.valueOf(sensor.getId())) && smu.isInternetAvailable()) {
+        if(!su.getBoolean("DontShowAgain_" + sensor.getId()) && smu.isInternetAvailable()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -392,7 +384,7 @@ public class SensorActivity extends AppCompatActivity {
                                         .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                su.putBoolean("DontShowAgain_" + String.valueOf(sensor.getId()), true);
+                                                su.putBoolean("DontShowAgain_" + sensor.getId(), true);
                                             }
                                         })
                                         .create();

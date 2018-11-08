@@ -39,7 +39,8 @@ public class StorageUtils extends SQLiteOpenHelper {
     private final String DEFAULT_STRING_VALUE = "";
     private final int DEFAULT_INT_VALUE = 0;
     private final boolean DEFAULT_BOOLEAN_VALUE = false;
-    private final int DEFAULT_LONG_VALUE = -1;
+    private final long DEFAULT_LONG_VALUE = -1;
+    private final double DEFAULT_DOUBLE_VALUE = 0.0d;
     public static final String TABLE_SENSORS = "Sensors";
     public static final String TABLE_FAVOURITES = "Favourites";
 
@@ -260,6 +261,12 @@ public class StorageUtils extends SQLiteOpenHelper {
         e.apply();
     }
 
+    public void putDouble(String name, double value) {
+        e = prefs.edit();
+        e.putFloat(name, (float) value);
+        e.apply();
+    }
+
     public String getString(String name) {
         return prefs.getString(name, DEFAULT_STRING_VALUE);
     }
@@ -273,6 +280,10 @@ public class StorageUtils extends SQLiteOpenHelper {
     }
 
     public long getLong(String name) { return prefs.getLong(name, DEFAULT_LONG_VALUE); }
+
+    public double getDouble(String name) {
+        return prefs.getFloat(name, (float) DEFAULT_DOUBLE_VALUE);
+    }
 
     public String getString(String name, String default_value) {
         return prefs.getString(name, default_value);
@@ -288,6 +299,10 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public long getLong(String name, long default_value) {
         return  prefs.getLong(name, default_value);
+    }
+
+    public double getDouble(String name, double default_value) {
+        return prefs.getFloat(name, (float) default_value);
     }
 
     //------------------------------------------Datenbank-------------------------------------------
@@ -341,7 +356,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     }
 
     public void updateOwnSensor(Sensor new_sensor) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + String.valueOf(new_sensor.getColor()) + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
+        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
     }
 
     public void removeOwnSensor(String chip_id) {
@@ -389,7 +404,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     }
 
     public void updateFavourite(Sensor new_sensor) {
-        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + String.valueOf(new_sensor.getColor()) + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
+        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
     }
 
     public void removeFavourite(String chip_id) {

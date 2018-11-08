@@ -405,12 +405,13 @@ public class CompareActivity extends AppCompatActivity {
                 }
 
                 no_data = true;
+
                 for(int i = 0; i < sensors.size(); i++) {
                     ArrayList<DataRecord> current_records = records.get(i);
                     if(current_records.size() > 0) {
                         no_data = false;
                         try{
-                            LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
+                            final LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
                             series_p1.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
@@ -418,14 +419,8 @@ public class CompareActivity extends AppCompatActivity {
                                     series_p1.appendData(new DataPoint(time.getTime(), record.getP1()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_p1.addSeries(series_p1);
-                            diagram_p1.getViewport().setScalable(true);
-                            diagram_p1.getViewport().setMinX(first_time);
-                            diagram_p1.getViewport().setMaxX(last_time);
-                            diagram_p1.getViewport().scrollToEnd();
-                            diagram_p1.getViewport().setScalable(false);
 
-                            LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
+                            final LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
                             series_p2.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
@@ -433,14 +428,8 @@ public class CompareActivity extends AppCompatActivity {
                                     series_p2.appendData(new DataPoint(time.getTime(), record.getP2()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_p2.addSeries(series_p2);
-                            diagram_p2.getViewport().setScalable(true);
-                            diagram_p2.getViewport().setMinX(first_time);
-                            diagram_p2.getViewport().setMaxX(last_time);
-                            diagram_p2.getViewport().scrollToEnd();
-                            diagram_p2.getViewport().setScalable(false);
 
-                            LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
+                            final LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
                             series_temp.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
@@ -448,14 +437,8 @@ public class CompareActivity extends AppCompatActivity {
                                     series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_temp.addSeries(series_temp);
-                            diagram_temp.getViewport().setScalable(true);
-                            diagram_temp.getViewport().setMinX(first_time);
-                            diagram_temp.getViewport().setMaxX(last_time);
-                            diagram_temp.getViewport().scrollToEnd();
-                            diagram_temp.getViewport().setScalable(false);
 
-                            LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
+                            final LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
                             series_humidity.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
@@ -463,14 +446,8 @@ public class CompareActivity extends AppCompatActivity {
                                     series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_humidity.addSeries(series_humidity);
-                            diagram_humidity.getViewport().setScalable(true);
-                            diagram_humidity.getViewport().setMinX(first_time);
-                            diagram_humidity.getViewport().setMaxX(last_time);
-                            diagram_humidity.getViewport().scrollToEnd();
-                            diagram_humidity.getViewport().setScalable(false);
 
-                            LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
+                            final LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
                             series_pressure.setColor(sensors.get(i).getColor());
                             for(DataRecord record : Tools.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
@@ -478,17 +455,51 @@ public class CompareActivity extends AppCompatActivity {
                                     series_pressure.appendData(new DataPoint(time.getTime(), record.getPressure()), false, 1000000);
                                 } catch (Exception e) {}
                             }
-                            diagram_pressure.addSeries(series_pressure);
-                            diagram_pressure.getViewport().setScalable(true);
-                            diagram_pressure.getViewport().setMinX(first_time);
-                            diagram_pressure.getViewport().setMaxX(last_time);
-                            diagram_pressure.getViewport().scrollToEnd();
-                            diagram_pressure.getViewport().setScalable(false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    diagram_p1.addSeries(series_p1);
+                                    diagram_p2.addSeries(series_p2);
+                                    diagram_temp.addSeries(series_temp);
+                                    diagram_humidity.addSeries(series_humidity);
+                                    diagram_pressure.addSeries(series_pressure);
+                                }
+                            });
+                        } catch (Exception e) {}
                     }
                 }
+
+                diagram_p1.getViewport().setScalable(true);
+                diagram_p1.getViewport().setMinX(first_time);
+                diagram_p1.getViewport().setMaxX(last_time);
+                diagram_p1.getViewport().scrollToEnd();
+                diagram_p1.getViewport().setScalable(false);
+
+                diagram_p2.getViewport().setScalable(true);
+                diagram_p2.getViewport().setMinX(first_time);
+                diagram_p2.getViewport().setMaxX(last_time);
+                diagram_p2.getViewport().scrollToEnd();
+                diagram_p2.getViewport().setScalable(false);
+
+                diagram_temp.getViewport().setScalable(true);
+                diagram_temp.getViewport().setMinX(first_time);
+                diagram_temp.getViewport().setMaxX(last_time);
+                diagram_temp.getViewport().scrollToEnd();
+                diagram_temp.getViewport().setScalable(false);
+
+                diagram_humidity.getViewport().setScalable(true);
+                diagram_humidity.getViewport().setMinX(first_time);
+                diagram_humidity.getViewport().setMaxX(last_time);
+                diagram_humidity.getViewport().scrollToEnd();
+                diagram_humidity.getViewport().setScalable(false);
+
+                diagram_pressure.getViewport().setScalable(true);
+                diagram_pressure.getViewport().setMinX(first_time);
+                diagram_pressure.getViewport().setMaxX(last_time);
+                diagram_pressure.getViewport().scrollToEnd();
+                diagram_pressure.getViewport().setScalable(false);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -521,15 +532,15 @@ public class CompareActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(export_p1.isChecked()) {
-                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
                             } else if(export_p2.isChecked()) {
-                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
                             } else if(export_temp.isChecked()) {
-                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
                             } else if(export_humidity.isChecked()) {
-                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
                             } else if(export_pressure.isChecked()) {
-                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + String.valueOf(System.currentTimeMillis()), getString(R.string.export_diagram));
+                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
                             }
                         }
                     })

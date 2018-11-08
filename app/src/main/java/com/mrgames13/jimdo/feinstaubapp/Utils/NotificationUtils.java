@@ -64,6 +64,7 @@ public class NotificationUtils {
         //Notification aufbauen
         NotificationCompat.Builder n = buildNotification(title, message);
         n.setAutoCancel(true);
+        n.setSmallIcon(R.drawable.notification_icon);
         n.setWhen(time);
         if(i != null) {
             PendingIntent pi = PendingIntent.getActivity(context, 0, i, 0);

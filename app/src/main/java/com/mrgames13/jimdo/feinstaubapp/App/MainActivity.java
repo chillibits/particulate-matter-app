@@ -2,6 +2,9 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +13,12 @@ import android.content.res.Resources;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +35,14 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -45,6 +52,11 @@ import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_compare_dismiss;
     private SheetLayout sheet_fab_compare;
     private MaterialSearchView searchView;
+    private Socket socket;
 
     //Utils-Pakete
     private StorageUtils su;
@@ -96,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
         int state = Integer.parseInt(su.getString("app_theme", "0"));
         AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ?  AppCompatDelegate.MODE_NIGHT_NO :  AppCompatDelegate.MODE_NIGHT_YES));
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         //SplashScreen anzeigen
         SplashScreenBuilder.getInstance(this)
                 .setVideo(R.raw.splash_animation)
                 .setImage(R.drawable.app_icon)
                 .show();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //Eigene Intanz initialisieren
         own_instance = this;
@@ -274,24 +287,23 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationUtils.createNotificationChannels(this);
         getServerInfo();
+
+        initializeApp();
+
+        //TODO: Beim nächsten Update entfernen
+        try{
+            if(Integer.parseInt(su.getString("sync_cycle_background", "15")) < 15) su.putString("sync_cycle_background", "15");
+        } catch (Exception e) {}
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
-
-        //Alarmmanager aufsetzen
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        Intent start_service_intent = new Intent(this, SyncService.class);
-        PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            if(socket != null && socket.isConnected()) socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -323,6 +335,14 @@ public class MainActivity extends AppCompatActivity {
             recommendApp();
         } else if(id == R.id.action_search) {
             item.expandActionView();
+        } else if(id == R.id.action_web) {
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setOrientationLocked(true);
+            integrator.setBeepEnabled(false);
+            integrator.setPrompt(res.getString(R.string.scan_prompt));
+            integrator.initiateScan();
+        } else if(id == R.id.action_web_close) {
+            closeSocket();
         } else if(id == R.id.action_exit) {
             finish();
         }
@@ -352,6 +372,29 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initializeApp() {
+        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //JobScheduler starten
+            ComponentName component = new ComponentName(this, SyncJobService.class);
+            JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPeriodic(background_sync_frequency)
+                    .setPersisted(true);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+        } else {
+            //Alarmmanager aufsetzen
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent start_service_intent = new Intent(this, SyncJobService.class);
+            PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+        }
     }
 
     public void refresh() {
@@ -450,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
             if(show_update_snackbar) {
                 Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
@@ -466,16 +510,16 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
 
-            //Nutzer auf Aktualisierung der Sensoren aufmerksam machen
-            if(!su.getBoolean("ShownSensorCompletion", false) && su.getAllOwnSensors().size() > 0) {
+            if(Build.VERSION.SDK_INT < 19 && !su.getBoolean("ShowSupportWarning")) { // TODO: Beim nächsten Update entfernen
                 AlertDialog d = new AlertDialog.Builder(this)
-                        .setCancelable(false)
+                        .setCancelable(true)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.next_update_support_end)
                         .setIcon(R.drawable.warning)
-                        .setTitle(R.string.sensor_position_completion_t)
-                        .setMessage(R.string.sensor_position_completion_m)
                         .setPositiveButton(R.string.ok, null)
                         .create();
                 d.show();
+                su.putBoolean("ShowSupportWarning", true);
             }
             su.putBoolean("ShownSensorCompletion", true);
         } else if(requestCode == REQ_ADD_OWN_SENSOR) {
@@ -490,6 +534,13 @@ public class MainActivity extends AppCompatActivity {
             if (matches != null && matches.size() > 0) {
                 String searchWrd = matches.get(0);
                 if (!TextUtils.isEmpty(searchWrd)) searchView.setQuery(searchWrd, false);
+            }
+        } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
+            try{
+                String key = result.getContents();
+                connectSocket(key);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -614,5 +665,58 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);
         }
+    }
+
+    private void connectSocket(final String key) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("85.214.250.60",9857);
+                    PrintWriter out = new PrintWriter(socket.getOutputStream());
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    Thread.yield();
+                    Log.d("FA", "Key: " + key);
+                    out.print("connect " + key);
+                    out.print("\n");
+                    out.flush();
+
+                    String line;
+                    while ((line = in.readLine()) != null) {
+                        Log.d("FA", "Result: " + line);
+                    }
+
+                    //writer.close();
+                    //reader.close();
+                } catch (Exception e) {
+                    if(socket != null) {
+                        try { socket.close(); } catch (IOException e1) {}
+                    }
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void closeSocket() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PrintWriter out = new PrintWriter(socket.getOutputStream());
+                    Thread.yield();
+                    out.println("shutdown");
+                    out.print("\n");
+                    out.flush();
+                    out.close();
+                    socket.close();
+                } catch (Exception e) {
+                    if(socket != null) {
+                        try { socket.close(); } catch (IOException e1) {}
+                    }
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

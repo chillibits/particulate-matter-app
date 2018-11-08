@@ -44,10 +44,13 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.maps.android.clustering.ClusterManager;
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRederer;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SensorClusterItem;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
@@ -60,6 +63,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -207,9 +211,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private SupportMapFragment map_fragment;
         private Spinner map_type;
         private Spinner map_traffic;
+        private static TextView map_sensor_count;
         private static GoogleMap map;
+        private static ClusterManager<SensorClusterItem> clusterManager;
         private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
+        private static LatLng current_country;
+        private static HashMap<String, String> tags = new HashMap<>();
 
         //Variablen
         private int current_color;
@@ -274,6 +282,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 public void onNothingSelected(AdapterView<?> adapterView) {}
             });
 
+            map_sensor_count = contentView.findViewById(R.id.map_sensor_count);
+
             LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             final boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -326,14 +336,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             map = googleMap;
             map.getUiSettings().setRotateGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
-            /*View googleLogo = contentView.findViewWithTag("GoogleWatermark");
-            RelativeLayout.LayoutParams glLayoutParams = (RelativeLayout.LayoutParams)googleLogo.getLayoutParams();
-            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
-            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-            googleLogo.setLayoutParams(glLayoutParams);*/
             View zoomControls = map_fragment.getView().findViewById(0x1);
             if (zoomControls != null && zoomControls.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) zoomControls.getLayoutParams();
@@ -357,17 +359,21 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 });
             }
 
+            //ClusterManager initialisieren
+            clusterManager = new ClusterManager<>(activity, map);
+            clusterManager.setRenderer(new ClusterRederer(activity, map, clusterManager, su));
+            map.setOnCameraIdleListener(clusterManager);
+
             //Zoom zum aktuellen Land
             try{
                 TelephonyManager teleMgr = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
-                    LatLng location = Tools.getLocationFromAddress(activity, iso);
-                    if(location != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 5));
+                    current_country = Tools.getLocationFromAddress(activity, iso);
                 }
             } catch (Exception e) {}
 
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(final Marker marker) {
                     View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
@@ -566,15 +572,23 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    map_sensor_count.setText(String.valueOf(sensors.size()));
                                     if(map != null) {
+                                        clusterManager.clearItems();
                                         for(ExternalSensor sensor : sensors) {
-                                            map.addMarker(new MarkerOptions()
-                                                    .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
-                                                    .position(new LatLng(sensor.getLat(), sensor.getLng()))
-                                                    .title(sensor.getChipID())
-                                                    .snippet(String.valueOf(sensor.getLat()) + ", " + String.valueOf(sensor.getLng()))
-                                            );
+                                            if(su.getBoolean("enable_marker_clustering", false)) {
+                                                clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng()));
+                                            } else {
+                                                map.addMarker(new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                        .title(sensor.getChipID())
+                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                                );
+                                            }
                                         }
+                                        clusterManager.cluster();
+                                        if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
                                     }
                                 }
                             });
