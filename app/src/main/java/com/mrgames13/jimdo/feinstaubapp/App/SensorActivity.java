@@ -420,7 +420,6 @@ public class SensorActivity extends AppCompatActivity {
                     .create();
             d.show();
         } else {
-            Log.d("FA", "Test");
             ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
         }
     }

@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
@@ -173,7 +174,7 @@ public class SettingsActivity extends PreferenceActivity {
                     //AlarmManager updaten
                     int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
                     AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    Intent start_service_intent = new Intent(SettingsActivity.this, SyncJobService.class);
+                    Intent start_service_intent = new Intent(SettingsActivity.this, SyncService.class);
                     PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());

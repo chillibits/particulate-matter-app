@@ -6,6 +6,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -356,10 +357,19 @@ public class DiagramActivity extends AppCompatActivity {
         time.setText(res.getString(R.string.time_) + " " + sdf_time.format(cal.getTime()));
         value.setText(res.getString(R.string.value_) + " " + String.valueOf(dataPoint.getY()));
 
-        PopupWindow popup = new PopupWindow();
+        final PopupWindow popup = new PopupWindow();
         popup.setContentView(popup_layout);
         popup.setFocusable(true);
         popup.setOutsideTouchable(true);
+        popup.setTouchable(false);
+        popup.setFocusable(false);
+        popup.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                popup.dismiss();
+                return false;
+            }
+        });
         popup.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setAnimationStyle(android.R.style.Animation_Dialog);

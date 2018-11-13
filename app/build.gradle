@@ -6,8 +6,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 204
-        versionName "2.0.4"
+        versionCode 205
+        versionName "2.0.5"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -30,12 +30,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.turing-tech:MaterialScrollBar:13.3.0'
@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'

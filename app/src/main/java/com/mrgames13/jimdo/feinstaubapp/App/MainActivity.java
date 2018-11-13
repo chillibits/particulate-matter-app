@@ -43,6 +43,7 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -377,24 +378,39 @@ public class MainActivity extends AppCompatActivity {
     private void initializeApp() {
         int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //JobScheduler starten
-            ComponentName component = new ComponentName(this, SyncJobService.class);
-            JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setPeriodic(background_sync_frequency)
-                    .setPersisted(true);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
-            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-            Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+            if(!isJobServiceOn(this)) {
+                //JobScheduler starten
+                ComponentName component = new ComponentName(this, SyncJobService.class);
+                JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setPeriodic(background_sync_frequency)
+                        .setPersisted(true);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+            }
         } else {
             //Alarmmanager aufsetzen
             AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent start_service_intent = new Intent(this, SyncJobService.class);
+            Intent start_service_intent = new Intent(this, SyncService.class);
             PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
         }
+    }
+
+    public static boolean isJobServiceOn(Context context) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE) ;
+        boolean hasBeenScheduled = false ;
+
+        for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+            if (jobInfo.getId() == Constants.JOB_SYNC_ID) {
+                hasBeenScheduled = true ;
+                break;
+            }
+        }
+        return hasBeenScheduled ;
     }
 
     public void refresh() {

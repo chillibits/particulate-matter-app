@@ -1,6 +1,7 @@
 package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
@@ -63,7 +65,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -82,6 +83,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
     //Konstanten
     private static final int REQ_LOCATION_PERMISSION = 10001;
+    private static final int REQ_LOCATION_ENABLE = 10002;
 
     //Variablen als Objekte
     private static MainActivity activity;
@@ -217,7 +219,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
         private static LatLng current_country;
-        private static HashMap<String, String> tags = new HashMap<>();
 
         //Variablen
         private int current_color;
@@ -294,10 +295,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             @Override
                             public void onClick(View v) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    if(activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                    if(isGPSPermissionGranted()) {
                                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                                     } else {
-                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_LOCATION_PERMISSION);
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION_PERMISSION);
                                         return;
                                     }
                                 } else {
@@ -344,25 +345,41 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
                 final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-                params.setMargins(0, 0, 0, margin);
+                params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, margin);
             }
 
+            enableOwnLocation();
+
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, getResources().getColor(R.color.colorPrimary) == getResources().getColor(R.color.dark_mode_indicator) ? R.raw.map_style_dark : R.raw.map_style_silver));
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                map.setMyLocationEnabled(true);
-                map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-                    @Override
-                    public void onMyLocationChange(Location location) {
-                        moveCamera(new LatLng(location.getLatitude(), location.getLongitude()));
-                        map.setOnMyLocationChangeListener(null);
-                    }
-                });
-            }
 
             //ClusterManager initialisieren
             clusterManager = new ClusterManager<>(activity, map);
             clusterManager.setRenderer(new ClusterRederer(activity, map, clusterManager, su));
-            map.setOnCameraIdleListener(clusterManager);
+            if(su.getBoolean("enable_marker_clustering", false)) {
+                map.setOnMarkerClickListener(clusterManager);
+                clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<SensorClusterItem>() {
+                    @Override
+                    public boolean onClusterItemClick(SensorClusterItem sensorClusterItem) {
+                        showInfoWindow(sensorClusterItem.getMarker());
+                        return true;
+                    }
+                });
+                clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<SensorClusterItem>() {
+                    @Override
+                    public boolean onClusterClick(Cluster<SensorClusterItem> cluster) {
+                        return true;
+                    }
+                });
+                map.setOnCameraIdleListener(clusterManager);
+            } else {
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(final Marker marker) {
+                        showInfoWindow(marker);
+                        return true;
+                    }
+                });
+            }
 
             //Zoom zum aktuellen Land
             try{
@@ -371,125 +388,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
                 }
-            } catch (Exception e) {}
-
-            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(final Marker marker) {
-                    View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
-                    TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
-                    TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
-                    TextView sensor_location = v.findViewById(R.id.sensor_location);
-                    Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
-                    Button sensor_link = v.findViewById(R.id.sensor_link);
-
-                    try{
-                        Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
-                        List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
-                        String city = addresses.get(0).getLocality();
-                        marker.setTag(city);
-                        String country = addresses.get(0).getCountryName();
-                        sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
-                    } catch (Exception e) {
-                        sensor_location.setText(R.string.unknown_location);
-                        marker.setTag(marker.getTitle());
-                    }
-
-                    sensor_chip_id.setText(marker.getTitle());
-                    sensor_coordinates.setText(marker.getSnippet());
-                    sensor_show_data.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            random = new Random();
-                            current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-
-                            Intent i = new Intent(activity, SensorActivity.class);
-                            i.putExtra("Name", marker.getTitle());
-                            i.putExtra("ID", marker.getTitle());
-                            i.putExtra("Color", current_color);
-                            activity.startActivity(i);
-
-                            info_window.dismiss();
-                        }
-                    });
-                    sensor_link.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExistingLocally(marker.getTitle())) {
-                                View v = getLayoutInflater().inflate(R.layout.dialog_add_sensor, null);
-                                final EditText name = v.findViewById(R.id.sensor_name_value);
-                                EditText chip_id = v.findViewById(R.id.sensor_chip_id_value);
-                                Button choose_color = v.findViewById(R.id.choose_sensor_color);
-                                final ImageView sensor_color = v.findViewById(R.id.sensor_color);
-
-                                name.setHint(marker.getTag().toString());
-                                chip_id.setText(marker.getTitle());
-
-                                //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
-                                random = new Random();
-                                current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-                                sensor_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
-
-                                sensor_color.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        chooseColor(sensor_color);
-                                    }
-                                });
-                                choose_color.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        chooseColor(sensor_color);
-                                    }
-                                });
-
-                                AlertDialog d = new AlertDialog.Builder(activity)
-                                        .setCancelable(true)
-                                        .setTitle(R.string.add_favourite)
-                                        .setView(v)
-                                        .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                //Neuen Sensor speichern
-                                                String name_string = name.getText().toString().trim();
-                                                if(name_string.isEmpty()) name_string = marker.getTag().toString();
-                                                su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color));
-                                                MyFavouritesFragment.refresh();
-                                                refresh();
-                                                info_window.dismiss();
-                                                Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .create();
-                                d.show();
-                            } else {
-                                //Sensor ist bereits verknüpft
-                                Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    info_window = new AlertDialog.Builder(activity)
-                            .setCancelable(true)
-                            .setView(v)
-                            .create();
-                    info_window.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                    Projection p = map.getProjection();
-                    Point screen_pos = p.toScreenLocation(marker.getPosition());
-
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    lp.copyFrom(info_window.getWindow().getAttributes());
-                    lp.gravity = Gravity.TOP | Gravity.LEFT;
-                    lp.x = screen_pos.x - 275;
-                    lp.y = screen_pos.y - 530;
-                    lp.width = 550;
-                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                    info_window.show();
-                    info_window.getWindow().setAttributes(lp);
-                    return true;
-                }
-            });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             //Sensoren laden
             loadAllSensors();
@@ -497,11 +398,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            if(requestCode == REQ_LOCATION_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-                final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                final boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                if(!isGpsProviderEnabled && !isNetworkProviderEnabled) startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            if(isGPSPermissionGranted()) {
+                if(!isGPSEnabled(activity)) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
                 enableOwnLocation();
             }
         }
@@ -510,8 +410,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             if (map != null) map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 11));
         }
 
-        public static void enableOwnLocation() {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        @SuppressLint("MissingPermission")
+        private void enableOwnLocation() {
+            if(isGPSPermissionGranted() && isGPSEnabled(activity)) {
                 map.setMyLocationEnabled(true);
                 map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                     @Override
@@ -520,6 +421,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         map.setOnMyLocationChangeListener(null);
                     }
                 });
+            } else if(isGPSEnabled(activity)) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION_PERMISSION);
             }
         }
 
@@ -575,19 +478,22 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     map_sensor_count.setText(String.valueOf(sensors.size()));
                                     if(map != null) {
                                         clusterManager.clearItems();
+                                        map.clear();
                                         for(ExternalSensor sensor : sensors) {
+                                            Marker m = map.addMarker(new MarkerOptions()
+                                                    .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                    .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                    .title(sensor.getChipID())
+                                                    .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                            );
                                             if(su.getBoolean("enable_marker_clustering", false)) {
-                                                clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng()));
-                                            } else {
-                                                map.addMarker(new MarkerOptions()
-                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
-                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
-                                                        .title(sensor.getChipID())
-                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
-                                                );
+                                                clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
                                             }
                                         }
-                                        clusterManager.cluster();
+                                        if(su.getBoolean("enable_marker_clustering", false)) {
+                                            map.clear();
+                                            clusterManager.cluster();
+                                        }
                                         if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
                                     }
                                 }
@@ -598,6 +504,129 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     }
                 }
             }).start();
+        }
+
+        private boolean isGPSEnabled(Context context){
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+
+        private boolean isGPSPermissionGranted() {
+            return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        }
+
+        private void showInfoWindow(final Marker marker) {
+            View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
+            TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
+            TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
+            TextView sensor_location = v.findViewById(R.id.sensor_location);
+            Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
+            Button sensor_link = v.findViewById(R.id.sensor_link);
+
+            try{
+                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+                String city = addresses.get(0).getLocality();
+                marker.setTag(city);
+                String country = addresses.get(0).getCountryName();
+                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
+            } catch (Exception e) {
+                sensor_location.setText(R.string.unknown_location);
+                marker.setTag(marker.getTitle());
+            }
+
+            sensor_chip_id.setText(marker.getTitle());
+            sensor_coordinates.setText(marker.getSnippet());
+            sensor_show_data.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    random = new Random();
+                    current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+
+                    Intent i = new Intent(activity, SensorActivity.class);
+                    i.putExtra("Name", marker.getTitle());
+                    i.putExtra("ID", marker.getTitle());
+                    i.putExtra("Color", current_color);
+                    activity.startActivity(i);
+
+                    info_window.dismiss();
+                }
+            });
+            sensor_link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExistingLocally(marker.getTitle())) {
+                        View v = getLayoutInflater().inflate(R.layout.dialog_add_sensor, null);
+                        final EditText name = v.findViewById(R.id.sensor_name_value);
+                        EditText chip_id = v.findViewById(R.id.sensor_chip_id_value);
+                        Button choose_color = v.findViewById(R.id.choose_sensor_color);
+                        final ImageView sensor_color = v.findViewById(R.id.sensor_color);
+
+                        name.setHint(marker.getTag().toString());
+                        chip_id.setText(marker.getTitle());
+
+                        //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+                        random = new Random();
+                        current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+                        sensor_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+
+                        sensor_color.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                chooseColor(sensor_color);
+                            }
+                        });
+                        choose_color.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                chooseColor(sensor_color);
+                            }
+                        });
+
+                        AlertDialog d = new AlertDialog.Builder(activity)
+                                .setCancelable(true)
+                                .setTitle(R.string.add_favourite)
+                                .setView(v)
+                                .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //Neuen Sensor speichern
+                                        String name_string = name.getText().toString().trim();
+                                        if(name_string.isEmpty()) name_string = marker.getTag().toString();
+                                        su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color));
+                                        MyFavouritesFragment.refresh();
+                                        refresh();
+                                        info_window.dismiss();
+                                        Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .create();
+                        d.show();
+                    } else {
+                        //Sensor ist bereits verknüpft
+                        Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            info_window = new AlertDialog.Builder(activity)
+                    .setCancelable(true)
+                    .setView(v)
+                    .create();
+            info_window.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            Projection p = map.getProjection();
+            Point screen_pos = p.toScreenLocation(marker.getPosition());
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(info_window.getWindow().getAttributes());
+            lp.gravity = Gravity.TOP | Gravity.LEFT;
+            lp.x = screen_pos.x - 275;
+            lp.y = screen_pos.y - 530;
+            lp.width = 550;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            info_window.show();
+            info_window.getWindow().setAttributes(lp);
         }
     }
 

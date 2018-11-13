@@ -470,40 +470,42 @@ public class CompareActivity extends AppCompatActivity {
                     }
                 }
 
-                diagram_p1.getViewport().setScalable(true);
-                diagram_p1.getViewport().setMinX(first_time);
-                diagram_p1.getViewport().setMaxX(last_time);
-                diagram_p1.getViewport().scrollToEnd();
-                diagram_p1.getViewport().setScalable(false);
-
-                diagram_p2.getViewport().setScalable(true);
-                diagram_p2.getViewport().setMinX(first_time);
-                diagram_p2.getViewport().setMaxX(last_time);
-                diagram_p2.getViewport().scrollToEnd();
-                diagram_p2.getViewport().setScalable(false);
-
-                diagram_temp.getViewport().setScalable(true);
-                diagram_temp.getViewport().setMinX(first_time);
-                diagram_temp.getViewport().setMaxX(last_time);
-                diagram_temp.getViewport().scrollToEnd();
-                diagram_temp.getViewport().setScalable(false);
-
-                diagram_humidity.getViewport().setScalable(true);
-                diagram_humidity.getViewport().setMinX(first_time);
-                diagram_humidity.getViewport().setMaxX(last_time);
-                diagram_humidity.getViewport().scrollToEnd();
-                diagram_humidity.getViewport().setScalable(false);
-
-                diagram_pressure.getViewport().setScalable(true);
-                diagram_pressure.getViewport().setMinX(first_time);
-                diagram_pressure.getViewport().setMaxX(last_time);
-                diagram_pressure.getViewport().scrollToEnd();
-                diagram_pressure.getViewport().setScalable(false);
-
+                final long first_time_tmp = first_time;
+                final long last_time_tmp = last_time;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try{
+                            diagram_p1.getViewport().setScalable(true);
+                            diagram_p1.getViewport().setMinX(first_time_tmp);
+                            diagram_p1.getViewport().setMaxX(last_time_tmp);
+                            diagram_p1.getViewport().scrollToEnd();
+                            diagram_p1.getViewport().setScalable(false);
+
+                            diagram_p2.getViewport().setScalable(true);
+                            diagram_p2.getViewport().setMinX(first_time_tmp);
+                            diagram_p2.getViewport().setMaxX(last_time_tmp);
+                            diagram_p2.getViewport().scrollToEnd();
+                            diagram_p2.getViewport().setScalable(false);
+
+                            diagram_temp.getViewport().setScalable(true);
+                            diagram_temp.getViewport().setMinX(first_time_tmp);
+                            diagram_temp.getViewport().setMaxX(last_time_tmp);
+                            diagram_temp.getViewport().scrollToEnd();
+                            diagram_temp.getViewport().setScalable(false);
+
+                            diagram_humidity.getViewport().setScalable(true);
+                            diagram_humidity.getViewport().setMinX(first_time_tmp);
+                            diagram_humidity.getViewport().setMaxX(last_time_tmp);
+                            diagram_humidity.getViewport().scrollToEnd();
+                            diagram_humidity.getViewport().setScalable(false);
+
+                            diagram_pressure.getViewport().setScalable(true);
+                            diagram_pressure.getViewport().setMinX(first_time_tmp);
+                            diagram_pressure.getViewport().setMaxX(last_time_tmp);
+                            diagram_pressure.getViewport().scrollToEnd();
+                            diagram_pressure.getViewport().setScalable(false);
+
                             findViewById(R.id.no_data).setVisibility(no_data ? View.VISIBLE : View.GONE);
                             findViewById(R.id.container).setVisibility(no_data ? View.GONE : View.VISIBLE);
                             //ProgressMenuItem zurücksetzen

@@ -200,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/height"
                 android:inputType="numberDecimal"
-                android:maxLength="2"
+                android:maxLength="3"
                 android:layout_below="@+id/coordinates_container"
                 android:layout_marginLeft="10dp"/>
 

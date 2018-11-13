@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
@@ -31,7 +31,8 @@ public class BootCompletedReceiver extends BroadcastReceiver {
             //Alarmmanager aufsetzen
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-            Intent start_service_intent = new Intent(context, SyncJobService.class);
+            Intent start_service_intent = new Intent(context, SyncService.class);
+            start_service_intent.putExtra("FromBackground", true);
             PendingIntent start_service_pending_intent = PendingIntent.getService(context, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
             am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), background_sync_frequency, start_service_pending_intent);
 		}
