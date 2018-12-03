@@ -70,6 +70,13 @@
         android:title="@string/pref_header_notifications"
         android:key="notification_settings" >
 
+        <SwitchPreference
+            android:key="notification_averages"
+            android:defaultValue="true"
+            android:title="@string/pref_notification_averages"
+            android:summaryOn="@string/pref_notification_averages_s_true"
+            android:summaryOff="@string/pref_notification_averages_s_false"/>
+
         <EditTextPreference
             android:key="limit_p1"
             android:defaultValue="40"

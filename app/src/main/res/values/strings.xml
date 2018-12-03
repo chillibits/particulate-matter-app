@@ -207,5 +207,9 @@
     <string name="web_version">Web version</string>
     <string name="scan_prompt">Open feinstaub.mrgames-server.de on your computer.</string>
     <string name="next_update_support_end">The next update increases the minimum supported Android version. That means that your device will not longer be supported.</string>
+    <string name="widget_label">Display for particulate matter</string>
+    <string name="pref_notification_averages">Average exceeding</string>
+    <string name="pref_notification_averages_s_true">Notification, if daily average exceeds the determinated value</string>
+    <string name="pref_notification_averages_s_false">Notification, if current value exceeds the determinated value</string>
 
 </resources>

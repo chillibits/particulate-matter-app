@@ -184,6 +184,10 @@
     <string name="next_update_support_end">La prochaine update hausse la minimale version de l\'app. Ça signife, que votre appareil ne va plus supports.</string>
     <string name="pref_enable_marker_clustering">Activer la récapitulé de marqueur</string>
     <string name="pref_enable_marker_clustering_s">Les capteurs sur la carte sont récapitulé intelligent.</string>
+    <string name="widget_label"></string>
+    <string name="pref_notification_averages"></string>
+    <string name="pref_notification_averages_s_true"></string>
+    <string name="pref_notification_averages_s_false"></string>
     <string-array name="pref_theme_array">
         <item>Automatique par heure</item>
         <item>Thème lumière</item>

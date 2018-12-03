@@ -2,6 +2,7 @@ package com.mrgames13.jimdo.feinstaubapp.Services;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -14,6 +15,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class SyncJobService extends JobService {
 
     //Variablen als Objekte
     private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
+    private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     //Utils-Pakete
     private Resources res;
@@ -114,10 +117,15 @@ public class SyncJobService extends JobService {
                                 if (records.size() > 0) {
                                     //Datensätze zuschneiden
                                     records = su.trimDataRecords(records, date_string);
+                                    double average_p1 = getP1Average(records);
+                                    double average_p2 = getP2Average(records);
+                                    double average_temp = getTempAverage(records);
+                                    double average_humidity = getHumidityAverage(records);
+                                    double average_pressure = getPressureAverage(records);
                                     records = trimDataRecordsToSyncTime(records);
                                     //Auswerten
                                     for (DataRecord r : records) {
-                                        if (!fromForeground && !su.getBoolean(date_string + "_p1_exceeded") && limit_p1 > 0 && r.getP1() > limit_p1 && r.getP1() > su.getDouble(date_string + "_p1_max")) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_p1_exceeded") && limit_p1 > 0 && (su.getBoolean("notification_averages", true) ? average_p1 > limit_p1 : (r.getP1() > limit_p1)) && r.getP1() > su.getDouble(date_string + "_p1_max")) {
                                             Log.i("FA", "P1 limit exceeded");
                                             //P1 Notification
                                             nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), Integer.parseInt(s.getId()), r.getDateTime().getTime());
@@ -127,7 +135,7 @@ public class SyncJobService extends JobService {
                                         } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
                                             su.putBoolean(date_string + "_p1_exceeded", false);
                                         }
-                                        if (!fromForeground && !su.getBoolean(date_string + "_p2_exceeded") && limit_p2 > 0 && r.getP2() > limit_p2 && r.getP2() > su.getDouble(date_string + "_p2_max")) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_p2_exceeded") && limit_p2 > 0 && (su.getBoolean("notification_averages", true) ? average_p2 > limit_p2 : (r.getP2() > limit_p2)) && r.getP2() > su.getDouble(date_string + "_p2_max")) {
                                             Log.i("FA", "P2 limit exceeded");
                                             //P2 Notification
                                             nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), Integer.parseInt(s.getId()), r.getDateTime().getTime());
@@ -137,7 +145,7 @@ public class SyncJobService extends JobService {
                                         } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
                                             su.putBoolean(date_string + "_p2_exceeded", false);
                                         }
-                                        if (!fromForeground && !su.getBoolean(date_string + "_temp_exceeded") && limit_temp > 0 && r.getTemp() > limit_temp && r.getTemp() > su.getDouble(date_string + "_temp_max")) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_temp_exceeded") && limit_temp > 0 && (su.getBoolean("notification_averages", true) ? average_temp > limit_temp : (r.getTemp() > limit_temp)) && r.getTemp() > su.getDouble(date_string + "_temp_max")) {
                                             Log.i("FA", "Temp limit exceeded");
                                             //Temperatur Notification
                                             nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), Integer.parseInt(s.getId()), r.getDateTime().getTime());
@@ -147,7 +155,7 @@ public class SyncJobService extends JobService {
                                         } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
                                             su.putBoolean(date_string + "_temp_exceeded", false);
                                         }
-                                        if (!fromForeground && !su.getBoolean(date_string + "_humidity_exceeded") && limit_humidity > 0 && r.getHumidity() > limit_humidity && r.getHumidity() > su.getDouble(date_string + "_humidity_max")) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_humidity_exceeded") && limit_humidity > 0 && (su.getBoolean("notification_averages", true) ? average_humidity > limit_humidity : (r.getHumidity() > limit_humidity)) && r.getHumidity() > su.getDouble(date_string + "_humidity_max")) {
                                             Log.i("FA", "Humidity limit exceeded");
                                             //Luftfeuchtigkeit Notification
                                             nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), Integer.parseInt(s.getId()), r.getDateTime().getTime());
@@ -157,7 +165,7 @@ public class SyncJobService extends JobService {
                                         } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
                                             su.putBoolean(date_string + "_humidity_exceeded", false);
                                         }
-                                        if (!fromForeground && !su.getBoolean(date_string + "_pressure_exceeded") && limit_pressure > 0 && r.getPressure() > limit_pressure && r.getHumidity() > su.getDouble(date_string + "_pressure_max")) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_pressure_exceeded") && limit_pressure > 0 && (su.getBoolean("notification_averages", true) ? average_pressure > limit_pressure : (r.getPressure() > limit_pressure)) && r.getHumidity() > su.getDouble(date_string + "_pressure_max")) {
                                             Log.i("FA", "Pressure limit exceeded");
                                             //Luftdruck Notification
                                             nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), Integer.parseInt(s.getId()), r.getDateTime().getTime());
@@ -168,8 +176,20 @@ public class SyncJobService extends JobService {
                                             su.putBoolean(date_string + "_pressure_exceeded", false);
                                         }
                                     }
+
+                                    //Homescreen Widget updaten
+                                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+                                    update_intent.setAction(AppWidgetManager.EXTRA_CUSTOM_EXTRAS);
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_P1, records.get(records.size() -1).getP1());
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_P2, records.get(records.size() -1).getP2());
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_TEMP, records.get(records.size() -1).getTemp());
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_HUMIDITY, records.get(records.size() -1).getHumidity());
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_PRESSURE, records.get(records.size() -1).getPressure());
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_TIME, sdf_datetime.format(records.get(records.size() -1).getDateTime()));
+                                    sendBroadcast(update_intent);
                                 }
                             }
+
                             if(params != null) jobFinished(params, false);
                         } catch (Exception e) {
                             if(params != null) jobFinished(params, true);
@@ -182,6 +202,36 @@ public class SyncJobService extends JobService {
         } else {
             if(params != null) jobFinished(params, false);
         }
+    }
+
+    private double getP1Average(ArrayList<DataRecord> records) {
+        double average = 0;
+        for(DataRecord r : records) average+=r.getP1();
+        return average / records.size();
+    }
+
+    private double getP2Average(ArrayList<DataRecord> records) {
+        double average = 0;
+        for(DataRecord r : records) average+=r.getP2();
+        return average / records.size();
+    }
+
+    private double getTempAverage(ArrayList<DataRecord> records) {
+        double average = 0;
+        for(DataRecord r : records) average+=r.getTemp();
+        return average / records.size();
+    }
+
+    private double getHumidityAverage(ArrayList<DataRecord> records) {
+        double average = 0;
+        for(DataRecord r : records) average+=r.getHumidity();
+        return average / records.size();
+    }
+
+    private double getPressureAverage(ArrayList<DataRecord> records) {
+        double average = 0;
+        for(DataRecord r : records) average+=r.getPressure();
+        return average / records.size();
     }
 
     private ArrayList<DataRecord> trimDataRecordsToSyncTime(ArrayList<DataRecord> all_records) {

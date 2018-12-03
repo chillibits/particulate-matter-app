@@ -28,6 +28,9 @@
     <string name="download">Download</string>
     <string name="next_update_support_end">Das nächste Update erhöht die minimale Android-Version der App. Das heißt, dass Ihr Gerät ab dem nächsten Update nicht mehr unterstützt wird.</string>
 
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Feinstaub-Anzeige</string>
+
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
     <string name="compare_sensors">Sensoren vergleichen</string>
@@ -186,6 +189,9 @@
 
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_notification_averages">Mittelwertüberschreitung</string>
+    <string name="pref_notification_averages_s_true">Nachricht, wenn der tägl. Mittelwert den festgelegten Wert überschreitet</string>
+    <string name="pref_notification_averages_s_false">Nachricht, wenn der momentane Wert den festgelegten Wert überschreitet</string>
     <string name="pref_limit_p1">PM10 Grenzwert</string>
     <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
     <string name="pref_limit_p2">PM2.5 Grenzwert</string>

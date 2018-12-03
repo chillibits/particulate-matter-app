@@ -121,6 +121,7 @@ public class DiagramActivity extends AppCompatActivity {
             }
             graph_view.getViewport().setScalable(true);
             graph_view.getViewport().setScrollable(true);
+            graph_view.getGridLabelRenderer().setHorizontalAxisTitle(getString(R.string.date_time));
             if(!enable_average && !enable_median) {
                 graph_view.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
                 graph_view.getLegendRenderer().setTextColor(res.getColor(R.color.white));
