@@ -264,7 +264,6 @@
                 android:layout_below="@+id/heading_pressure"/>
 
             <TextView
-                android:id="@+id/diagram_pressure_instructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -525,18 +525,6 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .show();
             }
-
-            if(Build.VERSION.SDK_INT < 19 && !su.getBoolean("ShowSupportWarning")) { // TODO: Beim nächsten Update entfernen
-                AlertDialog d = new AlertDialog.Builder(this)
-                        .setCancelable(true)
-                        .setTitle(R.string.app_name)
-                        .setMessage(R.string.next_update_support_end)
-                        .setIcon(R.drawable.warning)
-                        .setPositiveButton(R.string.ok, null)
-                        .create();
-                d.show();
-                su.putBoolean("ShowSupportWarning", true);
-            }
             su.putBoolean("ShownSensorCompletion", true);
         } else if(requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();

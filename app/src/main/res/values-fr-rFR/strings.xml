@@ -181,7 +181,6 @@
     <string name="app_restart_m">Pour utiliser les changements, il faut redémarrer l\'app. Voulez-vous effectuer le reboot matenant, ou plus tard?</string>
     <string name="web_version">Web-version</string>
     <string name="scan_prompt">Ouvrez feinstaub.mrgames-server.de sur votre ordinateur.</string>
-    <string name="next_update_support_end">La prochaine update hausse la minimale version de l\'app. Ça signife, que votre appareil ne va plus supports.</string>
     <string name="pref_enable_marker_clustering">Activer la récapitulé de marqueur</string>
     <string name="pref_enable_marker_clustering_s">Les capteurs sur la carte sont récapitulé intelligent.</string>
     <string name="widget_label">Affichier de matière particulaire</string>

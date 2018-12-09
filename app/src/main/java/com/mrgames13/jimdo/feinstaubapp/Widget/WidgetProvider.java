@@ -100,7 +100,6 @@ public class WidgetProvider extends AppWidgetProvider {
         try {
             //Sensor laden
             Sensor sensor = su.getSensor(su.getString("Widget_" + String.valueOf(widget_id)));
-            Log.d("FA", su.getString("Widget_" + String.valueOf(widget_id)));
             //Date String von Heute ermitteln
             Calendar calendar = Calendar.getInstance();
             String date_string = sdf_date.format(calendar.getTime());

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 209
         versionName "2.1.0"
