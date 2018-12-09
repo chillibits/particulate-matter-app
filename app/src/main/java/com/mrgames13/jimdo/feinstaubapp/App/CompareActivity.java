@@ -208,6 +208,7 @@ public class CompareActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        //diagram_p1.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
 
         diagram_p2 = findViewById(R.id.diagram_p2);
         diagram_p2.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -232,6 +233,7 @@ public class CompareActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        //diagram_p2.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
 
         diagram_temp = findViewById(R.id.diagram_temp);
         diagram_temp.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -253,6 +255,7 @@ public class CompareActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        //diagram_temp.getGridLabelRenderer().setVerticalAxisTitle("°C³");
 
         diagram_humidity = findViewById(R.id.diagram_humidity);
         diagram_humidity.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -274,6 +277,7 @@ public class CompareActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        //diagram_humidity.getGridLabelRenderer().setVerticalAxisTitle("%");
 
         diagram_pressure = findViewById(R.id.diagram_pressure);
         diagram_pressure.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -295,6 +299,7 @@ public class CompareActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        //diagram_pressure.getGridLabelRenderer().setVerticalAxisTitle("hPa");
 
         reloadData();
     }

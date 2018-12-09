@@ -179,13 +179,8 @@ public class SyncJobService extends JobService {
 
                                     //Homescreen Widget updaten
                                     Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
-                                    update_intent.setAction(AppWidgetManager.EXTRA_CUSTOM_EXTRAS);
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_P1, records.get(records.size() -1).getP1());
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_P2, records.get(records.size() -1).getP2());
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_TEMP, records.get(records.size() -1).getTemp());
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_HUMIDITY, records.get(records.size() -1).getHumidity());
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_PRESSURE, records.get(records.size() -1).getPressure());
-                                    update_intent.putExtra(Constants.WIDGET_EXTRA_TIME, sdf_datetime.format(records.get(records.size() -1).getDateTime()));
+                                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getId());
                                     sendBroadcast(update_intent);
                                 }
                             }

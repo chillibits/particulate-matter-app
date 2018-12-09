@@ -347,6 +347,15 @@ public class StorageUtils extends SQLiteOpenHelper {
         putBoolean(sensor.getId() + "_offline", offline);
     }
 
+    public Sensor getSensor(String chip_id) {
+        ArrayList<Sensor> sensors = getAllOwnSensors();
+        sensors.addAll(getAllFavourites());
+        for(Sensor s : sensors) {
+            if(s.getId().equals(chip_id)) return s;
+        }
+        return null;
+    }
+
     public boolean isSensorExistingLocally(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);

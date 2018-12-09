@@ -129,7 +129,9 @@
 
         <RelativeLayout
             android:id="@+id/container"
-            android:padding="2dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -150,6 +152,16 @@
                 android:layout_below="@+id/heading_p1"/>
 
             <TextView
+                android:id="@+id/diagram_p1_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram_p1"
+                android:textSize="11sp"/>
+
+            <TextView
                 android:id="@+id/heading_p2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +170,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_p1"
+                android:layout_below="@+id/diagram_p1_instructions"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
@@ -166,6 +178,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@+id/heading_p2"/>
+
+            <TextView
+                android:id="@+id/diagram_p2_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram_p2"
+                android:textSize="11sp"/>
 
             <TextView
                 android:id="@+id/heading_temp"
@@ -176,7 +198,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_p2"
+                android:layout_below="@+id/diagram_p2_instructions"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
@@ -184,6 +206,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@+id/heading_temp"/>
+
+            <TextView
+                android:id="@+id/diagram_temp_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram_temp"
+                android:textSize="11sp"/>
 
             <TextView
                 android:id="@+id/heading_humidity"
@@ -194,7 +226,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_temp"
+                android:layout_below="@+id/diagram_temp_instructions"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
@@ -202,6 +234,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@+id/heading_humidity"/>
+
+            <TextView
+                android:id="@+id/diagram_humidity_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram_humidity"
+                android:textSize="11sp"/>
 
             <TextView
                 android:id="@+id/heading_pressure"
@@ -212,7 +254,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/diagram_humidity"
+                android:layout_below="@+id/diagram_humidity_instructions"
                 android:textSize="17.5sp"/>
 
             <com.jjoe64.graphview.GraphView
@@ -220,6 +262,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@+id/heading_pressure"/>
+
+            <TextView
+                android:id="@+id/diagram_pressure_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram_pressure"
+                android:textSize="11sp"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

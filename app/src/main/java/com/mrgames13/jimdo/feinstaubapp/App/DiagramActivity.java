@@ -144,11 +144,11 @@ public class DiagramActivity extends AppCompatActivity {
             });
 
             if(mode == MODE_SENSOR_DATA) {
-                series1 = drawSeries(res.getString(R.string.value1), res.getColor(R.color.series1));
-                series2 = drawSeries(res.getString(R.string.value2), res.getColor(R.color.series2));
-                series3 = drawSeries(res.getString(R.string.temperature), res.getColor(R.color.series3));
-                series4 = drawSeries(res.getString(R.string.humidity), res.getColor(R.color.series4));
-                series5 = drawSeries(res.getString(R.string.pressure), res.getColor(R.color.series5));
+                series1 = drawSeries(res.getString(R.string.value1) + " (µg/m³)", res.getColor(R.color.series1));
+                series2 = drawSeries(res.getString(R.string.value2) + " (µg/m³)", res.getColor(R.color.series2));
+                series3 = drawSeries(res.getString(R.string.temperature) + " (°C)", res.getColor(R.color.series3));
+                series4 = drawSeries(res.getString(R.string.humidity) + " (%)", res.getColor(R.color.series4));
+                series5 = drawSeries(res.getString(R.string.pressure) + " (hPa)", res.getColor(R.color.series5));
 
                 for(DataRecord record : records) {
                     try{
@@ -278,14 +278,19 @@ public class DiagramActivity extends AppCompatActivity {
                         current_series.setDataPointsRadius(8);
                         current_series.setColor(compare_sensors.get(i).getColor());
                         if(show_series_1) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
                             current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value1));
                         } else if(show_series_2) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
                             current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value2));
                         } else if(show_series_3) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("°C");
                             current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.temperature));
                         } else if(show_series_4) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("%");
                             current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.humidity));
                         } else if(show_series_5) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("hPa");
                             current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.pressure));
                         }
 

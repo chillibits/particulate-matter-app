@@ -25,11 +25,6 @@ public class Constants {
     public static final int JOB_SYNC_ID = 10001;
 
     //Homescreen Widget
-    public static final String WIDGET_UPDATE_DATA = "UpdateData";
-    public static final String WIDGET_EXTRA_P1 = "P1";
-    public static final String WIDGET_EXTRA_P2 = "P2";
-    public static final String WIDGET_EXTRA_TEMP = "Temp";
-    public static final String WIDGET_EXTRA_HUMIDITY = "Humidity";
-    public static final String WIDGET_EXTRA_PRESSURE = "Pressure";
-    public static final String WIDGET_EXTRA_TIME = "Time";
+    public static final String WIDGET_EXTRA_SENSOR_ID = "SensorID";
+    public static final String WIDGET_EXTRA_WIDGET_ID = "WidgetID";
 }

@@ -34,8 +34,8 @@ public class ServerMessagingUtils {
     //Konstanten
     private final String SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/";
     private final String SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/";
-    private final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript.php";
-    private final String SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript.php";
+    private final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v210.php";
+    private final String SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript_v210.php";
     private final String DATA_URL_HTTP = "http://h2801469.stratoserver.net/data";
     private final String DATA_URL_HTTPS = "https://h2801469.stratoserver.net/data";
     private final int MAX_REQUEST_REPEAT = 10;

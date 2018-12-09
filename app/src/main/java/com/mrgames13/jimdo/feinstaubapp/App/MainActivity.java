@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 //JobScheduler starten
                 ComponentName component = new ComponentName(this, SyncJobService.class);
                 JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING)
                         .setPeriodic(background_sync_frequency)
                         .setPersisted(true);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);

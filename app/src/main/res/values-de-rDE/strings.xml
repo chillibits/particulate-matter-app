@@ -30,6 +30,9 @@
 
     <!-- HomeScreen Widget -->
     <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
+    <string name="widget_select_sensor">Sensor wählen</string>
+    <string name="widget_open_app">App starten</string>
 
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
@@ -96,6 +99,7 @@
     <string name="tab_data">Datensätze</string>
     <string name="refresh">Aktualisieren</string>
     <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
+    <string name="diagram_instruction">Tippen Sie auf das Diagramm für die volle Größe</string>
     <string name="date_time">Zeit</string>
     <string name="temperature_short">Temp</string>
     <string name="temperature">Temperatur</string>

@@ -3,10 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:minHeight="180dp"
     android:minWidth="250dp"
+    android:minResizeHeight="110dp"
+    android:minResizeWidth="250dp"
+    android:resizeMode="vertical"
     android:initialLayout="@layout/widget"
-    android:previewImage="@drawable/app_icon"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen|keyguard"
-    android:configure="com.mrgames13.jimdo.feinstaubapp.App.SettingsActivity">
+    android:configure="com.mrgames13.jimdo.feinstaubapp.Widget.WidgetConfigurationActivity">
 
 </appwidget-provider>

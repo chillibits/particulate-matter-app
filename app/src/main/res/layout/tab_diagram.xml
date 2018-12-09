@@ -52,13 +52,23 @@
                 android:clickable="true"
                 android:focusable="true" />
 
+            <TextView
+                android:id="@+id/diagram_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/diagram_instruction"
+                android:textColor="@color/gray_light"
+                android:layout_below="@+id/diagram"
+                android:textSize="11sp"/>
+
             <LinearLayout
                 android:id="@+id/checkbox_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:layout_below="@+id/diagram">
+                android:layout_below="@+id/diagram_instructions">
 
                 <RelativeLayout
                     android:layout_width="0dp"

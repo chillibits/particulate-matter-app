@@ -12,8 +12,10 @@
         android:layout_centerHorizontal="true"
         android:text="@string/current_values"
         android:textColor="@color/white"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:layout_margin="3dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -24,7 +26,7 @@
         android:background="@color/colorPrimary"
         android:padding="1dp"
         android:layout_below="@+id/cv_title"
-        android:layout_margin="5dp">
+        android:layout_margin="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,31 +156,63 @@
             android:background="@color/colorPrimary"
             android:layout_below="@+id/cv_container"
             android:textColor="@color/white"
-            android:padding="5dp"/>
+            android:padding="3dp"/>
     </LinearLayout>
 
-    <!--<RelativeLayout
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+    <RelativeLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_alignTop="@+id/cv_container"
+        android:layout_alignBottom="@+id/cv_container"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/loading_text"
+            android:id="@+id/no_data_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/loading"
+            android:text="@string/no_data"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/no_id_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_app_data_cleared"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"/>
 
-        <ProgressBar
-            android:id="@+id/loading_progress"
+        <Button
+            android:id="@+id/no_id_configure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/loading_text"
+            android:layout_below="@+id/no_id_text"
+            android:text="@string/widget_select_sensor"
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/open_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/widget_refresh"
+        android:text="@string/widget_open_app"
+        android:layout_below="@+id/cv_container"/>
 
     <ImageView
         android:id="@+id/widget_refresh"
@@ -196,5 +230,6 @@
         android:layout_margin="10dp"
         android:padding="3dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>-->
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 </RelativeLayout>

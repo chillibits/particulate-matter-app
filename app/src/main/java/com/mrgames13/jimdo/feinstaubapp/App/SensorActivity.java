@@ -3,6 +3,7 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
+import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -74,6 +76,7 @@ public class SensorActivity extends AppCompatActivity {
     public static ArrayList<DataRecord> records = new ArrayList<>();
     private Sensor sensor;
     private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
+    private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     //Utils-Pakete
     private ServerMessagingUtils smu;
@@ -352,6 +355,11 @@ public class SensorActivity extends AppCompatActivity {
                     ViewPagerAdapterSensor.records = records = su.trimDataRecords(records, date_string);
                     //Sortieren
                     resortData();
+                    //Wenn es ein Widget für diesen Sensor gibt, updaten
+                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getId());
+                    sendBroadcast(update_intent);
                 }
                 runOnUiThread(new Runnable() {
                     @Override
