@@ -13,7 +13,7 @@
     <string name="compare_sensors">Compare data</string>
     <string name="edit_sensor">Edit sensor</string>
     <string name="complete_sensor">Complete sensor</string>
-    <string name="no_sensors">No sensors linked. Tab below to link a sensor.</string>
+    <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="pref_header_sync">Synchronization</string>
     <string name="sync_cycle">Synchronization cycle</string>
     <string name="sync_cycle_t">Synchronization cycle (sec)</string>
@@ -214,5 +214,6 @@
     <string name="widget_app_data_cleared">The app data was cleared. Please select the sensor again</string>
     <string name="widget_select_sensor">Select sensor</string>
     <string name="widget_open_app">Open app</string>
+    <string name="widget_no_data">There are no favourites yet. Tap below to add a favourite and select the widget again.</string>
 
 </resources>

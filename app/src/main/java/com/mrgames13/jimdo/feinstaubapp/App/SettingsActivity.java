@@ -272,6 +272,20 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle(R.string.app_restart_t)
+                        .setMessage(R.string.app_restart_m)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .create();
+                d.show();
                 return true;
             }
         });

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -50,7 +49,6 @@ public class WidgetProvider extends AppWidgetProvider {
         rv.setOnClickPendingIntent(R.id.open_app, open_app_pi);
 
         for(int widget_id : app_widget_id) {
-            Log.d("FA", String.valueOf(widget_id));
             //Refresh-Button
             Intent refresh = new Intent(context, getClass());
             refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -76,12 +74,17 @@ public class WidgetProvider extends AppWidgetProvider {
                 rv.setViewVisibility(R.id.widget_refreshing, View.GONE);
                 rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE);
 
+                initializeComponents(context, rv, widget_id);
+
                 updateData(context, rv, widget_id);
             }
         } else if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.WIDGET_EXTRA_WIDGET_ID)) {
             int widget_id = intent.getIntExtra(Constants.WIDGET_EXTRA_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             rv.setViewVisibility(R.id.widget_refreshing, View.VISIBLE);
             rv.setViewVisibility(R.id.widget_refresh, View.INVISIBLE);
+
+            initializeComponents(context, rv, widget_id);
+
             update(context, rv, widget_id);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(new Intent(context, SyncService.class));
@@ -94,6 +97,20 @@ public class WidgetProvider extends AppWidgetProvider {
     private void initialize(Context context) {
         su = new StorageUtils(context);
         res = context.getResources();
+    }
+
+    private void initializeComponents(Context context, RemoteViews rv, int widget_id) {
+        //App öffnen
+        Intent open_app = new Intent(context, MainActivity.class);
+        PendingIntent open_app_pi = PendingIntent.getActivity(context, 0, open_app, 0);
+        rv.setOnClickPendingIntent(R.id.open_app, open_app_pi);
+
+        //Refresh-Button
+        Intent refresh = new Intent(context, getClass());
+        refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id);
+        PendingIntent refresh_pi = PendingIntent.getBroadcast(context, 0, refresh, 0);
+        rv.setOnClickPendingIntent(R.id.widget_refresh, refresh_pi);
     }
 
     private void updateData(Context context, RemoteViews rv, int widget_id) {

@@ -201,4 +201,5 @@
     <string name="widget_app_data_cleared">Les données de l\'app étaient supprimé. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
     <string name="widget_select_sensor">Choisir capteur</string>
     <string name="widget_open_app">Lancer l\'app</string>
+    <string name="widget_no_data"></string>
 </resources>

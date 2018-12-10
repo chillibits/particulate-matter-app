@@ -14,8 +14,27 @@
         android:layout_height="match_parent" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
 
+        <TextView
+            android:id="@+id/no_data_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_no_data"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/add_sensor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_favourite"
+            android:layout_below="@+id/no_data_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"/>
     </RelativeLayout>
 </RelativeLayout>

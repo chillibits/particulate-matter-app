@@ -29,7 +29,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
     private Resources res;
     private Handler h;
     private ArrayList<Sensor> sensors;
-    private Sensor selected_sensor;
+    private Sensor selected_sensor = null;
     private ViewHolder selected_sensor_holder;
 
     //Variablen

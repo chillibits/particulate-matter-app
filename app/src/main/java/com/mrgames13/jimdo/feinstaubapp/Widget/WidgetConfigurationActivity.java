@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
+import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -69,8 +71,15 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
             sensor_view.setLayoutManager(new LinearLayoutManager(this));
             sensor_view.setAdapter(sensor_view_adapter);
         } else {
-            Toast.makeText(this, R.string.no_data, Toast.LENGTH_SHORT).show();
-            finish();
+            findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+            Button btn_add_favourite = findViewById(R.id.add_sensor);
+            btn_add_favourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(WidgetConfigurationActivity.this, MainActivity.class));
+                    finish();
+                }
+            });
         }
     }
 
@@ -92,23 +101,25 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
     }
 
     private void finishConfiguration() {
-        startService(new Intent(this, SyncService.class));
-        su.putInt("Widget_" + sensor_view_adapter.getSelectedSensor().getId(), app_widget_id);
-        su.putString("Widget_" + String.valueOf(app_widget_id), sensor_view_adapter.getSelectedSensor().getId());
+        if(sensor_view_adapter.getSelectedSensor() != null) {
+            startService(new Intent(this, SyncService.class));
+            su.putInt("Widget_" + sensor_view_adapter.getSelectedSensor().getId(), app_widget_id);
+            su.putString("Widget_" + String.valueOf(app_widget_id), sensor_view_adapter.getSelectedSensor().getId());
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);
-        appWidgetManager.updateAppWidget(app_widget_id, views);
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+            RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);
+            appWidgetManager.updateAppWidget(app_widget_id, views);
 
-        Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
-        update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.getSelectedSensor().getId());
-        sendBroadcast(update_intent);
+            Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+            update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.getSelectedSensor().getId());
+            sendBroadcast(update_intent);
 
-        Intent resultValue = new Intent();
-        resultValue.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, app_widget_id);
-        setResult(RESULT_OK, resultValue);
+            Intent resultValue = new Intent();
+            resultValue.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, app_widget_id);
+            setResult(RESULT_OK, resultValue);
+        }
         finish();
     }
 }
