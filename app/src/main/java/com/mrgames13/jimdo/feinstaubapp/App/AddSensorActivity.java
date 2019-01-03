@@ -10,8 +10,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,9 +33,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -131,18 +126,6 @@ public class AddSensorActivity extends AppCompatActivity {
 
         sensor_name = findViewById(R.id.sensor_name_value);
         chip_id = findViewById(R.id.chip_id_value);
-        chip_id.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!chip_id.getText().toString().trim().isEmpty() && sensor_public.isChecked()) getSensorInfoFromServer(chip_id.getText().toString().trim());
-            }
-        });
 
         ImageView info = findViewById(R.id.chip_id_info);
         info.setOnClickListener(new View.OnClickListener() {
@@ -247,109 +230,7 @@ public class AddSensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_done) {
-            final String chip_id = this.chip_id.getText().toString().trim();
-            final String sensor_name = this.sensor_name.getText().toString().trim();
-            final String lat = this.lat.getText().toString();
-            final String lng = this.lng.getText().toString();
-            final String alt = this.alt.getText().toString();
-
-            if(!chip_id.isEmpty() && !sensor_name.isEmpty() && (!sensor_public.isChecked() || (!lat.isEmpty() && !lng.isEmpty() && !alt.isEmpty()))) {
-                if(mode == MODE_NEW) {
-                    if(!su.isSensorExistingLocally(chip_id)) {
-                        final ProgressDialog pd = new ProgressDialog(this);
-                        pd.setMessage(res.getString(R.string.please_wait_));
-                        pd.setCancelable(false);
-                        pd.show();
-
-                        if(smu.isInternetAvailable()) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Prüfen, ob schon Daten des Sensors auf dem Server verfügbar sind
-                                    try {
-                                        String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(chip_id, "UTF-8"));
-                                        pd.dismiss();
-                                        if(Boolean.parseBoolean(result)) {
-                                            //ggf. Sensor auf dem Server hinzufügen
-                                            if(sensor_public.isChecked()) {
-                                                result = smu.sendRequest(null, "command=addsensor&chip_id=" + URLEncoder.encode(chip_id, "UTF-8") + "&lat=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lat), 3)), "UTF-8") + "&lng=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lng), 3)), "UTF-8") + "&alt=" + URLEncoder.encode(alt, "UTF-8"));
-                                                if(result.equals("1")) {
-                                                    //Neuen Sensor speichern
-                                                    if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
-                                                    su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false);
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                                                            finish();
-                                                        }
-                                                    });
-                                                } else {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            pd.dismiss();
-                                                            Toast.makeText(AddSensorActivity.this, getString(R.string.error_try_again), Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                //Neuen Sensor speichern
-                                                if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
-                                                su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true);
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                                                        finish();
-                                                    }
-                                                });
-                                            }
-                                        } else {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
-                                                            .setCancelable(true)
-                                                            .setTitle(R.string.app_name)
-                                                            .setMessage(R.string.add_sensor_tick_not_set_message_duty)
-                                                            .setPositiveButton(R.string.ok, null)
-                                                            .create();
-                                                    d.show();
-                                                }
-                                            });
-                                        }
-                                    } catch (UnsupportedEncodingException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
-                        } else {
-                            pd.dismiss();
-                            Toast.makeText(AddSensorActivity.this, getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        //Sensor ist bereits verknüpft
-                        Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
-                    }
-                } else if(mode == MODE_EDIT) {
-                    //Sensor aktualisieren
-                    if(target == TARGET_FAVOURITE) {
-                        su.updateFavourite(new Sensor(chip_id, sensor_name, current_color));
-                    } else {
-                        su.updateOwnSensor(new Sensor(chip_id, sensor_name, current_color));
-                    }
-                    try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
-                    finish();
-                } else if(mode == MODE_COMPLETE) {
-                    su.removeOwnSensor(chip_id);
-                    mode = MODE_NEW;
-                    onOptionsItemSelected(item);
-                }
-            } else {
-                //Es sind nicht alle Felder ausgefüllt
-                Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
-            }
+            addSensor(item);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -407,30 +288,109 @@ public class AddSensorActivity extends AppCompatActivity {
         }
     }
 
-    private void getSensorInfoFromServer(final String chip_id) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(chip_id, "UTF-8"));
-                    if(!result.isEmpty()) {
-                        JSONArray array = new JSONArray(result);
-                        final JSONObject jsonobject = array.getJSONObject(0);
-                        runOnUiThread(new Runnable() {
+    private void addSensor(MenuItem item) {
+        final String chip_id = this.chip_id.getText().toString().trim();
+        final String sensor_name = this.sensor_name.getText().toString().trim();
+        final String lat = this.lat.getText().toString();
+        final String lng = this.lng.getText().toString();
+        final String alt = this.alt.getText().toString();
+
+        if(!chip_id.isEmpty() && !sensor_name.isEmpty() && (!sensor_public.isChecked() || (!lat.isEmpty() && !lng.isEmpty() && !alt.isEmpty()))) {
+            if(mode == MODE_NEW) {
+                if(!su.isSensorExistingLocally(chip_id)) {
+                    final ProgressDialog pd = new ProgressDialog(this);
+                    pd.setMessage(res.getString(R.string.please_wait_));
+                    pd.setCancelable(false);
+                    pd.show();
+
+                    if(smu.isInternetAvailable()) {
+                        new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                try{
-                                    lat.setText(String.valueOf(jsonobject.getDouble("lat")).replace(".", ","));
-                                    lng.setText(String.valueOf(jsonobject.getDouble("lng")).replace(".", ","));
-                                    alt.setText(String.valueOf(jsonobject.getDouble("alt")).replace(".", ",").concat(" m"));
-                                } catch (Exception e) {}
+                                //Prüfen, ob schon Daten des Sensors auf dem Server verfügbar sind
+                                try {
+                                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(chip_id, "UTF-8"));
+                                    pd.dismiss();
+                                    if(Boolean.parseBoolean(result)) {
+                                        //ggf. Sensor auf dem Server hinzufügen
+                                        if(sensor_public.isChecked()) {
+                                            result = smu.sendRequest(null, "command=addsensor&chip_id=" + URLEncoder.encode(chip_id, "UTF-8") + "&lat=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lat), 3)), "UTF-8") + "&lng=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lng), 3)), "UTF-8") + "&alt=" + URLEncoder.encode(alt, "UTF-8"));
+                                            if(result.equals("1")) {
+                                                //Neuen Sensor speichern
+                                                if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
+                                                su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false);
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                        finish();
+                                                    }
+                                                });
+                                            } else {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        pd.dismiss();
+                                                        Toast.makeText(AddSensorActivity.this, getString(R.string.error_try_again), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        } else {
+                                            //Neuen Sensor speichern
+                                            if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
+                                            su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                    finish();
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
+                                                        .setCancelable(true)
+                                                        .setTitle(R.string.app_name)
+                                                        .setMessage(R.string.add_sensor_tick_not_set_message_duty)
+                                                        .setPositiveButton(R.string.ok, null)
+                                                        .create();
+                                                d.show();
+                                            }
+                                        });
+                                    }
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        });
+                        }).start();
+                    } else {
+                        pd.dismiss();
+                        Toast.makeText(AddSensorActivity.this, getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    //Sensor ist bereits verknüpft
+                    Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
                 }
+            } else if(mode == MODE_EDIT) {
+                //Sensor aktualisieren
+                if(target == TARGET_FAVOURITE) {
+                    su.updateFavourite(new Sensor(chip_id, sensor_name, current_color));
+                } else {
+                    su.updateOwnSensor(new Sensor(chip_id, sensor_name, current_color));
+                }
+                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                finish();
+            } else if(mode == MODE_COMPLETE) {
+                su.removeOwnSensor(chip_id);
+                mode = MODE_NEW;
+                onOptionsItemSelected(item);
             }
-        }).start();
+        } else {
+            //Es sind nicht alle Felder ausgefüllt
+            Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
+        }
     }
 }

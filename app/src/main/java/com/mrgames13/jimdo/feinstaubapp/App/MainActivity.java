@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -53,10 +55,6 @@ import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -342,8 +340,6 @@ public class MainActivity extends AppCompatActivity {
             integrator.setBeepEnabled(false);
             integrator.setPrompt(res.getString(R.string.scan_prompt));
             integrator.initiateScan();
-        } else if(id == R.id.action_web_close) {
-            closeSocket();
         } else if(id == R.id.action_exit) {
             finish();
         }
@@ -541,8 +537,16 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
             try{
-                String key = result.getContents();
-                connectSocket(key);
+                String sync_key = result.getContents();
+                Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
+                i.putExtra("sync_key", sync_key);
+                startService(i);
+                //Toast anzeigen
+                Toast t = new Toast(MainActivity.this);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.setDuration(Toast.LENGTH_LONG);
+                t.setView(getLayoutInflater().inflate(R.layout.sync_success, null));
+                t.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -669,58 +673,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);
         }
-    }
-
-    private void connectSocket(final String key) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    socket = new Socket("85.214.250.60",9857);
-                    PrintWriter out = new PrintWriter(socket.getOutputStream());
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    Thread.yield();
-                    Log.d("FA", "Key: " + key);
-                    out.print("connect " + key);
-                    out.print("\n");
-                    out.flush();
-
-                    String line;
-                    while ((line = in.readLine()) != null) {
-                        Log.d("FA", "Result: " + line);
-                    }
-
-                    //writer.close();
-                    //reader.close();
-                } catch (Exception e) {
-                    if(socket != null) {
-                        try { socket.close(); } catch (IOException e1) {}
-                    }
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    private void closeSocket() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    PrintWriter out = new PrintWriter(socket.getOutputStream());
-                    Thread.yield();
-                    out.println("shutdown");
-                    out.print("\n");
-                    out.flush();
-                    out.close();
-                    socket.close();
-                } catch (Exception e) {
-                    if(socket != null) {
-                        try { socket.close(); } catch (IOException e1) {}
-                    }
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 }

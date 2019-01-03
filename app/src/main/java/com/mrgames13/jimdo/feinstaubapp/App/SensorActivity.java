@@ -8,14 +8,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,10 +130,12 @@ public class SensorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         //Kalender initialisieren
@@ -221,12 +224,13 @@ public class SensorActivity extends AppCompatActivity {
 
         //Intent-Extras auslesen
         sensor = new Sensor();
-        if(getIntent().hasExtra("Name")) {
+        if (getIntent().hasExtra("Name")) {
             sensor.setName(getIntent().getStringExtra("Name"));
             getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
         }
-        if(getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
-        if(getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+        if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
+        if (getIntent().hasExtra("Color"))
+            sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
 
 
         //RefreshPeriod setzen
@@ -237,17 +241,22 @@ public class SensorActivity extends AppCompatActivity {
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if(date_string.equals(current_date_string)) {
+                if (date_string.equals(current_date_string)) {
                     Log.i("FA", "Auto refreshing ...");
                     loadData(false);
                 }
             }
         }, period, period, TimeUnit.SECONDS);
 
-        if(!sensor.getId().equals("no_id")) loadData(true);
+        if (!sensor.getId().equals("no_id")) loadData(true);
 
         //Check if sensor is existing on the server
         checkSensorAvailability();
+
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
 
     private void chooseDate(final TextView card_date_value) {
@@ -407,26 +416,55 @@ public class SensorActivity extends AppCompatActivity {
 
     private void exportData() {
         if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_export, null);
-            final RadioButton export_diagram = v.findViewById(R.id.export_diagram);
-            AlertDialog d = new AlertDialog.Builder(this)
-                    .setTitle(R.string.export_data)
+            View v = getLayoutInflater().inflate(R.layout.dialog_share, null);
+            final AlertDialog d = new AlertDialog.Builder(this)
                     .setView(v)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if(export_diagram.isChecked()) {
-                                //Diagramm exportieren
-                                view_pager_adapter.exportDiagram(SensorActivity.this);
-                            } else {
-                                //Datensätze exportieren
-                                if(su.isCSVFileExisting(date_string, sensor.getId())) su.shareCSVFile(date_string, sensor.getId());
-                            }
-                        }
-                    })
                     .create();
             d.show();
+
+            ImageView share_sensor = v.findViewById(R.id.share_sensor);
+            share_sensor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Sensor teilen
+
+
+                            d.dismiss();
+                        }
+                    }, 200);
+                }
+            });
+            ImageView export_diagram = v.findViewById(R.id.share_diagram);
+            export_diagram.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Diagramm exportieren
+                            view_pager_adapter.exportDiagram(SensorActivity.this);
+                            d.dismiss();
+                        }
+                    }, 200);
+                }
+            });
+            ImageView export_data_records = v.findViewById(R.id.share_data_records);
+            export_data_records.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Datensätze exportieren
+                            if(su.isCSVFileExisting(date_string, sensor.getId())) su.shareCSVFile(date_string, sensor.getId());
+                            d.dismiss();
+                        }
+                    }, 200);
+                }
+            });
         } else {
             ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
         }

@@ -40,7 +40,6 @@
             android:name=".App.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -57,17 +56,26 @@
         <!-- DiagramActivity -->
         <activity
             android:name=".App.DiagramActivity"
-            android:hardwareAccelerated="true"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
             android:name=".App.SensorActivity"
-            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="pma.mrgames-server.de" />
+            </intent-filter>
+        </activity>
         <!-- AddSensorActivity -->
         <activity
             android:name=".App.AddSensorActivity"
@@ -77,7 +85,6 @@
         <!-- CompareActivity -->
         <activity
             android:name=".App.CompareActivity"
-            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
@@ -90,10 +97,9 @@
         <activity
             android:name=".Widget.WidgetConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
         <!-- SyncService -->
@@ -101,6 +107,8 @@
             android:name=".Services.SyncJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".Services.SyncService" />
+        <!-- WebRealtimeSyncService -->
+        <service android:name=".Services.WebRealtimeSyncService" />
         <!-- BootCompletedReceiver -->
         <receiver android:name=".BroadcastReceiver.BootCompletedReceiver">
             <intent-filter>
@@ -109,7 +117,8 @@
                 <!-- Für HTC Geräte -->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
-        </receiver> <!-- ContentProviderExport -->
+        </receiver>
+        <!-- ContentProviderExport -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mrgames13.jimdo.feinstaubapp"
@@ -118,7 +127,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- HomeScreen Widget -->
+        </provider>
+        <!-- HomeScreen Widget -->
         <receiver
             android:name=".Widget.WidgetProvider"
             android:label="@string/widget_label">

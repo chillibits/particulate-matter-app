@@ -23,13 +23,7 @@
         android:id="@+id/action_web"
         android:title="@string/web_version"
         app:showAsAction="never"
-        android:visible="false"/>
-
-    <item
-        android:id="@+id/action_web_close"
-        android:title="@string/web_version"
-        app:showAsAction="never"
-        android:visible="false"/>
+        android:visible="true"/>
 
     <item
         android:id="@+id/action_exit"

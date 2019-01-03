@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.mrgames13.jimdo.feinstaubapp.App.CompareActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
@@ -65,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -83,7 +85,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
     //Konstanten
     private static final int REQ_LOCATION_PERMISSION = 10001;
-    private static final int REQ_LOCATION_ENABLE = 10002;
 
     //Variablen als Objekte
     private static MainActivity activity;
@@ -337,7 +338,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             map = googleMap;
             map.getUiSettings().setRotateGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
-            View zoomControls = map_fragment.getView().findViewById(0x1);
+            @SuppressLint("ResourceType") View zoomControls = map_fragment.getView().findViewById(0x1);
             if (zoomControls != null && zoomControls.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) zoomControls.getLayoutParams();
 
@@ -367,6 +368,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<SensorClusterItem>() {
                     @Override
                     public boolean onClusterClick(Cluster<SensorClusterItem> cluster) {
+                        showClusterWindow(cluster);
                         return true;
                     }
                 });
@@ -454,10 +456,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 @Override
                 public void run() {
                     try{
-                        int heatmap_state = Integer.parseInt(su.getString("show_heatmap", "1"));
-                        boolean show_heatmap = heatmap_state == 0 || (heatmap_state == 1 && smu.isConnectedWithWifi());
-                        show_heatmap = false; //TODO: Später entfernen
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&hm=" + (show_heatmap ? "1" : "0"));
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&hm=0");
                         if(!result.isEmpty()) {
                             JSONArray array = new JSONArray(result);
                             sensors = new ArrayList<>();
@@ -467,7 +466,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 sensor.setChipID(jsonobject.getString("chip_id"));
                                 sensor.setLat(jsonobject.getDouble("lat"));
                                 sensor.setLng(jsonobject.getDouble("lng"));
-                                if(show_heatmap) sensor.setHeatmapValue(jsonobject.getDouble("hm_value") > 60 ? 60 : jsonobject.getDouble("hm_value"));
                                 sensors.add(sensor);
                             }
 
@@ -627,6 +625,72 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             info_window.show();
             info_window.getWindow().setAttributes(lp);
+        }
+
+        private void showClusterWindow(final Cluster cluster) {
+            View v = getLayoutInflater().inflate(R.layout.infowindow_cluster, null);
+            TextView info_sensor_count = v.findViewById(R.id.info_sensor_count);
+            info_sensor_count.setText(cluster.getItems().size() + " " + getString(R.string.sensors));
+            final TextView info_average_value = v.findViewById(R.id.info_average_value);
+            final Button info_compare_sensors = v.findViewById(R.id.info_sensors_compare);
+            if(cluster.getItems().size() > 15) info_compare_sensors.setEnabled(false);
+
+            info_window = new AlertDialog.Builder(activity)
+                    .setCancelable(true)
+                    .setView(v)
+                    .create();
+            info_window.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            Projection p = map.getProjection();
+            Point screen_pos = p.toScreenLocation(cluster.getPosition());
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(info_window.getWindow().getAttributes());
+            lp.gravity = Gravity.TOP | Gravity.LEFT;
+            lp.x = screen_pos.x - 275;
+            lp.y = screen_pos.y - 320;
+            lp.width = 550;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            info_window.show();
+            info_window.getWindow().setAttributes(lp);
+
+            final Collection<SensorClusterItem> items = cluster.getItems();
+            String param = "";
+            final ArrayList<Sensor> sensors = new ArrayList<>();
+            Random rand = new Random();
+            for(SensorClusterItem s : items) {
+                param+=";"+s.getTitle();
+                sensors.add(new Sensor(s.getTitle(), s.getSnippet(), Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))));
+            }
+            final String param_string = param.substring(1);
+
+            info_compare_sensors.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //CompareActivity starten
+                    Intent i = new Intent(activity, CompareActivity.class);
+                    i.putExtra("Sensors", sensors);
+                    startActivity(i);
+                }
+            });
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Informationen vom Server holen
+                    final String result = smu.sendRequest(null, "command=getclusterinfo&ids=" + param_string);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try{
+                                info_average_value.setText("Ø " + String.valueOf(Tools.round(Double.parseDouble(result), 2) + " µg/m³"));
+                            } catch (Exception e) {
+                                info_average_value.setText(R.string.error_try_again);
+                            }
+                        }
+                    });
+                }
+            }).start();
         }
     }
 

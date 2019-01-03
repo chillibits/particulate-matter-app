@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/share_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:tint="@color/gray_light"
+        android:padding="20dp"
+        app:srcCompat="@drawable/forward"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackgroundBorderless"/>
+
+    <TextView
+        android:id="@+id/share_sensor_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/share_sensor"
+        android:text="@string/share_sensor"
+        android:layout_marginBottom="3dp"
+        android:gravity="center"/>
+    
+    <LinearLayout
+        android:layout_below="@+id/share_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/share_diagram"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:tint="@color/gray_light"
+                android:padding="20dp"
+                app:srcCompat="@drawable/diagram"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/share_diagram_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/share_diagram"
+                android:text="@string/export_diagram"
+                android:layout_marginBottom="3dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/share_data_records"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:tint="@color/gray_light"
+                android:padding="20dp"
+                app:srcCompat="@drawable/data_records"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/share_data_records_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/share_data_records"
+                android:text="@string/export_data_records"
+                android:layout_marginBottom="3dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

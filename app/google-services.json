@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "985064412726",
+    "firebase_url": "https://feinstaub-app-web.firebaseio.com",
+    "project_id": "feinstaub-app-web",
+    "storage_bucket": "feinstaub-app-web.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985064412726:android:7b5adb4ad7a45d21",
+        "android_client_info": {
+          "package_name": "com.mrgames13.jimdo.feinstaubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985064412726-gu9rml2havsjhuudjbqhc4klkk7ocou6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_O2bNn5PFDISbn_MWqwh_N_60V-KS69Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

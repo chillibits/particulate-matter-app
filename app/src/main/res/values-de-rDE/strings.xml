@@ -6,6 +6,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
+    <string name="sensors">Sensoren</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
     <string name="no_data">Keine Daten</string>
@@ -70,6 +71,8 @@
     <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
     <string name="web_version">Web-Version</string>
     <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="successfully_connected">Erfolgreich verbunden</string>
+    <string name="sync_disconnected">Verbindung getrennt</string>
 
     <!-- AddSensorActivity -->
     <string name="done">Fertig</string>
@@ -78,8 +81,8 @@
     <string name="choose_color">Farbe wählen</string>
     <string name="not_all_filled">Bitte alle Felder füllen</string>
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
-    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
-    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
     <string name="dont_show_again">Nicht mehr anzeigen</string>
     <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
@@ -116,6 +119,7 @@
     <string name="export_data">Daten exportieren</string>
     <string name="export_diagram">Diagramm exportieren</string>
     <string name="export_data_records">Datensätze exportieren</string>
+    <string name="share_sensor">Sensor teilen</string>
     <string name="median">Median</string>
     <string name="normal">Normal</string>
     <string name="terrain">Terrain</string>
@@ -144,17 +148,6 @@
 
     <!-- Feature Settings -->
     <string name="pref_header_features">Funktionen</string>
-    <!--<string name="show_heatmap_on_map">Heatmap auf Karte zeigen</string>
-    <string-array name="show_heatmap_on_map_array">
-        <item>Über ein Netzwerk</item>
-        <item>Nur über WLAN</item>
-        <item>Ausgeschaltet</item>
-    </string-array>
-    <string-array name="show_heatmap_on_map_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>-->
     <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>

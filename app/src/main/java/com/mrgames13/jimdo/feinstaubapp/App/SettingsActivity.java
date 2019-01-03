@@ -90,7 +90,7 @@ public class SettingsActivity extends PreferenceActivity {
         //Toolbar initialisieren
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-            toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
             toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
             toolbar.setTitleTextColor(res.getColor(R.color.white));
             toolbar.setTitle(res.getString(R.string.settings));
@@ -102,7 +102,7 @@ public class SettingsActivity extends PreferenceActivity {
             ViewGroup root = findViewById(android.R.id.content);
             ListView content = (ListView) root.getChildAt(0);
             root.removeAllViews();
-            toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
             toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
             toolbar.setTitleTextColor(res.getColor(R.color.white));
             toolbar.setTitle(res.getString(R.string.settings));
@@ -271,7 +271,6 @@ public class SettingsActivity extends PreferenceActivity {
         enable_marker_clustering.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
                 AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
                         .setTitle(R.string.app_restart_t)
                         .setMessage(R.string.app_restart_m)

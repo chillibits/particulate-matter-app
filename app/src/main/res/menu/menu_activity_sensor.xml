@@ -7,7 +7,7 @@
         android:title="@string/export_data"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/file_download"/>
+        android:icon="@drawable/forward"/>
 
     <item
         android:id="@+id/action_refresh"

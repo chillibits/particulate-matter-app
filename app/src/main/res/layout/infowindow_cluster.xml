@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/infowindow_background"
+    android:padding="3dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/sensor_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sensor_white"
+        app:tint="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/info_sensor_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sensor_icon"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:textStyle="bold"
+        android:text="@string/loading"/>
+
+    <TextView
+        android:id="@+id/info_average_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        android:layout_below="@+id/info_sensor_count"
+        android:layout_alignLeft="@+id/info_sensor_count"/>
+
+    <Button
+        android:id="@+id/info_sensors_compare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/compare_sensors"
+        android:layout_below="@+id/sensor_icon" />
+</RelativeLayout>
