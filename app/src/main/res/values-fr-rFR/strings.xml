@@ -206,4 +206,7 @@
     <string name="successfully_connected"></string>
     <string name="sync_disconnected"></string>
     <string name="sensors"></string>
+    <string name="search_places"></string>
+    <string name="enable_auto_correction_t"></string>
+    <string name="enable_auto_correction_s"></string>
 </resources>

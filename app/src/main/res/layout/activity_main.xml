@@ -37,6 +37,7 @@
         android:layout_above="@+id/bottom_navigation"
         android:layout_marginRight="10dp"
         android:elevation="10dp"
+        android:visibility="gone"
         android:layout_marginBottom="10dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

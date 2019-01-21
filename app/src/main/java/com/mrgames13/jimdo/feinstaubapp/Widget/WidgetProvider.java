@@ -121,8 +121,8 @@ public class WidgetProvider extends AppWidgetProvider {
             c.add(Calendar.DATE, -1);
             String date_yesterday = sdf_date.format(c.getTime());
             //Inhalt der lokalen Dateien auslesen
-            String csv_string_day = su.getCSVFromFile(date_string, sensor.getId());
-            String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getId());
+            String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
+            String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
             //CSV-Strings zu Objekten machen
             ArrayList<DataRecord> records = su.getDataRecordsFromCSV(csv_string_day_before);
             records.addAll(su.getDataRecordsFromCSV(csv_string_day));

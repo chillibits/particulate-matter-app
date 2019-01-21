@@ -100,23 +100,23 @@ public class ServerMessagingUtils {
     public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
         //Die CSV-Dateien für Tag und Tag davor herunterladen
         //Eingestellter Tag
-        if(isCSVFileExisting(date_string, sensor.getId())) {
+        if(isCSVFileExisting(date_string, sensor.getChipID())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_string) > su.getCSVLastModified(sensor.getId(), date_string)) {
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getChipID(), date_string) > su.getCSVLastModified(sensor.getChipID(), date_string)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV1 ...");
-                downloadCSVFile(date_string, sensor.getId());
+                downloadCSVFile(date_string, sensor.getChipID());
             } else {
                 //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
                 Log.i("FA", "No need to download CSV1");
             }
         } else {
             //CSV-Datei existiert nicht
-            if(isZipFileExisting(date_string, sensor.getId())) {
+            if(isZipFileExisting(date_string, sensor.getChipID())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_string) > su.getZipLastModified(sensor.getId(), date_string)) {
+                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_string) > su.getZipLastModified(sensor.getChipID(), date_string)) {
                     Log.i("FA", "Downloading ZIP1 ...");
-                    if(downloadZipFile(date_string, sensor.getId())) su.unpackZipFile(sensor.getId(), date_string);
+                    if(downloadZipFile(date_string, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_string);
                 } else {
                     //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
                     Log.i("FA", "No need to download ZIP1");
@@ -124,23 +124,23 @@ public class ServerMessagingUtils {
             }
         }
         //Tag davor
-        if(isCSVFileExisting(date_yesterday, sensor.getId())) {
+        if(isCSVFileExisting(date_yesterday, sensor.getChipID())) {
             //CSV-Datei existiert und kann heruntergeladen werden
-            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getId(), date_yesterday) > su.getCSVLastModified(sensor.getId(), date_yesterday)) {
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getChipID(), date_yesterday) > su.getCSVLastModified(sensor.getChipID(), date_yesterday)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV2 ...");
-                downloadCSVFile(date_yesterday, sensor.getId());
+                downloadCSVFile(date_yesterday, sensor.getChipID());
             } else {
                 //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
                 Log.i("FA", "No need to download CSV2");
             }
         } else {
             //CSV-Datei existiert nicht
-            if(isZipFileExisting(date_yesterday, sensor.getId())) {
+            if(isZipFileExisting(date_yesterday, sensor.getChipID())) {
                 //Zip-Datei existiert und kann heruntergeladen werden
-                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getId(), date_yesterday) > su.getZipLastModified(sensor.getId(), date_yesterday)) {
+                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_yesterday) > su.getZipLastModified(sensor.getChipID(), date_yesterday)) {
                     Log.i("FA", "Downloading ZIP2 ...");
-                    if(downloadZipFile(date_yesterday, sensor.getId())) su.unpackZipFile(sensor.getId(), date_yesterday);
+                    if(downloadZipFile(date_yesterday, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_yesterday);
                 } else {
                     //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
                     Log.i("FA", "No need to download ZIP2");

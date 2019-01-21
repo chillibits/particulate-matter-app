@@ -15,7 +15,8 @@
         android:layout_margin="3dp"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:singleLine="true" />
 
     <LinearLayout
         android:id="@+id/cv_container"

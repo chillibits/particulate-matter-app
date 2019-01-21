@@ -328,7 +328,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             graph_view.addSeries(series1_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
-                            double median = records.get(records.size() / 2).getP1();
+                            ArrayList<Double> double_records = new ArrayList<>();
+                            for(DataRecord record : records) double_records.add(record.getP1());
+                            double median = Tools.calculateMedian(double_records);
                             series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
                             graph_view.addSeries(series1_average_median);
                         }
@@ -365,7 +367,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             graph_view.addSeries(series2_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
-                            double median = records.get(records.size() / 2).getP2();
+                            ArrayList<Double> double_records = new ArrayList<>();
+                            for(DataRecord record : records) double_records.add(record.getP2());
+                            double median = Tools.calculateMedian(double_records);
                             series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
                             graph_view.addSeries(series2_average_median);
                         }
@@ -401,7 +405,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             graph_view.addSeries(series3_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
-                            double median = records.get(records.size() / 2).getTemp();
+                            ArrayList<Double> double_records = new ArrayList<>();
+                            for(DataRecord record : records) double_records.add(record.getTemp());
+                            double median = Tools.calculateMedian(double_records);
                             series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
                             graph_view.addSeries(series3_average_median);
                         }
@@ -437,7 +443,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             graph_view.addSeries(series4_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
-                            double median = records.get(records.size() / 2).getHumidity();
+                            ArrayList<Double> double_records = new ArrayList<>();
+                            for(DataRecord record : records) double_records.add(record.getHumidity());
+                            double median = Tools.calculateMedian(double_records);
                             series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
                             graph_view.addSeries(series4_average_median);
                         }
@@ -473,7 +481,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             graph_view.addSeries(series5_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
-                            double median = records.get(records.size() / 2).getPressure();
+                            ArrayList<Double> double_records = new ArrayList<>();
+                            for(DataRecord record : records) double_records.add(record.getPressure());
+                            double median = Tools.calculateMedian(double_records);
                             series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
                             graph_view.addSeries(series5_average_median);
                         }

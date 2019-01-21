@@ -397,8 +397,8 @@ public class CompareActivity extends AppCompatActivity {
                 for(int i = 0; i < sensors.size(); i++) {
                     smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
 
-                    ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getId()));
-                    temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getId())));
+                    ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getChipID()));
+                    temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getChipID())));
                     temp = su.trimDataRecords(temp, date_string);
                     records.add(temp); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
                     try{
@@ -413,6 +413,10 @@ public class CompareActivity extends AppCompatActivity {
 
                 for(int i = 0; i < sensors.size(); i++) {
                     ArrayList<DataRecord> current_records = records.get(i);
+                    //ggf. Fehlerkorrektur(en) durchführen
+                    if(su.getBoolean("enable_auto_correction", true)) {
+                        current_records = Tools.measurementCorrection1(current_records);
+                    }
                     if(current_records.size() > 0) {
                         no_data = false;
                         try{

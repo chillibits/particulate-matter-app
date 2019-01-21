@@ -125,7 +125,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             h.item_icon.getFrontLayout().getBackground().setColorFilter(sensor.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
             h.item_name.setText(sensor.getName());
-            h.item_id.setText(res.getString(R.string.chip_id) + " " + sensor.getId());
+            h.item_id.setText(res.getString(R.string.chip_id) + " " + sensor.getChipID());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,7 +135,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         Intent i = new Intent(activity, SensorActivity.class);
                         i.putExtra("Name", sensor.getName());
-                        i.putExtra("ID", sensor.getId());
+                        i.putExtra("ID", sensor.getChipID());
                         i.putExtra("Color", sensor.getColor());
                         activity.startActivity(i);
                     }
@@ -183,14 +183,14 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if(id == R.id.action_sensor_data) {
                                 Intent i = new Intent(activity, SensorActivity.class);
                                 i.putExtra("Name", sensor.getName());
-                                i.putExtra("ID", sensor.getId());
+                                i.putExtra("ID", sensor.getChipID());
                                 i.putExtra("Color", sensor.getColor());
                                 activity.startActivity(i);
                             } else if(id == R.id.action_sensor_edit) {
                                 Intent i = new Intent(activity, AddSensorActivity.class);
                                 i.putExtra("Mode", AddSensorActivity.MODE_EDIT);
                                 i.putExtra("Name", sensor.getName());
-                                i.putExtra("ID", sensor.getId());
+                                i.putExtra("ID", sensor.getChipID());
                                 i.putExtra("Color", sensor.getColor());
                                 if(mode == MODE_FAVOURITES) i.putExtra("Target", AddSensorActivity.TARGET_FAVOURITE);
                                 activity.startActivity(i);
@@ -206,9 +206,9 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 //Sensor aus der Datenbank löschen
                                                 if(mode == MODE_FAVOURITES) {
-                                                    su.removeFavourite(sensor.getId());
+                                                    su.removeFavourite(sensor.getChipID(), false);
                                                 } else {
-                                                    su.removeOwnSensor(sensor.getId());
+                                                    su.removeOwnSensor(sensor.getChipID(), false);
                                                 }
                                                 activity.refresh();
                                             }
@@ -232,7 +232,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 sensor_alt.setSelected(true);
 
                                 sensor_name.setText(sensor.getName());
-                                sensor_chip_id.setText(sensor.getId());
+                                sensor_chip_id.setText(sensor.getChipID());
 
                                 AlertDialog d = new AlertDialog.Builder(activity)
                                         .setIcon(R.drawable.info_outline)
@@ -248,7 +248,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     public void run() {
                                         if(smu.isInternetAvailable()) {
                                             try {
-                                                String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(sensor.getId(), "UTF-8"));
+                                                String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(sensor.getChipID(), "UTF-8"));
                                                 if(!result.isEmpty()) {
                                                     JSONArray array = new JSONArray(result);
                                                     final JSONObject jsonobject = array.getJSONObject(0);
@@ -320,14 +320,14 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            h.item_more.setVisibility(su.isSensorExistingLocally(sensor.getId()) && mode == MODE_FAVOURITES ? View.GONE : View.VISIBLE);
-            h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getId()) && mode == MODE_FAVOURITES ? View.VISIBLE : View.GONE);
+            h.item_more.setVisibility(su.isSensorExistingLocally(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.GONE : View.VISIBLE);
+            h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.VISIBLE : View.GONE);
 
-            if(mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.getId())) { // TODO: Diesen Teil beim nächsten Update entfernen
+            if(mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.getChipID())) { // TODO: Diesen Teil beim nächsten Update entfernen
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = smu.sendRequest(null, "command=issensorexisting&chip_id=" + URLEncoder.encode(sensor.getId()));
+                        String result = smu.sendRequest(null, "command=issensorexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
                         if(result.equals("0")) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
@@ -339,7 +339,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             Intent i = new Intent(activity, AddSensorActivity.class);
                                             i.putExtra("Mode", AddSensorActivity.MODE_COMPLETE);
                                             i.putExtra("Name", sensor.getName());
-                                            i.putExtra("ID", sensor.getId());
+                                            i.putExtra("ID", sensor.getChipID());
                                             i.putExtra("Color", sensor.getColor());
                                             activity.startActivity(i);
                                         }

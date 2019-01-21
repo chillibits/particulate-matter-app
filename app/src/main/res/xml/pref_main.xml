@@ -1,15 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory
         android:title="@string/pref_header_features"
-        android:key="feature_settings" >
-
-        <!--<ListPreference
-            android:key="show_heatmap"
-            android:defaultValue="1"
-            android:title="@string/show_heatmap_on_map"
-            android:entries="@array/show_heatmap_on_map_array"
-            android:entryValues="@array/show_heatmap_on_map_values"
-            android:summary="%s" />-->
+        android:key="feature_settings">
 
         <SwitchPreference
             android:key="enable_daily_average"
@@ -22,6 +14,12 @@
             android:defaultValue="false"
             android:title="@string/enable_daily_median"
             android:summary="@string/enable_daily_average_median_s"/>
+
+        <SwitchPreference
+            android:key="enable_auto_correction"
+            android:defaultValue="true"
+            android:title="@string/enable_auto_correction_t"
+            android:summary="@string/enable_auto_correction_s"/>
     </PreferenceCategory>
 
     <PreferenceCategory

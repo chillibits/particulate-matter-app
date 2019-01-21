@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -29,8 +30,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.github.fabtransitionactivity.SheetLayout;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,13 +50,16 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
 import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
+import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
+import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private Resources res;
     private Toolbar toolbar;
     private ViewPager pager;
-    private ViewPagerAdapterMain pager_adapter;
+    public ViewPagerAdapterMain pager_adapter;
     private BottomNavigationView bottom_nav;
     private MenuItem prevMenuItem;
     private FloatingActionButton fab;
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_compare_dismiss;
     private SheetLayout sheet_fab_compare;
     private MaterialSearchView searchView;
-    private Socket socket;
 
     //Utils-Pakete
     private StorageUtils su;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         su = new StorageUtils(this);
 
         int state = Integer.parseInt(su.getString("app_theme", "0"));
-        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ?  AppCompatDelegate.MODE_NIGHT_NO :  AppCompatDelegate.MODE_NIGHT_YES));
+        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
 
         //SplashScreen anzeigen
         SplashScreenBuilder.getInstance(this)
@@ -142,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int pos) {
-                if(searchView.isSearchOpen()) searchView.closeSearch();
-                if(pos == 0) {
-                    if(fab.getVisibility() == View.VISIBLE) {
+                if (searchView.isSearchOpen()) searchView.closeSearch();
+                if (pos == 0) {
+                    if (fab.getVisibility() == View.VISIBLE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
                         a.setAnimationListener(new SimpleAnimationListener() {
                             @Override
@@ -154,25 +155,35 @@ public class MainActivity extends AppCompatActivity {
                         });
                         fab.startAnimation(a);
                     }
-                } else if(pos == 1) {
-                    if(fab.getVisibility() == View.GONE) {
+                } else if (pos == 1) {
+                    if (fab.getVisibility() == View.GONE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                        a.setAnimationListener(new SimpleAnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                fab.setVisibility(View.VISIBLE);
+                            }
+                        });
                         fab.startAnimation(a);
-                        fab.setVisibility(View.VISIBLE);
                     }
-                    if(selected_page == 2) {
+                    if (selected_page == 2) {
                         fab.setImageResource(R.drawable.fab_anim_add_to_search);
                         Drawable drawable = fab.getDrawable();
                         if (drawable instanceof Animatable) ((Animatable) drawable).start();
                     }
                     selected_page = 1;
-                } else if(pos == 2) {
-                    if(fab.getVisibility() == View.GONE) {
+                } else if (pos == 2) {
+                    if (fab.getVisibility() == View.GONE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                        a.setAnimationListener(new SimpleAnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                fab.setVisibility(View.VISIBLE);
+                            }
+                        });
                         fab.startAnimation(a);
-                        fab.setVisibility(View.VISIBLE);
                     }
-                    if(selected_page == 1) {
+                    if (selected_page == 1) {
                         fab.setImageResource(R.drawable.fab_anim_search_to_add);
                         Drawable drawable = fab.getDrawable();
                         if (drawable instanceof Animatable) ((Animatable) drawable).start();
@@ -191,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         bottom_nav = findViewById(R.id.bottom_navigation);
@@ -199,9 +211,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.action_my_favorites) pager.setCurrentItem(0);
-                if(id == R.id.action_all_sensors) pager.setCurrentItem(1);
-                if(id == R.id.action_my_sensors) pager.setCurrentItem(2);
+                if (id == R.id.action_my_favorites) pager.setCurrentItem(0);
+                if (id == R.id.action_all_sensors) pager.setCurrentItem(1);
+                if (id == R.id.action_my_sensors) pager.setCurrentItem(2);
                 return true;
             }
         });
@@ -210,8 +222,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pager.getCurrentItem() == 1) {
-                    try {
+                if (pager.getCurrentItem() == 1) {
+                    new SimplePlacesSearchDialogBuilder(MainActivity.this)
+                            .setSearchHint(getString(R.string.search_places))
+                            .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
+                                @Override
+                                public void onPlaceSelected(@NotNull Place place) {
+                                    ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
+                                }
+                            }).build().show();
+
+                    /*try {
                         Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MainActivity.this);
                         startActivityForResult(intent, REQ_SEARCH_LOCATION);
                         overridePendingTransition(0, 0);
@@ -219,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (GooglePlayServicesNotAvailableException e) {
                         e.printStackTrace();
-                    }
-                } else if(pager.getCurrentItem() == 2) {
+                    }*/
+                } else if (pager.getCurrentItem() == 2) {
                     sheet_fab.expandFab();
                 }
             }
@@ -288,21 +309,12 @@ public class MainActivity extends AppCompatActivity {
         getServerInfo();
 
         initializeApp();
-
-        //TODO: Beim nächsten Update entfernen
-        try{
-            if(Integer.parseInt(su.getString("sync_cycle_background", "15")) < 15) su.putString("sync_cycle_background", "15");
-        } catch (Exception e) {}
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try{
-            if(socket != null && socket.isConnected()) socket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception e) {}
     }
 
     @Override
@@ -507,19 +519,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
-            if(show_update_snackbar) {
-                Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                        .setAction(res.getString(R.string.download), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+            Intent appLinkIntent = getIntent();
+            Uri appLinkData = appLinkIntent.getData();
+            if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
+                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") +1);
+                Random random = new Random();
+                int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+
+                Intent i = new Intent(this, SensorActivity.class);
+                i.putExtra("Name", chip_id);
+                i.putExtra("ID", chip_id);
+                i.putExtra("Color", color);
+                startActivity(i);
+            } else {
+                if(show_update_snackbar) {
+                    Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
+                            .setAction(res.getString(R.string.download), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                    }
                                 }
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
+                }
             }
             su.putBoolean("ShownSensorCompletion", true);
         } else if(requestCode == REQ_ADD_OWN_SENSOR) {
@@ -538,15 +564,19 @@ public class MainActivity extends AppCompatActivity {
         } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
             try{
                 String sync_key = result.getContents();
-                Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
-                i.putExtra("sync_key", sync_key);
-                startService(i);
-                //Toast anzeigen
-                Toast t = new Toast(MainActivity.this);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.setDuration(Toast.LENGTH_LONG);
-                t.setView(getLayoutInflater().inflate(R.layout.sync_success, null));
-                t.show();
+                if(sync_key.length() == 25 && !sync_key.startsWith("http")) {
+                    Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
+                    i.putExtra("sync_key", sync_key);
+                    startService(i);
+                    //Toast anzeigen
+                    Toast t = new Toast(MainActivity.this);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.setDuration(Toast.LENGTH_LONG);
+                    t.setView(getLayoutInflater().inflate(R.layout.sync_success, null));
+                    t.show();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -667,8 +697,13 @@ public class MainActivity extends AppCompatActivity {
         if(show && pager.getCurrentItem() != 0) {
             if(fab.getVisibility() == View.GONE) {
                 Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                a.setAnimationListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        fab.setVisibility(View.VISIBLE);
+                    }
+                });
                 fab.startAnimation(a);
-                fab.setVisibility(View.VISIBLE);
             }
         } else {
             if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);

@@ -317,8 +317,8 @@ public class AddSensorActivity extends AppCompatActivity {
                                             result = smu.sendRequest(null, "command=addsensor&chip_id=" + URLEncoder.encode(chip_id, "UTF-8") + "&lat=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lat), 3)), "UTF-8") + "&lng=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lng), 3)), "UTF-8") + "&alt=" + URLEncoder.encode(alt, "UTF-8"));
                                             if(result.equals("1")) {
                                                 //Neuen Sensor speichern
-                                                if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
-                                                su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false);
+                                                if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
+                                                su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false, false);
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -337,8 +337,8 @@ public class AddSensorActivity extends AppCompatActivity {
                                             }
                                         } else {
                                             //Neuen Sensor speichern
-                                            if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id);
-                                            su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true);
+                                            if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
+                                            su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true, false);
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -377,14 +377,14 @@ public class AddSensorActivity extends AppCompatActivity {
             } else if(mode == MODE_EDIT) {
                 //Sensor aktualisieren
                 if(target == TARGET_FAVOURITE) {
-                    su.updateFavourite(new Sensor(chip_id, sensor_name, current_color));
+                    su.updateFavourite(new Sensor(chip_id, sensor_name, current_color), false);
                 } else {
-                    su.updateOwnSensor(new Sensor(chip_id, sensor_name, current_color));
+                    su.updateOwnSensor(new Sensor(chip_id, sensor_name, current_color), false);
                 }
                 try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
                 finish();
             } else if(mode == MODE_COMPLETE) {
-                su.removeOwnSensor(chip_id);
+                su.removeOwnSensor(chip_id, false);
                 mode = MODE_NEW;
                 onOptionsItemSelected(item);
             }

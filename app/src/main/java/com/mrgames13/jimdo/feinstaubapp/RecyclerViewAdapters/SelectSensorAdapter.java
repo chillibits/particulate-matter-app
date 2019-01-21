@@ -77,7 +77,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
 
         h.item_icon.getFrontLayout().getBackground().setColorFilter(sensor.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
         h.item_name.setText(sensor.getName());
-        h.item_id.setText(res.getString(R.string.chip_id) + " " + sensor.getId());
+        h.item_id.setText(res.getString(R.string.chip_id) + " " + sensor.getChipID());
 
         h.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +118,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
                     }, 50);
                     selected_sensor = sensor;
                 } else {
-                    if(selected_sensor.getId() == sensor.getId()) {
+                    if(selected_sensor.getChipID() == sensor.getChipID()) {
                         selected_sensor = null;
                         selected_sensor_holder = null;
                     }
@@ -127,7 +127,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
             }
         });
 
-        h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getId()) ? View.VISIBLE : View.GONE);
+        h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getChipID()) ? View.VISIBLE : View.GONE);
     }
 
     @Override

@@ -73,6 +73,7 @@
     <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
     <string name="successfully_connected">Erfolgreich verbunden</string>
     <string name="sync_disconnected">Verbindung getrennt</string>
+    <string name="search_places">Bitte geben Sie einen Ort ein …</string>
 
     <!-- AddSensorActivity -->
     <string name="done">Fertig</string>
@@ -152,6 +153,8 @@
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
     <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
+    <string name="enable_auto_correction_t">Automatische Fehlerkorrektur</string>
+    <string name="enable_auto_correction_s">Automatische Korrektur von Messfehlern</string>
 
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>

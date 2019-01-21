@@ -26,7 +26,7 @@ public class Sensor implements Comparable, Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    public String getId() {
+    public String getChipID() {
         return id;
     }
 

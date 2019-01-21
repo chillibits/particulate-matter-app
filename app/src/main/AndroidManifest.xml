@@ -47,6 +47,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="feinstaub.mrgames-server.de" />
+            </intent-filter>
         </activity>
         <!-- SettingsActivity -->
         <activity
@@ -65,15 +75,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
-                    android:host="pma.mrgames-server.de" />
+                    android:scheme="https"
+                    android:host="feinstaub.mrgames-server.de"
+                    android:pathPattern="/sensor" />
             </intent-filter>
         </activity>
         <!-- AddSensorActivity -->

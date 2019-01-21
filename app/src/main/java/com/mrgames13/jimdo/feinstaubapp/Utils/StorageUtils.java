@@ -14,6 +14,7 @@ import android.util.Log;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -338,20 +339,22 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     //---------------------------------------Eigene Sensoren----------------------------------------
 
-    public void addOwnSensor(Sensor sensor, boolean offline) {
+    public void addOwnSensor(Sensor sensor, boolean offline, boolean request_from_realtime_sync_service) {
         ContentValues values = new ContentValues();
-        values.put("sensor_id", sensor.getId());
+        values.put("sensor_id", sensor.getChipID());
         values.put("sensor_name", sensor.getName());
         values.put("sensor_color", sensor.getColor());
         addRecord(TABLE_SENSORS, values);
-        putBoolean(sensor.getId() + "_offline", offline);
+        putBoolean(sensor.getChipID() + "_offline", offline);
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public Sensor getSensor(String chip_id) {
         ArrayList<Sensor> sensors = getAllOwnSensors();
         sensors.addAll(getAllFavourites());
         for(Sensor s : sensors) {
-            if(s.getId().equals(chip_id)) return s;
+            if(s.getChipID().equals(chip_id)) return s;
         }
         return null;
     }
@@ -364,13 +367,17 @@ public class StorageUtils extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public void updateOwnSensor(Sensor new_sensor) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
+    public void updateOwnSensor(Sensor new_sensor, boolean request_from_realtime_sync_service) {
+        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
-    public void removeOwnSensor(String chip_id) {
+    public void removeOwnSensor(String chip_id, boolean request_from_realtime_sync_service) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_SENSORS, "sensor_id = ?", new String[]{chip_id});
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public ArrayList<Sensor> getAllOwnSensors() {
@@ -396,12 +403,14 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     //------------------------------------------Favoriten-------------------------------------------
 
-    public void addFavourite(Sensor sensor) {
+    public void addFavourite(Sensor sensor, boolean request_from_realtime_sync_service) {
         ContentValues values = new ContentValues();
-        values.put("sensor_id", sensor.getId());
+        values.put("sensor_id", sensor.getChipID());
         values.put("sensor_name", sensor.getName());
         values.put("sensor_color", sensor.getColor());
         addRecord(TABLE_FAVOURITES, values);
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public boolean isFavouriteExisting(String chip_id) {
@@ -412,13 +421,17 @@ public class StorageUtils extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public void updateFavourite(Sensor new_sensor) {
-        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getId() + "';");
+    public void updateFavourite(Sensor new_sensor, boolean request_from_realtime_sync_service) {
+        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
-    public void removeFavourite(String chip_id) {
+    public void removeFavourite(String chip_id, boolean request_from_realtime_sync_service) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_FAVOURITES, "sensor_id = ?", new String[]{chip_id});
+        //Falls ein Web-Client verbunden ist, refreshen
+        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public ArrayList<Sensor> getAllFavourites() {

@@ -103,8 +103,8 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
     private void finishConfiguration() {
         if(sensor_view_adapter.getSelectedSensor() != null) {
             startService(new Intent(this, SyncService.class));
-            su.putInt("Widget_" + sensor_view_adapter.getSelectedSensor().getId(), app_widget_id);
-            su.putString("Widget_" + String.valueOf(app_widget_id), sensor_view_adapter.getSelectedSensor().getId());
+            su.putInt("Widget_" + sensor_view_adapter.getSelectedSensor().getChipID(), app_widget_id);
+            su.putString("Widget_" + String.valueOf(app_widget_id), sensor_view_adapter.getSelectedSensor().getChipID());
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
             RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);
@@ -112,7 +112,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
 
             Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
             update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.getSelectedSensor().getId());
+            update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.getSelectedSensor().getChipID());
             sendBroadcast(update_intent);
 
             Intent resultValue = new Intent();

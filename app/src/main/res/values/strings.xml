@@ -208,5 +208,8 @@
     <string name="share_sensor">Share sensor</string>
     <string name="successfully_connected">Successfully connected</string>
     <string name="sync_disconnected">Disconnected</string>
+    <string name="search_places">Please enter a place …</string>
+    <string name="enable_auto_correction_t">Auto error correction</string>
+    <string name="enable_auto_correction_s">Automatic correction of defective measurements</string>
 
 </resources>

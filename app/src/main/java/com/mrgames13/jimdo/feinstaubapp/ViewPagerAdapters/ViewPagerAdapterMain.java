@@ -128,6 +128,18 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         MySensorsFragment.refresh();
     }
 
+    public void refreshFavourites() {
+        MyFavouritesFragment.refresh();
+    }
+
+    public void refreshAllSensors() {
+        AllSensorsFragment.refresh();
+    }
+
+    public void refreshMySensors() {
+        MySensorsFragment.refresh();
+    }
+
     public ArrayList<Sensor> getSelectedSensors() {
         ArrayList<Sensor> selected_sensors = new ArrayList<>();
         selected_sensors.addAll(MyFavouritesFragment.getSelectedSensors());
@@ -198,7 +210,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             } else {
                 search_values = new ArrayList<>();
                 for(Sensor s : sensors) {
-                    if(s.getName().toLowerCase().contains(query.toLowerCase()) || s.getId().toLowerCase().contains(query.toLowerCase())) search_values.add(s);
+                    if(s.getName().toLowerCase().contains(query.toLowerCase()) || s.getChipID().toLowerCase().contains(query.toLowerCase())) search_values.add(s);
                 }
             }
             sensor_view_adapter = new SensorAdapter(activity, search_values, su, smu, SensorAdapter.MODE_FAVOURITES);
@@ -291,7 +303,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             final boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if(!isGpsProviderEnabled && !isNetworkProviderEnabled) {
-                Snackbar.make(contentView.findViewById(R.id.map), getString(R.string.enable_location_m), Snackbar.LENGTH_LONG)
+                Snackbar.make(contentView.findViewById(R.id.map), getString(R.string.enable_location_m), Snackbar.LENGTH_SHORT)
                         .setAction(R.string.enable_location, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -389,6 +401,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
+                    moveCamera(current_country);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -591,9 +604,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                         //Neuen Sensor speichern
                                         String name_string = name.getText().toString().trim();
                                         if(name_string.isEmpty()) name_string = marker.getTag().toString();
-                                        su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color));
+                                        su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color), false);
                                         MyFavouritesFragment.refresh();
-                                        refresh();
+                                        AllSensorsFragment.refresh();
                                         info_window.dismiss();
                                         Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
                                     }
@@ -746,7 +759,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             } else {
                 search_values = new ArrayList<>();
                 for(Sensor s : sensors) {
-                    if(s.getName().toLowerCase().contains(query.toLowerCase()) || s.getId().toLowerCase().contains(query.toLowerCase())) search_values.add(s);
+                    if(s.getName().toLowerCase().contains(query.toLowerCase()) || s.getChipID().toLowerCase().contains(query.toLowerCase())) search_values.add(s);
                 }
             }
             sensor_view_adapter = new SensorAdapter(activity, search_values, su, smu, SensorAdapter.MODE_OWN_SENSORS);

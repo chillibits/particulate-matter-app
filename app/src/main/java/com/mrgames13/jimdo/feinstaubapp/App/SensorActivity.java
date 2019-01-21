@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
 import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
@@ -248,7 +250,7 @@ public class SensorActivity extends AppCompatActivity {
             }
         }, period, period, TimeUnit.SECONDS);
 
-        if (!sensor.getId().equals("no_id")) loadData(true);
+        if (!sensor.getChipID().equals("no_id")) loadData(true);
 
         //Check if sensor is existing on the server
         checkSensorAvailability();
@@ -291,11 +293,7 @@ public class SensorActivity extends AppCompatActivity {
         if(id == android.R.id.home) {
             finish();
         } else if(id == R.id.action_export) {
-            if(records.size() > 0) {
-                exportData();
-            } else {
-                Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
-            }
+            exportData();
         } else if(id == R.id.action_refresh) {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
@@ -352,22 +350,28 @@ public class SensorActivity extends AppCompatActivity {
                     smu.manageDownloads(sensor, date_string, date_yesterday);
                 }
                 //Kein Internet
-                if(su.isCSVFileExisting(date_string, sensor.getId()) || su.isCSVFileExisting(date_yesterday, sensor.getId())) {
+                if(su.isCSVFileExisting(date_string, sensor.getChipID()) || su.isCSVFileExisting(date_yesterday, sensor.getChipID())) {
                     Log.d("FA", "Local CSV Files existing");
                     //Inhalt der lokalen Dateien auslesen
-                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getId());
-                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getId());
+                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
+                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
                     //CSV-Strings zu Objekten machen
                     records = su.getDataRecordsFromCSV(csv_string_day_before);
                     records.addAll(su.getDataRecordsFromCSV(csv_string_day));
                     //Datensätze zuschneiden
-                    ViewPagerAdapterSensor.records = records = su.trimDataRecords(records, date_string);
+                    records = su.trimDataRecords(records, date_string);
                     //Sortieren
                     resortData();
+                    //ggf. Fehlerkorrektur(en) durchführen
+                    if(su.getBoolean("enable_auto_correction", true)) {
+                        records = Tools.measurementCorrection1(records);
+                    }
+                    //Datensätze in Adapter übernehmen
+                    ViewPagerAdapterSensor.records = records;
                     //Wenn es ein Widget für diesen Sensor gibt, updaten
                     Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                     update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getId());
+                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
                     sendBroadcast(update_intent);
                 }
                 runOnUiThread(new Runnable() {
@@ -384,11 +388,11 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     private void checkSensorAvailability() {
-        if(!su.getBoolean("DontShowAgain_" + sensor.getId()) && smu.isInternetAvailable()) {
+        if(!su.getBoolean("DontShowAgain_" + sensor.getChipID()) && smu.isInternetAvailable()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getId()));
+                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
                     if(!Boolean.parseBoolean(result)) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -401,7 +405,7 @@ public class SensorActivity extends AppCompatActivity {
                                         .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                su.putBoolean("DontShowAgain_" + sensor.getId(), true);
+                                                su.putBoolean("DontShowAgain_" + sensor.getChipID(), true);
                                             }
                                         })
                                         .create();
@@ -422,7 +426,7 @@ public class SensorActivity extends AppCompatActivity {
                     .create();
             d.show();
 
-            ImageView share_sensor = v.findViewById(R.id.share_sensor);
+            RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
             share_sensor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -430,39 +434,51 @@ public class SensorActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             //Sensor teilen
-
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            i.setType("text/plain");
+                            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
+                            i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
+                            startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
 
                             d.dismiss();
                         }
                     }, 200);
                 }
             });
-            ImageView export_diagram = v.findViewById(R.id.share_diagram);
+            RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
             export_diagram.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Diagramm exportieren
-                            view_pager_adapter.exportDiagram(SensorActivity.this);
-                            d.dismiss();
-                        }
-                    }, 200);
+                    if(records.size() > 0) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Diagramm exportieren
+                                view_pager_adapter.exportDiagram(SensorActivity.this);
+                                d.dismiss();
+                            }
+                        }, 200);
+                    } else {
+                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-            ImageView export_data_records = v.findViewById(R.id.share_data_records);
+            RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
             export_data_records.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Datensätze exportieren
-                            if(su.isCSVFileExisting(date_string, sensor.getId())) su.shareCSVFile(date_string, sensor.getId());
-                            d.dismiss();
-                        }
-                    }, 200);
+                    if(records.size() > 0) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Datensätze exportieren
+                                if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
+                                d.dismiss();
+                            }
+                        }, 200);
+                    } else {
+                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         } else {
