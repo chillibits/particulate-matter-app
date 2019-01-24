@@ -67,6 +67,10 @@ public class CompareActivity extends AppCompatActivity {
     private GraphView diagram_humidity;
     private GraphView diagram_pressure;
     private DatePickerDialog date_picker_dialog;
+    private ImageView card_date_next;
+    private ImageView card_date_back;
+    private ImageView card_date_today;
+    private ImageView card_date_edit;
 
     //Variablen
     private String current_date_string;
@@ -109,10 +113,10 @@ public class CompareActivity extends AppCompatActivity {
 
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
-        ImageView card_date_edit = findViewById(R.id.card_date_edit);
-        ImageView card_date_today = findViewById(R.id.card_date_today);
-        ImageView card_date_back = findViewById(R.id.card_date_back);
-        final ImageView card_date_next = findViewById(R.id.card_date_next);
+        card_date_edit = findViewById(R.id.card_date_edit);
+        card_date_today = findViewById(R.id.card_date_today);
+        card_date_back = findViewById(R.id.card_date_back);
+        card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(date_string);
         card_date_value.setOnClickListener(new View.OnClickListener() {
@@ -309,17 +313,22 @@ public class CompareActivity extends AppCompatActivity {
         date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
+                Calendar calendar_new = Calendar.getInstance();
+                calendar_new.set(Calendar.YEAR, year);
+                calendar_new.set(Calendar.MONTH, month);
+                calendar_new.set(Calendar.DAY_OF_MONTH, day);
+                card_date_next.setEnabled(calendar_new.before(calendar));
 
-                date_string = sdf_date.format(calendar.getTime());
+                date_string = sdf_date.format(calendar_new.getTime());
                 card_date_value.setText(date_string);
+
+                calendar = calendar_new;
 
                 //Daten für ausgewähltes Datum laden
                 reloadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         date_picker_dialog.show();
     }
 
