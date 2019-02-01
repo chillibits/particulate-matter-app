@@ -41,7 +41,8 @@
     <string name="edit_sensor">Sensor bearbeiten</string>
     <string name="complete_sensor">Sensor vervollständigen</string>
     <string name="unlink_sensor">Sensor entfernen</string>
-    <string name="really_unlink_sensor">Wollen Sie diesen Sensor wirklich entfernen?</string>
+    <string name="really_unlink_sensor_1">Wollen Sie den Sensor \'</string>
+    <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>

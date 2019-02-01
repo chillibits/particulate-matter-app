@@ -199,7 +199,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .setCancelable(true)
                                         .setIcon(R.drawable.delete_red)
                                         .setTitle(R.string.unlink_sensor)
-                                        .setMessage(R.string.really_unlink_sensor)
+                                        .setMessage(res.getString(R.string.really_unlink_sensor_1) + sensor.getName() + res.getString(R.string.really_unlink_sensor_2))
                                         .setNegativeButton(R.string.cancel,null)
                                         .setPositiveButton(R.string.unlink_sensor, new DialogInterface.OnClickListener() {
                                             @Override

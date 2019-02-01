@@ -476,9 +476,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject jsonobject = array.getJSONObject(i);
                                 ExternalSensor sensor = new ExternalSensor();
-                                sensor.setChipID(jsonobject.getString("chip_id"));
-                                sensor.setLat(jsonobject.getDouble("lat"));
-                                sensor.setLng(jsonobject.getDouble("lng"));
+                                sensor.setChipID(jsonobject.getString("i"));
+                                sensor.setLat(jsonobject.getDouble("l"));
+                                sensor.setLng(jsonobject.getDouble("b"));
                                 sensors.add(sensor);
                             }
 

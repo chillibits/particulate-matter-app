@@ -133,7 +133,8 @@
     <string name="my_sensors">Mes capteurs</string>
     <string name="no_favourites">Pas encore des favoris disponible. Pour ajouter des favoris, changez à \'Tous capteurs\', tapez sur un, ou plusierus capteurs et sélectionnez \'Ajouter favori\'.</string>
     <string name="unlink_sensor">Enlever capteur</string>
-    <string name="really_unlink_sensor">Voulez-vous vraiment enlever cette capteur?</string>
+    <string name="really_unlink_sensor_1">Voulez-vous vraiment retirer le capteur \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
     <string name="properties">Traits</string>
     <string name="public_short_">Public:</string>
     <string name="online_since_">En ligne depuis</string>
@@ -202,11 +203,11 @@
     <string name="widget_select_sensor">Choisir capteur</string>
     <string name="widget_open_app">Lancer l\'app</string>
     <string name="widget_no_data">Il n\'y a pas des favoris.Tapez dessous, pour ajouter un favori et placez le widget encore une fois.</string>
-    <string name="share_sensor"></string>
-    <string name="successfully_connected"></string>
-    <string name="sync_disconnected"></string>
-    <string name="sensors"></string>
-    <string name="search_places"></string>
-    <string name="enable_auto_correction_t"></string>
-    <string name="enable_auto_correction_s"></string>
+    <string name="share_sensor">partager le capteur</string>
+    <string name="successfully_connected">"relié réussie "</string>
+    <string name="sync_disconnected">débranché</string>
+    <string name="sensors">capteurs</string>
+    <string name="search_places">Saisez un lieu, s\'il vous plaît ...</string>
+    <string name="enable_auto_correction_t">correction d\'erreur automatique</string>
+    <string name="enable_auto_correction_s">Correction du erreur de mesure automatique</string>
 </resources>

@@ -138,7 +138,8 @@
     <string name="my_sensors">My sensors</string>
     <string name="no_favourites">No favourites yet. Please change to \'All sensors\', choose one or more sensors and select \'Add favourite\'.</string>
     <string name="unlink_sensor">Unlink sensor</string>
-    <string name="really_unlink_sensor">Do you really want to unlink the selected sensor?</string>
+    <string name="really_unlink_sensor_1">Do you really want to unlink the sensor \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
     <string name="properties">Properties</string>
     <string name="public_short_">Public:</string>
     <string name="online_since_">Online since:</string>
