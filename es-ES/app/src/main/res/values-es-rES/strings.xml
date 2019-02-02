@@ -1,52 +1,40 @@
-package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
+package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import androidx.annotation.NonNull;
-
-public class Sensor implements Comparable, Serializable {
-
-    //Konstanten
-
-    //Variablen als Objekte
-
-    //Variablen
-    private String id = "no_id";
-    private String name = "unknown";
-    private int color = 0;
-
-    public Sensor() {}
-
-    public Sensor(String id, String name, int color) {
-        this.id = id;
-        this.name = name;
-        this.color = color;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getChipID() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-    public int getColor() {
-        return color;
-    }
-
-    @Override
-    public int compareTo(@NonNull Object o) {
-        Sensor other = (Sensor) o;
-        return getName().compareTo(other.getName());
+public class SeriesReducer {
+    /**
+     * Reduces number of points in given series using Ramer-Douglas-Peucker algorithm.
+     *
+     * @param points
+     *          initial, ordered list of points (objects implementing the {@link Point} interface)
+     * @param epsilon
+     *          allowed margin of the resulting curve, has to be > 0
+     */
+    public static List<Point> reduce(List<Point> points, double epsilon) {
+        try{
+            double furthestPointDistance = 0.0;
+            int furthestPointIndex = 0;
+            Line line = new Line(points.get(0), points.get(points.size() - 1));
+            for (int i = 1; i < points.size() - 1; i++) {
+                double distance = line.distance(points.get(i));
+                if (distance > furthestPointDistance ) {
+                    furthestPointDistance = distance;
+                    furthestPointIndex = i;
+                }
+            }
+            if (furthestPointDistance > epsilon) {
+                List<Point> reduced1 = reduce(points.subList(0, furthestPointIndex+1), epsilon);
+                List<Point> reduced2 = reduce(points.subList(furthestPointIndex, points.size()), epsilon);
+                List<Point> result = new ArrayList<>(reduced1);
+                result.addAll(reduced2.subList(1, reduced2.size()));
+                return result;
+            } else {
+                return line.asList();
+            }
+        } catch (Exception e) {
+            return points;
+        }
     }
 }
