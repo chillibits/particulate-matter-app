@@ -1,102 +1,96 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
+import android.view.ViewAnimationUtils;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
-import androidx.annotation.NonNull;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Random;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-public class CompareActivity extends AppCompatActivity {
+public class AddSensorActivity extends AppCompatActivity {
 
     //Konstanten
-    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
+    private final int REQ_SELECT_PLACE = 10001;
+    public static final int MODE_NEW = 10001;
+    public static final int MODE_EDIT = 10002;
+    public static final int MODE_COMPLETE = 10003;
+    public static final int TARGET_FAVOURITE = 10003;
+    public static final int TARGET_OWN_SENSOR = 10004;
 
     //Variablen als Objekte
     private Resources res;
     private Toolbar toolbar;
-    private Calendar calendar;
-    public static ArrayList<Sensor> sensors;
-    public static ArrayList<ArrayList<DataRecord>> records = new ArrayList<>();
-    private MenuItem progress_menu_item;
-    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
-    private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
+    private ColorPickerDialog color_picker;
+    private Random random;
+    private View reveal_view;
+    private View reveal_background_view;
+    private ImageView iv_color;
+    private EditText sensor_name;
+    private EditText chip_id;
+    private SwitchCompat sensor_public;
+    private Button choose_location;
+    private EditText lat;
+    private EditText lng;
+    private ImageView coordinates_info;
+    private EditText alt;
 
     //Utils-Pakete
-    private static StorageUtils su;
+    private StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Komponenten
-    private GraphView diagram_p1;
-    private GraphView diagram_p2;
-    private GraphView diagram_temp;
-    private GraphView diagram_humidity;
-    private GraphView diagram_pressure;
-    private DatePickerDialog date_picker_dialog;
-    private ImageView card_date_next;
-    private ImageView card_date_back;
-    private ImageView card_date_today;
-    private ImageView card_date_edit;
-
     //Variablen
-    private String current_date_string;
-    private String date_string;
-    private boolean no_data;
+    private int current_color;
+    private int mode = MODE_NEW;
+    private int target = TARGET_OWN_SENSOR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compare);
+        setContentView(R.layout.activity_add_sensor);
 
         //Resourcen initialisieren
         res = getResources();
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.compare_sensors);
+        toolbar.setTitle(res.getString(R.string.add_own_sensor));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //Kalender initialisieren
-        if(date_string == null) {
-            calendar = Calendar.getInstance();
-            current_date_string = sdf_date.format(calendar.getTime());
-            date_string = current_date_string;
-        }
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);
@@ -104,238 +98,129 @@ public class CompareActivity extends AppCompatActivity {
         //ServerMessagingUtils initialisieren
         smu = new ServerMessagingUtils(this, su);
 
-        //Sensoren laden
-        if(!getIntent().hasExtra("Sensors")) {
-            finish();
-            return;
-        }
-        sensors = (ArrayList<Sensor>) getIntent().getSerializableExtra("Sensors");
+        //RevealView initialisieren
+        reveal_view = findViewById(R.id.reveal);
+        reveal_background_view = findViewById(R.id.reveal_background);
 
         //Komponenten initialisieren
-        final TextView card_date_value = findViewById(R.id.card_date_value);
-        card_date_edit = findViewById(R.id.card_date_edit);
-        card_date_today = findViewById(R.id.card_date_today);
-        card_date_back = findViewById(R.id.card_date_back);
-        card_date_next = findViewById(R.id.card_date_next);
-
-        card_date_value.setText(date_string);
-        card_date_value.setOnClickListener(new View.OnClickListener() {
+        iv_color = findViewById(R.id.sensor_color);
+        iv_color.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
+                selectNewColor();
             }
         });
-        card_date_edit.setOnClickListener(new View.OnClickListener() {
+
+        Button choose_color = findViewById(R.id.choose_sensor_color);
+        choose_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectNewColor();
+            }
+        });
+
+        //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+        random = new Random();
+        current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+        iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+
+        sensor_name = findViewById(R.id.sensor_name_value);
+        chip_id = findViewById(R.id.chip_id_value);
+
+        ImageView info = findViewById(R.id.chip_id_info);
+        info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(res.getString(R.string.link_id_info))));
             }
         });
-        card_date_today.setOnClickListener(new View.OnClickListener() {
+
+        sensor_public = findViewById(R.id.sensor_public);
+        sensor_public.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                choose_location.setEnabled(b);
+                lat.setEnabled(b);
+                lng.setEnabled(b);
+                alt.setEnabled(b);
+                coordinates_info.setEnabled(b);
+            }
+        });
+
+        choose_location = findViewById(R.id.choose_location);
+        choose_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auf den heutigen Tag setzen
-                calendar.setTime(new Date());
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                card_date_next.setEnabled(false);
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag zurück gehen
-                calendar.add(Calendar.DATE, -1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag vor gehen
-                calendar.add(Calendar.DATE, 1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_next.setEnabled(false);
-
-        diagram_p1 = findViewById(R.id.diagram_p1);
-        diagram_p1.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_p1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            public String formatLabel(double value, boolean isValueX) {
-                if(isValueX) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis((long) value);
-                    return sdf_time.format(cal.getTime());
-                } else {
-                    return super.formatLabel(value, isValueX).replace(".000", "k");
+                try {
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    startActivityForResult(builder.build(AddSensorActivity.this), REQ_SELECT_PLACE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        diagram_p1.setOnClickListener(new View.OnClickListener() {
+
+        lat = findViewById(R.id.lat);
+        lng = findViewById(R.id.lng);
+        alt = findViewById(R.id.height_value);
+
+        coordinates_info = findViewById(R.id.coordinates_info);
+        coordinates_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show1", true);
-                startActivity(i);
+                AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.coordinates_info)
+                        .setPositiveButton(R.string.ok, null)
+                        .create();
+                d.show();
             }
         });
-        //diagram_p1.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
 
-        diagram_p2 = findViewById(R.id.diagram_p2);
-        diagram_p2.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_p2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(isValueX) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis((long) value);
-                    return sdf_time.format(cal.getTime());
-                } else {
-                    return super.formatLabel(value, isValueX).replace(".000", "k");
-                }
-            }
-        });
-        diagram_p2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show2", true);
-                startActivity(i);
-            }
-        });
-        //diagram_p2.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
+        //Intent-Extras auslesen
+        Intent i = getIntent();
+        if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
+            mode = MODE_EDIT;
+            sensor_name.setText(i.getStringExtra("Name"));
+            chip_id.setText(i.getStringExtra("ID"));
+            chip_id.setEnabled(false);
+            current_color = i.getIntExtra("Color", current_color);
+            iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+            toolbar.setTitle(R.string.edit_sensor);
+            sensor_public.setChecked(false);
+            findViewById(R.id.additional_info).setVisibility(View.GONE);
 
-        diagram_temp = findViewById(R.id.diagram_temp);
-        diagram_temp.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_temp.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show3", true);
-                startActivity(i);
-            }
-        });
-        //diagram_temp.getGridLabelRenderer().setVerticalAxisTitle("°C³");
+            if(i.hasExtra("Target")) target = i.getIntExtra("Target", TARGET_OWN_SENSOR);
 
-        diagram_humidity = findViewById(R.id.diagram_humidity);
-        diagram_humidity.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_humidity.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_humidity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show4", true);
-                startActivity(i);
-            }
-        });
-        //diagram_humidity.getGridLabelRenderer().setVerticalAxisTitle("%");
+            findViewById(R.id.edit_position_info).setVisibility(View.VISIBLE);
+            TextView info_text = findViewById(R.id.edit_position_info_text);
+            info_text.setMovementMethod(LinkMovementMethod.getInstance());
+        } else if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_COMPLETE) {
+            mode = MODE_COMPLETE;
+            sensor_name.setText(i.getStringExtra("Name"));
+            chip_id.setText(i.getStringExtra("ID"));
+            chip_id.setEnabled(false);
+            current_color = i.getIntExtra("Color", current_color);
+            iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+            toolbar.setTitle(R.string.complete_sensor);
+            choose_location.requestFocus();
 
-        diagram_pressure = findViewById(R.id.diagram_pressure);
-        diagram_pressure.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_pressure.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_pressure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show5", true);
-                startActivity(i);
-            }
-        });
-        //diagram_pressure.getGridLabelRenderer().setVerticalAxisTitle("hPa");
-
-        reloadData();
-    }
-
-    private void chooseDate(final TextView card_date_value) {
-        //Datum auswählen
-        date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar calendar_new = Calendar.getInstance();
-                calendar_new.set(Calendar.YEAR, year);
-                calendar_new.set(Calendar.MONTH, month);
-                calendar_new.set(Calendar.DAY_OF_MONTH, day);
-                card_date_next.setEnabled(calendar_new.before(calendar));
-
-                date_string = sdf_date.format(calendar_new.getTime());
-                card_date_value.setText(date_string);
-
-                calendar = calendar_new;
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        date_picker_dialog.show();
+            AlertDialog d = new AlertDialog.Builder(this)
+                    .setCancelable(true)
+                    .setTitle(R.string.complete_sensor)
+                    .setMessage(R.string.sensor_position_completion_m_short)
+                    .setPositiveButton(R.string.ok, null)
+                    .create();
+            d.show();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
-        progress_menu_item = menu.findItem(R.id.action_refresh);
+        getMenuInflater().inflate(R.menu.menu_activity_add_own_sensor, menu);
         return true;
     }
 
@@ -344,230 +229,168 @@ public class CompareActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == android.R.id.home) {
             finish();
-        } else if(id == R.id.action_export) {
-            boolean empty = true;
-            for(ArrayList<DataRecord> r : records){
-                if(!r.isEmpty()) empty = false;
-            }
-            if(!empty) {
-                exportData();
-            } else {
-                Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
-            }
-        } else if(id == R.id.action_refresh) {
-            Log.i("FA", "User refreshing ...");
-            //Daten neu laden
-            reloadData();
-        } else if(id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+        } else if(id == R.id.action_done) {
+            addSensor(item);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
-    }
-
-    private void reloadData() {
-        //ProgressMenuItem setzen
-        if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
-
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setCancelable(false);
-        pd.setMessage(res.getString(R.string.loading_data));
-        pd.show();
-        new Thread(new Runnable() {
+    private void selectNewColor() {
+        //Farb-Auswahl-Dialog anzeigen
+        color_picker = new ColorPickerDialog(AddSensorActivity.this, current_color);
+        color_picker.setAlphaSliderVisible(false);
+        color_picker.setHexValueEnabled(true);
+        color_picker.setTitle(res.getString(R.string.choose_color));
+        color_picker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
-            public void run() {
-                //ArrayList leeren
-                records.clear();
-                //Diagramme leeren
-                diagram_p1.removeAllSeries();
-                diagram_p2.removeAllSeries();
-                diagram_humidity.removeAllSeries();
-                diagram_temp.removeAllSeries();
-                diagram_pressure.removeAllSeries();
-
-                //Date String von Gestern ermitteln
-                String date_yesterday = date_string;
-                try{
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(sdf_date.parse(date_yesterday));
-                    c.add(Calendar.DATE, -1);
-                    date_yesterday = sdf_date.format(c.getTime());
-                } catch (Exception e) {}
-
-                //Zeit des ersten Datensatzes ermitteln
-                long first_time = Long.MAX_VALUE;
-                long last_time = Long.MIN_VALUE;
-                for(int i = 0; i < sensors.size(); i++) {
-                    smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
-
-                    ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getChipID()));
-                    temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getChipID())));
-                    temp = su.trimDataRecords(temp, date_string);
-                    records.add(temp); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
-                    try{
-                        long current_first_time = records.get(i).get(0).getDateTime().getTime();
-                        long current_last_time = records.get(i).get(records.get(i).size() -1).getDateTime().getTime();
-                        first_time = current_first_time < first_time ? current_first_time : first_time;
-                        last_time = current_last_time > last_time ? current_last_time : last_time;
-                    } catch (Exception e) {}
-                }
-
-                no_data = true;
-
-                for(int i = 0; i < sensors.size(); i++) {
-                    ArrayList<DataRecord> current_records = records.get(i);
-                    //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) {
-                        current_records = Tools.measurementCorrection1(current_records);
-                    }
-                    if(current_records.size() > 0) {
-                        no_data = false;
-                        try{
-                            final LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
-                            series_p1.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_p1.appendData(new DataPoint(time.getTime(), record.getP1()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
-                            series_p2.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_p2.appendData(new DataPoint(time.getTime(), record.getP2()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
-                            series_temp.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
-                            series_humidity.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
-                            series_pressure.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_pressure.appendData(new DataPoint(time.getTime(), record.getPressure()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    diagram_p1.addSeries(series_p1);
-                                    diagram_p2.addSeries(series_p2);
-                                    diagram_temp.addSeries(series_temp);
-                                    diagram_humidity.addSeries(series_humidity);
-                                    diagram_pressure.addSeries(series_pressure);
-                                }
-                            });
-                        } catch (Exception e) {}
-                    }
-                }
-
-                final long first_time_tmp = first_time;
-                final long last_time_tmp = last_time;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            diagram_p1.getViewport().setScalable(true);
-                            diagram_p1.getViewport().setMinX(first_time_tmp);
-                            diagram_p1.getViewport().setMaxX(last_time_tmp);
-                            diagram_p1.getViewport().scrollToEnd();
-                            diagram_p1.getViewport().setScalable(false);
-
-                            diagram_p2.getViewport().setScalable(true);
-                            diagram_p2.getViewport().setMinX(first_time_tmp);
-                            diagram_p2.getViewport().setMaxX(last_time_tmp);
-                            diagram_p2.getViewport().scrollToEnd();
-                            diagram_p2.getViewport().setScalable(false);
-
-                            diagram_temp.getViewport().setScalable(true);
-                            diagram_temp.getViewport().setMinX(first_time_tmp);
-                            diagram_temp.getViewport().setMaxX(last_time_tmp);
-                            diagram_temp.getViewport().scrollToEnd();
-                            diagram_temp.getViewport().setScalable(false);
-
-                            diagram_humidity.getViewport().setScalable(true);
-                            diagram_humidity.getViewport().setMinX(first_time_tmp);
-                            diagram_humidity.getViewport().setMaxX(last_time_tmp);
-                            diagram_humidity.getViewport().scrollToEnd();
-                            diagram_humidity.getViewport().setScalable(false);
-
-                            diagram_pressure.getViewport().setScalable(true);
-                            diagram_pressure.getViewport().setMinX(first_time_tmp);
-                            diagram_pressure.getViewport().setMaxX(last_time_tmp);
-                            diagram_pressure.getViewport().scrollToEnd();
-                            diagram_pressure.getViewport().setScalable(false);
-
-                            findViewById(R.id.no_data).setVisibility(no_data ? View.VISIBLE : View.GONE);
-                            findViewById(R.id.container).setVisibility(no_data ? View.GONE : View.VISIBLE);
-                            //ProgressMenuItem zurücksetzen
-                            if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                            pd.dismiss();
-                        } catch (Exception e) {}
-                    }
-                });
+            public void onColorChanged(int color) {
+                current_color = color;
+                animateToolAndStatusBar(color);
+                iv_color.setColorFilter(color, PorterDuff.Mode.SRC);
             }
-        }).start();
+        });
+        color_picker.show();
     }
 
-    private void exportData() {
-        if(ContextCompat.checkSelfPermission(CompareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
-            final RadioButton export_p1 = v.findViewById(R.id.export_diagram_p1);
-            final RadioButton export_p2 = v.findViewById(R.id.export_diagram_p2);
-            final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
-            final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
-            final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
-            AlertDialog d = new AlertDialog.Builder(this)
-                    .setTitle(R.string.export_diagram)
-                    .setView(v)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if(export_p1.isChecked()) {
-                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_p2.isChecked()) {
-                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_temp.isChecked()) {
-                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_humidity.isChecked()) {
-                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_pressure.isChecked()) {
-                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            }
-                        }
-                    })
-                    .create();
-            d.show();
+    private void animateToolAndStatusBar(final int toColor) {
+        //Animation für die Toolbar und die Statusleiste anzeigen
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Animator animator = ViewAnimationUtils.createCircularReveal(reveal_view, toolbar.getWidth() / 2, toolbar.getHeight() / 2, 0, toolbar.getWidth() / 2 + 50);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    reveal_view.setBackgroundColor(toColor);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    reveal_background_view.setBackgroundColor(toColor);
+                }
+            });
+
+            animator.setDuration(480);
+            animator.start();
+            reveal_view.setVisibility(View.VISIBLE);
         } else {
-            ActivityCompat.requestPermissions(CompareActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
+            reveal_view.setBackgroundColor(toColor);
+            reveal_background_view.setBackgroundColor(toColor);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_SELECT_PLACE && resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(this, data);
+            lat.setText(String.valueOf(Tools.round(place.getLatLng().latitude, 5)));
+            lng.setText(String.valueOf(Tools.round(place.getLatLng().longitude, 5)));
+            choose_location.setText(place.getName());
+        }
+    }
+
+    private void addSensor(MenuItem item) {
+        final String chip_id = this.chip_id.getText().toString().trim();
+        final String sensor_name = this.sensor_name.getText().toString().trim();
+        final String lat = this.lat.getText().toString();
+        final String lng = this.lng.getText().toString();
+        final String alt = this.alt.getText().toString();
+
+        if(!chip_id.isEmpty() && !sensor_name.isEmpty() && (!sensor_public.isChecked() || (!lat.isEmpty() && !lng.isEmpty() && !alt.isEmpty()))) {
+            if(mode == MODE_NEW) {
+                if(!su.isSensorExistingLocally(chip_id)) {
+                    final ProgressDialog pd = new ProgressDialog(this);
+                    pd.setMessage(res.getString(R.string.please_wait_));
+                    pd.setCancelable(false);
+                    pd.show();
+
+                    if(smu.isInternetAvailable()) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Prüfen, ob schon Daten des Sensors auf dem Server verfügbar sind
+                                try {
+                                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(chip_id, "UTF-8"));
+                                    pd.dismiss();
+                                    if(Boolean.parseBoolean(result)) {
+                                        //ggf. Sensor auf dem Server hinzufügen
+                                        if(sensor_public.isChecked()) {
+                                            result = smu.sendRequest(null, "command=addsensor&chip_id=" + URLEncoder.encode(chip_id, "UTF-8") + "&lat=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lat), 3)), "UTF-8") + "&lng=" + URLEncoder.encode(String.valueOf(Tools.round(Double.parseDouble(lng), 3)), "UTF-8") + "&alt=" + URLEncoder.encode(alt, "UTF-8"));
+                                            if(result.equals("1")) {
+                                                //Neuen Sensor speichern
+                                                if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
+                                                su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false, false);
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                        finish();
+                                                    }
+                                                });
+                                            } else {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        pd.dismiss();
+                                                        Toast.makeText(AddSensorActivity.this, getString(R.string.error_try_again), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        } else {
+                                            //Neuen Sensor speichern
+                                            if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
+                                            su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true, false);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                    finish();
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AlertDialog d = new AlertDialog.Builder(AddSensorActivity.this)
+                                                        .setCancelable(true)
+                                                        .setTitle(R.string.app_name)
+                                                        .setMessage(R.string.add_sensor_tick_not_set_message_duty)
+                                                        .setPositiveButton(R.string.ok, null)
+                                                        .create();
+                                                d.show();
+                                            }
+                                        });
+                                    }
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    } else {
+                        pd.dismiss();
+                        Toast.makeText(AddSensorActivity.this, getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    //Sensor ist bereits verknüpft
+                    Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                }
+            } else if(mode == MODE_EDIT) {
+                //Sensor aktualisieren
+                if(target == TARGET_FAVOURITE) {
+                    su.updateFavourite(new Sensor(chip_id, sensor_name, current_color), false);
+                } else {
+                    su.updateOwnSensor(new Sensor(chip_id, sensor_name, current_color), false);
+                }
+                try{ MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                finish();
+            } else if(mode == MODE_COMPLETE) {
+                su.removeOwnSensor(chip_id, false);
+                mode = MODE_NEW;
+                onOptionsItemSelected(item);
+            }
+        } else {
+            //Es sind nicht alle Felder ausgefüllt
+            Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
         }
     }
 }
