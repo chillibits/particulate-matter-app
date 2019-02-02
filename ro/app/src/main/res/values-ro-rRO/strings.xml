@@ -1,40 +1,76 @@
-package com.mrgames13.jimdo.feinstaubapp.BroadcastReceiver;
+package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
+import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
-import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import java.util.Date;
 
-public class BootCompletedReceiver extends BroadcastReceiver {
-	
-	//Konstanten
+import androidx.annotation.NonNull;
+
+public class DataRecord implements Comparable {
+
+    //Konstanten
 
     //Variablen als Objekte
-    private StorageUtils su;
 
     //Variablen
-    private int background_sync_frequency;
-	
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && (intent.getAction().equals("android.intent.action.BOOT_COMPLETED") || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON") || intent.getAction().equals("com.htc.intent.action.QUICKBOOT_POWERON"))) {
-		    //StorageUtils initialisieren
-            su = new StorageUtils(context);
-            background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+    private Date date_time;
+    private Double p1;
+    private Double p2;
+    private Double temp;
+    private Double humidity;
+    private Double pressure;
 
-            //Alarmmanager aufsetzen
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    public DataRecord(Date time, Double p1, Double p2, Double temp, Double humidity, Double pressure) {
+        this.date_time = time;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.temp = temp;
+        this.humidity = humidity;
+        this.pressure = pressure;
+    }
 
-            Intent start_service_intent = new Intent(context, SyncService.class);
-            start_service_intent.putExtra("FromBackground", true);
-            PendingIntent start_service_pending_intent = PendingIntent.getService(context, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), background_sync_frequency, start_service_pending_intent);
-		}
-	}
+    public Date getDateTime() {
+        return date_time;
+    }
+
+    public Double getP1() {
+        return p1;
+    }
+
+    public Double getP2() {
+        return p2;
+    }
+
+    public Double getTemp() {
+        return temp;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public Double getPressure() {
+        return pressure;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object another) {
+        try{
+            DataRecord other_record = (DataRecord) another;
+
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_ASC) return getDateTime().compareTo(other_record.getDateTime());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) return other_record.getDateTime().compareTo(getDateTime());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) return getP1().compareTo(other_record.getP1());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_DESC) return other_record.getP1().compareTo(getP1());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) return getP2().compareTo(other_record.getP2());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_DESC) return other_record.getP2().compareTo(getP2());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) return getTemp().compareTo(other_record.getTemp());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) return other_record.getTemp().compareTo(getTemp());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) return getHumidity().compareTo(other_record.getHumidity());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return other_record.getHumidity().compareTo(getHumidity());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) return getPressure().compareTo(other_record.getPressure());
+            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_DESC) return other_record.getPressure().compareTo(getPressure());
+        } catch (Exception e) {}
+        return 0;
+    }
 }
