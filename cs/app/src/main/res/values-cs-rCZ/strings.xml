@@ -1,975 +1,497 @@
-package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
+package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.content.Context;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.SeekBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
-import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
+import com.google.android.material.tabs.TabLayout;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SeriesReducer;
+import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
+import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
+import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
+import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
-public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
+public class SensorActivity extends AppCompatActivity {
 
     //Konstanten
+    public static final int SORT_MODE_TIME_ASC = 101;
+    public static final int SORT_MODE_TIME_DESC = 102;
+    public static final int SORT_MODE_VALUE1_ASC = 103;
+    public static final int SORT_MODE_VALUE1_DESC = 104;
+    public static final int SORT_MODE_VALUE2_ASC = 105;
+    public static final int SORT_MODE_VALUE2_DESC = 106;
+    public static final int SORT_MODE_TEMP_ASC = 107;
+    public static final int SORT_MODE_TEMP_DESC = 108;
+    public static final int SORT_MODE_HUMIDITY_ASC = 109;
+    public static final int SORT_MODE_HUMIDITY_DESC = 110;
+    public static final int SORT_MODE_PRESSURE_ASC = 111;
+    public static final int SORT_MODE_PRESSURE_DESC = 112;
+    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
-    private static Resources res;
-    public static SensorActivity activity;
-    private ArrayList<String> tabTitles = new ArrayList<>();
-    private static Handler h;
+    private Resources res;
+    private Toolbar toolbar;
+    private TabLayout tab_layout;
+    private ViewPager view_pager;
+    private ViewPagerAdapterSensor view_pager_adapter;
+    private DatePickerDialog date_picker_dialog;
+    private Calendar calendar;
+    private ImageView card_date_edit;
+    private ImageView card_date_today;
+    private ImageView card_date_back;
+    private ImageView card_date_next;
+    private MenuItem progress_menu_item;
+    private ScheduledExecutorService service;
     public static ArrayList<DataRecord> records = new ArrayList<>();
-    private static SimpleDateFormat df_time = new SimpleDateFormat("HH:mm:ss");
+    private Sensor sensor;
+    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
+    private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     //Utils-Pakete
-    private static StorageUtils su;
+    private ServerMessagingUtils smu;
+    private StorageUtils su;
 
     //Variablen
-
-    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su) {
-        super(manager);
-        res = activity.getResources();
-        ViewPagerAdapterSensor.activity = activity;
-        h = new Handler();
-        ViewPagerAdapterSensor.su = su;
-        tabTitles.add(res.getString(R.string.tab_diagram));
-        tabTitles.add(res.getString(R.string.tab_data));
-    }
-
-    @Override
-    public Fragment getItem(int pos) {
-        if(pos == 0) return new DiagramFragment();
-        if(pos == 1) return new DataFragment();
-        return null;
-    }
+    public static String current_date_string;
+    public static String date_string;
+    public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
+    public static boolean custom_p1 = true;
+    public static boolean custom_p2 = true;
+    public static boolean custom_temp = false;
+    public static boolean custom_humidity = false;
+    public static boolean custom_pressure = false;
+    public static double curve_smoothness = 0;
 
     @Override
-    public int getCount() {
-        return tabTitles.size();
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sensor);
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return tabTitles.get(position);
-    }
+        //Resourcen initialisieren
+        res = getResources();
 
-    public void refreshFragments() {
-        DiagramFragment.refresh();
-        DataFragment.refresh();
-    }
+        //Toolbar initialisieren
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    public void exportDiagram(Context context) {
-        DiagramFragment.exportDiagram(context);
-    }
+        //StorageUtils initialisieren
+        su = new StorageUtils(this);
 
-    //-------------------------------------------Fragmente------------------------------------------
+        //ServerMessagingUtils initialisieren
+        smu = new ServerMessagingUtils(SensorActivity.this, su);
 
-    public static class DiagramFragment extends Fragment {
-        //Konstanten
+        //ViewPager initialisieren
+        view_pager = findViewById(R.id.view_pager);
+        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su);
+        view_pager.setAdapter(view_pager_adapter);
 
-        //Variablen als Objekte
-        public static View contentView;
-        private static GraphView graph_view;
-        private CheckBox custom_p1;
-        private CheckBox custom_p2;
-        private CheckBox custom_temp;
-        private CheckBox custom_humidity;
-        private CheckBox custom_pressure;
-        private static RadioButton custom_nothing;
-        private static RadioButton custom_average;
-        private static RadioButton custom_median;
-        private static SeekBar curve_smoothness;
-        private static LineGraphSeries<DataPoint> series1;
-        private static LineGraphSeries<DataPoint> series1_average_median;
-        private static LineGraphSeries<DataPoint> series2;
-        private static LineGraphSeries<DataPoint> series2_average_median;
-        private static LineGraphSeries<DataPoint> series3;
-        private static LineGraphSeries<DataPoint> series3_average_median;
-        private static LineGraphSeries<DataPoint> series4;
-        private static LineGraphSeries<DataPoint> series4_average_median;
-        private static LineGraphSeries<DataPoint> series5;
-        private static LineGraphSeries<DataPoint> series5_average_median;
-        private static TextView cv_p1;
-        private static TextView cv_p2;
-        private static TextView cv_temp;
-        private static TextView cv_humidity;
-        private static TextView cv_pressure;
-        private static TextView cv_time;
+        //TabLayout aufsetzen
+        tab_layout = findViewById(R.id.tablayout);
+        tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tab_layout.setupWithViewPager(view_pager);
+        tab_layout.setBackgroundColor(res.getColor(R.color.colorPrimary));
+        tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                view_pager.setCurrentItem(tab.getPosition());
+            }
 
-        //Variablen
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            contentView = inflater.inflate(R.layout.tab_diagram, null);
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
 
-            graph_view = contentView.findViewById(R.id.diagram);
-            graph_view.getViewport().setScalable(true);
-            graph_view.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            graph_view.getGridLabelRenderer().setVerticalLabelsVisible(false);
-            graph_view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(SensorActivity.custom_p1 || SensorActivity.custom_p2 || SensorActivity.custom_temp || SensorActivity.custom_humidity || SensorActivity.custom_pressure) {
-                        Intent i = new Intent(activity, DiagramActivity.class);
-                        i.putExtra("Show1", SensorActivity.custom_p1);
-                        i.putExtra("Show2", SensorActivity.custom_p2);
-                        i.putExtra("Show3", SensorActivity.custom_temp);
-                        i.putExtra("Show4", SensorActivity.custom_humidity);
-                        i.putExtra("Show5", SensorActivity.custom_pressure);
-                        i.putExtra("EnableAverage", custom_average.isChecked());
-                        i.putExtra("EnableMedian", custom_median.isChecked());
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(activity, res.getString(R.string.no_diagram_selected), Toast.LENGTH_SHORT).show();
-                    }
+        //Kalender initialisieren
+        calendar = Calendar.getInstance();
+        current_date_string = sdf_date.format(calendar.getTime());
+        date_string = current_date_string;
+
+        //CardView-Komponenten initialisieren
+        final TextView card_date_value = findViewById(R.id.card_date_value);
+        card_date_edit = findViewById(R.id.card_date_edit);
+        card_date_today = findViewById(R.id.card_date_today);
+        card_date_back = findViewById(R.id.card_date_back);
+        card_date_next = findViewById(R.id.card_date_next);
+
+        card_date_value.setText(date_string);
+        card_date_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auswählen
+                chooseDate(card_date_value);
+            }
+        });
+        card_date_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auswählen
+                chooseDate(card_date_value);
+            }
+        });
+        card_date_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Datum auf den heutigen Tag setzen
+                calendar.setTime(new Date());
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                card_date_next.setEnabled(false);
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        });
+        card_date_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag zurück gehen
+                calendar.add(Calendar.DATE, -1);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        });
+        card_date_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Einen Tag vor gehen
+                calendar.add(Calendar.DATE, 1);
+
+                date_string = sdf_date.format(calendar.getTime());
+                card_date_value.setText(date_string);
+
+                Calendar current_calendar = Calendar.getInstance();
+                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
+                current_calendar.set(Calendar.MINUTE, 0);
+                current_calendar.set(Calendar.SECOND, 0);
+                current_calendar.set(Calendar.MILLISECOND, 0);
+                card_date_next.setEnabled(calendar.before(current_calendar));
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        });
+        card_date_next.setEnabled(false);
+
+        //Intent-Extras auslesen
+        sensor = new Sensor();
+        if (getIntent().hasExtra("Name")) {
+            sensor.setName(getIntent().getStringExtra("Name"));
+            getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
+        }
+        if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
+        if (getIntent().hasExtra("Color"))
+            sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+
+
+        //RefreshPeriod setzen
+        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
+
+        //ScheduledExecutorService aufsetzen
+        service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (date_string.equals(current_date_string)) {
+                    Log.i("FA", "Auto refreshing ...");
+                    loadData(false);
                 }
-            });
+            }
+        }, period, period, TimeUnit.SECONDS);
 
-            //CustomControls initialisieren
-            custom_p1 = contentView.findViewById(R.id.custom_p1);
-            custom_p2 = contentView.findViewById(R.id.custom_p2);
-            custom_temp = contentView.findViewById(R.id.custom_temp);
-            custom_humidity = contentView.findViewById(R.id.custom_humidity);
-            custom_pressure = contentView.findViewById(R.id.custom_pressure);
-            custom_nothing = contentView.findViewById(R.id.enable_nothing);
-            custom_average = contentView.findViewById(R.id.enable_average);
-            custom_median = contentView.findViewById(R.id.enable_median);
+        if (!sensor.getChipID().equals("no_id")) loadData(true);
 
-            h.post(new Runnable() {
+        //Check if sensor is existing on the server
+        checkSensorAvailability();
+
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
+    }
+
+    private void chooseDate(final TextView card_date_value) {
+        //Datum auswählen
+        date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                Calendar calendar_new = Calendar.getInstance();
+                calendar_new.set(Calendar.YEAR, year);
+                calendar_new.set(Calendar.MONTH, month);
+                calendar_new.set(Calendar.DAY_OF_MONTH, day);
+                card_date_next.setEnabled(calendar_new.before(calendar));
+
+                date_string = sdf_date.format(calendar_new.getTime());
+                card_date_value.setText(date_string);
+
+                calendar = calendar_new;
+
+                //Daten für ausgewähltes Datum laden
+                loadData(true);
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        date_picker_dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
+        progress_menu_item = menu.findItem(R.id.action_refresh);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home) {
+            finish();
+        } else if(id == R.id.action_export) {
+            exportData();
+        } else if(id == R.id.action_refresh) {
+            //Daten neu laden
+            Log.i("FA", "User refreshing ...");
+            loadData(true);
+        } else if(id == R.id.action_settings) {
+            //SettingsActivity starten
+            startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
+        } else if(id == R.id.action_exit) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(service != null) service.shutdown();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
+    }
+
+    public static void resortData() {
+        try{ Collections.sort(records); } catch (Exception e) {}
+    }
+
+    //-----------------------------------Private Methoden-------------------------------------------
+
+    private void loadData(final boolean from_user) {
+        //ProgressMenuItem setzen
+        if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Datensätze leeren
+                records.clear();
+
+                //Date String von Gestern ermitteln
+                String date_yesterday = date_string;
+                try{
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(sdf_date.parse(date_yesterday));
+                    c.add(Calendar.DATE, -1);
+                    date_yesterday = sdf_date.format(c.getTime());
+                } catch (Exception e) {}
+
+                //Prüfen, ob Intenet verfügbar ist
+                if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
+                    //Internet ist verfügbar
+                    smu.manageDownloads(sensor, date_string, date_yesterday);
+                }
+                //Kein Internet
+                if(su.isCSVFileExisting(date_string, sensor.getChipID()) || su.isCSVFileExisting(date_yesterday, sensor.getChipID())) {
+                    Log.d("FA", "Local CSV Files existing");
+                    //Inhalt der lokalen Dateien auslesen
+                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
+                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
+                    //CSV-Strings zu Objekten machen
+                    records = su.getDataRecordsFromCSV(csv_string_day_before);
+                    records.addAll(su.getDataRecordsFromCSV(csv_string_day));
+                    //Datensätze zuschneiden
+                    records = su.trimDataRecords(records, date_string);
+                    //Sortieren
+                    resortData();
+                    //ggf. Fehlerkorrektur(en) durchführen
+                    if(su.getBoolean("enable_auto_correction", true)) {
+                        records = Tools.measurementCorrection1(records);
+                    }
+                    //Datensätze in Adapter übernehmen
+                    ViewPagerAdapterSensor.records = records;
+                    //Wenn es ein Widget für diesen Sensor gibt, updaten
+                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
+                    sendBroadcast(update_intent);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //ViewpagerAdapter refreshen
+                        view_pager_adapter.refreshFragments();
+                        //ProgressMenuItem zurücksetzen
+                        if(progress_menu_item != null) progress_menu_item.setActionView(null);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void checkSensorAvailability() {
+        if(!su.getBoolean("DontShowAgain_" + sensor.getChipID()) && smu.isInternetAvailable()) {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    custom_p1.setChecked(SensorActivity.custom_p1);
-                    custom_p2.setChecked(SensorActivity.custom_p2);
-                    custom_temp.setChecked(SensorActivity.custom_temp);
-                    custom_humidity.setChecked(SensorActivity.custom_humidity);
-                    custom_pressure.setChecked(SensorActivity.custom_pressure);
-                }
-            });
-
-            custom_p1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton cb, boolean value) {
-                    if(!value && !custom_p2.isChecked() && !custom_temp.isChecked() && !custom_humidity.isChecked() && !custom_pressure.isChecked()) {
-                        cb.setChecked(true);
-                        return;
+                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
+                    if(!Boolean.parseBoolean(result)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AlertDialog d = new AlertDialog.Builder(SensorActivity.this)
+                                        .setCancelable(true)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(R.string.add_sensor_tick_not_set_message)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                su.putBoolean("DontShowAgain_" + sensor.getChipID(), true);
+                                            }
+                                        })
+                                        .create();
+                                d.show();
+                            }
+                        });
                     }
-                    SensorActivity.custom_p1 = value;
-                    updateP1(records, value);
                 }
-            });
-            custom_p2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton cb, boolean value) {
-                    if(!custom_p1.isChecked() && !value && !custom_temp.isChecked() && !custom_humidity.isChecked() && !custom_pressure.isChecked()) {
-                        cb.setChecked(true);
-                        return;
-                    }
-                    SensorActivity.custom_p2 = value;
-                    updateP2(records, value);
-                }
-            });
-            custom_temp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton cb, boolean value) {
-                    if(!custom_p1.isChecked() && !custom_p2.isChecked() && !value && !custom_humidity.isChecked() && !custom_pressure.isChecked()) {
-                        cb.setChecked(true);
-                        return;
-                    }
-                    SensorActivity.custom_temp = value;
-                    updateTemp(records, value);
-                }
-            });
-            custom_humidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton cb, boolean value) {
-                    if(!custom_p1.isChecked() && !custom_p2.isChecked() && !custom_temp.isChecked() && !value && !custom_pressure.isChecked()) {
-                        cb.setChecked(true);
-                        return;
-                    }
-                    SensorActivity.custom_humidity = value;
-                    updateHumidity(records, value);
-                }
-            });
-            custom_pressure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton cb, boolean value) {
-                    if(!custom_p1.isChecked() && !custom_p2.isChecked() && !custom_temp.isChecked() && !custom_humidity.isChecked() && !value) {
-                        cb.setChecked(true);
-                        return;
-                    }
-                    SensorActivity.custom_pressure = value;
-                    updatePressure(records, value);
-                }
-            });
-            custom_nothing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
-                }
-            });
-            custom_average.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
-                }
-            });
-            custom_median.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
-                }
-            });
-
-            curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
-            curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
-                    SensorActivity.curve_smoothness = (500 - value) / 100.0;
-                    updateCurveSmoothness((500 -  value) / 100.0);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {}
-            });
-
-            cv_p1 = contentView.findViewById(R.id.cv_p1);
-            cv_p2 = contentView.findViewById(R.id.cv_p2);
-            cv_temp = contentView.findViewById(R.id.cv_temp);
-            cv_humidity = contentView.findViewById(R.id.cv_humidity);
-            cv_pressure = contentView.findViewById(R.id.cv_pressure);
-            cv_time = contentView.findViewById(R.id.cv_time);
-
-            return contentView;
-        }
-
-        private static void updateP1(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series1 = new LineGraphSeries<>();
-                        series1.setColor(res.getColor(R.color.series1));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getP1()), false, 1000000);
-                        }
-                        graph_view.addSeries(series1);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getP1();
-                            average /= records.size();
-                            series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
-                            graph_view.addSeries(series1_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getP1());
-                            double median = Tools.calculateMedian(double_records);
-                            series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
-                            graph_view.addSeries(series1_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series1);
-                graph_view.removeSeries(series1_average_median);
-            }
-        }
-
-        private static void updateP2(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series2 = new LineGraphSeries<>();
-                        series2.setColor(res.getColor(R.color.series2));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getP2()), false, 1000000);
-                        }
-                        graph_view.addSeries(series2);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getP2();
-                            average /= records.size();
-                            series2_average_median = new LineGraphSeries<>();
-                            series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
-                            graph_view.addSeries(series2_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getP2());
-                            double median = Tools.calculateMedian(double_records);
-                            series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
-                            graph_view.addSeries(series2_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series2);
-                graph_view.removeSeries(series2_average_median);
-            }
-        }
-
-        private static void updateTemp(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series3 = new LineGraphSeries<>();
-                        series3.setColor(res.getColor(R.color.series3));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
-                        }
-                        graph_view.addSeries(series3);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getTemp();
-                            average /= records.size();
-                            series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
-                            graph_view.addSeries(series3_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getTemp());
-                            double median = Tools.calculateMedian(double_records);
-                            series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
-                            graph_view.addSeries(series3_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series3);
-                graph_view.removeSeries(series3_average_median);
-            }
-        }
-
-        private static void updateHumidity(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series4 = new LineGraphSeries<>();
-                        series4.setColor(res.getColor(R.color.series4));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
-                        }
-                        graph_view.addSeries(series4);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getHumidity();
-                            average /= records.size();
-                            series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
-                            graph_view.addSeries(series4_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getHumidity());
-                            double median = Tools.calculateMedian(double_records);
-                            series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
-                            graph_view.addSeries(series4_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series4);
-                graph_view.removeSeries(series4_average_median);
-            }
-        }
-
-        private static void updatePressure(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series5 = new LineGraphSeries<>();
-                        series5.setColor(res.getColor(R.color.series5));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
-                        }
-                        graph_view.addSeries(series5);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getPressure();
-                            average /= records.size();
-                            series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
-                            graph_view.addSeries(series5_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getPressure());
-                            double median = Tools.calculateMedian(double_records);
-                            series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
-                            graph_view.addSeries(series5_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series5);
-                graph_view.removeSeries(series5_average_median);
-            }
-        }
-
-        private static LineGraphSeries drawAverageMedian(double value, long first_time, int color) {
-            LineGraphSeries series = new LineGraphSeries<>();
-            series.appendData(new DataPoint(0, value), false, 2);
-            series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time, value), false, 2);
-
-            Paint p = new Paint();
-            p.setColor(color);
-            p.setStyle(Paint.Style.STROKE);
-            p.setPathEffect(new DashPathEffect(new float[] { 20, 10 }, 0));
-            p.setStrokeWidth(3);
-
-            series.setDrawAsPath(true);
-            series.setCustomPaint(p);
-            series.setDrawDataPoints(false);
-            return series;
-        }
-
-        private static void updateCurveSmoothness(double epsilon) {
-            ArrayList<Point> reduced_p1 = new ArrayList<>();
-            reduced_p1.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP1(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_p2 = new ArrayList<>();
-            reduced_p2.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP2(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_temp = new ArrayList<>();
-            reduced_temp.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsTemp(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_humidity = new ArrayList<>();
-            reduced_humidity.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsHumidity(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_pressure = new ArrayList<>();
-            reduced_pressure.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsPressure(Tools.fitArrayList(su, records)), epsilon));
-
-            //Diagram leeren
-            updateP1(null, false);
-            updateP2(null, false);
-            updateTemp(null, false);
-            updateHumidity(null, false);
-            updatePressure(null, false);
-            //Veränderte Kurve einblenden
-            updateP1(Tools.convertPointsToDataRecordsP1(reduced_p1), SensorActivity.custom_p1);
-            updateP2(Tools.convertPointsToDataRecordsP2(reduced_p2), SensorActivity.custom_p2);
-            updateTemp(Tools.convertPointsToDataRecordsTemp(reduced_temp), SensorActivity.custom_temp);
-            updateHumidity(Tools.convertPointsToDataRecordsHumidity(reduced_humidity), SensorActivity.custom_humidity);
-            updatePressure(Tools.convertPointsToDataRecordsPressure(reduced_pressure), SensorActivity.custom_pressure);
-        }
-
-        private static void updateLastValues() {
-            if(SensorActivity.records.size() > 0 && SensorActivity.date_string.equals(SensorActivity.current_date_string)) {
-                cv_p1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP1()).concat(" µg/m³"));
-                cv_p2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP2()).concat(" µg/m³"));
-                cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()).concat(" °C"));
-                cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()).concat(" %"));
-                cv_pressure.setText(String.valueOf(Tools.round(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure(), 3)).concat(" hPa"));
-                SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-                cv_time.setText(res.getString(R.string.state_of_) + " " + sdf_date.format(SensorActivity.records.get(SensorActivity.records.size() -1).getDateTime()));
-
-                contentView.findViewById(R.id.title_current_values).setVisibility(View.VISIBLE);
-                contentView.findViewById(R.id.cv_container).setVisibility(View.VISIBLE);
-            } else {
-                contentView.findViewById(R.id.title_current_values).setVisibility(View.GONE);
-                contentView.findViewById(R.id.cv_container).setVisibility(View.GONE);
-            }
-        }
-
-        public static void refresh() {
-            if(records != null) {
-                contentView.findViewById(R.id.loading).setVisibility(View.GONE);
-                if (records.size() > 0) {
-                    contentView.findViewById(R.id.no_data).setVisibility(View.GONE);
-                    contentView.findViewById(R.id.diagram_container).setVisibility(View.VISIBLE);
-
-                    int tmp = SensorActivity.sort_mode;
-                    SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
-                    Collections.sort(records);
-                    SensorActivity.sort_mode = tmp;
-
-                    try{
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-                        graph_view.getViewport().setMinX(0);
-                        graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    updateP1(null, false);
-                    updateP1(records, SensorActivity.custom_p1);
-                    updateP2(null, false);
-                    updateP2(records, SensorActivity.custom_p2);
-                    updateTemp(null, false);
-                    updateTemp(records, SensorActivity.custom_temp);
-                    updateHumidity(null, false);
-                    updateHumidity(records, SensorActivity.custom_humidity);
-                    updatePressure(null, false);
-                    updatePressure(records, SensorActivity.custom_pressure);
-                    curve_smoothness.setProgress(curve_smoothness.getMax());
-                } else {
-                    updateP1(null, false);
-                    updateP2(null, false);
-                    updateTemp(null, false);
-                    updateHumidity(null, false);
-                    updatePressure(null, false);
-                    contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
-                    contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
-                }
-
-                updateLastValues();
-            } else {
-                updateP1(null, false);
-                updateP2(null, false);
-                updateTemp(null, false);
-                updateHumidity(null, false);
-                updatePressure(null, false);
-                contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
-                contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
-            }
-        }
-
-        public static void exportDiagram(Context context) {
-            graph_view.takeSnapshotAndShare(context, "export_" + String.valueOf(System.currentTimeMillis()), res.getString(R.string.export_diagram));
+            }).start();
         }
     }
 
-    public static class DataFragment extends Fragment {
-        //Konstanten
+    private void exportData() {
+        if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            View v = getLayoutInflater().inflate(R.layout.dialog_share, null);
+            final AlertDialog d = new AlertDialog.Builder(this)
+                    .setView(v)
+                    .create();
+            d.show();
 
-        //Variablen als Objekte
-        public static View contentView;
-        private static RecyclerView data_view;
-        private static DataAdapter data_view_adapter;
-        private RecyclerView.LayoutManager data_view_manager;
+            RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
+            share_sensor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Sensor teilen
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            i.setType("text/plain");
+                            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
+                            i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
+                            startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
 
-        private TextView heading_time;
-        private ImageView heading_time_arrow;
-        private TextView heading_p1;
-        private ImageView heading_p1_arrow;
-        private TextView heading_p2;
-        private ImageView heading_p2_arrow;
-        private TextView heading_temp;
-        private ImageView heading_temp_arrow;
-        private TextView heading_humidity;
-        private ImageView heading_humidity_arrow;
-        private TextView heading_pressure;
-        private ImageView heading_pressure_arrow;
-        private static TextView footer_average_p1;
-        private static TextView footer_average_p2;
-        private static TextView footer_average_temp;
-        private static TextView footer_average_humidity;
-        private static TextView footer_average_pressure;
-        private static TextView footer_median_p1;
-        private static TextView footer_median_p2;
-        private static TextView footer_median_temp;
-        private static TextView footer_median_humidity;
-        private static TextView footer_median_pressure;
-        private static TextView record_conter;
-
-        //Variablen
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            contentView = inflater.inflate(R.layout.tab_data, null);
-            //Komponenten initialisieren
-            data_view_adapter = new DataAdapter();
-            data_view = contentView.findViewById(R.id.data);
-            data_view_manager = new LinearLayoutManager(getContext());
-            data_view.setLayoutManager(data_view_manager);
-            data_view.setAdapter(data_view_adapter);
-            data_view.setHasFixedSize(true);
-            if(records != null) {
-                contentView.findViewById(R.id.loading).setVisibility(View.GONE);
-                contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
-                contentView.findViewById(R.id.data_footer).setVisibility(records.size() == 0 ? View.INVISIBLE : View.VISIBLE);
-
-                heading_time = contentView.findViewById(R.id.heading_time);
-                heading_time_arrow = contentView.findViewById(R.id.sort_time);
-                heading_p1 = contentView.findViewById(R.id.heading_p1);
-                heading_p1_arrow = contentView.findViewById(R.id.sort_p1);
-                heading_p2 = contentView.findViewById(R.id.heading_p2);
-                heading_p2_arrow = contentView.findViewById(R.id.sort_p2);
-                heading_temp = contentView.findViewById(R.id.heading_temp);
-                heading_temp_arrow = contentView.findViewById(R.id.sort_temp);
-                heading_humidity = contentView.findViewById(R.id.heading_humidity);
-                heading_humidity_arrow = contentView.findViewById(R.id.sort_humidity);
-                heading_pressure = contentView.findViewById(R.id.heading_pressure);
-                heading_pressure_arrow = contentView.findViewById(R.id.sort_pressure);
-
-                footer_average_p1 = contentView.findViewById(R.id.footer_average_p1);
-                footer_average_p2 = contentView.findViewById(R.id.footer_average_p2);
-                footer_average_temp = contentView.findViewById(R.id.footer_average_temp);
-                footer_average_humidity = contentView.findViewById(R.id.footer_average_humidity);
-                footer_average_pressure = contentView.findViewById(R.id.footer_average_pressure);
-                footer_median_p1 = contentView.findViewById(R.id.footer_median_p1);
-                footer_median_p2 = contentView.findViewById(R.id.footer_median_p2);
-                footer_median_temp = contentView.findViewById(R.id.footer_median_temp);
-                footer_median_humidity = contentView.findViewById(R.id.footer_median_humidity);
-                footer_median_pressure = contentView.findViewById(R.id.footer_median_pressure);
-
-                heading_time.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        timeSortClicked();
-                    }
-                });
-                heading_time_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        timeSortClicked();
-                    }
-                });
-                heading_p1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        p1SortClicked();
-                    }
-                });
-                heading_p1_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        p1SortClicked();
-                    }
-                });
-                heading_p2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        p2SortClicked();
-                    }
-                });
-                heading_p2_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        p2SortClicked();
-                    }
-                });
-                heading_temp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tempSortClicked();
-                    }
-                });
-                heading_temp_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tempSortClicked();
-                    }
-                });
-                heading_humidity.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        humiditySortClicked();
-                    }
-                });
-                heading_humidity_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        humiditySortClicked();
-                    }
-                });
-                heading_pressure.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        pressureSortClicked();
-                    }
-                });
-                heading_pressure_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        pressureSortClicked();
-                    }
-                });
-            }
-
-            return contentView;
-        }
-
-        private void timeSortClicked() {
-            heading_time_arrow.setVisibility(View.VISIBLE);
-            heading_p1_arrow.setVisibility(View.INVISIBLE);
-            heading_p2_arrow.setVisibility(View.INVISIBLE);
-            heading_temp_arrow.setVisibility(View.INVISIBLE);
-            heading_humidity_arrow.setVisibility(View.INVISIBLE);
-            heading_pressure_arrow.setVisibility(View.INVISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
-                heading_time_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_DESC;
-                heading_time_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        private void p1SortClicked() {
-            heading_time_arrow.setVisibility(View.INVISIBLE);
-            heading_p1_arrow.setVisibility(View.VISIBLE);
-            heading_p2_arrow.setVisibility(View.INVISIBLE);
-            heading_temp_arrow.setVisibility(View.INVISIBLE);
-            heading_humidity_arrow.setVisibility(View.INVISIBLE);
-            heading_pressure_arrow.setVisibility(View.INVISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_DESC;
-                heading_p1_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_ASC;
-                heading_p1_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        private void p2SortClicked() {
-            heading_time_arrow.setVisibility(View.INVISIBLE);
-            heading_p1_arrow.setVisibility(View.INVISIBLE);
-            heading_p2_arrow.setVisibility(View.VISIBLE);
-            heading_temp_arrow.setVisibility(View.INVISIBLE);
-            heading_humidity_arrow.setVisibility(View.INVISIBLE);
-            heading_pressure_arrow.setVisibility(View.INVISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_DESC;
-                heading_p2_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_ASC;
-                heading_p2_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        private void tempSortClicked() {
-            heading_time_arrow.setVisibility(View.INVISIBLE);
-            heading_p1_arrow.setVisibility(View.INVISIBLE);
-            heading_p2_arrow.setVisibility(View.INVISIBLE);
-            heading_temp_arrow.setVisibility(View.VISIBLE);
-            heading_humidity_arrow.setVisibility(View.INVISIBLE);
-            heading_pressure_arrow.setVisibility(View.INVISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_DESC;
-                heading_temp_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_ASC;
-                heading_temp_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        private void humiditySortClicked() {
-            heading_time_arrow.setVisibility(View.INVISIBLE);
-            heading_p1_arrow.setVisibility(View.INVISIBLE);
-            heading_p2_arrow.setVisibility(View.INVISIBLE);
-            heading_temp_arrow.setVisibility(View.INVISIBLE);
-            heading_humidity_arrow.setVisibility(View.VISIBLE);
-            heading_pressure_arrow.setVisibility(View.INVISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_DESC;
-                heading_humidity_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_ASC;
-                heading_humidity_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        private void pressureSortClicked() {
-            heading_time_arrow.setVisibility(View.INVISIBLE);
-            heading_p1_arrow.setVisibility(View.INVISIBLE);
-            heading_p2_arrow.setVisibility(View.INVISIBLE);
-            heading_temp_arrow.setVisibility(View.INVISIBLE);
-            heading_humidity_arrow.setVisibility(View.INVISIBLE);
-            heading_pressure_arrow.setVisibility(View.VISIBLE);
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_DESC;
-                heading_pressure_arrow.setImageResource(R.drawable.arrow_drop_down_grey);
-            } else {
-                SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_ASC;
-                heading_pressure_arrow.setImageResource(R.drawable.arrow_drop_up_grey);
-            }
-            SensorActivity.resortData();
-            data_view.getAdapter().notifyDataSetChanged();
-        }
-
-        public static void refresh() {
-            try{
-                if(records != null) {
-                    data_view_adapter.notifyDataSetChanged();
-
-                    contentView.findViewById(R.id.loading).setVisibility(View.GONE);
-                    contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
-
-                    if (records.size() > 0) {
-                        record_conter = contentView.findViewById(R.id.record_counter);
-                        record_conter.setVisibility(View.VISIBLE);
-                        contentView.findViewById(R.id.data_heading).setVisibility(View.VISIBLE);
-                        contentView.findViewById(R.id.data_footer).setVisibility(View.VISIBLE);
-                        contentView.findViewById(R.id.data_footer_average).setVisibility(su.getBoolean("enable_daily_average", true) ? View.VISIBLE : View.GONE);
-                        contentView.findViewById(R.id.data_footer_median).setVisibility(su.getBoolean("enable_daily_median", false) ? View.VISIBLE : View.GONE);
-                        String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + df_time.format(records.get(0).getDateTime()) + " " + res.getString(R.string.to) + " " + df_time.format(records.get(records.size() - 1).getDateTime());
-                        record_conter.setText(String.valueOf(footer_string));
-
-                        if(su.getBoolean("enable_daily_average", true)) {
-                            //Mittelwerte berechnen
-                            double average_p1 = 0;
-                            double average_p2 = 0;
-                            double average_temp = 0;
-                            double average_humidity = 0;
-                            double average_pressure = 0;
-                            for (DataRecord record : records) {
-                                average_p1 += record.getP1();
-                                average_p2 += record.getP2();
-                                average_temp += record.getTemp();
-                                average_humidity += record.getHumidity();
-                                average_pressure += record.getPressure();
-                            }
-                            average_p1 = average_p1 / records.size();
-                            average_p2 = average_p2 / records.size();
-                            average_temp = average_temp / records.size();
-                            average_humidity = average_humidity / records.size();
-                            average_pressure = average_pressure / records.size();
-
-                            footer_average_p1.setText(String.valueOf(Tools.round(average_p1, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_average_p2.setText(String.valueOf(Tools.round(average_p2, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_average_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",").concat(" °C"));
-                            footer_average_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_average_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)).replace(".", ",").concat(" hPa"));
+                            d.dismiss();
                         }
-
-                        if(su.getBoolean("enable_daily_median")) {
-                            //Mediane berechnen
-                            double median_p1;
-                            double median_p2;
-                            double median_temp;
-                            double median_humidity;
-                            double median_pressure;
-                            int current_sort_mode = SensorActivity.sort_mode;
-                            //P1
-                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_ASC;
-                            Collections.sort(records);
-                            median_p1 = records.get(records.size() / 2).getP1();
-                            //P2
-                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_ASC;
-                            Collections.sort(records);
-                            median_p2 = records.get(records.size() / 2).getP2();
-                            //Temp
-                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_ASC;
-                            Collections.sort(records);
-                            median_temp = records.get(records.size() / 2).getTemp();
-                            //Humidity
-                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_ASC;
-                            Collections.sort(records);
-                            median_humidity = records.get(records.size() / 2).getHumidity();
-                            //Pressure
-                            SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_ASC;
-                            Collections.sort(records);
-                            median_pressure = records.get(records.size() / 2).getPressure();
-                            //Alten SortMode wiederherstellen
-                            SensorActivity.sort_mode = current_sort_mode;
-                            Collections.sort(records);
-
-                            footer_median_p1.setText(String.valueOf(Tools.round(median_p1, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_median_p2.setText(String.valueOf(Tools.round(median_p2, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_median_temp.setText(String.valueOf(Tools.round(median_temp, 1)).replace(".", ",").concat(" °C"));
-                            footer_median_humidity.setText(String.valueOf(Tools.round(median_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_median_pressure.setText(String.valueOf(Tools.round(median_pressure, 1)).replace(".", ",").concat(" hPa"));
-                        }
-                    } else {
-                        contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
-                        contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);
-                    }
-                } else {
-                    contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
-                    contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);
-                    contentView.findViewById(R.id.record_counter).setVisibility(View.INVISIBLE);
-                    contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+                    }, 200);
                 }
-            } catch (Exception e) {}
+            });
+            RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
+            export_diagram.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(records.size() > 0) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Diagramm exportieren
+                                view_pager_adapter.exportDiagram(SensorActivity.this);
+                                d.dismiss();
+                            }
+                        }, 200);
+                    } else {
+                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
+            export_data_records.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(records.size() > 0) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Datensätze exportieren
+                                if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
+                                d.dismiss();
+                            }
+                        }, 200);
+                    } else {
+                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
         }
     }
 }
