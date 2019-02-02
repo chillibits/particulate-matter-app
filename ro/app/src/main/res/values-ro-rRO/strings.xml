@@ -1,573 +1,396 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.RadioButton;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
-import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-public class CompareActivity extends AppCompatActivity {
+public class DiagramActivity extends AppCompatActivity {
 
     //Konstanten
-    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int MODE_SENSOR_DATA = 10001;
+    public static final int MODE_COMPARE_DATA = 10002;
 
     //Variablen als Objekte
     private Resources res;
-    private Toolbar toolbar;
-    private Calendar calendar;
-    public static ArrayList<Sensor> sensors;
-    public static ArrayList<ArrayList<DataRecord>> records = new ArrayList<>();
-    private MenuItem progress_menu_item;
-    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
+    private GraphView graph_view;
+    private ArrayList<DataRecord> records;
+    private ArrayList<ArrayList<DataRecord>> compare_records;
+    private ArrayList<Sensor> compare_sensors;
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
-
-    //Utils-Pakete
-    private static StorageUtils su;
-    private ServerMessagingUtils smu;
-
-    //Komponenten
-    private GraphView diagram_p1;
-    private GraphView diagram_p2;
-    private GraphView diagram_temp;
-    private GraphView diagram_humidity;
-    private GraphView diagram_pressure;
-    private DatePickerDialog date_picker_dialog;
-    private ImageView card_date_next;
-    private ImageView card_date_back;
-    private ImageView card_date_today;
-    private ImageView card_date_edit;
+    private LineGraphSeries<DataPoint> series1;
+    private LineGraphSeries<DataPoint> series1_average_median;
+    private LineGraphSeries<DataPoint> series2;
+    private LineGraphSeries<DataPoint> series2_average_median;
+    private LineGraphSeries<DataPoint> series3;
+    private LineGraphSeries<DataPoint> series3_average_median;
+    private LineGraphSeries<DataPoint> series4;
+    private LineGraphSeries<DataPoint> series4_average_median;
+    private LineGraphSeries<DataPoint> series5;
+    private LineGraphSeries<DataPoint> series5_average_median;
 
     //Variablen
-    private String current_date_string;
-    private String date_string;
-    private boolean no_data;
+    private boolean show_series_1;
+    private boolean show_series_2;
+    private boolean show_series_3;
+    private boolean show_series_4;
+    private boolean show_series_5;
+    private boolean enable_average;
+    private boolean enable_median;
+    private int mode = MODE_SENSOR_DATA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compare);
+        setContentView(R.layout.activity_diagram);
 
         //Resourcen initialisieren
         res = getResources();
 
-        //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.compare_sensors);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Intent-Extras auslesen
+        Intent intent = getIntent();
+        mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
+        show_series_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
+        show_series_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
+        show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
+        show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
+        show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
+        enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
+        enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
 
-        //Kalender initialisieren
-        if(date_string == null) {
-            calendar = Calendar.getInstance();
-            current_date_string = sdf_date.format(calendar.getTime());
-            date_string = current_date_string;
+        if(mode == MODE_SENSOR_DATA) {
+            //Daten von der SensorActivity übernehmen
+            records = SensorActivity.records;
+
+            //Daten vorbereiten
+            SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
+            Collections.sort(records);
+        } else if(mode == MODE_COMPARE_DATA) {
+            compare_records = CompareActivity.records;
+            compare_sensors = CompareActivity.sensors;
+
+            //Daten vorbereiten
+            SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
+            for(ArrayList<DataRecord> current_records : compare_records) Collections.sort(current_records);
         }
 
-        //StorageUtils initialisieren
-        su = new StorageUtils(this);
+        //Diagramm initialisieren
+        try{
+            graph_view = findViewById(R.id.diagram);
 
-        //ServerMessagingUtils initialisieren
-        smu = new ServerMessagingUtils(this, su);
-
-        //Sensoren laden
-        if(!getIntent().hasExtra("Sensors")) {
-            finish();
-            return;
-        }
-        sensors = (ArrayList<Sensor>) getIntent().getSerializableExtra("Sensors");
-
-        //Komponenten initialisieren
-        final TextView card_date_value = findViewById(R.id.card_date_value);
-        card_date_edit = findViewById(R.id.card_date_edit);
-        card_date_today = findViewById(R.id.card_date_today);
-        card_date_back = findViewById(R.id.card_date_back);
-        card_date_next = findViewById(R.id.card_date_next);
-
-        card_date_value.setText(date_string);
-        card_date_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
-            }
-        });
-        card_date_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
-            }
-        });
-        card_date_today.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Datum auf den heutigen Tag setzen
-                calendar.setTime(new Date());
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                card_date_next.setEnabled(false);
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag zurück gehen
-                calendar.add(Calendar.DATE, -1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag vor gehen
-                calendar.add(Calendar.DATE, 1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        });
-        card_date_next.setEnabled(false);
-
-        diagram_p1 = findViewById(R.id.diagram_p1);
-        diagram_p1.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_p1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            public String formatLabel(double value, boolean isValueX) {
-                if(isValueX) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis((long) value);
-                    return sdf_time.format(cal.getTime());
-                } else {
-                    return super.formatLabel(value, isValueX).replace(".000", "k");
-                }
-            }
-        });
-        diagram_p1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show1", true);
-                startActivity(i);
-            }
-        });
-        //diagram_p1.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
-
-        diagram_p2 = findViewById(R.id.diagram_p2);
-        diagram_p2.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_p2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(isValueX) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis((long) value);
-                    return sdf_time.format(cal.getTime());
-                } else {
-                    return super.formatLabel(value, isValueX).replace(".000", "k");
-                }
-            }
-        });
-        diagram_p2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show2", true);
-                startActivity(i);
-            }
-        });
-        //diagram_p2.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
-
-        diagram_temp = findViewById(R.id.diagram_temp);
-        diagram_temp.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_temp.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show3", true);
-                startActivity(i);
-            }
-        });
-        //diagram_temp.getGridLabelRenderer().setVerticalAxisTitle("°C³");
-
-        diagram_humidity = findViewById(R.id.diagram_humidity);
-        diagram_humidity.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_humidity.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_humidity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show4", true);
-                startActivity(i);
-            }
-        });
-        //diagram_humidity.getGridLabelRenderer().setVerticalAxisTitle("%");
-
-        diagram_pressure = findViewById(R.id.diagram_pressure);
-        diagram_pressure.getGridLabelRenderer().setNumHorizontalLabels(3);
-        diagram_pressure.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if(!isValueX) return super.formatLabel(value, isValueX);
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis((long) value);
-                return sdf_time.format(cal.getTime());
-            }
-        });
-        diagram_pressure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CompareActivity.this, DiagramActivity.class);
-                i.putExtra("Mode", DiagramActivity.MODE_COMPARE_DATA);
-                i.putExtra("Show5", true);
-                startActivity(i);
-            }
-        });
-        //diagram_pressure.getGridLabelRenderer().setVerticalAxisTitle("hPa");
-
-        reloadData();
-    }
-
-    private void chooseDate(final TextView card_date_value) {
-        //Datum auswählen
-        date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar calendar_new = Calendar.getInstance();
-                calendar_new.set(Calendar.YEAR, year);
-                calendar_new.set(Calendar.MONTH, month);
-                calendar_new.set(Calendar.DAY_OF_MONTH, day);
-                card_date_next.setEnabled(calendar_new.before(calendar));
-
-                date_string = sdf_date.format(calendar_new.getTime());
-                card_date_value.setText(date_string);
-
-                calendar = calendar_new;
-
-                //Daten für ausgewähltes Datum laden
-                reloadData();
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        date_picker_dialog.show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
-        progress_menu_item = menu.findItem(R.id.action_refresh);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == android.R.id.home) {
-            finish();
-        } else if(id == R.id.action_export) {
-            boolean empty = true;
-            for(ArrayList<DataRecord> r : records){
-                if(!r.isEmpty()) empty = false;
-            }
-            if(!empty) {
-                exportData();
-            } else {
-                Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
-            }
-        } else if(id == R.id.action_refresh) {
-            Log.i("FA", "User refreshing ...");
-            //Daten neu laden
-            reloadData();
-        } else if(id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
-    }
-
-    private void reloadData() {
-        //ProgressMenuItem setzen
-        if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
-
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setCancelable(false);
-        pd.setMessage(res.getString(R.string.loading_data));
-        pd.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //ArrayList leeren
-                records.clear();
-                //Diagramme leeren
-                diagram_p1.removeAllSeries();
-                diagram_p2.removeAllSeries();
-                diagram_humidity.removeAllSeries();
-                diagram_temp.removeAllSeries();
-                diagram_pressure.removeAllSeries();
-
-                //Date String von Gestern ermitteln
-                String date_yesterday = date_string;
-                try{
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(sdf_date.parse(date_yesterday));
-                    c.add(Calendar.DATE, -1);
-                    date_yesterday = sdf_date.format(c.getTime());
-                } catch (Exception e) {}
-
-                //Zeit des ersten Datensatzes ermitteln
-                long first_time = Long.MAX_VALUE;
+            //Initialisierungen am Viewport und an der Legende vornehmen
+            if(mode == MODE_SENSOR_DATA) {
+                graph_view.getViewport().setMinX(Math.abs(records.get(records.size() -1).getDateTime().getTime() - 1000000));
+                graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime()));
+            } else if(mode == MODE_COMPARE_DATA) {
                 long last_time = Long.MIN_VALUE;
-                for(int i = 0; i < sensors.size(); i++) {
-                    smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
-
-                    ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getChipID()));
-                    temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getChipID())));
-                    temp = su.trimDataRecords(temp, date_string);
-                    records.add(temp); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
+                for(int i = 0; i < compare_sensors.size(); i++) {
                     try{
-                        long current_first_time = records.get(i).get(0).getDateTime().getTime();
-                        long current_last_time = records.get(i).get(records.get(i).size() -1).getDateTime().getTime();
-                        first_time = current_first_time < first_time ? current_first_time : first_time;
+                        long current_last_time = compare_records.get(i).get(compare_records.get(i).size() -1).getDateTime().getTime();
                         last_time = current_last_time > last_time ? current_last_time : last_time;
                     } catch (Exception e) {}
                 }
+                graph_view.getViewport().setMinX(last_time - 1000000);
+                graph_view.getViewport().setMaxX(last_time);
+            }
+            graph_view.getViewport().setScalable(true);
+            graph_view.getViewport().setScrollable(true);
+            graph_view.getGridLabelRenderer().setHorizontalAxisTitle(getString(R.string.date_time));
+            if(!enable_average && !enable_median) {
+                graph_view.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                graph_view.getLegendRenderer().setTextColor(res.getColor(R.color.white));
+                graph_view.getLegendRenderer().setBackgroundColor(res.getColor(R.color.gray_transparent));
+                graph_view.getLegendRenderer().setVisible(true);
+            }
 
-                no_data = true;
-
-                for(int i = 0; i < sensors.size(); i++) {
-                    ArrayList<DataRecord> current_records = records.get(i);
-                    //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) {
-                        current_records = Tools.measurementCorrection1(current_records);
-                    }
-                    if(current_records.size() > 0) {
-                        no_data = false;
-                        try{
-                            final LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
-                            series_p1.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_p1.appendData(new DataPoint(time.getTime(), record.getP1()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
-                            series_p2.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_p2.appendData(new DataPoint(time.getTime(), record.getP2()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
-                            series_temp.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
-                            series_humidity.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            final LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
-                            series_pressure.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
-                                Date time = record.getDateTime();
-                                try{
-                                    series_pressure.appendData(new DataPoint(time.getTime(), record.getPressure()), false, 1000000);
-                                } catch (Exception e) {}
-                            }
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    diagram_p1.addSeries(series_p1);
-                                    diagram_p2.addSeries(series_p2);
-                                    diagram_temp.addSeries(series_temp);
-                                    diagram_humidity.addSeries(series_humidity);
-                                    diagram_pressure.addSeries(series_pressure);
-                                }
-                            });
-                        } catch (Exception e) {}
+            //Label-Formatter auf Zeit stellen
+            graph_view.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if(isValueX) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis((long) value);
+                        return sdf_time.format(cal.getTime());
+                    } else {
+                        return super.formatLabel(value, isValueX).replace(".000", "k");
                     }
                 }
+            });
 
-                final long first_time_tmp = first_time;
-                final long last_time_tmp = last_time;
-                runOnUiThread(new Runnable() {
+            if(mode == MODE_SENSOR_DATA) {
+                series1 = drawSeries(res.getString(R.string.value1) + " (µg/m³)", res.getColor(R.color.series1));
+                series2 = drawSeries(res.getString(R.string.value2) + " (µg/m³)", res.getColor(R.color.series2));
+                series3 = drawSeries(res.getString(R.string.temperature) + " (°C)", res.getColor(R.color.series3));
+                series4 = drawSeries(res.getString(R.string.humidity) + " (%)", res.getColor(R.color.series4));
+                series5 = drawSeries(res.getString(R.string.pressure) + " (hPa)", res.getColor(R.color.series5));
+
+                for(DataRecord record : records) {
+                    try{
+                        series1.appendData(new DataPoint(record.getDateTime().getTime(), record.getP1()), false, 1000000);
+                        series2.appendData(new DataPoint(record.getDateTime().getTime(), record.getP2()), false, 1000000);
+                        series3.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
+                        series4.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
+                        series5.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
+                    } catch (Exception e) {}
+                }
+                series1.setOnDataPointTapListener(new OnDataPointTapListener() {
                     @Override
-                    public void run() {
-                        try{
-                            diagram_p1.getViewport().setScalable(true);
-                            diagram_p1.getViewport().setMinX(first_time_tmp);
-                            diagram_p1.getViewport().setMaxX(last_time_tmp);
-                            diagram_p1.getViewport().scrollToEnd();
-                            diagram_p1.getViewport().setScalable(false);
-
-                            diagram_p2.getViewport().setScalable(true);
-                            diagram_p2.getViewport().setMinX(first_time_tmp);
-                            diagram_p2.getViewport().setMaxX(last_time_tmp);
-                            diagram_p2.getViewport().scrollToEnd();
-                            diagram_p2.getViewport().setScalable(false);
-
-                            diagram_temp.getViewport().setScalable(true);
-                            diagram_temp.getViewport().setMinX(first_time_tmp);
-                            diagram_temp.getViewport().setMaxX(last_time_tmp);
-                            diagram_temp.getViewport().scrollToEnd();
-                            diagram_temp.getViewport().setScalable(false);
-
-                            diagram_humidity.getViewport().setScalable(true);
-                            diagram_humidity.getViewport().setMinX(first_time_tmp);
-                            diagram_humidity.getViewport().setMaxX(last_time_tmp);
-                            diagram_humidity.getViewport().scrollToEnd();
-                            diagram_humidity.getViewport().setScalable(false);
-
-                            diagram_pressure.getViewport().setScalable(true);
-                            diagram_pressure.getViewport().setMinX(first_time_tmp);
-                            diagram_pressure.getViewport().setMaxX(last_time_tmp);
-                            diagram_pressure.getViewport().scrollToEnd();
-                            diagram_pressure.getViewport().setScalable(false);
-
-                            findViewById(R.id.no_data).setVisibility(no_data ? View.VISIBLE : View.GONE);
-                            findViewById(R.id.container).setVisibility(no_data ? View.GONE : View.VISIBLE);
-                            //ProgressMenuItem zurücksetzen
-                            if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                            pd.dismiss();
-                        } catch (Exception e) {}
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
                     }
                 });
+                series2.setOnDataPointTapListener(new OnDataPointTapListener() {
+                    @Override
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
+                    }
+                });
+                series3.setOnDataPointTapListener(new OnDataPointTapListener() {
+                    @Override
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
+                    }
+                });
+                series4.setOnDataPointTapListener(new OnDataPointTapListener() {
+                    @Override
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
+                    }
+                });
+                series5.setOnDataPointTapListener(new OnDataPointTapListener() {
+                    @Override
+                    public void onTap(Series series, DataPointInterface dataPoint) {
+                        showDetailPopup(dataPoint);
+                    }
+                });
+                long first_time = records.get(0).getDateTime().getTime();
+                if(show_series_1) {
+                    graph_view.addSeries(series1);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getP1();
+                        average /= records.size();
+                        series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
+                        graph_view.addSeries(series1_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        ArrayList<Double> double_records = new ArrayList<>();
+                        for(DataRecord record : records) double_records.add(record.getP1());
+                        double median = Tools.calculateMedian(double_records);
+                        series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
+                        graph_view.addSeries(series1_average_median);
+                    }
+                }
+                if(show_series_2) {
+                    graph_view.addSeries(series2);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getP2();
+                        average /= records.size();
+                        series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
+                        graph_view.addSeries(series2_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        ArrayList<Double> double_records = new ArrayList<>();
+                        for(DataRecord record : records) double_records.add(record.getP2());
+                        double median = Tools.calculateMedian(double_records);
+                        series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
+                        graph_view.addSeries(series2_average_median);
+                    }
+                }
+                if(show_series_3) {
+                    graph_view.addSeries(series3);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getTemp();
+                        average /= records.size();
+                        series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
+                        graph_view.addSeries(series3_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        ArrayList<Double> double_records = new ArrayList<>();
+                        for(DataRecord record : records) double_records.add(record.getTemp());
+                        double median = Tools.calculateMedian(double_records);
+                        series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
+                        graph_view.addSeries(series3_average_median);
+                    }
+                }
+                if(show_series_4) {
+                    graph_view.addSeries(series4);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getHumidity();
+                        average /= records.size();
+                        series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
+                        graph_view.addSeries(series4_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        ArrayList<Double> double_records = new ArrayList<>();
+                        for(DataRecord record : records) double_records.add(record.getHumidity());
+                        double median = Tools.calculateMedian(double_records);
+                        series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
+                        graph_view.addSeries(series4_average_median);
+                    }
+                }
+                if(show_series_5) {
+                    graph_view.addSeries(series5);
+                    if(enable_average) {
+                        //Mittelwert einzeichnen
+                        double average = 0;
+                        for(DataRecord record : records) average+=record.getPressure();
+                        average /= records.size();
+                        series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
+                        graph_view.addSeries(series5_average_median);
+                    } else if(enable_median) {
+                        //Median einzeichnen
+                        ArrayList<Double> double_records = new ArrayList<>();
+                        for(DataRecord record : records) double_records.add(record.getPressure());
+                        double median = Tools.calculateMedian(double_records);
+                        series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
+                        graph_view.addSeries(series5_average_median);
+                    }
+                }
+            } else if(mode == MODE_COMPARE_DATA) {
+                for(int i = 0; i < compare_sensors.size(); i++) {
+                    if(compare_records.get(i).size() > 0) {
+                        LineGraphSeries<DataPoint> current_series = new LineGraphSeries<>();
+                        current_series.setDrawDataPoints(true);
+                        current_series.setDataPointsRadius(8);
+                        current_series.setColor(compare_sensors.get(i).getColor());
+                        if(show_series_1) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value1));
+                        } else if(show_series_2) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("µg/m³");
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.value2));
+                        } else if(show_series_3) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("°C");
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.temperature));
+                        } else if(show_series_4) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("%");
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.humidity));
+                        } else if(show_series_5) {
+                            graph_view.getGridLabelRenderer().setVerticalAxisTitle("hPa");
+                            current_series.setTitle(compare_sensors.get(i).getName() + " - " + res.getString(R.string.pressure));
+                        }
+
+                        for(DataRecord record : compare_records.get(i)) {
+                            try{
+                                if(show_series_1) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getP1()), false, 1000000);
+                                } else if(show_series_2) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getP2()), false, 1000000);
+                                } else if(show_series_3) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getTemp()), false, 1000000);
+                                } else if(show_series_4) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getHumidity()), false, 1000000);
+                                } else if(show_series_5) {
+                                    current_series.appendData(new DataPoint(record.getDateTime().getTime(), record.getPressure()), false, 1000000);
+                                }
+                            } catch (Exception e) {}
+                        }
+                        current_series.setOnDataPointTapListener(new OnDataPointTapListener() {
+                            @Override
+                            public void onTap(Series series, DataPointInterface dataPoint) {
+                                showDetailPopup(dataPoint);
+                            }
+                        });
+                        graph_view.addSeries(current_series);
+                    }
+                }
             }
-        }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void exportData() {
-        if(ContextCompat.checkSelfPermission(CompareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
-            final RadioButton export_p1 = v.findViewById(R.id.export_diagram_p1);
-            final RadioButton export_p2 = v.findViewById(R.id.export_diagram_p2);
-            final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
-            final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
-            final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
-            AlertDialog d = new AlertDialog.Builder(this)
-                    .setTitle(R.string.export_diagram)
-                    .setView(v)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if(export_p1.isChecked()) {
-                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_p2.isChecked()) {
-                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_temp.isChecked()) {
-                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_humidity.isChecked()) {
-                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_pressure.isChecked()) {
-                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            }
-                        }
-                    })
-                    .create();
-            d.show();
-        } else {
-            ActivityCompat.requestPermissions(CompareActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
-        }
+    private LineGraphSeries<DataPoint> drawSeries(String title, int color) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(8);
+        series.setColor(color);
+        series.setTitle(title);
+        series.setAnimated(true);
+        return series;
+    }
+
+    private LineGraphSeries<DataPoint> drawAverageMedian(double value, long first_time, int color) {
+        LineGraphSeries series = new LineGraphSeries<>();
+        series.appendData(new DataPoint(first_time, value), false, 2);
+        series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime(), value), false, 2);
+
+        Paint p = new Paint();
+        p.setColor(color);
+        p.setStyle(Paint.Style.STROKE);
+        p.setPathEffect(new DashPathEffect(new float[] { 20, 10 }, 0));
+        p.setStrokeWidth(3);
+
+        series.setDrawAsPath(true);
+        series.setDrawDataPoints(false);
+        series.setCustomPaint(p);
+        series.setDrawDataPoints(false);
+        series.setAnimated(true);
+        return series;
+    }
+
+    private void showDetailPopup(DataPointInterface dataPoint) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis((long) dataPoint.getX());
+
+        View popup_layout = getLayoutInflater().inflate(R.layout.popup_layout, null);
+        TextView time = popup_layout.findViewById(R.id.x_value);
+        TextView value = popup_layout.findViewById(R.id.y_value);
+        time.setText(res.getString(R.string.time_) + " " + sdf_time.format(cal.getTime()));
+        value.setText(res.getString(R.string.value_) + " " + String.valueOf(dataPoint.getY()));
+
+        final PopupWindow popup = new PopupWindow();
+        popup.setContentView(popup_layout);
+        popup.setFocusable(true);
+        popup.setOutsideTouchable(true);
+        popup.setTouchable(false);
+        popup.setFocusable(false);
+        popup.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                popup.dismiss();
+                return false;
+            }
+        });
+        popup.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setAnimationStyle(android.R.style.Animation_Dialog);
+        popup.showAtLocation(graph_view, Gravity.NO_GRAVITY, 25, 100);
+        popup.update();
     }
 }
