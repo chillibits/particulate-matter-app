@@ -1,51 +1,52 @@
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
-public class ExternalSensor {
+import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+
+public class Sensor implements Comparable, Serializable {
 
     //Konstanten
 
     //Variablen als Objekte
 
     //Variablen
-    private String chip_id = "no_id";
-    private double lat = 0;
-    private double lng = 0;
-    private double heatmap_value = 0;
+    private String id = "no_id";
+    private String name = "unknown";
+    private int color = 0;
 
-    public ExternalSensor() {}
+    public Sensor() {}
 
-    public ExternalSensor(String chip_id, double lat, double lng, double heatmap_value) {
-        this.chip_id = chip_id;
-        this.lat = lat;
-        this.lng = lng;
-        this.heatmap_value = heatmap_value;
+    public Sensor(String id, String name, int color) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getChipID() {
-        return chip_id;
-    }
-    public void setChipID(String chip_id) {
-        this.chip_id = chip_id;
+        return id;
     }
 
-    public double getLat() {
-        return lat;
+    public void setName(String name) {
+        this.name = name;
     }
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-    public void setLng(double lng) {
-        this.lng = lng;
+    public String getName() {
+        return name;
     }
 
-    public double getHeatmapValue() {
-        return heatmap_value;
+    public void setColor(int color) {
+        this.color = color;
     }
-    public void setHeatmapValue(double heatmap_value) {
-        this.heatmap_value = heatmap_value;
+    public int getColor() {
+        return color;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Sensor other = (Sensor) o;
+        return getName().compareTo(other.getName());
     }
 }
