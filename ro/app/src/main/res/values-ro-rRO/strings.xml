@@ -1,76 +1,51 @@
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
-import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
-
-import java.util.Date;
-
-import androidx.annotation.NonNull;
-
-public class DataRecord implements Comparable {
+public class ExternalSensor {
 
     //Konstanten
 
     //Variablen als Objekte
 
     //Variablen
-    private Date date_time;
-    private Double p1;
-    private Double p2;
-    private Double temp;
-    private Double humidity;
-    private Double pressure;
+    private String chip_id = "no_id";
+    private double lat = 0;
+    private double lng = 0;
+    private double heatmap_value = 0;
 
-    public DataRecord(Date time, Double p1, Double p2, Double temp, Double humidity, Double pressure) {
-        this.date_time = time;
-        this.p1 = p1;
-        this.p2 = p2;
-        this.temp = temp;
-        this.humidity = humidity;
-        this.pressure = pressure;
+    public ExternalSensor() {}
+
+    public ExternalSensor(String chip_id, double lat, double lng, double heatmap_value) {
+        this.chip_id = chip_id;
+        this.lat = lat;
+        this.lng = lng;
+        this.heatmap_value = heatmap_value;
     }
 
-    public Date getDateTime() {
-        return date_time;
+    public String getChipID() {
+        return chip_id;
+    }
+    public void setChipID(String chip_id) {
+        this.chip_id = chip_id;
     }
 
-    public Double getP1() {
-        return p1;
+    public double getLat() {
+        return lat;
+    }
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public Double getP2() {
-        return p2;
+    public double getLng() {
+        return lng;
+    }
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
-    public Double getTemp() {
-        return temp;
+    public double getHeatmapValue() {
+        return heatmap_value;
     }
-
-    public Double getHumidity() {
-        return humidity;
-    }
-
-    public Double getPressure() {
-        return pressure;
-    }
-
-    @Override
-    public int compareTo(@NonNull Object another) {
-        try{
-            DataRecord other_record = (DataRecord) another;
-
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_ASC) return getDateTime().compareTo(other_record.getDateTime());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) return other_record.getDateTime().compareTo(getDateTime());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) return getP1().compareTo(other_record.getP1());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_DESC) return other_record.getP1().compareTo(getP1());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) return getP2().compareTo(other_record.getP2());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_DESC) return other_record.getP2().compareTo(getP2());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) return getTemp().compareTo(other_record.getTemp());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) return other_record.getTemp().compareTo(getTemp());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) return getHumidity().compareTo(other_record.getHumidity());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return other_record.getHumidity().compareTo(getHumidity());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) return getPressure().compareTo(other_record.getPressure());
-            if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_DESC) return other_record.getPressure().compareTo(getPressure());
-        } catch (Exception e) {}
-        return 0;
+    public void setHeatmapValue(double heatmap_value) {
+        this.heatmap_value = heatmap_value;
     }
 }
