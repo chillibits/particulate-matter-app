@@ -1,453 +1,229 @@
-package com.mrgames13.jimdo.feinstaubapp.Utils;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
-import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import androidx.core.content.FileProvider;
-
-public class StorageUtils extends SQLiteOpenHelper {
-
-    //Konstanten
-    private final String DEFAULT_STRING_VALUE = "";
-    private final int DEFAULT_INT_VALUE = 0;
-    private final boolean DEFAULT_BOOLEAN_VALUE = false;
-    private final long DEFAULT_LONG_VALUE = -1;
-    private final double DEFAULT_DOUBLE_VALUE = 0.0d;
-    public static final String TABLE_SENSORS = "Sensors";
-    public static final String TABLE_FAVOURITES = "Favourites";
-
-    //Variablen als Objekte
-    private Context context;
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor e;
-    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
-
-    //Variablen
-
-    public StorageUtils(Context context) {
-        super(context, "database.db", null, 2);
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        this.context = context;
-    }
-
-    //-----------------------------------------Dateisystem------------------------------------------
-
-    public String getCSVFromFile(String date, String sensor_id) {
-        try{
-            //Datum umformatieren
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            Date newDate = format.parse(date);
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            date = format.format(newDate);
-
-            //Datei ermitteln
-            String file_name = sensor_id + "-" + date + ".csv";
-            File dir = new File(context.getFilesDir(), "/SensorData");
-            File file = new File(dir, file_name);
-
-            if(!file.exists()) return "";
-
-            //Text auslesen
-            StringBuilder text = new StringBuilder();
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
-            return text.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public boolean isCSVFileExisting(String date, String sensor_id) {
-        try{
-            //Datum umformatieren
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            Date newDate = format.parse(date);
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            date = format.format(newDate);
-
-            String file_name = sensor_id + "-" + date + ".csv";
-            File dir = new File(context.getFilesDir(), "/SensorData");
-            return new File(dir, file_name).exists();
-        } catch (Exception e) {}
-        return false;
-    }
-
-    public void shareCSVFile(String date, String sensor_id) {
-        try{
-            //Datum umformatieren
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            Date newDate = format.parse(date);
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            date = format.format(newDate);
-
-            String file_name = sensor_id + "-" + date + ".csv";
-            File dir = new File(context.getFilesDir(), "/SensorData");
-            File file = new File(dir, file_name);
-
-            Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", file);
-
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType(URLConnection.guessContentTypeFromName(file.getName()));
-            i.putExtra(Intent.EXTRA_STREAM, uri);
-            context.startActivity(Intent.createChooser(i, context.getString(R.string.export_data_records)));
-        } catch (Exception e) {}
-    }
-
-    public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
-        if(csv_string.equals("")) return new ArrayList<>();
-        ArrayList<DataRecord> records = new ArrayList<>();
-        //In Zeilen aufspalten
-        String[] lines = csv_string.split("\\r?\\n");
-        for(int i = 1; i < lines.length; i ++) {
-            try{
-                Date time = new Date();
-                double p1 = 0.0;
-                double p2 = 0.0;
-                double temp = 0.0;
-                double humidity = 0.0;
-                double pressure = 0.0;
-                //SimpleDateFormat initialisieren
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                sdf.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
-
-                //Zeile aufspalten
-                String[] line_contents = lines[i].split(";");
-                try { if(!line_contents[0].equals("")) time = sdf.parse(line_contents[0]); } catch (Exception e) {}
-                try { if(!line_contents[1].equals("")) p1 = Double.parseDouble(line_contents[1]); } catch (Exception e) {}
-                try { if(!line_contents[2].equals("")) p1 = Double.parseDouble(line_contents[2]); } catch (Exception e) {}
-                try { if(!line_contents[3].equals("")) p1 = Double.parseDouble(line_contents[3]); } catch (Exception e) {}
-                try { if(!line_contents[4].equals("")) p2 = Double.parseDouble(line_contents[4]); } catch (Exception e) {}
-                try { if(!line_contents[5].equals("")) p2 = Double.parseDouble(line_contents[5]); } catch (Exception e) {}
-                try { if(!line_contents[6].equals("")) p2 = Double.parseDouble(line_contents[6]); } catch (Exception e) {}
-                try { if(!line_contents[7].equals("")) p1 = Double.parseDouble(line_contents[7]); } catch (Exception e) {}
-                try { if(!line_contents[8].equals("")) p2 = Double.parseDouble(line_contents[8]); } catch (Exception e) {}
-                try { if(!line_contents[9].equals("")) temp = Double.parseDouble(line_contents[9]); } catch (Exception e) {}
-                try { if(!line_contents[10].equals("")) humidity = Double.parseDouble(line_contents[10]); } catch (Exception e) {}
-                try { if(!line_contents[11].equals("")) temp = Double.parseDouble(line_contents[11]); } catch (Exception e) {}
-                try { if(!line_contents[12].equals("")) pressure = Double.parseDouble(line_contents[12]); } catch (Exception e) {}
-                try { if(!line_contents[13].equals("")) temp = Double.parseDouble(line_contents[13]); } catch (Exception e) {}
-                try { if(!line_contents[14].equals("")) humidity = Double.parseDouble(line_contents[14]); } catch (Exception e) {}
-                try { if(!line_contents[15].equals("")) pressure = Double.parseDouble(line_contents[15]); } catch (Exception e) {}
-                try { if(!line_contents[20].equals("")) p1 = Double.parseDouble(line_contents[20]); } catch (Exception e) {}
-                try { if(!line_contents[21].equals("")) p2 = Double.parseDouble(line_contents[21]); } catch (Exception e) {}
-                try { if(!line_contents[22].equals("")) p1 = Double.parseDouble(line_contents[22]); } catch (Exception e) {}
-                try { if(!line_contents[23].equals("")) p2 = Double.parseDouble(line_contents[23]); } catch (Exception e) {}
-
-                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 100)));
-            } catch (Exception e) {}
-        }
-        return records;
-    }
-
-    public ArrayList<DataRecord> trimDataRecords(ArrayList<DataRecord> records, String current_date_string) {
-        ArrayList<DataRecord> new_records = new ArrayList<>();
-        for(DataRecord r : records) {
-            if(sdf_date.format(r.getDateTime()).equals(current_date_string)) new_records.add(r);
-        }
-        return new_records;
-    }
-
-    public void unpackZipFile(String sensor_id, String date) {
-        try {
-            String month = date.substring(3, 5);
-            String year = date.substring(6);
-
-            File dir = new File(context.getFilesDir(), "/SensorData");
-            if(!dir.exists()) dir.mkdirs();
-            String path = new File(dir, sensor_id + "_" + year + "_" + month + ".zip").getAbsolutePath();
-
-            InputStream is;
-            ZipInputStream zis;
-
-            String filename;
-            is = new FileInputStream(path);
-            zis = new ZipInputStream(new BufferedInputStream(is));
-            ZipEntry ze;
-            byte[] buffer = new byte[1024];
-            int count;
-
-            while((ze = zis.getNextEntry()) != null) {
-                filename = ze.getName();
-
-                if (ze.isDirectory()) {
-                    File file = new File(path + filename);
-                    file.mkdirs();
-                } else {
-                    FileOutputStream fout = new FileOutputStream(dir.getAbsolutePath() + "/" + sensor_id + filename.substring(4));
-
-                    while((count = zis.read(buffer)) != -1) fout.write(buffer, 0, count);
-
-                    fout.close();
-                    zis.closeEntry();
-                }
-            }
-            zis.close();
-
-            //Zip-Datei löschen
-            new File(path).delete();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public long getCSVLastModified(String sensor_id, String date_string) {
-        return getLong("LM_" + date_string + "_" + sensor_id);
-    }
-
-    public long getZipLastModified(String sensor_id, String date_string) {
-        String month = date_string.substring(3, 5);
-        String year = date_string.substring(6);
-        return getLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip");
-    }
-
-    //---------------------------------------SharedPreferences--------------------------------------
-
-    public void putString(String name, String value) {
-        e = prefs.edit();
-        e.putString(name, value);
-        e.apply();
-    }
-
-    public void putInt(String name, int value) {
-        e = prefs.edit();
-        e.putInt(name, value);
-        e.apply();
-    }
-
-    public void putBoolean(String name, boolean value) {
-        e = prefs.edit();
-        e.putBoolean(name, value);
-        e.apply();
-    }
-
-    public void putLong(String name, long value) {
-        e = prefs.edit();
-        e.putLong(name, value);
-        e.apply();
-    }
-
-    public void putDouble(String name, double value) {
-        e = prefs.edit();
-        e.putFloat(name, (float) value);
-        e.apply();
-    }
-
-    public String getString(String name) {
-        return prefs.getString(name, DEFAULT_STRING_VALUE);
-    }
-
-    public int getInt(String name) {
-        return prefs.getInt(name, DEFAULT_INT_VALUE);
-    }
-
-    public boolean getBoolean(String name) {
-        return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE);
-    }
-
-    public long getLong(String name) { return prefs.getLong(name, DEFAULT_LONG_VALUE); }
-
-    public double getDouble(String name) {
-        return prefs.getFloat(name, (float) DEFAULT_DOUBLE_VALUE);
-    }
-
-    public String getString(String name, String default_value) {
-        return prefs.getString(name, default_value);
-    }
-
-    public int getInt(String name, int default_value) {
-        return prefs.getInt(name, default_value);
-    }
-
-    public boolean getBoolean(String name, boolean default_value) {
-        return prefs.getBoolean(name, default_value);
-    }
-
-    public long getLong(String name, long default_value) {
-        return  prefs.getLong(name, default_value);
-    }
-
-    public double getDouble(String name, double default_value) {
-        return prefs.getFloat(name, (float) default_value);
-    }
-
-    //------------------------------------------Datenbank-------------------------------------------
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        try{
-            //Tabellen erstellen
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SENSORS + " (sensor_id text, sensor_name text, sensor_color integer);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
-        } catch (Exception e) {
-            Log.e("ChatLet", "Database creation error: ", e);
-        }
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion && newVersion == 2) {
-            //Datenbank-Update
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
-        }
-    }
-
-    public void addRecord(String table, ContentValues values) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert(table, null, values);
-    }
-
-    public void execSQL(String command) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(command);
-    }
-
-    //---------------------------------------Eigene Sensoren----------------------------------------
-
-    public void addOwnSensor(Sensor sensor, boolean offline, boolean request_from_realtime_sync_service) {
-        ContentValues values = new ContentValues();
-        values.put("sensor_id", sensor.getChipID());
-        values.put("sensor_name", sensor.getName());
-        values.put("sensor_color", sensor.getColor());
-        addRecord(TABLE_SENSORS, values);
-        putBoolean(sensor.getChipID() + "_offline", offline);
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public Sensor getSensor(String chip_id) {
-        ArrayList<Sensor> sensors = getAllOwnSensors();
-        sensors.addAll(getAllFavourites());
-        for(Sensor s : sensors) {
-            if(s.getChipID().equals(chip_id)) return s;
-        }
-        return null;
-    }
-
-    public boolean isSensorExistingLocally(String chip_id) {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
-        int count = cursor.getCount();
-        cursor.close();
-        return count > 0;
-    }
-
-    public void updateOwnSensor(Sensor new_sensor, boolean request_from_realtime_sync_service) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public void removeOwnSensor(String chip_id, boolean request_from_realtime_sync_service) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_SENSORS, "sensor_id = ?", new String[]{chip_id});
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public ArrayList<Sensor> getAllOwnSensors() {
-        try{
-            SQLiteDatabase db = getWritableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS, null);
-            ArrayList<Sensor> sensors = new ArrayList<>();
-            while(cursor.moveToNext()) {
-                sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
-            }
-            cursor.close();
-            Collections.sort(sensors);
-            return sensors;
-        } catch (Exception e) {
-            Log.e("ChatLet", "Error loading message", e);
-        }
-        return new ArrayList<>();
-    }
-
-    public boolean isSensorInOfflineMode(String chip_id) {
-        return getBoolean(chip_id + "_offline");
-    }
-
-    //------------------------------------------Favoriten-------------------------------------------
-
-    public void addFavourite(Sensor sensor, boolean request_from_realtime_sync_service) {
-        ContentValues values = new ContentValues();
-        values.put("sensor_id", sensor.getChipID());
-        values.put("sensor_name", sensor.getName());
-        values.put("sensor_color", sensor.getColor());
-        addRecord(TABLE_FAVOURITES, values);
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public boolean isFavouriteExisting(String chip_id) {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES + " WHERE sensor_id = '" + chip_id + "'", null);
-        int count = cursor.getCount();
-        cursor.close();
-        return count > 0;
-    }
-
-    public void updateFavourite(Sensor new_sensor, boolean request_from_realtime_sync_service) {
-        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public void removeFavourite(String chip_id, boolean request_from_realtime_sync_service) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_FAVOURITES, "sensor_id = ?", new String[]{chip_id});
-        //Falls ein Web-Client verbunden ist, refreshen
-        if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
-    }
-
-    public ArrayList<Sensor> getAllFavourites() {
-        try{
-            SQLiteDatabase db = getWritableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES, null);
-            ArrayList<Sensor> sensors = new ArrayList<>();
-            while(cursor.moveToNext()) {
-                sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
-            }
-            cursor.close();
-            Collections.sort(sensors);
-            return sensors;
-        } catch (Exception e) {
-            Log.e("ChatLet", "Error loading message", e);
-        }
-        return new ArrayList<>();
-    }
-}
+<?xml version="1.0" encoding="utf-8"?>
+<!--Generated by crowdin.com-->
+<resources>
+    <!-- Common Strings -->
+    <string name="app_name">Feinstaub-App</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="sensors">Sensoren</string>
+    <string name="exit">Beenden</string>
+    <string name="settings">Einstellungen</string>
+    <string name="no_data">Keine Daten</string>
+    <string name="loading">Laden …</string>
+    <string name="loading_data">Daten werden geladen …</string>
+    <string name="internet_is_not_available">Internet nicht verfügbar</string>
+    <string name="activate_wlan">Wlan aktivieren</string>
+    <string name="please_wait_">Bitte warten …</string>
+    <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
+    <string name="offline_t">Server offline</string>
+    <string name="offline_m">Der Server ist offline. Solange dies so ist, können Sie keine Daten abrufen.</string>
+    <string name="maintenance_t">Serverwartung</string>
+    <string name="maintenance_m">Der Server wird gewartet. Sie können während der Wartung leider keine Daten abrufen.</string>
+    <string name="support_end_t">App-Unterstützung zu Ende</string>
+    <string name="support_end_m">Es tut uns leid! Die Feinstaub-App wird nicht mehr von M&amp;R Games unterstützt. Sie können diese App nun deinstallieren.</string>
+    <string name="update_necessary_t">Update verfügbar!</string>
+    <string name="update_necessary_m">Damit die Feinstaub-App ordnungsgemäß funktionieren kann, müssen Sie ein Update durchführen.</string>
+    <string name="download_update">Herunterladen</string>
+    <string name="update_available">Update verfügbar</string>
+    <string name="download">Download</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
+    <string name="widget_select_sensor">Sensor wählen</string>
+    <string name="widget_open_app">App starten</string>
+    <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
+    <string name="compare_sensors">Sensoren vergleichen</string>
+    <string name="edit_sensor">Sensor bearbeiten</string>
+    <string name="complete_sensor">Sensor vervollständigen</string>
+    <string name="unlink_sensor">Sensor entfernen</string>
+    <string name="really_unlink_sensor_1">Wollen Sie den Sensor \'</string>
+    <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Weiterempfehlen</string>
+    <string name="share_app">App weiterempfehlen</string>
+    <string name="share_m">Empfehlen Sie die App Ihren Freunden!</string>
+    <string name="rate">Bewerten</string>
+    <string name="add_own_sensor">Eigenen Sensor hinzufügen</string>
+    <string name="my_favourites">Meine Favoriten</string>
+    <string name="all_sensors">Alle Sensoren</string>
+    <string name="my_sensors">Meine Sensoren</string>
+    <string name="no_favourites">Noch keine Favouriten vorhanden. Um Favoriten hinzuzufügen, wechseln Sie zu \'Alle Sensoren\', tippen auf einen oder mehrere Sensoren und wählen \'Favorit hinzufügen\'.</string>
+    <string name="show_measurements">Messwerte zeigen</string>
+    <string name="add_favourite">Favorit hinzufügen</string>
+    <string name="favourite_added">Favorit wurde hinzugefügt</string>
+    <string name="properties">Eigenschaften</string>
+    <string name="public_short_">Öffentlich:</string>
+    <string name="online_since_">Online seit:</string>
+    <string name="height_short_">Montagehöhe:</string>
+    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
+    <string name="enable_location_m">Eigene Position zeigen?</string>
+    <string name="enable_location">Aktivieren</string>
+    <string name="search_for_sensors">Sensoren durchsuchen</string>
+    <string name="enabled_gps_t">Standort aktiviert</string>
+    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
+    <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
+    <string name="web_version">Web-Version</string>
+    <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="successfully_connected">Erfolgreich verbunden</string>
+    <string name="sync_disconnected">Verbindung getrennt</string>
+    <string name="search_places">Bitte geben Sie einen Ort ein …</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Fertig</string>
+    <string name="name_">Anzeigename:</string>
+    <string name="chip_id">Chip-ID:</string>
+    <string name="choose_color">Farbe wählen</string>
+    <string name="not_all_filled">Bitte alle Felder füllen</string>
+    <string name="sensor_existing">Sensor ist bereits verknüpft</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
+    <string name="dont_show_again">Nicht mehr anzeigen</string>
+    <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
+    <string name="choose_location">Genaue Sensor-Position auswählen</string>
+    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="latitude">Breitengrad</string>
+    <string name="latitude_">Breitengrad:</string>
+    <string name="longitude">Längengrad</string>
+    <string name="longitude_">Längengrad:</string>
+    <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
+    <string name="unknown_location">Unbekannte Position</string>
+    <!-- SensorActivity -->
+    <string name="date">Datum</string>
+    <string name="tab_diagram">Diagramm</string>
+    <string name="tab_data">Datensätze</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
+    <string name="diagram_instruction">Tippen Sie auf das Diagramm für die volle Größe</string>
+    <string name="date_time">Zeit</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatur</string>
+    <string name="humidity_short">Luftftk</string>
+    <string name="pressure_short">Luftdrk</string>
+    <string name="humidity">Luftfeuchtigkeit</string>
+    <string name="pressure">Luftdruck</string>
+    <string name="no_diagram_selected">Kein Diagramm ausgewählt</string>
+    <string name="from">von</string>
+    <string name="to">bis</string>
+    <string name="current_values">Aktuelle Messwerte</string>
+    <string name="state_of_">Stand</string>
+    <string name="curve_smoothness_">Feinheit der Kurve:</string>
+    <string name="export_data">Daten exportieren</string>
+    <string name="export_diagram">Diagramm exportieren</string>
+    <string name="export_data_records">Datensätze exportieren</string>
+    <string name="share_sensor">Sensor teilen</string>
+    <string name="median">Median</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terrain</string>
+    <string name="satellite">Satellit</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="traffic_show">Verkehr anzeigen</string>
+    <string name="traffic_hide">Verkehr ausblenden</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Messzeit:</string>
+    <string name="value_">Wert:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Grenzwert überschritten</string>
+    <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>
+    <string name="limit_exceeded_p2">PM2,5 Grenzwert überschritten</string>
+    <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
+    <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
+    <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">System-Benachrichtigungen</string>
+    <string name="nc_system_description">System-Benachrichtigungen der Feinstaub-App.</string>
+    <string name="nc_limit_name">Grenzwertüberschreitungen</string>
+    <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Funktionen</string>
+    <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
+    <string name="enable_daily_median">Tagesmedian anzeigen</string>
+    <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
+    <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
+    <string name="enable_auto_correction_t">Automatische Fehlerkorrektur</string>
+    <string name="enable_auto_correction_s">Automatische Korrektur von Messfehlern</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
+    <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
+    <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
+    <string name="seconds">Sekunden</string>
+    <string name="second">Sekunde</string>
+    <string name="minutes">Minuten</string>
+    <string name="minute">Minute</string>
+    <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
+    <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Erscheinungsbild</string>
+    <string name="pref_theme">App-Thema</string>
+    <string-array name="pref_theme_array">
+        <item>Automatisch nach Tageszeit</item>
+        <item>Helles Thema</item>
+        <item>Dunkles Thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_restart_t">Neustart benötigt</string>
+    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden. Wollen Sie den Neustart jetzt oder später durchführen?</string>
+    <string name="now">Jetzt</string>
+    <string name="later">Später</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_notification_averages">Mittelwertüberschreitung</string>
+    <string name="pref_notification_averages_s_true">Nachricht, wenn der tägl. Mittelwert den festgelegten Wert überschreitet</string>
+    <string name="pref_notification_averages_s_false">Nachricht, wenn der momentane Wert den festgelegten Wert überschreitet</string>
+    <string name="pref_limit_p1">PM10 Grenzwert</string>
+    <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_p2">PM2.5 Grenzwert</string>
+    <string name="pref_limit_p2_t">PM2,5 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_temp">Temperatur Grenzwert</string>
+    <string name="pref_limit_temp_t">Temperatur Grenzwert (°C)</string>
+    <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
+    <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
+    <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
+    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
+    <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performance</string>
+    <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
+    <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
+    <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Über die Feinstaub-App</string>
+    <string name="pref_serverinfo_t">Serverinfo</string>
+    <string name="pref_serverinfo_downloading_">Serverinfo wird heruntergeladen …</string>
+    <string name="server_state">Serverstatus</string>
+    <string name="client_name">Client-Name</string>
+    <string name="min_app_version">Minimalversion</string>
+    <string name="newest_app_version">Neueste Version</string>
+    <string name="owners">Serverinhaber</string>
+    <string name="serverstate_1">Server ist online</string>
+    <string name="serverstate_2">Server ist offline</string>
+    <string name="serverstate_3">Server wird gewartet</string>
+    <string name="serverstate_4">App wird nicht mehr unterstützt</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3_short">Wird gewartet</string>
+    <string name="serverstate_4_short">Nicht mehr unterstützt</string>
+    <string name="pref_opensource_t">Open-Source-Lizenzen</string>
+    <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_appversion">App-Version</string>
+    <string name="pref_developers_t">Die Entwickler</string>
+    <string name="pref_more_apps_t">Mehr Apps von uns</string>
+    <string name="pref_more_apps_m">Unsere PlayStore-Seite</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>
+</resources>
