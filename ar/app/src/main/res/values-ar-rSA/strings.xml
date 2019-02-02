@@ -1,191 +1,72 @@
-package com.mrgames13.jimdo.feinstaubapp.Utils;
+package com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters;
 
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
+import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
 
-public class Tools {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     //Konstanten
-    private int CORRECTION_FACTOR = 5;
 
     //Variablen als Objekte
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     //Variablen
 
-    public static double round(double value, int places) {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        //Variablen als Objekte
+        TextView item_time;
+        TextView item_p1;
+        TextView item_p2;
+        TextView item_temp;
+        TextView item_humidity;
+        TextView item_pressure;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            //Oberflächenkomponenten initialisieren
+            item_time = itemView.findViewById(R.id.item_time);
+            item_p1 = itemView.findViewById(R.id.item_p1);
+            item_p2 = itemView.findViewById(R.id.item_p2);
+            item_temp = itemView.findViewById(R.id.item_temp);
+            item_humidity = itemView.findViewById(R.id.item_humidity);
+            item_pressure = itemView.findViewById(R.id.item_pressure);
+        }
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data, null);
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int pos) {
+        //Daten befüllen
         try{
-            if (places < 0) throw new IllegalArgumentException();
-
-            BigDecimal bd = new BigDecimal(value);
-            bd = bd.setScale(places, RoundingMode.HALF_UP);
-            return bd.doubleValue();
+            DataRecord record = SensorActivity.records.get(pos);
+            holder.item_time.setText(sdf.format(record.getDateTime()));
+            holder.item_p1.setText(String.valueOf(Tools.round(record.getP1(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_p2.setText(String.valueOf(Tools.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",").concat(" °C"));
+            holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",").concat(" %"));
+            holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
         } catch (Exception e) {}
-        return value;
     }
 
-    public static double calculateMedian(ArrayList<Double> records) {
-        if(records.size() == 0) return 0;
-        Collections.sort(records);
-        return records.get(records.size() / 2);
-    }
-
-    public static ArrayList<DataRecord> fitArrayList(StorageUtils su, ArrayList<DataRecord> records) {
-        if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
-        int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
-        if(divider == 0) return records;
-        ArrayList<DataRecord> new_records = new ArrayList<>();
-        for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
-        return new_records;
-    }
-
-    public static ArrayList<Point> convertDataRecordsToPointsP1(ArrayList<DataRecord> records) {
-        ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getP1()));
-        return result;
-    }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsP1(ArrayList<Point> points) {
-        ArrayList<DataRecord> result = new ArrayList<>();
-        for(Point p : points) {
-            Date date = new Date();
-            date.setTime(p.getX());
-            result.add(new DataRecord(date, p.getY(), 0.0, 0.0, 0.0, 0.0));
-        }
-        return result;
-    }
-
-    public static ArrayList<Point> convertDataRecordsToPointsP2(ArrayList<DataRecord> records) {
-        ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getP2()));
-        return result;
-    }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsP2(ArrayList<Point> points) {
-        ArrayList<DataRecord> result = new ArrayList<>();
-        for(Point p : points) {
-            Date date = new Date();
-            date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, p.getY(), 0.0, 0.0, 0.0));
-        }
-        return result;
-    }
-
-    public static ArrayList<Point> convertDataRecordsToPointsTemp(ArrayList<DataRecord> records) {
-        ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getTemp()));
-        return result;
-    }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsTemp(ArrayList<Point> points) {
-        ArrayList<DataRecord> result = new ArrayList<>();
-        for(Point p : points) {
-            Date date = new Date();
-            date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, p.getY(), 0.0, 0.0));
-        }
-        return result;
-    }
-
-    public static ArrayList<Point> convertDataRecordsToPointsHumidity(ArrayList<DataRecord> records) {
-        ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getHumidity()));
-        return result;
-    }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsHumidity(ArrayList<Point> points) {
-        ArrayList<DataRecord> result = new ArrayList<>();
-        for(Point p : points) {
-            Date date = new Date();
-            date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, 0.0, p.getY(), 0.0));
-        }
-        return result;
-    }
-
-    public static ArrayList<Point> convertDataRecordsToPointsPressure(ArrayList<DataRecord> records) {
-        ArrayList<Point> result = new ArrayList<>();
-        for(DataRecord r : records) result.add(new Point(r.getDateTime().getTime(), r.getPressure()));
-        return result;
-    }
-    public static ArrayList<DataRecord> convertPointsToDataRecordsPressure(ArrayList<Point> points) {
-        ArrayList<DataRecord> result = new ArrayList<>();
-        for(Point p : points) {
-            Date date = new Date();
-            date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, 0.0, 0.0, p.getY()));
-        }
-        return result;
-    }
-
-    public static ArrayList<Sensor> removeDuplicateSensors(ArrayList<Sensor> sensors) {
-        ArrayList<Sensor> sensors_new = new ArrayList<>();
-        outerloop:
-        for(Sensor s_new : sensors) {
-            for(Sensor s_old : sensors_new) {
-                if(s_old.getChipID().equals(s_new.getChipID())) continue outerloop;
-            }
-            sensors_new.add(s_new);
-        }
-        return sensors_new;
-    }
-
-    public static LatLng getLocationFromAddress(Context context, String strAddress){
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if(address == null) return null;
-            Address location = address.get(0);
-            return new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (Exception e) {}
-        return null;
-    }
-
-    public static ArrayList<DataRecord> measurementCorrection1(ArrayList<DataRecord> records) {
-        for(int i = 1; i < records.size(); i++) {
-            DataRecord current_record = records.get(i);
-            //Auf Nullwerte überprüfen
-            if((current_record.getTemp() == 0 && current_record.getHumidity() == 0) || (current_record.getTemp() == 0 && current_record.getPressure() == 0) || (current_record.getHumidity() == 0 && current_record.getPressure() == 0)) {
-                //Vorherigen Datensatz beschaffen
-                DataRecord record_before = records.get(i -1);
-                //Nächsten Datensatz beschaffen, der keine Nullwerte hat
-                DataRecord record_after = record_before;
-                for(int j = i +1; j < records.size(); j++) {
-                    if(!((records.get(j).getTemp() == 0 && records.get(j).getHumidity() == 0) || (records.get(j).getTemp() == 0 && records.get(j).getPressure() == 0) || (records.get(j).getHumidity() == 0 && records.get(j).getPressure() == 0))) {
-                        record_after = records.get(j);
-                        break;
-                    }
-                }
-                //Mittelwerte berechnen
-                //Temperatur
-                double m = Math.abs(record_before.getTemp() - record_after.getTemp()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
-                double b = record_before.getTemp() - m * record_before.getDateTime().getTime();
-                double avg_temp = round(m * current_record.getDateTime().getTime() + b, 2);
-                //Luftfeuchtigkeit
-                m = Math.abs(record_before.getHumidity() - record_after.getHumidity()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
-                b = record_before.getHumidity() - m * record_before.getDateTime().getTime();
-                double avg_humidity = round(m * current_record.getDateTime().getTime() + b, 2);
-                //Luftdruck
-                m = Math.abs(record_before.getPressure() - record_after.getPressure()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
-                b = record_before.getPressure() - m * record_before.getDateTime().getTime();
-                double avg_pressure = round(m * current_record.getDateTime().getTime() + b, 2);
-                //Datensatz entsprechen ändern
-                DataRecord new_record = new DataRecord(current_record.getDateTime(), current_record.getP1(), current_record.getP2(), avg_temp, avg_humidity, avg_pressure);
-                records.set(i, new_record);
-            }
-        }
-
-        return records;
+    @Override
+    public int getItemCount() {
+        return SensorActivity.records == null ? 0 : SensorActivity.records.size();
     }
 }
