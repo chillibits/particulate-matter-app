@@ -1,30 +1,30 @@
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
-import android.content.Context;
+public class Constants {
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+    //Standardwerte
+    public static final int DEFAULT_SYNC_CYCLE = 30; // 30 Sekunden
+    public static final int DEFAULT_SYNC_CYCLE_BACKGROUND = 15; // 15 Minuten
+    public static final boolean DEFAULT_REDUCE_DATA_CONSUMPTION = true;
+    public static final boolean DEFAULT_FIT_ARRAY_LIST_ENABLED = true;
+    public static final int DEFAULT_FIT_ARRAY_LIST_CONSTANT = 200; // bei über 200 Datensätzen wird optimiert
+    public static final int DEFAULT_P1_LIMIT = 40;
+    public static final int DEFAULT_P2_LIMIT = 25;
+    public static final int DEFAULT_TEMP_LIMIT = 0;
+    public static final int DEFAULT_HUMIDITY_LIMIT = 0;
+    public static final int DEFAULT_PRESSURE_LIMIT = 0;
 
-public class ClusterRederer extends DefaultClusterRenderer<SensorClusterItem> {
+    //NotificationChannels
+    public static final String CHANNEL_SYSTEM = "System";
+    public static final String CHANNEL_LIMIT = "Limit";
 
-    //Konstanten
+    //Globale Requestcodes
+    public static final int REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001;
 
-    //Variablen als Objekte
-    private StorageUtils su;
+    //JobScheduler IDs
+    public static final int JOB_SYNC_ID = 10001;
 
-    //Variablen
-
-    public ClusterRederer(Context context, GoogleMap map, ClusterManager<SensorClusterItem> clusterManager, StorageUtils su) {
-        super(context, map, clusterManager);
-        this.su = su;
-    }
-
-    @Override
-    protected void onBeforeClusterItemRendered(SensorClusterItem item, MarkerOptions markerOptions) {
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(item.getTitle()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(item.getTitle()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE));
-    }
+    //Homescreen Widget
+    public static final String WIDGET_EXTRA_SENSOR_ID = "SensorID";
+    public static final String WIDGET_EXTRA_WIDGET_ID = "WidgetID";
 }
