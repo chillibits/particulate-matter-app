@@ -1,30 +1,35 @@
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
-public class Constants {
+import java.util.Arrays;
+import java.util.List;
 
-    //Standardwerte
-    public static final int DEFAULT_SYNC_CYCLE = 30; // 30 Sekunden
-    public static final int DEFAULT_SYNC_CYCLE_BACKGROUND = 15; // 15 Minuten
-    public static final boolean DEFAULT_REDUCE_DATA_CONSUMPTION = true;
-    public static final boolean DEFAULT_FIT_ARRAY_LIST_ENABLED = true;
-    public static final int DEFAULT_FIT_ARRAY_LIST_CONSTANT = 200; // bei über 200 Datensätzen wird optimiert
-    public static final int DEFAULT_P1_LIMIT = 40;
-    public static final int DEFAULT_P2_LIMIT = 25;
-    public static final int DEFAULT_TEMP_LIMIT = 0;
-    public static final int DEFAULT_HUMIDITY_LIMIT = 0;
-    public static final int DEFAULT_PRESSURE_LIMIT = 0;
+public class Line {
 
-    //NotificationChannels
-    public static final String CHANNEL_SYSTEM = "System";
-    public static final String CHANNEL_LIMIT = "Limit";
+    private Point start;
+    private Point end;
 
-    //Globale Requestcodes
-    public static final int REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001;
+    private double dx;
+    private double dy;
+    private double sxey;
+    private double exsy;
+    private double length;
 
-    //JobScheduler IDs
-    public static final int JOB_SYNC_ID = 10001;
+    public Line(Point start, Point end) {
+        this.start = start;
+        this.end = end;
+        dx = start.getX() - end.getX();
+        dy = start.getY() - end.getY();
+        sxey = start.getX() * end.getY();
+        exsy = end.getX() * start.getY();
+        length = Math.sqrt(dx*dx + dy*dy);
+    }
 
-    //Homescreen Widget
-    public static final String WIDGET_EXTRA_SENSOR_ID = "SensorID";
-    public static final String WIDGET_EXTRA_WIDGET_ID = "WidgetID";
+    @SuppressWarnings("unchecked")
+    public List<Point> asList() {
+        return Arrays.asList(start, end);
+    }
+
+    double distance(Point p) {
+        return Math.abs(dy * p.getX() - dx * p.getY() + sxey - exsy) / length;
+    }
 }
