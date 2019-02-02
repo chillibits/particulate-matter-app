@@ -1,3 +1,3 @@
 files:
-  - source: /app/src/main/java/com/mrgames13/jimdo/feinstaubapp
+  - source: app/src/main/res/values-de-rDE/
     translation: app/src/main/res/values-%android_code%/strings.xml
