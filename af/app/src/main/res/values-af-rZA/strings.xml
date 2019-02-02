@@ -1,315 +1,357 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.appwidget.AppWidgetManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.github.fabtransitionactivity.SheetLayout;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
+import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
+import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
+import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
-import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
-import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
-import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
+import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
+import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
+import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
+import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-public class SensorActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     //Konstanten
-    public static final int SORT_MODE_TIME_ASC = 101;
-    public static final int SORT_MODE_TIME_DESC = 102;
-    public static final int SORT_MODE_VALUE1_ASC = 103;
-    public static final int SORT_MODE_VALUE1_DESC = 104;
-    public static final int SORT_MODE_VALUE2_ASC = 105;
-    public static final int SORT_MODE_VALUE2_DESC = 106;
-    public static final int SORT_MODE_TEMP_ASC = 107;
-    public static final int SORT_MODE_TEMP_DESC = 108;
-    public static final int SORT_MODE_HUMIDITY_ASC = 109;
-    public static final int SORT_MODE_HUMIDITY_DESC = 110;
-    public static final int SORT_MODE_PRESSURE_ASC = 111;
-    public static final int SORT_MODE_PRESSURE_DESC = 112;
-    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int REQ_ADD_OWN_SENSOR = 10002;
+    public static final int REQ_SEARCH_LOCATION = 10003;
+    private final int REQ_COMPARE = 10004;
 
     //Variablen als Objekte
+    public static MainActivity own_instance;
     private Resources res;
     private Toolbar toolbar;
-    private TabLayout tab_layout;
-    private ViewPager view_pager;
-    private ViewPagerAdapterSensor view_pager_adapter;
-    private DatePickerDialog date_picker_dialog;
-    private Calendar calendar;
-    private ImageView card_date_edit;
-    private ImageView card_date_today;
-    private ImageView card_date_back;
-    private ImageView card_date_next;
-    private MenuItem progress_menu_item;
-    private ScheduledExecutorService service;
-    public static ArrayList<DataRecord> records = new ArrayList<>();
-    private Sensor sensor;
-    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
-    private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private ViewPager pager;
+    public ViewPagerAdapterMain pager_adapter;
+    private BottomNavigationView bottom_nav;
+    private MenuItem prevMenuItem;
+    private FloatingActionButton fab;
+    private SheetLayout sheet_fab;
+    private FloatingActionButton fab_compare;
+    private FloatingActionButton fab_compare_dismiss;
+    private SheetLayout sheet_fab_compare;
+    private MaterialSearchView searchView;
 
     //Utils-Pakete
-    private ServerMessagingUtils smu;
     private StorageUtils su;
+    private ServerMessagingUtils smu;
 
     //Variablen
-    public static String current_date_string;
-    public static String date_string;
-    public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
-    public static boolean custom_p1 = true;
-    public static boolean custom_p2 = true;
-    public static boolean custom_temp = false;
-    public static boolean custom_humidity = false;
-    public static boolean custom_pressure = false;
-    public static double curve_smoothness = 0;
+    private boolean pressedOnce;
+    private int selected_page;
+    private boolean show_update_snackbar;
+    private boolean selection_running;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //StorageUtils initialisieren
+        su = new StorageUtils(this);
+
+        int state = Integer.parseInt(su.getString("app_theme", "0"));
+        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
+
+        //SplashScreen anzeigen
+        SplashScreenBuilder.getInstance(this)
+                .setVideo(R.raw.splash_animation)
+                .setImage(R.drawable.app_icon)
+                .show();
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensor);
+        setContentView(R.layout.activity_main);
+
+        //Eigene Intanz initialisieren
+        own_instance = this;
 
         //Resourcen initialisieren
         res = getResources();
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(res.getString(R.string.app_name));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //StorageUtils initialisieren
-        su = new StorageUtils(this);
 
         //ServerMessagingUtils initialisieren
-        smu = new ServerMessagingUtils(SensorActivity.this, su);
+        smu = new ServerMessagingUtils(this, su);
 
-        //ViewPager initialisieren
-        view_pager = findViewById(R.id.view_pager);
-        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su);
-        view_pager.setAdapter(view_pager_adapter);
-
-        //TabLayout aufsetzen
-        tab_layout = findViewById(R.id.tablayout);
-        tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tab_layout.setupWithViewPager(view_pager);
-        tab_layout.setBackgroundColor(res.getColor(R.color.colorPrimary));
-        tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //Komponenten initialisieren
+        pager = findViewById(R.id.view_pager);
+        pager.setOffscreenPageLimit(3);
+        pager_adapter = new ViewPagerAdapterMain(getSupportFragmentManager(), this, su, smu);
+        pager.setAdapter(pager_adapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                view_pager.setCurrentItem(tab.getPosition());
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int pos) {
+                if (searchView.isSearchOpen()) searchView.closeSearch();
+                if (pos == 0) {
+                    if (fab.getVisibility() == View.VISIBLE) {
+                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
+                        a.setAnimationListener(new SimpleAnimationListener() {
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                fab.setVisibility(View.GONE);
+                            }
+                        });
+                        fab.startAnimation(a);
+                    }
+                } else if (pos == 1) {
+                    if (fab.getVisibility() == View.GONE) {
+                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                        a.setAnimationListener(new SimpleAnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                fab.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        fab.startAnimation(a);
+                    }
+                    if (selected_page == 2) {
+                        fab.setImageResource(R.drawable.fab_anim_add_to_search);
+                        Drawable drawable = fab.getDrawable();
+                        if (drawable instanceof Animatable) ((Animatable) drawable).start();
+                    }
+                    selected_page = 1;
+                } else if (pos == 2) {
+                    if (fab.getVisibility() == View.GONE) {
+                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                        a.setAnimationListener(new SimpleAnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                fab.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        fab.startAnimation(a);
+                    }
+                    if (selected_page == 1) {
+                        fab.setImageResource(R.drawable.fab_anim_search_to_add);
+                        Drawable drawable = fab.getDrawable();
+                        if (drawable instanceof Animatable) ((Animatable) drawable).start();
+                    }
+                    selected_page = 2;
+                }
+
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                } else {
+                    bottom_nav.getMenu().getItem(0).setChecked(false);
+                }
+                bottom_nav.getMenu().getItem(pos).setChecked(true);
+                prevMenuItem = bottom_nav.getMenu().getItem(pos);
+                invalidateOptionsMenu();
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onPageScrollStateChanged(int state) {
             }
         });
 
-        //Kalender initialisieren
-        calendar = Calendar.getInstance();
-        current_date_string = sdf_date.format(calendar.getTime());
-        date_string = current_date_string;
+        bottom_nav = findViewById(R.id.bottom_navigation);
+        bottom_nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.action_my_favorites) pager.setCurrentItem(0);
+                if (id == R.id.action_all_sensors) pager.setCurrentItem(1);
+                if (id == R.id.action_my_sensors) pager.setCurrentItem(2);
+                return true;
+            }
+        });
 
-        //CardView-Komponenten initialisieren
-        final TextView card_date_value = findViewById(R.id.card_date_value);
-        card_date_edit = findViewById(R.id.card_date_edit);
-        card_date_today = findViewById(R.id.card_date_today);
-        card_date_back = findViewById(R.id.card_date_back);
-        card_date_next = findViewById(R.id.card_date_next);
-
-        card_date_value.setText(date_string);
-        card_date_value.setOnClickListener(new View.OnClickListener() {
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
-            }
-        });
-        card_date_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Datum auswählen
-                chooseDate(card_date_value);
-            }
-        });
-        card_date_today.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Datum auf den heutigen Tag setzen
-                calendar.setTime(new Date());
+                if (pager.getCurrentItem() == 1) {
+                    new SimplePlacesSearchDialogBuilder(MainActivity.this)
+                            .setSearchHint(getString(R.string.search_places))
+                            .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
+                                @Override
+                                public void onPlaceSelected(@NotNull Place place) {
+                                    ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
+                                }
+                            }).build().show();
 
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                card_date_next.setEnabled(false);
-
-                //Daten für ausgewähltes Datum laden
-                loadData(true);
-            }
-        });
-        card_date_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag zurück gehen
-                calendar.add(Calendar.DATE, -1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                loadData(true);
-            }
-        });
-        card_date_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Einen Tag vor gehen
-                calendar.add(Calendar.DATE, 1);
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
-
-                Calendar current_calendar = Calendar.getInstance();
-                current_calendar.set(Calendar.HOUR_OF_DAY, 0);
-                current_calendar.set(Calendar.MINUTE, 0);
-                current_calendar.set(Calendar.SECOND, 0);
-                current_calendar.set(Calendar.MILLISECOND, 0);
-                card_date_next.setEnabled(calendar.before(current_calendar));
-
-                //Daten für ausgewähltes Datum laden
-                loadData(true);
-            }
-        });
-        card_date_next.setEnabled(false);
-
-        //Intent-Extras auslesen
-        sensor = new Sensor();
-        if (getIntent().hasExtra("Name")) {
-            sensor.setName(getIntent().getStringExtra("Name"));
-            getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
-        }
-        if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
-        if (getIntent().hasExtra("Color"))
-            sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
-
-
-        //RefreshPeriod setzen
-        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
-
-        //ScheduledExecutorService aufsetzen
-        service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                if (date_string.equals(current_date_string)) {
-                    Log.i("FA", "Auto refreshing ...");
-                    loadData(false);
+                    /*try {
+                        Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MainActivity.this);
+                        startActivityForResult(intent, REQ_SEARCH_LOCATION);
+                        overridePendingTransition(0, 0);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }*/
+                } else if (pager.getCurrentItem() == 2) {
+                    sheet_fab.expandFab();
                 }
             }
-        }, period, period, TimeUnit.SECONDS);
+        });
 
-        if (!sensor.getChipID().equals("no_id")) loadData(true);
+        sheet_fab = findViewById(R.id.sheet_fab);
+        sheet_fab.setFabAnimationEndListener(new SheetLayout.OnFabAnimationEndListener() {
+            @Override
+            public void onFabAnimationEnd() {
+                startActivityForResult(new Intent(MainActivity.this, AddSensorActivity.class), REQ_ADD_OWN_SENSOR);
+            }
+        });
+        sheet_fab.setFab(fab);
 
-        //Check if sensor is existing on the server
-        checkSensorAvailability();
+        fab_compare = findViewById(R.id.fab_compare);
+        fab_compare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sheet_fab_compare.expandFab();
+            }
+        });
+        sheet_fab_compare = findViewById(R.id.sheet_fab_compare);
+        sheet_fab_compare.setFabAnimationEndListener(new SheetLayout.OnFabAnimationEndListener() {
+            @Override
+            public void onFabAnimationEnd() {
+                //CompareActivity starten
+                Intent i = new Intent(MainActivity.this, CompareActivity.class);
+                i.putExtra("Sensors", pager_adapter.getSelectedSensors());
+                startActivityForResult(i, REQ_COMPARE);
+            }
+        });
+        sheet_fab_compare.setFab(fab_compare);
 
-        // ATTENTION: This was auto-generated to handle app links.
-        Intent appLinkIntent = getIntent();
-        String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();
+        fab_compare_dismiss = findViewById(R.id.fab_compare_dismiss);
+        fab_compare_dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Alle Sensoren deselektieren
+                pager_adapter.deselectAllSensors();
+                updateSelectionMode();
+            }
+        });
+
+        searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                pager_adapter.search(query, pager.getCurrentItem() == 0 ? SensorAdapter.MODE_FAVOURITES : SensorAdapter.MODE_OWN_SENSORS);
+                updateSelectionMode();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                pager_adapter.search(newText, pager.getCurrentItem() == 0 ? SensorAdapter.MODE_FAVOURITES : SensorAdapter.MODE_OWN_SENSORS);
+                updateSelectionMode();
+                return true;
+            }
+        });
+
+        //Start-Position auf der Karte
+        pager.setCurrentItem(1);
+
+        NotificationUtils.createNotificationChannels(this);
+        getServerInfo();
+
+        initializeApp();
     }
 
-    private void chooseDate(final TextView card_date_value) {
-        //Datum auswählen
-        date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar calendar_new = Calendar.getInstance();
-                calendar_new.set(Calendar.YEAR, year);
-                calendar_new.set(Calendar.MONTH, month);
-                calendar_new.set(Calendar.DAY_OF_MONTH, day);
-                card_date_next.setEnabled(calendar_new.before(calendar));
-
-                date_string = sdf_date.format(calendar_new.getTime());
-                card_date_value.setText(date_string);
-
-                calendar = calendar_new;
-
-                //Daten für ausgewähltes Datum laden
-                loadData(true);
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        date_picker_dialog.show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception e) {}
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
-        progress_menu_item = menu.findItem(R.id.action_refresh);
+        if(bottom_nav.getSelectedItemId() == R.id.action_my_favorites) {
+            getMenuInflater().inflate(R.menu.menu_activity_main_my_favourites, menu);
+
+            MenuItem item = menu.findItem(R.id.action_search);
+            searchView.setMenuItem(item);
+        } else if(bottom_nav.getSelectedItemId() == R.id.action_all_sensors) {
+            getMenuInflater().inflate(R.menu.menu_activity_main_all_sensors, menu);
+        } else if(bottom_nav.getSelectedItemId() == R.id.action_my_sensors) {
+            getMenuInflater().inflate(R.menu.menu_activity_main_my_sensors, menu);
+
+            MenuItem item = menu.findItem(R.id.action_search);
+            searchView.setMenuItem(item);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == android.R.id.home) {
-            finish();
-        } else if(id == R.id.action_export) {
-            exportData();
-        } else if(id == R.id.action_refresh) {
-            //Daten neu laden
-            Log.i("FA", "User refreshing ...");
-            loadData(true);
-        } else if(id == R.id.action_settings) {
-            //SettingsActivity starten
-            startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
+        if(id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if(id == R.id.action_rate) {
+            rateApp();
+        } else if(id == R.id.action_share) {
+            recommendApp();
+        } else if(id == R.id.action_search) {
+            item.expandActionView();
+        } else if(id == R.id.action_web) {
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setOrientationLocked(true);
+            integrator.setBeepEnabled(false);
+            integrator.setPrompt(res.getString(R.string.scan_prompt));
+            integrator.initiateScan();
         } else if(id == R.id.action_exit) {
             finish();
         }
@@ -317,181 +359,354 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(service != null) service.shutdown();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(searchView.isSearchOpen()) {
+                searchView.closeSearch();
+            } else {
+                if(!pressedOnce) {
+                    pressedOnce = true;
+                    Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            pressedOnce = false;
+                        }
+                    }, 2500);
+                } else {
+                    pressedOnce = false;
+                    onBackPressed();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void initializeApp() {
+        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(!isJobServiceOn(this)) {
+                //JobScheduler starten
+                ComponentName component = new ComponentName(this, SyncJobService.class);
+                JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING)
+                        .setPeriodic(background_sync_frequency)
+                        .setPersisted(true);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+            }
+        } else {
+            //Alarmmanager aufsetzen
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent start_service_intent = new Intent(this, SyncService.class);
+            PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+        }
+    }
+
+    public static boolean isJobServiceOn(Context context) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE) ;
+        boolean hasBeenScheduled = false ;
+
+        for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+            if (jobInfo.getId() == Constants.JOB_SYNC_ID) {
+                hasBeenScheduled = true ;
+                break;
+            }
+        }
+        return hasBeenScheduled ;
+    }
+
+    public void refresh() {
+        pager_adapter.refresh();
+        updateSelectionMode();
+    }
+
+    private void rateApp() {
+        AlertDialog d = new AlertDialog.Builder(this)
+                .setTitle(res.getString(R.string.rate))
+                .setMessage(res.getString(R.string.rate_m))
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(true)
+                .setPositiveButton(res.getString(R.string.rate), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        final String app_package_name = getPackageName();
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + app_package_name)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + app_package_name)));
+                        }
+                    }
+                })
+                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        d.show();
+    }
+
+    private void recommendApp() {
+        AlertDialog d = new AlertDialog.Builder(this)
+                .setTitle(res.getString(R.string.share))
+                .setMessage(res.getString(R.string.share_m))
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(true)
+                .setPositiveButton(res.getString(R.string.share), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, res.getString(R.string.recommend_string));
+                        i.setType("text/plain");
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        d.show();
+    }
+
+    public void updateSelectionMode() {
+        if(pager_adapter.getSelectedSensors().size() >= 2) {
+            if(!selection_running) {
+                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                fab_compare.startAnimation(a);
+                fab_compare_dismiss.startAnimation(a);
+                fab_compare.setVisibility(View.VISIBLE);
+                fab_compare_dismiss.setVisibility(View.VISIBLE);
+                selection_running = true;
+            }
+        } else {
+            if(selection_running) {
+                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
+                a.setAnimationListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        fab_compare.setVisibility(View.GONE);
+                    }
+                });
+                fab_compare.startAnimation(a);
+
+                a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
+                a.setAnimationListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        fab_compare_dismiss.setVisibility(View.GONE);
+                    }
+                });
+                fab_compare_dismiss.startAnimation(a);
+                selection_running = false;
+            }
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
+            Intent appLinkIntent = getIntent();
+            Uri appLinkData = appLinkIntent.getData();
+            if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
+                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") +1);
+                Random random = new Random();
+                int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+
+                Intent i = new Intent(this, SensorActivity.class);
+                i.putExtra("Name", chip_id);
+                i.putExtra("ID", chip_id);
+                i.putExtra("Color", color);
+                startActivity(i);
+            } else {
+                if(show_update_snackbar) {
+                    Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
+                            .setAction(res.getString(R.string.download), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                    }
+                                }
+                            })
+                            .show();
+                }
+            }
+            su.putBoolean("ShownSensorCompletion", true);
+        } else if(requestCode == REQ_ADD_OWN_SENSOR) {
+            sheet_fab.contractFab();
+        } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
+            Place place = PlaceAutocomplete.getPlace(this, data);
+            ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
+        } else if(requestCode == REQ_COMPARE) {
+            sheet_fab_compare.contractFab();
+        } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                String searchWrd = matches.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) searchView.setQuery(searchWrd, false);
+            }
+        } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
+            try{
+                String sync_key = result.getContents();
+                if(sync_key.length() == 25 && !sync_key.startsWith("http")) {
+                    Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
+                    i.putExtra("sync_key", sync_key);
+                    startService(i);
+                    //Toast anzeigen
+                    Toast t = new Toast(MainActivity.this);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.setDuration(Toast.LENGTH_LONG);
+                    t.setView(getLayoutInflater().inflate(R.layout.sync_success, null));
+                    t.show();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public static void resortData() {
-        try{ Collections.sort(records); } catch (Exception e) {}
-    }
-
-    //-----------------------------------Private Methoden-------------------------------------------
-
-    private void loadData(final boolean from_user) {
-        //ProgressMenuItem setzen
-        if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
-
+    private void getServerInfo() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //Datensätze leeren
-                records.clear();
-
-                //Date String von Gestern ermitteln
-                String date_yesterday = date_string;
-                try{
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(sdf_date.parse(date_yesterday));
-                    c.add(Calendar.DATE, -1);
-                    date_yesterday = sdf_date.format(c.getTime());
+                try {
+                    String result = smu.sendRequest(null, "command=getserverinfo");
+                    if(!result.isEmpty()) {
+                        JSONArray array = new JSONArray(result);
+                        JSONObject jsonobject = array.getJSONObject(0);
+                        final int server_state = jsonobject.getInt("serverstate");
+                        final int min_appversion = Integer.parseInt(jsonobject.getString("min_appversion"));
+                        final int newest_appversion = Integer.parseInt(jsonobject.getString("newest_appversion"));
+                        final String user_msg = jsonobject.getString("user_message");
+                        //Parameter abspeichern
+                        su.putInt("ServerState", server_state);
+                        su.putInt("MinAppVersion", min_appversion);
+                        su.putInt("NewestAppVersion", newest_appversion);
+                        su.putString("UserMsg", user_msg);
+                        //ServerInfo verarbeiten
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                parseServerInfo(server_state, min_appversion, newest_appversion, user_msg);
+                            }
+                        });
+                    }
                 } catch (Exception e) {}
-
-                //Prüfen, ob Intenet verfügbar ist
-                if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
-                    //Internet ist verfügbar
-                    smu.manageDownloads(sensor, date_string, date_yesterday);
-                }
-                //Kein Internet
-                if(su.isCSVFileExisting(date_string, sensor.getChipID()) || su.isCSVFileExisting(date_yesterday, sensor.getChipID())) {
-                    Log.d("FA", "Local CSV Files existing");
-                    //Inhalt der lokalen Dateien auslesen
-                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
-                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
-                    //CSV-Strings zu Objekten machen
-                    records = su.getDataRecordsFromCSV(csv_string_day_before);
-                    records.addAll(su.getDataRecordsFromCSV(csv_string_day));
-                    //Datensätze zuschneiden
-                    records = su.trimDataRecords(records, date_string);
-                    //Sortieren
-                    resortData();
-                    //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) {
-                        records = Tools.measurementCorrection1(records);
-                    }
-                    //Datensätze in Adapter übernehmen
-                    ViewPagerAdapterSensor.records = records;
-                    //Wenn es ein Widget für diesen Sensor gibt, updaten
-                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
-                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
-                    sendBroadcast(update_intent);
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //ViewpagerAdapter refreshen
-                        view_pager_adapter.refreshFragments();
-                        //ProgressMenuItem zurücksetzen
-                        if(progress_menu_item != null) progress_menu_item.setActionView(null);
-                    }
-                });
             }
         }).start();
     }
 
-    private void checkSensorAvailability() {
-        if(!su.getBoolean("DontShowAgain_" + sensor.getChipID()) && smu.isInternetAvailable()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
-                    if(!Boolean.parseBoolean(result)) {
-                        runOnUiThread(new Runnable() {
+    private void parseServerInfo(int server_state, int min_app_version, int newest_app_version, String user_msg) {
+        int app_version_code = 0;
+        try { app_version_code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (PackageManager.NameNotFoundException e1) {}
+        //ServerState verarbeiten
+        if(server_state == 2) {
+            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
+                    .setCancelable(false)
+                    .setTitle(res.getString(R.string.offline_t))
+                    .setMessage(user_msg.equals("") ? res.getString(R.string.offline_m) : user_msg)
+                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    })
+                    .create();
+            d.show();
+        } else if(server_state == 3) {
+            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
+                    .setCancelable(false)
+                    .setTitle(res.getString(R.string.maintenance_t))
+                    .setMessage(user_msg.equals("") ? res.getString(R.string.maintenance_m) : user_msg)
+                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    })
+                    .create();
+            d.show();
+        } else if(server_state == 4) {
+            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
+                    .setCancelable(false)
+                    .setTitle(res.getString(R.string.support_end_t))
+                    .setMessage(user_msg.equals("") ? res.getString(R.string.support_end_m) : user_msg)
+                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    })
+                    .create();
+            d.show();
+        } else {
+            //AppVersion überprüfen
+            if(app_version_code < min_app_version) {
+                AlertDialog d = new AlertDialog.Builder(MainActivity.this)
+                        .setCancelable(false)
+                        .setTitle(res.getString(R.string.update_necessary_t))
+                        .setMessage(res.getString(R.string.update_necessary_m))
+                        .setPositiveButton(res.getString(R.string.download_update), new DialogInterface.OnClickListener() {
                             @Override
-                            public void run() {
-                                AlertDialog d = new AlertDialog.Builder(SensorActivity.this)
-                                        .setCancelable(true)
-                                        .setTitle(R.string.app_name)
-                                        .setMessage(R.string.add_sensor_tick_not_set_message)
-                                        .setPositiveButton(R.string.ok, null)
-                                        .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                su.putBoolean("DontShowAgain_" + sensor.getChipID(), true);
-                                            }
-                                        })
-                                        .create();
-                                d.show();
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                }
+                                finish();
                             }
-                        });
-                    }
-                }
-            }).start();
+                        })
+                        .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        })
+                        .create();
+                d.show();
+            } else if(app_version_code < newest_app_version) {
+                show_update_snackbar = true;
+            }
         }
     }
 
-    private void exportData() {
-        if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_share, null);
-            final AlertDialog d = new AlertDialog.Builder(this)
-                    .setView(v)
-                    .create();
-            d.show();
-
-            RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
-            share_sensor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Sensor teilen
-                            Intent i = new Intent(Intent.ACTION_SEND);
-                            i.setType("text/plain");
-                            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
-                            i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
-                            startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
-
-                            d.dismiss();
-                        }
-                    }, 200);
-                }
-            });
-            RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
-            export_diagram.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(records.size() > 0) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Diagramm exportieren
-                                view_pager_adapter.exportDiagram(SensorActivity.this);
-                                d.dismiss();
-                            }
-                        }, 200);
-                    } else {
-                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+    public void showFab(boolean show) {
+        if(show && pager.getCurrentItem() != 0) {
+            if(fab.getVisibility() == View.GONE) {
+                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+                a.setAnimationListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        fab.setVisibility(View.VISIBLE);
                     }
-                }
-            });
-            RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
-            export_data_records.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(records.size() > 0) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Datensätze exportieren
-                                if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
-                                d.dismiss();
-                            }
-                        }, 200);
-                    } else {
-                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                });
+                fab.startAnimation(a);
+            }
         } else {
-            ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
+            if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);
         }
     }
 }
