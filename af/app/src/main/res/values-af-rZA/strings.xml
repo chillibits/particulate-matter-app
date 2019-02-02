@@ -1,712 +1,229 @@
-package com.mrgames13.jimdo.feinstaubapp.App;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.speech.RecognizerIntent;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Toast;
-
-import com.github.fabtransitionactivity.SheetLayout;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
-import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
-import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
-import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
-import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
-import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
-import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
-import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
-import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
-import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
-import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Random;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
-public class MainActivity extends AppCompatActivity {
-
-    //Konstanten
-    public static final int REQ_ADD_OWN_SENSOR = 10002;
-    public static final int REQ_SEARCH_LOCATION = 10003;
-    private final int REQ_COMPARE = 10004;
-
-    //Variablen als Objekte
-    public static MainActivity own_instance;
-    private Resources res;
-    private Toolbar toolbar;
-    private ViewPager pager;
-    public ViewPagerAdapterMain pager_adapter;
-    private BottomNavigationView bottom_nav;
-    private MenuItem prevMenuItem;
-    private FloatingActionButton fab;
-    private SheetLayout sheet_fab;
-    private FloatingActionButton fab_compare;
-    private FloatingActionButton fab_compare_dismiss;
-    private SheetLayout sheet_fab_compare;
-    private MaterialSearchView searchView;
-
-    //Utils-Pakete
-    private StorageUtils su;
-    private ServerMessagingUtils smu;
-
-    //Variablen
-    private boolean pressedOnce;
-    private int selected_page;
-    private boolean show_update_snackbar;
-    private boolean selection_running;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //StorageUtils initialisieren
-        su = new StorageUtils(this);
-
-        int state = Integer.parseInt(su.getString("app_theme", "0"));
-        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
-
-        //SplashScreen anzeigen
-        SplashScreenBuilder.getInstance(this)
-                .setVideo(R.raw.splash_animation)
-                .setImage(R.drawable.app_icon)
-                .show();
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //Eigene Intanz initialisieren
-        own_instance = this;
-
-        //Resourcen initialisieren
-        res = getResources();
-
-        //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(res.getString(R.string.app_name));
-        setSupportActionBar(toolbar);
-
-        //ServerMessagingUtils initialisieren
-        smu = new ServerMessagingUtils(this, su);
-
-        //Komponenten initialisieren
-        pager = findViewById(R.id.view_pager);
-        pager.setOffscreenPageLimit(3);
-        pager_adapter = new ViewPagerAdapterMain(getSupportFragmentManager(), this, su, smu);
-        pager.setAdapter(pager_adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
-            public void onPageSelected(int pos) {
-                if (searchView.isSearchOpen()) searchView.closeSearch();
-                if (pos == 0) {
-                    if (fab.getVisibility() == View.VISIBLE) {
-                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
-                        a.setAnimationListener(new SimpleAnimationListener() {
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                fab.setVisibility(View.GONE);
-                            }
-                        });
-                        fab.startAnimation(a);
-                    }
-                } else if (pos == 1) {
-                    if (fab.getVisibility() == View.GONE) {
-                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
-                        a.setAnimationListener(new SimpleAnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                                fab.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        fab.startAnimation(a);
-                    }
-                    if (selected_page == 2) {
-                        fab.setImageResource(R.drawable.fab_anim_add_to_search);
-                        Drawable drawable = fab.getDrawable();
-                        if (drawable instanceof Animatable) ((Animatable) drawable).start();
-                    }
-                    selected_page = 1;
-                } else if (pos == 2) {
-                    if (fab.getVisibility() == View.GONE) {
-                        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
-                        a.setAnimationListener(new SimpleAnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                                fab.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        fab.startAnimation(a);
-                    }
-                    if (selected_page == 1) {
-                        fab.setImageResource(R.drawable.fab_anim_search_to_add);
-                        Drawable drawable = fab.getDrawable();
-                        if (drawable instanceof Animatable) ((Animatable) drawable).start();
-                    }
-                    selected_page = 2;
-                }
-
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottom_nav.getMenu().getItem(0).setChecked(false);
-                }
-                bottom_nav.getMenu().getItem(pos).setChecked(true);
-                prevMenuItem = bottom_nav.getMenu().getItem(pos);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-        bottom_nav = findViewById(R.id.bottom_navigation);
-        bottom_nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.action_my_favorites) pager.setCurrentItem(0);
-                if (id == R.id.action_all_sensors) pager.setCurrentItem(1);
-                if (id == R.id.action_my_sensors) pager.setCurrentItem(2);
-                return true;
-            }
-        });
-
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pager.getCurrentItem() == 1) {
-                    new SimplePlacesSearchDialogBuilder(MainActivity.this)
-                            .setSearchHint(getString(R.string.search_places))
-                            .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
-                                @Override
-                                public void onPlaceSelected(@NotNull Place place) {
-                                    ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
-                                }
-                            }).build().show();
-
-                    /*try {
-                        Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MainActivity.this);
-                        startActivityForResult(intent, REQ_SEARCH_LOCATION);
-                        overridePendingTransition(0, 0);
-                    } catch (GooglePlayServicesRepairableException e) {
-                        e.printStackTrace();
-                    } catch (GooglePlayServicesNotAvailableException e) {
-                        e.printStackTrace();
-                    }*/
-                } else if (pager.getCurrentItem() == 2) {
-                    sheet_fab.expandFab();
-                }
-            }
-        });
-
-        sheet_fab = findViewById(R.id.sheet_fab);
-        sheet_fab.setFabAnimationEndListener(new SheetLayout.OnFabAnimationEndListener() {
-            @Override
-            public void onFabAnimationEnd() {
-                startActivityForResult(new Intent(MainActivity.this, AddSensorActivity.class), REQ_ADD_OWN_SENSOR);
-            }
-        });
-        sheet_fab.setFab(fab);
-
-        fab_compare = findViewById(R.id.fab_compare);
-        fab_compare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sheet_fab_compare.expandFab();
-            }
-        });
-        sheet_fab_compare = findViewById(R.id.sheet_fab_compare);
-        sheet_fab_compare.setFabAnimationEndListener(new SheetLayout.OnFabAnimationEndListener() {
-            @Override
-            public void onFabAnimationEnd() {
-                //CompareActivity starten
-                Intent i = new Intent(MainActivity.this, CompareActivity.class);
-                i.putExtra("Sensors", pager_adapter.getSelectedSensors());
-                startActivityForResult(i, REQ_COMPARE);
-            }
-        });
-        sheet_fab_compare.setFab(fab_compare);
-
-        fab_compare_dismiss = findViewById(R.id.fab_compare_dismiss);
-        fab_compare_dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Alle Sensoren deselektieren
-                pager_adapter.deselectAllSensors();
-                updateSelectionMode();
-            }
-        });
-
-        searchView = findViewById(R.id.search_view);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                pager_adapter.search(query, pager.getCurrentItem() == 0 ? SensorAdapter.MODE_FAVOURITES : SensorAdapter.MODE_OWN_SENSORS);
-                updateSelectionMode();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                pager_adapter.search(newText, pager.getCurrentItem() == 0 ? SensorAdapter.MODE_FAVOURITES : SensorAdapter.MODE_OWN_SENSORS);
-                updateSelectionMode();
-                return true;
-            }
-        });
-
-        //Start-Position auf der Karte
-        pager.setCurrentItem(1);
-
-        NotificationUtils.createNotificationChannels(this);
-        getServerInfo();
-
-        initializeApp();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception e) {}
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(bottom_nav.getSelectedItemId() == R.id.action_my_favorites) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_my_favourites, menu);
-
-            MenuItem item = menu.findItem(R.id.action_search);
-            searchView.setMenuItem(item);
-        } else if(bottom_nav.getSelectedItemId() == R.id.action_all_sensors) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_all_sensors, menu);
-        } else if(bottom_nav.getSelectedItemId() == R.id.action_my_sensors) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_my_sensors, menu);
-
-            MenuItem item = menu.findItem(R.id.action_search);
-            searchView.setMenuItem(item);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-        } else if(id == R.id.action_rate) {
-            rateApp();
-        } else if(id == R.id.action_share) {
-            recommendApp();
-        } else if(id == R.id.action_search) {
-            item.expandActionView();
-        } else if(id == R.id.action_web) {
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setOrientationLocked(true);
-            integrator.setBeepEnabled(false);
-            integrator.setPrompt(res.getString(R.string.scan_prompt));
-            integrator.initiateScan();
-        } else if(id == R.id.action_exit) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(searchView.isSearchOpen()) {
-                searchView.closeSearch();
-            } else {
-                if(!pressedOnce) {
-                    pressedOnce = true;
-                    Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            pressedOnce = false;
-                        }
-                    }, 2500);
-                } else {
-                    pressedOnce = false;
-                    onBackPressed();
-                }
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void initializeApp() {
-        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if(!isJobServiceOn(this)) {
-                //JobScheduler starten
-                ComponentName component = new ComponentName(this, SyncJobService.class);
-                JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING)
-                        .setPeriodic(background_sync_frequency)
-                        .setPersisted(true);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
-                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
-            }
-        } else {
-            //Alarmmanager aufsetzen
-            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent start_service_intent = new Intent(this, SyncService.class);
-            PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
-        }
-    }
-
-    public static boolean isJobServiceOn(Context context) {
-        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE) ;
-        boolean hasBeenScheduled = false ;
-
-        for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
-            if (jobInfo.getId() == Constants.JOB_SYNC_ID) {
-                hasBeenScheduled = true ;
-                break;
-            }
-        }
-        return hasBeenScheduled ;
-    }
-
-    public void refresh() {
-        pager_adapter.refresh();
-        updateSelectionMode();
-    }
-
-    private void rateApp() {
-        AlertDialog d = new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.rate))
-                .setMessage(res.getString(R.string.rate_m))
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(true)
-                .setPositiveButton(res.getString(R.string.rate), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        final String app_package_name = getPackageName();
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + app_package_name)));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + app_package_name)));
-                        }
-                    }
-                })
-                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        d.show();
-    }
-
-    private void recommendApp() {
-        AlertDialog d = new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.share))
-                .setMessage(res.getString(R.string.share_m))
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(true)
-                .setPositiveButton(res.getString(R.string.share), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent i = new Intent();
-                        i.setAction(Intent.ACTION_SEND);
-                        i.putExtra(Intent.EXTRA_TEXT, res.getString(R.string.recommend_string));
-                        i.setType("text/plain");
-                        startActivity(i);
-                    }
-                })
-                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        d.show();
-    }
-
-    public void updateSelectionMode() {
-        if(pager_adapter.getSelectedSensors().size() >= 2) {
-            if(!selection_running) {
-                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
-                fab_compare.startAnimation(a);
-                fab_compare_dismiss.startAnimation(a);
-                fab_compare.setVisibility(View.VISIBLE);
-                fab_compare_dismiss.setVisibility(View.VISIBLE);
-                selection_running = true;
-            }
-        } else {
-            if(selection_running) {
-                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
-                a.setAnimationListener(new SimpleAnimationListener() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        fab_compare.setVisibility(View.GONE);
-                    }
-                });
-                fab_compare.startAnimation(a);
-
-                a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
-                a.setAnimationListener(new SimpleAnimationListener() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        fab_compare_dismiss.setVisibility(View.GONE);
-                    }
-                });
-                fab_compare_dismiss.startAnimation(a);
-                selection_running = false;
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
-            Intent appLinkIntent = getIntent();
-            Uri appLinkData = appLinkIntent.getData();
-            if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
-                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") +1);
-                Random random = new Random();
-                int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-
-                Intent i = new Intent(this, SensorActivity.class);
-                i.putExtra("Name", chip_id);
-                i.putExtra("ID", chip_id);
-                i.putExtra("Color", color);
-                startActivity(i);
-            } else {
-                if(show_update_snackbar) {
-                    Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                            .setAction(res.getString(R.string.download), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                    }
-                                }
-                            })
-                            .show();
-                }
-            }
-            su.putBoolean("ShownSensorCompletion", true);
-        } else if(requestCode == REQ_ADD_OWN_SENSOR) {
-            sheet_fab.contractFab();
-        } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
-            Place place = PlaceAutocomplete.getPlace(this, data);
-            ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
-        } else if(requestCode == REQ_COMPARE) {
-            sheet_fab_compare.contractFab();
-        } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) searchView.setQuery(searchWrd, false);
-            }
-        } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
-            try{
-                String sync_key = result.getContents();
-                if(sync_key.length() == 25 && !sync_key.startsWith("http")) {
-                    Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
-                    i.putExtra("sync_key", sync_key);
-                    startService(i);
-                    //Toast anzeigen
-                    Toast t = new Toast(MainActivity.this);
-                    t.setGravity(Gravity.CENTER, 0, 0);
-                    t.setDuration(Toast.LENGTH_LONG);
-                    t.setView(getLayoutInflater().inflate(R.layout.sync_success, null));
-                    t.show();
-                } else {
-                    Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void getServerInfo() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String result = smu.sendRequest(null, "command=getserverinfo");
-                    if(!result.isEmpty()) {
-                        JSONArray array = new JSONArray(result);
-                        JSONObject jsonobject = array.getJSONObject(0);
-                        final int server_state = jsonobject.getInt("serverstate");
-                        final int min_appversion = Integer.parseInt(jsonobject.getString("min_appversion"));
-                        final int newest_appversion = Integer.parseInt(jsonobject.getString("newest_appversion"));
-                        final String user_msg = jsonobject.getString("user_message");
-                        //Parameter abspeichern
-                        su.putInt("ServerState", server_state);
-                        su.putInt("MinAppVersion", min_appversion);
-                        su.putInt("NewestAppVersion", newest_appversion);
-                        su.putString("UserMsg", user_msg);
-                        //ServerInfo verarbeiten
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                parseServerInfo(server_state, min_appversion, newest_appversion, user_msg);
-                            }
-                        });
-                    }
-                } catch (Exception e) {}
-            }
-        }).start();
-    }
-
-    private void parseServerInfo(int server_state, int min_app_version, int newest_app_version, String user_msg) {
-        int app_version_code = 0;
-        try { app_version_code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (PackageManager.NameNotFoundException e1) {}
-        //ServerState verarbeiten
-        if(server_state == 2) {
-            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
-                    .setCancelable(false)
-                    .setTitle(res.getString(R.string.offline_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.offline_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    })
-                    .create();
-            d.show();
-        } else if(server_state == 3) {
-            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
-                    .setCancelable(false)
-                    .setTitle(res.getString(R.string.maintenance_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.maintenance_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    })
-                    .create();
-            d.show();
-        } else if(server_state == 4) {
-            AlertDialog d = new AlertDialog.Builder(MainActivity.this)
-                    .setCancelable(false)
-                    .setTitle(res.getString(R.string.support_end_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.support_end_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    })
-                    .create();
-            d.show();
-        } else {
-            //AppVersion überprüfen
-            if(app_version_code < min_app_version) {
-                AlertDialog d = new AlertDialog.Builder(MainActivity.this)
-                        .setCancelable(false)
-                        .setTitle(res.getString(R.string.update_necessary_t))
-                        .setMessage(res.getString(R.string.update_necessary_m))
-                        .setPositiveButton(res.getString(R.string.download_update), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                }
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        })
-                        .create();
-                d.show();
-            } else if(app_version_code < newest_app_version) {
-                show_update_snackbar = true;
-            }
-        }
-    }
-
-    public void showFab(boolean show) {
-        if(show && pager.getCurrentItem() != 0) {
-            if(fab.getVisibility() == View.GONE) {
-                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
-                a.setAnimationListener(new SimpleAnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        fab.setVisibility(View.VISIBLE);
-                    }
-                });
-                fab.startAnimation(a);
-            }
-        } else {
-            if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);
-        }
-    }
-}
+<?xml version="1.0" encoding="utf-8"?>
+<!--Generated by crowdin.com-->
+<resources>
+    <!-- Common Strings -->
+    <string name="app_name">Feinstaub-App</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="sensors">Sensoren</string>
+    <string name="exit">Beenden</string>
+    <string name="settings">Einstellungen</string>
+    <string name="no_data">Keine Daten</string>
+    <string name="loading">Laden …</string>
+    <string name="loading_data">Daten werden geladen …</string>
+    <string name="internet_is_not_available">Internet nicht verfügbar</string>
+    <string name="activate_wlan">Wlan aktivieren</string>
+    <string name="please_wait_">Bitte warten …</string>
+    <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
+    <string name="offline_t">Server offline</string>
+    <string name="offline_m">Der Server ist offline. Solange dies so ist, können Sie keine Daten abrufen.</string>
+    <string name="maintenance_t">Serverwartung</string>
+    <string name="maintenance_m">Der Server wird gewartet. Sie können während der Wartung leider keine Daten abrufen.</string>
+    <string name="support_end_t">App-Unterstützung zu Ende</string>
+    <string name="support_end_m">Es tut uns leid! Die Feinstaub-App wird nicht mehr von M&amp;R Games unterstützt. Sie können diese App nun deinstallieren.</string>
+    <string name="update_necessary_t">Update verfügbar!</string>
+    <string name="update_necessary_m">Damit die Feinstaub-App ordnungsgemäß funktionieren kann, müssen Sie ein Update durchführen.</string>
+    <string name="download_update">Herunterladen</string>
+    <string name="update_available">Update verfügbar</string>
+    <string name="download">Download</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
+    <string name="widget_select_sensor">Sensor wählen</string>
+    <string name="widget_open_app">App starten</string>
+    <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
+    <string name="compare_sensors">Sensoren vergleichen</string>
+    <string name="edit_sensor">Sensor bearbeiten</string>
+    <string name="complete_sensor">Sensor vervollständigen</string>
+    <string name="unlink_sensor">Sensor entfernen</string>
+    <string name="really_unlink_sensor_1">Wollen Sie den Sensor \'</string>
+    <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Weiterempfehlen</string>
+    <string name="share_app">App weiterempfehlen</string>
+    <string name="share_m">Empfehlen Sie die App Ihren Freunden!</string>
+    <string name="rate">Bewerten</string>
+    <string name="add_own_sensor">Eigenen Sensor hinzufügen</string>
+    <string name="my_favourites">Meine Favoriten</string>
+    <string name="all_sensors">Alle Sensoren</string>
+    <string name="my_sensors">Meine Sensoren</string>
+    <string name="no_favourites">Noch keine Favouriten vorhanden. Um Favoriten hinzuzufügen, wechseln Sie zu \'Alle Sensoren\', tippen auf einen oder mehrere Sensoren und wählen \'Favorit hinzufügen\'.</string>
+    <string name="show_measurements">Messwerte zeigen</string>
+    <string name="add_favourite">Favorit hinzufügen</string>
+    <string name="favourite_added">Favorit wurde hinzugefügt</string>
+    <string name="properties">Eigenschaften</string>
+    <string name="public_short_">Öffentlich:</string>
+    <string name="online_since_">Online seit:</string>
+    <string name="height_short_">Montagehöhe:</string>
+    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
+    <string name="enable_location_m">Eigene Position zeigen?</string>
+    <string name="enable_location">Aktivieren</string>
+    <string name="search_for_sensors">Sensoren durchsuchen</string>
+    <string name="enabled_gps_t">Standort aktiviert</string>
+    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
+    <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
+    <string name="web_version">Web-Version</string>
+    <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="successfully_connected">Erfolgreich verbunden</string>
+    <string name="sync_disconnected">Verbindung getrennt</string>
+    <string name="search_places">Bitte geben Sie einen Ort ein …</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Fertig</string>
+    <string name="name_">Anzeigename:</string>
+    <string name="chip_id">Chip-ID:</string>
+    <string name="choose_color">Farbe wählen</string>
+    <string name="not_all_filled">Bitte alle Felder füllen</string>
+    <string name="sensor_existing">Sensor ist bereits verknüpft</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
+    <string name="dont_show_again">Nicht mehr anzeigen</string>
+    <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
+    <string name="choose_location">Genaue Sensor-Position auswählen</string>
+    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="latitude">Breitengrad</string>
+    <string name="latitude_">Breitengrad:</string>
+    <string name="longitude">Längengrad</string>
+    <string name="longitude_">Längengrad:</string>
+    <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
+    <string name="unknown_location">Unbekannte Position</string>
+    <!-- SensorActivity -->
+    <string name="date">Datum</string>
+    <string name="tab_diagram">Diagramm</string>
+    <string name="tab_data">Datensätze</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
+    <string name="diagram_instruction">Tippen Sie auf das Diagramm für die volle Größe</string>
+    <string name="date_time">Zeit</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatur</string>
+    <string name="humidity_short">Luftftk</string>
+    <string name="pressure_short">Luftdrk</string>
+    <string name="humidity">Luftfeuchtigkeit</string>
+    <string name="pressure">Luftdruck</string>
+    <string name="no_diagram_selected">Kein Diagramm ausgewählt</string>
+    <string name="from">von</string>
+    <string name="to">bis</string>
+    <string name="current_values">Aktuelle Messwerte</string>
+    <string name="state_of_">Stand</string>
+    <string name="curve_smoothness_">Feinheit der Kurve:</string>
+    <string name="export_data">Daten exportieren</string>
+    <string name="export_diagram">Diagramm exportieren</string>
+    <string name="export_data_records">Datensätze exportieren</string>
+    <string name="share_sensor">Sensor teilen</string>
+    <string name="median">Median</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terrain</string>
+    <string name="satellite">Satellit</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="traffic_show">Verkehr anzeigen</string>
+    <string name="traffic_hide">Verkehr ausblenden</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Messzeit:</string>
+    <string name="value_">Wert:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Grenzwert überschritten</string>
+    <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>
+    <string name="limit_exceeded_p2">PM2,5 Grenzwert überschritten</string>
+    <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
+    <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
+    <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">System-Benachrichtigungen</string>
+    <string name="nc_system_description">System-Benachrichtigungen der Feinstaub-App.</string>
+    <string name="nc_limit_name">Grenzwertüberschreitungen</string>
+    <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Funktionen</string>
+    <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
+    <string name="enable_daily_median">Tagesmedian anzeigen</string>
+    <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
+    <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
+    <string name="enable_auto_correction_t">Automatische Fehlerkorrektur</string>
+    <string name="enable_auto_correction_s">Automatische Korrektur von Messfehlern</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
+    <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
+    <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
+    <string name="seconds">Sekunden</string>
+    <string name="second">Sekunde</string>
+    <string name="minutes">Minuten</string>
+    <string name="minute">Minute</string>
+    <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
+    <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Erscheinungsbild</string>
+    <string name="pref_theme">App-Thema</string>
+    <string-array name="pref_theme_array">
+        <item>Automatisch nach Tageszeit</item>
+        <item>Helles Thema</item>
+        <item>Dunkles Thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_restart_t">Neustart benötigt</string>
+    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden. Wollen Sie den Neustart jetzt oder später durchführen?</string>
+    <string name="now">Jetzt</string>
+    <string name="later">Später</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_notification_averages">Mittelwertüberschreitung</string>
+    <string name="pref_notification_averages_s_true">Nachricht, wenn der tägl. Mittelwert den festgelegten Wert überschreitet</string>
+    <string name="pref_notification_averages_s_false">Nachricht, wenn der momentane Wert den festgelegten Wert überschreitet</string>
+    <string name="pref_limit_p1">PM10 Grenzwert</string>
+    <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_p2">PM2.5 Grenzwert</string>
+    <string name="pref_limit_p2_t">PM2,5 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_temp">Temperatur Grenzwert</string>
+    <string name="pref_limit_temp_t">Temperatur Grenzwert (°C)</string>
+    <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
+    <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
+    <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
+    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
+    <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performance</string>
+    <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
+    <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
+    <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Über die Feinstaub-App</string>
+    <string name="pref_serverinfo_t">Serverinfo</string>
+    <string name="pref_serverinfo_downloading_">Serverinfo wird heruntergeladen …</string>
+    <string name="server_state">Serverstatus</string>
+    <string name="client_name">Client-Name</string>
+    <string name="min_app_version">Minimalversion</string>
+    <string name="newest_app_version">Neueste Version</string>
+    <string name="owners">Serverinhaber</string>
+    <string name="serverstate_1">Server ist online</string>
+    <string name="serverstate_2">Server ist offline</string>
+    <string name="serverstate_3">Server wird gewartet</string>
+    <string name="serverstate_4">App wird nicht mehr unterstützt</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3_short">Wird gewartet</string>
+    <string name="serverstate_4_short">Nicht mehr unterstützt</string>
+    <string name="pref_opensource_t">Open-Source-Lizenzen</string>
+    <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_appversion">App-Version</string>
+    <string name="pref_developers_t">Die Entwickler</string>
+    <string name="pref_more_apps_t">Mehr Apps von uns</string>
+    <string name="pref_more_apps_m">Unsere PlayStore-Seite</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>
+</resources>
