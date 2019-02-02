@@ -1,141 +1,229 @@
-package com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
-import com.mrgames13.jimdo.feinstaubapp.R;
-import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
-
-import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import eu.davidea.flipview.FlipView;
-
-public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapter.ViewHolder> {
-
-    //Konstanten
-
-    //Utils-Pakete
-    private StorageUtils su;
-
-    //Variablen als Objekte
-    private Resources res;
-    private Handler h;
-    private ArrayList<Sensor> sensors;
-    private Sensor selected_sensor = null;
-    private ViewHolder selected_sensor_holder;
-
-    //Variablen
-
-    public SelectSensorAdapter(Context context, StorageUtils su, ArrayList<Sensor> sensors) {
-        this.su = su;
-        this.res = context.getResources();
-        this.h = new Handler();
-        this.sensors = sensors;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        //Variablen als Objekte
-        private FlipView item_icon;
-        private TextView item_name;
-        private TextView item_id;
-
-        //Variablen
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            //Oberflächenkomponenten initialisieren
-            item_icon = itemView.findViewById(R.id.item_icon);
-            item_name = itemView.findViewById(R.id.item_name);
-            item_id = itemView.findViewById(R.id.item_id);
-            itemView.findViewById(R.id.item_more).setVisibility(View.GONE);
-        }
-
-        protected void deselect() {
-            item_icon.flip(false);
-        }
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, null);
-        return new SelectSensorAdapter.ViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final ViewHolder h, int pos) {
-        //Daten befüllen
-        final Sensor sensor = sensors.get(pos);
-
-        h.item_icon.getFrontLayout().getBackground().setColorFilter(sensor.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
-        h.item_name.setText(sensor.getName());
-        h.item_id.setText(res.getString(R.string.chip_id) + " " + sensor.getChipID());
-
-        h.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                h.item_icon.flip(!h.item_icon.isFlipped());
-            }
-        });
-        h.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                h.item_icon.flip(!h.item_icon.isFlipped());
-                return true;
-            }
-        });
-        h.item_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                h.item_icon.flip(!h.item_icon.isFlipped());
-            }
-        });
-        h.item_icon.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                h.item_icon.flip(!h.item_icon.isFlipped());
-                return true;
-            }
-        });
-        h.item_icon.setOnFlippingListener(new FlipView.OnFlippingListener() {
-            @Override
-            public void onFlipped(FlipView flipView, boolean checked) {
-                if(checked) {
-                    SelectSensorAdapter.this.h.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(selected_sensor_holder != null) selected_sensor_holder.deselect();
-                            selected_sensor_holder = h;
-                        }
-                    }, 50);
-                    selected_sensor = sensor;
-                } else {
-                    if(selected_sensor.getChipID() == sensor.getChipID()) {
-                        selected_sensor = null;
-                        selected_sensor_holder = null;
-                    }
-                }
-                h.itemView.setBackgroundColor(res.getColor(checked ? R.color.color_selection : R.color.transparent));
-            }
-        });
-
-        h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getChipID()) ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public int getItemCount() {
-        return sensors.size();
-    }
-
-    public Sensor getSelectedSensor() {
-        return selected_sensor;
-    }
-}
+<?xml version="1.0" encoding="utf-8"?>
+<!--Generated by crowdin.com-->
+<resources>
+    <!-- Common Strings -->
+    <string name="app_name">Feinstaub-App</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="sensors">Sensoren</string>
+    <string name="exit">Beenden</string>
+    <string name="settings">Einstellungen</string>
+    <string name="no_data">Keine Daten</string>
+    <string name="loading">Laden …</string>
+    <string name="loading_data">Daten werden geladen …</string>
+    <string name="internet_is_not_available">Internet nicht verfügbar</string>
+    <string name="activate_wlan">Wlan aktivieren</string>
+    <string name="please_wait_">Bitte warten …</string>
+    <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
+    <string name="offline_t">Server offline</string>
+    <string name="offline_m">Der Server ist offline. Solange dies so ist, können Sie keine Daten abrufen.</string>
+    <string name="maintenance_t">Serverwartung</string>
+    <string name="maintenance_m">Der Server wird gewartet. Sie können während der Wartung leider keine Daten abrufen.</string>
+    <string name="support_end_t">App-Unterstützung zu Ende</string>
+    <string name="support_end_m">Es tut uns leid! Die Feinstaub-App wird nicht mehr von M&amp;R Games unterstützt. Sie können diese App nun deinstallieren.</string>
+    <string name="update_necessary_t">Update verfügbar!</string>
+    <string name="update_necessary_m">Damit die Feinstaub-App ordnungsgemäß funktionieren kann, müssen Sie ein Update durchführen.</string>
+    <string name="download_update">Herunterladen</string>
+    <string name="update_available">Update verfügbar</string>
+    <string name="download">Download</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
+    <string name="widget_select_sensor">Sensor wählen</string>
+    <string name="widget_open_app">App starten</string>
+    <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
+    <string name="compare_sensors">Sensoren vergleichen</string>
+    <string name="edit_sensor">Sensor bearbeiten</string>
+    <string name="complete_sensor">Sensor vervollständigen</string>
+    <string name="unlink_sensor">Sensor entfernen</string>
+    <string name="really_unlink_sensor_1">Wollen Sie den Sensor \'</string>
+    <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Weiterempfehlen</string>
+    <string name="share_app">App weiterempfehlen</string>
+    <string name="share_m">Empfehlen Sie die App Ihren Freunden!</string>
+    <string name="rate">Bewerten</string>
+    <string name="add_own_sensor">Eigenen Sensor hinzufügen</string>
+    <string name="my_favourites">Meine Favoriten</string>
+    <string name="all_sensors">Alle Sensoren</string>
+    <string name="my_sensors">Meine Sensoren</string>
+    <string name="no_favourites">Noch keine Favouriten vorhanden. Um Favoriten hinzuzufügen, wechseln Sie zu \'Alle Sensoren\', tippen auf einen oder mehrere Sensoren und wählen \'Favorit hinzufügen\'.</string>
+    <string name="show_measurements">Messwerte zeigen</string>
+    <string name="add_favourite">Favorit hinzufügen</string>
+    <string name="favourite_added">Favorit wurde hinzugefügt</string>
+    <string name="properties">Eigenschaften</string>
+    <string name="public_short_">Öffentlich:</string>
+    <string name="online_since_">Online seit:</string>
+    <string name="height_short_">Montagehöhe:</string>
+    <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
+    <string name="enable_location_m">Eigene Position zeigen?</string>
+    <string name="enable_location">Aktivieren</string>
+    <string name="search_for_sensors">Sensoren durchsuchen</string>
+    <string name="enabled_gps_t">Standort aktiviert</string>
+    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
+    <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
+    <string name="web_version">Web-Version</string>
+    <string name="scan_prompt">Öffnen Sie feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="successfully_connected">Erfolgreich verbunden</string>
+    <string name="sync_disconnected">Verbindung getrennt</string>
+    <string name="search_places">Bitte geben Sie einen Ort ein …</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Fertig</string>
+    <string name="name_">Anzeigename:</string>
+    <string name="chip_id">Chip-ID:</string>
+    <string name="choose_color">Farbe wählen</string>
+    <string name="not_all_filled">Bitte alle Felder füllen</string>
+    <string name="sensor_existing">Sensor ist bereits verknüpft</string>
+    <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
+    <string name="dont_show_again">Nicht mehr anzeigen</string>
+    <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
+    <string name="choose_location">Genaue Sensor-Position auswählen</string>
+    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="latitude">Breitengrad</string>
+    <string name="latitude_">Breitengrad:</string>
+    <string name="longitude">Längengrad</string>
+    <string name="longitude_">Längengrad:</string>
+    <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
+    <string name="unknown_location">Unbekannte Position</string>
+    <!-- SensorActivity -->
+    <string name="date">Datum</string>
+    <string name="tab_diagram">Diagramm</string>
+    <string name="tab_data">Datensätze</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="no_data_date">Keine Daten für dieses Datum vorhanden.</string>
+    <string name="diagram_instruction">Tippen Sie auf das Diagramm für die volle Größe</string>
+    <string name="date_time">Zeit</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatur</string>
+    <string name="humidity_short">Luftftk</string>
+    <string name="pressure_short">Luftdrk</string>
+    <string name="humidity">Luftfeuchtigkeit</string>
+    <string name="pressure">Luftdruck</string>
+    <string name="no_diagram_selected">Kein Diagramm ausgewählt</string>
+    <string name="from">von</string>
+    <string name="to">bis</string>
+    <string name="current_values">Aktuelle Messwerte</string>
+    <string name="state_of_">Stand</string>
+    <string name="curve_smoothness_">Feinheit der Kurve:</string>
+    <string name="export_data">Daten exportieren</string>
+    <string name="export_diagram">Diagramm exportieren</string>
+    <string name="export_data_records">Datensätze exportieren</string>
+    <string name="share_sensor">Sensor teilen</string>
+    <string name="median">Median</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terrain</string>
+    <string name="satellite">Satellit</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="traffic_show">Verkehr anzeigen</string>
+    <string name="traffic_hide">Verkehr ausblenden</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Messzeit:</string>
+    <string name="value_">Wert:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Grenzwert überschritten</string>
+    <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>
+    <string name="limit_exceeded_p2">PM2,5 Grenzwert überschritten</string>
+    <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
+    <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
+    <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">System-Benachrichtigungen</string>
+    <string name="nc_system_description">System-Benachrichtigungen der Feinstaub-App.</string>
+    <string name="nc_limit_name">Grenzwertüberschreitungen</string>
+    <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Funktionen</string>
+    <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
+    <string name="enable_daily_median">Tagesmedian anzeigen</string>
+    <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
+    <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
+    <string name="enable_auto_correction_t">Automatische Fehlerkorrektur</string>
+    <string name="enable_auto_correction_s">Automatische Korrektur von Messfehlern</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="sync_cycle">Synchronisationszyklus</string>
+    <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
+    <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
+    <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
+    <string name="seconds">Sekunden</string>
+    <string name="second">Sekunde</string>
+    <string name="minutes">Minuten</string>
+    <string name="minute">Minute</string>
+    <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
+    <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Erscheinungsbild</string>
+    <string name="pref_theme">App-Thema</string>
+    <string-array name="pref_theme_array">
+        <item>Automatisch nach Tageszeit</item>
+        <item>Helles Thema</item>
+        <item>Dunkles Thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_restart_t">Neustart benötigt</string>
+    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden. Wollen Sie den Neustart jetzt oder später durchführen?</string>
+    <string name="now">Jetzt</string>
+    <string name="later">Später</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_notification_averages">Mittelwertüberschreitung</string>
+    <string name="pref_notification_averages_s_true">Nachricht, wenn der tägl. Mittelwert den festgelegten Wert überschreitet</string>
+    <string name="pref_notification_averages_s_false">Nachricht, wenn der momentane Wert den festgelegten Wert überschreitet</string>
+    <string name="pref_limit_p1">PM10 Grenzwert</string>
+    <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_p2">PM2.5 Grenzwert</string>
+    <string name="pref_limit_p2_t">PM2,5 Grenzwert (µg/m³)</string>
+    <string name="pref_limit_temp">Temperatur Grenzwert</string>
+    <string name="pref_limit_temp_t">Temperatur Grenzwert (°C)</string>
+    <string name="pref_limit_humidity">Luftfeuchtigkeit Grenzwert</string>
+    <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
+    <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
+    <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
+    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
+    <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performance</string>
+    <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
+    <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
+    <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Über die Feinstaub-App</string>
+    <string name="pref_serverinfo_t">Serverinfo</string>
+    <string name="pref_serverinfo_downloading_">Serverinfo wird heruntergeladen …</string>
+    <string name="server_state">Serverstatus</string>
+    <string name="client_name">Client-Name</string>
+    <string name="min_app_version">Minimalversion</string>
+    <string name="newest_app_version">Neueste Version</string>
+    <string name="owners">Serverinhaber</string>
+    <string name="serverstate_1">Server ist online</string>
+    <string name="serverstate_2">Server ist offline</string>
+    <string name="serverstate_3">Server wird gewartet</string>
+    <string name="serverstate_4">App wird nicht mehr unterstützt</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3_short">Wird gewartet</string>
+    <string name="serverstate_4_short">Nicht mehr unterstützt</string>
+    <string name="pref_opensource_t">Open-Source-Lizenzen</string>
+    <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_appversion">App-Version</string>
+    <string name="pref_developers_t">Die Entwickler</string>
+    <string name="pref_more_apps_t">Mehr Apps von uns</string>
+    <string name="pref_more_apps_m">Unsere PlayStore-Seite</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>
+</resources>
