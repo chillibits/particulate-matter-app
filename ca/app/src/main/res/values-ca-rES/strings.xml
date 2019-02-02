@@ -1,11 +1,10 @@
 package com.mrgames13.jimdo.feinstaubapp.Services;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
+import android.os.IBinder;
 import android.util.Log;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -21,10 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class SyncJobService extends JobService {
+public class SyncService extends Service {
 
     //Konstanten
 
@@ -45,27 +43,20 @@ public class SyncJobService extends JobService {
     private int limit_humidity;
     private int limit_pressure;
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("FA", "Job started from foreground");
-        doWork(true, null);
+        Log.d("FA", "SyncService started");
+        doWork(!(intent.hasExtra("FromBackground") && intent.getBooleanExtra("FromBackground", false)));
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public boolean onStartJob(JobParameters params) {
-        Log.d("FA", "Job started from background");
-        doWork(false, params);
-        return true;
-    }
-
-    @Override
-    public boolean onStopJob(JobParameters jobParameters) {
-        Log.w("FA", "Job stopped before completion");
-        return false;
-    }
-
-    private void doWork(final boolean fromForeground, final JobParameters params) {
+    private void doWork(final boolean fromForeground) {
         //Resourcen initialisieren
         res = getResources();
 
@@ -183,15 +174,10 @@ public class SyncJobService extends JobService {
                                 sendBroadcast(update_intent);
                             }
                         }
-
-                        if(params != null) jobFinished(params, false);
-                    } catch (Exception e) {
-                        if(params != null) jobFinished(params, true);
-                    }
+                    } catch (Exception e) {}
+                    stopSelf();
                 }
             }).start();
-        } else {
-            if(params != null) jobFinished(params, false);
         }
     }
 
