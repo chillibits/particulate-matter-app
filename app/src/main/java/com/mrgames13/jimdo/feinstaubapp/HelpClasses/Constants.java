@@ -17,6 +17,10 @@ public class Constants {
     //NotificationChannels
     public static final String CHANNEL_SYSTEM = "System";
     public static final String CHANNEL_LIMIT = "Limit";
+    public static final String CHANNEL_MISSING_MEASUREMENTS = "Missing Measurements";
+
+    //Berechnungen
+    public static final int PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL = 20;
 
     //Globale Requestcodes
     public static final int REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001;

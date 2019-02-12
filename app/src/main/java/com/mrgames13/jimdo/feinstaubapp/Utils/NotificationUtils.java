@@ -17,14 +17,14 @@ import androidx.core.app.NotificationCompat;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class NotificationUtils {
+    //Priorities
     public final int PRIORITY_HIGH = 1;
-        public final int PRIORITY_NORMAL = 0;
-        public final int PRIORITY_LOW = -1;
+    public final int PRIORITY_NORMAL = 0;
+    public final int PRIORITY_LOW = -1;
     //Vibrations
-        public final int VIBRATION_SHORT = 300;
+    public final int VIBRATION_SHORT = 300;
     //Lights
-        public final int LIGHT_SHORT = 500;
-
+    public final int LIGHT_SHORT = 500;
 
     //Variablen als Objekte
     private Context context;
@@ -53,11 +53,20 @@ public class NotificationUtils {
             NotificationChannel channel_limit = new NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance);
             channel_limit.setDescription(context.getString(R.string.nc_limit_description));
             notificationManager.createNotificationChannel(channel_limit);
+            //MissingMeasurements-Channel
+            importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel_missing_measurements = new NotificationChannel(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.nc_missing_measurements_name), importance);
+            channel_missing_measurements.setDescription(context.getString(R.string.nc_missing_measurements_description));
+            notificationManager.createNotificationChannel(channel_missing_measurements);
         }
     }
 
     public void displayLimitExceededNotification(String title, String message, int id, long time) {
         displayNotification(Constants.CHANNEL_LIMIT, title, message, id, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+    }
+
+    public void displayMissingMeasurementsNotification(String title, String message, int id, long time) {
+        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, title, message, id, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
     }
 
     public void displayNotification(String channel_id, String title, String message, int id, Intent i, int priority, int light_lenght, long[] vibration, long time) {
@@ -85,11 +94,15 @@ public class NotificationUtils {
         nm.notify(id, n.build());
     }
 
-    private NotificationCompat.Builder buildNotification(String title, String message) {
+    public NotificationCompat.Builder buildNotification(String title, String message) {
         return new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(res.getColor(R.color.colorPrimary));
+    }
+
+    public void cancelNotification(int id) {
+        nm.cancel(id);
     }
 }

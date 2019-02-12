@@ -147,6 +147,8 @@
     <string name="nc_system_description">System-Benachrichtigungen der Feinstaub-App.</string>
     <string name="nc_limit_name">Grenzwertüberschreitungen</string>
     <string name="nc_limit_description">Benachrichtigungen in der Statusleiste anzeigen, wenn der eingestellte Grenzwert überschritten wurde.</string>
+    <string name="nc_missing_measurements_name">Fehlende Messwerte</string>
+    <string name="nc_missing_measurements_description">Benachrichtigungen in der Statusleiste anzeigen, wenn ein Sensor keine Messdaten mehr sendet und ein Verdacht auf einen Ausfall des Sensors besteht.</string>
 
     <!-- Feature Settings -->
     <string name="pref_header_features">Funktionen</string>
@@ -193,6 +195,9 @@
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
     <string name="pref_notification_averages_s_true">Nachricht, wenn der tägl. Mittelwert den festgelegten Wert überschreitet</string>
     <string name="pref_notification_averages_s_false">Nachricht, wenn der momentane Wert den festgelegten Wert überschreitet</string>
+    <string name="pref_notification_breakdown">Nachricht beim Sensor-Ausfall</string>
+    <string name="pref_notification_breakdown_s">Benachrichtigung bei eigenen Sensoren, wenn mehrere Messungen ausbleiben</string>
+    <string name="pref_notification_breakdown_number">Erlaubte Anzahl fehlender Messungen</string>
     <string name="pref_limit_p1">PM10 Grenzwert</string>
     <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
     <string name="pref_limit_p2">PM2.5 Grenzwert</string>

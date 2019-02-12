@@ -3,6 +3,7 @@ package com.mrgames13.jimdo.feinstaubapp.Utils;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
@@ -185,7 +186,22 @@ public class Tools {
                 records.set(i, new_record);
             }
         }
-
         return records;
+    }
+
+    public static int getMeasurementInteval(ArrayList<DataRecord> records) {
+        int interval = 0;
+        if(records.size() >= 3) {
+            long interval1 = records.get(1).getDateTime().getTime() - records.get(0).getDateTime().getTime();
+            long interval2 = records.get(2).getDateTime().getTime() - records.get(1).getDateTime().getTime();
+            if(interval1 > interval2 - interval2 * (Constants.PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL / 100) && interval < interval2 + interval2 * (Constants.PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL / 100)) {
+                //Intervall zwischen dem ersten Paar und dem zweiten Paar diferiert schwach oder ist gleich
+                Log.d("FA", "Gleich");
+            } else {
+                //Intervall zwischen dem ersten Paar und dem zweiten Paar diferiert stark
+                Log.d("FA", "Verschieden");
+            }
+        }
+        return interval;
     }
 }

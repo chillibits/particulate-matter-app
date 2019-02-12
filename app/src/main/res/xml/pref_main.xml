@@ -129,6 +129,22 @@
             android:selectAllOnFocus="true"
             android:maxLength="7"
             android:summary="%s hPa"/>
+
+        <SwitchPreference
+            android:key="notification_breakdown"
+            android:defaultValue="true"
+            android:title="@string/pref_notification_breakdown"
+            android:summary="@string/pref_notification_breakdown_s"/>
+
+        <EditTextPreference
+            android:key="notification_breakdown_number"
+            android:defaultValue="5"
+            android:title="@string/pref_notification_breakdown_number"
+            android:dialogTitle="@string/pref_notification_breakdown_number"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:maxLength="3"
+            android:summary="%s"/>
     </PreferenceCategory>
 
     <PreferenceCategory

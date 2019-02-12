@@ -4,6 +4,7 @@ import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 public class SyncService extends Service {
 
@@ -68,6 +70,13 @@ public class SyncService extends Service {
 
         //NotificationUtils initialisieren
         nu = new NotificationUtils(this);
+
+        if(fromForeground) {
+            NotificationCompat.Builder n = nu.buildNotification(getString(R.string.app_name), getString(R.string.loading_data));
+            n.setSmallIcon(R.drawable.notification_icon);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) n.setChannelId(Constants.CHANNEL_SYSTEM);
+            startForeground(111, n.build());
+        }
 
         //Prüfen, ob Intenet verfügbar ist
         if(smu.isInternetAvailable()) {
@@ -171,10 +180,14 @@ public class SyncService extends Service {
                                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                                 update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getChipID());
-                                sendBroadcast(update_intent);
+                                getApplicationContext().sendBroadcast(update_intent);
                             }
                         }
                     } catch (Exception e) {}
+
+                    //Foreground Notification beenden
+                    if(fromForeground) nu.cancelNotification(111);
+
                     stopSelf();
                 }
             }).start();

@@ -6,6 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -39,6 +41,8 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] app_widget_id) {
         super.onUpdate(context, appWidgetManager, app_widget_id);
         initialize(context);
+
+        Log.d("FA", "Update!");
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 
@@ -85,7 +89,11 @@ public class WidgetProvider extends AppWidgetProvider {
             initializeComponents(context, rv, widget_id);
 
             update(context, rv, widget_id);
-            context.startService(new Intent(context, SyncService.class));
+            if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(new Intent(context, SyncService.class));
+            } else {
+                context.startService(new Intent(context, SyncService.class));
+            }
         }
     }
 

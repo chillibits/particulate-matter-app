@@ -84,7 +84,9 @@
     <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
     <string name="limit_exceeded_pressure">Pressure limit exceeded</string>
     <string name="nc_system_name">System notifications</string>
-    <string name="nc_limit_name">limit exceedings</string>
+    <string name="nc_limit_name">Limit exceedings</string>
+    <string name="nc_missing_measurements_name">Missing measurements</string>
+    <string name="nc_missing_measurements_description">Displays notifications in the status bar, when a sensor sends no measurements any more and if the suspicion of sensor breakdown appears.</string>
     <string name="nc_system_description">System notifications from the Particulate Matter App.</string>
     <string name="nc_limit_description">Display notifications in the status bar, when one of the adjusted limit is exceeded.</string>
     <string name="curve_smoothness_">Curve smoothness:</string>
@@ -201,6 +203,9 @@
     <string name="pref_notification_averages">Notification on exceeded average</string>
     <string name="pref_notification_averages_s_true">Notification, when daily average exceeds the determinated value</string>
     <string name="pref_notification_averages_s_false">Notification, when current value exceeds the determinated value</string>
+    <string name="pref_notification_breakdown">Notification on sensor breakdown</string>
+    <string name="pref_notification_breakdown_s">Notification for own sensors when severeral measurements suspend</string>
+    <string name="pref_notification_breakdown_number">Allowed number of missing measurements</string>
     <string name="diagram_instruction">Tap on graph to show it in fullscreen</string>
     <string name="widget_app_data_cleared">The app data was cleared. Please select the sensor again</string>
     <string name="widget_select_sensor">Select sensor</string>

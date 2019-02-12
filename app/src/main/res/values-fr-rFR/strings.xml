@@ -188,6 +188,9 @@
     <string name="pref_notification_averages">Transgression de la valeur moyenne</string>
     <string name="pref_notification_averages_s_true">Message, si la valeur moyenne quotidienne dépasse la valeur fixée</string>
     <string name="pref_notification_averages_s_false">Message, si la valeur actuelle dépasse la valeur fixée</string>
+    <string name="pref_notification_breakdown"></string>
+    <string name="pref_notification_breakdown_s"></string>
+    <string name="pref_notification_breakdown_number"></string>
     <string-array name="pref_theme_array">
         <item>Automatique par heure</item>
         <item>Thème lumière</item>
@@ -207,7 +210,9 @@
     <string name="successfully_connected">"relié réussie "</string>
     <string name="sync_disconnected">débranché</string>
     <string name="sensors">capteurs</string>
-    <string name="search_places">Saisez un lieu, s\'il vous plaît ...</string>
+    <string name="search_places">Saisez un lieu, s\'il vous plaît …</string>
     <string name="enable_auto_correction_t">correction d\'erreur automatique</string>
     <string name="enable_auto_correction_s">Correction du erreur de mesure automatique</string>
+    <string name="nc_missing_measurements_name"></string>
+    <string name="nc_missing_measurements_description"></string>
 </resources>
