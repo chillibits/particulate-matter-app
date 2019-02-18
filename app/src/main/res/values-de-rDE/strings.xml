@@ -141,6 +141,7 @@
     <string name="limit_exceeded_temp">Temperatur Grenzwert überschritten</string>
     <string name="limit_exceeded_humidity">Luftfeuchtigkeit Grenzwert überschritten</string>
     <string name="limit_exceeded_pressure">Luftdruck Grenzwert überschritten</string>
+    <string name="sensor_breakdown">Sensor-Ausfall</string>
 
     <!-- NotificationChannels -->
     <string name="nc_system_name">System-Benachrichtigungen</string>
@@ -210,6 +211,9 @@
     <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
     <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
+    <string name="measurement">Messung</string>
+    <string name="measurements">Messungen</string>
+
 
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
@@ -217,6 +221,8 @@
     <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
     <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
     <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
+    <string name="clear_sensor_data_t">Sensordaten bereinigen</string>
+    <string name="clear_sensor_data_m">Zwischengespeichterte Sensordaten leeren, um Speicher zu sparen</string>
 
     <!-- About Settings -->
     <string name="pref_header_about">Über die Feinstaub-App</string>

@@ -65,8 +65,8 @@ public class NotificationUtils {
         displayNotification(Constants.CHANNEL_LIMIT, title, message, id, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
     }
 
-    public void displayMissingMeasurementsNotification(String title, String message, int id, long time) {
-        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, title, message, id, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+    public void displayMissingMeasurementsNotification(String chip_id, String sensor_name) {
+        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, new Intent(context, MainActivity.class), PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
     }
 
     public void displayNotification(String channel_id, String title, String message, int id, Intent i, int priority, int light_lenght, long[] vibration, long time) {

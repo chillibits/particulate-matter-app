@@ -13,6 +13,7 @@ public class Constants {
     public static final int DEFAULT_TEMP_LIMIT = 0;
     public static final int DEFAULT_HUMIDITY_LIMIT = 0;
     public static final int DEFAULT_PRESSURE_LIMIT = 0;
+    public static final int DEFAULT_MISSING_MEASUREMENT_NUMBER = 5;
 
     //NotificationChannels
     public static final String CHANNEL_SYSTEM = "System";

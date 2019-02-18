@@ -289,6 +289,63 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        final Preference notification_breakdown = findPreference("notification_breakdown");
+        final EditTextPreference notification_breakdown_number = (EditTextPreference) findPreference("notification_breakdown_number");
+        notification_breakdown.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object enabled) {
+                notification_breakdown_number.setEnabled((boolean) enabled);
+                return true;
+            }
+        });
+        notification_breakdown_number.setEnabled(su.getBoolean("notification_breakdown", true));
+        notification_breakdown_number.setSummary(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER)) + " " + (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER))) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
+        notification_breakdown_number.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                notification_breakdown_number.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
+                return true;
+            }
+        });
+
+        final Preference clear_sensor_data = findPreference("clear_sensor_data");
+        clear_sensor_data.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.clear_sensor_data_t)
+                        .setMessage(R.string.clear_sensor_data_m)
+                        .setIcon(R.drawable.delete_red)
+                        .setNegativeButton(R.string.cancel, null)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Sensordaten löschen
+                                final ProgressDialog pd = new ProgressDialog(SettingsActivity.this);
+                                pd.setMessage(res.getString(R.string.please_wait_));
+                                pd.show();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        su.clearSensorData();
+                                        su.clearSensorDataMetadata();
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                pd.dismiss();
+                                            }
+                                        });
+                                    }
+                                }).start();
+                            }
+                        })
+                        .create();
+                d.show();
+                return true;
+            }
+        });
+
         final Preference about_serverinfo = findPreference("about_serverinfo");
         about_serverinfo.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

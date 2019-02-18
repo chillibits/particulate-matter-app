@@ -424,7 +424,7 @@ public class CompareActivity extends AppCompatActivity {
                     ArrayList<DataRecord> current_records = records.get(i);
                     //ggf. Fehlerkorrektur(en) durchführen
                     if(su.getBoolean("enable_auto_correction", true)) {
-                        current_records = Tools.measurementCorrection1(current_records);
+                        current_records = Tools.measurementCorrection(current_records);
                     }
                     if(current_records.size() > 0) {
                         no_data = false;

@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
@@ -15,6 +16,7 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
@@ -53,7 +55,7 @@ public class SyncService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("FA", "SyncService started");
+        Toast.makeText(this, "SyncService started", Toast.LENGTH_SHORT).show();
         doWork(!(intent.hasExtra("FromBackground") && intent.getBooleanExtra("FromBackground", false)));
         return super.onStartCommand(intent, flags, startId);
     }
@@ -116,6 +118,13 @@ public class SyncService extends Service {
                             if (records.size() > 0) {
                                 //Datensätze zuschneiden
                                 records = su.trimDataRecords(records, date_string);
+                                //Auf einen Ausfall prüfen
+                                if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
+                                    nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
+                                } else {
+                                    nu.cancelNotification(Integer.parseInt(s.getChipID()) * 10);
+                                }
+                                //Durchschnittswerte bilden
                                 double average_p1 = getP1Average(records);
                                 double average_p2 = getP2Average(records);
                                 double average_temp = getTempAverage(records);

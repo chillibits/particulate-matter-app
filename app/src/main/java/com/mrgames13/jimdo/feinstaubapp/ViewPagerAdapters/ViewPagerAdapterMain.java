@@ -401,7 +401,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
-                    moveCamera(current_country);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 11));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

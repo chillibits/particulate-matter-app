@@ -153,7 +153,7 @@ public class Tools {
         return null;
     }
 
-    public static ArrayList<DataRecord> measurementCorrection1(ArrayList<DataRecord> records) {
+    public static ArrayList<DataRecord> measurementCorrection(ArrayList<DataRecord> records) {
         for(int i = 1; i < records.size(); i++) {
             DataRecord current_record = records.get(i);
             //Auf Nullwerte überprüfen
@@ -189,19 +189,17 @@ public class Tools {
         return records;
     }
 
-    public static int getMeasurementInteval(ArrayList<DataRecord> records) {
-        int interval = 0;
-        if(records.size() >= 3) {
-            long interval1 = records.get(1).getDateTime().getTime() - records.get(0).getDateTime().getTime();
-            long interval2 = records.get(2).getDateTime().getTime() - records.get(1).getDateTime().getTime();
-            if(interval1 > interval2 - interval2 * (Constants.PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL / 100) && interval < interval2 + interval2 * (Constants.PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL / 100)) {
-                //Intervall zwischen dem ersten Paar und dem zweiten Paar diferiert schwach oder ist gleich
-                Log.d("FA", "Gleich");
-            } else {
-                //Intervall zwischen dem ersten Paar und dem zweiten Paar diferiert stark
-                Log.d("FA", "Verschieden");
-            }
-        }
-        return interval;
+    public static boolean isMeasurementBreakdown(StorageUtils su, ArrayList<DataRecord> records) {
+        long measurement_interval = records.size() > 2 ? getMeasurementInteval(records) : 0;
+        Log.d("FA", "Measurement interval: " + String.valueOf(measurement_interval));
+        if(measurement_interval <= 0) return false;
+        return System.currentTimeMillis() > records.get(records.size() - 1).getDateTime().getTime() + measurement_interval * (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER))) + 1);
+    }
+
+    private static long getMeasurementInteval(ArrayList<DataRecord> records) {
+        ArrayList<Long> distances = new ArrayList<>();
+        for(int i = 1; i < records.size(); i++) distances.add(records.get(i).getDateTime().getTime() - records.get(i -1).getDateTime().getTime());
+        Collections.sort(distances);
+        return distances.get(distances.size() / 2);
     }
 }

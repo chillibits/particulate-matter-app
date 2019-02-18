@@ -217,5 +217,10 @@
     <string name="search_places">Please enter a place …</string>
     <string name="enable_auto_correction_t">Auto error correction</string>
     <string name="enable_auto_correction_s">Automatic correction of defective measurements</string>
+    <string name="clear_sensor_data_t">Clear sensor data</string>
+    <string name="clear_sensor_data_m">Clear cached data to save storage</string>
+    <string name="measurement">measurement</string>
+    <string name="measurements">measurements</string>
+    <string name="sensor_breakdown">Sensor breakdown</string>
 
 </resources>

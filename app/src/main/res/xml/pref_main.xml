@@ -144,7 +144,7 @@
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:maxLength="3"
-            android:summary="%s"/>
+            android:summary="%s Messungen"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -162,6 +162,11 @@
             android:defaultValue="false"
             android:title="@string/pref_increase_diagram_performance"
             android:summary="@string/pref_increase_diagram_performance_s"/>
+
+        <Preference
+            android:key="clear_sensor_data"
+            android:title="@string/clear_sensor_data_t"
+            android:summary="@string/clear_sensor_data_m" />
     </PreferenceCategory>
 
     <PreferenceCategory

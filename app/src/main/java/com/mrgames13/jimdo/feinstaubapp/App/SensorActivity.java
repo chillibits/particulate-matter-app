@@ -26,6 +26,7 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
+import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
@@ -83,11 +84,11 @@ public class SensorActivity extends AppCompatActivity {
     public static ArrayList<DataRecord> records = new ArrayList<>();
     private Sensor sensor;
     private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
-    private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     //Utils-Pakete
     private ServerMessagingUtils smu;
     private StorageUtils su;
+    private NotificationUtils nu;
 
     //Variablen
     public static String current_date_string;
@@ -118,6 +119,9 @@ public class SensorActivity extends AppCompatActivity {
 
         //ServerMessagingUtils initialisieren
         smu = new ServerMessagingUtils(SensorActivity.this, su);
+
+        //NotificationUtils initialisieren
+        nu = new NotificationUtils(this);
 
         //ViewPager initialisieren
         view_pager = findViewById(R.id.view_pager);
@@ -372,8 +376,12 @@ public class SensorActivity extends AppCompatActivity {
                     //Sortieren
                     resortData();
                     //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) {
-                        records = Tools.measurementCorrection1(records);
+                    if(su.getBoolean("enable_auto_correction", true)) records = Tools.measurementCorrection(records);
+                    //Auf einen Ausfall prüfen
+                    if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && calendar.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE) && Tools.isMeasurementBreakdown(su, records)) {
+                        nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
+                    } else {
+                        nu.cancelNotification(Integer.parseInt(sensor.getChipID()) * 10);
                     }
                     //Datensätze in Adapter übernehmen
                     ViewPagerAdapterSensor.records = records;

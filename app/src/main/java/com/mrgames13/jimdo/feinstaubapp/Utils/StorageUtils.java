@@ -129,6 +129,24 @@ public class StorageUtils extends SQLiteOpenHelper {
         } catch (Exception e) {}
     }
 
+    public boolean clearSensorData() {
+        try{
+            File dir = new File(context.getFilesDir(), "/SensorData");
+            String[] children = dir.list();
+            for (int j = 0; j < children.length; j++) new File(dir, children[j]).delete();
+            return true;
+        } catch (Exception e) {}
+        return false;
+    }
+
+    public void clearSensorDataMetadata() {
+        e = prefs.edit();
+        for (String key : prefs.getAll().keySet()) {
+            if (key.startsWith("LM_")) e.remove(key);
+        }
+        e.apply();
+    }
+
     public ArrayList<DataRecord> getDataRecordsFromCSV(String csv_string) {
         if(csv_string.equals("")) return new ArrayList<>();
         ArrayList<DataRecord> records = new ArrayList<>();
