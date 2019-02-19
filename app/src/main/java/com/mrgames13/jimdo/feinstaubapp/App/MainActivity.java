@@ -1,5 +1,6 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
@@ -38,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -408,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static boolean isJobServiceOn(Context context) {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE) ;
         boolean hasBeenScheduled = false ;
@@ -519,10 +522,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
-            Intent appLinkIntent = getIntent();
-            Uri appLinkData = appLinkIntent.getData();
+            Intent intent = getIntent();
+            Uri appLinkData = intent.getData();
             if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
-                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") +1);
+                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
                 Random random = new Random();
                 int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
 
@@ -530,6 +533,13 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("Name", chip_id);
                 i.putExtra("ID", chip_id);
                 i.putExtra("Color", color);
+                startActivity(i);
+            } else if(intent.hasExtra("ID")) {
+                Sensor s = su.getSensor(intent.getStringExtra("ID"));
+                Intent i = new Intent(this, SensorActivity.class);
+                i.putExtra("Name", s.getName());
+                i.putExtra("ID", s.getChipID());
+                i.putExtra("Color", s.getColor());
                 startActivity(i);
             } else {
                 if(show_update_snackbar) {

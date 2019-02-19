@@ -378,10 +378,16 @@ public class SensorActivity extends AppCompatActivity {
                     //ggf. Fehlerkorrektur(en) durchführen
                     if(su.getBoolean("enable_auto_correction", true)) records = Tools.measurementCorrection(records);
                     //Auf einen Ausfall prüfen
-                    if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && calendar.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE) && Tools.isMeasurementBreakdown(su, records)) {
-                        nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
-                    } else {
-                        nu.cancelNotification(Integer.parseInt(sensor.getChipID()) * 10);
+                    if(smu.isInternetAvailable()) {
+                        if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && calendar.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE) && Tools.isMeasurementBreakdown(su, records)) {
+                            if(!su.getBoolean("BD_" + sensor.getChipID())) {
+                                nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
+                                su.putBoolean("BD_" + sensor.getChipID(), true);
+                            }
+                        } else {
+                            nu.cancelNotification(Integer.parseInt(sensor.getChipID()) * 10);
+                            su.removeKey("BD_" + sensor.getChipID());
+                        }
                     }
                     //Datensätze in Adapter übernehmen
                     ViewPagerAdapterSensor.records = records;

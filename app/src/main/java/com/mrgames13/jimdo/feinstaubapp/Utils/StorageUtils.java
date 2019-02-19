@@ -324,6 +324,14 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getFloat(name, (float) default_value);
     }
 
+    public void removeKey(String name) {
+        e = prefs.edit();
+        for (String key : prefs.getAll().keySet()) {
+            if (key.equals(name)) e.remove(key);
+        }
+        e.apply();
+    }
+
     //------------------------------------------Datenbank-------------------------------------------
 
     @Override

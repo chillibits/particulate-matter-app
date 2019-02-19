@@ -131,6 +131,7 @@
             android:id="@+id/container"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
             android:paddingRight="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

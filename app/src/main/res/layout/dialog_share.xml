@@ -22,7 +22,6 @@
             app:srcCompat="@drawable/forward"/>
 
         <TextView
-            android:id="@+id/share_sensor_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -50,7 +49,6 @@
             app:srcCompat="@drawable/diagram"/>
 
         <TextView
-            android:id="@+id/share_diagram_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -78,7 +76,6 @@
             app:srcCompat="@drawable/data_records"/>
 
         <TextView
-            android:id="@+id/share_data_records_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"

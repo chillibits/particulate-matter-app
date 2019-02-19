@@ -21,7 +21,6 @@
             android:elevation="5dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/success_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
@@ -31,7 +30,6 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/success_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sync_disconnected"

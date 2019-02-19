@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
@@ -55,7 +54,6 @@ public class SyncService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "SyncService started", Toast.LENGTH_SHORT).show();
         doWork(!(intent.hasExtra("FromBackground") && intent.getBooleanExtra("FromBackground", false)));
         return super.onStartCommand(intent, flags, startId);
     }
@@ -120,9 +118,13 @@ public class SyncService extends Service {
                                 records = su.trimDataRecords(records, date_string);
                                 //Auf einen Ausfall prüfen
                                 if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
-                                    nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
+                                    if(!su.getBoolean("BD_" + s.getChipID())) {
+                                        nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
+                                        su.putBoolean("BD_" + s.getChipID(), true);
+                                    }
                                 } else {
                                     nu.cancelNotification(Integer.parseInt(s.getChipID()) * 10);
+                                    su.removeKey("BD_" + s.getChipID());
                                 }
                                 //Durchschnittswerte bilden
                                 double average_p1 = getP1Average(records);
@@ -136,7 +138,7 @@ public class SyncService extends Service {
                                     if (!fromForeground && !su.getBoolean(date_string + "_p1_exceeded") && limit_p1 > 0 && (su.getBoolean("notification_averages", true) ? average_p1 > limit_p1 : (r.getP1() > limit_p1)) && r.getP1() > su.getDouble(date_string + "_p1_max")) {
                                         Log.i("FA", "P1 limit exceeded");
                                         //P1 Notification
-                                        nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), Integer.parseInt(s.getChipID()), r.getDateTime().getTime());
+                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(date_string + "_p1_max", r.getP1());
                                         su.putBoolean(date_string + "_p1_exceeded", true);
                                         break;
@@ -146,7 +148,7 @@ public class SyncService extends Service {
                                     if (!fromForeground && !su.getBoolean(date_string + "_p2_exceeded") && limit_p2 > 0 && (su.getBoolean("notification_averages", true) ? average_p2 > limit_p2 : (r.getP2() > limit_p2)) && r.getP2() > su.getDouble(date_string + "_p2_max")) {
                                         Log.i("FA", "P2 limit exceeded");
                                         //P2 Notification
-                                        nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), Integer.parseInt(s.getChipID()), r.getDateTime().getTime());
+                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(date_string + "_p2_max", r.getP2());
                                         su.putBoolean(date_string + "_p2_exceeded", true);
                                         break;
@@ -156,7 +158,7 @@ public class SyncService extends Service {
                                     if (!fromForeground && !su.getBoolean(date_string + "_temp_exceeded") && limit_temp > 0 && (su.getBoolean("notification_averages", true) ? average_temp > limit_temp : (r.getTemp() > limit_temp)) && r.getTemp() > su.getDouble(date_string + "_temp_max")) {
                                         Log.i("FA", "Temp limit exceeded");
                                         //Temperatur Notification
-                                        nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), Integer.parseInt(s.getChipID()), r.getDateTime().getTime());
+                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(date_string + "_temp_max", r.getTemp());
                                         su.putBoolean(date_string + "_temp_exceeded", true);
                                         break;
@@ -166,7 +168,7 @@ public class SyncService extends Service {
                                     if (!fromForeground && !su.getBoolean(date_string + "_humidity_exceeded") && limit_humidity > 0 && (su.getBoolean("notification_averages", true) ? average_humidity > limit_humidity : (r.getHumidity() > limit_humidity)) && r.getHumidity() > su.getDouble(date_string + "_humidity_max")) {
                                         Log.i("FA", "Humidity limit exceeded");
                                         //Luftfeuchtigkeit Notification
-                                        nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), Integer.parseInt(s.getChipID()), r.getDateTime().getTime());
+                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(date_string + "_humidity_max", r.getHumidity());
                                         su.putBoolean(date_string + "_humidity_exceeded", true);
                                         break;
@@ -176,7 +178,7 @@ public class SyncService extends Service {
                                     if (!fromForeground && !su.getBoolean(date_string + "_pressure_exceeded") && limit_pressure > 0 && (su.getBoolean("notification_averages", true) ? average_pressure > limit_pressure : (r.getPressure() > limit_pressure)) && r.getHumidity() > su.getDouble(date_string + "_pressure_max")) {
                                         Log.i("FA", "Pressure limit exceeded");
                                         //Luftdruck Notification
-                                        nu.displayLimitExceededNotification(res.getString(R.string.limit_exceeded), s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), Integer.parseInt(s.getChipID()), r.getDateTime().getTime());
+                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(date_string + "_pressure_max", r.getTemp());
                                         su.putBoolean(date_string + "_pressure_exceeded", true);
                                         break;
