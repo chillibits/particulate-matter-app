@@ -1,16 +1,15 @@
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class SensorClusterItem implements ClusterItem {
     private final LatLng position;
     private final String title;
     private final String snippet;
-    private final Marker marker;
+    private final MarkerItem marker;
 
-    public SensorClusterItem(double lat, double lng, String title, String snippet, Marker marker) {
+    public SensorClusterItem(double lat, double lng, String title, String snippet, MarkerItem marker) {
         this.position = new LatLng(lat, lng);
         this.title = title;
         this.snippet = snippet;
@@ -32,7 +31,7 @@ public class SensorClusterItem implements ClusterItem {
         return snippet;
     }
 
-    public Marker getMarker() {
+    public MarkerItem getMarker() {
         return marker;
     }
 }

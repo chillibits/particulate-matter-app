@@ -107,7 +107,7 @@ public class DiagramActivity extends AppCompatActivity {
 
             //Initialisierungen am Viewport und an der Legende vornehmen
             if(mode == MODE_SENSOR_DATA) {
-                graph_view.getViewport().setMinX(Math.abs(records.get(records.size() -1).getDateTime().getTime() - 1000000));
+                graph_view.getViewport().setMinX(Math.abs(records.get(0).getDateTime().getTime()));
                 graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime()));
             } else if(mode == MODE_COMPARE_DATA) {
                 long last_time = Long.MIN_VALUE;
@@ -117,7 +117,7 @@ public class DiagramActivity extends AppCompatActivity {
                         last_time = current_last_time > last_time ? current_last_time : last_time;
                     } catch (Exception e) {}
                 }
-                graph_view.getViewport().setMinX(last_time - 1000000);
+                graph_view.getViewport().setMinX(Math.abs(records.get(0).getDateTime().getTime()));
                 graph_view.getViewport().setMaxX(last_time);
             }
             graph_view.getViewport().setScalable(true);

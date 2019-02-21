@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +54,7 @@ import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRederer;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.MarkerItem;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SensorClusterItem;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
@@ -242,7 +244,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             contentView = inflater.inflate(R.layout.tab_all_sensors, null);
 
             map_fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            map_fragment.getMapAsync(this);
 
             map_type = contentView.findViewById(R.id.map_type);
             List<String> map_types = new ArrayList<>();
@@ -342,6 +343,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         }).show();
             }
 
+            map_fragment.getMapAsync(this);
+
             return contentView;
         }
 
@@ -389,7 +392,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(final Marker marker) {
-                        showInfoWindow(marker);
+                        MarkerItem m = new MarkerItem(marker.getTitle(), marker.getSnippet(), marker.getPosition());
+                        showInfoWindow(m);
                         return true;
                     }
                 });
@@ -401,11 +405,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 11));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {}
 
             //Sensoren laden
             loadAllSensors();
@@ -414,9 +415,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             if(isGPSPermissionGranted()) {
-                if(!isGPSEnabled(activity)) {
-                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                }
+                if(!isGPSEnabled(activity)) startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 enableOwnLocation();
             }
         }
@@ -469,7 +468,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 @Override
                 public void run() {
                     try{
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&hm=0");
+                        long start = System.currentTimeMillis();
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall");
+                        Log.d("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
+                        start = System.currentTimeMillis();
                         if(!result.isEmpty()) {
                             JSONArray array = new JSONArray(result);
                             sensors = new ArrayList<>();
@@ -488,27 +490,27 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 public void run() {
                                     map_sensor_count.setText(String.valueOf(sensors.size()));
                                     if(map != null) {
-                                        clusterManager.clearItems();
-                                        map.clear();
+                                        if(su.getBoolean("enable_marker_clustering", false)) clusterManager.clearItems();
+                                        if(!su.getBoolean("enable_marker_clustering", false)) map.clear();
                                         for(ExternalSensor sensor : sensors) {
-                                            Marker m = map.addMarker(new MarkerOptions()
-                                                    .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
-                                                    .position(new LatLng(sensor.getLat(), sensor.getLng()))
-                                                    .title(sensor.getChipID())
-                                                    .snippet(sensor.getLat() + ", " + sensor.getLng())
-                                            );
                                             if(su.getBoolean("enable_marker_clustering", false)) {
+                                                MarkerItem m = new MarkerItem(sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), new LatLng(sensor.getLat(), sensor.getLng()));
                                                 clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
+                                            } else {
+                                                map.addMarker(new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                        .title(sensor.getChipID())
+                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                                );
                                             }
                                         }
-                                        if(su.getBoolean("enable_marker_clustering", false)) {
-                                            map.clear();
-                                            clusterManager.cluster();
-                                        }
                                         if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
+                                        if(su.getBoolean("enable_marker_clustering", false)) clusterManager.cluster();
                                     }
                                 }
                             });
+                            Log.d("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -526,25 +528,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         }
 
-        private void showInfoWindow(final Marker marker) {
+        private void showInfoWindow(final MarkerItem marker) {
             View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
             TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
             TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
             TextView sensor_location = v.findViewById(R.id.sensor_location);
             Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
             Button sensor_link = v.findViewById(R.id.sensor_link);
-
-            try{
-                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
-                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
-                String city = addresses.get(0).getLocality();
-                marker.setTag(city);
-                String country = addresses.get(0).getCountryName();
-                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
-            } catch (Exception e) {
-                sensor_location.setText(R.string.unknown_location);
-                marker.setTag(marker.getTitle());
-            }
 
             sensor_chip_id.setText(marker.getTitle());
             sensor_coordinates.setText(marker.getSnippet());
@@ -573,7 +563,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         Button choose_color = v.findViewById(R.id.choose_sensor_color);
                         final ImageView sensor_color = v.findViewById(R.id.sensor_color);
 
-                        name.setHint(marker.getTag().toString());
+                        name.setHint(marker.getTag());
                         chip_id.setText(marker.getTitle());
 
                         //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
@@ -603,7 +593,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         //Neuen Sensor speichern
                                         String name_string = name.getText().toString().trim();
-                                        if(name_string.isEmpty()) name_string = marker.getTag().toString();
+                                        if(name_string.isEmpty()) name_string = marker.getTag();
                                         su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color), false);
                                         MyFavouritesFragment.refresh();
                                         AllSensorsFragment.refresh();
@@ -638,6 +628,18 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             info_window.show();
             info_window.getWindow().setAttributes(lp);
+
+            try{
+                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+                String city = addresses.get(0).getLocality();
+                marker.setTag(city);
+                String country = addresses.get(0).getCountryName();
+                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
+            } catch (Exception e) {
+                sensor_location.setText(R.string.unknown_location);
+                marker.setTag(marker.getTitle());
+            }
         }
 
         private void showClusterWindow(final Cluster cluster) {

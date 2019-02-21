@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Animatable;
@@ -70,6 +71,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+
+import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -220,19 +223,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final int nightModeFlags = res.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (pager.getCurrentItem() == 1) {
-                    new SimplePlacesSearchDialogBuilder(MainActivity.this)
+                    SimplePlacesSearchDialog d = new SimplePlacesSearchDialogBuilder(MainActivity.this)
                             .setSearchHint(getString(R.string.search_places))
                             .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
                                 @Override
                                 public void onPlaceSelected(@NotNull Place place) {
                                     ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
                                 }
-                            }).build().show();
+                            }).build();
+                    if(nightModeFlags == UI_MODE_NIGHT_YES) {
+                        ((View)d.findViewById(R.id.search_edit_text).getParent()).setBackgroundColor(res.getColor(R.color.bg_dark));
+                        d.findViewById(R.id.recyclerFrame).setBackgroundColor(res.getColor(R.color.bg_dark));
+                    }
+                    d.show();
 
                     /*try {
                         Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MainActivity.this);
@@ -303,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        if(nightModeFlags == UI_MODE_NIGHT_YES) searchView.setBackgroundColor(res.getColor(R.color.gray_light));
 
         //Start-Position auf der Karte
         pager.setCurrentItem(1);
@@ -344,6 +355,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_rate) {
             rateApp();
+            NotificationUtils nu = new NotificationUtils(this);
+            nu.displayMissingMeasurementsNotification("4017638", "FMS01");
         } else if(id == R.id.action_share) {
             recommendApp();
         } else if(id == R.id.action_search) {
@@ -534,8 +547,9 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("ID", chip_id);
                 i.putExtra("Color", color);
                 startActivity(i);
-            } else if(intent.hasExtra("ID")) {
-                Sensor s = su.getSensor(intent.getStringExtra("ID"));
+            } else if(this.getIntent().hasExtra("ChipID")) {
+                Log.d("FA", "StartID: " +this.getIntent().getStringExtra("ChipID"));
+                Sensor s = su.getSensor(this.getIntent().getStringExtra("ChipID"));
                 Intent i = new Intent(this, SensorActivity.class);
                 i.putExtra("Name", s.getName());
                 i.putExtra("ID", s.getChipID());
@@ -557,7 +571,6 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                 }
             }
-            su.putBoolean("ShownSensorCompletion", true);
         } else if(requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();
         } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
