@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="value1" translatable="false">PM10</string>
+    <string name="value2" translatable="false">PM2.5</string>
+    <string name="pref_developers_m" translatable="false">M&amp;R Games</string>
+
+</resources>

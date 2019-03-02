@@ -15,6 +15,12 @@ public class Constants {
     public static final int DEFAULT_PRESSURE_LIMIT = 0;
     public static final int DEFAULT_MISSING_MEASUREMENT_NUMBER = 5;
 
+    //Grenzwerte
+    public static final double THRESHOLD_WHO_PM10 = 20;
+    public static final double THRESHOLD_WHO_PM2_5 = 10;
+    public static final double THRESHOLD_EU_PM10 = 40;
+    public static final double THRESHOLD_EU_PM2_5 = 25;
+
     //NotificationChannels
     public static final String CHANNEL_SYSTEM = "System";
     public static final String CHANNEL_LIMIT = "Limit";

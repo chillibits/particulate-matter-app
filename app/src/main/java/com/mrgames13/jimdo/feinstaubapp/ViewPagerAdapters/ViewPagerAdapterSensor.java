@@ -3,6 +3,7 @@ package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SeriesReducer;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -109,21 +111,26 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         //Konstanten
 
         //Variablen als Objekte
-        public static View contentView;
+        private static View contentView;
         private static GraphView graph_view;
         private CheckBox custom_p1;
         private CheckBox custom_p2;
         private CheckBox custom_temp;
         private CheckBox custom_humidity;
         private CheckBox custom_pressure;
-        private static RadioButton custom_nothing;
+        private RadioButton custom_nothing;
         private static RadioButton custom_average;
         private static RadioButton custom_median;
+        private RadioButton custom_threshold_nothing;
+        private static RadioButton custom_threshold_who;
+        private static RadioButton custom_threshold_eu;
         private static SeekBar curve_smoothness;
         private static LineGraphSeries<DataPoint> series1;
         private static LineGraphSeries<DataPoint> series1_average_median;
+        private static LineGraphSeries<DataPoint> series1_threshold;
         private static LineGraphSeries<DataPoint> series2;
         private static LineGraphSeries<DataPoint> series2_average_median;
+        private static LineGraphSeries<DataPoint> series2_threshold;
         private static LineGraphSeries<DataPoint> series3;
         private static LineGraphSeries<DataPoint> series3_average_median;
         private static LineGraphSeries<DataPoint> series4;
@@ -160,6 +167,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         i.putExtra("Show5", SensorActivity.custom_pressure);
                         i.putExtra("EnableAverage", custom_average.isChecked());
                         i.putExtra("EnableMedian", custom_median.isChecked());
+                        i.putExtra("EnableThresholdWHO", custom_threshold_who.isChecked());
+                        i.putExtra("EnableThresholdEU", custom_threshold_eu.isChecked());
                         startActivity(i);
                     } else {
                         Toast.makeText(activity, res.getString(R.string.no_diagram_selected), Toast.LENGTH_SHORT).show();
@@ -173,9 +182,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             custom_temp = contentView.findViewById(R.id.custom_temp);
             custom_humidity = contentView.findViewById(R.id.custom_humidity);
             custom_pressure = contentView.findViewById(R.id.custom_pressure);
-            custom_nothing = contentView.findViewById(R.id.enable_nothing);
+            custom_nothing = contentView.findViewById(R.id.enable_average_median_nothing);
             custom_average = contentView.findViewById(R.id.enable_average);
             custom_median = contentView.findViewById(R.id.enable_median);
+            custom_threshold_nothing = contentView.findViewById(R.id.enable_eu_who_nothing);
+            custom_threshold_who = contentView.findViewById(R.id.enable_who);
+            custom_threshold_eu = contentView.findViewById(R.id.enable_eu);
 
             h.post(new Runnable() {
                 @Override
@@ -288,6 +300,33 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     updatePressure(records, custom_pressure.isChecked());
                 }
             });
+            custom_threshold_nothing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateP1(null, false);
+                    updateP1(records, custom_p1.isChecked());
+                    updateP2(null, false);
+                    updateP2(records, custom_p2.isChecked());
+                }
+            });
+            custom_threshold_who.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateP1(null, false);
+                    updateP1(records, custom_p1.isChecked());
+                    updateP2(null, false);
+                    updateP2(records, custom_p2.isChecked());
+                }
+            });
+            custom_threshold_eu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    updateP1(null, false);
+                    updateP1(records, custom_p1.isChecked());
+                    updateP2(null, false);
+                    updateP2(records, custom_p2.isChecked());
+                }
+            });
 
             curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
             curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -332,15 +371,23 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             double average = 0;
                             for(DataRecord record : records) average+=record.getP1();
                             average /= records.size();
-                            series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
+                            series1_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series1));
                             graph_view.addSeries(series1_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
                             ArrayList<Double> double_records = new ArrayList<>();
                             for(DataRecord record : records) double_records.add(record.getP1());
                             double median = Tools.calculateMedian(double_records);
-                            series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
+                            series1_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series1));
                             graph_view.addSeries(series1_average_median);
+                        }
+
+                        if(custom_threshold_who.isChecked()) {
+                            series1_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM10, first_time, Color.RED);
+                            graph_view.addSeries(series1_threshold);
+                        } else if(custom_threshold_eu.isChecked()) {
+                            series1_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM10, first_time, Color.RED);
+                            graph_view.addSeries(series1_threshold);
                         }
                     }
                 } catch (Exception e) {
@@ -349,6 +396,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else {
                 graph_view.removeSeries(series1);
                 graph_view.removeSeries(series1_average_median);
+                graph_view.removeSeries(series1_threshold);
             }
         }
 
@@ -371,15 +419,23 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             for(DataRecord record : records) average+=record.getP2();
                             average /= records.size();
                             series2_average_median = new LineGraphSeries<>();
-                            series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
+                            series2_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series2));
                             graph_view.addSeries(series2_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
                             ArrayList<Double> double_records = new ArrayList<>();
                             for(DataRecord record : records) double_records.add(record.getP2());
                             double median = Tools.calculateMedian(double_records);
-                            series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
+                            series2_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series2));
                             graph_view.addSeries(series2_average_median);
+                        }
+
+                        if(custom_threshold_who.isChecked()) {
+                            series2_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM2_5, first_time, Color.RED);
+                            graph_view.addSeries(series2_threshold);
+                        } else if(custom_threshold_eu.isChecked()) {
+                            series2_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM2_5, first_time, Color.RED);
+                            graph_view.addSeries(series2_threshold);
                         }
                     }
                 } catch (Exception e) {
@@ -388,6 +444,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else {
                 graph_view.removeSeries(series2);
                 graph_view.removeSeries(series2_average_median);
+                graph_view.removeSeries(series2_threshold);
             }
         }
 
@@ -409,14 +466,14 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             double average = 0;
                             for(DataRecord record : records) average+=record.getTemp();
                             average /= records.size();
-                            series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
+                            series3_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series3));
                             graph_view.addSeries(series3_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
                             ArrayList<Double> double_records = new ArrayList<>();
                             for(DataRecord record : records) double_records.add(record.getTemp());
                             double median = Tools.calculateMedian(double_records);
-                            series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
+                            series3_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series3));
                             graph_view.addSeries(series3_average_median);
                         }
                     }
@@ -447,14 +504,14 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             double average = 0;
                             for(DataRecord record : records) average+=record.getHumidity();
                             average /= records.size();
-                            series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
+                            series4_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series4));
                             graph_view.addSeries(series4_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
                             ArrayList<Double> double_records = new ArrayList<>();
                             for(DataRecord record : records) double_records.add(record.getHumidity());
                             double median = Tools.calculateMedian(double_records);
-                            series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
+                            series4_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series4));
                             graph_view.addSeries(series4_average_median);
                         }
                     }
@@ -485,14 +542,14 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             double average = 0;
                             for(DataRecord record : records) average+=record.getPressure();
                             average /= records.size();
-                            series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
+                            series5_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series5));
                             graph_view.addSeries(series5_average_median);
                         } else if(custom_median.isChecked()) {
                             //Median einzeichnen
                             ArrayList<Double> double_records = new ArrayList<>();
                             for(DataRecord record : records) double_records.add(record.getPressure());
                             double median = Tools.calculateMedian(double_records);
-                            series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
+                            series5_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series5));
                             graph_view.addSeries(series5_average_median);
                         }
                     }
@@ -505,7 +562,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
-        private static LineGraphSeries drawAverageMedian(double value, long first_time, int color) {
+        private static LineGraphSeries drawHorizontalLine(double value, long first_time, int color) {
             LineGraphSeries series = new LineGraphSeries<>();
             series.appendData(new DataPoint(0, value), false, 2);
             series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time, value), false, 2);

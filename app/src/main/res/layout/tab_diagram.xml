@@ -138,15 +138,22 @@
                 android:progress="500"
                 android:max="500" />
 
+            <RelativeLayout
+                android:id="@+id/seperator_01"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="5dp"
+                android:background="@color/color_selection"
+                android:layout_below="@+id/curve_smoothness"/>
+
             <RadioGroup
                 android:id="@+id/enable_average_median"
-                android:layout_below="@+id/curve_smoothness"
+                android:layout_below="@+id/seperator_01"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content">
 
                 <RadioButton
-                    android:id="@+id/enable_nothing"
+                    android:id="@+id/enable_average_median_nothing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/enable_nothing"
@@ -165,6 +172,40 @@
                     android:text="@string/enable_daily_median"/>
             </RadioGroup>
 
+            <RelativeLayout
+                android:id="@+id/seperator_02"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/color_selection"
+                android:layout_margin="5dp"
+                android:layout_below="@+id/enable_average_median"/>
+
+            <RadioGroup
+                android:id="@+id/enable_who_eu"
+                android:layout_below="@+id/seperator_02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/enable_eu_who_nothing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_thresholds"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/enable_who"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_threshold_who"/>
+
+                <RadioButton
+                    android:id="@+id/enable_eu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_threshold_eu"/>
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/title_current_values"
                 android:layout_width="match_parent"
@@ -173,7 +214,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_below="@+id/enable_average_median"
+                android:layout_below="@+id/enable_who_eu"
                 android:gravity="center"
                 android:layout_marginTop="5dp"/>
 

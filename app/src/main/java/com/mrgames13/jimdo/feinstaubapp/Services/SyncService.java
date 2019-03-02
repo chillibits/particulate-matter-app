@@ -106,92 +106,93 @@ public class SyncService extends Service {
                         sensors.addAll(su.getAllOwnSensors());
                         for (Sensor s : sensors) {
                             //Dateien Herunterladen
-                            smu.manageDownloads(s, date_string, date_yesterday);
-                            //Inhalt der lokalen Dateien auslesen
-                            String csv_string_day = su.getCSVFromFile(date_string, s.getChipID());
-                            String csv_string_day_before = su.getCSVFromFile(date_yesterday, s.getChipID());
-                            //CSV-Strings zu Objekten machen
-                            ArrayList<DataRecord> records = su.getDataRecordsFromCSV(csv_string_day_before);
-                            records.addAll(su.getDataRecordsFromCSV(csv_string_day));
-                            if (records.size() > 0) {
-                                //Datensätze zuschneiden
-                                records = su.trimDataRecords(records, date_string);
-                                //Auf einen Ausfall prüfen
-                                if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
-                                    if(!su.getBoolean("BD_" + s.getChipID())) {
-                                        nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
-                                        su.putBoolean("BD_" + s.getChipID(), true);
+                            if(smu.manageDownloads(s, date_string, date_yesterday)) {
+                                //Inhalt der lokalen Dateien auslesen
+                                String csv_string_day = su.getCSVFromFile(date_string, s.getChipID());
+                                String csv_string_day_before = su.getCSVFromFile(date_yesterday, s.getChipID());
+                                //CSV-Strings zu Objekten machen
+                                ArrayList<DataRecord> records = su.getDataRecordsFromCSV(csv_string_day_before);
+                                records.addAll(su.getDataRecordsFromCSV(csv_string_day));
+                                if (records.size() > 0) {
+                                    //Datensätze zuschneiden
+                                    records = su.trimDataRecords(records, date_string);
+                                    //Auf einen Ausfall prüfen
+                                    if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
+                                        if(!su.getBoolean("BD_" + s.getChipID())) {
+                                            nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
+                                            su.putBoolean("BD_" + s.getChipID(), true);
+                                        }
+                                    } else {
+                                        nu.cancelNotification(Integer.parseInt(s.getChipID()) * 10);
+                                        su.removeKey("BD_" + s.getChipID());
                                     }
-                                } else {
-                                    nu.cancelNotification(Integer.parseInt(s.getChipID()) * 10);
-                                    su.removeKey("BD_" + s.getChipID());
-                                }
-                                //Durchschnittswerte bilden
-                                double average_p1 = getP1Average(records);
-                                double average_p2 = getP2Average(records);
-                                double average_temp = getTempAverage(records);
-                                double average_humidity = getHumidityAverage(records);
-                                double average_pressure = getPressureAverage(records);
-                                records = trimDataRecordsToSyncTime(records);
-                                //Auswerten
-                                for (DataRecord r : records) {
-                                    if (!fromForeground && !su.getBoolean(date_string + "_p1_exceeded") && limit_p1 > 0 && (su.getBoolean("notification_averages", true) ? average_p1 > limit_p1 : (r.getP1() > limit_p1)) && r.getP1() > su.getDouble(date_string + "_p1_max")) {
-                                        Log.i("FA", "P1 limit exceeded");
-                                        //P1 Notification
-                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), s.getChipID(), r.getDateTime().getTime());
-                                        su.putDouble(date_string + "_p1_max", r.getP1());
-                                        su.putBoolean(date_string + "_p1_exceeded", true);
-                                        break;
-                                    } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
-                                        su.putBoolean(date_string + "_p1_exceeded", false);
+                                    //Durchschnittswerte bilden
+                                    double average_p1 = getP1Average(records);
+                                    double average_p2 = getP2Average(records);
+                                    double average_temp = getTempAverage(records);
+                                    double average_humidity = getHumidityAverage(records);
+                                    double average_pressure = getPressureAverage(records);
+                                    records = trimDataRecordsToSyncTime(records);
+                                    //Auswerten
+                                    for (DataRecord r : records) {
+                                        if (!fromForeground && !su.getBoolean(date_string + "_p1_exceeded") && limit_p1 > 0 && (su.getBoolean("notification_averages", true) ? average_p1 > limit_p1 : (r.getP1() > limit_p1)) && r.getP1() > su.getDouble(date_string + "_p1_max")) {
+                                            Log.i("FA", "P1 limit exceeded");
+                                            //P1 Notification
+                                            nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), s.getChipID(), r.getDateTime().getTime());
+                                            su.putDouble(date_string + "_p1_max", r.getP1());
+                                            su.putBoolean(date_string + "_p1_exceeded", true);
+                                            break;
+                                        } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
+                                            su.putBoolean(date_string + "_p1_exceeded", false);
+                                        }
+                                        if (!fromForeground && !su.getBoolean(date_string + "_p2_exceeded") && limit_p2 > 0 && (su.getBoolean("notification_averages", true) ? average_p2 > limit_p2 : (r.getP2() > limit_p2)) && r.getP2() > su.getDouble(date_string + "_p2_max")) {
+                                            Log.i("FA", "P2 limit exceeded");
+                                            //P2 Notification
+                                            nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), s.getChipID(), r.getDateTime().getTime());
+                                            su.putDouble(date_string + "_p2_max", r.getP2());
+                                            su.putBoolean(date_string + "_p2_exceeded", true);
+                                            break;
+                                        } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
+                                            su.putBoolean(date_string + "_p2_exceeded", false);
+                                        }
+                                        if (!fromForeground && !su.getBoolean(date_string + "_temp_exceeded") && limit_temp > 0 && (su.getBoolean("notification_averages", true) ? average_temp > limit_temp : (r.getTemp() > limit_temp)) && r.getTemp() > su.getDouble(date_string + "_temp_max")) {
+                                            Log.i("FA", "Temp limit exceeded");
+                                            //Temperatur Notification
+                                            nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), s.getChipID(), r.getDateTime().getTime());
+                                            su.putDouble(date_string + "_temp_max", r.getTemp());
+                                            su.putBoolean(date_string + "_temp_exceeded", true);
+                                            break;
+                                        } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
+                                            su.putBoolean(date_string + "_temp_exceeded", false);
+                                        }
+                                        if (!fromForeground && !su.getBoolean(date_string + "_humidity_exceeded") && limit_humidity > 0 && (su.getBoolean("notification_averages", true) ? average_humidity > limit_humidity : (r.getHumidity() > limit_humidity)) && r.getHumidity() > su.getDouble(date_string + "_humidity_max")) {
+                                            Log.i("FA", "Humidity limit exceeded");
+                                            //Luftfeuchtigkeit Notification
+                                            nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), s.getChipID(), r.getDateTime().getTime());
+                                            su.putDouble(date_string + "_humidity_max", r.getHumidity());
+                                            su.putBoolean(date_string + "_humidity_exceeded", true);
+                                            break;
+                                        } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
+                                            su.putBoolean(date_string + "_humidity_exceeded", false);
+                                        }
+                                        if (!fromForeground && !su.getBoolean(date_string + "_pressure_exceeded") && limit_pressure > 0 && (su.getBoolean("notification_averages", true) ? average_pressure > limit_pressure : (r.getPressure() > limit_pressure)) && r.getHumidity() > su.getDouble(date_string + "_pressure_max")) {
+                                            Log.i("FA", "Pressure limit exceeded");
+                                            //Luftdruck Notification
+                                            nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), s.getChipID(), r.getDateTime().getTime());
+                                            su.putDouble(date_string + "_pressure_max", r.getTemp());
+                                            su.putBoolean(date_string + "_pressure_exceeded", true);
+                                            break;
+                                        } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
+                                            su.putBoolean(date_string + "_pressure_exceeded", false);
+                                        }
                                     }
-                                    if (!fromForeground && !su.getBoolean(date_string + "_p2_exceeded") && limit_p2 > 0 && (su.getBoolean("notification_averages", true) ? average_p2 > limit_p2 : (r.getP2() > limit_p2)) && r.getP2() > su.getDouble(date_string + "_p2_max")) {
-                                        Log.i("FA", "P2 limit exceeded");
-                                        //P2 Notification
-                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), s.getChipID(), r.getDateTime().getTime());
-                                        su.putDouble(date_string + "_p2_max", r.getP2());
-                                        su.putBoolean(date_string + "_p2_exceeded", true);
-                                        break;
-                                    } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
-                                        su.putBoolean(date_string + "_p2_exceeded", false);
-                                    }
-                                    if (!fromForeground && !su.getBoolean(date_string + "_temp_exceeded") && limit_temp > 0 && (su.getBoolean("notification_averages", true) ? average_temp > limit_temp : (r.getTemp() > limit_temp)) && r.getTemp() > su.getDouble(date_string + "_temp_max")) {
-                                        Log.i("FA", "Temp limit exceeded");
-                                        //Temperatur Notification
-                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), s.getChipID(), r.getDateTime().getTime());
-                                        su.putDouble(date_string + "_temp_max", r.getTemp());
-                                        su.putBoolean(date_string + "_temp_exceeded", true);
-                                        break;
-                                    } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
-                                        su.putBoolean(date_string + "_temp_exceeded", false);
-                                    }
-                                    if (!fromForeground && !su.getBoolean(date_string + "_humidity_exceeded") && limit_humidity > 0 && (su.getBoolean("notification_averages", true) ? average_humidity > limit_humidity : (r.getHumidity() > limit_humidity)) && r.getHumidity() > su.getDouble(date_string + "_humidity_max")) {
-                                        Log.i("FA", "Humidity limit exceeded");
-                                        //Luftfeuchtigkeit Notification
-                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), s.getChipID(), r.getDateTime().getTime());
-                                        su.putDouble(date_string + "_humidity_max", r.getHumidity());
-                                        su.putBoolean(date_string + "_humidity_exceeded", true);
-                                        break;
-                                    } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
-                                        su.putBoolean(date_string + "_humidity_exceeded", false);
-                                    }
-                                    if (!fromForeground && !su.getBoolean(date_string + "_pressure_exceeded") && limit_pressure > 0 && (su.getBoolean("notification_averages", true) ? average_pressure > limit_pressure : (r.getPressure() > limit_pressure)) && r.getHumidity() > su.getDouble(date_string + "_pressure_max")) {
-                                        Log.i("FA", "Pressure limit exceeded");
-                                        //Luftdruck Notification
-                                        nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), s.getChipID(), r.getDateTime().getTime());
-                                        su.putDouble(date_string + "_pressure_max", r.getTemp());
-                                        su.putBoolean(date_string + "_pressure_exceeded", true);
-                                        break;
-                                    } else if(limit_p1 > 0 && r.getP1() < limit_p1) {
-                                        su.putBoolean(date_string + "_pressure_exceeded", false);
-                                    }
-                                }
 
-                                //Homescreen Widget updaten
-                                Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
-                                update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                                update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getChipID());
-                                getApplicationContext().sendBroadcast(update_intent);
+                                    //Homescreen Widget updaten
+                                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+                                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getChipID());
+                                    getApplicationContext().sendBroadcast(update_intent);
+                                }
                             }
                         }
                     } catch (Exception e) {}

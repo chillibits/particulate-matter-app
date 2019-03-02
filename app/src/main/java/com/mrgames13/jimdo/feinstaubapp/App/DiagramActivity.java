@@ -2,6 +2,7 @@ package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
@@ -47,8 +49,10 @@ public class DiagramActivity extends AppCompatActivity {
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
     private LineGraphSeries<DataPoint> series1;
     private LineGraphSeries<DataPoint> series1_average_median;
+    private LineGraphSeries<DataPoint> series1_threshold;
     private LineGraphSeries<DataPoint> series2;
     private LineGraphSeries<DataPoint> series2_average_median;
+    private LineGraphSeries<DataPoint> series2_threshold;
     private LineGraphSeries<DataPoint> series3;
     private LineGraphSeries<DataPoint> series3_average_median;
     private LineGraphSeries<DataPoint> series4;
@@ -64,6 +68,8 @@ public class DiagramActivity extends AppCompatActivity {
     private boolean show_series_5;
     private boolean enable_average;
     private boolean enable_median;
+    private boolean enable_threshold_who;
+    private boolean enable_threshold_eu;
     private int mode = MODE_SENSOR_DATA;
 
     @Override
@@ -84,6 +90,8 @@ public class DiagramActivity extends AppCompatActivity {
         show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
         enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
         enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
+        enable_threshold_who = intent.hasExtra("EnableThresholdWHO") && intent.getBooleanExtra("EnableThresholdWHO", false);
+        enable_threshold_eu = intent.hasExtra("EnableThresholdEU") && intent.getBooleanExtra("EnableThresholdEU", false);
 
         if(mode == MODE_SENSOR_DATA) {
             //Daten von der SensorActivity übernehmen
@@ -201,15 +209,23 @@ public class DiagramActivity extends AppCompatActivity {
                         double average = 0;
                         for(DataRecord record : records) average+=record.getP1();
                         average /= records.size();
-                        series1_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series1));
+                        series1_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series1));
                         graph_view.addSeries(series1_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
                         ArrayList<Double> double_records = new ArrayList<>();
                         for(DataRecord record : records) double_records.add(record.getP1());
                         double median = Tools.calculateMedian(double_records);
-                        series1_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series1));
+                        series1_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series1));
                         graph_view.addSeries(series1_average_median);
+                    }
+
+                    if(enable_threshold_who) {
+                        series1_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM10, first_time, Color.RED);
+                        graph_view.addSeries(series1_threshold);
+                    } else if(enable_threshold_eu) {
+                        series1_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM10, first_time, Color.RED);
+                        graph_view.addSeries(series1_threshold);
                     }
                 }
                 if(show_series_2) {
@@ -219,15 +235,23 @@ public class DiagramActivity extends AppCompatActivity {
                         double average = 0;
                         for(DataRecord record : records) average+=record.getP2();
                         average /= records.size();
-                        series2_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series2));
+                        series2_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series2));
                         graph_view.addSeries(series2_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
                         ArrayList<Double> double_records = new ArrayList<>();
                         for(DataRecord record : records) double_records.add(record.getP2());
                         double median = Tools.calculateMedian(double_records);
-                        series2_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series2));
+                        series2_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series2));
                         graph_view.addSeries(series2_average_median);
+                    }
+
+                    if(enable_threshold_who) {
+                        series2_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM2_5, first_time, Color.RED);
+                        graph_view.addSeries(series2_threshold);
+                    } else if(enable_threshold_eu) {
+                        series2_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM2_5, first_time, Color.RED);
+                        graph_view.addSeries(series2_threshold);
                     }
                 }
                 if(show_series_3) {
@@ -237,14 +261,14 @@ public class DiagramActivity extends AppCompatActivity {
                         double average = 0;
                         for(DataRecord record : records) average+=record.getTemp();
                         average /= records.size();
-                        series3_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series3));
+                        series3_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series3));
                         graph_view.addSeries(series3_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
                         ArrayList<Double> double_records = new ArrayList<>();
                         for(DataRecord record : records) double_records.add(record.getTemp());
                         double median = Tools.calculateMedian(double_records);
-                        series3_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series3));
+                        series3_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series3));
                         graph_view.addSeries(series3_average_median);
                     }
                 }
@@ -255,14 +279,14 @@ public class DiagramActivity extends AppCompatActivity {
                         double average = 0;
                         for(DataRecord record : records) average+=record.getHumidity();
                         average /= records.size();
-                        series4_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series4));
+                        series4_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series4));
                         graph_view.addSeries(series4_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
                         ArrayList<Double> double_records = new ArrayList<>();
                         for(DataRecord record : records) double_records.add(record.getHumidity());
                         double median = Tools.calculateMedian(double_records);
-                        series4_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series4));
+                        series4_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series4));
                         graph_view.addSeries(series4_average_median);
                     }
                 }
@@ -273,14 +297,14 @@ public class DiagramActivity extends AppCompatActivity {
                         double average = 0;
                         for(DataRecord record : records) average+=record.getPressure();
                         average /= records.size();
-                        series5_average_median = drawAverageMedian(average, first_time, res.getColor(R.color.series5));
+                        series5_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series5));
                         graph_view.addSeries(series5_average_median);
                     } else if(enable_median) {
                         //Median einzeichnen
                         ArrayList<Double> double_records = new ArrayList<>();
                         for(DataRecord record : records) double_records.add(record.getPressure());
                         double median = Tools.calculateMedian(double_records);
-                        series5_average_median = drawAverageMedian(median, first_time, res.getColor(R.color.series5));
+                        series5_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series5));
                         graph_view.addSeries(series5_average_median);
                     }
                 }
@@ -348,7 +372,7 @@ public class DiagramActivity extends AppCompatActivity {
         return series;
     }
 
-    private LineGraphSeries<DataPoint> drawAverageMedian(double value, long first_time, int color) {
+    private LineGraphSeries<DataPoint> drawHorizontalLine(double value, long first_time, int color) {
         LineGraphSeries series = new LineGraphSeries<>();
         series.appendData(new DataPoint(first_time, value), false, 2);
         series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime(), value), false, 2);
