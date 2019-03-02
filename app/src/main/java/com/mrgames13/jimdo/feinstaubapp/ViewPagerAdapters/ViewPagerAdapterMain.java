@@ -2,6 +2,7 @@ package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -229,11 +231,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private Spinner map_type;
         private Spinner map_traffic;
         private static TextView map_sensor_count;
+        private ImageView map_sensor_refresh;
         private static GoogleMap map;
         private static ClusterManager<SensorClusterItem> clusterManager;
         private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
         private static LatLng current_country;
+        private static ProgressDialog pd;
 
         //Variablen
         private int current_color;
@@ -298,6 +302,26 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             });
 
             map_sensor_count = contentView.findViewById(R.id.map_sensor_count);
+            map_sensor_count.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse("https://h2801469.stratoserver.net/stats.php"));
+                    startActivity(i);
+                }
+            });
+
+            map_sensor_refresh = contentView.findViewById(R.id.map_sensor_refresh);
+            map_sensor_refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pd = new ProgressDialog(activity);
+                    pd.setMessage(getResources().getString(R.string.loading_data));
+                    pd.setCancelable(false);
+                    pd.show();
+                    loadAllSensorsNonSync();
+                }
+            });
 
             LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -371,7 +395,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             //ClusterManager initialisieren
             clusterManager = new ClusterManager<>(activity, map);
             clusterManager.setRenderer(new ClusterRederer(activity, map, clusterManager, su));
-            if(su.getBoolean("enable_marker_clustering", false)) {
+            if(su.getBoolean("enable_marker_clustering", true)) {
                 map.setOnMarkerClickListener(clusterManager);
                 clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<SensorClusterItem>() {
                     @Override
@@ -469,31 +493,68 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 public void run() {
                     try{
                         long start = System.currentTimeMillis();
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall");
-                        Log.d("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
-                        start = System.currentTimeMillis();
+                        //Alte Sensoren aus der lokalen Datenbank laden
+                        sensors = su.getExternalSensors();
+                        //Hash erzeugen
+                        double chip_sum = 0;
+                        for(ExternalSensor s : sensors) {
+                            chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
+                        }
+                        String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
+                        //Neue Sensoren vom Server laden
+                        long last_request = su.getLong("LastRequest", 0);
+                        String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
+                        long new_last_request = System.currentTimeMillis();
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&last_request=" + last_request_string + "&cs=" + sensor_hash);
+                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
                         if(!result.isEmpty()) {
-                            JSONArray array = new JSONArray(result);
-                            sensors = new ArrayList<>();
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject jsonobject = array.getJSONObject(i);
+                            JSONObject array = new JSONObject(result);
+                            JSONArray array_update = array.getJSONArray("update");
+                            JSONArray array_ids = array.getJSONArray("ids");
+                            if(array_ids.length() > 0) {
+                                for(ExternalSensor s : sensors) {
+                                    boolean found = false;
+                                    for (int i = 0; i < array_ids.length(); i++) {
+                                        String chip_id = array_ids.get(i).toString();
+                                        if(chip_id.equals(s.getChipID())) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!found) {
+                                        Log.d("FA", "Deleting " + s.getChipID());
+                                        su.deleteExternalSensor(s.getChipID());
+                                    }
+                                }
+                            }
+                            //Update verarbeiten
+                            for (int i = 0; i < array_update.length(); i++) {
+                                JSONObject jsonobject = array_update.getJSONObject(i);
                                 ExternalSensor sensor = new ExternalSensor();
                                 sensor.setChipID(jsonobject.getString("i"));
                                 sensor.setLat(jsonobject.getDouble("l"));
                                 sensor.setLng(jsonobject.getDouble("b"));
-                                sensors.add(sensor);
+                                Log.d("FA", "Adding " + sensor.getChipID());
+                                su.addExternalSensor(sensor);
                             }
+                            su.putLong("LastRequest", new_last_request);
+                            sensors = su.getExternalSensors();
 
                             //Sensoren auf der Karte einzeichnen
+                            start = System.currentTimeMillis();
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     map_sensor_count.setText(String.valueOf(sensors.size()));
                                     if(map != null) {
-                                        if(su.getBoolean("enable_marker_clustering", false)) clusterManager.clearItems();
-                                        if(!su.getBoolean("enable_marker_clustering", false)) map.clear();
+                                        boolean is_marker_clustering_enabled = su.getBoolean("enable_marker_clustering", true);
+                                        if(is_marker_clustering_enabled) {
+                                            clusterManager.clearItems();
+                                        } else {
+                                            map.clear();
+                                        }
                                         for(ExternalSensor sensor : sensors) {
-                                            if(su.getBoolean("enable_marker_clustering", false)) {
+                                            if(is_marker_clustering_enabled) {
                                                 MarkerItem m = new MarkerItem(sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), new LatLng(sensor.getLat(), sensor.getLng()));
                                                 clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
                                             } else {
@@ -506,11 +567,77 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                             }
                                         }
                                         if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
-                                        if(su.getBoolean("enable_marker_clustering", false)) clusterManager.cluster();
+                                        if(su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster();
                                     }
                                 }
                             });
-                            Log.d("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
+                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+        private static void loadAllSensorsNonSync() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        long start = System.currentTimeMillis();
+                        //Neue Sensoren vom Server laden
+                        long new_last_request = System.currentTimeMillis();
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getallnonsync");
+                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
+                        if(!result.isEmpty()) {
+                            su.clearExternalSensors();
+                            JSONArray array = new JSONArray(result);
+                            sensors = new ArrayList<>();
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject jsonobject = array.getJSONObject(i);
+                                ExternalSensor sensor = new ExternalSensor();
+                                sensor.setChipID(jsonobject.getString("i"));
+                                sensor.setLat(jsonobject.getDouble("l"));
+                                sensor.setLng(jsonobject.getDouble("b"));
+                                su.addExternalSensor(sensor);
+                            }
+                            su.putLong("LastRequest", new_last_request);
+                            sensors = su.getExternalSensors();
+
+                            //Sensoren auf der Karte einzeichnen
+                            start = System.currentTimeMillis();
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    map_sensor_count.setText(String.valueOf(sensors.size()));
+                                    if(map != null) {
+                                        boolean is_marker_clustering_enabled = su.getBoolean("enable_marker_clustering", true);
+                                        if(is_marker_clustering_enabled) {
+                                            clusterManager.clearItems();
+                                        } else {
+                                            map.clear();
+                                        }
+                                        for(ExternalSensor sensor : sensors) {
+                                            if(is_marker_clustering_enabled) {
+                                                MarkerItem m = new MarkerItem(sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), new LatLng(sensor.getLat(), sensor.getLng()));
+                                                clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
+                                            } else {
+                                                map.addMarker(new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                        .title(sensor.getChipID())
+                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                                );
+                                            }
+                                        }
+                                        if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
+                                        if(su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster();
+                                    }
+                                    if(pd != null && pd.isShowing()) pd.dismiss();
+                                }
+                            });
+                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

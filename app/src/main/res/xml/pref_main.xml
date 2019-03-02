@@ -153,7 +153,7 @@
 
         <SwitchPreference
             android:key="enable_marker_clustering"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:title="@string/pref_enable_marker_clustering"
             android:summary="@string/pref_enable_marker_clustering_s"/>
 

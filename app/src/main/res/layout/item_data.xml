@@ -5,10 +5,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:id="@+id/heading"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:weightSum="6.05">
+        android:layout_height="35dp">
 
         <TextView
             android:id="@+id/item_time"
@@ -105,5 +105,65 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="@string/loading"/>
+
+        <LinearLayout
+            android:id="@+id/item_gps_container"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="3.03"
+            android:weightSum="3.03"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.01"
+                android:background="@color/gray_light"/>
+
+            <TextView
+                android:id="@+id/item_lat"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/loading"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.01"
+                android:background="@color/gray_light"/>
+
+            <TextView
+                android:id="@+id/item_lng"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/loading"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.01"
+                android:background="@color/gray_light"/>
+
+            <TextView
+                android:id="@+id/item_alt"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/loading"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
+import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
@@ -43,6 +44,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     private final long DEFAULT_LONG_VALUE = -1;
     private final double DEFAULT_DOUBLE_VALUE = 0.0d;
     public static final String TABLE_SENSORS = "Sensors";
+    public static final String TABLE_EXTERNAL_SENSORS = "ExternalSensors";
     public static final String TABLE_FAVOURITES = "Favourites";
 
     //Variablen als Objekte
@@ -54,7 +56,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     //Variablen
 
     public StorageUtils(Context context) {
-        super(context, "database.db", null, 2);
+        super(context, "database.db", null, 3);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;
     }
@@ -160,6 +162,9 @@ public class StorageUtils extends SQLiteOpenHelper {
                 double temp = 0.0;
                 double humidity = 0.0;
                 double pressure = 0.0;
+                double gps_lat = -200.0;
+                double gps_lng = -200.0;
+                double gps_alt = -1000;
                 //SimpleDateFormat initialisieren
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 sdf.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
@@ -186,8 +191,11 @@ public class StorageUtils extends SQLiteOpenHelper {
                 try { if(!line_contents[21].equals("")) p2 = Double.parseDouble(line_contents[21]); } catch (Exception e) {}
                 try { if(!line_contents[22].equals("")) p1 = Double.parseDouble(line_contents[22]); } catch (Exception e) {}
                 try { if(!line_contents[23].equals("")) p2 = Double.parseDouble(line_contents[23]); } catch (Exception e) {}
+                try { if(!line_contents[24].equals("")) gps_lat = Double.parseDouble(line_contents[24]); } catch (Exception e) {}
+                try { if(!line_contents[25].equals("")) gps_lng = Double.parseDouble(line_contents[25]); } catch (Exception e) {}
+                try { if(!line_contents[26].equals("")) gps_alt = Double.parseDouble(line_contents[26]); } catch (Exception e) {}
 
-                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 100)));
+                records.add(new DataRecord(time, p1, p2, temp, humidity, pressure / ((double) 100), gps_lat, gps_lng, gps_alt));
             } catch (Exception e) {}
         }
         return records;
@@ -338,8 +346,9 @@ public class StorageUtils extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try{
             //Tabellen erstellen
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SENSORS + " (sensor_id text, sensor_name text, sensor_color integer);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SENSORS + " (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_EXTERNAL_SENSORS + " (sensor_id text PRIMARY KEY, latitude double, longitude double);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);");
         } catch (Exception e) {
             Log.e("ChatLet", "Database creation error: ", e);
         }
@@ -347,9 +356,9 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion && newVersion == 2) {
+        if (newVersion > oldVersion && newVersion == 3) {
             //Datenbank-Update
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text, sensor_name text, sensor_color integer);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_EXTERNAL_SENSORS + " (sensor_id text PRIMARY KEY, latitude double, longitude double);");
         }
     }
 
@@ -387,7 +396,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public boolean isSensorExistingLocally(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
+        Cursor cursor = db.rawQuery("SELECT sensor_id FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;
@@ -409,7 +418,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     public ArrayList<Sensor> getAllOwnSensors() {
         try{
             SQLiteDatabase db = getWritableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SENSORS, null);
+            Cursor cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM " + TABLE_SENSORS, null);
             ArrayList<Sensor> sensors = new ArrayList<>();
             while(cursor.moveToNext()) {
                 sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
@@ -441,7 +450,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public boolean isFavouriteExisting(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES + " WHERE sensor_id = '" + chip_id + "'", null);
+        Cursor cursor = db.rawQuery("SELECT sensor_id FROM " + TABLE_FAVOURITES + " WHERE sensor_id = '" + chip_id + "'", null);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;
@@ -463,13 +472,59 @@ public class StorageUtils extends SQLiteOpenHelper {
     public ArrayList<Sensor> getAllFavourites() {
         try{
             SQLiteDatabase db = getWritableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVOURITES, null);
+            Cursor cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM " + TABLE_FAVOURITES, null);
             ArrayList<Sensor> sensors = new ArrayList<>();
             while(cursor.moveToNext()) {
                 sensors.add(new Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)));
             }
             cursor.close();
             Collections.sort(sensors);
+            return sensors;
+        } catch (Exception e) {
+            Log.e("ChatLet", "Error loading message", e);
+        }
+        return new ArrayList<>();
+    }
+
+    //---------------------------------------Externe Sensoren---------------------------------------
+
+    public void addExternalSensor(ExternalSensor sensor) {
+        if(!isExternalSensorExisting(sensor.getChipID())) {
+            ContentValues values = new ContentValues();
+            values.put("sensor_id", sensor.getChipID());
+            values.put("latitude", sensor.getLat());
+            values.put("longitude", sensor.getLng());
+            addRecord(TABLE_EXTERNAL_SENSORS, values);
+        } else {
+            execSQL("UPDATE " + TABLE_EXTERNAL_SENSORS + " SET latitude = " + sensor.getLat() + ", longitude = " + sensor.getLng() + " WHERE sensor_id = '" + sensor.getChipID() + "';");
+        }
+    }
+
+    public boolean isExternalSensorExisting(String chip_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT sensor_id FROM " + TABLE_EXTERNAL_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
+    public void clearExternalSensors() {
+        execSQL("DELETE FROM " + TABLE_EXTERNAL_SENSORS);
+    }
+
+    public void deleteExternalSensor(String chip_id) {
+        execSQL("DELETE FROM " + TABLE_EXTERNAL_SENSORS + " WHERE sensor_id = '" + chip_id + "'");
+    }
+
+    public ArrayList<ExternalSensor> getExternalSensors() {
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT sensor_id, latitude, longitude FROM " + TABLE_EXTERNAL_SENSORS, null);
+            ArrayList<ExternalSensor> sensors = new ArrayList<>();
+            while(cursor.moveToNext()) {
+                sensors.add(new ExternalSensor(cursor.getString(0), cursor.getDouble(1), cursor.getDouble(2)));
+            }
+            cursor.close();
             return sensors;
         } catch (Exception e) {
             Log.e("ChatLet", "Error loading message", e);

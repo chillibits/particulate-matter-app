@@ -21,4 +21,11 @@
         android:title="@string/settings"
         android:orderInCategory="300"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_show_gps"
+        android:title="@string/show_gps_data"
+        android:orderInCategory="400"
+        android:checkable="true"
+        app:showAsAction="never"/>
 </menu>

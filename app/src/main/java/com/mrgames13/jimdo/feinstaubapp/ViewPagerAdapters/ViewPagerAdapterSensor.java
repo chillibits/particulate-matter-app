@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,8 +60,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     private static StorageUtils su;
 
     //Variablen
+    private static boolean show_gps_data;
 
-    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su) {
+    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su, boolean show_gps_data) {
         super(manager);
         res = activity.getResources();
         ViewPagerAdapterSensor.activity = activity;
@@ -67,6 +70,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         ViewPagerAdapterSensor.su = su;
         tabTitles.add(res.getString(R.string.tab_diagram));
         tabTitles.add(res.getString(R.string.tab_data));
+        ViewPagerAdapterSensor.show_gps_data = show_gps_data;
     }
 
     @Override
@@ -93,6 +97,10 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
     public void exportDiagram(Context context) {
         DiagramFragment.exportDiagram(context);
+    }
+
+    public void showGPSData(boolean show) {
+        DataFragment.showGPSData(show);
     }
 
     //-------------------------------------------Fragmente------------------------------------------
@@ -625,6 +633,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static DataAdapter data_view_adapter;
         private RecyclerView.LayoutManager data_view_manager;
 
+        private static LinearLayout heading;
         private TextView heading_time;
         private ImageView heading_time_arrow;
         private TextView heading_p1;
@@ -637,6 +646,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private ImageView heading_humidity_arrow;
         private TextView heading_pressure;
         private ImageView heading_pressure_arrow;
+        private static RelativeLayout footer;
         private static TextView footer_average_p1;
         private static TextView footer_average_p2;
         private static TextView footer_average_temp;
@@ -667,6 +677,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
                 contentView.findViewById(R.id.data_footer).setVisibility(records.size() == 0 ? View.INVISIBLE : View.VISIBLE);
 
+                heading = contentView.findViewById(R.id.data_heading);
                 heading_time = contentView.findViewById(R.id.heading_time);
                 heading_time_arrow = contentView.findViewById(R.id.sort_time);
                 heading_p1 = contentView.findViewById(R.id.heading_p1);
@@ -680,6 +691,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 heading_pressure = contentView.findViewById(R.id.heading_pressure);
                 heading_pressure_arrow = contentView.findViewById(R.id.sort_pressure);
 
+                footer = contentView.findViewById(R.id.data_footer);
                 footer_average_p1 = contentView.findViewById(R.id.footer_average_p1);
                 footer_average_p2 = contentView.findViewById(R.id.footer_average_p2);
                 footer_average_temp = contentView.findViewById(R.id.footer_average_temp);
@@ -764,6 +776,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     }
                 });
             }
+
+            showGPSData(show_gps_data);
 
             return contentView;
         }
@@ -874,6 +888,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
             SensorActivity.resortData();
             data_view.getAdapter().notifyDataSetChanged();
+        }
+
+        private static void showGPSData(boolean show) {
+            contentView.findViewById(R.id.heading_gps).setVisibility(show ? View.VISIBLE : View.GONE);
+            contentView.findViewById(R.id.footer_average_gps).setVisibility(show ? View.VISIBLE : View.GONE);
+            contentView.findViewById(R.id.footer_median_gps).setVisibility(show ? View.VISIBLE : View.GONE);
+            data_view.getLayoutParams().width = Math.round(res.getDisplayMetrics().density * (show ? 830 : 530));
+            heading.getLayoutParams().width = Math.round(res.getDisplayMetrics().density * (show ? 830 : 530));
+            footer.getLayoutParams().width = Math.round(res.getDisplayMetrics().density * (show ? 830 : 530));
+            data_view_adapter.showGPSData(show);
         }
 
         public static void refresh() {

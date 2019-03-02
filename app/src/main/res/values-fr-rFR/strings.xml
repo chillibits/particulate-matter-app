@@ -220,4 +220,6 @@
     <string name="measurements">mesurages</string>
     <string name="sensor_breakdown">Échec de capteur</string>
     <string name="measurement">mesurage</string>
+    <string name="show_gps_data">Afficher les données GPS</string>
+    <string name="altitude">altitude</string>
 </resources>

@@ -13,6 +13,8 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +38,25 @@ public class Tools {
             return bd.doubleValue();
         } catch (Exception e) {}
         return value;
+    }
+
+    public static String md5(final String s) {
+        try {
+            //Hash erstellen
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            //Hex-String erstellen
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2) h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {}
+        return "";
     }
 
     public static double calculateMedian(ArrayList<Double> records) {
@@ -63,7 +84,7 @@ public class Tools {
         for(Point p : points) {
             Date date = new Date();
             date.setTime(p.getX());
-            result.add(new DataRecord(date, p.getY(), 0.0, 0.0, 0.0, 0.0));
+            result.add(new DataRecord(date, p.getY(), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         }
         return result;
     }
@@ -78,7 +99,7 @@ public class Tools {
         for(Point p : points) {
             Date date = new Date();
             date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, p.getY(), 0.0, 0.0, 0.0));
+            result.add(new DataRecord(date, 0.0, p.getY(), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         }
         return result;
     }
@@ -93,7 +114,7 @@ public class Tools {
         for(Point p : points) {
             Date date = new Date();
             date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, p.getY(), 0.0, 0.0));
+            result.add(new DataRecord(date, 0.0, 0.0, p.getY(), 0.0, 0.0, 0.0, 0.0, 0.0));
         }
         return result;
     }
@@ -108,7 +129,7 @@ public class Tools {
         for(Point p : points) {
             Date date = new Date();
             date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, 0.0, p.getY(), 0.0));
+            result.add(new DataRecord(date, 0.0, 0.0, 0.0, p.getY(), 0.0, 0.0, 0.0, 0.0));
         }
         return result;
     }
@@ -123,7 +144,7 @@ public class Tools {
         for(Point p : points) {
             Date date = new Date();
             date.setTime(p.getX());
-            result.add(new DataRecord(date, 0.0, 0.0, 0.0, 0.0, p.getY()));
+            result.add(new DataRecord(date, 0.0, 0.0, 0.0, 0.0, p.getY(), 0.0, 0.0, 0.0));
         }
         return result;
     }
@@ -182,7 +203,7 @@ public class Tools {
                 b = record_before.getPressure() - m * record_before.getDateTime().getTime();
                 double avg_pressure = round(m * current_record.getDateTime().getTime() + b, 2);
                 //Datensatz entsprechen ändern
-                DataRecord new_record = new DataRecord(current_record.getDateTime(), current_record.getP1(), current_record.getP2(), avg_temp, avg_humidity, avg_pressure);
+                DataRecord new_record = new DataRecord(current_record.getDateTime(), current_record.getP1(), current_record.getP2(), avg_temp, avg_humidity, avg_pressure, 0.0, 0.0, 0.0);
                 records.set(i, new_record);
             }
         }

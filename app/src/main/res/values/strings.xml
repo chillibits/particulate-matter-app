@@ -119,6 +119,7 @@
     <string name="latitude_">Latitude:</string>
     <string name="longitude">Longitude</string>
     <string name="longitude_">Longitude:</string>
+    <string name="altitude">Height</string>
     <string name="coordinates_info">The Coordinates get rounded due data protection reasons.</string>
     <string name="error_try_again">An error occurred. Please try again</string>
     <string name="offline_t">Server offline</string>
@@ -222,5 +223,6 @@
     <string name="measurement">measurement</string>
     <string name="measurements">measurements</string>
     <string name="sensor_breakdown">Sensor breakdown</string>
+    <string name="show_gps_data">Show GPS data</string>
 
 </resources>

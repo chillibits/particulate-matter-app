@@ -243,16 +243,6 @@ public class MainActivity extends AppCompatActivity {
                         d.findViewById(R.id.recyclerFrame).setBackgroundColor(res.getColor(R.color.bg_dark));
                     }
                     d.show();
-
-                    /*try {
-                        Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MainActivity.this);
-                        startActivityForResult(intent, REQ_SEARCH_LOCATION);
-                        overridePendingTransition(0, 0);
-                    } catch (GooglePlayServicesRepairableException e) {
-                        e.printStackTrace();
-                    } catch (GooglePlayServicesNotAvailableException e) {
-                        e.printStackTrace();
-                    }*/
                 } else if (pager.getCurrentItem() == 2) {
                     sheet_fab.expandFab();
                 }
@@ -355,8 +345,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_rate) {
             rateApp();
-            NotificationUtils nu = new NotificationUtils(this);
-            nu.displayMissingMeasurementsNotification("4017638", "FMS01");
+            startService(new Intent(MainActivity.this, SyncJobService.class));
         } else if(id == R.id.action_share) {
             recommendApp();
         } else if(id == R.id.action_search) {

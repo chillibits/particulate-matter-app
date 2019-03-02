@@ -93,6 +93,7 @@
     <string name="latitude_">Breitengrad:</string>
     <string name="longitude">Längengrad</string>
     <string name="longitude_">Längengrad:</string>
+    <string name="altitude">Höhe</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
     <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
     <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
@@ -129,6 +130,7 @@
     <string name="hybrid">Hybrid</string>
     <string name="traffic_show">Verkehr anzeigen</string>
     <string name="traffic_hide">Verkehr ausblenden</string>
+    <string name="show_gps_data">GPS-Daten anzeigen</string>
 
     <!-- DiagramActivity -->
     <string name="time_">Messzeit:</string>

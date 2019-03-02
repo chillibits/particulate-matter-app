@@ -109,9 +109,6 @@ public class ServerMessagingUtils {
             } else {
                 //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
                 Log.i("FA", "No need to download CSV1");
-
-                //Mess-Ausfälle erkennen
-
             }
         } else {
             //CSV-Datei existiert nicht
@@ -185,7 +182,6 @@ public class ServerMessagingUtils {
             o.flush();
             o.close();
             i.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

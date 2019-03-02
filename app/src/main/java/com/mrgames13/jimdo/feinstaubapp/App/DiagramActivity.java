@@ -111,13 +111,16 @@ public class DiagramActivity extends AppCompatActivity {
                 graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime()));
             } else if(mode == MODE_COMPARE_DATA) {
                 long last_time = Long.MIN_VALUE;
+                long first_time = Long.MAX_VALUE;
                 for(int i = 0; i < compare_sensors.size(); i++) {
                     try{
                         long current_last_time = compare_records.get(i).get(compare_records.get(i).size() -1).getDateTime().getTime();
+                        long current_first_time = compare_records.get(i).get(0).getDateTime().getTime();
                         last_time = current_last_time > last_time ? current_last_time : last_time;
+                        first_time = current_first_time < first_time ? current_first_time : first_time;
                     } catch (Exception e) {}
                 }
-                graph_view.getViewport().setMinX(Math.abs(records.get(0).getDateTime().getTime()));
+                graph_view.getViewport().setMinX(first_time);
                 graph_view.getViewport().setMaxX(last_time);
             }
             graph_view.getViewport().setScalable(true);
