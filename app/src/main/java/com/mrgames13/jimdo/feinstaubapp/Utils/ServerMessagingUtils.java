@@ -29,13 +29,15 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServerMessagingUtils {
 
     //Konstanten
     private final String SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/";
     private final String SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/";
-    private final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v300.php";
-    private final String SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript_v300.php";
+    private final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v310.php";
+    private final String SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript_v310.php";
     private final String DATA_URL_HTTP = "http://h2801469.stratoserver.net/data";
     private final String DATA_URL_HTTPS = "https://h2801469.stratoserver.net/data";
     private final int MAX_REQUEST_REPEAT = 10;
@@ -97,7 +99,8 @@ public class ServerMessagingUtils {
         return "";
     }
 
-    public void manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
+    public boolean manageDownloads(Sensor sensor, String date_string, String date_yesterday) {
+        boolean success = true;
         //Die CSV-Dateien für Tag und Tag davor herunterladen
         //Eingestellter Tag
         if(isCSVFileExisting(date_string, sensor.getChipID())) {
@@ -105,26 +108,22 @@ public class ServerMessagingUtils {
             if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getCSVLastModified(sensor.getChipID(), date_string) > su.getCSVLastModified(sensor.getChipID(), date_string)) {
                 //Lade CSV-Datei herunter
                 Log.i("FA", "Downloading CSV1 ...");
-                downloadCSVFile(date_string, sensor.getChipID());
+                if(!downloadCSVFile(date_string, sensor.getChipID())) success = false;
             } else {
                 //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
                 Log.i("FA", "No need to download CSV1");
-
-                //Mess-Ausfälle erkennen
-
+            }
+        } else if(isZipFileExisting(date_string, sensor.getChipID())) {
+            //Zip-Datei existiert und kann heruntergeladen werden
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_string) > su.getZipLastModified(sensor.getChipID(), date_string)) {
+                Log.i("FA", "Downloading ZIP1 ...");
+                if(downloadZipFile(date_string, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_string);
+            } else {
+                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                Log.i("FA", "No need to download ZIP1");
             }
         } else {
-            //CSV-Datei existiert nicht
-            if(isZipFileExisting(date_string, sensor.getChipID())) {
-                //Zip-Datei existiert und kann heruntergeladen werden
-                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_string) > su.getZipLastModified(sensor.getChipID(), date_string)) {
-                    Log.i("FA", "Downloading ZIP1 ...");
-                    if(downloadZipFile(date_string, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_string);
-                } else {
-                    //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
-                    Log.i("FA", "No need to download ZIP1");
-                }
-            }
+            success = false;
         }
         //Tag davor
         if(isCSVFileExisting(date_yesterday, sensor.getChipID())) {
@@ -137,22 +136,22 @@ public class ServerMessagingUtils {
                 //Die CSV-Datei wurde bereits in dieser Version heruntergeladen
                 Log.i("FA", "No need to download CSV2");
             }
-        } else {
-            //CSV-Datei existiert nicht
-            if(isZipFileExisting(date_yesterday, sensor.getChipID())) {
-                //Zip-Datei existiert und kann heruntergeladen werden
-                if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_yesterday) > su.getZipLastModified(sensor.getChipID(), date_yesterday)) {
-                    Log.i("FA", "Downloading ZIP2 ...");
-                    if(downloadZipFile(date_yesterday, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_yesterday);
-                } else {
-                    //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
-                    Log.i("FA", "No need to download ZIP2");
-                }
+        } else if(isZipFileExisting(date_yesterday, sensor.getChipID())) {
+            //Zip-Datei existiert und kann heruntergeladen werden
+            if(!su.getBoolean("reduce_data_consumption", Constants.DEFAULT_REDUCE_DATA_CONSUMPTION) || getZipLastModified(sensor.getChipID(), date_yesterday) > su.getZipLastModified(sensor.getChipID(), date_yesterday)) {
+                Log.i("FA", "Downloading ZIP2 ...");
+                if(downloadZipFile(date_yesterday, sensor.getChipID())) su.unpackZipFile(sensor.getChipID(), date_yesterday);
+            } else {
+                //Die Zip-Datei wurde bereits in dieser Version heruntergeladen
+                Log.i("FA", "No need to download ZIP2");
             }
+        } else {
+            success = false;
         }
+        return success;
     }
 
-    public void downloadCSVFile(String date, String sensor_id) {
+    public boolean downloadCSVFile(String date, String sensor_id) {
         try {
             //Datum umformatieren
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -163,7 +162,12 @@ public class ServerMessagingUtils {
             String file_name = new_date + ".csv";
 
             URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + file_name);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection;
+            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                connection = (HttpURLConnection) url.openConnection();
+            } else {
+                connection = (HttpsURLConnection) url.openConnection();
+            }
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + date + "_" + sensor_id, connection.getLastModified());
@@ -186,9 +190,11 @@ public class ServerMessagingUtils {
             o.close();
             i.close();
 
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public boolean downloadZipFile(String date, String sensor_id) {
@@ -197,7 +203,12 @@ public class ServerMessagingUtils {
             String year = date.substring(6);
 
             URL url = new URL((Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? DATA_URL_HTTP : DATA_URL_HTTPS) + "/esp8266-" + sensor_id + "/data-" + year + "-" + month + ".zip");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection;
+            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                connection = (HttpURLConnection) url.openConnection();
+            } else {
+                connection = (HttpsURLConnection) url.openConnection();
+            }
             connection.connect();
             //LastModified speichern
             su.putLong("LM_" + year + "_" + month + "_" + sensor_id + "_zip", connection.getLastModified());
@@ -258,7 +269,13 @@ public class ServerMessagingUtils {
     public boolean isOnlineResourceExisting(String url) {
         try {
             HttpURLConnection.setFollowRedirects(false);
-            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+            HttpsURLConnection.setFollowRedirects(false);
+            HttpURLConnection con;
+            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                con = (HttpURLConnection) new URL(url).openConnection();
+            } else {
+                con = (HttpsURLConnection) new URL(url).openConnection();
+            }
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
         } catch (Exception e) {

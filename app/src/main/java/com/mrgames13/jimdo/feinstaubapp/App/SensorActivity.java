@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -123,9 +122,18 @@ public class SensorActivity extends AppCompatActivity {
         //NotificationUtils initialisieren
         nu = new NotificationUtils(this);
 
+        //Intent-Extras auslesen
+        sensor = new Sensor();
+        if (getIntent().hasExtra("Name")) {
+            sensor.setName(getIntent().getStringExtra("Name"));
+            getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
+        }
+        if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
+        if (getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+
         //ViewPager initialisieren
         view_pager = findViewById(R.id.view_pager);
-        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su);
+        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()));
         view_pager.setAdapter(view_pager_adapter);
 
         //TabLayout aufsetzen
@@ -232,17 +240,6 @@ public class SensorActivity extends AppCompatActivity {
         });
         card_date_next.setEnabled(false);
 
-        //Intent-Extras auslesen
-        sensor = new Sensor();
-        if (getIntent().hasExtra("Name")) {
-            sensor.setName(getIntent().getStringExtra("Name"));
-            getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
-        }
-        if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
-        if (getIntent().hasExtra("Color"))
-            sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
-
-
         //RefreshPeriod setzen
         int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
@@ -262,11 +259,6 @@ public class SensorActivity extends AppCompatActivity {
 
         //Check if sensor is existing on the server
         checkSensorAvailability();
-
-        // ATTENTION: This was auto-generated to handle app links.
-        Intent appLinkIntent = getIntent();
-        String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();
     }
 
     private void chooseDate(final TextView card_date_value) {
@@ -296,6 +288,7 @@ public class SensorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
+        menu.findItem(R.id.action_show_gps).setChecked(su.getBoolean("ShowGPS_" + sensor.getChipID()));
         progress_menu_item = menu.findItem(R.id.action_refresh);
         return true;
     }
@@ -307,6 +300,10 @@ public class SensorActivity extends AppCompatActivity {
             finish();
         } else if(id == R.id.action_export) {
             exportData();
+        } else if(id == R.id.action_show_gps) {
+            item.setChecked(!item.isChecked());
+            view_pager_adapter.showGPSData(item.isChecked());
+            su.putBoolean("ShowGPS_" + sensor.getChipID(), item.isChecked());
         } else if(id == R.id.action_refresh) {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");

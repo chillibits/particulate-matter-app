@@ -19,14 +19,20 @@ public class DataRecord implements Comparable {
     private Double temp;
     private Double humidity;
     private Double pressure;
+    private Double lat;
+    private Double lng;
+    private Double alt;
 
-    public DataRecord(Date time, Double p1, Double p2, Double temp, Double humidity, Double pressure) {
+    public DataRecord(Date time, Double p1, Double p2, Double temp, Double humidity, Double pressure, Double lat, Double lng, Double alt) {
         this.date_time = time;
         this.p1 = p1;
         this.p2 = p2;
         this.temp = temp;
         this.humidity = humidity;
         this.pressure = pressure;
+        this.lat = lat;
+        this.lng = lng;
+        this.alt = alt;
     }
 
     public Date getDateTime() {
@@ -51,6 +57,18 @@ public class DataRecord implements Comparable {
 
     public Double getPressure() {
         return pressure;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public Double getAlt() {
+        return alt;
     }
 
     @Override

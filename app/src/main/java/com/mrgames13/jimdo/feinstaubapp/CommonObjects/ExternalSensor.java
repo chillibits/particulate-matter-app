@@ -10,15 +10,13 @@ public class ExternalSensor {
     private String chip_id = "no_id";
     private double lat = 0;
     private double lng = 0;
-    private double heatmap_value = 0;
 
     public ExternalSensor() {}
 
-    public ExternalSensor(String chip_id, double lat, double lng, double heatmap_value) {
+    public ExternalSensor(String chip_id, double lat, double lng) {
         this.chip_id = chip_id;
         this.lat = lat;
         this.lng = lng;
-        this.heatmap_value = heatmap_value;
     }
 
     public String getChipID() {
@@ -40,12 +38,5 @@ public class ExternalSensor {
     }
     public void setLng(double lng) {
         this.lng = lng;
-    }
-
-    public double getHeatmapValue() {
-        return heatmap_value;
-    }
-    public void setHeatmapValue(double heatmap_value) {
-        this.heatmap_value = heatmap_value;
     }
 }

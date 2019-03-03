@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -41,8 +40,6 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] app_widget_id) {
         super.onUpdate(context, appWidgetManager, app_widget_id);
         initialize(context);
-
-        Log.d("FA", "Update!");
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 

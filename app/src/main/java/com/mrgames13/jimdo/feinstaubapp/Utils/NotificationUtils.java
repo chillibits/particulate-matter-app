@@ -63,13 +63,13 @@ public class NotificationUtils {
 
     public void displayLimitExceededNotification(String message, String chip_id, long time) {
         Intent i = new Intent(context, MainActivity.class);
-        i.putExtra("ID", chip_id);
+        i.putExtra("ChipID", chip_id);
         displayNotification(Constants.CHANNEL_LIMIT, res.getString(R.string.limit_exceeded), message, Integer.parseInt(chip_id), i, PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
     }
 
     public void displayMissingMeasurementsNotification(String chip_id, String sensor_name) {
         Intent i = new Intent(context, MainActivity.class);
-        i.putExtra("ID", chip_id);
+        i.putExtra("ChipID", chip_id);
         displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, i, PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
     }
 

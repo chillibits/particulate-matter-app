@@ -2,6 +2,7 @@ package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +14,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +56,7 @@ import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRederer;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.MarkerItem;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SensorClusterItem;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
@@ -227,11 +231,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private Spinner map_type;
         private Spinner map_traffic;
         private static TextView map_sensor_count;
+        private ImageView map_sensor_refresh;
         private static GoogleMap map;
         private static ClusterManager<SensorClusterItem> clusterManager;
         private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
         private static LatLng current_country;
+        private static ProgressDialog pd;
 
         //Variablen
         private int current_color;
@@ -242,7 +248,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             contentView = inflater.inflate(R.layout.tab_all_sensors, null);
 
             map_fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            map_fragment.getMapAsync(this);
 
             map_type = contentView.findViewById(R.id.map_type);
             List<String> map_types = new ArrayList<>();
@@ -297,6 +302,26 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             });
 
             map_sensor_count = contentView.findViewById(R.id.map_sensor_count);
+            map_sensor_count.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse("https://h2801469.stratoserver.net/stats.php"));
+                    startActivity(i);
+                }
+            });
+
+            map_sensor_refresh = contentView.findViewById(R.id.map_sensor_refresh);
+            map_sensor_refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pd = new ProgressDialog(activity);
+                    pd.setMessage(getResources().getString(R.string.loading_data));
+                    pd.setCancelable(false);
+                    pd.show();
+                    loadAllSensorsNonSync();
+                }
+            });
 
             LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -342,6 +367,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         }).show();
             }
 
+            map_fragment.getMapAsync(this);
+
             return contentView;
         }
 
@@ -368,7 +395,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             //ClusterManager initialisieren
             clusterManager = new ClusterManager<>(activity, map);
             clusterManager.setRenderer(new ClusterRederer(activity, map, clusterManager, su));
-            if(su.getBoolean("enable_marker_clustering", false)) {
+            if(su.getBoolean("enable_marker_clustering", true)) {
                 map.setOnMarkerClickListener(clusterManager);
                 clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<SensorClusterItem>() {
                     @Override
@@ -389,7 +416,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(final Marker marker) {
-                        showInfoWindow(marker);
+                        MarkerItem m = new MarkerItem(marker.getTitle(), marker.getSnippet(), marker.getPosition());
+                        showInfoWindow(m);
                         return true;
                     }
                 });
@@ -401,11 +429,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 11));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {}
 
             //Sensoren laden
             loadAllSensors();
@@ -414,9 +439,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             if(isGPSPermissionGranted()) {
-                if(!isGPSEnabled(activity)) {
-                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                }
+                if(!isGPSEnabled(activity)) startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 enableOwnLocation();
             }
         }
@@ -469,8 +492,106 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 @Override
                 public void run() {
                     try{
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&hm=0");
+                        long start = System.currentTimeMillis();
+                        //Alte Sensoren aus der lokalen Datenbank laden
+                        sensors = su.getExternalSensors();
+                        //Hash erzeugen
+                        double chip_sum = 0;
+                        for(ExternalSensor s : sensors) {
+                            chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
+                        }
+                        String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
+                        //Neue Sensoren vom Server laden
+                        long last_request = su.getLong("LastRequest", 0);
+                        String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
+                        long new_last_request = System.currentTimeMillis();
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&last_request=" + last_request_string + "&cs=" + sensor_hash);
+                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
                         if(!result.isEmpty()) {
+                            JSONObject array = new JSONObject(result);
+                            JSONArray array_update = array.getJSONArray("update");
+                            JSONArray array_ids = array.getJSONArray("ids");
+                            if(array_ids.length() > 0) {
+                                for(ExternalSensor s : sensors) {
+                                    boolean found = false;
+                                    for (int i = 0; i < array_ids.length(); i++) {
+                                        String chip_id = array_ids.get(i).toString();
+                                        if(chip_id.equals(s.getChipID())) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!found) {
+                                        Log.d("FA", "Deleting " + s.getChipID());
+                                        su.deleteExternalSensor(s.getChipID());
+                                    }
+                                }
+                            }
+                            //Update verarbeiten
+                            for (int i = 0; i < array_update.length(); i++) {
+                                JSONObject jsonobject = array_update.getJSONObject(i);
+                                ExternalSensor sensor = new ExternalSensor();
+                                sensor.setChipID(jsonobject.getString("i"));
+                                sensor.setLat(jsonobject.getDouble("l"));
+                                sensor.setLng(jsonobject.getDouble("b"));
+                                Log.d("FA", "Adding " + sensor.getChipID());
+                                su.addExternalSensor(sensor);
+                            }
+                            su.putLong("LastRequest", new_last_request);
+                            sensors = su.getExternalSensors();
+
+                            //Sensoren auf der Karte einzeichnen
+                            start = System.currentTimeMillis();
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    map_sensor_count.setText(String.valueOf(sensors.size()));
+                                    if(map != null) {
+                                        boolean is_marker_clustering_enabled = su.getBoolean("enable_marker_clustering", true);
+                                        if(is_marker_clustering_enabled) {
+                                            clusterManager.clearItems();
+                                        } else {
+                                            map.clear();
+                                        }
+                                        for(ExternalSensor sensor : sensors) {
+                                            if(is_marker_clustering_enabled) {
+                                                MarkerItem m = new MarkerItem(sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), new LatLng(sensor.getLat(), sensor.getLng()));
+                                                clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
+                                            } else {
+                                                map.addMarker(new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                        .title(sensor.getChipID())
+                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                                );
+                                            }
+                                        }
+                                        if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
+                                        if(su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster();
+                                    }
+                                }
+                            });
+                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+        private static void loadAllSensorsNonSync() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        long start = System.currentTimeMillis();
+                        //Neue Sensoren vom Server laden
+                        long new_last_request = System.currentTimeMillis();
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getallnonsync");
+                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
+                        if(!result.isEmpty()) {
+                            su.clearExternalSensors();
                             JSONArray array = new JSONArray(result);
                             sensors = new ArrayList<>();
                             for (int i = 0; i < array.length(); i++) {
@@ -479,36 +600,44 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 sensor.setChipID(jsonobject.getString("i"));
                                 sensor.setLat(jsonobject.getDouble("l"));
                                 sensor.setLng(jsonobject.getDouble("b"));
-                                sensors.add(sensor);
+                                su.addExternalSensor(sensor);
                             }
+                            su.putLong("LastRequest", new_last_request);
+                            sensors = su.getExternalSensors();
 
                             //Sensoren auf der Karte einzeichnen
+                            start = System.currentTimeMillis();
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     map_sensor_count.setText(String.valueOf(sensors.size()));
                                     if(map != null) {
-                                        clusterManager.clearItems();
-                                        map.clear();
+                                        boolean is_marker_clustering_enabled = su.getBoolean("enable_marker_clustering", true);
+                                        if(is_marker_clustering_enabled) {
+                                            clusterManager.clearItems();
+                                        } else {
+                                            map.clear();
+                                        }
                                         for(ExternalSensor sensor : sensors) {
-                                            Marker m = map.addMarker(new MarkerOptions()
-                                                    .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
-                                                    .position(new LatLng(sensor.getLat(), sensor.getLng()))
-                                                    .title(sensor.getChipID())
-                                                    .snippet(sensor.getLat() + ", " + sensor.getLng())
-                                            );
-                                            if(su.getBoolean("enable_marker_clustering", false)) {
+                                            if(is_marker_clustering_enabled) {
+                                                MarkerItem m = new MarkerItem(sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), new LatLng(sensor.getLat(), sensor.getLng()));
                                                 clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
+                                            } else {
+                                                map.addMarker(new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .position(new LatLng(sensor.getLat(), sensor.getLng()))
+                                                        .title(sensor.getChipID())
+                                                        .snippet(sensor.getLat() + ", " + sensor.getLng())
+                                                );
                                             }
                                         }
-                                        if(su.getBoolean("enable_marker_clustering", false)) {
-                                            map.clear();
-                                            clusterManager.cluster();
-                                        }
                                         if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5));
+                                        if(su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster();
                                     }
+                                    if(pd != null && pd.isShowing()) pd.dismiss();
                                 }
                             });
+                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -526,25 +655,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         }
 
-        private void showInfoWindow(final Marker marker) {
+        private void showInfoWindow(final MarkerItem marker) {
             View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
             TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
             TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
             TextView sensor_location = v.findViewById(R.id.sensor_location);
             Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
             Button sensor_link = v.findViewById(R.id.sensor_link);
-
-            try{
-                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
-                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
-                String city = addresses.get(0).getLocality();
-                marker.setTag(city);
-                String country = addresses.get(0).getCountryName();
-                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
-            } catch (Exception e) {
-                sensor_location.setText(R.string.unknown_location);
-                marker.setTag(marker.getTitle());
-            }
 
             sensor_chip_id.setText(marker.getTitle());
             sensor_coordinates.setText(marker.getSnippet());
@@ -573,7 +690,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         Button choose_color = v.findViewById(R.id.choose_sensor_color);
                         final ImageView sensor_color = v.findViewById(R.id.sensor_color);
 
-                        name.setHint(marker.getTag().toString());
+                        name.setHint(marker.getTag());
                         chip_id.setText(marker.getTitle());
 
                         //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
@@ -603,7 +720,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         //Neuen Sensor speichern
                                         String name_string = name.getText().toString().trim();
-                                        if(name_string.isEmpty()) name_string = marker.getTag().toString();
+                                        if(name_string.isEmpty()) name_string = marker.getTag();
                                         su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color), false);
                                         MyFavouritesFragment.refresh();
                                         AllSensorsFragment.refresh();
@@ -638,6 +755,18 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             info_window.show();
             info_window.getWindow().setAttributes(lp);
+
+            try{
+                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+                String city = addresses.get(0).getLocality();
+                marker.setTag(city);
+                String country = addresses.get(0).getCountryName();
+                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
+            } catch (Exception e) {
+                sensor_location.setText(R.string.unknown_location);
+                marker.setTag(marker.getTitle());
+            }
         }
 
         private void showClusterWindow(final Cluster cluster) {
