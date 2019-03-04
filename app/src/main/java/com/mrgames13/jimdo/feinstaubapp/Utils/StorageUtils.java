@@ -386,6 +386,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     }
 
     public Sensor getSensor(String chip_id) {
+        Log.d("FA", "GetSensor: " + chip_id);
         ArrayList<Sensor> sensors = getAllOwnSensors();
         sensors.addAll(getAllFavourites());
         for(Sensor s : sensors) {

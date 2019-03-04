@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_rate) {
             rateApp();
-            startService(new Intent(MainActivity.this, SyncJobService.class));
+            NotificationUtils nu = new NotificationUtils(this);
         } else if(id == R.id.action_share) {
             recommendApp();
         } else if(id == R.id.action_search) {
@@ -536,9 +536,8 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("ID", chip_id);
                 i.putExtra("Color", color);
                 startActivity(i);
-            } else if(this.getIntent().hasExtra("ChipID")) {
-                Log.d("FA", "StartID: " +this.getIntent().getStringExtra("ChipID"));
-                Sensor s = su.getSensor(this.getIntent().getStringExtra("ChipID"));
+            } else if(intent.hasExtra("ChipID")) {
+                Sensor s = su.getSensor(intent.getStringExtra("ChipID"));
                 Intent i = new Intent(this, SensorActivity.class);
                 i.putExtra("Name", s.getName());
                 i.putExtra("ID", s.getChipID());

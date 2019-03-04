@@ -80,7 +80,7 @@ public class NotificationUtils {
         n.setSmallIcon(R.drawable.notification_icon);
         n.setWhen(time);
         if(i != null) {
-            PendingIntent pi = PendingIntent.getActivity(context, 0, i, 0);
+            PendingIntent pi = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
             n.setContentIntent(pi);
         }
         //ID ermitteln

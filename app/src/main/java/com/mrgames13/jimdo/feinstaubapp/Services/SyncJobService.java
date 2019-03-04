@@ -106,7 +106,6 @@ public class SyncJobService extends JobService {
                         sensors.addAll(su.getAllFavourites());
                         sensors.addAll(su.getAllOwnSensors());
                         for (Sensor s : sensors) {
-                            Log.d("FA", "Start sync for sensor " + s.getName());
                             //Dateien Herunterladen
                             if(smu.manageDownloads(s, date_string, date_yesterday)) {
                                 //Inhalt der lokalen Dateien auslesen
