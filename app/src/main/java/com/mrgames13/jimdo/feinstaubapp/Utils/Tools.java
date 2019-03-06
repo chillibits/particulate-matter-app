@@ -174,13 +174,37 @@ public class Tools {
         return null;
     }
 
-    public static ArrayList<DataRecord> measurementCorrection(ArrayList<DataRecord> records) {
+    public static ArrayList<DataRecord> measurementCorrection1(ArrayList<DataRecord> records) {
         for(int i = 1; i < records.size(); i++) {
+            //Aktuellen und vorherigen Datensatz beschaffen
             DataRecord current_record = records.get(i);
-            //Auf Nullwerte überprüfen
+            DataRecord record_before = records.get(i -1);
+            //Auf Nullwerte überprüfen im Feinstaub überprüfen
+            if(current_record.getP1() == 0 && current_record.getP2() == 0) {
+                //Nächsten Datensatz beschaffen, der keine Nullwerte hat
+                DataRecord record_after = record_before;
+                for(int j = i +1; j < records.size(); j++) {
+                    if(!((records.get(j).getTemp() == 0 && records.get(j).getHumidity() == 0) || (records.get(j).getTemp() == 0 && records.get(j).getPressure() == 0) || (records.get(j).getHumidity() == 0 && records.get(j).getPressure() == 0))) {
+                        record_after = records.get(j);
+                        break;
+                    }
+                }
+                //Mittelwerte berechnen
+                //PM10
+                double m = Math.abs(record_before.getP1() - record_after.getP1()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
+                double b = record_before.getP1() - m * record_before.getDateTime().getTime();
+                double avg_p1 = round(m * current_record.getDateTime().getTime() + b, 2);
+                //PM2.5
+                m = Math.abs(record_before.getP2() - record_after.getP2()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
+                b = record_before.getP2() - m * record_before.getDateTime().getTime();
+                double avg_p2 = round(m * current_record.getDateTime().getTime() + b, 2);
+
+                //Datensatz entsprechen ändern
+                DataRecord new_record = new DataRecord(current_record.getDateTime(), avg_p1, avg_p2, current_record.getTemp(), current_record.getHumidity(), current_record.getPressure(), 0.0, 0.0, 0.0);
+                records.set(i, new_record);
+            }
+            //Auf Nullwerte bei Temperatur, Luftfeuchtigkeit oder Luftdruck überprüfen
             if((current_record.getTemp() == 0 && current_record.getHumidity() == 0) || (current_record.getTemp() == 0 && current_record.getPressure() == 0) || (current_record.getHumidity() == 0 && current_record.getPressure() == 0)) {
-                //Vorherigen Datensatz beschaffen
-                DataRecord record_before = records.get(i -1);
                 //Nächsten Datensatz beschaffen, der keine Nullwerte hat
                 DataRecord record_after = record_before;
                 for(int j = i +1; j < records.size(); j++) {
@@ -207,6 +231,13 @@ public class Tools {
                 records.set(i, new_record);
             }
         }
+        return records;
+    }
+
+    public static ArrayList<DataRecord> measurementCorrection2(ArrayList<DataRecord> records) {
+
+
+
         return records;
     }
 

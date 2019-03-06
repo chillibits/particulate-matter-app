@@ -377,6 +377,7 @@ public class CompareActivity extends AppCompatActivity {
 
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setCancelable(false);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setMessage(res.getString(R.string.loading_data));
         pd.show();
         new Thread(new Runnable() {
@@ -403,6 +404,7 @@ public class CompareActivity extends AppCompatActivity {
                 //Zeit des ersten Datensatzes ermitteln
                 long first_time = Long.MAX_VALUE;
                 long last_time = Long.MIN_VALUE;
+                pd.setMax(sensors.size());
                 for(int i = 0; i < sensors.size(); i++) {
                     smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
 
@@ -416,6 +418,7 @@ public class CompareActivity extends AppCompatActivity {
                         first_time = current_first_time < first_time ? current_first_time : first_time;
                         last_time = current_last_time > last_time ? current_last_time : last_time;
                     } catch (Exception e) {}
+                    pd.setProgress(i+1);
                 }
 
                 no_data = true;
@@ -424,7 +427,8 @@ public class CompareActivity extends AppCompatActivity {
                     ArrayList<DataRecord> current_records = records.get(i);
                     //ggf. Fehlerkorrektur(en) durchführen
                     if(su.getBoolean("enable_auto_correction", true)) {
-                        current_records = Tools.measurementCorrection(current_records);
+                        current_records = Tools.measurementCorrection1(current_records);
+                        current_records = Tools.measurementCorrection2(current_records);
                     }
                     if(current_records.size() > 0) {
                         no_data = false;

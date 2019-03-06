@@ -184,7 +184,7 @@
     <string name="reduce_data_consumption_s">Comparaison de la date de modification près du download pour éviter la consommation des données inutiles</string>
     <string name="refresh">Réactualiser</string>
     <string name="satellite">Satellite</string>
-    <string name="scan_prompt">Ouvrez feinstaub.mrgames-server.de sur votre ordinateur.</string>
+    <string name="scan_prompt">Ouvrez https://feinstaub.mrgames-server.de sur votre ordinateur.</string>
     <string name="search_for_sensors">Fouiller les capteurs</string>
     <string name="search_places">Saisez un lieu, s\'il vous plaît …</string>
     <string name="second">second</string>
@@ -248,4 +248,5 @@
     <string name="widget_select_sensor">Choisir capteur</string>
     <string name="yes">Oui</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
+    <string name="help"></string>
 </resources>

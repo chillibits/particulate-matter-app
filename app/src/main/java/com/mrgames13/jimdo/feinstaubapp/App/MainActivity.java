@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_compare_dismiss;
     private SheetLayout sheet_fab_compare;
     private MaterialSearchView searchView;
+    private MenuItem search_item;
 
     //Utils-Pakete
     private StorageUtils su;
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 bottom_nav.getMenu().getItem(pos).setChecked(true);
                 prevMenuItem = bottom_nav.getMenu().getItem(pos);
-                invalidateOptionsMenu();
+                if(search_item != null) search_item.setVisible(pos != 1);
             }
 
             @Override
@@ -322,19 +323,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(bottom_nav.getSelectedItemId() == R.id.action_my_favorites) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_my_favourites, menu);
-
-            MenuItem item = menu.findItem(R.id.action_search);
-            searchView.setMenuItem(item);
-        } else if(bottom_nav.getSelectedItemId() == R.id.action_all_sensors) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_all_sensors, menu);
-        } else if(bottom_nav.getSelectedItemId() == R.id.action_my_sensors) {
-            getMenuInflater().inflate(R.menu.menu_activity_main_my_sensors, menu);
-
-            MenuItem item = menu.findItem(R.id.action_search);
-            searchView.setMenuItem(item);
-        }
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        search_item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(search_item);
+        search_item.setVisible(false);
         return true;
     }
 
@@ -350,6 +342,10 @@ public class MainActivity extends AppCompatActivity {
             recommendApp();
         } else if(id == R.id.action_search) {
             item.expandActionView();
+        } else if(id == R.id.action_help) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("https://mrgames13.jimdo.com/feinstaub-app/faq"));
+            startActivity(i);
         } else if(id == R.id.action_web) {
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setOrientationLocked(true);

@@ -373,7 +373,10 @@ public class SensorActivity extends AppCompatActivity {
                     //Sortieren
                     resortData();
                     //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) records = Tools.measurementCorrection(records);
+                    if(su.getBoolean("enable_auto_correction", true)) {
+                        records = Tools.measurementCorrection1(records);
+                        records = Tools.measurementCorrection2(records);
+                    }
                     //Auf einen Ausfall prüfen
                     if(smu.isInternetAvailable()) {
                         if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && calendar.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE) && Tools.isMeasurementBreakdown(su, records)) {

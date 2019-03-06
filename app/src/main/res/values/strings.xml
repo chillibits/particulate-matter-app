@@ -184,7 +184,7 @@
     <string name="reduce_data_consumption_s">Compare alternation dates on download to avoid unnecessary data consumption</string>
     <string name="refresh">Refresh</string>
     <string name="satellite">Satellite</string>
-    <string name="scan_prompt">Open feinstaub.mrgames-server.de on your computer.</string>
+    <string name="scan_prompt">Open https://feinstaub.mrgames-server.de on your computer.</string>
     <string name="search_for_sensors">Search for sensors</string>
     <string name="search_places">Please enter a place …</string>
     <string name="second">second</string>
@@ -248,4 +248,5 @@
     <string name="widget_select_sensor">Select sensor</string>
     <string name="yes">Yes</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
+    <string name="help">Help</string>
 </resources>

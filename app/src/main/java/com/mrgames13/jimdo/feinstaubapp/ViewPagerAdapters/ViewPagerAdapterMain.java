@@ -665,6 +665,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
             sensor_chip_id.setText(marker.getTitle());
             sensor_coordinates.setText(marker.getSnippet());
+            marker.setTag(marker.getTitle());
             sensor_show_data.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -672,7 +673,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
 
                     Intent i = new Intent(activity, SensorActivity.class);
-                    i.putExtra("Name", marker.getTitle());
+                    i.putExtra("Name", marker.getTag());
                     i.putExtra("ID", marker.getTitle());
                     i.putExtra("Color", current_color);
                     activity.startActivity(i);
