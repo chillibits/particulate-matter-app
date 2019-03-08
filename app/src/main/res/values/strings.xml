@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en-US, English
  Exported by: M&R Games
- Exported at: Sat, 02 Mar 2019 22:45:21 +0100
+ Exported at: Fri, 08 Mar 2019 16:31:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Activate WiFi</string>
@@ -62,6 +62,7 @@
     <string name="from">from</string>
     <string name="gps_will_be_synchronized">If there is a GPS sensor is connected to your sensor system, the position will gets automatically synchronized with the map.</string>
     <string name="height_short_">Mounting height:</string>
+    <string name="help">Help</string>
     <string name="hide_thresholds">Hide thresholds</string>
     <string name="humidity">Humidity</string>
     <string name="humidity_short">Humidity</string>
@@ -211,7 +212,7 @@
     <string name="show_gps_data">Show GPS data</string>
     <string name="show_measurements">Show measurements</string>
     <string name="show_threshold_eu">Show EU threshold</string>
-    <string name="show_threshold_who">Show WHO thresholds</string>
+    <string name="show_threshold_who">Show WHO threshold</string>
     <string name="state_of_">State from</string>
     <string name="successfully_connected">Successfully connected</string>
     <string name="support_end_m">We are sorry! The particulate matter app is not supported any more. You can now uninstall the app.</string>
@@ -248,5 +249,4 @@
     <string name="widget_select_sensor">Select sensor</string>
     <string name="yes">Yes</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
-    <string name="help">Help</string>
 </resources>

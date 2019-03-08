@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de-DE, German (Germany)
  Exported by: M&R Games
- Exported at: Sat, 02 Mar 2019 22:45:47 +0100
+ Exported at: Fri, 08 Mar 2019 16:31:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Wlan aktivieren</string>
@@ -62,6 +62,7 @@
     <string name="from">von</string>
     <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
     <string name="height_short_">Montagehöhe:</string>
+    <string name="help">Hilfe</string>
     <string name="hide_thresholds">Grenzwerte ausblenden</string>
     <string name="humidity">Luftfeuchtigkeit</string>
     <string name="humidity_short">Luftftk</string>
@@ -248,5 +249,4 @@
     <string name="widget_select_sensor">Sensor wählen</string>
     <string name="yes">Ja</string>
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
-    <string name="help">Hilfe</string>
 </resources>

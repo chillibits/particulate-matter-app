@@ -19,6 +19,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -34,12 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class CompareActivity extends AppCompatActivity {
 
@@ -76,6 +76,7 @@ public class CompareActivity extends AppCompatActivity {
     private String current_date_string;
     private String date_string;
     private boolean no_data;
+    private int export_option;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,7 +351,35 @@ public class CompareActivity extends AppCompatActivity {
                 if(!r.isEmpty()) empty = false;
             }
             if(!empty) {
-                exportData();
+                View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
+                final RadioButton export_p1 = v.findViewById(R.id.export_diagram_p1);
+                final RadioButton export_p2 = v.findViewById(R.id.export_diagram_p2);
+                final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
+                final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
+                final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
+                AlertDialog d = new AlertDialog.Builder(this)
+                        .setTitle(R.string.export_diagram)
+                        .setView(v)
+                        .setNegativeButton(R.string.cancel, null)
+                        .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if(export_p1.isChecked()) {
+                                    export_option = 1;
+                                } else if(export_p2.isChecked()) {
+                                    export_option = 2;
+                                } else if(export_temp.isChecked()) {
+                                    export_option = 3;
+                                } else if(export_humidity.isChecked()) {
+                                    export_option = 4;
+                                } else if(export_pressure.isChecked()) {
+                                    export_option = 5;
+                                }
+                                exportData();
+                            }
+                        })
+                        .create();
+                d.show();
             } else {
                 Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
             }
@@ -378,7 +407,7 @@ public class CompareActivity extends AppCompatActivity {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setCancelable(false);
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMessage(res.getString(R.string.loading_data));
+        pd.setTitle(res.getString(R.string.loading_data));
         pd.show();
         new Thread(new Runnable() {
             @Override
@@ -542,34 +571,17 @@ public class CompareActivity extends AppCompatActivity {
 
     private void exportData() {
         if(ContextCompat.checkSelfPermission(CompareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_export_compare, null);
-            final RadioButton export_p1 = v.findViewById(R.id.export_diagram_p1);
-            final RadioButton export_p2 = v.findViewById(R.id.export_diagram_p2);
-            final RadioButton export_temp = v.findViewById(R.id.export_diagram_temp);
-            final RadioButton export_humidity = v.findViewById(R.id.export_diagram_humidity);
-            final RadioButton export_pressure = v.findViewById(R.id.export_diagram_pressure);
-            AlertDialog d = new AlertDialog.Builder(this)
-                    .setTitle(R.string.export_diagram)
-                    .setView(v)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if(export_p1.isChecked()) {
-                                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_p2.isChecked()) {
-                                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_temp.isChecked()) {
-                                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_humidity.isChecked()) {
-                                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            } else if(export_pressure.isChecked()) {
-                                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
-                            }
-                        }
-                    })
-                    .create();
-            d.show();
+            if(export_option == 1) {
+                diagram_p1.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
+            } else if(export_option == 2) {
+                diagram_p2.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
+            } else if(export_option == 3) {
+                diagram_temp.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
+            } else if(export_option == 4) {
+                diagram_humidity.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
+            } else if(export_option == 5) {
+                diagram_pressure.takeSnapshotAndShare(CompareActivity.this, "export_" + System.currentTimeMillis(), getString(R.string.export_diagram));
+            }
         } else {
             ActivityCompat.requestPermissions(CompareActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
         }

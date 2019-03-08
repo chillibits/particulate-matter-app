@@ -45,7 +45,7 @@ public class Tools {
             //Hash erstellen
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             //Hex-String erstellen
             StringBuilder hexString = new StringBuilder();
@@ -234,16 +234,60 @@ public class Tools {
         return records;
     }
 
-    public static ArrayList<DataRecord> measurementCorrection2(ArrayList<DataRecord> records) {
+    public static ArrayList<DataRecord> measurementCorrection2(final ArrayList<DataRecord> records) {
+        /*for(int i = 2; i < records.size(); i++) {
+            //Aktuellen und vorherigen Datensatz beschaffen
+            DataRecord current_record = records.get(i);
+            DataRecord record_before = records.get(i -1);
+            DataRecord record_before2 = records.get(i -2);
+            //PM10
+            double deltaY1 = current_record.getP1() - record_before.getP1();
+            double deltaY2 = record_before.getP1() - record_before2.getP1();
+            double new_p1 = current_record.getP1();
+            double new_p2 = current_record.getP2();
+            //Auf Messfehler überprüfen
+            if(current_record.getP1() > 30 && current_record.getP1() > record_before.getP1() * 3 && deltaY1 > deltaY2 * 3) {
+                double threshold = (current_record.getP1() + record_before.getP1()) / 2;
+                DataRecord record_after = record_before;
+                for(int j = i +1; j < records.size(); j++) {
+                    if(records.get(j).getP1() < threshold) {
+                        record_after = records.get(j);
+                        break;
+                    }
+                }
+                //Gerade bilden
+                double m = Math.abs(record_before.getP1() - record_after.getP1()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
+                double b = record_before.getP1() - m * record_before.getDateTime().getTime();
+                new_p1 = round(m * current_record.getDateTime().getTime() + b, 2);
+            }
+            //PM2,5
+            deltaY1 = current_record.getP2() - record_before.getP2();
+            deltaY2 = record_before.getP2() - record_before2.getP2();
+            if(current_record.getP2() > 20 && current_record.getP2() > current_record.getP2() * 3 && deltaY1 > deltaY2 * 3) {
+                double threshold = (current_record.getP2() + record_before.getP2()) / 2;
+                DataRecord record_after = record_before;
+                for(int j = i +1; j < records.size(); j++) {
+                    if(records.get(j).getP2() < threshold) {
+                        record_after = records.get(j);
+                        break;
+                    }
+                }
+                //Gerade bilden
+                double m = Math.abs(record_before.getP2() - record_after.getP2()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
+                double b = record_before.getP2() - m * record_before.getDateTime().getTime();
+                new_p2 = round(m * current_record.getDateTime().getTime() + b, 2);
+            }
 
-
-
+            //Datensatz entsprechen ändern
+            DataRecord new_record = new DataRecord(current_record.getDateTime(), new_p1, new_p2, current_record.getTemp(), current_record.getHumidity(), current_record.getPressure(), 0.0, 0.0, 0.0);
+            records.set(i, new_record);
+        }*/
         return records;
     }
 
     public static boolean isMeasurementBreakdown(StorageUtils su, ArrayList<DataRecord> records) {
         long measurement_interval = records.size() > 2 ? getMeasurementInteval(records) : 0;
-        Log.d("FA", "Measurement interval: " + String.valueOf(measurement_interval));
+        Log.d("FA", "Measurement interval: " + measurement_interval);
         if(measurement_interval <= 0) return false;
         return System.currentTimeMillis() > records.get(records.size() - 1).getDateTime().getTime() + measurement_interval * (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER))) + 1);
     }
