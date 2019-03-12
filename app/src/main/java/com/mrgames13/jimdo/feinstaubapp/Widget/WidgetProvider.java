@@ -116,7 +116,7 @@ public class WidgetProvider extends AppWidgetProvider {
     private void updateData(Context context, RemoteViews rv, int widget_id) {
         try {
             //Sensor laden
-            Sensor sensor = su.getSensor(su.getString("Widget_" + String.valueOf(widget_id)));
+            Sensor sensor = su.getSensor(su.getString("Widget_" + widget_id));
             //Date String von Heute ermitteln
             Calendar calendar = Calendar.getInstance();
             String date_string = sdf_date.format(calendar.getTime());
@@ -137,11 +137,11 @@ public class WidgetProvider extends AppWidgetProvider {
                 DataRecord last_record = records.get(records.size() -1);
 
                 rv.setTextViewText(R.id.cv_title, res.getString(R.string.current_values) + " - " + sensor.getName());
-                rv.setTextViewText(R.id.cv_p1, String.valueOf(Tools.round(last_record.getP1(), 2)) + " µg/m³");
-                rv.setTextViewText(R.id.cv_p2, String.valueOf(Tools.round(last_record.getP2(), 2)) + " µg/m³");
-                rv.setTextViewText(R.id.cv_temp, String.valueOf(Tools.round(last_record.getTemp(), 1)) + " °C");
-                rv.setTextViewText(R.id.cv_humidity, String.valueOf(Tools.round(last_record.getHumidity(), 2)) + " %");
-                rv.setTextViewText(R.id.cv_pressure, String.valueOf(Tools.round(last_record.getPressure(), 3)) + " hPa");
+                rv.setTextViewText(R.id.cv_p1, Tools.round(last_record.getP1(), 2) + " µg/m³");
+                rv.setTextViewText(R.id.cv_p2, Tools.round(last_record.getP2(), 2) + " µg/m³");
+                rv.setTextViewText(R.id.cv_temp, Tools.round(last_record.getTemp(), 1) + " °C");
+                rv.setTextViewText(R.id.cv_humidity, Tools.round(last_record.getHumidity(), 2) + " %");
+                rv.setTextViewText(R.id.cv_pressure, Tools.round(last_record.getPressure(), 3) + " hPa");
                 rv.setTextViewText(R.id.cv_time, res.getString(R.string.state_of_) + " " + sdf_datetime.format(last_record.getDateTime()));
                 rv.setViewVisibility(R.id.no_data, View.GONE);
             } else {

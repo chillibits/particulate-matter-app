@@ -20,6 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.tabs.TabLayout;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
@@ -42,13 +49,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
 public class SensorActivity extends AppCompatActivity {
 
     //Konstanten
@@ -64,7 +64,7 @@ public class SensorActivity extends AppCompatActivity {
     public static final int SORT_MODE_HUMIDITY_DESC = 110;
     public static final int SORT_MODE_PRESSURE_ASC = 111;
     public static final int SORT_MODE_PRESSURE_DESC = 112;
-    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
     private Resources res;
@@ -90,8 +90,8 @@ public class SensorActivity extends AppCompatActivity {
     private NotificationUtils nu;
 
     //Variablen
-    public static String current_date_string;
-    public static String date_string;
+    public static long selected_day_timestamp;
+    public static long current_day_timestamp;
     public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
     public static boolean custom_p1 = true;
     public static boolean custom_p2 = true;
@@ -99,6 +99,7 @@ public class SensorActivity extends AppCompatActivity {
     public static boolean custom_humidity = false;
     public static boolean custom_pressure = false;
     public static double curve_smoothness = 0;
+    private int export_mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,9 +158,15 @@ public class SensorActivity extends AppCompatActivity {
         });
 
         //Kalender initialisieren
-        calendar = Calendar.getInstance();
-        current_date_string = sdf_date.format(calendar.getTime());
-        date_string = current_date_string;
+        if(selected_day_timestamp == 0 || calendar == null) {
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            current_day_timestamp = calendar.getTime().getTime();
+            selected_day_timestamp = current_day_timestamp;
+        }
 
         //CardView-Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
@@ -168,7 +175,7 @@ public class SensorActivity extends AppCompatActivity {
         card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
-        card_date_value.setText(date_string);
+        card_date_value.setText(sdf_date.format(calendar.getTime()));
         card_date_value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,14 +195,17 @@ public class SensorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Datum auf den heutigen Tag setzen
                 calendar.setTime(new Date());
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 card_date_next.setEnabled(false);
 
                 //Daten für ausgewähltes Datum laden
-                loadData(true);
+                loadData();
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {
@@ -204,8 +214,8 @@ public class SensorActivity extends AppCompatActivity {
                 //Einen Tag zurück gehen
                 calendar.add(Calendar.DATE, -1);
 
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 Calendar current_calendar = Calendar.getInstance();
                 current_calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -215,7 +225,7 @@ public class SensorActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
-                loadData(true);
+                loadData();
             }
         });
         card_date_next.setOnClickListener(new View.OnClickListener() {
@@ -224,8 +234,8 @@ public class SensorActivity extends AppCompatActivity {
                 //Einen Tag vor gehen
                 calendar.add(Calendar.DATE, 1);
 
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 Calendar current_calendar = Calendar.getInstance();
                 current_calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -235,7 +245,7 @@ public class SensorActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
-                loadData(true);
+                loadData();
             }
         });
         card_date_next.setEnabled(false);
@@ -248,14 +258,14 @@ public class SensorActivity extends AppCompatActivity {
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (date_string.equals(current_date_string)) {
+                if(selected_day_timestamp == current_day_timestamp) {
                     Log.i("FA", "Auto refreshing ...");
-                    loadData(false);
+                    loadData();
                 }
             }
         }, period, period, TimeUnit.SECONDS);
 
-        if (!sensor.getChipID().equals("no_id")) loadData(true);
+        if (!sensor.getChipID().equals("no_id")) loadData();
 
         //Check if sensor is existing on the server
         checkSensorAvailability();
@@ -272,13 +282,13 @@ public class SensorActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.DAY_OF_MONTH, day);
                 card_date_next.setEnabled(calendar_new.before(calendar));
 
-                date_string = sdf_date.format(calendar_new.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar_new.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar_new.getTime()));
 
                 calendar = calendar_new;
 
                 //Daten für ausgewähltes Datum laden
-                loadData(true);
+                loadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -307,7 +317,7 @@ public class SensorActivity extends AppCompatActivity {
         } else if(id == R.id.action_refresh) {
             //Daten neu laden
             Log.i("FA", "User refreshing ...");
-            loadData(true);
+            loadData();
         } else if(id == R.id.action_settings) {
             //SettingsActivity starten
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
@@ -326,18 +336,20 @@ public class SensorActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
-    }
-
-    public static void resortData() {
-        try{ Collections.sort(records); } catch (Exception e) {}
+        if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if(export_mode == 1) {
+                exportDiagram();
+            } else if(export_mode == 2) {
+                exportDataRecords();
+            }
+        }
     }
 
     //-----------------------------------Private Methoden-------------------------------------------
 
-    private void loadData(final boolean from_user) {
+    private void loadData() {
         //ProgressMenuItem setzen
-        if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
+        if (progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
         new Thread(new Runnable() {
             @Override
@@ -345,69 +357,70 @@ public class SensorActivity extends AppCompatActivity {
                 //Datensätze leeren
                 records.clear();
 
-                //Date String von Gestern ermitteln
-                String date_yesterday = date_string;
-                try{
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(sdf_date.parse(date_yesterday));
-                    c.add(Calendar.DATE, -1);
-                    date_yesterday = sdf_date.format(c.getTime());
-                } catch (Exception e) {}
+                //Timestamps für from und to ermitteln
+                long from = selected_day_timestamp;
+                long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
-                //Prüfen, ob Intenet verfügbar ist
-                if((!from_user && smu.isInternetAvailable()) || (from_user && smu.checkConnection(findViewById(R.id.container)))) {
-                    //Internet ist verfügbar
-                    smu.manageDownloads(sensor, date_string, date_yesterday);
-                }
-                //Kein Internet
-                if(su.isCSVFileExisting(date_string, sensor.getChipID()) || su.isCSVFileExisting(date_yesterday, sensor.getChipID())) {
-                    Log.d("FA", "Local CSV Files existing");
-                    //Inhalt der lokalen Dateien auslesen
-                    String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
-                    String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
-                    //CSV-Strings zu Objekten machen
-                    records = su.getDataRecordsFromCSV(csv_string_day_before);
-                    records.addAll(su.getDataRecordsFromCSV(csv_string_day));
-                    //Datensätze zuschneiden
-                    records = su.trimDataRecords(records, date_string);
-                    //Sortieren
-                    resortData();
-                    //ggf. Fehlerkorrektur(en) durchführen
-                    if(su.getBoolean("enable_auto_correction", true)) {
-                        records = Tools.measurementCorrection1(records);
-                        records = Tools.measurementCorrection2(records);
-                    }
-                    //Auf einen Ausfall prüfen
+                //Existierenden Datensätze aus der lokalen Datenbank laden
+                records = su.loadRecords(sensor.getChipID(), from, to);
+                //Sortieren nach Uhrzeit
+                resortData();
+                if(records.size() > 0) from = records.get(records.size() -1).getDateTime().getTime() +1000;
+
+                //Wenn der letzte Datensatz mehr als 30s her
+                if((records.size() > 0 ? records.get(records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {
+                    //Prüfen, ob Intenet verfügbar ist
                     if(smu.isInternetAvailable()) {
-                        if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && calendar.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE) && Tools.isMeasurementBreakdown(su, records)) {
-                            if(!su.getBoolean("BD_" + sensor.getChipID())) {
-                                nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
-                                su.putBoolean("BD_" + sensor.getChipID(), true);
-                            }
-                        } else {
-                            nu.cancelNotification(Integer.parseInt(sensor.getChipID()) * 10);
-                            su.removeKey("BD_" + sensor.getChipID());
-                        }
+                        //Internet ist verfügbar
+                        records.addAll(smu.manageDownloadsRecords(sensor.getChipID(), from, to));
+                    } else {
+                        //Internet ist nicht verfügbar
+                        smu.checkConnection(findViewById(R.id.container));
                     }
-                    //Datensätze in Adapter übernehmen
-                    ViewPagerAdapterSensor.records = records;
-                    //Wenn es ein Widget für diesen Sensor gibt, updaten
-                    Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
-                    update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
-                    sendBroadcast(update_intent);
                 }
+
+                //Sortieren nach Uhrzeit
+                resortData();
+                //ggf. Fehlerkorrektur(en) durchführen
+                if (su.getBoolean("enable_auto_correction", true)) {
+                    records = Tools.measurementCorrection1(records);
+                    records = Tools.measurementCorrection2(records);
+                }
+                //Auf einen Ausfall prüfen
+                if (smu.isInternetAvailable()) {
+                    if (su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.isMeasurementBreakdown(su, records)) {
+                        if (!su.getBoolean("BD_" + sensor.getChipID())) {
+                            nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
+                            su.putBoolean("BD_" + sensor.getChipID(), true);
+                        }
+                    } else {
+                        nu.cancelNotification(Integer.parseInt(sensor.getChipID()) * 10);
+                        su.removeKey("BD_" + sensor.getChipID());
+                    }
+                }
+                //Datensätze in Adapter übernehmen
+                ViewPagerAdapterSensor.records = records;
+                //Wenn es ein Widget für diesen Sensor gibt, updaten
+                Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
+                update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
+                sendBroadcast(update_intent);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //ViewpagerAdapter refreshen
                         view_pager_adapter.refreshFragments();
                         //ProgressMenuItem zurücksetzen
-                        if(progress_menu_item != null) progress_menu_item.setActionView(null);
+                        if (progress_menu_item != null) progress_menu_item.setActionView(null);
                     }
                 });
             }
         }).start();
+    }
+
+    public static void resortData() {
+        try{ Collections.sort(records); } catch (Exception e) {}
     }
 
     private void checkSensorAvailability() {
@@ -442,70 +455,89 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     private void exportData() {
-        if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            View v = getLayoutInflater().inflate(R.layout.dialog_share, null);
-            final AlertDialog d = new AlertDialog.Builder(this)
-                    .setView(v)
-                    .create();
-            d.show();
+        View v = getLayoutInflater().inflate(R.layout.dialog_share, null);
+        final AlertDialog d = new AlertDialog.Builder(this)
+                .setView(v)
+                .create();
+        d.show();
 
-            RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
-            share_sensor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Sensor teilen
-                            Intent i = new Intent(Intent.ACTION_SEND);
-                            i.setType("text/plain");
-                            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
-                            i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
-                            startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
-
-                            d.dismiss();
-                        }
-                    }, 200);
-                }
-            });
-            RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
-            export_diagram.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(records.size() > 0) {
+        RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
+        share_sensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        shareSensor();
+                        d.dismiss();
+                    }
+                }, 200);
+            }
+        });
+        RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
+        export_diagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(records.size() > 0) {
+                    if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                //Diagramm exportieren
-                                view_pager_adapter.exportDiagram(SensorActivity.this);
+                                exportDiagram();
                                 d.dismiss();
                             }
                         }, 200);
                     } else {
-                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                        export_mode = 1;
+                        d.dismiss();
+                        ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
                     }
+                } else {
+                    Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
                 }
-            });
-            RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
-            export_data_records.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(records.size() > 0) {
+            }
+        });
+        RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
+        export_data_records.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(records.size() > 0) {
+                    if(ContextCompat.checkSelfPermission(SensorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                //Datensätze exportieren
-                                if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
+                                exportDataRecords();
                                 d.dismiss();
                             }
                         }, 200);
                     } else {
-                        Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
+                        export_mode = 2;
+                        d.dismiss();
+                        ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
                     }
+                } else {
+                    Toast.makeText(SensorActivity.this, R.string.no_data_date, Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            ActivityCompat.requestPermissions(SensorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_WRITE_EXTERNAL_STORAGE);
-        }
+            }
+        });
+    }
+
+    private void shareSensor() {
+        //Sensor teilen
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
+        i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
+        startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
+    }
+
+    private void exportDiagram() {
+        //Diagramm exportieren
+        view_pager_adapter.exportDiagram(SensorActivity.this);
+    }
+
+    private void exportDataRecords() {
+        //Datensätze exportieren
+        //if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
     }
 }

@@ -8,23 +8,23 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
+
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
-
-import androidx.core.app.NotificationCompat;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class NotificationUtils {
     //Priorities
-    public final int PRIORITY_HIGH = 1;
-    public final int PRIORITY_NORMAL = 0;
-    public final int PRIORITY_LOW = -1;
+    public static final int PRIORITY_HIGH = 1;
+    public static final int PRIORITY_NORMAL = 0;
+    public static final int PRIORITY_LOW = -1;
     //Vibrations
-    public final int VIBRATION_SHORT = 300;
+    public static final int VIBRATION_SHORT = 300;
     //Lights
-    public final int LIGHT_SHORT = 500;
+    public static final int LIGHT_SHORT = 500;
 
     //Variablen als Objekte
     private Context context;

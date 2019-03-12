@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.R;
@@ -14,8 +16,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 

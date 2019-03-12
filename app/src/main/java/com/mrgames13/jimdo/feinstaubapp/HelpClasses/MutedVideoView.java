@@ -254,8 +254,8 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
                     if (mTargetState == STATE_PLAYING) {
                         start();
                         if (mMediaController != null) mMediaController.show();
-                    } else if (!isPlaying() && (seekToPosition != 0 || getCurrentPosition() > 0)) {
-                        if (mMediaController != null) mMediaController.show(0);
+                    } else if (!isPlaying() && (seekToPosition != 0 || getCurrentPosition() > 0) && mMediaController != null) {
+                        mMediaController.show(0);
                     }
                 }
             } else {
@@ -287,9 +287,7 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
                     mTargetState = STATE_ERROR;
                     if (mMediaController != null) mMediaController.hide();
 
-                    if (mOnErrorListener != null) {
-                        if (mOnErrorListener.onError(mMediaPlayer, framework_err, impl_err)) return true;
-                    }
+                    if (mOnErrorListener != null) mOnErrorListener.onError(mMediaPlayer, framework_err, impl_err);
                     return true;
                 }
             };
@@ -415,11 +413,9 @@ public class MutedVideoView extends SurfaceView implements MediaController.Media
 
     @Override
     public void pause() {
-        if (isInPlaybackState()) {
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.pause();
-                mCurrentState = STATE_PAUSED;
-            }
+        if (isInPlaybackState() && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
+            mCurrentState = STATE_PAUSED;
         }
         mTargetState = STATE_PAUSED;
     }

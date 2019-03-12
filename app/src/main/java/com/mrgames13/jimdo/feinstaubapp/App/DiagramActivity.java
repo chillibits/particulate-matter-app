@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -31,8 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class DiagramActivity extends AppCompatActivity {
 
@@ -399,7 +399,7 @@ public class DiagramActivity extends AppCompatActivity {
         TextView time = popup_layout.findViewById(R.id.x_value);
         TextView value = popup_layout.findViewById(R.id.y_value);
         time.setText(res.getString(R.string.time_) + " " + sdf_time.format(cal.getTime()));
-        value.setText(res.getString(R.string.value_) + " " + String.valueOf(dataPoint.getY()));
+        value.setText(res.getString(R.string.value_) + " " + dataPoint.getY());
 
         final PopupWindow popup = new PopupWindow();
         popup.setContentView(popup_layout);

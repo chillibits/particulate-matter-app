@@ -39,12 +39,14 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class CompareActivity extends AppCompatActivity {
 
     //Konstanten
-    private final int REQ_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
     private Resources res;
@@ -73,10 +75,12 @@ public class CompareActivity extends AppCompatActivity {
     private ImageView card_date_edit;
 
     //Variablen
-    private String current_date_string;
-    private String date_string;
+    public static long selected_day_timestamp;
+    public static long current_day_timestamp;
     private boolean no_data;
     private int export_option;
+    private long first_time;
+    private long last_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +97,14 @@ public class CompareActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Kalender initialisieren
-        if(date_string == null) {
+        if(selected_day_timestamp == 0 || calendar == null) {
             calendar = Calendar.getInstance();
-            current_date_string = sdf_date.format(calendar.getTime());
-            date_string = current_date_string;
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            current_day_timestamp = calendar.getTime().getTime();
+            selected_day_timestamp = current_day_timestamp;
         }
 
         //StorageUtils initialisieren
@@ -119,7 +127,7 @@ public class CompareActivity extends AppCompatActivity {
         card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
-        card_date_value.setText(date_string);
+        card_date_value.setText(sdf_date.format(calendar.getTime()));
         card_date_value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,14 +147,17 @@ public class CompareActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Datum auf den heutigen Tag setzen
                 calendar.setTime(new Date());
-
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 card_date_next.setEnabled(false);
 
                 //Daten für ausgewähltes Datum laden
-                reloadData();
+                loadData();
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +166,8 @@ public class CompareActivity extends AppCompatActivity {
                 //Einen Tag zurück gehen
                 calendar.add(Calendar.DATE, -1);
 
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 Calendar current_calendar = Calendar.getInstance();
                 current_calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -166,7 +177,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
-                reloadData();
+                loadData();
             }
         });
         card_date_next.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +186,8 @@ public class CompareActivity extends AppCompatActivity {
                 //Einen Tag vor gehen
                 calendar.add(Calendar.DATE, 1);
 
-                date_string = sdf_date.format(calendar.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 Calendar current_calendar = Calendar.getInstance();
                 current_calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -186,7 +197,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
-                reloadData();
+                loadData();
             }
         });
         card_date_next.setEnabled(false);
@@ -306,7 +317,7 @@ public class CompareActivity extends AppCompatActivity {
         });
         //diagram_pressure.getGridLabelRenderer().setVerticalAxisTitle("hPa");
 
-        reloadData();
+        loadData();
     }
 
     private void chooseDate(final TextView card_date_value) {
@@ -320,13 +331,13 @@ public class CompareActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.DAY_OF_MONTH, day);
                 card_date_next.setEnabled(calendar_new.before(calendar));
 
-                date_string = sdf_date.format(calendar_new.getTime());
-                card_date_value.setText(date_string);
+                selected_day_timestamp = calendar_new.getTime().getTime();
+                card_date_value.setText(sdf_date.format(calendar_new.getTime()));
 
                 calendar = calendar_new;
 
                 //Daten für ausgewähltes Datum laden
-                reloadData();
+                loadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         date_picker_dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -386,7 +397,7 @@ public class CompareActivity extends AppCompatActivity {
         } else if(id == R.id.action_refresh) {
             Log.i("FA", "User refreshing ...");
             //Daten neu laden
-            reloadData();
+            loadData();
         } else if(id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
@@ -400,7 +411,7 @@ public class CompareActivity extends AppCompatActivity {
         if(requestCode == REQ_WRITE_EXTERNAL_STORAGE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) exportData();
     }
 
-    private void reloadData() {
+    private void loadData() {
         //ProgressMenuItem setzen
         if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
@@ -421,26 +432,31 @@ public class CompareActivity extends AppCompatActivity {
                 diagram_temp.removeAllSeries();
                 diagram_pressure.removeAllSeries();
 
-                //Date String von Gestern ermitteln
-                String date_yesterday = date_string;
-                try{
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(sdf_date.parse(date_yesterday));
-                    c.add(Calendar.DATE, -1);
-                    date_yesterday = sdf_date.format(c.getTime());
-                } catch (Exception e) {}
+                //Timestamps für from und to ermitteln
+                long from = selected_day_timestamp;
+                long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
                 //Zeit des ersten Datensatzes ermitteln
-                long first_time = Long.MAX_VALUE;
-                long last_time = Long.MIN_VALUE;
+                first_time = Long.MAX_VALUE;
+                last_time = Long.MIN_VALUE;
                 pd.setMax(sensors.size());
                 for(int i = 0; i < sensors.size(); i++) {
-                    smu.manageDownloads(sensors.get(i), date_string, date_yesterday);
-
-                    ArrayList<DataRecord> temp = su.getDataRecordsFromCSV(su.getCSVFromFile(date_yesterday, sensors.get(i).getChipID()));
-                    temp.addAll(su.getDataRecordsFromCSV(su.getCSVFromFile(date_string, sensors.get(i).getChipID())));
-                    temp = su.trimDataRecords(temp, date_string);
-                    records.add(temp); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
+                    //Existierenden Datensätze aus der lokalen Datenbank laden
+                    ArrayList<DataRecord> current_records = su.loadRecords(sensors.get(i).getChipID(), from, to);
+                    //Sortieren nach Uhrzeit
+                    Collections.sort(current_records);
+                    //Wenn der letzte Datensatz mehr als 30s her
+                    if((current_records.size() > 0 ? current_records.get(current_records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {
+                        //Prüfen, ob Intenet verfügbar ist
+                        if(smu.isInternetAvailable()) {
+                            //Internet ist verfügbar
+                            current_records.addAll(smu.manageDownloadsRecords(sensors.get(i).getChipID(), current_records.size() > 0 ? current_records.get(current_records.size() -1).getDateTime().getTime() +1000 : from, to));
+                        }
+                    }
+                    //Sortieren nach Uhrzeit
+                    Collections.sort(current_records);
+                    //Datensätze zur Liste hinzufügen
+                    records.add(current_records); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
                     try{
                         long current_first_time = records.get(i).get(0).getDateTime().getTime();
                         long current_last_time = records.get(i).get(records.get(i).size() -1).getDateTime().getTime();
@@ -520,40 +536,37 @@ public class CompareActivity extends AppCompatActivity {
                         } catch (Exception e) {}
                     }
                 }
-
-                final long first_time_tmp = first_time;
-                final long last_time_tmp = last_time;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try{
                             diagram_p1.getViewport().setScalable(true);
-                            diagram_p1.getViewport().setMinX(first_time_tmp);
-                            diagram_p1.getViewport().setMaxX(last_time_tmp);
+                            diagram_p1.getViewport().setMinX(first_time);
+                            diagram_p1.getViewport().setMaxX(last_time);
                             diagram_p1.getViewport().scrollToEnd();
                             diagram_p1.getViewport().setScalable(false);
 
                             diagram_p2.getViewport().setScalable(true);
-                            diagram_p2.getViewport().setMinX(first_time_tmp);
-                            diagram_p2.getViewport().setMaxX(last_time_tmp);
+                            diagram_p2.getViewport().setMinX(first_time);
+                            diagram_p2.getViewport().setMaxX(last_time);
                             diagram_p2.getViewport().scrollToEnd();
                             diagram_p2.getViewport().setScalable(false);
 
                             diagram_temp.getViewport().setScalable(true);
-                            diagram_temp.getViewport().setMinX(first_time_tmp);
-                            diagram_temp.getViewport().setMaxX(last_time_tmp);
+                            diagram_temp.getViewport().setMinX(first_time);
+                            diagram_temp.getViewport().setMaxX(last_time);
                             diagram_temp.getViewport().scrollToEnd();
                             diagram_temp.getViewport().setScalable(false);
 
                             diagram_humidity.getViewport().setScalable(true);
-                            diagram_humidity.getViewport().setMinX(first_time_tmp);
-                            diagram_humidity.getViewport().setMaxX(last_time_tmp);
+                            diagram_humidity.getViewport().setMinX(first_time);
+                            diagram_humidity.getViewport().setMaxX(last_time);
                             diagram_humidity.getViewport().scrollToEnd();
                             diagram_humidity.getViewport().setScalable(false);
 
                             diagram_pressure.getViewport().setScalable(true);
-                            diagram_pressure.getViewport().setMinX(first_time_tmp);
-                            diagram_pressure.getViewport().setMaxX(last_time_tmp);
+                            diagram_pressure.getViewport().setMinX(first_time);
+                            diagram_pressure.getViewport().setMaxX(last_time);
                             diagram_pressure.getViewport().scrollToEnd();
                             diagram_pressure.getViewport().setScalable(false);
 

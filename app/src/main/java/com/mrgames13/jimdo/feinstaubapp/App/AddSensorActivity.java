@@ -22,6 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -38,14 +42,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Random;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
-
 public class AddSensorActivity extends AppCompatActivity {
 
     //Konstanten
-    private final int REQ_SELECT_PLACE = 10001;
+    private static final int REQ_SELECT_PLACE = 10001;
     public static final int MODE_NEW = 10001;
     public static final int MODE_EDIT = 10002;
     public static final int MODE_COMPLETE = 10003;

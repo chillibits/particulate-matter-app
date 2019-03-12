@@ -37,6 +37,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -74,16 +84,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
@@ -506,7 +506,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
                         long new_last_request = System.currentTimeMillis();
                         String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&last_request=" + last_request_string + "&cs=" + sensor_hash);
-                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
+                        Log.i("FA", "Time loading: " + (System.currentTimeMillis() - start));
                         if(!result.isEmpty()) {
                             JSONObject array = new JSONObject(result);
                             JSONArray array_update = array.getJSONArray("update");
@@ -571,7 +571,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     }
                                 }
                             });
-                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
+                            Log.i("FA", "Time adding markers: " + (System.currentTimeMillis() - start));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -589,7 +589,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         //Neue Sensoren vom Server laden
                         long new_last_request = System.currentTimeMillis();
                         String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getallnonsync");
-                        Log.i("FA", "Time loading: " + String.valueOf(System.currentTimeMillis() - start));
+                        Log.i("FA", "Time loading: " + (System.currentTimeMillis() - start));
                         if(!result.isEmpty()) {
                             su.clearExternalSensors();
                             JSONArray array = new JSONArray(result);
@@ -637,7 +637,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     if(pd != null && pd.isShowing()) pd.dismiss();
                                 }
                             });
-                            Log.i("FA", "Time adding markers: " + String.valueOf(System.currentTimeMillis() - start));
+                            Log.i("FA", "Time adding markers: " + (System.currentTimeMillis() - start));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -826,7 +826,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         @Override
                         public void run() {
                             try{
-                                info_average_value.setText("Ø " + String.valueOf(Tools.round(Double.parseDouble(result), 2) + " µg/m³"));
+                                info_average_value.setText("Ø " + Tools.round(Double.parseDouble(result), 2) + " µg/m³");
                             } catch (Exception e) {
                                 info_average_value.setText(R.string.error_try_again);
                             }

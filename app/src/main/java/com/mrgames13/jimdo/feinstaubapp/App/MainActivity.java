@@ -31,6 +31,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.fabtransitionactivity.SheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -64,14 +72,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     //Konstanten
     public static final int REQ_ADD_OWN_SENSOR = 10002;
     public static final int REQ_SEARCH_LOCATION = 10003;
-    private final int REQ_COMPARE = 10004;
+    private static final int REQ_COMPARE = 10004;
 
     //Variablen als Objekte
     public static MainActivity own_instance;

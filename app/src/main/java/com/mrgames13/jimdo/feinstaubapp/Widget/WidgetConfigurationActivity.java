@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -19,11 +24,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class WidgetConfigurationActivity extends AppCompatActivity {
 
@@ -104,7 +104,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         if(sensor_view_adapter.getSelectedSensor() != null) {
             startService(new Intent(this, SyncService.class));
             su.putInt("Widget_" + sensor_view_adapter.getSelectedSensor().getChipID(), app_widget_id);
-            su.putString("Widget_" + String.valueOf(app_widget_id), sensor_view_adapter.getSelectedSensor().getChipID());
+            su.putString("Widget_" + app_widget_id, sensor_view_adapter.getSelectedSensor().getChipID());
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
             RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);

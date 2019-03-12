@@ -1,10 +1,10 @@
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
+import androidx.annotation.NonNull;
+
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 
 import java.util.Date;
-
-import androidx.annotation.NonNull;
 
 public class DataRecord implements Comparable {
 
