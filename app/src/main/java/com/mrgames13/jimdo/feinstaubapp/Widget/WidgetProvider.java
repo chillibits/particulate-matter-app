@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -20,8 +21,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class WidgetProvider extends AppWidgetProvider {
     //Konstanten
@@ -31,7 +30,6 @@ public class WidgetProvider extends AppWidgetProvider {
 
     //Variablen als Objekte
     private Resources res;
-    private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
     private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     //Variablen
@@ -117,25 +115,10 @@ public class WidgetProvider extends AppWidgetProvider {
         try {
             //Sensor laden
             Sensor sensor = su.getSensor(su.getString("Widget_" + widget_id));
-            //Date String von Heute ermitteln
-            Calendar calendar = Calendar.getInstance();
-            String date_string = sdf_date.format(calendar.getTime());
-            //Date String von Gestern ermitteln
-            Calendar c = Calendar.getInstance();
-            c.setTime(sdf_date.parse(date_string));
-            c.add(Calendar.DATE, -1);
-            String date_yesterday = sdf_date.format(c.getTime());
-            //Inhalt der lokalen Dateien auslesen
-            String csv_string_day = su.getCSVFromFile(date_string, sensor.getChipID());
-            String csv_string_day_before = su.getCSVFromFile(date_yesterday, sensor.getChipID());
-            //CSV-Strings zu Objekten machen
-            ArrayList<DataRecord> records = su.getDataRecordsFromCSV(csv_string_day_before);
-            records.addAll(su.getDataRecordsFromCSV(csv_string_day));
-            if (records.size() > 0) {
-                //Datensätze zuschneiden
-                records = su.trimDataRecords(records, date_string);
-                DataRecord last_record = records.get(records.size() -1);
-
+            //Letzten Datensatz aus der Datenbank auslesen
+            DataRecord last_record = su.getLastRecord(sensor.getChipID());
+            Log.d("FA", "LastRecord null: " + (sensor.getChipID()));
+            if (last_record != null) {
                 rv.setTextViewText(R.id.cv_title, res.getString(R.string.current_values) + " - " + sensor.getName());
                 rv.setTextViewText(R.id.cv_p1, Tools.round(last_record.getP1(), 2) + " µg/m³");
                 rv.setTextViewText(R.id.cv_p2, Tools.round(last_record.getP2(), 2) + " µg/m³");

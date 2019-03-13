@@ -54,9 +54,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         //AppWidgetID laden
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if(extras != null) {
-            app_widget_id = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        }
+        if(extras != null) app_widget_id = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
         //Sensoren laden
         su = new StorageUtils(this);

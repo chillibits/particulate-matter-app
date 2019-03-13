@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -19,8 +18,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +27,7 @@ import java.util.HashMap;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ServerMessagingUtils {
@@ -71,26 +69,6 @@ public class ServerMessagingUtils {
     public String sendRequest(View v, final HashMap<String, String> params) {
         if(isInternetAvailable()) {
             try {
-                //Connection aufbauen
-                /*HttpURLConnection connection = (HttpURLConnection) main_url.openConnection();
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                connection.setFixedLengthStreamingMode(param.getBytes().length);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                //Anfrage senden
-                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-                out.write(param);
-                out.flush();
-                out.close();
-                //Antwort empfangen
-                InputStream in = connection.getInputStream();
-                String answer = getAnswerFromInputStream(in);
-                //Connection schließen
-                connection.disconnect();
-                Log.i("FA", "Answer from Server: '" + answer + "'");
-                //Antwort zurückgeben
-                repeat_count = 0;
-                return answer;*/
                 MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
                 for(String key : params.keySet()) body.addFormDataPart(key, params.get(key));
                 Request request = new Request.Builder()
@@ -98,9 +76,7 @@ public class ServerMessagingUtils {
                         .post(body.build())
                         .build();
                 try(Response response = client.newCall(request).execute()) {
-                    String result = response.body().string();
-                    Log.d("FA", result);
-                    return result;
+                    return response.body().string();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -115,32 +91,27 @@ public class ServerMessagingUtils {
         return "";
     }
 
-    public ArrayList<DataRecord> manageDownloadsRecords(String chip_id, long from, long to) {
-        ArrayList<DataRecord> records = new ArrayList<>();
+    public ArrayList<DataRecord> manageDownloadsRecords(final String chip_id, final long from, final long to) {
         //Datensätze herunterladen
         if(isInternetAvailable()) {
-            String param = "id=" + chip_id + "&from=" + Tools.UTCTimestampToTimestamp(from) / 1000 + "&to=" + Tools.UTCTimestampToTimestamp(to) / 1000 + "&minimize=true&gps=true";
-            Log.d("FA", param);
             try {
-                //Connection aufbauen
-                HttpURLConnection connection = (HttpURLConnection) get_url.openConnection();
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                connection.setFixedLengthStreamingMode(param.getBytes().length);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                //Anfrage senden
-                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-                out.write(param);
-                out.flush();
-                out.close();
-                //Antwort empfangen
-                InputStream in = connection.getInputStream();
-                String answer = getAnswerFromInputStream(in);
-                //Connection schließen
-                connection.disconnect();
+                RequestBody body = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("id", chip_id)
+                        .addFormDataPart("from", String.valueOf(Tools.UTCTimestampToTimestamp(from) / 1000))
+                        .addFormDataPart("to", String.valueOf(Tools.UTCTimestampToTimestamp(to) / 1000))
+                        .addFormDataPart("minimize", "true")
+                        .addFormDataPart("gps", "true")
+                        .build();
+                Request request = new Request.Builder()
+                        .url(get_url)
+                        .post(body)
+                        .build();
+                String response = client.newCall(request).execute().body().string();
                 //Datensätze parsen
-                if(!answer.isEmpty() && answer.startsWith("[") && answer.endsWith("]")) {
-                    JSONArray array = new JSONArray(answer);
+                ArrayList<DataRecord> records = new ArrayList<>();
+                if(!response.isEmpty() && response.startsWith("[") && response.endsWith("]")) {
+                    JSONArray array = new JSONArray(response);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
                         Date time = new Date();
@@ -148,7 +119,6 @@ public class ServerMessagingUtils {
                         DataRecord record = new DataRecord(time, obj.getDouble("p1"), obj.getDouble("p2"), obj.getDouble("t"), obj.getDouble("h"), obj.getDouble("p") / 100, obj.getDouble("la"), obj.getDouble("ln"), obj.getDouble("a"));
                         records.add(record);
                     }
-                    long start = System.currentTimeMillis();
                     su.saveRecords(chip_id, records);
                 }
                 return records;
@@ -190,10 +160,5 @@ public class ServerMessagingUtils {
     public boolean isInternetAvailable() {
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return ni != null && ni.isConnectedOrConnecting();
-    }
-
-    public boolean isConnectedWithWifi() {
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        return ni != null && ni.isConnectedOrConnecting() && ni.getType() == 1;
     }
 }

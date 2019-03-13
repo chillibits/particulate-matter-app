@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,6 +40,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
 import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -541,6 +543,12 @@ public class SensorActivity extends AppCompatActivity {
 
     private void exportDataRecords() {
         //Datensätze exportieren
-        //if(su.isCSVFileExisting(date_string, sensor.getChipID())) su.shareCSVFile(date_string, sensor.getChipID());
+        Uri export_uri = su.exportDataRecords(records);
+        if(export_uri != null) {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType(URLConnection.guessContentTypeFromName(export_uri.getPath()));
+            i.putExtra(Intent.EXTRA_STREAM, export_uri);
+            startActivity(Intent.createChooser(i, getString(R.string.export_data_records)));
+        }
     }
 }
