@@ -53,8 +53,8 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -537,7 +537,9 @@ public class SettingsActivity extends PreferenceActivity {
                 });
             }
             //Abfrage an den Server senden
-            result = smu.sendRequest(null, "name="+ URLEncoder.encode(su.getString("Username"), "UTF-8")+"&command=getserverinfo");
+            result = smu.sendRequest(null, new HashMap<String, String>() {{
+                put("command", "getserverinfo");
+            }});
             //Result auseinandernehmen
             if(!result.isEmpty()) {
                 JSONArray array = new JSONArray(result);

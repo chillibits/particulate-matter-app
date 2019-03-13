@@ -26,10 +26,10 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import eu.davidea.flipview.FlipView;
 
@@ -251,7 +251,10 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     public void run() {
                                         if(smu.isInternetAvailable()) {
                                             try {
-                                                String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(sensor.getChipID(), "UTF-8"));
+                                                String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                                                    put("command", "getsensorinfo");
+                                                    put("chip_id", sensor.getChipID());
+                                                }});
                                                 if(!result.isEmpty()) {
                                                     JSONArray array = new JSONArray(result);
                                                     final JSONObject jsonobject = array.getJSONObject(0);
@@ -330,7 +333,10 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = smu.sendRequest(null, "command=issensorexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
+                        String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                            put("command", "issensorexisting");
+                            put("chip_id", sensor.getChipID());
+                        }});
                         if(result.equals("0")) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override

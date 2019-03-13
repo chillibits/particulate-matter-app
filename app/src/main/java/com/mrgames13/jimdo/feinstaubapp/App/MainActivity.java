@@ -70,6 +70,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Random;
 
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
@@ -595,7 +596,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String result = smu.sendRequest(null, "command=getserverinfo");
+                    String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                        put("command", "getserverinfo");
+                    }});
                     if(!result.isEmpty()) {
                         JSONArray array = new JSONArray(result);
                         JSONObject jsonobject = array.getJSONObject(0);

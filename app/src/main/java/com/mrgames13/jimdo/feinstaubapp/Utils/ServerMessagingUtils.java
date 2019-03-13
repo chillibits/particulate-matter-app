@@ -25,6 +25,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ServerMessagingUtils {
 
@@ -41,6 +47,7 @@ public class ServerMessagingUtils {
     private Context context;
     private ConnectivityManager cm;
     private WifiManager wifiManager;
+    private OkHttpClient client;
     private URL main_url;
     private URL get_url;
 
@@ -55,16 +62,17 @@ public class ServerMessagingUtils {
         this.su = su;
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        this.client = new OkHttpClient();
         //URL erstellen
         try { main_url = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? new URL(SERVER_MAIN_SCRIPT_HTTP) : new URL(SERVER_MAIN_SCRIPT_HTTPS); } catch (MalformedURLException e) {}
         try { get_url = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? new URL(SERVER_GET_SCRIPT_HTTP) : new URL(SERVER_GET_SCRIPT_HTTPS); } catch (MalformedURLException e) {}
     }
 
-    public String sendRequest(View v, final String param) {
+    public String sendRequest(View v, final HashMap<String, String> params) {
         if(isInternetAvailable()) {
             try {
                 //Connection aufbauen
-                HttpURLConnection connection = (HttpURLConnection) main_url.openConnection();
+                /*HttpURLConnection connection = (HttpURLConnection) main_url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setFixedLengthStreamingMode(param.getBytes().length);
                 connection.setDoOutput(true);
@@ -82,11 +90,22 @@ public class ServerMessagingUtils {
                 Log.i("FA", "Answer from Server: '" + answer + "'");
                 //Antwort zurückgeben
                 repeat_count = 0;
-                return answer;
+                return answer;*/
+                MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                for(String key : params.keySet()) body.addFormDataPart(key, params.get(key));
+                Request request = new Request.Builder()
+                        .url(main_url)
+                        .post(body.build())
+                        .build();
+                try(Response response = client.newCall(request).execute()) {
+                    String result = response.body().string();
+                    Log.d("FA", result);
+                    return result;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 repeat_count++;
-                return repeat_count <= MAX_REQUEST_REPEAT ? sendRequest(v, param) : "";
+                return repeat_count <= MAX_REQUEST_REPEAT ? sendRequest(v, params) : "";
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -39,12 +39,12 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
 import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
 
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -428,7 +428,10 @@ public class SensorActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String result = smu.sendRequest(findViewById(R.id.container), "command=issensordataexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
+                    String result = smu.sendRequest(findViewById(R.id.container), new HashMap<String, String>() {{
+                        put("command", "issensordataexisting");
+                        put("chip_id", sensor.getChipID());
+                    }});
                     if(!Boolean.parseBoolean(result)) {
                         runOnUiThread(new Runnable() {
                             @Override

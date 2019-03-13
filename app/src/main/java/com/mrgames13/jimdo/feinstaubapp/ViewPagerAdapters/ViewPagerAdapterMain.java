@@ -81,6 +81,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -497,16 +498,17 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         sensors = su.getExternalSensors();
                         //Hash erzeugen
                         double chip_sum = 0;
-                        for(ExternalSensor s : sensors) {
-                            chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
-                        }
-                        String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
+                        for(ExternalSensor s : sensors) chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
+                        final String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
                         //Neue Sensoren vom Server laden
                         long last_request = su.getLong("LastRequest", 0);
-                        String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
+                        final String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
                         long new_last_request = System.currentTimeMillis();
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getall&last_request=" + last_request_string + "&cs=" + sensor_hash);
-                        Log.i("FA", "Time loading: " + (System.currentTimeMillis() - start));
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), new HashMap<String, String>() {{
+                            put("command", "getall");
+                            put("last_request", last_request_string);
+                            put("cs", sensor_hash);
+                        }});
                         if(!result.isEmpty()) {
                             JSONObject array = new JSONObject(result);
                             JSONArray array_update = array.getJSONArray("update");
@@ -521,10 +523,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                             break;
                                         }
                                     }
-                                    if(!found) {
-                                        Log.d("FA", "Deleting " + s.getChipID());
-                                        su.deleteExternalSensor(s.getChipID());
-                                    }
+                                    if(!found) su.deleteExternalSensor(s.getChipID());
                                 }
                             }
                             //Update verarbeiten
@@ -534,7 +533,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                 sensor.setChipID(jsonobject.getString("i"));
                                 sensor.setLat(jsonobject.getDouble("l"));
                                 sensor.setLng(jsonobject.getDouble("b"));
-                                Log.d("FA", "Adding " + sensor.getChipID());
                                 su.addExternalSensor(sensor);
                             }
                             su.putLong("LastRequest", new_last_request);
@@ -588,7 +586,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         long start = System.currentTimeMillis();
                         //Neue Sensoren vom Server laden
                         long new_last_request = System.currentTimeMillis();
-                        String result = smu.sendRequest(contentView.findViewById(R.id.container), "command=getallnonsync");
+                        String result = smu.sendRequest(contentView.findViewById(R.id.container), new HashMap<String, String>() {{
+                            put("command", "getallnonsync");
+                        }});
                         Log.i("FA", "Time loading: " + (System.currentTimeMillis() - start));
                         if(!result.isEmpty()) {
                             su.clearExternalSensors();
@@ -821,7 +821,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 @Override
                 public void run() {
                     //Informationen vom Server holen
-                    final String result = smu.sendRequest(null, "command=getclusterinfo&ids=" + param_string);
+                    final String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                        put("command", "getclusterinfo");
+                        put("ids", param_string);
+                    }});
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
