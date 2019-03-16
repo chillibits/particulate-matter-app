@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Fri, 08 Mar 2019 16:31:29 +0100
+ Exported at: Sat, 16 Mar 2019 15:16:19 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Activer le WiFi</string>
@@ -249,4 +249,5 @@
     <string name="widget_select_sensor">Choisir capteur</string>
     <string name="yes">Oui</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
+    <string name="zoom_in"></string>
 </resources>

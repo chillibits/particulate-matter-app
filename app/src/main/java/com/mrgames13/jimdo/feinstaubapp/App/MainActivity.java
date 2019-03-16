@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if(searchView.isSearchOpen()) {
                 searchView.closeSearch();
-            } else {
+            } else if(!pager_adapter.closeInfoWindow()) {
                 if(!pressedOnce) {
                     pressedOnce = true;
                     Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();

@@ -1,6 +1,8 @@
 package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -22,11 +24,10 @@ import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +54,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -137,10 +139,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         MyFavouritesFragment.refresh();
     }
 
-    public void refreshAllSensors() {
-        AllSensorsFragment.refresh();
-    }
-
     public void refreshMySensors() {
         MySensorsFragment.refresh();
     }
@@ -160,6 +158,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
     public void search(String query, int mode) {
         if(mode == SensorAdapter.MODE_FAVOURITES) MyFavouritesFragment.search(query);
         if(mode == SensorAdapter.MODE_OWN_SENSORS) MySensorsFragment.search(query);
+    }
+
+    public boolean closeInfoWindow() {
+        return AllSensorsFragment.closeInfoWindow();
     }
 
     //-------------------------------------------Fragmente------------------------------------------
@@ -235,10 +237,24 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private ImageView map_sensor_refresh;
         private static GoogleMap map;
         private static ClusterManager<SensorClusterItem> clusterManager;
-        private AlertDialog info_window;
         private static ArrayList<ExternalSensor> sensors;
         private static LatLng current_country;
         private static ProgressDialog pd;
+        //Sensor InfoWindow
+        private static RelativeLayout sensor_container;
+        private TextView sensor_chip_id;
+        private TextView sensor_coordinates;
+        private TextView sensor_location;
+        private Button sensor_show_data;
+        private Button sensor_link;
+        private static LatLng selected_marker_position;
+        //Sensor Cluster InfoWindow
+        private static RelativeLayout sensor_cluster_container;
+        private TextView info_sensor_count;
+        private TextView info_average_value;
+        private Button info_compare_sensors;
+        private Button info_zoom_in;
+        private static LatLng selected_cluster_position;
 
         //Variablen
         private int current_color;
@@ -370,6 +386,19 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
             map_fragment.getMapAsync(this);
 
+            sensor_container = contentView.findViewById(R.id.sensor_container);
+            sensor_chip_id = contentView.findViewById(R.id.sensor_chip_id);
+            sensor_coordinates = contentView.findViewById(R.id.sensor_coordinates);
+            sensor_location = contentView.findViewById(R.id.sensor_location);
+            sensor_show_data = contentView.findViewById(R.id.sensor_show_data);
+            sensor_link = contentView.findViewById(R.id.sensor_link);
+
+            sensor_cluster_container = contentView.findViewById(R.id.sensor_cluster_container);
+            info_sensor_count = contentView.findViewById(R.id.info_sensor_count);
+            info_average_value = contentView.findViewById(R.id.info_average_value);
+            info_compare_sensors = contentView.findViewById(R.id.info_sensors_compare);
+            info_zoom_in = contentView.findViewById(R.id.info_sensors_zoom);
+
             return contentView;
         }
 
@@ -433,6 +462,36 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 }
             } catch (Exception e) {}
 
+            map.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+                @Override
+                public void onCameraMove() {
+                    if(selected_marker_position != null) {
+                        Projection p = map.getProjection();
+                        Point screen_pos = p.toScreenLocation(selected_marker_position);
+                        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.setMargins(screen_pos.x - 275, screen_pos.y - 680, 0, 0);
+                        sensor_container.setLayoutParams(lp);
+                    }
+                    if(selected_cluster_position != null) {
+                        Projection p = map.getProjection();
+                        Point screen_pos = p.toScreenLocation(selected_cluster_position);
+                        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.setMargins(screen_pos.x - 275, screen_pos.y - 650, 0, 0);
+                        sensor_cluster_container.setLayoutParams(lp);
+                    }
+                }
+            });
+
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    if(selected_marker_position != null) exitReveal(sensor_container);
+                    if(selected_cluster_position != null) exitReveal(sensor_cluster_container);
+                    selected_marker_position = null;
+                    selected_cluster_position = null;
+                }
+            });
+
             //Sensoren laden
             loadAllSensors();
         }
@@ -467,8 +526,10 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
         public static void refresh() {
             if(map != null) {
+                CameraPosition pos = map.getCameraPosition();
                 map.clear();
                 loadAllSensors();
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos.target, pos.zoom));
             }
         }
 
@@ -656,187 +717,209 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         }
 
         private void showInfoWindow(final MarkerItem marker) {
-            View v = getLayoutInflater().inflate(R.layout.infowindow_sensor, null);
-            TextView sensor_chip_id = v.findViewById(R.id.sensor_chip_id);
-            TextView sensor_coordinates = v.findViewById(R.id.sensor_coordinates);
-            TextView sensor_location = v.findViewById(R.id.sensor_location);
-            Button sensor_show_data = v.findViewById(R.id.sensor_show_data);
-            Button sensor_link = v.findViewById(R.id.sensor_link);
-
-            sensor_chip_id.setText(marker.getTitle());
-            sensor_coordinates.setText(marker.getSnippet());
-            marker.setTag(marker.getTitle());
-            sensor_show_data.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    random = new Random();
-                    current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-
-                    Intent i = new Intent(activity, SensorActivity.class);
-                    i.putExtra("Name", marker.getTag());
-                    i.putExtra("ID", marker.getTitle());
-                    i.putExtra("Color", current_color);
-                    activity.startActivity(i);
-
-                    info_window.dismiss();
-                }
-            });
-            sensor_link.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExistingLocally(marker.getTitle())) {
-                        View v = getLayoutInflater().inflate(R.layout.dialog_add_sensor, null);
-                        final EditText name = v.findViewById(R.id.sensor_name_value);
-                        EditText chip_id = v.findViewById(R.id.sensor_chip_id_value);
-                        Button choose_color = v.findViewById(R.id.choose_sensor_color);
-                        final ImageView sensor_color = v.findViewById(R.id.sensor_color);
-
-                        name.setHint(marker.getTag());
-                        chip_id.setText(marker.getTitle());
-
-                        //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+            if(selected_cluster_position != null) exitReveal(sensor_cluster_container);
+            if(selected_marker_position != null && selected_marker_position.latitude == marker.getPosition().latitude && selected_marker_position.longitude == marker.getPosition().longitude) {
+                exitReveal(sensor_container);
+                selected_marker_position = null;
+            } else {
+                sensor_chip_id.setText(marker.getTitle());
+                sensor_coordinates.setText(marker.getSnippet());
+                marker.setTag(marker.getTitle());
+                sensor_show_data.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         random = new Random();
                         current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-                        sensor_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
 
-                        sensor_color.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                chooseColor(sensor_color);
-                            }
-                        });
-                        choose_color.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                chooseColor(sensor_color);
-                            }
-                        });
-
-                        AlertDialog d = new AlertDialog.Builder(activity)
-                                .setCancelable(true)
-                                .setTitle(R.string.add_favourite)
-                                .setView(v)
-                                .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //Neuen Sensor speichern
-                                        String name_string = name.getText().toString().trim();
-                                        if(name_string.isEmpty()) name_string = marker.getTag();
-                                        su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color), false);
-                                        MyFavouritesFragment.refresh();
-                                        AllSensorsFragment.refresh();
-                                        info_window.dismiss();
-                                        Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .create();
-                        d.show();
-                    } else {
-                        //Sensor ist bereits verknüpft
-                        Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(activity, SensorActivity.class);
+                        i.putExtra("Name", marker.getTag());
+                        i.putExtra("ID", marker.getTitle());
+                        i.putExtra("Color", current_color);
+                        activity.startActivity(i);
                     }
+                });
+                sensor_link.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExistingLocally(marker.getTitle())) {
+                            View v = getLayoutInflater().inflate(R.layout.dialog_add_sensor, null);
+                            final EditText name = v.findViewById(R.id.sensor_name_value);
+                            EditText chip_id = v.findViewById(R.id.sensor_chip_id_value);
+                            Button choose_color = v.findViewById(R.id.choose_sensor_color);
+                            final ImageView sensor_color = v.findViewById(R.id.sensor_color);
+
+                            name.setHint(marker.getTag());
+                            chip_id.setText(marker.getTitle());
+
+                            //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+                            random = new Random();
+                            current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+                            sensor_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
+
+                            sensor_color.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    chooseColor(sensor_color);
+                                }
+                            });
+                            choose_color.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    chooseColor(sensor_color);
+                                }
+                            });
+
+                            AlertDialog d = new AlertDialog.Builder(activity)
+                                    .setCancelable(true)
+                                    .setTitle(R.string.add_favourite)
+                                    .setView(v)
+                                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //Neuen Sensor speichern
+                                            String name_string = name.getText().toString().trim();
+                                            if(name_string.isEmpty()) name_string = marker.getTag();
+                                            su.addFavourite(new Sensor(marker.getTitle(), name_string, current_color), false);
+                                            MyFavouritesFragment.refresh();
+                                            AllSensorsFragment.refresh();
+                                            selected_marker_position = null;
+                                            sensor_container.setVisibility(View.GONE);
+                                            Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .create();
+                            d.show();
+                        } else {
+                            //Sensor ist bereits verknüpft
+                            Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                Projection p = map.getProjection();
+                Point screen_pos = p.toScreenLocation(selected_marker_position = marker.getPosition());
+
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(screen_pos.x - 275, screen_pos.y - 680, 0, 0);
+                sensor_container.setLayoutParams(lp);
+                enterReveal(sensor_container);
+
+                try{
+                    Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
+                    String city = addresses.get(0).getLocality();
+                    marker.setTag(city);
+                    String country = addresses.get(0).getCountryName();
+                    sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
+                } catch (Exception e) {
+                    sensor_location.setText(R.string.unknown_location);
+                    marker.setTag(marker.getTitle());
                 }
-            });
-
-            info_window = new AlertDialog.Builder(activity)
-                    .setCancelable(true)
-                    .setView(v)
-                    .create();
-            info_window.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-            Projection p = map.getProjection();
-            Point screen_pos = p.toScreenLocation(marker.getPosition());
-
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(info_window.getWindow().getAttributes());
-            lp.gravity = Gravity.TOP | Gravity.LEFT;
-            lp.x = screen_pos.x - 275;
-            lp.y = screen_pos.y - 530;
-            lp.width = 550;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            info_window.show();
-            info_window.getWindow().setAttributes(lp);
-
-            try{
-                Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
-                List<Address> addresses = geocoder.getFromLocation(marker.getPosition().latitude, marker.getPosition().longitude, 1);
-                String city = addresses.get(0).getLocality();
-                marker.setTag(city);
-                String country = addresses.get(0).getCountryName();
-                sensor_location.setText(country.equals("null") || city.equals("null") ? getString(R.string.unknown_location) : country + " - " + city);
-            } catch (Exception e) {
-                sensor_location.setText(R.string.unknown_location);
-                marker.setTag(marker.getTitle());
             }
         }
 
         private void showClusterWindow(final Cluster cluster) {
-            View v = getLayoutInflater().inflate(R.layout.infowindow_cluster, null);
-            TextView info_sensor_count = v.findViewById(R.id.info_sensor_count);
-            info_sensor_count.setText(cluster.getItems().size() + " " + getString(R.string.sensors));
-            final TextView info_average_value = v.findViewById(R.id.info_average_value);
-            final Button info_compare_sensors = v.findViewById(R.id.info_sensors_compare);
-            if(cluster.getItems().size() > 15) info_compare_sensors.setEnabled(false);
+            if(sensor_container != null) exitReveal(sensor_container);
+            if(selected_cluster_position != null && selected_cluster_position.latitude == cluster.getPosition().latitude && selected_cluster_position.longitude == cluster.getPosition().longitude) {
+                exitReveal(sensor_cluster_container);
+                selected_cluster_position = null;
+            } else {
+                info_sensor_count.setText(cluster.getItems().size() + " " + getString(R.string.sensors));
+                info_average_value.setText(R.string.loading);
+                info_compare_sensors.setEnabled(cluster.getItems().size() <= 15);
 
-            info_window = new AlertDialog.Builder(activity)
-                    .setCancelable(true)
-                    .setView(v)
-                    .create();
-            info_window.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Projection p = map.getProjection();
+                Point screen_pos = p.toScreenLocation(selected_cluster_position = cluster.getPosition());
 
-            Projection p = map.getProjection();
-            Point screen_pos = p.toScreenLocation(cluster.getPosition());
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(screen_pos.x - 275, screen_pos.y - 650, 0, 0);
+                sensor_cluster_container.setLayoutParams(lp);
+                enterReveal(sensor_cluster_container);
 
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(info_window.getWindow().getAttributes());
-            lp.gravity = Gravity.TOP | Gravity.LEFT;
-            lp.x = screen_pos.x - 275;
-            lp.y = screen_pos.y - 320;
-            lp.width = 550;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            info_window.show();
-            info_window.getWindow().setAttributes(lp);
-
-            final Collection<SensorClusterItem> items = cluster.getItems();
-            String param = "";
-            final ArrayList<Sensor> sensors = new ArrayList<>();
-            Random rand = new Random();
-            for(SensorClusterItem s : items) {
-                param+=";"+s.getTitle();
-                sensors.add(new Sensor(s.getTitle(), s.getSnippet(), Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))));
-            }
-            final String param_string = param.substring(1);
-
-            info_compare_sensors.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //CompareActivity starten
-                    Intent i = new Intent(activity, CompareActivity.class);
-                    i.putExtra("Sensors", sensors);
-                    startActivity(i);
+                final Collection<SensorClusterItem> items = cluster.getItems();
+                String param = "";
+                final ArrayList<Sensor> sensors = new ArrayList<>();
+                Random rand = new Random();
+                for(SensorClusterItem s : items) {
+                    param+=";"+s.getTitle();
+                    sensors.add(new Sensor(s.getTitle(), s.getSnippet(), Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))));
                 }
-            });
+                final String param_string = param.substring(1);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //Informationen vom Server holen
-                    final String result = smu.sendRequest(null, new HashMap<String, String>() {{
-                        put("command", "getclusterinfo");
-                        put("ids", param_string);
-                    }});
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try{
-                                info_average_value.setText("Ø " + Tools.round(Double.parseDouble(result), 2) + " µg/m³");
-                            } catch (Exception e) {
-                                info_average_value.setText(R.string.error_try_again);
+                info_compare_sensors.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //CompareActivity starten
+                        Intent i = new Intent(activity, CompareActivity.class);
+                        i.putExtra("Sensors", sensors);
+                        startActivity(i);
+                    }
+                });
+                info_zoom_in.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(), Math.min(map.getMaxZoomLevel(), map.getCameraPosition().zoom +3)));
+                        exitReveal(sensor_cluster_container);
+                    }
+                });
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Informationen vom Server holen
+                        final String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                            put("command", "getclusterinfo");
+                            put("ids", param_string);
+                        }});
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    info_average_value.setText("Ø " + Tools.round(Double.parseDouble(result), 2) + " µg/m³");
+                                } catch (Exception e) {
+                                    info_average_value.setText(R.string.error_try_again);
+                                }
                             }
-                        }
-                    });
-                }
-            }).start();
+                        });
+                    }
+                }).start();
+            }
+        }
+
+        private void enterReveal(View v) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                int finalRadius = Math.max(v.getWidth(), v.getHeight()) + 50;
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, v.getMeasuredWidth() / 2, v.getMeasuredHeight(), 0, finalRadius);
+                anim.start();
+            }
+            v.setVisibility(View.VISIBLE);
+        }
+
+        static void exitReveal(final View v) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                int initialRadius = Math.max(v.getWidth(), v.getHeight()) + 50;
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, v.getMeasuredWidth() / 2, v.getMeasuredHeight(), initialRadius, 0);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                });
+                anim.start();
+            }
+        }
+
+        public static boolean closeInfoWindow() {
+            if(selected_marker_position != null) {
+                exitReveal(sensor_container);
+                selected_marker_position = null;
+                return true;
+            } else if(selected_cluster_position != null) {
+                exitReveal(sensor_cluster_container);
+                selected_cluster_position = null;
+                return true;
+            }
+            return false;
         }
     }
 

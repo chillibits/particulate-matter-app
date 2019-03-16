@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Fri, 08 Mar 2019 16:31:29 +0100
+ Exported at: Sat, 16 Mar 2019 15:16:19 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Aktywuj WiFi</string>
@@ -63,7 +63,7 @@
     <string name="gps_will_be_synchronized">Jeśli do systemu czujników podłączony jest czujnik GPS, pozycja zostanie automatycznie zsynchronizowana z mapą.</string>
     <string name="height_short_">Wysokość montażu:</string>
     <string name="help">Pomoc</string>
-    <string name="hide_thresholds">Ukryj progi</string>
+    <string name="hide_thresholds">Ukryj limity</string>
     <string name="humidity">Wilgotność</string>
     <string name="humidity_short">Wilgotność</string>
     <string name="hybrid">Hybrydowy</string>
@@ -80,8 +80,8 @@
     <string name="limit_exceeded_temp">Temperatura limit przekroczony</string>
     <string name="loading">Ładowanie ...</string>
     <string name="loading_data">Ładowanie danych ...</string>
-    <string name="longitude">Wysokość</string>
-    <string name="longitude_">Wysokość:</string>
+    <string name="longitude">Długość</string>
+    <string name="longitude_">Długość:</string>
     <string name="maintenance_m">Serwer jest serwisowany. Gdy serwer jest w trybie offline, nie możesz uzyskać dostępu do swoich danych.</string>
     <string name="maintenance_t">Konserwacja serwera</string>
     <string name="measurement">Pomiar</string>
@@ -89,7 +89,7 @@
     <string name="median">Mediana</string>
     <string name="min_app_version">Minimalna wersja</string>
     <string name="minute">minuta</string>
-    <string name="minutes">minuty</string>
+    <string name="minutes">minut</string>
     <string name="my_favourites">Moje ulubione</string>
     <string name="my_sensors">Moje sensory</string>
     <string name="name_">Wyświetlana nazwa:</string>
@@ -132,8 +132,8 @@
     <string name="pref_header_performance">Wydajność</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronizacja</string>
-    <string name="pref_increase_diagram_performance">Zwiększ wydajność wykresu</string>
-    <string name="pref_increase_diagram_performance_s">Wykres może stać się niedokładny</string>
+    <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
+    <string name="pref_increase_diagram_performance_s">Wykres będzie mniej dokładny</string>
     <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="pref_limit_humidity">Limit wilgotności</string>
     <string name="pref_limit_humidity_t">Limit wilgotności (%)</string>
@@ -157,7 +157,7 @@
     <string name="pref_opensource_t">Licencja Open Source</string>
     <string name="pref_serverinfo_downloading_">Pobierz serwer info</string>
     <string name="pref_serverinfo_t">Serwer info</string>
-    <string name="pref_theme">Skórka- App</string>
+    <string name="pref_theme">Motyw</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">Automatycznie według czasu</item>
         <item name="pref_theme_array1">Jasny schemat</item>
@@ -175,7 +175,7 @@
     <string name="properties">Ustawienia</string>
     <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
     <string name="public_short_">Publiczne:</string>
-    <string name="rate">Ocena</string>
+    <string name="rate">Oceń</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
     <string name="really_unlink_sensor_1">Czy naprawdę chcesz odpiąć sensor ?</string>
@@ -189,7 +189,7 @@
     <string name="search_for_sensors">Szukaj sensorów</string>
     <string name="search_places">Podaj miejsce ...</string>
     <string name="second">sekunda</string>
-    <string name="seconds">sekundy</string>
+    <string name="seconds">sekund</string>
     <string name="sensor_breakdown">Awaria sensora</string>
     <string name="sensor_existing">Sensor jest już połączony</string>
     <string name="sensor_height">Wysokość nad ziemią / ulicą (m):</string>
@@ -211,9 +211,9 @@
     <string name="share_sensor">Udostępnij sensor</string>
     <string name="show_gps_data">Pokaż dane GPS</string>
     <string name="show_measurements">Pokaż pomiary</string>
-    <string name="show_threshold_eu">Pokaż progi EU</string>
-    <string name="show_threshold_who">Pokaż progi WHO</string>
-    <string name="state_of_">Podać od</string>
+    <string name="show_threshold_eu">Pokaż limity EU</string>
+    <string name="show_threshold_who">Pokaż limity WHO</string>
+    <string name="state_of_">Pokaż od</string>
     <string name="successfully_connected">Połączenie udane</string>
     <string name="support_end_m">Przepraszamy! Aplikacja nie jest już obsługiwana. Możesz teraz odinstalować aplikację.</string>
     <string name="support_end_t">Wsparcie dla aplikacji zostało zakończone</string>
@@ -230,7 +230,7 @@
     <string name="temperature_short">Temp</string>
     <string name="terrain">Teren</string>
     <!-- DiagramActivity -->
-    <string name="time_">Czas do pomiaru</string>
+    <string name="time_">Czas pomiaru</string>
     <string name="to">do</string>
     <string name="traffic_hide">Ukryj ruch</string>
     <string name="traffic_show">Pokaż ruch</string>
@@ -249,4 +249,5 @@
     <string name="widget_select_sensor">Wybierz sensor</string>
     <string name="yes">Tak</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
+    <string name="zoom_in"></string>
 </resources>
