@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="settings"
+        android:enabled="true"
+        android:icon="@drawable/settings"
+        android:shortcutShortLabel="@string/settings"
+        android:shortcutLongLabel="@string/settings"
+        android:shortcutDisabledMessage="@string/settings">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.mrgames13.jimdo.feinstaubapp"
+            android:targetClass="com.mrgames13.jimdo.feinstaubapp.App.SettingsActivity" />
+        <categories android:name="android.shortcut.app" />
+    </shortcut>
+</shortcuts>

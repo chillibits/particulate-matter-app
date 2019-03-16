@@ -17,7 +17,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -59,7 +58,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.mrgames13.jimdo.feinstaubapp.App.CompareActivity;
@@ -340,52 +338,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 }
             });
 
-            LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-            final boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            final boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if(!isGpsProviderEnabled && !isNetworkProviderEnabled) {
-                Snackbar.make(contentView.findViewById(R.id.map), getString(R.string.enable_location_m), Snackbar.LENGTH_SHORT)
-                        .setAction(R.string.enable_location, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    if(isGPSPermissionGranted()) {
-                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                    } else {
-                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION_PERMISSION);
-                                        return;
-                                    }
-                                } else {
-                                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                }
-
-                                AlertDialog d = new AlertDialog.Builder(activity)
-                                        .setCancelable(true)
-                                        .setTitle(R.string.enabled_gps_t)
-                                        .setMessage(R.string.enabled_gps_m)
-                                        .setIcon(R.drawable.info_outline)
-                                        .setPositiveButton(R.string.ok, null)
-                                        .create();
-                                d.show();
-                            }
-                        })
-                        .setDuration(6000)
-                        .setCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onDismissed(Snackbar snackbar, int event) {
-                                activity.showFab(true);
-                            }
-
-                            @Override
-                            public void onShown(Snackbar snackbar) {
-                                activity.showFab(false);
-                            }
-                        }).show();
-            }
-
             map_fragment.getMapAsync(this);
 
+            //Sensor Info Fenster initialisieren
             sensor_container = contentView.findViewById(R.id.sensor_container);
             sensor_chip_id = contentView.findViewById(R.id.sensor_chip_id);
             sensor_coordinates = contentView.findViewById(R.id.sensor_coordinates);
@@ -393,6 +348,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             sensor_show_data = contentView.findViewById(R.id.sensor_show_data);
             sensor_link = contentView.findViewById(R.id.sensor_link);
 
+            //Sensor Cluster Info Fenster initialisieren
             sensor_cluster_container = contentView.findViewById(R.id.sensor_cluster_container);
             info_sensor_count = contentView.findViewById(R.id.info_sensor_count);
             info_average_value = contentView.findViewById(R.id.info_average_value);
@@ -403,7 +359,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         }
 
         @Override
-        public void onMapReady(GoogleMap googleMap) {
+        public void onMapReady(final GoogleMap googleMap) {
             map = googleMap;
             map.getUiSettings().setRotateGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
@@ -469,14 +425,22 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         Projection p = map.getProjection();
                         Point screen_pos = p.toScreenLocation(selected_marker_position);
                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        lp.setMargins(screen_pos.x - 275, screen_pos.y - 680, 0, 0);
+                        int x = Math.max(0, screen_pos.x - 275);
+                        int y = Math.max(0, screen_pos.y - 680);
+                        x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
+                        y = y + sensor_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
+                        lp.setMargins(x, y, 0, 0);
                         sensor_container.setLayoutParams(lp);
                     }
                     if(selected_cluster_position != null) {
                         Projection p = map.getProjection();
                         Point screen_pos = p.toScreenLocation(selected_cluster_position);
                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        lp.setMargins(screen_pos.x - 275, screen_pos.y - 650, 0, 0);
+                        int x = Math.max(0, screen_pos.x - 275);
+                        int y = Math.max(0, screen_pos.y - 650);
+                        x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
+                        y = y + sensor_cluster_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
+                        lp.setMargins(x, y, 0, 0);
                         sensor_cluster_container.setLayoutParams(lp);
                     }
                 }
@@ -800,7 +764,11 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 Point screen_pos = p.toScreenLocation(selected_marker_position = marker.getPosition());
 
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(screen_pos.x - 275, screen_pos.y - 680, 0, 0);
+                int x = Math.max(0, screen_pos.x - 275);
+                int y = Math.max(0, screen_pos.y - 680);
+                x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
+                y = y + sensor_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
+                lp.setMargins(x, y, 0, 0);
                 sensor_container.setLayoutParams(lp);
                 enterReveal(sensor_container);
 
@@ -832,7 +800,11 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 Point screen_pos = p.toScreenLocation(selected_cluster_position = cluster.getPosition());
 
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(screen_pos.x - 275, screen_pos.y - 650, 0, 0);
+                int x = Math.max(0, screen_pos.x - 275);
+                int y = Math.max(0, screen_pos.y - 650);
+                x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
+                y = y + sensor_cluster_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
+                lp.setMargins(x, y, 0, 0);
                 sensor_cluster_container.setLayoutParams(lp);
                 enterReveal(sensor_cluster_container);
 
@@ -858,8 +830,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 info_zoom_in.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(), Math.min(map.getMaxZoomLevel(), map.getCameraPosition().zoom +3)));
                         exitReveal(sensor_cluster_container);
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(), Math.min(map.getMaxZoomLevel(), map.getCameraPosition().zoom +3)));
                     }
                 });
 
