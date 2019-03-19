@@ -1,8 +1,8 @@
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
-import java.io.Serializable;
-
 import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 
 public class Sensor implements Comparable, Serializable {
 

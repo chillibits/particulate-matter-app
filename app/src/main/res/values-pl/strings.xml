@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: pl, Polish
+ Exported by: M&R Games
+ Exported at: Tue, 19 Mar 2019 14:22:21 +0100
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="activate_wlan">Aktywuj WiFi</string>
+    <string name="add_favourite">Dodaj do ulubionych</string>
+    <string name="add_own_sensor">Dodaj własny sensor</string>
+    <string name="add_sensor_tick_not_set_message">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
+    <string name="add_sensor_tick_not_set_message_duty">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
+    <string name="all_sensors">Wszystkie sensory</string>
+    <string name="altitude">Wysokość</string>
+    <!-- Common Strings -->
+    <string name="app_name">Particulate Matter App</string>
+    <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji. Czy chcesz zrestartować teraz czy później?</string>
+    <string name="app_restart_t">Potrzebny restart</string>
+    <string name="cancel">Anuluj</string>
+    <string name="chip_id">Sensor-ID:</string>
+    <string name="choose_color">Wybierz kolor</string>
+    <string name="choose_location">Wybierz dokładną lokalizację sensora</string>
+    <string name="clear_sensor_data_m">Wyczyść pamięć podręczną, aby zaoszczędzić miejsce</string>
+    <string name="clear_sensor_data_t">Wyczyść dane sensora</string>
+    <string name="client_name">Nazwa klienta</string>
+    <string name="compare_instruction">Stuknij i przytrzymaj sensor, aby wybrać. Wybierz dwa lub więcej, aby porównać.</string>
+    <string name="compare_sensors">Porównaj dane</string>
+    <string name="complete_sensor">Sensor kompletny</string>
+    <string name="coordinates_info">Współrzędne są zaokrąglane w związku z ochroną danych.</string>
+    <string name="current_values">Aktualne pomiary</string>
+    <string name="curve_smoothness_">Płynność krzywych:</string>
+    <!-- SensorActivity -->
+    <string name="date">Data</string>
+    <string name="date_time">Czas</string>
+    <string name="diagram_instruction">Kliknij na wykres, pojawi się na pełnym ekranie</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Gotowe</string>
+    <string name="dont_show_again">Nie pokazuj ponownie</string>
+    <string name="download">Pobieranie</string>
+    <string name="download_update">Pobieranie</string>
+    <string name="edit_position_info">Ze względów bezpieczeństwa pozycję czujnika można zmienić tylko <a href="mailto:mrgames@outlook.de"> kontaktując się z nami </a>.</string>
+    <string name="edit_sensor">Edytuj sensor</string>
+    <string name="enable_auto_correction_s">Automatyczna korekcja dla wadliwych pomiarów</string>
+    <string name="enable_auto_correction_t">Automatyczna korekcja błędów</string>
+    <string name="enable_daily_average">Pokaż średnią dzienną</string>
+    <string name="enable_daily_average_median_s">Wyświetlaj poniżej rekordy danych</string>
+    <string name="enable_daily_median">Pokaż dzienną medianę</string>
+    <string name="enable_location">Włączone</string>
+    <string name="enable_location_m">Pokazać twoją pozycję ?</string>
+    <string name="enable_nothing">Wyłącz średnią / medianę</string>
+    <string name="enabled_gps_m">Właśnie włączyłeś usługę lokalizacji. Może trwać to kilka chwil, dopóki twoja pozycja nie znajdzie się na mapie.</string>
+    <string name="enabled_gps_t">Lokalizacja włączona</string>
+    <string name="error_try_again">Wystąpił błąd. Spróbuj ponownie</string>
+    <string name="exit">Wyjście</string>
+    <string name="export_data">Eksportuj dane</string>
+    <string name="export_data_records">Eksportuj rekordy danych</string>
+    <string name="export_diagram">Eksportuj wykres</string>
+    <string name="favourite_added">Ulubione dodane</string>
+    <string name="from">z</string>
+    <string name="gps_will_be_synchronized">Jeśli do systemu czujników podłączony jest czujnik GPS, pozycja zostanie automatycznie zsynchronizowana z mapą.</string>
+    <string name="height_short_">Wysokość montażu:</string>
+    <string name="help">Pomoc</string>
+    <string name="hide_thresholds">Ukryj limity</string>
+    <string name="humidity">Wilgotność</string>
+    <string name="humidity_short">Wilgotność</string>
+    <string name="hybrid">Hybrydowy</string>
+    <string name="internet_is_not_available">Internet niedostępny</string>
+    <string name="later">Później</string>
+    <string name="latitude">Szerokość</string>
+    <string name="latitude_">Szerokość:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Limit przekroczony</string>
+    <string name="limit_exceeded_humidity">Wilgotność limit przekroczony</string>
+    <string name="limit_exceeded_p1">PM10 Limit przekroczony</string>
+    <string name="limit_exceeded_p2">PM2,5 Limit przekroczony</string>
+    <string name="limit_exceeded_pressure">Ciśnienie limit przekroczony</string>
+    <string name="limit_exceeded_temp">Temperatura limit przekroczony</string>
+    <string name="loading">Ładowanie ...</string>
+    <string name="loading_data">Ładowanie danych ...</string>
+    <string name="longitude">Długość</string>
+    <string name="longitude_">Długość:</string>
+    <string name="maintenance_m">Serwer jest serwisowany. Gdy serwer jest w trybie offline, nie możesz uzyskać dostępu do swoich danych.</string>
+    <string name="maintenance_t">Konserwacja serwera</string>
+    <string name="measurement">Pomiar</string>
+    <string name="measurements">Pomiary</string>
+    <string name="median">Mediana</string>
+    <string name="min_app_version">Minimalna wersja</string>
+    <string name="minute">minuta</string>
+    <string name="minutes">minut</string>
+    <string name="my_favourites">Moje ulubione</string>
+    <string name="my_sensors">Moje sensory</string>
+    <string name="name_">Wyświetlana nazwa:</string>
+    <string name="nc_limit_description">Wyświetlaj powiadomienia na pasku stanu po przekroczeniu jednego z ustawionych limitów.</string>
+    <string name="nc_limit_name">Przekroczenia limitu.</string>
+    <string name="nc_missing_measurements_description">Wyświetla powiadomienia na pasku stanu, gdy sensor nie wysyła już żadnych pomiarów i jeśli istnieje podejrzenie uszkodzenia sensora</string>
+    <string name="nc_missing_measurements_name">Brakujące pomiary</string>
+    <string name="nc_system_description">Powiadomienie systemowe z Particulate Matter App</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Powiadomienie systemowe</string>
+    <string name="newest_app_version">Najnowsza wersja</string>
+    <string name="no">Nie</string>
+    <string name="no_data">Brak danych</string>
+    <string name="no_data_date">Brak danych dla wybranej daty</string>
+    <string name="no_diagram_selected">Nie wybrano wykresu</string>
+    <string name="no_favourites">Nie ma jeszcze ulubionych. Zmień na \"Wszystkie sensory\", wybierz jeden lub więcej sensorów i wybierz \"Dodaj ulubione\".</string>
+    <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
+    <string name="normal">Normalna</string>
+    <string name="not_all_filled">Proszę wypełnić wszystkie pola</string>
+    <string name="now">Teraz</string>
+    <string name="offline_m">Serwer jest w trybie offline. Gdy serwer jest w trybie offline, nie możesz uzyskać dostępu do swoich danych.</string>
+    <string name="offline_t">Serwer offline</string>
+    <string name="ok">OK</string>
+    <string name="online_since_">Online od</string>
+    <string name="owners">Właściciel serwera</string>
+    <string name="please_wait_">Proszę czekać ...</string>
+    <string name="pref_appversion">Wersja aplikacji</string>
+    <string name="pref_developers_t">Deweloper</string>
+    <string name="pref_enable_marker_clustering">Włącz grupowanie znaczników</string>
+    <string name="pref_enable_marker_clustering_s">Sensory na mapie będą inteligentnie grupowane</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">O Particulate Matter App</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Wygląd</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Funkcje</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Powiadomienia</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Wydajność</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronizacja</string>
+    <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
+    <string name="pref_increase_diagram_performance_s">Wykres będzie mniej dokładny</string>
+    <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
+    <string name="pref_limit_humidity">Limit wilgotności</string>
+    <string name="pref_limit_humidity_t">Limit wilgotności (%)</string>
+    <string name="pref_limit_p1">PM10 limit</string>
+    <string name="pref_limit_p1_t">PM10 limit (µg/m³)</string>
+    <string name="pref_limit_p2">PM2,5 limit</string>
+    <string name="pref_limit_p2_t">PM2,5 limit (µg/m³)</string>
+    <string name="pref_limit_pressure">Limit ciśnienia</string>
+    <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
+    <string name="pref_limit_temp">Limit temperatury</string>
+    <string name="pref_limit_temp_t">Limit temperatury (°C)</string>
+    <string name="pref_more_apps_m">Nasza strona PlayStore</string>
+    <string name="pref_more_apps_t">Więcej aplikacji od nas</string>
+    <string name="pref_notification_averages">Powiadomienie o przekroczonej średniej</string>
+    <string name="pref_notification_averages_s_false">Powiadomienie, gdy aktualna wartość przekracza określoną wartość</string>
+    <string name="pref_notification_averages_s_true">Powiadomienie, gdy średnia dzienna przekracza określoną wartość</string>
+    <string name="pref_notification_breakdown">Powiadomienie o awarii sensora</string>
+    <string name="pref_notification_breakdown_number">Dozwolona liczba brakujących pomiarów</string>
+    <string name="pref_notification_breakdown_s">Powiadomienie o własnych sensorach kiedy pomiary zawiesiły się</string>
+    <string name="pref_opensource_m">Szczegóły licencji Open-Source-Software</string>
+    <string name="pref_opensource_t">Licencja Open Source</string>
+    <string name="pref_serverinfo_downloading_">Pobierz serwer info</string>
+    <string name="pref_serverinfo_t">Serwer info</string>
+    <string name="pref_theme">Motyw</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatycznie według czasu</item>
+        <item name="pref_theme_array1">Jasny schemat</item>
+        <item name="pref_theme_array2">Ciemny schemat</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Wybierz kolor, aby zastosować</string>
+    <string name="pressure">Ciśnienie</string>
+    <string name="pressure_short">Ciśnienie</string>
+    <string name="properties">Ustawienia</string>
+    <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
+    <string name="public_short_">Publiczne:</string>
+    <string name="rate">Oceń</string>
+    <string name="rate_app">Oceń aplikację</string>
+    <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
+    <string name="really_unlink_sensor_1">Czy naprawdę chcesz odpiąć sensor ?</string>
+    <string name="really_unlink_sensor_2">\?</string>
+    <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.g...</string>
+    <string name="reduce_data_consumption">Ogranicz pobór danych</string>
+    <string name="reduce_data_consumption_s">Porównaj daty podczas pobierania, aby zaoszczędzić zużycie danych</string>
+    <string name="refresh">Odśwież</string>
+    <string name="satellite">Satelita</string>
+    <string name="scan_prompt">Otwórz https://feinstaub.mrgames-server.de w twoim komputerze.</string>
+    <string name="search_for_sensors">Szukaj sensorów</string>
+    <string name="search_places">Podaj miejsce ...</string>
+    <string name="second">sekunda</string>
+    <string name="seconds">sekund</string>
+    <string name="sensor_breakdown">Awaria sensora</string>
+    <string name="sensor_existing">Sensor jest już połączony</string>
+    <string name="sensor_height">Wysokość nad ziemią / ulicą (m):</string>
+    <string name="sensor_position_completion_m_short">Uzupełnij dane sensora, aby sensor pojawił się na mapie.</string>
+    <string name="sensors">Sensor</string>
+    <string name="server_state">Stan serwera</string>
+    <string name="serverstate_1">Serwer jest online</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2">Serwer jest offline</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3">Serwer zostaje utrzymany</string>
+    <string name="serverstate_3_short">Utrzymuje się</string>
+    <string name="serverstate_4">Aplikacja nie jest dalej wspierana</string>
+    <string name="serverstate_4_short">Nie jest już obsługiwany</string>
+    <string name="settings">Ustawienia</string>
+    <string name="share">Polecam</string>
+    <string name="share_app">Polecam aplikację</string>
+    <string name="share_m">Polecam Particulate Matter znajomym !</string>
+    <string name="share_sensor">Udostępnij sensor</string>
+    <string name="show_gps_data">Pokaż dane GPS</string>
+    <string name="show_measurements">Pokaż pomiary</string>
+    <string name="show_threshold_eu">Pokaż limity EU</string>
+    <string name="show_threshold_who">Pokaż limity WHO</string>
+    <string name="state_of_">Pokaż od</string>
+    <string name="successfully_connected">Połączenie udane</string>
+    <string name="support_end_m">Przepraszamy! Aplikacja nie jest już obsługiwana. Możesz teraz odinstalować aplikację.</string>
+    <string name="support_end_t">Wsparcie dla aplikacji zostało zakończone</string>
+    <string name="sync_cycle">Cykl synchronizacji</string>
+    <string name="sync_cycle_background">Cykl synchronizacji w tle</string>
+    <string name="sync_cycle_background_t">Cykl synchronizacji w tle (min)</string>
+    <string name="sync_cycle_t">Cykl synchronizacji (sek)</string>
+    <string name="sync_disconnected">Rozłączono</string>
+    <string name="tab_data">Rekordy danych</string>
+    <string name="tab_diagram">Wykres</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Stuknij ponownie, aby wyjść</string>
+    <string name="temperature">Temperatura</string>
+    <string name="temperature_short">Temp</string>
+    <string name="terrain">Teren</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Czas pomiaru</string>
+    <string name="to">do</string>
+    <string name="traffic_hide">Ukryj ruch</string>
+    <string name="traffic_show">Pokaż ruch</string>
+    <string name="unknown_location">Nieznana lokalizacja</string>
+    <string name="unlink_sensor">Odepnij sensor</string>
+    <string name="update_available">Dostępna aktualizacja</string>
+    <string name="update_necessary_m">Aby aplikacja działała, musisz dokonać aktualizacji.</string>
+    <string name="update_necessary_t">Dostępna aktualizacja!</string>
+    <string name="value_">Wartość:</string>
+    <string name="web_version">Wersja WWW</string>
+    <string name="widget_app_data_cleared">Dane aplikacji zostały wyczyszczone. Wybierz sensor ponownie</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Wyświetl dla particulate matter</string>
+    <string name="widget_no_data">Nie ma jeszcze ulubionych. Stuknij poniżej, aby dodać ulubione i ponownie wybierz widget.</string>
+    <string name="widget_open_app">Otwórz aplikacje</string>
+    <string name="widget_select_sensor">Wybierz sensor</string>
+    <string name="yes">Tak</string>
+    <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
+    <string name="zoom_in">Zbliżenie</string>
+</resources>

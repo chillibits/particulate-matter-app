@@ -21,6 +21,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -38,13 +45,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
@@ -606,7 +606,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         }
 
         private static void updateLastValues() {
-            if(SensorActivity.records.size() > 0 && SensorActivity.date_string.equals(SensorActivity.current_date_string)) {
+            if(SensorActivity.records.size() > 0 && SensorActivity.selected_day_timestamp == SensorActivity.current_day_timestamp) {
                 cv_p1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP1()).concat(" µg/m³"));
                 cv_p2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP2()).concat(" µg/m³"));
                 cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()).concat(" °C"));
@@ -677,7 +677,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         }
 
         public static void exportDiagram(Context context) {
-            graph_view.takeSnapshotAndShare(context, "export_" + String.valueOf(System.currentTimeMillis()), res.getString(R.string.export_diagram));
+            graph_view.takeSnapshotAndShare(context, "export_" + System.currentTimeMillis(), res.getString(R.string.export_diagram));
         }
     }
 
@@ -973,7 +973,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         contentView.findViewById(R.id.data_footer_average).setVisibility(su.getBoolean("enable_daily_average", true) ? View.VISIBLE : View.GONE);
                         contentView.findViewById(R.id.data_footer_median).setVisibility(su.getBoolean("enable_daily_median", false) ? View.VISIBLE : View.GONE);
                         String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + df_time.format(records.get(0).getDateTime()) + " " + res.getString(R.string.to) + " " + df_time.format(records.get(records.size() - 1).getDateTime());
-                        record_conter.setText(String.valueOf(footer_string));
+                        record_conter.setText(footer_string);
 
                         if(su.getBoolean("enable_daily_average", true)) {
                             //Mittelwerte berechnen

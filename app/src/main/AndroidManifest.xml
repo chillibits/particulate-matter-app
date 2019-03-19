@@ -31,10 +31,23 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
+        <meta-data
+            android:name="android.app.shortcuts"
+            android:resource="@xml/shortcuts" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <!-- SplashActivity -->
+        <activity
+            android:name=".App.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- MainActivity -->
         <activity
             android:name=".App.MainActivity"
@@ -43,9 +56,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -54,22 +64,19 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
-                    android:host="feinstaub.mrgames-server.de" />
+                    android:host="feinstaub.mrgames-server.de"
+                    android:scheme="https" />
             </intent-filter>
-        </activity>
-        <!-- SettingsActivity -->
+        </activity> <!-- SettingsActivity -->
         <activity
             android:name=".App.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- DiagramActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- DiagramActivity -->
         <activity
             android:name=".App.DiagramActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- SensorActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- SensorActivity -->
         <activity
             android:name=".App.SensorActivity"
             android:screenOrientation="portrait"
@@ -82,29 +89,25 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="feinstaub.mrgames-server.de"
-                    android:pathPattern="/sensor" />
+                    android:pathPattern="/sensor"
+                    android:scheme="https" />
             </intent-filter>
-        </activity>
-        <!-- AddSensorActivity -->
+        </activity> <!-- AddSensorActivity -->
         <activity
             android:name=".App.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- CompareActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- CompareActivity -->
         <activity
             android:name=".App.CompareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- QR-Code Scanner -->
+            android:windowSoftInputMode="adjustPan" /> <!-- QR-Code Scanner -->
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
-        <!-- WidgetConfigurationActivity -->
+            tools:replace="screenOrientation" /> <!-- WidgetConfigurationActivity -->
         <activity
             android:name=".Widget.WidgetConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -112,17 +115,14 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
-        </activity>
-        <!-- SyncService -->
+        </activity> <!-- SyncService -->
         <service
             android:name=".Services.SyncJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
             android:exported="true"
-            android:enabled="true" />
-        <service android:name=".Services.SyncService" />
-        <!-- WebRealtimeSyncService -->
-        <service android:name=".Services.WebRealtimeSyncService" />
-        <!-- BootCompletedReceiver -->
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".Services.SyncService" /> <!-- WebRealtimeSyncService -->
+        <service android:name=".Services.WebRealtimeSyncService" /> <!-- BootCompletedReceiver -->
         <receiver android:name=".BroadcastReceiver.BootCompletedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -130,8 +130,7 @@
                 <!-- Für HTC Geräte -->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
-        </receiver>
-        <!-- ContentProviderExport -->
+        </receiver> <!-- ContentProviderExport -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mrgames13.jimdo.feinstaubapp"
@@ -140,8 +139,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-        <!-- HomeScreen Widget -->
+        </provider> <!-- HomeScreen Widget -->
         <receiver
             android:name=".Widget.WidgetProvider"
             android:label="@string/widget_label">

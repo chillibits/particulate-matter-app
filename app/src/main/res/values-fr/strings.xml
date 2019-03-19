@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: fr, French
+ Exported by: M&R Games
+ Exported at: Tue, 19 Mar 2019 14:22:21 +0100
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="activate_wlan">Activer le WiFi</string>
+    <string name="add_favourite">Ajouter favori</string>
+    <string name="add_own_sensor">Ajouter propre capteur</string>
+    <string name="add_sensor_tick_not_set_message">AVIS: Cette app peut recevoir des dates de votre capteur uniquement, si vous avez activé la coche dans la configuration de microprogramme du capteur à \'Transmettre à App Matière Particulaire\'. Cela peut durer jusqu\'à 10 minutes, après vous avez activé cette fonction, jusqu\'à ce que notre serveur reçoit les premieres données. Nous vous demandons de patienter.</string>
+    <string name="add_sensor_tick_not_set_message_duty">AVIS: Cette app peut recevoir des dates de votre capteur uniquement, si vous avez activé la coche dans la configuration de microprogramme du capteur à \'Transmettre à App Matière Particulaire\'. Activéz cette fonction pour continuer. Cela peut durer jusqu\'à 10 minutes, après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoit les premieres données. Nous vous demandons de patentier.</string>
+    <string name="all_sensors">Tous capteurs</string>
+    <string name="altitude">Altitude</string>
+    <!-- Common Strings -->
+    <string name="app_name">App Matière Particulaire</string>
+    <string name="app_restart_m">Pour utiliser les changements, il faut redémarrer l\'app. Voulez-vous effectuer le reboot matenant, ou plus tard?</string>
+    <string name="app_restart_t">Il a besoin d\'un rédemarrage</string>
+    <string name="cancel">Annuler</string>
+    <string name="chip_id">Puce-ID:</string>
+    <string name="choose_color">Choisissez une couleur</string>
+    <string name="choose_location">Sélectionner la position exacte du capteur</string>
+    <string name="clear_sensor_data_m">Effacer des données, qui sont mis en cache, pour sauver de la mémoire</string>
+    <string name="clear_sensor_data_t">Effacer des données du capteur</string>
+    <string name="client_name">Nom de client</string>
+    <string name="compare_instruction">Tapez et gardez appuyé un sauveur, pour le choisir. Choisissez plusieurs capteurs pour comparer leurs lectures.</string>
+    <string name="compare_sensors">Opposer ces capteurs</string>
+    <string name="complete_sensor">Complèter cet capteur</string>
+    <string name="coordinates_info">À cause de protection des données, les coordonnées sont arrondie.</string>
+    <string name="current_values">Lectures actuelle</string>
+    <string name="curve_smoothness_">Subtilité de la courbe</string>
+    <!-- SensorActivity -->
+    <string name="date">Date</string>
+    <string name="date_time">Temps</string>
+    <string name="diagram_instruction">Tapez sur la diagramme pour activer la plus grande grandeur</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Finis</string>
+    <string name="dont_show_again">N\'affichier rien</string>
+    <string name="download">Téléchargement</string>
+    <string name="download_update">Télécharger</string>
+    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement, si vous nous contactez <a href="mailto:mrgames@outlook.de"/></string>
+    <string name="edit_sensor">modifier cet capteur</string>
+    <string name="enable_auto_correction_s">Correction du erreur de mesure automatique</string>
+    <string name="enable_auto_correction_t">correction d\'erreur automatique</string>
+    <string name="enable_daily_average">Montre la valeur moyenne quotidienne</string>
+    <string name="enable_daily_average_median_s">Est affiché sous les enregistrements</string>
+    <string name="enable_daily_median">Montre la médiane quotidienne</string>
+    <string name="enable_location">Activer</string>
+    <string name="enable_location_m">Affichier propre position?</string>
+    <string name="enable_nothing">Désactiver la valeur moyenne / la médiane</string>
+    <string name="enabled_gps_m">Vous avez activé la détermination de la localisation à l\'instant. Il pourrait durer un peu, jusqu\'à ce que votre position soit affichiée sur la carte.</string>
+    <string name="enabled_gps_t">Localisation activée</string>
+    <string name="error_try_again">Une erreur est survenue. Essayez encore une fois, s\'il vous plaît</string>
+    <string name="exit">Sortie</string>
+    <string name="export_data">Exporter des données</string>
+    <string name="export_data_records">Exporter des enregistrements</string>
+    <string name="export_diagram">Exporter le diagramme</string>
+    <string name="favourite_added">Favori est ajouté</string>
+    <string name="from">de</string>
+    <string name="gps_will_be_synchronized">Si votre capteur a un GPS-capteur, la position, qui est transmise dernièrement, est relayé à la carte</string>
+    <string name="height_short_">Hauteur de montage</string>
+    <string name="help">Aide</string>
+    <string name="hide_thresholds">Masquer les limites</string>
+    <string name="humidity">Humidité atmosphérique</string>
+    <string name="humidity_short">HumAth</string>
+    <string name="hybrid">Hybride</string>
+    <string name="internet_is_not_available">L\'internet n\'est pas disponible</string>
+    <string name="later">Plus tard</string>
+    <string name="latitude">Latitude</string>
+    <string name="latitude_">Latitude:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Limite est dépassée</string>
+    <string name="limit_exceeded_humidity">Limite de l\'humidité atmosphérique est dépassée</string>
+    <string name="limit_exceeded_p1">Limite de PM10 est dépassée</string>
+    <string name="limit_exceeded_p2">Limite de PM2,5 est dépassée</string>
+    <string name="limit_exceeded_pressure">Limite de la pression atmospérique est dépassée</string>
+    <string name="limit_exceeded_temp">Limite de la temperature est dépassée</string>
+    <string name="loading">Charger …</string>
+    <string name="loading_data">Données sont en train de charger …</string>
+    <string name="longitude">Longitude</string>
+    <string name="longitude_">Longitude:</string>
+    <string name="maintenance_m">Le servant est en maintenance. Vous ne puvez pas malheureusement récupérer des données pendant la maintenance.</string>
+    <string name="maintenance_t">Maintenance du servant</string>
+    <string name="measurement">mesurage</string>
+    <string name="measurements">mesurages</string>
+    <string name="median">Médiane</string>
+    <string name="min_app_version">Minimale version</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="my_favourites">Mes favoris</string>
+    <string name="my_sensors">Mes capteurs</string>
+    <string name="name_">Nom d\'affiche</string>
+    <string name="nc_limit_description">Afficher les notifications en barre du statut, si la limite de valeur, que vous avez paramétré, est dépassée.</string>
+    <string name="nc_limit_name">Transgressions des limites</string>
+    <string name="nc_missing_measurements_description">Affichier les notifications dans la barre de notification, si un capteur n\'envoyes rien des données de mesure et il existe un soupcon d\'échec.</string>
+    <string name="nc_missing_measurements_name">Lectures manquantes</string>
+    <string name="nc_system_description">Notifications du système de l\'App Matière Particulaire.</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Notifications du système</string>
+    <string name="newest_app_version">Version la plus nouvelle</string>
+    <string name="no">Non</string>
+    <string name="no_data">Pas des données</string>
+    <string name="no_data_date">Pas de données disponibles pour cette date</string>
+    <string name="no_diagram_selected">Pas de diagrammes selectionée</string>
+    <string name="no_favourites">Pas encore de favoris disponible. Pour ajouter des favoris, changez à \'Tous capteurs\', tapez sur un, ou plusierus capteurs et sélectionnez \'Ajouter favori\'.</string>
+    <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
+    <string name="normal">normale</string>
+    <string name="not_all_filled">Remplissez toutes les cases, s\'il vous plaît</string>
+    <string name="now">Maintenant</string>
+    <string name="offline_m">Le servant est hors connecté. Quand il est comme ça, vous ne pouvez pas récupérer des données.</string>
+    <string name="offline_t">Le serveur n\'est pas connecté</string>
+    <string name="ok">OK</string>
+    <string name="online_since_">En ligne depuis</string>
+    <string name="owners">Proprietaire de capteur</string>
+    <string name="please_wait_">Attendez, s\'il vous plaît …</string>
+    <string name="pref_appversion">App-version</string>
+    <string name="pref_developers_t">Les promoteurs</string>
+    <string name="pref_enable_marker_clustering">Activer la récapitulé de marqueur</string>
+    <string name="pref_enable_marker_clustering_s">Les capteurs sur la carte sont récapitulé intelligent.</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Sur l\'App Matière Particulaire</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Apparence</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Fonctions</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Notifications</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performance</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisation</string>
+    <string name="pref_increase_diagram_performance">Intensifier la performance du diagramme</string>
+    <string name="pref_increase_diagram_performance_s">Le diagramme pourrait être vaguement</string>
+    <string name="pref_limit_disabled">Notification desactivée</string>
+    <string name="pref_limit_humidity">Limite de la valeur de l\'humidité atmosphérique</string>
+    <string name="pref_limit_humidity_t">Limite de la valeur de l\'humidité atmosphérique (%)</string>
+    <string name="pref_limit_p1">Limite de la valeur PM10\u0020</string>
+    <string name="pref_limit_p1_t">Limite de la valeur PM10 (µg/m³)</string>
+    <string name="pref_limit_p2">Limite de la valeur PM2,5</string>
+    <string name="pref_limit_p2_t">Limite de la valeur PM2,5 (µg/m³)</string>
+    <string name="pref_limit_pressure">Limite de la pression atmosphérique</string>
+    <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
+    <string name="pref_limit_temp">Limite de la valeur de temperature</string>
+    <string name="pref_limit_temp_t">Limite de la valeur de temperature (°C)</string>
+    <string name="pref_more_apps_m">Notre PlayStore-page</string>
+    <string name="pref_more_apps_t">Plusieurs de nos applications</string>
+    <string name="pref_notification_averages">Transgression de la valeur moyenne</string>
+    <string name="pref_notification_averages_s_false">Message, si la valeur actuelle dépasse la valeur fixée</string>
+    <string name="pref_notification_averages_s_true">Message, si la valeur moyenne quotidienne dépasse la valeur fixée</string>
+    <string name="pref_notification_breakdown">Message, si un capteur échoues</string>
+    <string name="pref_notification_breakdown_number">Nombre premie des mesurages manquements.</string>
+    <string name="pref_notification_breakdown_s">Notification, s\'il n\'y a aucun des mesurages de les propres capteurs</string>
+    <string name="pref_opensource_m">Détails des liens pour public accessable logiciel</string>
+    <string name="pref_opensource_t">Liens, qui sont accessibles publiquement</string>
+    <string name="pref_serverinfo_downloading_">Information du capteur est en train de télécharger …</string>
+    <string name="pref_serverinfo_t">Information du capteur</string>
+    <string name="pref_theme">App-thème</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatique par heure</item>
+        <item name="pref_theme_array1">Thème lumière</item>
+        <item name="pref_theme_array2">Thème sombre</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Pour confirmer, tapez sur une couleur</string>
+    <string name="pressure">Pression atmosphérique</string>
+    <string name="pressure_short">PresAth</string>
+    <string name="properties">Traits</string>
+    <string name="public_sensor">Montrer le capteur à autres usagers sur la carte</string>
+    <string name="public_short_">Public:</string>
+    <string name="rate">Évaluer</string>
+    <string name="rate_app">evaluer l\'app</string>
+    <string name="rate_m">Evaluez l\'App Matière Particulaire dans le Google PlayStore avec 5 étoiles, si l\'app vous plaît! Vous pouvez écrire suggestions d\'amélioration commun avec l\'évaluation.</string>
+    <string name="really_unlink_sensor_1">Voulez-vous vraiment enlever ce capteur \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="recommend_string">L\'App Matière Particulaire: Representer graphiquement, facilement et élegamment des lectures de matière particulaire. Télécharger de Goolge PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="reduce_data_consumption">Réduire la consommation des données</string>
+    <string name="reduce_data_consumption_s">Comparaison de la date de modification près du download pour éviter la consommation des données inutiles</string>
+    <string name="refresh">Réactualiser</string>
+    <string name="satellite">Satellite</string>
+    <string name="scan_prompt">Ouvrez https://feinstaub.mrgames-server.de sur votre ordinateur.</string>
+    <string name="search_for_sensors">Fouiller les capteurs</string>
+    <string name="search_places">Saisez un lieu, s\'il vous plaît …</string>
+    <string name="second">second</string>
+    <string name="seconds">secondes</string>
+    <string name="sensor_breakdown">Échec de capteur</string>
+    <string name="sensor_existing">Captuer est déja liée</string>
+    <string name="sensor_height">Hauteur sur le sol / la rue (m):</string>
+    <string name="sensor_position_completion_m_short">Complétez les données du servant, s\'il apparaît sur la carte, s\'il vous plaît.</string>
+    <string name="sensors">capteurs</string>
+    <string name="server_state">Statut de capteur</string>
+    <string name="serverstate_1">Serveur est en ligne</string>
+    <string name="serverstate_1_short">En ligne</string>
+    <string name="serverstate_2">Serveur est hors ligne</string>
+    <string name="serverstate_2_short">Hors ligne</string>
+    <string name="serverstate_3">Serveur est en maintenance</string>
+    <string name="serverstate_3_short">Est en maintenance</string>
+    <string name="serverstate_4">App n\'est plus supports</string>
+    <string name="serverstate_4_short">Ne plus supports</string>
+    <string name="settings">Paramètres</string>
+    <string name="share">Recommander</string>
+    <string name="share_app">recommander l\'app</string>
+    <string name="share_m">Rcommandez l\'app à vos amis!</string>
+    <string name="share_sensor">partager le capteur</string>
+    <string name="show_gps_data">afficher les données GPS</string>
+    <string name="show_measurements">Affichier lectures</string>
+    <string name="show_threshold_eu">Afficher les limites européens</string>
+    <string name="show_threshold_who">Afficher les limites de l\'OMS</string>
+    <string name="state_of_">Dernière valeur</string>
+    <string name="successfully_connected">relié réussie\u0020</string>
+    <string name="support_end_m">Nous sommes désolés! L\'App Matière Particulaire n\'est plus supports de M&amp;R Games. Vous pouvez désinstaller l\'app maintenant.</string>
+    <string name="support_end_t">Soutien de l\'app est finis</string>
+    <string name="sync_cycle">Cycle de synchronisation</string>
+    <string name="sync_cycle_background">Cycle de synchronisation à l\'arrière-plan</string>
+    <string name="sync_cycle_background_t">Cycle de synchronisation à l\'arrière-plan (min)</string>
+    <string name="sync_cycle_t">Cycle de synchronisation (sec)</string>
+    <string name="sync_disconnected">débranché</string>
+    <string name="tab_data">Archives</string>
+    <string name="tab_diagram">Diagramme</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Tapez encore une fois pour quitter</string>
+    <string name="temperature">Température</string>
+    <string name="temperature_short">Temp</string>
+    <string name="terrain">Terrain</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Temps de mesure</string>
+    <string name="to">à</string>
+    <string name="traffic_hide">Disparaître le trafic</string>
+    <string name="traffic_show">Affichier le trafic</string>
+    <string name="unknown_location">Position inconnue</string>
+    <string name="unlink_sensor">Enlever capteur</string>
+    <string name="update_available">Update disponible</string>
+    <string name="update_necessary_m">Pour que l\'App Matière Particulaire puisse marcher correctement, vous devez effectuer une mise à jour.</string>
+    <string name="update_necessary_t">Update disponible!</string>
+    <string name="value_">Valeur:</string>
+    <string name="web_version">Web-version</string>
+    <string name="widget_app_data_cleared">Les données de l\'app étaient supprimé. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Affichier de matière particulaire</string>
+    <string name="widget_no_data">Il n\'y a pas des favoris.Tapez dessous, pour ajouter un favori et placez le widget encore une fois.</string>
+    <string name="widget_open_app">Lancer l\'app</string>
+    <string name="widget_select_sensor">Choisir capteur</string>
+    <string name="yes">Oui</string>
+    <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
+    <string name="zoom_in">Agrandir</string>
+</resources>

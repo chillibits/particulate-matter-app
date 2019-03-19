@@ -40,6 +40,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
@@ -50,12 +53,9 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -303,7 +303,7 @@ public class SettingsActivity extends PreferenceActivity {
         notification_breakdown_number.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                notification_breakdown_number.setSummary(String.valueOf(o) + " " + (Integer.parseInt(String.valueOf(o)) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
+                notification_breakdown_number.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
                 return true;
             }
         });
@@ -328,7 +328,7 @@ public class SettingsActivity extends PreferenceActivity {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        su.clearSensorData();
+                                        su.deleteAllDataDatabases();
                                         su.clearSensorDataMetadata();
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -537,7 +537,9 @@ public class SettingsActivity extends PreferenceActivity {
                 });
             }
             //Abfrage an den Server senden
-            result = smu.sendRequest(null, "name="+ URLEncoder.encode(su.getString("Username"), "UTF-8")+"&command=getserverinfo");
+            result = smu.sendRequest(null, new HashMap<String, String>() {{
+                put("command", "getserverinfo");
+            }});
             //Result auseinandernehmen
             if(!result.isEmpty()) {
                 JSONArray array = new JSONArray(result);

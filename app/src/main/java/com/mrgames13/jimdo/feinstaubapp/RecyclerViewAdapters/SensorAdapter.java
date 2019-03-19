@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mrgames13.jimdo.feinstaubapp.App.AddSensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
@@ -22,14 +26,11 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
 import eu.davidea.flipview.FlipView;
 
 public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -37,8 +38,8 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //Konstanten
     public static final int MODE_FAVOURITES = 10001;
     public static final int MODE_OWN_SENSORS = 10002;
-    private final int TYPE_ITEM = 10003;
-    private final int TYPE_HEADER = 10004;
+    private static final int TYPE_ITEM = 10003;
+    private static final int TYPE_HEADER = 10004;
 
     //Variablen als Objekte
     private MainActivity activity;
@@ -204,6 +205,8 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .setPositiveButton(R.string.unlink_sensor, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
+                                                //Daten-Datenbank des Sensors löschen
+                                                su.deleteDataDatabase(sensor.getChipID());
                                                 //Sensor aus der Datenbank löschen
                                                 if(mode == MODE_FAVOURITES) {
                                                     su.removeFavourite(sensor.getChipID(), false);
@@ -248,7 +251,10 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     public void run() {
                                         if(smu.isInternetAvailable()) {
                                             try {
-                                                String result = smu.sendRequest(null, "command=getsensorinfo&chip_id=" + URLEncoder.encode(sensor.getChipID(), "UTF-8"));
+                                                String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                                                    put("command", "getsensorinfo");
+                                                    put("chip_id", sensor.getChipID());
+                                                }});
                                                 if(!result.isEmpty()) {
                                                     JSONArray array = new JSONArray(result);
                                                     final JSONObject jsonobject = array.getJSONObject(0);
@@ -327,7 +333,10 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = smu.sendRequest(null, "command=issensorexisting&chip_id=" + URLEncoder.encode(sensor.getChipID()));
+                        String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                            put("command", "issensorexisting");
+                            put("chip_id", sensor.getChipID());
+                        }});
                         if(result.equals("0")) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
@@ -350,18 +359,16 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }).start();
             }
-        } else if(holder instanceof HeaderViewHolder) {
-            if(shallShowHeader()) {
-                final HeaderViewHolder h = (HeaderViewHolder) holder;
-                h.header_text.setText(res.getString(R.string.compare_instruction));
-                h.header_close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        su.putBoolean("SensorViewHeader", false);
-                        activity.refresh();
-                    }
-                });
-            }
+        } else if(holder instanceof HeaderViewHolder && shallShowHeader()) {
+            final HeaderViewHolder h = (HeaderViewHolder) holder;
+            h.header_text.setText(res.getString(R.string.compare_instruction));
+            h.header_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    su.putBoolean("SensorViewHeader", false);
+                    activity.refresh();
+                }
+            });
         }
     }
 

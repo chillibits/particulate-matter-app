@@ -1,5 +1,6 @@
 package com.mrgames13.jimdo.feinstaubapp.App;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -31,6 +32,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.fabtransitionactivity.SheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -52,7 +61,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
-import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 
@@ -62,15 +70,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Random;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     //Konstanten
     public static final int REQ_ADD_OWN_SENSOR = 10002;
     public static final int REQ_SEARCH_LOCATION = 10003;
-    private final int REQ_COMPARE = 10004;
+    private static final int REQ_COMPARE = 10004;
 
     //Variablen als Objekte
     public static MainActivity own_instance;
@@ -115,12 +116,6 @@ public class MainActivity extends AppCompatActivity {
         int state = Integer.parseInt(su.getString("app_theme", "0"));
         AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
 
-        //SplashScreen anzeigen
-        SplashScreenBuilder.getInstance(this)
-                .setVideo(R.raw.splash_animation)
-                .setImage(R.drawable.app_icon)
-                .show();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -154,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fab.getVisibility() == View.VISIBLE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
                         a.setAnimationListener(new SimpleAnimationListener() {
+                            @SuppressLint("RestrictedApi")
                             @Override
                             public void onAnimationEnd(Animation animation) {
                                 fab.setVisibility(View.GONE);
@@ -165,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fab.getVisibility() == View.GONE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
                         a.setAnimationListener(new SimpleAnimationListener() {
+                            @SuppressLint("RestrictedApi")
                             @Override
                             public void onAnimationStart(Animation animation) {
                                 fab.setVisibility(View.VISIBLE);
@@ -182,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fab.getVisibility() == View.GONE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
                         a.setAnimationListener(new SimpleAnimationListener() {
+                            @SuppressLint("RestrictedApi")
                             @Override
                             public void onAnimationStart(Animation animation) {
                                 fab.setVisibility(View.VISIBLE);
@@ -313,6 +311,43 @@ public class MainActivity extends AppCompatActivity {
         getServerInfo();
 
         initializeApp();
+
+        //Intent-Abfragen vornehmen
+        Intent intent = getIntent();
+        Uri appLinkData = intent.getData();
+        if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
+            String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
+            Random random = new Random();
+            int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+
+            Intent i = new Intent(this, SensorActivity.class);
+            i.putExtra("Name", chip_id);
+            i.putExtra("ID", chip_id);
+            i.putExtra("Color", color);
+            startActivity(i);
+        } else if(intent.hasExtra("ChipID")) {
+            Sensor s = su.getSensor(intent.getStringExtra("ChipID"));
+            Intent i = new Intent(this, SensorActivity.class);
+            i.putExtra("Name", s.getName());
+            i.putExtra("ID", s.getChipID());
+            i.putExtra("Color", s.getColor());
+            startActivity(i);
+        } else {
+            if(show_update_snackbar) {
+                Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
+                        .setAction(res.getString(R.string.download), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                }
+                            }
+                        })
+                        .show();
+            }
+        }
     }
 
     @Override
@@ -363,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if(searchView.isSearchOpen()) {
                 searchView.closeSearch();
-            } else {
+            } else if(!pager_adapter.closeInfoWindow()) {
                 if(!pressedOnce) {
                     pressedOnce = true;
                     Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();
@@ -482,6 +517,7 @@ public class MainActivity extends AppCompatActivity {
         d.show();
     }
 
+    @SuppressLint("RestrictedApi")
     public void updateSelectionMode() {
         if(pager_adapter.getSelectedSensors().size() >= 2) {
             if(!selection_running) {
@@ -519,43 +555,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
-            Intent intent = getIntent();
-            Uri appLinkData = intent.getData();
-            if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
-                String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
-                Random random = new Random();
-                int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-
-                Intent i = new Intent(this, SensorActivity.class);
-                i.putExtra("Name", chip_id);
-                i.putExtra("ID", chip_id);
-                i.putExtra("Color", color);
-                startActivity(i);
-            } else if(intent.hasExtra("ChipID")) {
-                Sensor s = su.getSensor(intent.getStringExtra("ChipID"));
-                Intent i = new Intent(this, SensorActivity.class);
-                i.putExtra("Name", s.getName());
-                i.putExtra("ID", s.getChipID());
-                i.putExtra("Color", s.getColor());
-                startActivity(i);
-            } else {
-                if(show_update_snackbar) {
-                    Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                            .setAction(res.getString(R.string.download), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                    }
-                                }
-                            })
-                            .show();
-                }
-            }
-        } else if(requestCode == REQ_ADD_OWN_SENSOR) {
+        if(requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();
         } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
             Place place = PlaceAutocomplete.getPlace(this, data);
@@ -595,7 +595,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String result = smu.sendRequest(null, "command=getserverinfo");
+                    String result = smu.sendRequest(null, new HashMap<String, String>() {{
+                        put("command", "getserverinfo");
+                    }});
                     if(!result.isEmpty()) {
                         JSONArray array = new JSONArray(result);
                         JSONObject jsonobject = array.getJSONObject(0);
@@ -700,11 +702,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     public void showFab(boolean show) {
         if(show && pager.getCurrentItem() != 0) {
             if(fab.getVisibility() == View.GONE) {
                 Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
                 a.setAnimationListener(new SimpleAnimationListener() {
+                    @SuppressLint("RestrictedApi")
                     @Override
                     public void onAnimationStart(Animation animation) {
                         fab.setVisibility(View.VISIBLE);
