@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: en-US, English
  Exported by: M&R Games
- Exported at: Sat, 16 Mar 2019 15:16:19 +0100
+ Exported at: Tue, 19 Mar 2019 14:22:21 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Activate WiFi</string>

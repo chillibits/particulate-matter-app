@@ -692,6 +692,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 sensor_show_data.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        exitReveal(sensor_container);
+
                         random = new Random();
                         current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
 
@@ -821,6 +823,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 info_compare_sensors.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        exitReveal(sensor_cluster_container);
                         //CompareActivity starten
                         Intent i = new Intent(activity, CompareActivity.class);
                         i.putExtra("Sensors", sensors);
