@@ -47,30 +47,6 @@ public class DiagramActivity extends AppCompatActivity {
     private ArrayList<ArrayList<DataRecord>> compare_records;
     private ArrayList<Sensor> compare_sensors;
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
-    private LineGraphSeries<DataPoint> series1;
-    private LineGraphSeries<DataPoint> series1_average_median;
-    private LineGraphSeries<DataPoint> series1_threshold;
-    private LineGraphSeries<DataPoint> series2;
-    private LineGraphSeries<DataPoint> series2_average_median;
-    private LineGraphSeries<DataPoint> series2_threshold;
-    private LineGraphSeries<DataPoint> series3;
-    private LineGraphSeries<DataPoint> series3_average_median;
-    private LineGraphSeries<DataPoint> series4;
-    private LineGraphSeries<DataPoint> series4_average_median;
-    private LineGraphSeries<DataPoint> series5;
-    private LineGraphSeries<DataPoint> series5_average_median;
-
-    //Variablen
-    private boolean show_series_1;
-    private boolean show_series_2;
-    private boolean show_series_3;
-    private boolean show_series_4;
-    private boolean show_series_5;
-    private boolean enable_average;
-    private boolean enable_median;
-    private boolean enable_threshold_who;
-    private boolean enable_threshold_eu;
-    private int mode = MODE_SENSOR_DATA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +58,17 @@ public class DiagramActivity extends AppCompatActivity {
 
         //Intent-Extras auslesen
         Intent intent = getIntent();
-        mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
-        show_series_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
-        show_series_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
-        show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
-        show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
-        show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
-        enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
-        enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
-        enable_threshold_who = intent.hasExtra("EnableThresholdWHO") && intent.getBooleanExtra("EnableThresholdWHO", false);
-        enable_threshold_eu = intent.hasExtra("EnableThresholdEU") && intent.getBooleanExtra("EnableThresholdEU", false);
+        int mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
+        //Variablen
+        boolean show_series_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
+        boolean show_series_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
+        boolean show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
+        boolean show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
+        boolean show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
+        boolean enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
+        boolean enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
+        boolean enable_threshold_who = intent.hasExtra("EnableThresholdWHO") && intent.getBooleanExtra("EnableThresholdWHO", false);
+        boolean enable_threshold_eu = intent.hasExtra("EnableThresholdEU") && intent.getBooleanExtra("EnableThresholdEU", false);
 
         if(mode == MODE_SENSOR_DATA) {
             //Daten von der SensorActivity übernehmen
@@ -111,6 +88,69 @@ public class DiagramActivity extends AppCompatActivity {
 
         //Diagramm initialisieren
         try{
+            /*LineChart chart = findViewById(R.id.chart);
+            chart.setKeepScreenOn(true);
+            chart.setKeepPositionOnRotation(true);
+            chart.setDescription(null);
+            YAxis left = chart.getAxisLeft();
+            left.setValueFormatter(new LargeValueFormatter());
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setValueFormatter(new TimeFormatter());
+
+            //Daten eintragen
+            List<Entry> entries_1 = new ArrayList<>();
+            List<Entry> entries_2 = new ArrayList<>();
+            List<Entry> entries_3 = new ArrayList<>();
+            List<Entry> entries_4 = new ArrayList<>();
+            List<Entry> entries_5 = new ArrayList<>();
+            for (DataRecord r : records) {
+                if(show_series_1) entries_1.add(new Entry((float) r.getDateTime().getTime(), r.getP1().floatValue()));
+                if(show_series_2) entries_2.add(new Entry((float) r.getDateTime().getTime(), r.getP2().floatValue()));
+                if(show_series_3) entries_3.add(new Entry((float) r.getDateTime().getTime(), r.getTemp().floatValue()));
+                if(show_series_4) entries_4.add(new Entry((float) r.getDateTime().getTime(), r.getHumidity().floatValue()));
+                if(show_series_5) entries_5.add(new Entry((float) r.getDateTime().getTime(), r.getPressure().floatValue()));
+            }
+
+            //PM1
+            LineDataSet p1 = new LineDataSet(entries_1, res.getString(R.string.value1));
+            p1.setColors(new int[] {R.color.series1});
+            p1.setLineWidth(2);
+            p1.setDrawValues(false);
+
+            //PM2
+            LineDataSet p2 = new LineDataSet(entries_2, res.getString(R.string.value2));
+            p2.setLineWidth(2);
+            p2.setDrawValues(false);
+
+            //Temperature
+            LineDataSet temp = new LineDataSet(entries_3, res.getString(R.string.temperature));
+            temp.setLineWidth(2);
+            temp.setDrawValues(false);
+
+            //Humidity
+            LineDataSet humidity = new LineDataSet(entries_4, res.getString(R.string.humidity));
+            humidity.setLineWidth(2);
+            humidity.setDrawValues(false);
+
+            //Pressure
+            LineDataSet pressure = new LineDataSet(entries_5, res.getString(R.string.pressure));
+            pressure.setLineWidth(2);
+            pressure.setDrawValues(false);
+
+            List<ILineDataSet> dataSets = new ArrayList<>();
+            if(show_series_1) dataSets.add(p1);
+            if(show_series_2) dataSets.add(p2);
+            if(show_series_3) dataSets.add(temp);
+            if(show_series_4) dataSets.add(humidity);
+            if(show_series_5) dataSets.add(pressure);
+            LineData lineData = new LineData(dataSets);
+            chart.setData(lineData);
+            chart.invalidate();
+            chart.animateY(700, Easing.EasingOption.EaseInCubic);*/
+
+
+
+
             graph_view = findViewById(R.id.diagram);
 
             //Initialisierungen am Viewport und an der Legende vornehmen
@@ -156,11 +196,11 @@ public class DiagramActivity extends AppCompatActivity {
             });
 
             if(mode == MODE_SENSOR_DATA) {
-                series1 = drawSeries(res.getString(R.string.value1) + " (µg/m³)", res.getColor(R.color.series1));
-                series2 = drawSeries(res.getString(R.string.value2) + " (µg/m³)", res.getColor(R.color.series2));
-                series3 = drawSeries(res.getString(R.string.temperature) + " (°C)", res.getColor(R.color.series3));
-                series4 = drawSeries(res.getString(R.string.humidity) + " (%)", res.getColor(R.color.series4));
-                series5 = drawSeries(res.getString(R.string.pressure) + " (hPa)", res.getColor(R.color.series5));
+                LineGraphSeries<DataPoint> series1 = drawSeries(res.getString(R.string.value1) + " (µg/m³)", res.getColor(R.color.series1));
+                LineGraphSeries<DataPoint> series2 = drawSeries(res.getString(R.string.value2) + " (µg/m³)", res.getColor(R.color.series2));
+                LineGraphSeries<DataPoint> series3 = drawSeries(res.getString(R.string.temperature) + " (°C)", res.getColor(R.color.series3));
+                LineGraphSeries<DataPoint> series4 = drawSeries(res.getString(R.string.humidity) + " (%)", res.getColor(R.color.series4));
+                LineGraphSeries<DataPoint> series5 = drawSeries(res.getString(R.string.pressure) + " (hPa)", res.getColor(R.color.series5));
 
                 for(DataRecord record : records) {
                     try{
@@ -204,6 +244,7 @@ public class DiagramActivity extends AppCompatActivity {
                 long first_time = records.get(0).getDateTime().getTime();
                 if(show_series_1) {
                     graph_view.addSeries(series1);
+                    LineGraphSeries<DataPoint> series1_average_median;
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
@@ -220,6 +261,7 @@ public class DiagramActivity extends AppCompatActivity {
                         graph_view.addSeries(series1_average_median);
                     }
 
+                    LineGraphSeries<DataPoint> series1_threshold;
                     if(enable_threshold_who) {
                         series1_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM10, first_time, Color.RED);
                         graph_view.addSeries(series1_threshold);
@@ -230,6 +272,7 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 if(show_series_2) {
                     graph_view.addSeries(series2);
+                    LineGraphSeries<DataPoint> series2_average_median;
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
@@ -246,6 +289,7 @@ public class DiagramActivity extends AppCompatActivity {
                         graph_view.addSeries(series2_average_median);
                     }
 
+                    LineGraphSeries<DataPoint> series2_threshold;
                     if(enable_threshold_who) {
                         series2_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM2_5, first_time, Color.RED);
                         graph_view.addSeries(series2_threshold);
@@ -256,6 +300,7 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 if(show_series_3) {
                     graph_view.addSeries(series3);
+                    LineGraphSeries<DataPoint> series3_average_median;
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
@@ -274,6 +319,7 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 if(show_series_4) {
                     graph_view.addSeries(series4);
+                    LineGraphSeries<DataPoint> series4_average_median;
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;
@@ -292,6 +338,7 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 if(show_series_5) {
                     graph_view.addSeries(series5);
+                    LineGraphSeries<DataPoint> series5_average_median;
                     if(enable_average) {
                         //Mittelwert einzeichnen
                         double average = 0;

@@ -47,7 +47,6 @@ public class SyncService extends Service {
     private int limit_humidity;
     private int limit_pressure;
     private long selected_day_timestamp;
-    private long current_day_timestamp;
 
     @Nullable
     @Override
@@ -88,8 +87,7 @@ public class SyncService extends Service {
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            current_day_timestamp = calendar.getTime().getTime();
-            selected_day_timestamp = current_day_timestamp;
+            selected_day_timestamp = calendar.getTime().getTime();
         }
 
         //Prüfen, ob Intenet verfügbar ist

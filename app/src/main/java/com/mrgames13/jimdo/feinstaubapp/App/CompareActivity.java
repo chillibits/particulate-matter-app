@@ -329,6 +329,10 @@ public class CompareActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.YEAR, year);
                 calendar_new.set(Calendar.MONTH, month);
                 calendar_new.set(Calendar.DAY_OF_MONTH, day);
+                calendar_new.set(Calendar.HOUR_OF_DAY, 0);
+                calendar_new.set(Calendar.MINUTE, 0);
+                calendar_new.set(Calendar.SECOND, 0);
+                calendar_new.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar_new.before(calendar));
 
                 selected_day_timestamp = calendar_new.getTime().getTime();
@@ -450,7 +454,7 @@ public class CompareActivity extends AppCompatActivity {
                         //Prüfen, ob Intenet verfügbar ist
                         if(smu.isInternetAvailable()) {
                             //Internet ist verfügbar
-                            current_records.addAll(smu.manageDownloadsRecords(sensors.get(i).getChipID(), current_records.size() > 0 ? current_records.get(current_records.size() -1).getDateTime().getTime() +1000 : from, to));
+                            current_records.addAll(smu.manageDownloadsRecords(sensors.get(i).getChipID(), current_records.size() > 0 && selected_day_timestamp == current_day_timestamp ? current_records.get(current_records.size() -1).getDateTime().getTime() +1000 : from, to));
                         }
                     }
                     //Sortieren nach Uhrzeit
