@@ -372,7 +372,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_rate) {
             rateApp();
-            NotificationUtils nu = new NotificationUtils(this);
         } else if(id == R.id.action_share) {
             recommendApp();
         } else if(id == R.id.action_search) {

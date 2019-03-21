@@ -282,6 +282,10 @@ public class SensorActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.YEAR, year);
                 calendar_new.set(Calendar.MONTH, month);
                 calendar_new.set(Calendar.DAY_OF_MONTH, day);
+                calendar_new.set(Calendar.HOUR_OF_DAY, 0);
+                calendar_new.set(Calendar.MINUTE, 0);
+                calendar_new.set(Calendar.SECOND, 0);
+                calendar_new.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar_new.before(calendar));
 
                 selected_day_timestamp = calendar_new.getTime().getTime();
@@ -367,7 +371,7 @@ public class SensorActivity extends AppCompatActivity {
                 records = su.loadRecords(sensor.getChipID(), from, to);
                 //Sortieren nach Uhrzeit
                 resortData();
-                if(records.size() > 0) from = records.get(records.size() -1).getDateTime().getTime() +1000;
+                if(records.size() > 0 && selected_day_timestamp == current_day_timestamp) from = records.get(records.size() -1).getDateTime().getTime() +1000;
 
                 //Wenn der letzte Datensatz mehr als 30s her
                 if((records.size() > 0 ? records.get(records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {

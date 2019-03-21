@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -95,6 +96,11 @@ public class ServerMessagingUtils {
         //Datensätze herunterladen
         if(isInternetAvailable()) {
             try {
+                Log.d("FA", "From: " + from);
+                Log.d("FA", "From: " + Tools.UTCTimestampToTimestamp(from));
+                Log.d("FA", "To: " + to);
+                Log.d("FA", "To: " + Tools.UTCTimestampToTimestamp(to));
+
                 RequestBody body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("id", chip_id)
