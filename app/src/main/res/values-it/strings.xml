@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Tue, 19 Mar 2019 14:22:21 +0100
+ Exported at: Mon, 25 Mar 2019 09:35:53 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Attivare il WiFi</string>
@@ -29,7 +29,7 @@
     <string name="compare_instruction">Tocca e tieni premuto su di un sensore per selezionarlo. Selezionane due o più per confrontare le loro misurazioni.</string>
     <string name="compare_sensors">Comparazione dei dati</string>
     <string name="complete_sensor">Sensore completo</string>
-    <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di protezione dei dati.</string>
+    <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di riservatezza dei dati.</string>
     <string name="current_values">Rilevazione corrente</string>
     <string name="curve_smoothness_">Arrotondamento della curva:</string>
     <!-- SensorActivity -->
@@ -60,8 +60,8 @@
     <string name="export_diagram">Esportare il diagramma</string>
     <string name="favourite_added">Preferito aggiunto</string>
     <string name="from">da</string>
-    <string name="gps_will_be_synchronized">Se un sensore GPS è connesso al tuo sensore, la posizione sarà automaticamente sincronizzato con la mappa.</string>
-    <string name="height_short_">Altezza posizionamento:</string>
+    <string name="gps_will_be_synchronized">Se un GPS è connesso al tuo sensore, la posizione sarà automaticamente sincronizzato con la mappa.</string>
+    <string name="height_short_">Posizionamento:</string>
     <string name="help">Aiuto</string>
     <string name="hide_thresholds">Nascondere le soglie</string>
     <string name="humidity">Umidità</string>
@@ -121,7 +121,7 @@
     <string name="pref_enable_marker_clustering">Abilita il marker clustering</string>
     <string name="pref_enable_marker_clustering_s">I sensori sulla mappa saranno clusterizzati in modo intelligente</string>
     <!-- About Settings -->
-    <string name="pref_header_about">In merito alle impostazioni.\nIn merito all\'app. Particulate Matter</string>
+    <string name="pref_header_about">In merito all\'app. Particulate Matter</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Aspetto</string>
     <!-- Feature Settings -->
@@ -152,14 +152,14 @@
     <string name="pref_notification_averages_s_true">Notifica, quando la media giornaliera supera il parametro impostato</string>
     <string name="pref_notification_breakdown">Notifica sensore guasto</string>
     <string name="pref_notification_breakdown_number">Numero di misurazioni mancanti permesse</string>
-    <string name="pref_notification_breakdown_s">Notifica per il proprio sensore quando molteplici misurazioni risultano sospese</string>
+    <string name="pref_notification_breakdown_s">Notifica per il proprio sensore quando molteplici misurazioni risultano non rilevate</string>
     <string name="pref_opensource_m">Dettagli delle licenze per software open-source</string>
     <string name="pref_opensource_t">Licenze open-source</string>
     <string name="pref_serverinfo_downloading_">Scaricamento informazioni server...</string>
     <string name="pref_serverinfo_t">Info sul server</string>
     <string name="pref_theme">Tema dell\'App</string>
     <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatico in base al tempo</item>
+        <item name="pref_theme_array0">Automatico in base all\'orario</item>
         <item name="pref_theme_array1">Tema chiaro</item>
         <item name="pref_theme_array2">Tema scuro</item>
     </string-array>
@@ -180,7 +180,7 @@
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
     <string name="really_unlink_sensor_1">Vuoi veramente scollegare il sensore</string>
     <string name="really_unlink_sensor_2">\'?</string>
-    <string name="recommend_string">L\'app Particulate Matter: mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="reduce_data_consumption">Ridurre il consumo di dati</string>
     <string name="reduce_data_consumption_s">Comparare i dati di alternanza nei download per evitare consumo non necessario di dati</string>
     <string name="refresh">Aggiorna</string>
@@ -205,9 +205,9 @@
     <string name="serverstate_4">L\'app. non è più supportata</string>
     <string name="serverstate_4_short">Non più supportato</string>
     <string name="settings">Impostazioni</string>
-    <string name="share">Raccomanda</string>
-    <string name="share_app">raccomanda l\'app</string>
-    <string name="share_m">Raccomanda l\'app Particulate Matter ai tuoi amici!</string>
+    <string name="share">Consiglia</string>
+    <string name="share_app">consiglia l\'app</string>
+    <string name="share_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
     <string name="share_sensor">Condividere il sensore</string>
     <string name="show_gps_data">Mostrare dati GPS</string>
     <string name="show_measurements">Mostra rilevazioni</string>
@@ -222,7 +222,7 @@
     <string name="sync_cycle_background_t">Ciclo di sincronizzazione\u0020\u0020in background (min)</string>
     <string name="sync_cycle_t">Ciclo di sincronizzazione (sec.)</string>
     <string name="sync_disconnected">Disconnesso</string>
-    <string name="tab_data">Record di dati</string>
+    <string name="tab_data">Dati rilevati</string>
     <string name="tab_diagram">Diagramma</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Premere ancora per uscire</string>

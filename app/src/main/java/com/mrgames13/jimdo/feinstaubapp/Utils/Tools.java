@@ -16,7 +16,6 @@ import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -60,17 +59,18 @@ public class Tools {
         return "";
     }
 
-    public static long timestampToUTCTimestamp(long timestamp) {
+    /*public static long timestampToUTCTimestamp(long timestamp) {
         Calendar cal = Calendar.getInstance();
-        int offset = cal.getTimeZone().getOffset(timestamp);
-        return timestamp + offset;
+        long offset = cal.getTimeZone().getOffset(timestamp);
+        return timestamp - offset;
     }
 
     public static long UTCTimestampToTimestamp(long timestamp) {
         Calendar cal = Calendar.getInstance();
-        int offset = cal.getTimeZone().getOffset(timestamp);
-        return timestamp - offset;
-    }
+        long offset = cal.getTimeZone().getOffset(timestamp);
+        //offset += TimeUnit.HOURS.toMillis(1);
+        return timestamp + offset;
+    }*/
 
     public static double calculateMedian(ArrayList<Double> records) {
         if(records.size() == 0) return 0;
