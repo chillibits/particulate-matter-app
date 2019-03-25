@@ -367,11 +367,13 @@ public class SensorActivity extends AppCompatActivity {
                 long from = selected_day_timestamp;
                 long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
-                //Existierenden Datensätze aus der lokalen Datenbank laden
-                records = su.loadRecords(sensor.getChipID(), from, to);
-                //Sortieren nach Uhrzeit
-                resortData();
-                if(records.size() > 0 && selected_day_timestamp == current_day_timestamp) from = records.get(records.size() -1).getDateTime().getTime() +1000;
+                if(su.getBoolean("reduce_data_consumption", true) && records.size() > 0 && selected_day_timestamp == current_day_timestamp) {
+                    //Existierenden Datensätze aus der lokalen Datenbank laden
+                    records = su.loadRecords(sensor.getChipID(), from, to);
+                    //Sortieren nach Uhrzeit
+                    resortData();
+                    from = records.get(records.size() -1).getDateTime().getTime() +1000;
+                }
 
                 //Wenn der letzte Datensatz mehr als 30s her
                 if((records.size() > 0 ? records.get(records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {

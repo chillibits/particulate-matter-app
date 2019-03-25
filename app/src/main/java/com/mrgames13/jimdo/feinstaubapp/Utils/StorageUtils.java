@@ -390,7 +390,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         try{
             FileOutputStream out = context.openFileOutput("export.csv", Context.MODE_PRIVATE);
             SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            out.write("Time; PM10; PM2.5; Temperature; Humidity; Pressure; Latitude; Longitude; Altitude\n".getBytes());
+            out.write("Time;PM10;PM2.5;Temperature;Humidity;Pressure;Latitude;Longitude;Altitude\n".getBytes());
             for(DataRecord record : records) {
                 String time = sdf_datetime.format(record.getDateTime().getTime());
                 String p1 = String.valueOf(record.getP1());

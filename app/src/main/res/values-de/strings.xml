@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: M&R Games
- Exported at: Tue, 19 Mar 2019 14:22:21 +0100
+ Exported at: Mon, 25 Mar 2019 09:35:53 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Wlan aktivieren</string>
@@ -182,7 +182,7 @@
     <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
-    <string name="reduce_data_consumption_s">Abgleich des Änderungsdatums beim Download um unnötigen Datenverbrauch zu vermeiden</string>
+    <string name="reduce_data_consumption_s">Nur benötigte Daten herunterladen (kann Fehler bei Zeitverschiebung verursachen)</string>
     <string name="refresh">Aktualisieren</string>
     <string name="satellite">Satellit</string>
     <string name="scan_prompt">Öffnen Sie https://feinstaub.mrgames-server.de auf Ihrem Computer.</string>

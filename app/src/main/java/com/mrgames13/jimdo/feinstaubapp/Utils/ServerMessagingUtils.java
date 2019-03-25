@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -96,16 +97,12 @@ public class ServerMessagingUtils {
         //Datensätze herunterladen
         if(isInternetAvailable()) {
             try {
-                Log.d("FA", "From: " + from);
-                Log.d("FA", "From: " + Tools.UTCTimestampToTimestamp(from));
-                Log.d("FA", "To: " + to);
-                Log.d("FA", "To: " + Tools.UTCTimestampToTimestamp(to));
-
+                Log.d("FA", "Url: " + get_url + "?id=" + chip_id + "&from=" + from/1000 + "&to=" + to/1000 + "&minimize=true&gps=true");
                 RequestBody body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("id", chip_id)
-                        .addFormDataPart("from", String.valueOf(Tools.UTCTimestampToTimestamp(from) / 1000))
-                        .addFormDataPart("to", String.valueOf(Tools.UTCTimestampToTimestamp(to) / 1000))
+                        .addFormDataPart("from", String.valueOf((from - TimeUnit.HOURS.toMillis(1)) / 1000))
+                        .addFormDataPart("to", String.valueOf((to - TimeUnit.HOURS.toMillis(1)) / 1000))
                         .addFormDataPart("minimize", "true")
                         .addFormDataPart("gps", "true")
                         .build();
@@ -121,12 +118,13 @@ public class ServerMessagingUtils {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
                         Date time = new Date();
-                        time.setTime(Tools.timestampToUTCTimestamp(obj.getLong("time") * 1000));
+                        time.setTime(obj.getLong("time") * 1000 + TimeUnit.HOURS.toMillis(1));
                         DataRecord record = new DataRecord(time, obj.getDouble("p1"), obj.getDouble("p2"), obj.getDouble("t"), obj.getDouble("h"), obj.getDouble("p") / 100, obj.getDouble("la"), obj.getDouble("ln"), obj.getDouble("a"));
                         records.add(record);
                     }
                     su.saveRecords(chip_id, records);
                 }
+                Log.d("FA", "Record count: " + records.size());
                 return records;
             } catch (Exception e) {
                 e.printStackTrace();

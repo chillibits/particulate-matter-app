@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en-US, English
  Exported by: M&R Games
- Exported at: Tue, 19 Mar 2019 14:22:21 +0100
+ Exported at: Mon, 25 Mar 2019 09:35:53 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="activate_wlan">Activate WiFi</string>
@@ -182,7 +182,7 @@
     <string name="really_unlink_sensor_2">\'?</string>
     <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="reduce_data_consumption">Reduce data consumption</string>
-    <string name="reduce_data_consumption_s">Compare alternation dates on download to avoid unnecessary data consumption</string>
+    <string name="reduce_data_consumption_s">Download only the required data (can cause errors on time shift)</string>
     <string name="refresh">Refresh</string>
     <string name="satellite">Satellite</string>
     <string name="scan_prompt">Open https://feinstaub.mrgames-server.de on your computer.</string>

@@ -428,7 +428,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         int x = Math.max(0, screen_pos.x - 275);
                         int y = Math.max(0, screen_pos.y - 680);
                         x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
-                        y = y + sensor_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
+                        y = y + sensor_container.getHeight() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
                         lp.setMargins(x, y, 0, 0);
                         sensor_container.setLayoutParams(lp);
                     }
@@ -439,7 +439,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                         int x = Math.max(0, screen_pos.x - 275);
                         int y = Math.max(0, screen_pos.y - 650);
                         x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
-                        y = y + sensor_cluster_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
+                        y = y + sensor_cluster_container.getHeight() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
                         lp.setMargins(x, y, 0, 0);
                         sensor_cluster_container.setLayoutParams(lp);
                     }
@@ -769,7 +769,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 int x = Math.max(0, screen_pos.x - 275);
                 int y = Math.max(0, screen_pos.y - 680);
                 x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
-                y = y + sensor_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
+                y = y + sensor_container.getHeight() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_container.getHeight() : y;
                 lp.setMargins(x, y, 0, 0);
                 sensor_container.setLayoutParams(lp);
                 enterReveal(sensor_container);
@@ -805,7 +805,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 int x = Math.max(0, screen_pos.x - 275);
                 int y = Math.max(0, screen_pos.y - 650);
                 x = x + 550 > map_fragment.getView().getWidth() ? map_fragment.getView().getWidth() - 550 : x;
-                y = y + sensor_cluster_container.getWidth() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
+                y = y + sensor_cluster_container.getHeight() > map_fragment.getView().getHeight() ? map_fragment.getView().getHeight() - sensor_cluster_container.getHeight() : y;
                 lp.setMargins(x, y, 0, 0);
                 sensor_cluster_container.setLayoutParams(lp);
                 enterReveal(sensor_cluster_container);
@@ -863,8 +863,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
         private void enterReveal(View v) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                int finalRadius = Math.max(v.getWidth(), v.getHeight()) + 50;
-                Animator anim = ViewAnimationUtils.createCircularReveal(v, v.getMeasuredWidth() / 2, v.getMeasuredHeight(), 0, finalRadius);
+                int finalRadius = Math.max(v.getWidth(), v.getHeight()) +40;
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, 275, v.getMeasuredHeight(), 0, finalRadius);
+                anim.setDuration(350);
                 anim.start();
             }
             v.setVisibility(View.VISIBLE);
@@ -872,8 +873,9 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
         static void exitReveal(final View v) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                int initialRadius = Math.max(v.getWidth(), v.getHeight()) + 50;
-                Animator anim = ViewAnimationUtils.createCircularReveal(v, v.getMeasuredWidth() / 2, v.getMeasuredHeight(), initialRadius, 0);
+                int initialRadius = Math.max(v.getWidth(), v.getHeight()) +40;
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, 275, v.getMeasuredHeight(), initialRadius, 0);
+                anim.setDuration(350);
                 anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
