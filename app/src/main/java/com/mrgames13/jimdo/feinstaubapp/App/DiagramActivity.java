@@ -113,27 +113,37 @@ public class DiagramActivity extends AppCompatActivity {
 
             //PM1
             LineDataSet p1 = new LineDataSet(entries_1, res.getString(R.string.value1));
-            p1.setColors(new int[] {R.color.series1});
+            p1.setColor(res.getColor(R.color.series1));
+            p1.setCircleColor(res.getColor(R.color.series1));
             p1.setLineWidth(2);
             p1.setDrawValues(false);
 
             //PM2
             LineDataSet p2 = new LineDataSet(entries_2, res.getString(R.string.value2));
+            p2.setColor(res.getColor(R.color.series2));
+            p2.setCircleColor(res.getColor(R.color.series2));
             p2.setLineWidth(2);
             p2.setDrawValues(false);
 
             //Temperature
             LineDataSet temp = new LineDataSet(entries_3, res.getString(R.string.temperature));
+            temp.setColor(res.getColor(R.color.series3));
+            temp.setCircleColor(res.getColor(R.color.series3));
             temp.setLineWidth(2);
             temp.setDrawValues(false);
 
             //Humidity
             LineDataSet humidity = new LineDataSet(entries_4, res.getString(R.string.humidity));
+            humidity.setColor(res.getColor(R.color.series4));
+            humidity.setCircleColor(res.getColor(R.color.series4));
             humidity.setLineWidth(2);
             humidity.setDrawValues(false);
 
+
             //Pressure
             LineDataSet pressure = new LineDataSet(entries_5, res.getString(R.string.pressure));
+            pressure.setColor(res.getColor(R.color.series5));
+            pressure.setCircleColor(res.getColor(R.color.series5));
             pressure.setLineWidth(2);
             pressure.setDrawValues(false);
 
@@ -145,6 +155,7 @@ public class DiagramActivity extends AppCompatActivity {
             if(show_series_5) dataSets.add(pressure);
             LineData lineData = new LineData(dataSets);
             chart.setData(lineData);
+            //chart.setMarker(new MarkerView(this, ));
             chart.invalidate();
             chart.animateY(700, Easing.EasingOption.EaseInCubic);*/
 

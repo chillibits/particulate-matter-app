@@ -15,16 +15,12 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -97,12 +93,25 @@ public class ServerMessagingUtils {
         //Datensätze herunterladen
         if(isInternetAvailable()) {
             try {
-                Log.d("FA", "Url: " + get_url + "?id=" + chip_id + "&from=" + from/1000 + "&to=" + to/1000 + "&minimize=true&gps=true");
+                Log.d("FA", "From: " + from);
+                Log.d("FA", "To: " + to);
+
+                /*SimpleDateFormat sdf_output = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                SimpleDateFormat sdf_parse = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                sdf_output.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                String str_from = sdf_output.format(new Date(from));
+                String str_to = sdf_output.format(new Date(to));
+
+                Date date_from = sdf_parse.parse(str_from);
+                Date date_to = sdf_parse.parse(str_to);*/
+
+                Log.d("FA", "Url: " + get_url + "?id=" + chip_id + "&from=" + from / 1000 + "&to=" + to / 1000 + "&minimize=true&gps=true");
                 RequestBody body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("id", chip_id)
-                        .addFormDataPart("from", String.valueOf((from - TimeUnit.HOURS.toMillis(1)) / 1000))
-                        .addFormDataPart("to", String.valueOf((to - TimeUnit.HOURS.toMillis(1)) / 1000))
+                        .addFormDataPart("from", String.valueOf(from / 1000))
+                        .addFormDataPart("to", String.valueOf(to / 1000))
                         .addFormDataPart("minimize", "true")
                         .addFormDataPart("gps", "true")
                         .build();
@@ -118,7 +127,7 @@ public class ServerMessagingUtils {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
                         Date time = new Date();
-                        time.setTime(obj.getLong("time") * 1000 + TimeUnit.HOURS.toMillis(1));
+                        time.setTime(obj.getLong("time") * 1000);
                         DataRecord record = new DataRecord(time, obj.getDouble("p1"), obj.getDouble("p2"), obj.getDouble("t"), obj.getDouble("h"), obj.getDouble("p") / 100, obj.getDouble("la"), obj.getDouble("ln"), obj.getDouble("a"));
                         records.add(record);
                     }
@@ -147,18 +156,6 @@ public class ServerMessagingUtils {
                     .show();
             return false;
         }
-    }
-
-    private String getAnswerFromInputStream(InputStream in) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        StringBuilder sb = new StringBuilder();
-
-        String currentLine;
-        while((currentLine = reader.readLine()) != null) {
-            sb.append(currentLine);
-            sb.append("\n");
-        }
-        return sb.toString().replace("<br>", "").trim();
     }
 
     public boolean isInternetAvailable() {

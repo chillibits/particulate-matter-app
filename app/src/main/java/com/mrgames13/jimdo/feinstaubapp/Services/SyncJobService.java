@@ -94,11 +94,11 @@ public class SyncJobService extends JobService {
         //Prüfen, ob Intenet verfügbar ist
         if(smu.isInternetAvailable()) {
             //MaxLimit aus den SharedPreferences auslesen
-            limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)).isEmpty() ? "0" : su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
-            limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)).isEmpty() ? "0" : su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
-            limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)).isEmpty() ? "0" : su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
-            limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)).isEmpty() ? "0" : su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
-            limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)).isEmpty() ? "0" : su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
+            limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
+            limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
+            limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
+            limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
+            limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
 
             new Thread(new Runnable() {
                 @Override
@@ -124,8 +124,8 @@ public class SyncJobService extends JobService {
 
                             if (records.size() > 0) {
                                 //Auf einen Ausfall prüfen
-                                if (su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
-                                    if (!su.getBoolean("BD_" + s.getChipID())) {
+                                if(su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
+                                    if (records_external != null && !su.getBoolean("BD_" + s.getChipID())) {
                                         nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
                                         su.putBoolean("BD_" + s.getChipID(), true);
                                     }

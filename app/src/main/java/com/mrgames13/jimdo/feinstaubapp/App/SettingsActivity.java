@@ -220,9 +220,14 @@ public class SettingsActivity extends PreferenceActivity {
         limit_p1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " µg/m³" : res.getString(R.string.pref_limit_disabled));
-                return true;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) {
+                    preference.setSummary(res.getString(R.string.pref_limit_disabled));
+                    su.putString("limit_p1", "0");
+                    return false;
+                } else {
+                    preference.setSummary(o + " µg/m³");
+                    return true;
+                }
             }
         });
 
@@ -230,9 +235,14 @@ public class SettingsActivity extends PreferenceActivity {
         limit_p2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " µg/m³" : res.getString(R.string.pref_limit_disabled));
-                return true;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) {
+                    preference.setSummary(res.getString(R.string.pref_limit_disabled));
+                    su.putString("limit_p2", "0");
+                    return false;
+                } else {
+                    preference.setSummary(o + " µg/m³");
+                    return true;
+                }
             }
         });
 
@@ -241,9 +251,14 @@ public class SettingsActivity extends PreferenceActivity {
         limit_temp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + "°C" : res.getString(R.string.pref_limit_disabled));
-                return true;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) {
+                    preference.setSummary(res.getString(R.string.pref_limit_disabled));
+                    su.putString("limit_temp", "0");
+                    return false;
+                } else {
+                    preference.setSummary(o + " °C");
+                    return true;
+                }
             }
         });
 
@@ -251,9 +266,14 @@ public class SettingsActivity extends PreferenceActivity {
         limit_humidity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + "%" : res.getString(R.string.pref_limit_disabled));
-                return true;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) {
+                    preference.setSummary(res.getString(R.string.pref_limit_disabled));
+                    su.putString("limit_temp", "0");
+                    return false;
+                } else {
+                    preference.setSummary(o + "%");
+                    return true;
+                }
             }
         });
 
@@ -261,9 +281,14 @@ public class SettingsActivity extends PreferenceActivity {
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) o = "0";
-                preference.setSummary(Integer.parseInt(String.valueOf(o)) > 0 ? o + " hPa" : res.getString(R.string.pref_limit_disabled));
-                return true;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) <= 0) {
+                    preference.setSummary(res.getString(R.string.pref_limit_disabled));
+                    su.putString("limit_pressure", "0");
+                    return false;
+                } else {
+                    preference.setSummary(o + "hPa");
+                    return true;
+                }
             }
         });
 

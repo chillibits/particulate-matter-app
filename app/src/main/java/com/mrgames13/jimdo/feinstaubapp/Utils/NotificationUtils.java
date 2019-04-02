@@ -46,6 +46,8 @@ public class NotificationUtils {
             //System-Channel
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel_system = new NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance);
+            channel_system.setShowBadge(false);
+            channel_system.setSound(null, null);
             channel_system.setDescription(context.getString(R.string.nc_system_description));
             notificationManager.createNotificationChannel(channel_system);
             //Limit-Channel

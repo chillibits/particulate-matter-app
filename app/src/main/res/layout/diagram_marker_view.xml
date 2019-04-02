@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/marker"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_transparent">
+
+    <TextView
+        android:id="@+id/marker_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/marker_value_p1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_time"/>
+
+    <TextView
+        android:id="@+id/marker_value_p2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_value_p1"/>
+
+    <TextView
+        android:id="@+id/marker_value_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_value_p2"/>
+
+    <TextView
+        android:id="@+id/marker_value_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_value_temp"/>
+
+    <TextView
+        android:id="@+id/marker_value_pressure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_value_humidity"/>
+</RelativeLayout>

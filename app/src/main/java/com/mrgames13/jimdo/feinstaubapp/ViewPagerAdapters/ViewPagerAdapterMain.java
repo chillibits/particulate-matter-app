@@ -451,8 +451,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 public void onMapClick(LatLng latLng) {
                     if(selected_marker_position != null) exitReveal(sensor_container);
                     if(selected_cluster_position != null) exitReveal(sensor_cluster_container);
-                    selected_marker_position = null;
-                    selected_cluster_position = null;
                 }
             });
 
@@ -684,7 +682,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             if(selected_cluster_position != null) exitReveal(sensor_cluster_container);
             if(selected_marker_position != null && selected_marker_position.latitude == marker.getPosition().latitude && selected_marker_position.longitude == marker.getPosition().longitude) {
                 exitReveal(sensor_container);
-                selected_marker_position = null;
             } else {
                 sensor_chip_id.setText(marker.getTitle());
                 sensor_coordinates.setText(marker.getSnippet());
@@ -792,7 +789,6 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             if(sensor_container != null) exitReveal(sensor_container);
             if(selected_cluster_position != null && selected_cluster_position.latitude == cluster.getPosition().latitude && selected_cluster_position.longitude == cluster.getPosition().longitude) {
                 exitReveal(sensor_cluster_container);
-                selected_cluster_position = null;
             } else {
                 info_sensor_count.setText(cluster.getItems().size() + " " + getString(R.string.sensors));
                 info_average_value.setText(R.string.loading);
@@ -883,7 +879,11 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     }
                 });
                 anim.start();
+            } else {
+                v.setVisibility(View.INVISIBLE);
             }
+            selected_marker_position = null;
+            selected_cluster_position = null;
         }
 
         public static boolean closeInfoWindow() {

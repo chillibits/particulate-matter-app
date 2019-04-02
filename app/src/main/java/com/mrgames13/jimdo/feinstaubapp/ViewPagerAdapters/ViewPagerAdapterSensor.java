@@ -45,6 +45,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.TimeZone;
 
 public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
@@ -72,6 +73,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         ViewPagerAdapterSensor.su = su;
         tabTitles.add(res.getString(R.string.tab_diagram));
         tabTitles.add(res.getString(R.string.tab_data));
+        df_time.setTimeZone(TimeZone.getDefault());
         ViewPagerAdapterSensor.show_gps_data = show_gps_data;
     }
 
