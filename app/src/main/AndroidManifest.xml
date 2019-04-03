@@ -117,7 +117,7 @@
             tools:replace="screenOrientation" />
         <!-- WidgetConfigurationActivity -->
         <activity
-            android:name=".Widget.WidgetConfigurationActivity"
+            android:name=".WidgetComponents.WidgetConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -134,7 +134,7 @@
         <!-- WebRealtimeSyncService -->
         <service android:name=".Services.WebRealtimeSyncService" />
         <!-- BootCompletedReceiver -->
-        <receiver android:name=".BroadcastReceiver.BootCompletedReceiver">
+        <receiver android:name=".BroadcastReceivers.BootCompletedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -154,7 +154,7 @@
         </provider>
         <!-- HomeScreen Widget -->
         <receiver
-            android:name=".Widget.WidgetProvider"
+            android:name=".WidgetComponents.WidgetProvider"
             android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -31,7 +31,6 @@
     <string name="complete_sensor">Complèter cet capteur</string>
     <string name="coordinates_info">À cause de protection des données, les coordonnées sont arrondie.</string>
     <string name="current_values">Lectures actuelle</string>
-    <string name="curve_smoothness_">Subtilité de la courbe</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>
     <string name="date_time">Temps</string>
@@ -48,11 +47,7 @@
     <string name="enable_daily_average">Montre la valeur moyenne quotidienne</string>
     <string name="enable_daily_average_median_s">Est affiché sous les enregistrements</string>
     <string name="enable_daily_median">Montre la médiane quotidienne</string>
-    <string name="enable_location">Activer</string>
-    <string name="enable_location_m">Affichier propre position?</string>
     <string name="enable_nothing">Désactiver la valeur moyenne / la médiane</string>
-    <string name="enabled_gps_m">Vous avez activé la détermination de la localisation à l\'instant. Il pourrait durer un peu, jusqu\'à ce que votre position soit affichiée sur la carte.</string>
-    <string name="enabled_gps_t">Localisation activée</string>
     <string name="error_try_again">Une erreur est survenue. Essayez encore une fois, s\'il vous plaît</string>
     <string name="exit">Sortie</string>
     <string name="export_data">Exporter des données</string>
@@ -230,7 +225,6 @@
     <string name="temperature_short">Temp</string>
     <string name="terrain">Terrain</string>
     <!-- DiagramActivity -->
-    <string name="time_">Temps de mesure</string>
     <string name="to">à</string>
     <string name="traffic_hide">Disparaître le trafic</string>
     <string name="traffic_show">Affichier le trafic</string>
@@ -239,7 +233,6 @@
     <string name="update_available">Update disponible</string>
     <string name="update_necessary_m">Pour que l\'App Matière Particulaire puisse marcher correctement, vous devez effectuer une mise à jour.</string>
     <string name="update_necessary_t">Update disponible!</string>
-    <string name="value_">Valeur:</string>
     <string name="web_version">Web-version</string>
     <string name="widget_app_data_cleared">Les données de l\'app étaient supprimé. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
     <!-- HomeScreen Widget -->

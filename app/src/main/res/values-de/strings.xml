@@ -31,7 +31,6 @@
     <string name="complete_sensor">Sensor vervollständigen</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
     <string name="current_values">Aktuelle Messwerte</string>
-    <string name="curve_smoothness_">Feinheit der Kurve:</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
     <string name="date_time">Zeit</string>
@@ -48,11 +47,7 @@
     <string name="enable_daily_average">Tagesmittelwert anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
-    <string name="enable_location">Aktivieren</string>
-    <string name="enable_location_m">Eigene Position zeigen?</string>
     <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
-    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
-    <string name="enabled_gps_t">Standort aktiviert</string>
     <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
     <string name="exit">Beenden</string>
     <string name="export_data">Daten exportieren</string>
@@ -230,7 +225,6 @@
     <string name="temperature_short">Temp</string>
     <string name="terrain">Terrain</string>
     <!-- DiagramActivity -->
-    <string name="time_">Messzeit:</string>
     <string name="to">bis</string>
     <string name="traffic_hide">Verkehr ausblenden</string>
     <string name="traffic_show">Verkehr anzeigen</string>
@@ -239,7 +233,6 @@
     <string name="update_available">Update verfügbar</string>
     <string name="update_necessary_m">Damit die Feinstaub-App ordnungsgemäß funktionieren kann, müssen Sie ein Update durchführen.</string>
     <string name="update_necessary_t">Update verfügbar!</string>
-    <string name="value_">Wert:</string>
     <string name="web_version">Web-Version</string>
     <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
     <!-- HomeScreen Widget -->

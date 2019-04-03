@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +34,6 @@ import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SeriesReducer;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
@@ -126,7 +123,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private RadioButton custom_threshold_nothing;
         private static RadioButton custom_threshold_who;
         private static RadioButton custom_threshold_eu;
-        private static SeekBar curve_smoothness;
         private static LineGraphSeries<DataPoint> series1;
         private static LineGraphSeries<DataPoint> series1_average_median;
         private static LineGraphSeries<DataPoint> series1_threshold;
@@ -328,21 +324,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     updateP2(null, false);
                     updateP2(records, custom_p2.isChecked());
                 }
-            });
-
-            curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
-            curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
-                    SensorActivity.curve_smoothness = (500 - value) / 100.0;
-                    updateCurveSmoothness((500 -  value) / 100.0);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {}
             });
 
             cv_p1 = contentView.findViewById(R.id.cv_p1);
@@ -581,32 +562,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             return series;
         }
 
-        private static void updateCurveSmoothness(double epsilon) {
-            ArrayList<Point> reduced_p1 = new ArrayList<>();
-            reduced_p1.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP1(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_p2 = new ArrayList<>();
-            reduced_p2.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP2(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_temp = new ArrayList<>();
-            reduced_temp.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsTemp(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_humidity = new ArrayList<>();
-            reduced_humidity.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsHumidity(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_pressure = new ArrayList<>();
-            reduced_pressure.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsPressure(Tools.fitArrayList(su, records)), epsilon));
-
-            //Diagram leeren
-            updateP1(null, false);
-            updateP2(null, false);
-            updateTemp(null, false);
-            updateHumidity(null, false);
-            updatePressure(null, false);
-            //Veränderte Kurve einblenden
-            updateP1(Tools.convertPointsToDataRecordsP1(reduced_p1), SensorActivity.custom_p1);
-            updateP2(Tools.convertPointsToDataRecordsP2(reduced_p2), SensorActivity.custom_p2);
-            updateTemp(Tools.convertPointsToDataRecordsTemp(reduced_temp), SensorActivity.custom_temp);
-            updateHumidity(Tools.convertPointsToDataRecordsHumidity(reduced_humidity), SensorActivity.custom_humidity);
-            updatePressure(Tools.convertPointsToDataRecordsPressure(reduced_pressure), SensorActivity.custom_pressure);
-        }
-
         private static void updateLastValues() {
             if(SensorActivity.records.size() > 0 && SensorActivity.selected_day_timestamp == SensorActivity.current_day_timestamp) {
                 cv_p1.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP1()).concat(" µg/m³"));
@@ -655,7 +610,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     updateHumidity(records, SensorActivity.custom_humidity);
                     updatePressure(null, false);
                     updatePressure(records, SensorActivity.custom_pressure);
-                    curve_smoothness.setProgress(curve_smoothness.getMax());
                 } else {
                     updateP1(null, false);
                     updateP2(null, false);

@@ -1,4 +1,4 @@
-package com.mrgames13.jimdo.feinstaubapp.BroadcastReceiver;
+package com.mrgames13.jimdo.feinstaubapp.BroadcastReceivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

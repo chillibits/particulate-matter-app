@@ -350,7 +350,7 @@ public class CompareActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_sensor, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_compare, menu);
         progress_menu_item = menu.findItem(R.id.action_refresh);
         return true;
     }

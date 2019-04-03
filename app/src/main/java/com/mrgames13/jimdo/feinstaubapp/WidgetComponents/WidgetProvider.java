@@ -1,4 +1,4 @@
-package com.mrgames13.jimdo.feinstaubapp.Widget;
+package com.mrgames13.jimdo.feinstaubapp.WidgetComponents;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

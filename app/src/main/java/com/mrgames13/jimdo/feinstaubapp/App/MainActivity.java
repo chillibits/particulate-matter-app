@@ -51,7 +51,6 @@ import com.google.zxing.integration.android.IntentResult;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
@@ -61,6 +60,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
+import com.mrgames13.jimdo.splashscreen.HelpClasses.SimpleAnimationListener;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 
@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     if (fab.getVisibility() == View.VISIBLE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
                         a.setAnimationListener(new SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
                             @Override
                             public void onAnimationEnd(Animation animation) {
                                 fab.setVisibility(View.GONE);
@@ -307,47 +306,7 @@ public class MainActivity extends AppCompatActivity {
         //Start-Position auf der Karte
         pager.setCurrentItem(1);
 
-        NotificationUtils.createNotificationChannels(this);
-        getServerInfo();
-
         initializeApp();
-
-        //Intent-Abfragen vornehmen
-        Intent intent = getIntent();
-        Uri appLinkData = intent.getData();
-        if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
-            String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
-            Random random = new Random();
-            int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-
-            Intent i = new Intent(this, SensorActivity.class);
-            i.putExtra("Name", chip_id);
-            i.putExtra("ID", chip_id);
-            i.putExtra("Color", color);
-            startActivity(i);
-        } else if(intent.hasExtra("ChipID")) {
-            Sensor s = su.getSensor(intent.getStringExtra("ChipID"));
-            Intent i = new Intent(this, SensorActivity.class);
-            i.putExtra("Name", s.getName());
-            i.putExtra("ID", s.getChipID());
-            i.putExtra("Color", s.getColor());
-            startActivity(i);
-        } else {
-            if(show_update_snackbar) {
-                Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                        .setAction(res.getString(R.string.download), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                }
-                            }
-                        })
-                        .show();
-            }
-        }
     }
 
     @Override
@@ -418,6 +377,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeApp() {
+        //Notification Channels erstellen
+        NotificationUtils.createNotificationChannels(this);
+
+        //ServerInfo abfragen
+        getServerInfo();
+
+        //Hintergrundservices starten
         int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if(!isJobServiceOn(this)) {
@@ -439,6 +405,28 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
+        }
+
+        //Intent-Abfragen vornehmen
+        Intent intent = getIntent();
+        Uri appLinkData = intent.getData();
+        if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
+            String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
+            Random random = new Random();
+            int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+
+            Intent i = new Intent(this, SensorActivity.class);
+            i.putExtra("Name", chip_id);
+            i.putExtra("ID", chip_id);
+            i.putExtra("Color", color);
+            startActivity(i);
+        } else if(intent.hasExtra("ChipID")) {
+            Sensor s = su.getSensor(intent.getStringExtra("ChipID"));
+            Intent i = new Intent(this, SensorActivity.class);
+            i.putExtra("Name", s.getName());
+            i.putExtra("ID", s.getChipID());
+            i.putExtra("Color", s.getColor());
+            startActivity(i);
         }
     }
 
@@ -696,7 +684,18 @@ public class MainActivity extends AppCompatActivity {
                         .create();
                 d.show();
             } else if(app_version_code < newest_app_version) {
-                show_update_snackbar = true;
+                Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
+                        .setAction(res.getString(R.string.download), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                }
+                            }
+                        })
+                        .show();
             }
         }
     }

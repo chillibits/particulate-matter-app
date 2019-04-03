@@ -121,34 +121,9 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/lbl_curve_smoothness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/curve_smoothness_"
-                android:layout_below="@+id/checkbox_container"
-                android:layout_marginTop="10dp"/>
-
-            <SeekBar
-                android:id="@+id/curve_smoothness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_curve_smoothness"
-                android:progress="500"
-                android:max="500" />
-
-            <RelativeLayout
-                android:id="@+id/seperator_01"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_margin="5dp"
-                android:background="@color/color_selection"
-                android:layout_below="@+id/curve_smoothness"/>
-
             <RadioGroup
                 android:id="@+id/enable_average_median"
-                android:layout_below="@+id/seperator_01"
+                android:layout_below="@+id/checkbox_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

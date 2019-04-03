@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<com.github.mikephil.charting.charts.LineChart
+<com.github.mikephil.charting.charts.LineChart
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chart"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />-->
+    android:layout_height="match_parent" />
 
-<com.jjoe64.graphview.GraphView android:id="@+id/diagram"
+<!--<com.jjoe64.graphview.GraphView android:id="@+id/diagram"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android" />-->

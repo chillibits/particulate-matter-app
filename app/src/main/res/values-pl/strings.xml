@@ -31,7 +31,6 @@
     <string name="complete_sensor">Sensor kompletny</string>
     <string name="coordinates_info">Współrzędne są zaokrąglane w związku z ochroną danych.</string>
     <string name="current_values">Aktualne pomiary</string>
-    <string name="curve_smoothness_">Płynność krzywych:</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
     <string name="date_time">Czas</string>
@@ -48,11 +47,7 @@
     <string name="enable_daily_average">Pokaż średnią dzienną</string>
     <string name="enable_daily_average_median_s">Wyświetlaj poniżej rekordy danych</string>
     <string name="enable_daily_median">Pokaż dzienną medianę</string>
-    <string name="enable_location">Włączone</string>
-    <string name="enable_location_m">Pokazać twoją pozycję ?</string>
     <string name="enable_nothing">Wyłącz średnią / medianę</string>
-    <string name="enabled_gps_m">Właśnie włączyłeś usługę lokalizacji. Może trwać to kilka chwil, dopóki twoja pozycja nie znajdzie się na mapie.</string>
-    <string name="enabled_gps_t">Lokalizacja włączona</string>
     <string name="error_try_again">Wystąpił błąd. Spróbuj ponownie</string>
     <string name="exit">Wyjście</string>
     <string name="export_data">Eksportuj dane</string>
@@ -230,7 +225,6 @@
     <string name="temperature_short">Temp</string>
     <string name="terrain">Teren</string>
     <!-- DiagramActivity -->
-    <string name="time_">Czas pomiaru</string>
     <string name="to">do</string>
     <string name="traffic_hide">Ukryj ruch</string>
     <string name="traffic_show">Pokaż ruch</string>
@@ -239,7 +233,6 @@
     <string name="update_available">Dostępna aktualizacja</string>
     <string name="update_necessary_m">Aby aplikacja działała, musisz dokonać aktualizacji.</string>
     <string name="update_necessary_t">Dostępna aktualizacja!</string>
-    <string name="value_">Wartość:</string>
     <string name="web_version">Wersja WWW</string>
     <string name="widget_app_data_cleared">Dane aplikacji zostały wyczyszczone. Wybierz sensor ponownie</string>
     <!-- HomeScreen Widget -->

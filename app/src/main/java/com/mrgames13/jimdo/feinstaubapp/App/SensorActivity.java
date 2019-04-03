@@ -38,7 +38,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor;
-import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
+import com.mrgames13.jimdo.feinstaubapp.WidgetComponents.WidgetProvider;
 
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;

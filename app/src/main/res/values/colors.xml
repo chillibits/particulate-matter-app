@@ -19,6 +19,7 @@
     <color name="gray_transparent">#c8bbbbbb</color>
     <color name="transparent">#00000000</color>
     <color name="warning">#FF9800</color>
+    <color name="error">#E20000</color>
 
     <!-- Series Colors -->
     <color name="series1">#129726</color>

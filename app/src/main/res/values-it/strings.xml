@@ -31,7 +31,6 @@
     <string name="complete_sensor">Sensore completo</string>
     <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di riservatezza dei dati.</string>
     <string name="current_values">Rilevazione corrente</string>
-    <string name="curve_smoothness_">Arrotondamento della curva:</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
     <string name="date_time">Ora</string>
@@ -48,11 +47,7 @@
     <string name="enable_daily_average">Mostra media giornaliera</string>
     <string name="enable_daily_average_median_s">Mostra sotto i dati</string>
     <string name="enable_daily_median">Mostra mediana giornaliera</string>
-    <string name="enable_location">Abilita</string>
-    <string name="enable_location_m">Mostrare la propria posizione?</string>
     <string name="enable_nothing">Mostra media/mediana</string>
-    <string name="enabled_gps_m">Hai appena abilitato il servizio di localizzazione. Possono passare alcuni momenti prima che la tua posizione sia evidenziata sulla mappa.</string>
-    <string name="enabled_gps_t">Localizzazione abilitata</string>
     <string name="error_try_again">Si è veriificato un errore. Per favore riprovare</string>
     <string name="exit">Esci</string>
     <string name="export_data">Esportare i dati</string>
@@ -230,7 +225,6 @@
     <string name="temperature_short">Temp</string>
     <string name="terrain">Terra</string>
     <!-- DiagramActivity -->
-    <string name="time_">Orario della rilevazione:</string>
     <string name="to">verso</string>
     <string name="traffic_hide">Nascondi il traffico</string>
     <string name="traffic_show">Mosta il traffico</string>
@@ -239,7 +233,6 @@
     <string name="update_available">Aggiornamento disponibile</string>
     <string name="update_necessary_m">Devi aggiornare l\'applicazione per mantenerla funzionante.</string>
     <string name="update_necessary_t">Aggiornamento disponibile!</string>
-    <string name="value_">Valore:</string>
     <string name="web_version">Versione web</string>
     <string name="widget_app_data_cleared">I dati dell\'app sono stati azzerati. Prego selezionare nuovamente il sensore</string>
     <!-- HomeScreen Widget -->
