@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: es, Spanish
+ Exported by: M&R Games
+ Exported at: Fri, 03 May 2019 20:20:11 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Aplicación de materia particulada</string>
+    <string name="ok">Aceptar</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancelar</string>
+    <string name="sensors">sensores</string>
+    <string name="exit">Cerrar</string>
+    <string name="settings">Ajustes</string>
+    <string name="no_data">No datos</string>
+    <string name="loading">Cargando ...</string>
+    <string name="loading_data">Cargando datos ...</string>
+    <string name="internet_is_not_available">Internet no disponible</string>
+    <string name="activate_wlan">Activar WiFi</string>
+    <string name="please_wait_">Por favor espera …</string>
+    <string name="error_try_again">Ocurrió un error. Inténtalo de nuevo</string>
+    <string name="offline_t">Servidor fuera de linea</string>
+    <string name="offline_m">El servidor está desconectado. Mientras el servidor está fuera de línea, no puede acceder a sus datos.</string>
+    <string name="maintenance_t">El mantenimiento del servidor</string>
+    <string name="maintenance_m">El servidor se mantiene. Mientras el servidor está fuera de línea, no puede acceder a sus datos.</string>
+    <string name="support_end_t">El soporte de la aplicación terminó</string>
+    <string name="support_end_m">¡Lo sentimos! La aplicación de material particulado ya no es compatible. Ahora puede desinstalar la aplicación.</string>
+    <string name="update_necessary_t">¡Actualización disponible!</string>
+    <string name="update_necessary_m">Tienes que hacer una actualización para que la aplicación funcione.</string>
+    <string name="download_update">descargar</string>
+    <string name="update_available">Actualización disponible</string>
+    <string name="download">Descargar</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Pantalla para partículas</string>
+    <string name="widget_app_data_cleared">Se borraron los datos de la aplicación. Por favor, seleccione el sensor de nuevo</string>
+    <string name="widget_select_sensor">Seleccionar sensor</string>
+    <string name="widget_open_app">Abre la app</string>
+    <string name="widget_no_data">No hay favoritos todavía. Toque abajo para agregar un favorito y seleccionar el widget nuevamente.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Toque de nuevo para salir</string>
+    <string name="compare_sensors">Comparar datos</string>
+    <string name="edit_sensor">Editar sensor</string>
+    <string name="complete_sensor">Sensor completo</string>
+    <string name="unlink_sensor">Desenlazar sensor</string>
+    <string name="really_unlink_sensor_1">¿Realmente quieres desvincular el sensor?</string>
+    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info"> www.luftdaten.info </a>, you can link it here. Tap below to link to sensor.</string>
+    <string name="rate_app">calificar aplicacion</string>
+    <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
+    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Recomendar</string>
+    <string name="share_app">Recomendar la aplicación</string>
+    <string name="share_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
+    <string name="rate">Evaluar</string>
+    <string name="add_own_sensor">Añadir sensor propio</string>
+    <string name="my_favourites">iten\n\nMy favourites\n\nMis favoritos</string>
+    <string name="all_sensors">Todos los sensores</string>
+    <string name="my_sensors">Mis sensores</string>
+    <string name="no_favourites">No hay favoritos todavía. Cambie a \'Todos los sensores\', elija uno o más sensores y seleccione \'Agregar favorito\'.</string>
+    <string name="show_measurements">Mostrar medidas</string>
+    <string name="add_favourite">Añadir favorito</string>
+    <string name="favourite_added">Favorito añadido</string>
+    <string name="properties">Propiedades</string>
+    <string name="public_short_">Público:</string>
+    <string name="online_since_">En linea desde:</string>
+    <string name="height_short_">Altura de montaje:</string>
+    <string name="compare_instruction">Toque y mantenga presionado un sensor para seleccionarlo. Seleccione dos o más sensores para comparar sus medidas.</string>
+    <string name="enable_location_m">Mostrar posición propia?</string>
+    <string name="enable_location">Habilitar</string>
+    <string name="search_for_sensors">Buscar sensores</string>
+    <string name="enabled_gps_t">Ubicación habilitada</string>
+    <string name="enabled_gps_m">Acabas de habilitar el servicio de localización. Puede durar unos instantes hasta que su posición se ubique en el mapa.</string>
+    <string name="sensor_position_completion_m_short">Complete los datos del sensor para que aparezca en el mapa.</string>
+    <string name="web_version">Version web</string>
+    <string name="scan_prompt">Abra https://pm.mrgames-server.de en su computadora.</string>
+    <string name="successfully_connected">Conectado exitosamente</string>
+    <string name="sync_disconnected">Desconectado</string>
+    <string name="search_places">Por favor ingrese un lugar ...</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Hecho</string>
+    <string name="name_">Nombre para mostrar:</string>
+    <string name="chip_id">ID de chip:</string>
+    <string name="choose_color">Elegir color</string>
+    <string name="not_all_filled">Por favor llena todos los espacios</string>
+    <string name="sensor_existing">El sensor ya está vinculado</string>
+    <string name="add_sensor_tick_not_set_message">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \"Enviar a Feinstaub-App\" en la configuración de su sensor. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
+    <string name="add_sensor_tick_not_set_message_duty">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \'Enviar a Feinstaub-App\' en la configuración de su sensor. Habilitar esto para continuar. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
+    <string name="dont_show_again">No mostrar de nuevo</string>
+    <string name="public_sensor">Mostrar el sensor a otros usuarios y hacerlo visible en el mapa.</string>
+    <string name="choose_location">Elija la ubicación exacta del sensor</string>
+    <string name="sensor_height">Altura sobre suelo / calle (m):</string>
+    <string name="latitude">Latitud</string>
+    <string name="latitude_">Latitud:</string>
+    <string name="longitude">Longitud</string>
+    <string name="longitude_">Longitud:</string>
+    <string name="coordinates_info">Las coordenadas se redondearon por razones de protección de datos.</string>
+    <string name="gps_will_be_synchronized">Si hay un sensor GPS conectado a su sistema de sensores, la posición se sincronizará automáticamente con el mapa.</string>
+    <string name="edit_position_info">Por razones de seguridad, solo puede cambiar la posición del sensor <a href="mailto:mrgames@outlook.de"> contactándonos </a>.</string>
+    <string name="unknown_location">Ubicación desconocida</string>
+    <!-- SensorActivity -->
+    <string name="date">Fecha</string>
+    <string name="tab_diagram">Diagrama</string>
+    <string name="tab_data">Registros de datos</string>
+    <string name="refresh">Refrescar</string>
+    <string name="no_data_date">No hay datos existentes para esta fecha.</string>
+    <string name="diagram_instruction">Toque en el gráfico para mostrarlo en pantalla completa</string>
+    <string name="date_time">Tiempo</string>
+    <string name="temperature_short">temp</string>
+    <string name="temperature">Temperatura</string>
+    <string name="humidity_short">Humedad</string>
+    <string name="pressure_short">Presión</string>
+    <string name="humidity">Humedad</string>
+    <string name="pressure">Presión</string>
+    <string name="no_diagram_selected">Sin diagrama seleccionado</string>
+    <string name="from">desde</string>
+    <string name="to">a</string>
+    <string name="current_values">Mediciones de corriente</string>
+    <string name="state_of_">Estado desde</string>
+    <string name="curve_smoothness_">Suavidad de la curva:</string>
+    <string name="export_data">Exportar datos</string>
+    <string name="export_diagram">Diagrama de exportación</string>
+    <string name="export_data_records">Registros de datos de exportación</string>
+    <string name="share_sensor">Compartir sensor</string>
+    <string name="median">Mediana</string>
+    <string name="normal">Normal</string>
+    <string name="terrain">Terreno</string>
+    <string name="satellite">Satélite</string>
+    <string name="hybrid">Híbrido</string>
+    <string name="traffic_show">Mostrar trafico</string>
+    <string name="traffic_hide">Ocultar tráfico</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Tiempo de medida:</string>
+    <string name="value_">Valor:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Límite excedido</string>
+    <string name="limit_exceeded_p1">Límite de PM10 excedido</string>
+    <string name="limit_exceeded_p2">Límite de PM2,5 excedido</string>
+    <string name="limit_exceeded_temp">Límite de temperatura superado</string>
+    <string name="limit_exceeded_humidity">Límite de humedad excedido</string>
+    <string name="limit_exceeded_pressure">Límite de presión excedido</string>
+    <string name="sensor_breakdown">Avería del sensor</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Notificaciones del sistema</string>
+    <string name="nc_system_description">Notificaciones del sistema desde la aplicación Particulate Matter.</string>
+    <string name="nc_limit_name">Superar los límites</string>
+    <string name="nc_limit_description">Mostrar notificaciones en la barra de estado, cuando se excede uno de los límites ajustados.</string>
+    <string name="nc_missing_measurements_name">Mediciones faltantes</string>
+    <string name="nc_missing_measurements_description">Muestra notificaciones en la barra de estado, cuando un sensor no envía más mediciones y si aparece la sospecha de una falla del sensor.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Caracteristicas</string>
+    <string name="enable_daily_average">Mostrar promedio diario</string>
+    <string name="enable_daily_median">Mostrar mediana diaria</string>
+    <string name="enable_daily_average_median_s">Se muestra debajo de los registros de datos</string>
+    <string name="enable_nothing">Desactivar media / mediana</string>
+    <string name="enable_auto_correction_t">Corrección automática de errores</string>
+    <string name="enable_auto_correction_s">Corrección automática de mediciones defectuosas.</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Sincronización</string>
+    <string name="sync_cycle">Ciclo de sincronizacion</string>
+    <string name="sync_cycle_t">Ciclo de sincronización (seg)</string>
+    <string name="sync_cycle_background">Fondo del ciclo de sincronización</string>
+    <string name="sync_cycle_background_t">Fondo del ciclo de sincronización (min)</string>
+    <string name="seconds">segundos</string>
+    <string name="second">segundo</string>
+    <string name="minutes">minutos</string>
+    <string name="minute">minuto</string>
+    <string name="reduce_data_consumption">Reducir el consumo de datos.</string>
+    <string name="reduce_data_consumption_s">Descargue solo los datos requeridos (puede causar errores en el turno de tiempo)</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Apariencia</string>
+    <string name="pref_theme">Tema de aplicación</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automático por tiempo</item>
+        <item name="pref_theme_array1">Tema ligero</item>
+        <item name="pref_theme_array2">Tema oscuro</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <string name="app_restart_t">Reinicio necesario</string>
+    <string name="app_restart_m">Para aplicar los cambios, se necesita reiniciar la aplicación. ¿Te gustaría reiniciar ahora o más tarde?</string>
+    <string name="now">Ahora</string>
+    <string name="later">Luego</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Notificaciones</string>
+    <string name="pref_notification_averages">Notificación sobre promedio superado</string>
+    <string name="pref_notification_averages_s_true">Notificación, cuando el promedio diario excede el valor determinado.</string>
+    <string name="pref_notification_averages_s_false">Notificación, cuando el promedio diario excede el valor determinado.</string>
+    <string name="pref_notification_breakdown">Notificación de avería del sensor</string>
+    <string name="pref_notification_breakdown_s">Notificación a los sensores propios cuando se suspendan las medidas de gravedad</string>
+    <string name="pref_notification_breakdown_number">Número permitido de medidas faltantes</string>
+    <string name="pref_limit_p1">Límite de PM10</string>
+    <string name="pref_limit_p1_t">Límite de PM10 (µg / m³)</string>
+    <string name="pref_limit_p2">Límite de PM2,5</string>
+    <string name="pref_limit_p2_t">Límite de PM2,5 (µg / m³)</string>
+    <string name="pref_limit_temp">Límite de temperatura</string>
+    <string name="pref_limit_temp_t">Límite de temperatura (° C)</string>
+    <string name="pref_limit_humidity">Límite de humedad</string>
+    <string name="pref_limit_humidity_t">Límite de humedad (%)</string>
+    <string name="pref_limit_pressure">Pressure limit\n\nLímite de presión</string>
+    <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
+    <string name="pref_limit_disabled">Notificación deshabilitada</string>
+    <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
+    <string name="measurement">medición</string>
+    <string name="measurements">mediciones</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Actuación</string>
+    <string name="pref_increase_diagram_performance">Aumentar el rendimiento del diagrama</string>
+    <string name="pref_increase_diagram_performance_s">El diagrama puede volverse inexacto</string>
+    <string name="pref_enable_marker_clustering">Habilitar agrupación de marcadores</string>
+    <string name="pref_enable_marker_clustering_s">Los sensores en el mapa serán agrupados inteligentes.</string>
+    <string name="clear_sensor_data_t">Borrar datos del sensor</string>
+    <string name="clear_sensor_data_m">Borrar datos en caché para guardar el almacenamiento</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Acerca de la aplicación de materia particulada</string>
+    <string name="pref_serverinfo_t">Información del servidor</string>
+    <string name="pref_serverinfo_downloading_">Descargando serverinfo ...</string>
+    <string name="server_state">Estado del servidor</string>
+    <string name="client_name">Nombre del cliente</string>
+    <string name="min_app_version">Versión mínima</string>
+    <string name="newest_app_version">La versión más nueva</string>
+    <string name="owners">Propietario del servidor</string>
+    <string name="serverstate_1">El servidor esta en linea</string>
+    <string name="serverstate_2">El servidor esta desconectado</string>
+    <string name="serverstate_3">El servidor se mantiene</string>
+    <string name="serverstate_4">La aplicación ya no es compatible</string>
+    <string name="serverstate_1_short">En línea</string>
+    <string name="serverstate_2_short">Desconectado</string>
+    <string name="serverstate_3_short">Se mantiene</string>
+    <string name="serverstate_4_short">Ya no es compatible</string>
+    <string name="pref_opensource_t">Licencias de código abierto</string>
+    <string name="pref_opensource_m">Detalles de licencia para software de código abierto</string>
+    <string name="pref_appversion">Version de aplicacion</string>
+    <string name="pref_developers_t">Los desarrolladores</string>
+    <string name="pref_more_apps_t">Más aplicaciones de nosotros</string>
+    <string name="pref_more_apps_m">Nuestro sitio PlayStore</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Presione sobre el color para aplicar</string>
+    <string name="altitude">Altura</string>
+    <string name="show_gps_data">Mostrar datos GPS\n</string>
+    <string name="show_threshold_who">Mostrar umbral de la OMS\n</string>
+    <string name="show_threshold_eu">Mostrar umbral de la UE\n</string>
+    <string name="hide_thresholds">Ocultar umbrales\n</string>
+    <string name="help">Ayuda</string>
+    <string name="zoom_in">Acercarse</string>
+</resources>

@@ -70,15 +70,9 @@ public class SensorActivity extends AppCompatActivity {
 
     //Variablen als Objekte
     private Resources res;
-    private Toolbar toolbar;
-    private TabLayout tab_layout;
     private ViewPager view_pager;
     private ViewPagerAdapterSensor view_pager_adapter;
-    private DatePickerDialog date_picker_dialog;
     private Calendar calendar;
-    private ImageView card_date_edit;
-    private ImageView card_date_today;
-    private ImageView card_date_back;
     private ImageView card_date_next;
     private MenuItem progress_menu_item;
     private ScheduledExecutorService service;
@@ -100,7 +94,6 @@ public class SensorActivity extends AppCompatActivity {
     public static boolean custom_temp = false;
     public static boolean custom_humidity = false;
     public static boolean custom_pressure = false;
-    public static double curve_smoothness = 0;
     private int export_mode;
 
     @Override
@@ -112,7 +105,7 @@ public class SensorActivity extends AppCompatActivity {
         res = getResources();
 
         //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -140,7 +133,7 @@ public class SensorActivity extends AppCompatActivity {
         view_pager.setAdapter(view_pager_adapter);
 
         //TabLayout aufsetzen
-        tab_layout = findViewById(R.id.tablayout);
+        TabLayout tab_layout = findViewById(R.id.tablayout);
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         tab_layout.setupWithViewPager(view_pager);
         tab_layout.setBackgroundColor(res.getColor(R.color.colorPrimary));
@@ -151,12 +144,10 @@ public class SensorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
         //Kalender initialisieren
@@ -172,9 +163,9 @@ public class SensorActivity extends AppCompatActivity {
 
         //CardView-Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
-        card_date_edit = findViewById(R.id.card_date_edit);
-        card_date_today = findViewById(R.id.card_date_today);
-        card_date_back = findViewById(R.id.card_date_back);
+        ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_today = findViewById(R.id.card_date_today);
+        ImageView card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(sdf_date.format(calendar.getTime()));
@@ -275,7 +266,8 @@ public class SensorActivity extends AppCompatActivity {
 
     private void chooseDate(final TextView card_date_value) {
         //Datum auswählen
-        date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
+        //Daten für ausgewähltes Datum laden
+        DatePickerDialog date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar calendar_new = Calendar.getInstance();
@@ -538,13 +530,13 @@ public class SensorActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
-        i.putExtra(Intent.EXTRA_TEXT, "https://feinstaub.mrgames-server.de/s/" + sensor.getChipID());
+        i.putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.getChipID());
         startActivity(Intent.createChooser(i, getString(R.string.share_sensor)));
     }
 
     private void exportDiagram() {
         //Diagramm exportieren
-        view_pager_adapter.exportDiagram(SensorActivity.this);
+        view_pager_adapter.exportDiagram();
     }
 
     private void exportDataRecords() {

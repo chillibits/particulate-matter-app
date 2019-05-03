@@ -50,7 +50,6 @@ public class CompareActivity extends AppCompatActivity {
 
     //Variablen als Objekte
     private Resources res;
-    private Toolbar toolbar;
     private Calendar calendar;
     public static ArrayList<Sensor> sensors;
     public static ArrayList<ArrayList<DataRecord>> records = new ArrayList<>();
@@ -68,11 +67,7 @@ public class CompareActivity extends AppCompatActivity {
     private GraphView diagram_temp;
     private GraphView diagram_humidity;
     private GraphView diagram_pressure;
-    private DatePickerDialog date_picker_dialog;
     private ImageView card_date_next;
-    private ImageView card_date_back;
-    private ImageView card_date_today;
-    private ImageView card_date_edit;
 
     //Variablen
     public static long selected_day_timestamp;
@@ -91,7 +86,7 @@ public class CompareActivity extends AppCompatActivity {
         res = getResources();
 
         //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.compare_sensors);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -122,9 +117,9 @@ public class CompareActivity extends AppCompatActivity {
 
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
-        card_date_edit = findViewById(R.id.card_date_edit);
-        card_date_today = findViewById(R.id.card_date_today);
-        card_date_back = findViewById(R.id.card_date_back);
+        ImageView card_date_edit = findViewById(R.id.card_date_edit);
+        ImageView card_date_today = findViewById(R.id.card_date_today);
+        ImageView card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
         card_date_value.setText(sdf_date.format(calendar.getTime()));
@@ -322,7 +317,8 @@ public class CompareActivity extends AppCompatActivity {
 
     private void chooseDate(final TextView card_date_value) {
         //Datum auswählen
-        date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
+        //Daten für ausgewähltes Datum laden
+        DatePickerDialog date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar calendar_new = Calendar.getInstance();

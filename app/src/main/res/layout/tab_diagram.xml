@@ -44,13 +44,13 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/diagram"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"/>
 
             <TextView
                 android:id="@+id/diagram_instructions"
@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
-                android:layout_below="@+id/diagram"
+                android:layout_below="@+id/chart"
                 android:textSize="11sp"/>
 
             <LinearLayout

@@ -67,6 +67,10 @@
                 <data
                     android:host="feinstaub.mrgames-server.de"
                     android:scheme="https" />
+
+                <data
+                    android:host="pm.mrgames-server.de"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <!-- SettingsActivity -->
@@ -94,6 +98,11 @@
 
                 <data
                     android:host="feinstaub.mrgames-server.de"
+                    android:pathPattern="/sensor"
+                    android:scheme="https" />
+
+                <data
+                    android:host="pm.mrgames-server.de"
                     android:pathPattern="/sensor"
                     android:scheme="https" />
             </intent-filter>

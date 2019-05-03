@@ -4,7 +4,6 @@
     <color name="colorPrimary">#00cab7</color>
     <color name="colorPrimaryDark">#00a798</color>
     <color name="colorPrimaryTransparent">#8000CAB7</color>
-    <!--<color name="colorAccent">#ff114d</color>-->
     <color name="colorAccent">#0B9509</color>
     <color name="ic_launcher_background">#00E1FF</color>
     <color name="bg_dark">#363636</color>

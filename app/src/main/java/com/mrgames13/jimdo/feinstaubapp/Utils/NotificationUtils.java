@@ -17,14 +17,10 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class NotificationUtils {
-    //Priorities
-    public static final int PRIORITY_HIGH = 1;
-    public static final int PRIORITY_NORMAL = 0;
-    public static final int PRIORITY_LOW = -1;
     //Vibrations
-    public static final int VIBRATION_SHORT = 300;
+    private static final int VIBRATION_SHORT = 300;
     //Lights
-    public static final int LIGHT_SHORT = 500;
+    private static final int LIGHT_SHORT = 500;
 
     //Variablen als Objekte
     private Context context;
@@ -66,16 +62,16 @@ public class NotificationUtils {
     public void displayLimitExceededNotification(String message, String chip_id, long time) {
         Intent i = new Intent(context, MainActivity.class);
         i.putExtra("ChipID", chip_id);
-        displayNotification(Constants.CHANNEL_LIMIT, res.getString(R.string.limit_exceeded), message, Integer.parseInt(chip_id), i, PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+        displayNotification(Constants.CHANNEL_LIMIT, res.getString(R.string.limit_exceeded), message, Integer.parseInt(chip_id), i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
     }
 
     public void displayMissingMeasurementsNotification(String chip_id, String sensor_name) {
         Intent i = new Intent(context, MainActivity.class);
         i.putExtra("ChipID", chip_id);
-        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, i, PRIORITY_HIGH, LIGHT_SHORT, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
+        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
     }
 
-    public void displayNotification(String channel_id, String title, String message, int id, Intent i, int priority, int light_lenght, long[] vibration, long time) {
+    private void displayNotification(String channel_id, String title, String message, int id, Intent i, long[] vibration, long time) {
         //Notification aufbauen
         NotificationCompat.Builder n = buildNotification(title, message);
         n.setAutoCancel(true);
@@ -87,15 +83,9 @@ public class NotificationUtils {
         }
         //ID ermitteln
         if(id == 0) id = (int) ((Math.random()) * Integer.MAX_VALUE);
-        if(priority == PRIORITY_HIGH) {
-            n.setPriority(NotificationCompat.PRIORITY_HIGH);
-            n.setLights(res.getColor(R.color.colorPrimary), light_lenght, light_lenght);
-            n.setVibrate(vibration);
-        } else if(priority == PRIORITY_NORMAL) {
-            n.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        } else if(priority == PRIORITY_LOW) {
-            n.setPriority(NotificationCompat.PRIORITY_LOW);
-        }
+        n.setPriority(NotificationCompat.PRIORITY_HIGH);
+        n.setLights(res.getColor(R.color.colorPrimary), NotificationUtils.LIGHT_SHORT, NotificationUtils.LIGHT_SHORT);
+        n.setVibrate(vibration);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) n.setChannelId(channel_id);
         nm.notify(id, n.build());
     }

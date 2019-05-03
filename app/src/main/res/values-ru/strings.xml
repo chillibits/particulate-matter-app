@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: ru, Russian
+ Exported by: M&R Games
+ Exported at: Fri, 03 May 2019 20:20:11 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Приложение Particulate Matter</string>
+    <string name="ok">Хорошо</string>
+    <string name="yes">да</string>
+    <string name="no">нет</string>
+    <string name="cancel">отменить</string>
+    <string name="sensors">датчики</string>
+    <string name="exit">Выйти</string>
+    <string name="settings">Настройки</string>
+    <string name="no_data">Нет данных</string>
+    <string name="loading">Загрузка…</string>
+    <string name="loading_data">Загрузка данных …</string>
+    <string name="internet_is_not_available">Интернет не доступен</string>
+    <string name="activate_wlan">Включить WiFi</string>
+    <string name="please_wait_">Пожалуйста, подождите …</string>
+    <string name="error_try_again">Произошла ошибка. Пожалуйста, попробуйте ещё раз</string>
+    <string name="offline_t">Сервер недоступен</string>
+    <string name="offline_m">Сервер недоступен. Пока нет связи с сервером, никак не получить ваши данные.</string>
+    <string name="maintenance_t">Сервер на тех.обслуживании</string>
+    <string name="maintenance_m">Сервер обновляется. Пока сервер недоступен, никак не получить ваши данные.</string>
+    <string name="support_end_t">Поддержка приложения закончилась</string>
+    <string name="support_end_m">Извините. Приложение Particulate Matter более не поддерживается. Вы можете удалить его с вашего устройства.</string>
+    <string name="update_necessary_t">Есть обновление!</string>
+    <string name="update_necessary_m">Приложение требуется обновить, чтобы продолжить работу.</string>
+    <string name="download_update">Скачать</string>
+    <string name="update_available">Есть обновление</string>
+    <string name="download">Скачать</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Отображение твёрдых частиц</string>
+    <string name="widget_app_data_cleared">Данные приложения очищены. Пожалуйста, снова выберите датчик</string>
+    <string name="widget_select_sensor">Выберите датчик</string>
+    <string name="widget_open_app">Открыть приложение</string>
+    <string name="widget_no_data">Пока нет закладок. Нажмите ниже, чтобы добавить датчик в закладки и выберите виджет ещё раз.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Нажмите ещё раз, чтобы выйти</string>
+    <string name="compare_sensors">Сравнить данные</string>
+    <string name="edit_sensor">Редактировать датчик</string>
+    <string name="complete_sensor">Завершить датчик</string>
+    <string name="unlink_sensor">Отключить датчик</string>
+    <string name="really_unlink_sensor_1">Вы уверены, что хотите отлючить датчик \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
+    <string name="rate_app">оцените приложение</string>
+    <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
+    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Рекомендовать</string>
+    <string name="share_app">порекомендуйте приложение</string>
+    <string name="share_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
+    <string name="rate">Оценить</string>
+    <string name="add_own_sensor">Добавить собственный датчик</string>
+    <string name="my_favourites">Мои закладки</string>
+    <string name="all_sensors">Все датчики</string>
+    <string name="my_sensors">Мои датчики</string>
+    <string name="no_favourites">Закладки пока отсутствуют. Пожалуйста, переключитесь во «Все датчики», выберите там один или несколько датчиков и выберите «Добавить в закладки»</string>
+    <string name="show_measurements">Показать измерения</string>
+    <string name="add_favourite">Добавить в закладки</string>
+    <string name="favourite_added">Закладка добавлена</string>
+    <string name="properties">Свойства</string>
+    <string name="public_short_">Открыт:</string>
+    <string name="online_since_">Работает с:</string>
+    <string name="height_short_">Высота над поверхностью:</string>
+    <string name="compare_instruction">Нажмите и удерживайте датчик, чтобы выделить его. Выберите 2 или больше датчиков, чтобы сравнить их показания.</string>
+    <string name="enable_location_m">Показывать моё расположение</string>
+    <string name="enable_location">Включить</string>
+    <string name="search_for_sensors">Искать датчики</string>
+    <string name="enabled_gps_t">Определение расположения включено</string>
+    <string name="enabled_gps_m">Вы включили службы определения расположения. Понадобиться где-то с пол-минуты, чтобы положение на карте определилось.</string>
+    <string name="sensor_position_completion_m_short">Пожалуйста, заполните данные о датчике, чтобы он появился на карте.</string>
+    <string name="web_version">Веб-версия</string>
+    <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.mrgames-server.de</string>
+    <string name="successfully_connected">Успешно подключено</string>
+    <string name="sync_disconnected">Отключено</string>
+    <string name="search_places">Пожалуйста, выберите место</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Готово</string>
+    <string name="name_">Название:</string>
+    <string name="chip_id">Номер чипа:</string>
+    <string name="choose_color">Выбрите цвет</string>
+    <string name="not_all_filled">Пожалуйста, заполните все поля</string>
+    <string name="sensor_existing">Датчик уже подключён</string>
+    <string name="add_sensor_tick_not_set_message">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
+    <string name="add_sensor_tick_not_set_message_duty">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
+    <string name="dont_show_again">Более не показывать</string>
+    <string name="public_sensor">Показывать датчик другим пользователям и на карте</string>
+    <string name="choose_location">Выберите точное положение датчика</string>
+    <string name="sensor_height">Высота на поверхностью земли/дороги, в метрах:</string>
+    <string name="latitude">Широта</string>
+    <string name="latitude_">Широта:</string>
+    <string name="longitude">Долгота</string>
+    <string name="longitude_">Долгота:</string>
+    <string name="coordinates_info">Координаты округляются, чтобы защитить данные и приватность</string>
+    <string name="gps_will_be_synchronized">Если в вашем датчике есть GPS приёмник, положение на карте отобразится автоматически.</string>
+    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de">по эл. почте</a>.</string>
+    <string name="unknown_location">Расположение неизвестно</string>
+    <!-- SensorActivity -->
+    <string name="date">Дата</string>
+    <string name="tab_diagram">График</string>
+    <string name="tab_data">Таблица</string>
+    <string name="refresh">Обновить</string>
+    <string name="no_data_date">На эту дату данные отсутствуют</string>
+    <string name="diagram_instruction">Нажмите на графике, чтобы раскрыть его во весь экран</string>
+    <string name="date_time">Время</string>
+    <string name="temperature_short">t°</string>
+    <string name="temperature">Температура</string>
+    <string name="humidity_short">Влажность</string>
+    <string name="pressure_short">Давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="no_diagram_selected">График не выбран</string>
+    <string name="from">с</string>
+    <string name="to">по</string>
+    <string name="current_values">Текущие данные</string>
+    <string name="state_of_">Начиная с\u0020</string>
+    <string name="curve_smoothness_">Сглаживание графика</string>
+    <string name="export_data">Экспорт данных</string>
+    <string name="export_diagram">Экспорт графика</string>
+    <string name="export_data_records">Экспорт записей</string>
+    <string name="share_sensor">Поделиться датчиком</string>
+    <string name="median">Медиана</string>
+    <string name="normal">Схема</string>
+    <string name="terrain">Рельеф</string>
+    <string name="satellite">Спутник</string>
+    <string name="hybrid">Спутник и схема</string>
+    <string name="traffic_show">Показывать пробки</string>
+    <string name="traffic_hide">Скрыть пробки</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Время измерения</string>
+    <string name="value_">Значение:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Превышен порог</string>
+    <string name="limit_exceeded_p1">Порог PM-10 превышен</string>
+    <string name="limit_exceeded_p2">Порог PM-2.5 превышен</string>
+    <string name="limit_exceeded_temp">Температурный порог превышен</string>
+    <string name="limit_exceeded_humidity">Порог влажности превышен</string>
+    <string name="limit_exceeded_pressure">Порог давления превышен</string>
+    <string name="sensor_breakdown">Датчик отключился</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Системное уведомление</string>
+    <string name="nc_system_description">Системное уведомление от приложения Particulate Matter</string>
+    <string name="nc_limit_name">Превышения порогов</string>
+    <string name="nc_limit_description">Показывать уведомления, когда любой из настроенных порогов значений превышен.</string>
+    <string name="nc_missing_measurements_name">Пропущенные измерения</string>
+    <string name="nc_missing_measurements_description">Показывать уведомления, когда датчик перестанет присылать данные или возникнет подозрение его поломки.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Статистика</string>
+    <string name="enable_daily_average">Среднее за день</string>
+    <string name="enable_daily_median">Медиана за день</string>
+    <string name="enable_daily_average_median_s">Внизу таблицы с данными</string>
+    <string name="enable_nothing">Скрыть среднее и медиану</string>
+    <string name="enable_auto_correction_t">Авто исправление ошибок</string>
+    <string name="enable_auto_correction_s">Единичные некорректные измерения будут скорректированы автоматически</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Синхронизация</string>
+    <string name="sync_cycle">Период обновления данных</string>
+    <string name="sync_cycle_t">Период в секундах</string>
+    <string name="sync_cycle_background">Период фонового обновления данных</string>
+    <string name="sync_cycle_background_t">Период в минутах</string>
+    <string name="seconds">секунды</string>
+    <string name="second">секунда</string>
+    <string name="minutes">минуты</string>
+    <string name="minute">минута</string>
+    <string name="reduce_data_consumption">Сократить объём скачиваемых данных</string>
+    <string name="reduce_data_consumption_s">Скачивать только новые данные. Может вызвать ошибки при изменении настроек времени.</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Внешний вид</string>
+    <string name="pref_theme">Тема оформления</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">По времени</item>
+        <item name="pref_theme_array1">Светлая тема</item>
+        <item name="pref_theme_array2">Тёмная тема</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <string name="app_restart_t">Требуется перезапуск</string>
+    <string name="app_restart_m">Чтобы изменения подействовали, надо перезапустить приложение. Сейчас или позже?</string>
+    <string name="now">Сейчас</string>
+    <string name="later">Позже</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Уведомления</string>
+    <string name="pref_notification_averages">Уведомления о превышении среднего значения</string>
+    <string name="pref_notification_averages_s_true">Уведомление о превышении порога средним значением за сутки</string>
+    <string name="pref_notification_averages_s_false">Уведомление о превышении порога текущим значением</string>
+    <string name="pref_notification_breakdown">Уведомление об отключении датчика</string>
+    <string name="pref_notification_breakdown_s">Уведомление о нескольких измерениях, пропущенных моим датчиком</string>
+    <string name="pref_notification_breakdown_number">Допустимое число пропущенных измерений</string>
+    <string name="pref_limit_p1">ПДК PM-10</string>
+    <string name="pref_limit_p1_t">ПДК PM-10 (мг/куб.м)</string>
+    <string name="pref_limit_p2">ПДК PM-2.5</string>
+    <string name="pref_limit_p2_t">ПДК PM-2.5 (мг/куб.м)</string>
+    <string name="pref_limit_temp">Предельная температура</string>
+    <string name="pref_limit_temp_t">Предельная температура (°C)</string>
+    <string name="pref_limit_humidity">Предел отн. влажности</string>
+    <string name="pref_limit_humidity_t">Предел отн. влажности (%)</string>
+    <string name="pref_limit_pressure">Предел давления</string>
+    <string name="pref_limit_pressure_t">Предел давления (гПа)</string>
+    <string name="pref_limit_disabled">Уведомление отключено</string>
+    <string name="zero_to_disable">Чтобы отключить, задайте 0</string>
+    <string name="measurement">измерение</string>
+    <string name="measurements">измерение</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Скорость работы</string>
+    <string name="pref_increase_diagram_performance">Ускорить график</string>
+    <string name="pref_increase_diagram_performance_s">График может отображаться некорректно</string>
+    <string name="pref_enable_marker_clustering">Группировать значки</string>
+    <string name="pref_enable_marker_clustering_s">Значки на карте сгруппируются</string>
+    <string name="clear_sensor_data_t">Очистить данные датчика</string>
+    <string name="clear_sensor_data_m">Стереть кэш, чтобы освободить место</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">О приложении Particulate Matter</string>
+    <string name="pref_serverinfo_t">Состояние сервера</string>
+    <string name="pref_serverinfo_downloading_">Получение информации о сервере..</string>
+    <string name="server_state">Состояние сервера</string>
+    <string name="client_name">Имя клиента</string>
+    <string name="min_app_version">Минимальная версия</string>
+    <string name="newest_app_version">Новейшая версия</string>
+    <string name="owners">Владелец сервера</string>
+    <string name="serverstate_1">Сервер онлайн</string>
+    <string name="serverstate_2">сервер не в сети</string>
+    <string name="serverstate_3">Сервер обслуживается</string>
+    <string name="serverstate_4">Приложение больше не поддерживается</string>
+    <string name="serverstate_1_short">На связи</string>
+    <string name="serverstate_2_short">Отключен</string>
+    <string name="serverstate_3_short">Ремонтируется</string>
+    <string name="serverstate_4_short">Более не поддерживается</string>
+    <string name="pref_opensource_t">Лицензии с открытым исходным кодом</string>
+    <string name="pref_opensource_m">Детали лицензии для программного обеспечения с открытым исходным кодом</string>
+    <string name="pref_appversion">Версия приложения</string>
+    <string name="pref_developers_t">Разработчики</string>
+    <string name="pref_more_apps_t">Больше наших приложений</string>
+    <string name="pref_more_apps_m">Наш сайт Play Store</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Нажмите на цвет, чтобы выбрать\n</string>
+    <string name="altitude">Высота</string>
+    <string name="show_gps_data">Показать данные GPS</string>
+    <string name="show_threshold_who">Показать порог ВОЗ</string>
+    <string name="show_threshold_eu">Показать порог ЕС</string>
+    <string name="hide_thresholds">Скрыть пороги</string>
+    <string name="help">Помощь</string>
+    <string name="zoom_in">Приблизить</string>
+</resources>

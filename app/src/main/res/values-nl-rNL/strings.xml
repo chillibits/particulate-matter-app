@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: nl-NL, Dutch
+ Exported by: M&R Games
+ Exported at: Fri, 03 May 2019 20:20:11 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Fijnstof App</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="cancel">Annuleren</string>
+    <string name="sensors">sensoren</string>
+    <string name="exit">Afsluiten</string>
+    <string name="settings">Instellingen</string>
+    <string name="no_data">Geen gegevens</string>
+    <string name="loading">Laden ...</string>
+    <string name="loading_data">Gegevens laden</string>
+    <string name="internet_is_not_available">Internet niet beschikbaar</string>
+    <string name="activate_wlan">WIFI Activeren</string>
+    <string name="please_wait_">Wacht AUB</string>
+    <string name="error_try_again">Fout opgetreden. Probeer opnieuw</string>
+    <string name="offline_t">Server offline</string>
+    <string name="offline_m">De server is offline. Als de server offline is, zijn je gegevens niet beschikbaar.</string>
+    <string name="maintenance_t">Server onderhoud</string>
+    <string name="maintenance_m">De server wordt bijgewerkt. Als de server offline is, zijn je gegevens niet beschikbaar.</string>
+    <string name="support_end_t">App ondersteuning beëindigd</string>
+    <string name="support_end_m">Het spijt ons! De fijnstof app wordt niet meer ondersteunt. Je kunt de app de-installeren.</string>
+    <string name="update_necessary_t">Update beschikbaar!</string>
+    <string name="update_necessary_m">U moet een update uitvoeren om de app te laten werken.</string>
+    <string name="download_update">Download</string>
+    <string name="update_available">Update beschikbaar</string>
+    <string name="download">Download</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Weergave van fijnstof</string>
+    <string name="widget_app_data_cleared">De app-gegevens zijn gewist. Selecteer de sensor opnieuw</string>
+    <string name="widget_select_sensor">Selecteer sensor</string>
+    <string name="widget_open_app">Open de app</string>
+    <string name="widget_no_data">Er zijn nog geen favorieten. Tik onderaan om een favoriet toe te voegen en selecteer de widget opnieuw.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Tik opnieuw om af te sluiten</string>
+    <string name="compare_sensors">Vergelijk gegevens</string>
+    <string name="edit_sensor">Sensor aanpassen</string>
+    <string name="complete_sensor">Sensor afmaken</string>
+    <string name="unlink_sensor">Sensor ontkoppelen</string>
+    <string name="really_unlink_sensor_1">Weet je zeker dat je de sensor wilt ontkoppelen \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
+    <string name="rate_app">beoordeel de app</string>
+    <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
+    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:\nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="share">Aanbevolen</string>
+    <string name="share_app">aanbevolen app</string>
+    <string name="share_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
+    <string name="rate">Beoordeel</string>
+    <string name="add_own_sensor">Voeg je eigen sensor toe</string>
+    <string name="my_favourites">Mijn favorieten</string>
+    <string name="all_sensors">Alle sensoren</string>
+    <string name="my_sensors">Mijn sensoren</string>
+    <string name="no_favourites">Nog geen metingen. Ga terug naar \'alle sensoren\', kies een of meer sensoren en selecteer \'Voeg favoriet toe\'.</string>
+    <string name="show_measurements">Toon metingen</string>
+    <string name="add_favourite">Voeg favoriet toe</string>
+    <string name="favourite_added">Favoriet toegevoegd</string>
+    <string name="properties">Eigenschappen</string>
+    <string name="public_short_">Publiek:</string>
+    <string name="online_since_">Online sinds:</string>
+    <string name="height_short_">Bevestigingshoogte:</string>
+    <string name="compare_instruction">Tik op een sensor en hou vast om deze te selecteren. Selecteer twee of meer sensoren om de metingen te vergelijken.</string>
+    <string name="enable_location_m">Toon eigen positie?</string>
+    <string name="enable_location">Inscakelen</string>
+    <string name="search_for_sensors">Zoek naar sensoren</string>
+    <string name="enabled_gps_t">Locatie gebruiken</string>
+    <string name="enabled_gps_m">Je hebt zojuist het gebruik van de locatie service aangezet. Het kan een paar momenten duren voor je locatie gevonden wordt op de kaart.\u0020</string>
+    <string name="sensor_position_completion_m_short">Vul alle sensorgegevens in om de sensor te laten verschijnen op de kaart.\u0020</string>
+    <string name="web_version">Web versie</string>
+    <string name="scan_prompt">Open https://pm.mrgames-server.de op je computer.</string>
+    <string name="successfully_connected">Succesvol verbonden</string>
+    <string name="sync_disconnected">Verbinding verbroken</string>
+    <string name="search_places">Voer aub een plaats in</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Klaar</string>
+    <string name="name_">Toon name:</string>
+    <string name="chip_id">Chip-ID</string>
+    <string name="choose_color">Kies kleur</string>
+    <string name="not_all_filled">Vul aub alle velden in</string>
+    <string name="sensor_existing">Sensor is al gekoppeld</string>
+    <string name="add_sensor_tick_not_set_message">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
+    <string name="add_sensor_tick_not_set_message_duty">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
+    <string name="dont_show_again">Niet nogmaals tonen</string>
+    <string name="public_sensor">Toon sensor aan andere gebruikers en maak zichtbaar op de kaart</string>
+    <string name="choose_location">Kies exacte sensor locatie</string>
+    <string name="sensor_height">Hoogte boven grond/straat (m):</string>
+    <string name="latitude">Breedtegraad</string>
+    <string name="latitude_">Breedtegraad:</string>
+    <string name="longitude">Lengtegraad</string>
+    <string name="longitude_">Lengtegraad:</string>
+    <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.\u0020</string>
+    <string name="gps_will_be_synchronized">Als er een GPS ontvanger is aangesloten op je sensorsysteem, zal de positie automatisch gesynchroniseerd worden met de kaart.</string>
+    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de">contact met ons op te nemen</a>.</string>
+    <string name="unknown_location">Onbekende locatie</string>
+    <!-- SensorActivity -->
+    <string name="date">Datum</string>
+    <string name="tab_diagram">Diagram</string>
+    <string name="tab_data">Gegevensbestanden</string>
+    <string name="refresh">verversen</string>
+    <string name="no_data_date">\nGeen gegevens beschikbaar voor deze datum</string>
+    <string name="diagram_instruction">Tik op de grafiek om deze in volledig scherm weer te geven</string>
+    <string name="date_time">Tijd</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatuur</string>
+    <string name="humidity_short">Luchtvochtigheid</string>
+    <string name="pressure_short">Luchtdruk</string>
+    <string name="humidity">Luchtvochtigheid</string>
+    <string name="pressure">Luchtdruk</string>
+    <string name="no_diagram_selected">\nGeen diagram geselecteerd</string>
+    <string name="from">van</string>
+    <string name="to">naar</string>
+    <string name="current_values">\nHuidige metingen</string>
+    <string name="state_of_">\nStaat van</string>
+    <string name="curve_smoothness_">\nCurve-gladheid:</string>
+    <string name="export_data">Exporteer gegevens</string>
+    <string name="export_diagram">Exporteer diagram</string>
+    <string name="export_data_records">Exporteer gegevensbestanden</string>
+    <string name="share_sensor">Deel sensor</string>
+    <string name="median">Gemiddelde</string>
+    <string name="normal">Normaal</string>
+    <string name="terrain">Terrein</string>
+    <string name="satellite">Satelliet</string>
+    <string name="hybrid">\nHybride</string>
+    <string name="traffic_show">\nToon verkeer</string>
+    <string name="traffic_hide">\nVerberg verkeer</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Tijd van maatregel:</string>
+    <string name="value_">Waarde:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">\nLimiet overschreden</string>
+    <string name="limit_exceeded_p1">PM10-limiet overschreden</string>
+    <string name="limit_exceeded_p2">\nPM2,5-limiet overschreden</string>
+    <string name="limit_exceeded_temp">Temperatuurgrens overschreden</string>
+    <string name="limit_exceeded_humidity">\nLuchtvochtigheidsgrens overschreden</string>
+    <string name="limit_exceeded_pressure">\nDruklimiet overschreden</string>
+    <string name="sensor_breakdown">Sensorafbraak</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Systeemmeldingen</string>
+    <string name="nc_system_description">\nSysteemmeldingen van de Particulate Matter-app.</string>
+    <string name="nc_limit_name">\nLimiet overschrijdingen</string>
+    <string name="nc_limit_description">Geef meldingen weer in de statusbalk wanneer een van de aangepaste limieten wordt overschreden.</string>
+    <string name="nc_missing_measurements_name">Ontbrekende metingen</string>
+    <string name="nc_missing_measurements_description">\nToont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Kenmerken</string>
+    <string name="enable_daily_average">Toon dagelijks gemiddelde</string>
+    <string name="enable_daily_median">Toon dagelijkse mediaan</string>
+    <string name="enable_daily_average_median_s">Wordt weergegeven onder de gegevensbestanden</string>
+    <string name="enable_nothing">\nSchakel gemiddelde / mediaan uit</string>
+    <string name="enable_auto_correction_t">\nAutomatische foutcorrectie</string>
+    <string name="enable_auto_correction_s">\nAutomatische correctie van defecte metingen</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Synchronisatie</string>
+    <string name="sync_cycle">Synchronisatiecyclus</string>
+    <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
+    <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
+    <string name="sync_cycle_background_t">\nSynchronisatiecyclus achtergrond (min)</string>
+    <string name="seconds">secondes</string>
+    <string name="second">seconde</string>
+    <string name="minutes">minuten</string>
+    <string name="minute">minuut</string>
+    <string name="reduce_data_consumption">\nVerminder gegevensgebruik</string>
+    <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Verschijning</string>
+    <string name="pref_theme">\nApp-Thema</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">\nAutomatisch op tijd</item>
+        <item name="pref_theme_array1">\nLicht thema</item>
+        <item name="pref_theme_array2">Donker thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <string name="app_restart_t">\nHerstart nodig</string>
+    <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wilt u nu of later opnieuw opstarten?</string>
+    <string name="now">Nu</string>
+    <string name="later">Later</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Meldingen</string>
+    <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
+    <string name="pref_notification_averages_s_true">Melding, wanneer het daggemiddelde de vastgestelde waarde overschrijdt</string>
+    <string name="pref_notification_averages_s_false">\nMelding, wanneer de huidige waarde groter is dan de vastgestelde waarde</string>
+    <string name="pref_notification_breakdown">\nMelding over sensorafbraak</string>
+    <string name="pref_notification_breakdown_s">\nMelding voor eigen sensoren wanneer breukmetingen opschorten</string>
+    <string name="pref_notification_breakdown_number">Toegestaan ​​aantal ontbrekende metingen</string>
+    <string name="pref_limit_p1">PM10 limiet</string>
+    <string name="pref_limit_p1_t">PM10-limiet (μg/m³)</string>
+    <string name="pref_limit_p2">PM2,5 limiet</string>
+    <string name="pref_limit_p2_t">\nPM2,5-limiet (μg/m³)</string>
+    <string name="pref_limit_temp">Temperatuur limiet</string>
+    <string name="pref_limit_temp_t">\nTemperatuurlimiet (° C)</string>
+    <string name="pref_limit_humidity">\nVochtigheidslimiet</string>
+    <string name="pref_limit_humidity_t">Luchtvochtigheid limiet (%)</string>
+    <string name="pref_limit_pressure">Luchtdruk limiet</string>
+    <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
+    <string name="pref_limit_disabled">\nMelding uitgeschakeld</string>
+    <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
+    <string name="measurement">meting</string>
+    <string name="measurements">\nmetingen</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">\nPrestatie</string>
+    <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
+    <string name="pref_increase_diagram_performance_s">Diagram kan onnauwkeurig worden</string>
+    <string name="pref_enable_marker_clustering">\nMarkeringclustering inschakelen</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren op de kaart worden intelligent geclusterd</string>
+    <string name="clear_sensor_data_t">\nWis sensorgegevens</string>
+    <string name="clear_sensor_data_m">Wis gecachte gegevens om opslag te besparen</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Over de Particulate Matter-app</string>
+    <string name="pref_serverinfo_t">Serverinfo</string>
+    <string name="pref_serverinfo_downloading_">Downloading serverinfo ...</string>
+    <string name="server_state">Server status</string>
+    <string name="client_name">Klantnaam</string>
+    <string name="min_app_version">minimale versie</string>
+    <string name="newest_app_version">Nieuwste versie</string>
+    <string name="owners">Server eigenaar</string>
+    <string name="serverstate_1">Server is online</string>
+    <string name="serverstate_2">Server is offline</string>
+    <string name="serverstate_3">Server wordt onderhouden</string>
+    <string name="serverstate_4">\nApp wordt niet langer ondersteund</string>
+    <string name="serverstate_1_short">Online</string>
+    <string name="serverstate_2_short">Offline</string>
+    <string name="serverstate_3_short">Wordt onderhouden</string>
+    <string name="serverstate_4_short">Wordt niet langer ondersteunt</string>
+    <string name="pref_opensource_t">\nOpen-source licenties</string>
+    <string name="pref_opensource_m">\nLicentiedetails voor open-source-software</string>
+    <string name="pref_appversion">App versie</string>
+    <string name="pref_developers_t">De ontwikkelaars</string>
+    <string name="pref_more_apps_t">Meer apps van ons</string>
+    <string name="pref_more_apps_m">Onze PlayStore site</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Druk op Kleur om toe te passen</string>
+    <string name="altitude">Hoogte</string>
+    <string name="show_gps_data">Toon GPS gegevens</string>
+    <string name="show_threshold_who">Toon WHO drempelwaarde</string>
+    <string name="show_threshold_eu">Toon EU drempelwaarde</string>
+    <string name="hide_thresholds">Verberg drempelwaarden</string>
+    <string name="help">Help</string>
+    <string name="zoom_in">Zoom in</string>
+</resources>

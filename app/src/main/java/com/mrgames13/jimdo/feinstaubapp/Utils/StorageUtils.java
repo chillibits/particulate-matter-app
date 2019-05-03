@@ -2,12 +2,14 @@ package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -17,9 +19,12 @@ import androidx.core.content.FileProvider;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
+import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,9 +38,9 @@ public class StorageUtils extends SQLiteOpenHelper {
     private static final boolean DEFAULT_BOOLEAN_VALUE = false;
     private static final long DEFAULT_LONG_VALUE = -1;
     private static final double DEFAULT_DOUBLE_VALUE = 0.0d;
-    public static final String TABLE_SENSORS = "Sensors";
-    public static final String TABLE_EXTERNAL_SENSORS = "ExternalSensors";
-    public static final String TABLE_FAVOURITES = "Favourites";
+    private static final String TABLE_SENSORS = "Sensors";
+    private static final String TABLE_EXTERNAL_SENSORS = "ExternalSensors";
+    private static final String TABLE_FAVOURITES = "Favourites";
 
     //Variablen als Objekte
     private Context context;
@@ -160,12 +165,12 @@ public class StorageUtils extends SQLiteOpenHelper {
         }
     }
 
-    public void addRecord(String table, ContentValues values) {
+    private void addRecord(String table, ContentValues values) {
         SQLiteDatabase db = getWritableDatabase();
         db.insert(table, null, values);
     }
 
-    public void execSQL(String command) {
+    private void execSQL(String command) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(command);
     }
@@ -295,7 +300,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         }
     }
 
-    public boolean isExternalSensorExisting(String chip_id) {
+    private boolean isExternalSensorExisting(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT sensor_id FROM " + TABLE_EXTERNAL_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
         int count = cursor.getCount();
@@ -327,7 +332,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     //------------------------------------------Messdaten-------------------------------------------
 
-    public void saveRecords(String chip_id, ArrayList<DataRecord> records) {
+    void saveRecords(String chip_id, ArrayList<DataRecord> records) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         //Tabelle erstellen, falls sie noch nicht existiert
@@ -386,6 +391,26 @@ public class StorageUtils extends SQLiteOpenHelper {
         return null;
     }
 
+    public Uri exportDiagram(Bitmap image) {
+        Uri uri = null;
+        try {
+            FileOutputStream out = context.openFileOutput("export.png", Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 80, out);
+            out.close();
+            uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
+    }
+
+    public void shareDiagram(Uri export_uri) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType(URLConnection.guessContentTypeFromName(export_uri.getPath()));
+        i.putExtra(Intent.EXTRA_STREAM, export_uri);
+        context.startActivity(Intent.createChooser(i, context.getString(R.string.export_diagram)));
+    }
+
     public Uri exportDataRecords(ArrayList<DataRecord> records) {
         try{
             FileOutputStream out = context.openFileOutput("export.csv", Context.MODE_PRIVATE);
@@ -421,5 +446,6 @@ public class StorageUtils extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE " + cursor.getString(0));
             Log.i("FA", "Deleted Database: " + cursor.getString(0));
         }
+        cursor.close();
     }
 }

@@ -21,7 +21,6 @@ import java.util.List;
 public class Tools {
 
     //Konstanten
-    private int CORRECTION_FACTOR = 5;
 
     //Variablen als Objekte
 

@@ -55,11 +55,11 @@ public class DiagramActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
         //Variablen
-        boolean show_series_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
-        boolean show_series_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
-        boolean show_series_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
-        boolean show_series_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
-        boolean show_series_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
+        boolean show_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
+        boolean show_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
+        boolean show_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
+        boolean show_4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false);
+        boolean show_5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false);
         boolean enable_average = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false);
         boolean enable_median = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false);
         boolean enable_threshold_who = intent.hasExtra("EnableThresholdWHO") && intent.getBooleanExtra("EnableThresholdWHO", false);
@@ -84,15 +84,13 @@ public class DiagramActivity extends AppCompatActivity {
         try{
             //Diagramm initialisieren
             LineChart chart = findViewById(R.id.chart);
+            chart.setHardwareAccelerationEnabled(true);
             chart.setKeepScreenOn(true);
             chart.setKeepPositionOnRotation(true);
             chart.setDescription(null);
             //Linke y-Achse
             YAxis left = chart.getAxisLeft();
             left.setValueFormatter(new LargeValueFormatter());
-            //Rechte y-Achse
-            YAxis right = chart.getAxisRight();
-            right.setValueFormatter(new LargeValueFormatter());
             //x-Achse
             XAxis xAxis = chart.getXAxis();
             xAxis.setGranularityEnabled(true);
@@ -111,11 +109,11 @@ public class DiagramActivity extends AppCompatActivity {
                 first_time = records.get(0).getDateTime().getTime();
                 xAxis.setValueFormatter(new TimeFormatter(first_time));
                 for (DataRecord r : records) {
-                    if(show_series_1) entries_1.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
-                    if(show_series_2) entries_2.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
-                    if(show_series_3) entries_3.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
-                    if(show_series_4) entries_4.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
-                    if(show_series_5) entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
+                    if(show_1) entries_1.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
+                    if(show_2) entries_2.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
+                    if(show_3) entries_3.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
+                    if(show_4) entries_4.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
+                    if(show_5) entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                 }
 
                 //PM1
@@ -170,17 +168,17 @@ public class DiagramActivity extends AppCompatActivity {
 
                 //Einzelnen Linien hinzügen
                 List<ILineDataSet> dataSets = new ArrayList<>();
-                if(show_series_1) dataSets.add(p1);
-                if(show_series_1 && (enable_average || enable_median)) dataSets.add(getAverageMedianPM1(enable_average, enable_median, first_time));
-                if(show_series_2) dataSets.add(p2);
-                if(show_series_2 && (enable_average || enable_median)) dataSets.add(getAverageMedianPM2(enable_average, enable_median, first_time));
-                if(show_series_3) dataSets.add(temp);
-                if(show_series_3 && (enable_average || enable_median)) dataSets.add(getAverageMedianTemperature(enable_average, enable_median, first_time));
-                if(show_series_4) dataSets.add(humidity);
-                if(show_series_4 && (enable_average || enable_median)) dataSets.add(getAverageMedianHumidity(enable_average, enable_median, first_time));
-                if(show_series_5) dataSets.add(pressure);
-                if(show_series_5 && (enable_average || enable_median)) dataSets.add(getAverageMedianPressure(enable_average, enable_median, first_time));
-                if((show_series_1 || show_series_2) && (enable_threshold_eu || enable_threshold_who)) {
+                if(show_1) dataSets.add(p1);
+                if(show_1 && (enable_average || enable_median)) dataSets.add(getAverageMedianPM1(enable_average, enable_median, first_time));
+                if(show_2) dataSets.add(p2);
+                if(show_2 && (enable_average || enable_median)) dataSets.add(getAverageMedianPM2(enable_average, enable_median, first_time));
+                if(show_3) dataSets.add(temp);
+                if(show_3 && (enable_average || enable_median)) dataSets.add(getAverageMedianTemperature(enable_average, enable_median, first_time));
+                if(show_4) dataSets.add(humidity);
+                if(show_4 && (enable_average || enable_median)) dataSets.add(getAverageMedianHumidity(enable_average, enable_median, first_time));
+                if(show_5) dataSets.add(pressure);
+                if(show_5 && (enable_average || enable_median)) dataSets.add(getAverageMedianPressure(enable_average, enable_median, first_time));
+                if((show_1 || show_2) && (enable_threshold_eu || enable_threshold_who)) {
                     dataSets.add(getThresholdPM1(enable_threshold_eu, enable_threshold_who, first_time));
                     dataSets.add(getThresholdPM2(enable_threshold_eu, enable_threshold_who, first_time));
                 }
@@ -202,15 +200,15 @@ public class DiagramActivity extends AppCompatActivity {
                         List<Entry> entries = new ArrayList<>();
                         for(DataRecord r : compare_records.get(i)) {
                             try{
-                                if(show_series_1) {
+                                if(show_1) {
                                     entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
-                                } else if(show_series_2) {
+                                } else if(show_2) {
                                     entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
-                                } else if(show_series_3) {
+                                } else if(show_3) {
                                     entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
-                                } else if(show_series_4) {
+                                } else if(show_4) {
                                     entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
-                                } else if(show_series_5) {
+                                } else if(show_5) {
                                     entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                                 }
                             } catch (Exception e) {
@@ -218,17 +216,17 @@ public class DiagramActivity extends AppCompatActivity {
                             }
                         }
                         String set_name = getString(R.string.error_try_again);
-                        if(show_series_1) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.value1) + " (µg/m³)";
-                        if(show_series_2) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.value2) + " (µg/m³)";
-                        if(show_series_3) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.temperature) + " (°C)";
-                        if(show_series_4) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.humidity) + " (%)";
-                        if(show_series_5) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.pressure) + " (hPa)³";
+                        if(show_1) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.value1) + " (µg/m³)";
+                        if(show_2) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.value2) + " (µg/m³)";
+                        if(show_3) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.temperature) + " (°C)";
+                        if(show_4) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.humidity) + " (%)";
+                        if(show_5) set_name = compare_sensors.get(i).getName() + " - " + getString(R.string.pressure) + " (hPa)³";
                         LineDataSet set = new LineDataSet(entries, set_name);
                         set.setColor(compare_sensors.get(i).getColor());
                         set.setCircleColor(compare_sensors.get(i).getColor());
                         set.setLineWidth(2);
                         set.setDrawValues(false);
-                        set.setAxisDependency(show_series_1 || show_series_2 ? YAxis.AxisDependency.LEFT : YAxis.AxisDependency.RIGHT);
+                        set.setAxisDependency(show_1 || show_2 ? YAxis.AxisDependency.LEFT : YAxis.AxisDependency.RIGHT);
                         set.setHighLightColor(compare_sensors.get(i).getColor());
                         dataSets.add(set);
                     }
@@ -240,6 +238,7 @@ public class DiagramActivity extends AppCompatActivity {
             //Legende anpassen
             chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
             chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+            chart.getLegend().setWordWrapEnabled(true);
             //Neu zeichnen & animieren
             chart.invalidate();
             chart.animateY(700, Easing.EaseInCubic);
@@ -264,8 +263,7 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        LineDataSet p1_am = getDashedLine(am_entries, R.color.series1);
-        return p1_am;
+        return getDashedLine(am_entries, R.color.series1);
     }
 
     @NotNull
@@ -285,8 +283,7 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        LineDataSet p2_am = getDashedLine(am_entries, R.color.series2);
-        return p2_am;
+        return getDashedLine(am_entries, R.color.series2);
     }
 
     @NotNull
@@ -306,8 +303,7 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        LineDataSet temp_am = getDashedLine(am_entries, R.color.series3);
-        return temp_am;
+        return getDashedLine(am_entries, R.color.series3);
     }
 
     @NotNull
@@ -327,8 +323,7 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        LineDataSet humidity_am = getDashedLine(am_entries, R.color.series4);
-        return humidity_am;
+        return getDashedLine(am_entries, R.color.series4);
     }
 
     @NotNull
@@ -348,8 +343,7 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        LineDataSet pressure_am = getDashedLine(am_entries, R.color.series5);
-        return pressure_am;
+        return getDashedLine(am_entries, R.color.series5);
     }
 
     @NotNull
@@ -363,8 +357,7 @@ public class DiagramActivity extends AppCompatActivity {
             th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
             th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
         }
-        LineDataSet pm1_th = getDashedLine(th_entries, R.color.error);
-        return pm1_th;
+        return getDashedLine(th_entries, R.color.error);
     }
 
     @NotNull
@@ -378,8 +371,7 @@ public class DiagramActivity extends AppCompatActivity {
             th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
             th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
         }
-        LineDataSet pm2_th = getDashedLine(th_entries, R.color.error);
-        return pm2_th;
+        return getDashedLine(th_entries, R.color.error);
     }
 
     @NotNull

@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     //Variablen als Objekte
     public static MainActivity own_instance;
     private Resources res;
-    private Toolbar toolbar;
     private ViewPager pager;
     public ViewPagerAdapterMain pager_adapter;
     private BottomNavigationView bottom_nav;
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         res = getResources();
 
         //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(res.getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
