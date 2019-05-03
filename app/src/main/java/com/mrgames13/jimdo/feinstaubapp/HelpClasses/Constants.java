@@ -5,7 +5,6 @@ public class Constants {
     //Standardwerte
     public static final int DEFAULT_SYNC_CYCLE = 30; // 30 Sekunden
     public static final int DEFAULT_SYNC_CYCLE_BACKGROUND = 15; // 15 Minuten
-    public static final boolean DEFAULT_REDUCE_DATA_CONSUMPTION = true;
     public static final boolean DEFAULT_FIT_ARRAY_LIST_ENABLED = true;
     public static final int DEFAULT_FIT_ARRAY_LIST_CONSTANT = 200; // bei über 200 Datensätzen wird optimiert
     public static final int DEFAULT_P1_LIMIT = 40;
@@ -25,9 +24,6 @@ public class Constants {
     public static final String CHANNEL_SYSTEM = "System";
     public static final String CHANNEL_LIMIT = "Limit";
     public static final String CHANNEL_MISSING_MEASUREMENTS = "Missing Measurements";
-
-    //Berechnungen
-    public static final int PERCENT_OF_VARIANCE_OF_MEASURING_INTERVAL = 20;
 
     //Globale Requestcodes
     public static final int REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001;

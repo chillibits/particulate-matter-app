@@ -18,7 +18,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
-import com.mrgames13.jimdo.feinstaubapp.Widget.WidgetProvider;
+import com.mrgames13.jimdo.feinstaubapp.WidgetComponents.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;

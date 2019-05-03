@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -93,20 +92,6 @@ public class ServerMessagingUtils {
         //Datensätze herunterladen
         if(isInternetAvailable()) {
             try {
-                Log.d("FA", "From: " + from);
-                Log.d("FA", "To: " + to);
-
-                /*SimpleDateFormat sdf_output = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-                SimpleDateFormat sdf_parse = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-                sdf_output.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-                String str_from = sdf_output.format(new Date(from));
-                String str_to = sdf_output.format(new Date(to));
-
-                Date date_from = sdf_parse.parse(str_from);
-                Date date_to = sdf_parse.parse(str_to);*/
-
-                Log.d("FA", "Url: " + get_url + "?id=" + chip_id + "&from=" + from / 1000 + "&to=" + to / 1000 + "&minimize=true&gps=true");
                 RequestBody body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("id", chip_id)
@@ -133,7 +118,6 @@ public class ServerMessagingUtils {
                     }
                     su.saveRecords(chip_id, records);
                 }
-                Log.d("FA", "Record count: " + records.size());
                 return records;
             } catch (Exception e) {
                 e.printStackTrace();

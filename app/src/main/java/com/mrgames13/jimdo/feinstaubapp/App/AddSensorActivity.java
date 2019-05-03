@@ -54,8 +54,6 @@ public class AddSensorActivity extends AppCompatActivity {
     //Variablen als Objekte
     private Resources res;
     private Toolbar toolbar;
-    private ColorPickerDialog color_picker;
-    private Random random;
     private View reveal_view;
     private View reveal_background_view;
     private ImageView iv_color;
@@ -119,7 +117,7 @@ public class AddSensorActivity extends AppCompatActivity {
         });
 
         //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
-        random = new Random();
+        Random random = new Random();
         current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
 
@@ -153,9 +151,7 @@ public class AddSensorActivity extends AppCompatActivity {
                 try {
                     PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     startActivityForResult(builder.build(AddSensorActivity.this), REQ_SELECT_PLACE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
             }
@@ -236,7 +232,7 @@ public class AddSensorActivity extends AppCompatActivity {
 
     private void selectNewColor() {
         //Farb-Auswahl-Dialog anzeigen
-        color_picker = new ColorPickerDialog(AddSensorActivity.this, current_color);
+        ColorPickerDialog color_picker = new ColorPickerDialog(AddSensorActivity.this, current_color);
         color_picker.setAlphaSliderVisible(false);
         color_picker.setHexValueEnabled(true);
         color_picker.setTitle(res.getString(R.string.choose_color));

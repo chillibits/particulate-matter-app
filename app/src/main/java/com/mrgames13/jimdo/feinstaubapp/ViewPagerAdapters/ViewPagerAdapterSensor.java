@@ -1,11 +1,8 @@
 package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,23 +24,32 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mrgames13.jimdo.feinstaubapp.App.DiagramActivity;
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Point;
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SeriesReducer;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.DiagramEntry;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.TimeFormatter;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.DataAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.TimeZone;
 
 public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
@@ -53,7 +58,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
     //Variablen als Objekte
     private static Resources res;
-    public static SensorActivity activity;
+    private static SensorActivity activity;
     private ArrayList<String> tabTitles = new ArrayList<>();
     private static Handler h;
     public static ArrayList<DataRecord> records = new ArrayList<>();
@@ -99,8 +104,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         DataFragment.refresh();
     }
 
-    public void exportDiagram(Context context) {
-        DiagramFragment.exportDiagram(context);
+    public void exportDiagram() {
+        DiagramFragment.exportDiagram();
     }
 
     public void showGPSData(boolean show) {
@@ -114,31 +119,36 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
         //Variablen als Objekte
         private static View contentView;
-        private static GraphView graph_view;
-        private CheckBox custom_p1;
-        private CheckBox custom_p2;
-        private CheckBox custom_temp;
-        private CheckBox custom_humidity;
-        private CheckBox custom_pressure;
-        private RadioButton custom_nothing;
+        private static LineChart chart;
+        private static CheckBox custom_p1;
+        private static CheckBox custom_p2;
+        private static CheckBox custom_temp;
+        private static CheckBox custom_humidity;
+        private static CheckBox custom_pressure;
         private static RadioButton custom_average;
         private static RadioButton custom_median;
-        private RadioButton custom_threshold_nothing;
         private static RadioButton custom_threshold_who;
         private static RadioButton custom_threshold_eu;
-        private static SeekBar curve_smoothness;
-        private static LineGraphSeries<DataPoint> series1;
-        private static LineGraphSeries<DataPoint> series1_average_median;
-        private static LineGraphSeries<DataPoint> series1_threshold;
-        private static LineGraphSeries<DataPoint> series2;
-        private static LineGraphSeries<DataPoint> series2_average_median;
-        private static LineGraphSeries<DataPoint> series2_threshold;
-        private static LineGraphSeries<DataPoint> series3;
-        private static LineGraphSeries<DataPoint> series3_average_median;
-        private static LineGraphSeries<DataPoint> series4;
-        private static LineGraphSeries<DataPoint> series4_average_median;
-        private static LineGraphSeries<DataPoint> series5;
-        private static LineGraphSeries<DataPoint> series5_average_median;
+        private static LineDataSet p1;
+        private static LineDataSet p2;
+        private static LineDataSet temp;
+        private static LineDataSet humidity;
+        private static LineDataSet pressure;
+        private static LineDataSet av_p1;
+        private static LineDataSet av_p2;
+        private static LineDataSet av_temp;
+        private static LineDataSet av_humidity;
+        private static LineDataSet av_pressure;
+        private static LineDataSet med_p1;
+        private static LineDataSet med_p2;
+        private static LineDataSet med_temp;
+        private static LineDataSet med_humidity;
+        private static LineDataSet med_pressure;
+        private static LineDataSet th_eu_p1;
+        private static LineDataSet th_eu_p2;
+        private static LineDataSet th_who_p1;
+        private static LineDataSet th_who_p2;
+        private static ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         private static TextView cv_p1;
         private static TextView cv_p2;
         private static TextView cv_temp;
@@ -153,11 +163,34 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             contentView = inflater.inflate(R.layout.tab_diagram, null);
 
-            graph_view = contentView.findViewById(R.id.diagram);
-            graph_view.getViewport().setScalable(true);
-            graph_view.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            graph_view.getGridLabelRenderer().setVerticalLabelsVisible(false);
-            graph_view.setOnClickListener(new View.OnClickListener() {
+            chart = contentView.findViewById(R.id.chart);
+            chart.setHardwareAccelerationEnabled(true);
+            chart.setDoubleTapToZoomEnabled(false);
+            chart.setScaleEnabled(false);
+            chart.setPinchZoom(false);
+            chart.setHighlightPerTapEnabled(false);
+            chart.setHighlightPerDragEnabled(false);
+            chart.setKeepPositionOnRotation(true);
+            chart.setDescription(null);
+            chart.getLegend().setEnabled(false);
+            //Linke y-Achse
+            YAxis left = chart.getAxisLeft();
+            left.setValueFormatter(new LargeValueFormatter());
+            left.setDrawAxisLine(true);
+            left.setDrawGridLines(false);
+            //Rechte y-Achse
+            YAxis right = chart.getAxisRight();
+            right.setValueFormatter(new LargeValueFormatter());
+            right.setDrawAxisLine(true);
+            right.setDrawGridLines(false);
+            //x-Achse
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setGranularity(60f);
+            xAxis.setGranularityEnabled(true);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            //OnClickListener setzen
+            chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(SensorActivity.custom_p1 || SensorActivity.custom_p2 || SensorActivity.custom_temp || SensorActivity.custom_humidity || SensorActivity.custom_pressure) {
@@ -184,10 +217,10 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             custom_temp = contentView.findViewById(R.id.custom_temp);
             custom_humidity = contentView.findViewById(R.id.custom_humidity);
             custom_pressure = contentView.findViewById(R.id.custom_pressure);
-            custom_nothing = contentView.findViewById(R.id.enable_average_median_nothing);
+            RadioButton custom_nothing = contentView.findViewById(R.id.enable_average_median_nothing);
             custom_average = contentView.findViewById(R.id.enable_average);
             custom_median = contentView.findViewById(R.id.enable_median);
-            custom_threshold_nothing = contentView.findViewById(R.id.enable_eu_who_nothing);
+            RadioButton custom_threshold_nothing = contentView.findViewById(R.id.enable_eu_who_nothing);
             custom_threshold_who = contentView.findViewById(R.id.enable_who);
             custom_threshold_eu = contentView.findViewById(R.id.enable_eu);
 
@@ -210,7 +243,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_p1 = value;
-                    updateP1(records, value);
+                    if(dataSets.size() >= 5) {
+                        av_p1.setVisible(custom_average.isChecked() && value);
+                        med_p1.setVisible(custom_median.isChecked() && value);
+                        th_eu_p1.setVisible(custom_threshold_eu.isChecked() && value);
+                        th_who_p1.setVisible(custom_threshold_who.isChecked() && value);
+                        showGraph(0, value);
+                    }
                 }
             });
             custom_p2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -221,7 +260,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_p2 = value;
-                    updateP2(records, value);
+                    if(dataSets.size() >= 5) {
+                        av_p2.setVisible(custom_average.isChecked() && value);
+                        med_p2.setVisible(custom_median.isChecked() && value);
+                        th_eu_p2.setVisible(custom_threshold_eu.isChecked() && value);
+                        th_who_p2.setVisible(custom_threshold_who.isChecked() && value);
+                        showGraph(1, value);
+                    }
                 }
             });
             custom_temp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -232,7 +277,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_temp = value;
-                    updateTemp(records, value);
+                    if(dataSets.size() >= 5) {
+                        av_temp.setVisible(custom_average.isChecked() && value);
+                        med_temp.setVisible(custom_median.isChecked() && value);
+                        showGraph(2, value);
+                    }
                 }
             });
             custom_humidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -243,7 +292,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_humidity = value;
-                    updateHumidity(records, value);
+                    if(dataSets.size() >= 5) {
+                        av_humidity.setVisible(custom_average.isChecked() && value);
+                        med_humidity.setVisible(custom_median.isChecked() && value);
+                        showGraph(3, value);
+                    }
                 }
             });
             custom_pressure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -254,95 +307,102 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         return;
                     }
                     SensorActivity.custom_pressure = value;
-                    updatePressure(records, value);
+                    if(dataSets.size() >= 5) {
+                        av_pressure.setVisible(custom_average.isChecked() && value);
+                        med_pressure.setVisible(custom_median.isChecked() && value);
+                        showGraph(4, value);
+                    }
                 }
             });
             custom_nothing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        av_p1.setVisible(false);
+                        av_p2.setVisible(false);
+                        av_temp.setVisible(false);
+                        av_humidity.setVisible(false);
+                        av_pressure.setVisible(false);
+                        med_p1.setVisible(false);
+                        med_p2.setVisible(false);
+                        med_temp.setVisible(false);
+                        med_humidity.setVisible(false);
+                        med_pressure.setVisible(false);
+                        chart.invalidate();
+                    }
                 }
             });
             custom_average.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        if(SensorActivity.custom_p1) av_p1.setVisible(true);
+                        if(SensorActivity.custom_p2) av_p2.setVisible(true);
+                        if(SensorActivity.custom_temp) av_temp.setVisible(true);
+                        if(SensorActivity.custom_humidity) av_humidity.setVisible(true);
+                        if(SensorActivity.custom_pressure) av_pressure.setVisible(true);
+                        med_p1.setVisible(false);
+                        med_p2.setVisible(false);
+                        med_temp.setVisible(false);
+                        med_humidity.setVisible(false);
+                        med_pressure.setVisible(false);
+                        chart.invalidate();
+                    }
                 }
             });
             custom_median.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
-                    updateTemp(null, false);
-                    updateTemp(records, custom_temp.isChecked());
-                    updateHumidity(null, false);
-                    updateHumidity(records, custom_humidity.isChecked());
-                    updatePressure(null, false);
-                    updatePressure(records, custom_pressure.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        av_p1.setVisible(false);
+                        av_p2.setVisible(false);
+                        av_temp.setVisible(false);
+                        av_humidity.setVisible(false);
+                        av_pressure.setVisible(false);
+                        if(SensorActivity.custom_p1) med_p1.setVisible(true);
+                        if(SensorActivity.custom_p2) med_p2.setVisible(true);
+                        if(SensorActivity.custom_temp) med_temp.setVisible(true);
+                        if(SensorActivity.custom_humidity) med_humidity.setVisible(true);
+                        if(SensorActivity.custom_pressure) med_pressure.setVisible(true);
+                        chart.invalidate();
+                    }
                 }
             });
             custom_threshold_nothing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        th_eu_p1.setVisible(false);
+                        th_eu_p2.setVisible(false);
+                        th_who_p1.setVisible(false);
+                        th_who_p2.setVisible(false);
+                        chart.invalidate();
+                    }
                 }
             });
             custom_threshold_who.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        th_eu_p1.setVisible(false);
+                        th_eu_p2.setVisible(false);
+                        if(SensorActivity.custom_p1) th_who_p1.setVisible(true);
+                        if(SensorActivity.custom_p2) th_who_p2.setVisible(true);
+                        chart.invalidate();
+                    }
                 }
             });
             custom_threshold_eu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    updateP1(null, false);
-                    updateP1(records, custom_p1.isChecked());
-                    updateP2(null, false);
-                    updateP2(records, custom_p2.isChecked());
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if(checked) {
+                        if(SensorActivity.custom_p1) th_eu_p1.setVisible(true);
+                        if(SensorActivity.custom_p2) th_eu_p2.setVisible(true);
+                        th_who_p1.setVisible(false);
+                        th_who_p2.setVisible(false);
+                        chart.invalidate();
+                    }
                 }
-            });
-
-            curve_smoothness = contentView.findViewById(R.id.curve_smoothness);
-            curve_smoothness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
-                    SensorActivity.curve_smoothness = (500 - value) / 100.0;
-                    updateCurveSmoothness((500 -  value) / 100.0);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {}
             });
 
             cv_p1 = contentView.findViewById(R.id.cv_p1);
@@ -353,258 +413,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             cv_time = contentView.findViewById(R.id.cv_time);
 
             return contentView;
-        }
-
-        private static void updateP1(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series1 = new LineGraphSeries<>();
-                        series1.setColor(res.getColor(R.color.series1));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series1.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getP1()), false, 1000000);
-                        }
-                        graph_view.addSeries(series1);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getP1();
-                            average /= records.size();
-                            series1_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series1));
-                            graph_view.addSeries(series1_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getP1());
-                            double median = Tools.calculateMedian(double_records);
-                            series1_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series1));
-                            graph_view.addSeries(series1_average_median);
-                        }
-
-                        if(custom_threshold_who.isChecked()) {
-                            series1_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM10, first_time, Color.RED);
-                            graph_view.addSeries(series1_threshold);
-                        } else if(custom_threshold_eu.isChecked()) {
-                            series1_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM10, first_time, Color.RED);
-                            graph_view.addSeries(series1_threshold);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series1);
-                graph_view.removeSeries(series1_average_median);
-                graph_view.removeSeries(series1_threshold);
-            }
-        }
-
-        private static void updateP2(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series2 = new LineGraphSeries<>();
-                        series2.setColor(res.getColor(R.color.series2));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series2.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getP2()), false, 1000000);
-                        }
-                        graph_view.addSeries(series2);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getP2();
-                            average /= records.size();
-                            series2_average_median = new LineGraphSeries<>();
-                            series2_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series2));
-                            graph_view.addSeries(series2_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getP2());
-                            double median = Tools.calculateMedian(double_records);
-                            series2_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series2));
-                            graph_view.addSeries(series2_average_median);
-                        }
-
-                        if(custom_threshold_who.isChecked()) {
-                            series2_threshold = drawHorizontalLine(Constants.THRESHOLD_WHO_PM2_5, first_time, Color.RED);
-                            graph_view.addSeries(series2_threshold);
-                        } else if(custom_threshold_eu.isChecked()) {
-                            series2_threshold = drawHorizontalLine(Constants.THRESHOLD_EU_PM2_5, first_time, Color.RED);
-                            graph_view.addSeries(series2_threshold);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series2);
-                graph_view.removeSeries(series2_average_median);
-                graph_view.removeSeries(series2_threshold);
-            }
-        }
-
-        private static void updateTemp(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series3 = new LineGraphSeries<>();
-                        series3.setColor(res.getColor(R.color.series3));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series3.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getTemp()), false, 1000000);
-                        }
-                        graph_view.addSeries(series3);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getTemp();
-                            average /= records.size();
-                            series3_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series3));
-                            graph_view.addSeries(series3_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getTemp());
-                            double median = Tools.calculateMedian(double_records);
-                            series3_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series3));
-                            graph_view.addSeries(series3_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series3);
-                graph_view.removeSeries(series3_average_median);
-            }
-        }
-
-        private static void updateHumidity(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series4 = new LineGraphSeries<>();
-                        series4.setColor(res.getColor(R.color.series4));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series4.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getHumidity()), false, 1000000);
-                        }
-                        graph_view.addSeries(series4);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getHumidity();
-                            average /= records.size();
-                            series4_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series4));
-                            graph_view.addSeries(series4_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getHumidity());
-                            double median = Tools.calculateMedian(double_records);
-                            series4_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series4));
-                            graph_view.addSeries(series4_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series4);
-                graph_view.removeSeries(series4_average_median);
-            }
-        }
-
-        private static void updatePressure(ArrayList<DataRecord> records, boolean value) {
-            if(value) {
-                try {
-                    if(records.size() > 0) {
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-
-                        series5 = new LineGraphSeries<>();
-                        series5.setColor(res.getColor(R.color.series5));
-                        for(DataRecord record : Tools.fitArrayList(su, records)) {
-                            series5.appendData(new DataPoint(record.getDateTime().getTime() / 1000 - first_time, record.getPressure()), false, 1000000);
-                        }
-                        graph_view.addSeries(series5);
-
-                        if(custom_average.isChecked()) {
-                            //Mittelwert einzeichnen
-                            double average = 0;
-                            for(DataRecord record : records) average+=record.getPressure();
-                            average /= records.size();
-                            series5_average_median = drawHorizontalLine(average, first_time, res.getColor(R.color.series5));
-                            graph_view.addSeries(series5_average_median);
-                        } else if(custom_median.isChecked()) {
-                            //Median einzeichnen
-                            ArrayList<Double> double_records = new ArrayList<>();
-                            for(DataRecord record : records) double_records.add(record.getPressure());
-                            double median = Tools.calculateMedian(double_records);
-                            series5_average_median = drawHorizontalLine(median, first_time, res.getColor(R.color.series5));
-                            graph_view.addSeries(series5_average_median);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                graph_view.removeSeries(series5);
-                graph_view.removeSeries(series5_average_median);
-            }
-        }
-
-        private static LineGraphSeries drawHorizontalLine(double value, long first_time, int color) {
-            LineGraphSeries series = new LineGraphSeries<>();
-            series.appendData(new DataPoint(0, value), false, 2);
-            series.appendData(new DataPoint(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time, value), false, 2);
-
-            Paint p = new Paint();
-            p.setColor(color);
-            p.setStyle(Paint.Style.STROKE);
-            p.setPathEffect(new DashPathEffect(new float[] { 20, 10 }, 0));
-            p.setStrokeWidth(3);
-
-            series.setDrawAsPath(true);
-            series.setCustomPaint(p);
-            series.setDrawDataPoints(false);
-            return series;
-        }
-
-        private static void updateCurveSmoothness(double epsilon) {
-            ArrayList<Point> reduced_p1 = new ArrayList<>();
-            reduced_p1.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP1(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_p2 = new ArrayList<>();
-            reduced_p2.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsP2(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_temp = new ArrayList<>();
-            reduced_temp.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsTemp(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_humidity = new ArrayList<>();
-            reduced_humidity.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsHumidity(Tools.fitArrayList(su, records)), epsilon));
-            ArrayList<Point> reduced_pressure = new ArrayList<>();
-            reduced_pressure.addAll(SeriesReducer.reduce(Tools.convertDataRecordsToPointsPressure(Tools.fitArrayList(su, records)), epsilon));
-
-            //Diagram leeren
-            updateP1(null, false);
-            updateP2(null, false);
-            updateTemp(null, false);
-            updateHumidity(null, false);
-            updatePressure(null, false);
-            //Veränderte Kurve einblenden
-            updateP1(Tools.convertPointsToDataRecordsP1(reduced_p1), SensorActivity.custom_p1);
-            updateP2(Tools.convertPointsToDataRecordsP2(reduced_p2), SensorActivity.custom_p2);
-            updateTemp(Tools.convertPointsToDataRecordsTemp(reduced_temp), SensorActivity.custom_temp);
-            updateHumidity(Tools.convertPointsToDataRecordsHumidity(reduced_humidity), SensorActivity.custom_humidity);
-            updatePressure(Tools.convertPointsToDataRecordsPressure(reduced_pressure), SensorActivity.custom_pressure);
         }
 
         private static void updateLastValues() {
@@ -625,10 +433,173 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             }
         }
 
+        private static void showGraph(int index, boolean show) {
+            dataSets.get(index).setVisible(show);
+            chart.invalidate();
+        }
+
+        @NotNull
+        private static LineDataSet getAverageMedianPM1(boolean enable_average, boolean enable_median, long first_timestamp) {
+            List<Entry> am_entries = new ArrayList<>();
+            if(enable_average) {
+                double average = 0;
+                for(DataRecord record : records) average+=record.getP1();
+                average /= records.size();
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+            } else if(enable_median) {
+                ArrayList<Double> double_records = new ArrayList<>();
+                for(DataRecord record : records) double_records.add(record.getP1());
+                double median = Tools.calculateMedian(double_records);
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+            }
+            LineDataSet p1_am = getDashedLine(am_entries, R.color.series1);
+            p1_am.setVisible(enable_average ? custom_average.isChecked() && custom_p1.isChecked() : custom_median.isChecked() && custom_p1.isChecked());
+            p1_am.setAxisDependency(YAxis.AxisDependency.LEFT);
+            return p1_am;
+        }
+
+        @NotNull
+        private static LineDataSet getAverageMedianPM2(boolean enable_average, boolean enable_median, long first_timestamp) {
+            List<Entry> am_entries;
+            am_entries = new ArrayList<>();
+            if(enable_average) {
+                double average = 0;
+                for(DataRecord record : records) average+=record.getP2();
+                average /= records.size();
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+            } else if(enable_median) {
+                ArrayList<Double> double_records = new ArrayList<>();
+                for(DataRecord record : records) double_records.add(record.getP2());
+                double median = Tools.calculateMedian(double_records);
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+            }
+            LineDataSet p2_am = getDashedLine(am_entries, R.color.series2);
+            p2_am.setVisible(enable_average ? custom_average.isChecked() && custom_p2.isChecked() : custom_median.isChecked() && custom_p2.isChecked());
+            p2_am.setAxisDependency(YAxis.AxisDependency.LEFT);
+            return p2_am;
+        }
+
+        @NotNull
+        private static LineDataSet getAverageMedianTemperature(boolean enable_average, boolean enable_median, long first_timestamp) {
+            List<Entry> am_entries;
+            am_entries = new ArrayList<>();
+            if(enable_average) {
+                double average = 0;
+                for(DataRecord record : records) average+=record.getTemp();
+                average /= records.size();
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+            } else if(enable_median) {
+                ArrayList<Double> double_records = new ArrayList<>();
+                for(DataRecord record : records) double_records.add(record.getTemp());
+                double median = Tools.calculateMedian(double_records);
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+            }
+            LineDataSet temp_am = getDashedLine(am_entries, R.color.series3);
+            temp_am.setVisible(enable_average ? custom_average.isChecked() && custom_temp.isChecked() : custom_median.isChecked() && custom_temp.isChecked());
+            temp_am.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            return temp_am;
+        }
+
+        @NotNull
+        private static LineDataSet getAverageMedianHumidity(boolean enable_average, boolean enable_median, long first_timestamp) {
+            List<Entry> am_entries;
+            am_entries = new ArrayList<>();
+            if(enable_average) {
+                double average = 0;
+                for(DataRecord record : records) average+=record.getHumidity();
+                average /= records.size();
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+            } else if(enable_median) {
+                ArrayList<Double> double_records = new ArrayList<>();
+                for(DataRecord record : records) double_records.add(record.getHumidity());
+                double median = Tools.calculateMedian(double_records);
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+            }
+            LineDataSet humidity_am = getDashedLine(am_entries, R.color.series4);
+            humidity_am.setVisible(enable_average ? custom_average.isChecked() && custom_humidity.isChecked() : custom_median.isChecked() && custom_humidity.isChecked());
+            humidity_am.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            return humidity_am;
+        }
+
+        @NotNull
+        private static LineDataSet getAverageMedianPressure(boolean enable_average, boolean enable_median, long first_timestamp) {
+            List<Entry> am_entries;
+            am_entries = new ArrayList<>();
+            if(enable_average) {
+                double average = 0;
+                for(DataRecord record : records) average+=record.getPressure();
+                average /= records.size();
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) average));
+            } else if(enable_median) {
+                ArrayList<Double> double_records = new ArrayList<>();
+                for(DataRecord record : records) double_records.add(record.getPressure());
+                double median = Tools.calculateMedian(double_records);
+                am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+                am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
+            }
+            LineDataSet pressure_am = getDashedLine(am_entries, R.color.series5);
+            pressure_am.setVisible(enable_average ? custom_average.isChecked() && custom_pressure.isChecked() : custom_median.isChecked() && custom_pressure.isChecked());
+            pressure_am.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            return pressure_am;
+        }
+
+        @NotNull
+        private static LineDataSet getThresholdPM1(boolean enable_eu_thresholds, boolean enable_who_thresholds, long first_timestamp) {
+            List<Entry> th_entries;
+            th_entries = new ArrayList<>();
+            if(enable_eu_thresholds) {
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
+            } else if(enable_who_thresholds) {
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
+            }
+            LineDataSet th_p1 = getDashedLine(th_entries, R.color.error);
+            th_p1.setVisible(enable_eu_thresholds ? custom_threshold_eu.isChecked() && custom_p1.isChecked() : custom_threshold_who.isChecked() && custom_p1.isChecked());
+            return th_p1;
+        }
+
+        @NotNull
+        private static LineDataSet getThresholdPM2(boolean enable_eu_thresholds, boolean enable_who_thresholds, long first_timestamp) {
+            List<Entry> th_entries;
+            th_entries = new ArrayList<>();
+            if(enable_eu_thresholds) {
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
+            } else if(enable_who_thresholds) {
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
+            }
+            LineDataSet th_p2 = getDashedLine(th_entries, R.color.error);
+            th_p2.setVisible(enable_eu_thresholds ? custom_threshold_eu.isChecked() && custom_p2.isChecked() : custom_threshold_who.isChecked() && custom_p2.isChecked());
+            return th_p2;
+        }
+
+        @NotNull
+        private static LineDataSet getDashedLine(List<Entry> am_entries, int color) {
+            LineDataSet dl = new LineDataSet(am_entries, null);
+            dl.setColor(res.getColor(color));
+            dl.setLineWidth(1);
+            dl.setDrawValues(false);
+            dl.setDrawCircles(false);
+            dl.setHighlightEnabled(false);
+            dl.enableDashedLine(10f, 10f, 0);
+            return dl;
+        }
+
         public static void refresh() {
             if(records != null) {
                 contentView.findViewById(R.id.loading).setVisibility(View.GONE);
-                if (records.size() > 0) {
+                if(records.size() > 0) {
                     contentView.findViewById(R.id.no_data).setVisibility(View.GONE);
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.VISIBLE);
 
@@ -637,49 +608,129 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     Collections.sort(records);
                     SensorActivity.sort_mode = tmp;
 
-                    try{
-                        long first_time = records.get(0).getDateTime().getTime() / 1000;
-                        graph_view.getViewport().setMinX(0);
-                        graph_view.getViewport().setMaxX(Math.abs(records.get(records.size() -1).getDateTime().getTime() / 1000 - first_time));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    //Daten eintragen
+                    List<Entry> entries_1 = new ArrayList<>();
+                    List<Entry> entries_2 = new ArrayList<>();
+                    List<Entry> entries_3 = new ArrayList<>();
+                    List<Entry> entries_4 = new ArrayList<>();
+                    List<Entry> entries_5 = new ArrayList<>();
+                    long first_time = records.get(0).getDateTime().getTime();
+                    chart.getXAxis().setValueFormatter(new TimeFormatter(first_time));
+                    for (DataRecord r : records) {
+                        entries_1.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
+                        entries_2.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
+                        entries_3.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
+                        entries_4.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
+                        entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                     }
 
-                    updateP1(null, false);
-                    updateP1(records, SensorActivity.custom_p1);
-                    updateP2(null, false);
-                    updateP2(records, SensorActivity.custom_p2);
-                    updateTemp(null, false);
-                    updateTemp(records, SensorActivity.custom_temp);
-                    updateHumidity(null, false);
-                    updateHumidity(records, SensorActivity.custom_humidity);
-                    updatePressure(null, false);
-                    updatePressure(records, SensorActivity.custom_pressure);
-                    curve_smoothness.setProgress(curve_smoothness.getMax());
+                    //Normale Graphen
+                    //PM1
+                    p1 = new LineDataSet(entries_1, res.getString(R.string.value1) + " (µg/m³)");
+                    p1.setColor(res.getColor(R.color.series1));
+                    p1.setDrawCircles(false);
+                    p1.setLineWidth(1.5f);
+                    p1.setDrawValues(false);
+                    p1.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    p1.setVisible(/*dataSets.size() > 0 ? dataSets.get(0).isVisible() : */SensorActivity.custom_p1);
+
+                    //PM2
+                    p2 = new LineDataSet(entries_2, res.getString(R.string.value2) + " (µg/m³)");
+                    p2.setColor(res.getColor(R.color.series2));
+                    p2.setDrawCircles(false);
+                    p2.setLineWidth(1.5f);
+                    p2.setDrawValues(false);
+                    p2.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    p2.setVisible(/*dataSets.size() > 0 ? dataSets.get(1).isVisible() : */SensorActivity.custom_p2);
+
+                    //Temperature
+                    temp = new LineDataSet(entries_3, res.getString(R.string.temperature) + " (°C)");
+                    temp.setColor(res.getColor(R.color.series3));
+                    temp.setDrawCircles(false);
+                    temp.setLineWidth(1.5f);
+                    temp.setDrawValues(false);
+                    temp.setAxisDependency(YAxis.AxisDependency.RIGHT);
+                    temp.setVisible(/*dataSets.size() > 0 ? dataSets.get(2).isVisible() : */SensorActivity.custom_temp);
+
+                    //Humidity
+                    humidity = new LineDataSet(entries_4, res.getString(R.string.humidity) + " (%)");
+                    humidity.setColor(res.getColor(R.color.series4));
+                    humidity.setDrawCircles(false);
+                    humidity.setLineWidth(1.5f);
+                    humidity.setDrawValues(false);
+                    humidity.setAxisDependency(YAxis.AxisDependency.RIGHT);
+                    humidity.setVisible(/*dataSets.size() > 0 ? dataSets.get(3).isVisible() : */SensorActivity.custom_humidity);
+
+                    //Pressure
+                    pressure = new LineDataSet(entries_5, res.getString(R.string.pressure) + " (hPa)");
+                    pressure.setColor(res.getColor(R.color.series5));
+                    pressure.setDrawCircles(false);
+                    pressure.setLineWidth(1.5f);
+                    pressure.setDrawValues(false);
+                    pressure.setAxisDependency(YAxis.AxisDependency.RIGHT);
+                    pressure.setVisible(/*dataSets.size() > 0 ? dataSets.get(4).isVisible() : */SensorActivity.custom_pressure);
+
+                    //Durchschnitte
+                    av_p1 = getAverageMedianPM1(true, false, first_time);
+                    av_p2 = getAverageMedianPM2(true, false, first_time);
+                    av_temp = getAverageMedianTemperature(true, false, first_time);
+                    av_humidity = getAverageMedianHumidity(true, false, first_time);
+                    av_pressure = getAverageMedianPressure(true, false, first_time);
+
+                    //Mediane
+                    med_p1 = getAverageMedianPM1(false, true, first_time);
+                    med_p2 = getAverageMedianPM2(false, true, first_time);
+                    med_temp = getAverageMedianTemperature(false, true, first_time);
+                    med_humidity = getAverageMedianHumidity(false, true, first_time);
+                    med_pressure = getAverageMedianPressure(false, true, first_time);
+
+                    //Grenzwerte
+                    th_eu_p1 = getThresholdPM1(true, false, first_time);
+                    th_eu_p2 = getThresholdPM2(true, false, first_time);
+                    th_who_p1 = getThresholdPM1(false, true, first_time);
+                    th_who_p2 = getThresholdPM2(false, true, first_time);
+
+                    dataSets.clear();
+                    dataSets.add(p1);
+                    dataSets.add(p2);
+                    dataSets.add(temp);
+                    dataSets.add(humidity);
+                    dataSets.add(pressure);
+                    dataSets.add(av_p1);
+                    dataSets.add(av_p2);
+                    dataSets.add(av_temp);
+                    dataSets.add(av_humidity);
+                    dataSets.add(av_pressure);
+                    dataSets.add(med_p1);
+                    dataSets.add(med_p2);
+                    dataSets.add(med_temp);
+                    dataSets.add(med_humidity);
+                    dataSets.add(med_pressure);
+                    dataSets.add(th_eu_p1);
+                    dataSets.add(th_eu_p2);
+                    dataSets.add(th_who_p1);
+                    dataSets.add(th_who_p2);
+                    chart.setData(new LineData(dataSets));
+
+                    chart.invalidate();
+                    chart.animateY(700, Easing.EaseInCubic);
                 } else {
-                    updateP1(null, false);
-                    updateP2(null, false);
-                    updateTemp(null, false);
-                    updateHumidity(null, false);
-                    updatePressure(null, false);
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+                    //hideAll();
                 }
 
                 updateLastValues();
             } else {
-                updateP1(null, false);
-                updateP2(null, false);
-                updateTemp(null, false);
-                updateHumidity(null, false);
-                updatePressure(null, false);
                 contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+                //hideAll();
             }
         }
 
-        public static void exportDiagram(Context context) {
-            graph_view.takeSnapshotAndShare(context, "export_" + System.currentTimeMillis(), res.getString(R.string.export_diagram));
+        private static void exportDiagram() {
+            Uri export_uri = su.exportDiagram(chart.getChartBitmap());
+            su.shareDiagram(export_uri);
         }
     }
 
@@ -687,7 +738,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         //Konstanten
 
         //Variablen als Objekte
-        public static View contentView;
+        private static View contentView;
         private static RecyclerView data_view;
         private static DataAdapter data_view_adapter;
         private RecyclerView.LayoutManager data_view_manager;
