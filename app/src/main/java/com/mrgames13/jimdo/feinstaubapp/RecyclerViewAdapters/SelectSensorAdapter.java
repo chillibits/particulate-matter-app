@@ -42,7 +42,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
         this.sensors = sensors;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         //Variablen als Objekte
         private FlipView item_icon;
         private TextView item_name;
@@ -50,7 +50,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
 
         //Variablen
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             //Oberflächenkomponenten initialisieren
             item_icon = itemView.findViewById(R.id.item_icon);
@@ -59,7 +59,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
             itemView.findViewById(R.id.item_more).setVisibility(View.GONE);
         }
 
-        void deselect() {
+        private void deselect() {
             item_icon.flip(false);
         }
     }

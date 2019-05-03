@@ -28,7 +28,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     //Variablen
     private boolean show_gps_data;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         //Variablen als Objekte
         TextView item_time;
         TextView item_p1;
@@ -41,7 +41,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         TextView item_alt;
         LinearLayout item_gps_container;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             //Oberflächenkomponenten initialisieren
             item_time = itemView.findViewById(R.id.item_time);

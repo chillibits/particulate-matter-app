@@ -135,7 +135,6 @@ public class WebRealtimeSyncService extends Service {
                         }
                     }
                 } else {
-                    //ref.removeEventListener(childEventListener);
                     ref.removeEventListener(this);
                     //Toast anzeigen
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);

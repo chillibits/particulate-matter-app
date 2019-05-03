@@ -6,16 +6,20 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 324
-        versionName "3.2.4"
+        versionCode 326
+        versionName "3.2.6"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            //minifyEnabled true
+            //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            //minifyEnabled true
+            //shrinkResources true
         }
     }
     lintOptions {
