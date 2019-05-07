@@ -580,7 +580,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                                 clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
                                             } else {
                                                 map.addMarker(new MarkerOptions()
-                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
                                                         .position(new LatLng(sensor.getLat(), sensor.getLng()))
                                                         .title(sensor.getChipID())
                                                         .snippet(sensor.getLat() + ", " + sensor.getLng())
@@ -647,7 +647,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                                 clusterManager.addItem(new SensorClusterItem(sensor.getLat(), sensor.getLng(), sensor.getChipID(), sensor.getLat() + ", " + sensor.getLng(), m));
                                             } else {
                                                 map.addMarker(new MarkerOptions()
-                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExisting(sensor.getChipID()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE))
                                                         .position(new LatLng(sensor.getLat(), sensor.getLng()))
                                                         .title(sensor.getChipID())
                                                         .snippet(sensor.getLat() + ", " + sensor.getLng())
@@ -704,7 +704,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 sensor_link.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExistingLocally(marker.getTitle())) {
+                        if(!su.isFavouriteExisting(marker.getTitle()) && !su.isSensorExisting(marker.getTitle())) {
                             View v = getLayoutInflater().inflate(R.layout.dialog_add_sensor, null);
                             final EditText name = v.findViewById(R.id.sensor_name_value);
                             EditText chip_id = v.findViewById(R.id.sensor_chip_id_value);

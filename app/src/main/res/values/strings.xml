@@ -3,9 +3,9 @@
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
- Locale: en-US, English
+ Locale: en, English
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,9 +53,9 @@
     <string name="rate_app">rate app</string>
     <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
     <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Recommend</string>
-    <string name="share_app">recommend app</string>
-    <string name="share_m">Recommend The Particulate Matter App to your friends!</string>
+    <string name="recommend">Recommend</string>
+    <string name="recommend_app">recommend app</string>
+    <string name="recommend_m">Recommend The Particulate Matter App to your friends!</string>
     <string name="rate">Rate</string>
     <string name="add_own_sensor">Add own sensor</string>
     <string name="my_favourites">My favourites</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Hide thresholds</string>
     <string name="help">Help</string>
     <string name="zoom_in">Zoom in</string>
+    <string name="scan_qr_code">Scan qr code</string>
+    <string name="show_qr_code">Display qr code</string>
+    <string name="import_xml_file">Import XML file</string>
+    <string name="export_xml_file">Export XML file</string>
+    <string name="please_select_at_least_one_sensor">Please select at least one sensor</string>
+    <string name="scan_qr_code_prompt">Please scan the qr code.</string>
+    <string name="share_qr_code">Share qr code</string>
 </resources>

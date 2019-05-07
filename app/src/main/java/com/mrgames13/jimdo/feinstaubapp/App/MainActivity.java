@@ -13,15 +13,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -30,6 +33,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,14 +45,22 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.github.angads25.filepicker.controller.DialogSelectionListener;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.github.fabtransitionactivity.SheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -68,6 +81,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -78,9 +92,14 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 public class MainActivity extends AppCompatActivity {
 
     //Konstanten
+    private static final String QR_PREFIX_SUFFIX = "01010";
     public static final int REQ_ADD_OWN_SENSOR = 10002;
     public static final int REQ_SEARCH_LOCATION = 10003;
     private static final int REQ_COMPARE = 10004;
+    private static final int REQ_SCAN_WEB = 10005;
+    private static final int REQ_SCAN_SENSOR = 10006;
+    private static final String REQ_IMPORT_XML = "Import_XML";
+    private static final int REQ_SELECT_SENSORS = 10007;
 
     //Variablen als Objekte
     public static MainActivity own_instance;
@@ -104,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
     //Variablen
     private boolean pressedOnce;
     private int selected_page;
-    private boolean show_update_snackbar;
     private boolean selection_running;
 
     @Override
@@ -126,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Toolbar initialisieren
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(res.getString(R.string.app_name));
+        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
         //ServerMessagingUtils initialisieren
@@ -213,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if (id == R.id.action_my_favorites) pager.setCurrentItem(0);
+                if (id == R.id.action_my_favourites) pager.setCurrentItem(0);
                 if (id == R.id.action_all_sensors) pager.setCurrentItem(1);
                 if (id == R.id.action_my_sensors) pager.setCurrentItem(2);
                 return true;
@@ -334,15 +352,19 @@ public class MainActivity extends AppCompatActivity {
             recommendApp();
         } else if(id == R.id.action_search) {
             item.expandActionView();
+        } else if(id == R.id.action_import_export) {
+            importExportConfiguration();
         } else if(id == R.id.action_help) {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse("https://mrgames13.jimdo.com/feinstaub-app/faq"));
             startActivity(i);
         } else if(id == R.id.action_web) {
             IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setRequestCode(REQ_SCAN_WEB);
             integrator.setOrientationLocked(true);
             integrator.setBeepEnabled(false);
-            integrator.setPrompt(res.getString(R.string.scan_prompt));
+            integrator.setPrompt(getString(R.string.scan_prompt));
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
             integrator.initiateScan();
         } else if(id == R.id.action_exit) {
             finish();
@@ -394,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
                         .setPersisted(true);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
                 JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
+                Log.i("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
             }
         } else {
             //Alarmmanager aufsetzen
@@ -449,12 +471,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void rateApp() {
-        AlertDialog d = new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.rate))
-                .setMessage(res.getString(R.string.rate_m))
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.rate))
+                .setMessage(getString(R.string.rate_m))
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
-                .setPositiveButton(res.getString(R.string.rate), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.rate), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -466,41 +488,161 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .create();
-        d.show();
+                .create().show();
     }
 
     private void recommendApp() {
-        AlertDialog d = new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.share))
-                .setMessage(res.getString(R.string.share_m))
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.recommend))
+                .setMessage(getString(R.string.recommend_m))
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
-                .setPositiveButton(res.getString(R.string.share), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.recommend), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         Intent i = new Intent();
                         i.setAction(Intent.ACTION_SEND);
-                        i.putExtra(Intent.EXTRA_TEXT, res.getString(R.string.recommend_string));
+                        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.recommend_string));
                         i.setType("text/plain");
                         startActivity(i);
                     }
                 })
-                .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
+                .create().show();
+    }
+    
+    private void importExportConfiguration() {
+        View v = getLayoutInflater().inflate(R.layout.dialog_import_export, null);
+        final android.app.AlertDialog d = new android.app.AlertDialog.Builder(this)
+                .setView(v)
                 .create();
         d.show();
+
+        RelativeLayout import_qr = v.findViewById(R.id.import_qr);
+        import_qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        d.dismiss();
+                        IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                        integrator.setRequestCode(REQ_SCAN_SENSOR);
+                        integrator.setOrientationLocked(true);
+                        integrator.setBeepEnabled(false);
+                        integrator.setPrompt(getString(R.string.scan_qr_code_prompt));
+                        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                        integrator.initiateScan();
+                    }
+                }, 200);
+            }
+        });
+        RelativeLayout export_qr = v.findViewById(R.id.export_qr);
+        export_qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        d.dismiss();
+
+                        try{
+                            ArrayList<Sensor> sensors = pager_adapter.getSelectedSensors();
+                            if(sensors.size() > 0) {
+                                String qr_string = QR_PREFIX_SUFFIX;
+                                for(int i = 0; i < sensors.size(); i++) {
+                                    Sensor s = sensors.get(i);
+                                    if(i > 0) qr_string = qr_string.concat(";");
+                                    qr_string = qr_string.concat(s.getChipID());
+                                    qr_string = qr_string.concat(",");
+                                    qr_string = qr_string.concat(Base64.encodeToString(s.getName().getBytes(StandardCharsets.UTF_8), Base64.DEFAULT));
+                                    qr_string = qr_string.concat(",");
+                                    qr_string = qr_string.concat(String.valueOf(s.getColor()));
+                                }
+                                qr_string += QR_PREFIX_SUFFIX;
+
+                                ImageView qr_view = new ImageView(MainActivity.this);
+                                qr_view.setAdjustViewBounds(true);
+                                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                                BitMatrix bitMatrix = multiFormatWriter.encode(qr_string, BarcodeFormat.QR_CODE,500,500);
+                                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                final Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                                qr_view.setImageBitmap(bitmap);
+
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setView(qr_view)
+                                        .setPositiveButton(getString(R.string.ok), null)
+                                        .setNeutralButton(getString(R.string.share_sensor), new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                su.shareImage(bitmap, getString(R.string.share_qr_code));
+                                            }
+                                        })
+                                        .create().show();
+                            } else {
+                                Toast.makeText(MainActivity.this, getString(R.string.please_select_at_least_one_sensor), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(MainActivity.this, getString(R.string.error_try_again), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, 200);
+            }
+        });
+        RelativeLayout import_xml = v.findViewById(R.id.import_xml);
+        import_xml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        d.dismiss();
+                        DialogProperties properties = new DialogProperties();
+                        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                        properties.selection_type = DialogConfigs.FILE_SELECT;
+                        properties.root = Environment.getExternalStorageDirectory();
+                        properties.error_dir = Environment.getExternalStorageDirectory();
+                        properties.offset = Environment.getExternalStorageDirectory();
+                        properties.extensions = new String[]{"xml"};
+                        FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
+                        dialog.setTitle(R.string.import_xml_file);
+                        dialog.setDialogSelectionListener(new DialogSelectionListener() {
+                            @Override
+                            public void onSelectedFilePaths(String[] files) {
+                                su.importXMLFile(files[0]);
+                                refresh();
+                            }
+                        });
+                        dialog.show();
+                    }
+                }, 200);
+            }
+        });
+        RelativeLayout export_xml = v.findViewById(R.id.export_xml);
+        export_xml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        d.dismiss();
+                        su.exportXMLFile();
+                    }
+                }, 200);
+            }
+        });
     }
 
     @SuppressLint("RestrictedApi")
@@ -540,7 +682,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();
         } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
@@ -554,8 +695,9 @@ public class MainActivity extends AppCompatActivity {
                 String searchWrd = matches.get(0);
                 if (!TextUtils.isEmpty(searchWrd)) searchView.setQuery(searchWrd, false);
             }
-        } else if(result != null && result.getContents() != null && !result.getContents().equals("")) {
+        } else if(requestCode == REQ_SCAN_WEB && resultCode == RESULT_OK) {
             try{
+                IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
                 String sync_key = result.getContents();
                 if(sync_key.length() == 25 && !sync_key.startsWith("http")) {
                     Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
@@ -571,7 +713,31 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
+                Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
+            }
+        } else if(requestCode == REQ_SCAN_SENSOR && resultCode == RESULT_OK) {
+            try{
+                IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
+                String configuration_string = result.getContents();
+                if(configuration_string.startsWith(QR_PREFIX_SUFFIX) && configuration_string.endsWith(QR_PREFIX_SUFFIX)) {
+                    configuration_string = configuration_string.substring(0, configuration_string.length() - QR_PREFIX_SUFFIX.length()).substring(QR_PREFIX_SUFFIX.length());
+                    String[] configs = configuration_string.split(";");
+                    for(String config : configs) {
+                        String chip_id = config.split(",")[0];
+                        String name = new String(Base64.decode(config.split(",")[1], Base64.DEFAULT), StandardCharsets.UTF_8);
+                        int color = Integer.parseInt(config.split(",")[2]);
+                        if(!su.isSensorExisting(chip_id)) {
+                            su.addFavourite(new Sensor(chip_id, name, color), false);
+                            Toast.makeText(MainActivity.this, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    refresh();
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -616,9 +782,9 @@ public class MainActivity extends AppCompatActivity {
         if(server_state == 2) {
             AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
-                    .setTitle(res.getString(R.string.offline_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.offline_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.offline_t))
+                    .setMessage(user_msg.equals("") ? getString(R.string.offline_m) : user_msg)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -630,9 +796,9 @@ public class MainActivity extends AppCompatActivity {
         } else if(server_state == 3) {
             AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
-                    .setTitle(res.getString(R.string.maintenance_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.maintenance_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.maintenance_t))
+                    .setMessage(user_msg.equals("") ? getString(R.string.maintenance_m) : user_msg)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -644,9 +810,9 @@ public class MainActivity extends AppCompatActivity {
         } else if(server_state == 4) {
             AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
-                    .setTitle(res.getString(R.string.support_end_t))
-                    .setMessage(user_msg.equals("") ? res.getString(R.string.support_end_m) : user_msg)
-                    .setPositiveButton(res.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.support_end_t))
+                    .setMessage(user_msg.equals("") ? getString(R.string.support_end_m) : user_msg)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -660,9 +826,9 @@ public class MainActivity extends AppCompatActivity {
             if(app_version_code < min_app_version) {
                 AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                         .setCancelable(false)
-                        .setTitle(res.getString(R.string.update_necessary_t))
-                        .setMessage(res.getString(R.string.update_necessary_m))
-                        .setPositiveButton(res.getString(R.string.download_update), new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.update_necessary_t))
+                        .setMessage(getString(R.string.update_necessary_m))
+                        .setPositiveButton(getString(R.string.download_update), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
@@ -673,7 +839,7 @@ public class MainActivity extends AppCompatActivity {
                                 finish();
                             }
                         })
-                        .setNegativeButton(res.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -683,8 +849,8 @@ public class MainActivity extends AppCompatActivity {
                         .create();
                 d.show();
             } else if(app_version_code < newest_app_version) {
-                Snackbar.make(findViewById(R.id.container), res.getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                        .setAction(res.getString(R.string.download), new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.container), getString(R.string.update_available), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.download), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 try {
@@ -696,25 +862,6 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .show();
             }
-        }
-    }
-
-    @SuppressLint("RestrictedApi")
-    public void showFab(boolean show) {
-        if(show && pager.getCurrentItem() != 0) {
-            if(fab.getVisibility() == View.GONE) {
-                Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
-                a.setAnimationListener(new SimpleAnimationListener() {
-                    @SuppressLint("RestrictedApi")
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        fab.setVisibility(View.VISIBLE);
-                    }
-                });
-                fab.startAnimation(a);
-            }
-        } else {
-            if(fab.getVisibility() == View.VISIBLE) fab.setVisibility(View.GONE);
         }
     }
 }

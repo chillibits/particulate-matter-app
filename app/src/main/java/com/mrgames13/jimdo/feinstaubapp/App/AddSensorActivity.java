@@ -292,7 +292,7 @@ public class AddSensorActivity extends AppCompatActivity {
 
         if(!chip_id.isEmpty() && !sensor_name.isEmpty() && (!sensor_public.isChecked() || (!lat.isEmpty() && !lng.isEmpty() && !alt.isEmpty()))) {
             if(mode == MODE_NEW) {
-                if(!su.isSensorExistingLocally(chip_id)) {
+                if(!su.isSensorExisting(chip_id)) {
                     final ProgressDialog pd = new ProgressDialog(this);
                     pd.setMessage(res.getString(R.string.please_wait_));
                     pd.setCancelable(false);

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,9 +53,9 @@
     <string name="rate_app">evaluer l\'app</string>
     <string name="rate_m">Evaluez l\'App Matière Particulaire dans le Google PlayStore avec 5 étoiles, si l\'app vous plaît! Vous pouvez écrire suggestions d\'amélioration commun avec l\'évaluation.</string>
     <string name="recommend_string">L\'App Matière Particulaire: Representer graphiquement, facilement et élegamment des lectures de matière particulaire. Télécharger de Goolge PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Recommander</string>
-    <string name="share_app">recommander l\'app</string>
-    <string name="share_m">Rcommandez l\'app à vos amis!</string>
+    <string name="recommend">Recommander</string>
+    <string name="recommend_app">recommander l\'app</string>
+    <string name="recommend_m">Rcommandez l\'app à vos amis!</string>
     <string name="rate">Évaluer</string>
     <string name="add_own_sensor">Ajouter propre capteur</string>
     <string name="my_favourites">Mes favoris</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Masquer les limites</string>
     <string name="help">Aide</string>
     <string name="zoom_in">Agrandir</string>
+    <string name="scan_qr_code">Balayer QR code</string>
+    <string name="show_qr_code">Afficher QR code</string>
+    <string name="import_xml_file">Importer XML fichier</string>
+    <string name="export_xml_file">Exporter XML fichier</string>
+    <string name="please_select_at_least_one_sensor">Sélectionnez au moins une capteur.</string>
+    <string name="scan_qr_code_prompt">Balayez le QR code, s\'il vous plaît.</string>
+    <string name="share_qr_code">partager QR code</string>
 </resources>

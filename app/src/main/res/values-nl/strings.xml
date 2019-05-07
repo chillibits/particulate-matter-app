@@ -3,9 +3,9 @@
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
- Locale: nl-NL, Dutch
+ Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,9 +53,9 @@
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
     <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:\nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Aanbevolen</string>
-    <string name="share_app">aanbevolen app</string>
-    <string name="share_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
+    <string name="recommend">Aanbevolen</string>
+    <string name="recommend_app">aanbevolen app</string>
+    <string name="recommend_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
     <string name="rate">Beoordeel</string>
     <string name="add_own_sensor">Voeg je eigen sensor toe</string>
     <string name="my_favourites">Mijn favorieten</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Verberg drempelwaarden</string>
     <string name="help">Help</string>
     <string name="zoom_in">Zoom in</string>
+    <string name="scan_qr_code">Scan QR-code</string>
+    <string name="show_qr_code">Qr-code weergeven</string>
+    <string name="import_xml_file">XML-bestand importeren</string>
+    <string name="export_xml_file">XML-bestand exporteren</string>
+    <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
+    <string name="scan_qr_code_prompt">Gelieve de qr-code te scannen.</string>
+    <string name="share_qr_code">Deel qr-code</string>
 </resources>

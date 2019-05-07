@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,9 +53,9 @@
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
     <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Consiglia</string>
-    <string name="share_app">consiglia l\'app</string>
-    <string name="share_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
+    <string name="recommend">Consiglia</string>
+    <string name="recommend_app">consiglia l\'app</string>
+    <string name="recommend_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
     <string name="rate">Valuta</string>
     <string name="add_own_sensor">Aggiungere il proprio sensore</string>
     <string name="my_favourites">I miei preferiti</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Nascondere le soglie</string>
     <string name="help">Aiuto</string>
     <string name="zoom_in">Ingrandimento</string>
+    <string name="scan_qr_code">Scannerizzare il codice qr</string>
+    <string name="show_qr_code">Mostrare il codice qr</string>
+    <string name="import_xml_file">Importare il file XML</string>
+    <string name="export_xml_file">Esportare il file XML</string>
+    <string name="please_select_at_least_one_sensor">Prego selezionare almeno un sensore</string>
+    <string name="scan_qr_code_prompt">Prego scannerizzare il codice qr</string>
+    <string name="share_qr_code">Condividere il codice qr</string>
 </resources>

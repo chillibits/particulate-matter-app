@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,9 +53,9 @@
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
     <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Рекомендовать</string>
-    <string name="share_app">порекомендуйте приложение</string>
-    <string name="share_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
+    <string name="recommend">Рекомендовать</string>
+    <string name="recommend_app">порекомендуйте приложение</string>
+    <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
     <string name="rate">Оценить</string>
     <string name="add_own_sensor">Добавить собственный датчик</string>
     <string name="my_favourites">Мои закладки</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Скрыть пороги</string>
     <string name="help">Помощь</string>
     <string name="zoom_in">Приблизить</string>
+    <string name="scan_qr_code">Сканирование QR-кода</string>
+    <string name="show_qr_code">Показать код qr</string>
+    <string name="import_xml_file">Импортировать файл XML</string>
+    <string name="export_xml_file">Экспорт XML-файла</string>
+    <string name="please_select_at_least_one_sensor">Пожалуйста, выберите хотя бы один датчик</string>
+    <string name="scan_qr_code_prompt">Пожалуйста, отсканируйте код qr.</string>
+    <string name="share_qr_code">Поделиться QR-кодом</string>
 </resources>

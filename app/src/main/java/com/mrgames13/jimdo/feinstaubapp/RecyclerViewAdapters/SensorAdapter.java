@@ -181,13 +181,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             int id = menuItem.getItemId();
-                            if(id == R.id.action_sensor_data) {
-                                Intent i = new Intent(activity, SensorActivity.class);
-                                i.putExtra("Name", sensor.getName());
-                                i.putExtra("ID", sensor.getChipID());
-                                i.putExtra("Color", sensor.getColor());
-                                activity.startActivity(i);
-                            } else if(id == R.id.action_sensor_edit) {
+                            if(id == R.id.action_sensor_edit) {
                                 Intent i = new Intent(activity, AddSensorActivity.class);
                                 i.putExtra("Mode", AddSensorActivity.MODE_EDIT);
                                 i.putExtra("Name", sensor.getName());
@@ -326,8 +320,8 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            h.item_more.setVisibility(su.isSensorExistingLocally(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.GONE : View.VISIBLE);
-            h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.VISIBLE : View.GONE);
+            h.item_more.setVisibility(su.isSensorExisting(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.GONE : View.VISIBLE);
+            h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExisting(sensor.getChipID()) && mode == MODE_FAVOURITES ? View.VISIBLE : View.GONE);
 
             if(mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.getChipID())) { // TODO: Diesen Teil beim nächsten Update entfernen
                 new Thread(new Runnable() {

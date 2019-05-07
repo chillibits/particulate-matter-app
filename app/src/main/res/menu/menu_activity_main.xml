@@ -15,14 +15,19 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_share"
-        android:title="@string/share_app"
-        android:icon="@drawable/share"
+        android:id="@+id/action_import_export"
+        android:title="@string/export_data"
+        android:icon="@drawable/import_export"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/recommend_app"
         app:showAsAction="never"/>
 
     <item

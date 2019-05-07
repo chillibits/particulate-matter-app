@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,19 +49,19 @@
     <string name="unlink_sensor">Desenlazar sensor</string>
     <string name="really_unlink_sensor_1">¿Realmente quieres desvincular el sensor?</string>
     <string name="really_unlink_sensor_2">\'?</string>
-    <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info"> www.luftdaten.info </a>, you can link it here. Tap below to link to sensor.</string>
+    <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
     <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Recomendar</string>
-    <string name="share_app">Recomendar la aplicación</string>
-    <string name="share_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
+    <string name="recommend">Recomendar</string>
+    <string name="recommend_app">Recomendar la aplicación</string>
+    <string name="recommend_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
     <string name="rate">Evaluar</string>
     <string name="add_own_sensor">Añadir sensor propio</string>
-    <string name="my_favourites">iten\n\nMy favourites\n\nMis favoritos</string>
-    <string name="all_sensors">Todos los sensores</string>
+    <string name="my_favourites">Mis favoritos</string>
+    <string name="all_sensors">Todos sensores</string>
     <string name="my_sensors">Mis sensores</string>
-    <string name="no_favourites">No hay favoritos todavía. Cambie a \'Todos los sensores\', elija uno o más sensores y seleccione \'Agregar favorito\'.</string>
+    <string name="no_favourites">No hay favoritos todavía. Cambie a \'Todos sensores\', elija uno o más sensores y seleccione \'Agregar favorito\'.</string>
     <string name="show_measurements">Mostrar medidas</string>
     <string name="add_favourite">Añadir favorito</string>
     <string name="favourite_added">Favorito añadido</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Ocultar umbrales\n</string>
     <string name="help">Ayuda</string>
     <string name="zoom_in">Acercarse</string>
+    <string name="scan_qr_code">Escanear código qr</string>
+    <string name="show_qr_code">Mostrar código qr</string>
+    <string name="import_xml_file">Importar archivo XML</string>
+    <string name="export_xml_file">Exportar archivo XML</string>
+    <string name="please_select_at_least_one_sensor">Por favor seleccione al menos un sensor</string>
+    <string name="scan_qr_code_prompt">Por favor escanee el código qr.</string>
+    <string name="share_qr_code">Compartir código qr</string>
 </resources>

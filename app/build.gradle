@@ -6,8 +6,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 326
-        versionName "3.2.6"
+        versionCode 327
+        versionName "3.2.7"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.taskail:simple-places-search-dialog:1.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.angads25:filepicker:1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

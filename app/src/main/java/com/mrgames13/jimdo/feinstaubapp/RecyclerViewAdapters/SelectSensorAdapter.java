@@ -22,6 +22,8 @@ import eu.davidea.flipview.FlipView;
 public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapter.ViewHolder> {
 
     //Konstanten
+    public static final int MODE_SELECTION_SINGLE = 10001;
+    public static final int MODE_SELECTION_MULTI = 10002;
 
     //Utils-Pakete
     private StorageUtils su;
@@ -31,15 +33,18 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
     private Handler h;
     private ArrayList<Sensor> sensors;
     private Sensor selected_sensor = null;
+    private ArrayList<Sensor> selected_sensors = new ArrayList<>();
     private ViewHolder selected_sensor_holder;
 
     //Variablen
+    private int selection_mode;
 
-    public SelectSensorAdapter(Context context, StorageUtils su, ArrayList<Sensor> sensors) {
+    public SelectSensorAdapter(Context context, StorageUtils su, ArrayList<Sensor> sensors, int selection_mode) {
         this.su = su;
         this.res = context.getResources();
         this.h = new Handler();
         this.sensors = sensors;
+        this.selection_mode = selection_mode;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -110,25 +115,33 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
             @Override
             public void onFlipped(FlipView flipView, boolean checked) {
                 if(checked) {
-                    SelectSensorAdapter.this.h.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(selected_sensor_holder != null) selected_sensor_holder.deselect();
-                            selected_sensor_holder = h;
-                        }
-                    }, 50);
-                    selected_sensor = sensor;
+                    if(selection_mode == MODE_SELECTION_SINGLE) {
+                        SelectSensorAdapter.this.h.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(selected_sensor_holder != null) selected_sensor_holder.deselect();
+                                selected_sensor_holder = h;
+                            }
+                        }, 50);
+                        selected_sensor = sensor;
+                    } else if(selection_mode == MODE_SELECTION_MULTI) {
+                        selected_sensors.add(sensor);
+                    }
                 } else {
-                    if(selected_sensor.getChipID().equals(sensor.getChipID())) {
-                        selected_sensor = null;
-                        selected_sensor_holder = null;
+                    if(selection_mode == MODE_SELECTION_SINGLE) {
+                        if(selected_sensor.getChipID().equals(sensor.getChipID())) {
+                            selected_sensor = null;
+                            selected_sensor_holder = null;
+                        }
+                    } else if(selection_mode == MODE_SELECTION_MULTI) {
+                        selected_sensors.remove(sensor);
                     }
                 }
                 h.itemView.setBackgroundColor(res.getColor(checked ? R.color.color_selection : R.color.transparent));
             }
         });
 
-        h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExistingLocally(sensor.getChipID()) ? View.VISIBLE : View.GONE);
+        h.itemView.findViewById(R.id.item_own_sensor).setVisibility(su.isSensorExisting(sensor.getChipID()) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -138,5 +151,9 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
 
     public Sensor getSelectedSensor() {
         return selected_sensor;
+    }
+
+    public ArrayList<Sensor> getSeletedSensors() {
+        return selected_sensors;
     }
 }

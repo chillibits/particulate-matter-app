@@ -25,6 +25,6 @@ public class ClusterRederer extends DefaultClusterRenderer<SensorClusterItem> {
 
     @Override
     protected void onBeforeClusterItemRendered(SensorClusterItem item, MarkerOptions markerOptions) {
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(item.getTitle()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExistingLocally(item.getTitle()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(su.isFavouriteExisting(item.getTitle()) ? BitmapDescriptorFactory.HUE_RED : su.isSensorExisting(item.getTitle()) ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_BLUE));
     }
 }
