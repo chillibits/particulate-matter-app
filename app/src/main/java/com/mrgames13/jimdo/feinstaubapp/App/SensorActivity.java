@@ -388,7 +388,7 @@ public class SensorActivity extends AppCompatActivity {
                 }
                 //Auf einen Ausfall prüfen
                 if (smu.isInternetAvailable()) {
-                    if (su.getBoolean("notification_breakdown", true) && su.isSensorExistingLocally(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.isMeasurementBreakdown(su, records)) {
+                    if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.isMeasurementBreakdown(su, records)) {
                         if (!su.getBoolean("BD_" + sensor.getChipID())) {
                             nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
                             su.putBoolean("BD_" + sensor.getChipID(), true);

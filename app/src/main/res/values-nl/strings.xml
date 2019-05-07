@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: nl-NL, Dutch
@@ -53,9 +53,9 @@
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
     <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:\nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Aanbevolen</string>
-    <string name="share_app">aanbevolen app</string>
-    <string name="share_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
+    <string name="recommend">Aanbevolen</string>
+    <string name="recommend_app">aanbevolen app</string>
+    <string name="recommend_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
     <string name="rate">Beoordeel</string>
     <string name="add_own_sensor">Voeg je eigen sensor toe</string>
     <string name="my_favourites">Mijn favorieten</string>

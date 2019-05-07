@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: fr, French
@@ -53,9 +53,9 @@
     <string name="rate_app">evaluer l\'app</string>
     <string name="rate_m">Evaluez l\'App Matière Particulaire dans le Google PlayStore avec 5 étoiles, si l\'app vous plaît! Vous pouvez écrire suggestions d\'amélioration commun avec l\'évaluation.</string>
     <string name="recommend_string">L\'App Matière Particulaire: Representer graphiquement, facilement et élegamment des lectures de matière particulaire. Télécharger de Goolge PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Recommander</string>
-    <string name="share_app">recommander l\'app</string>
-    <string name="share_m">Rcommandez l\'app à vos amis!</string>
+    <string name="recommend">Recommander</string>
+    <string name="recommend_app">recommander l\'app</string>
+    <string name="recommend_m">Rcommandez l\'app à vos amis!</string>
     <string name="rate">Évaluer</string>
     <string name="add_own_sensor">Ajouter propre capteur</string>
     <string name="my_favourites">Mes favoris</string>

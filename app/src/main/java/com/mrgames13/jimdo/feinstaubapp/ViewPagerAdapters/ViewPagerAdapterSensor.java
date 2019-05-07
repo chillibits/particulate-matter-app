@@ -2,7 +2,6 @@ package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -717,20 +716,17 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 } else {
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
-                    //hideAll();
                 }
 
                 updateLastValues();
             } else {
                 contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                 contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
-                //hideAll();
             }
         }
 
         private static void exportDiagram() {
-            Uri export_uri = su.exportDiagram(chart.getChartBitmap());
-            su.shareDiagram(export_uri);
+            su.shareImage(chart.getChartBitmap(), activity.getString(R.string.export_diagram));
         }
     }
 

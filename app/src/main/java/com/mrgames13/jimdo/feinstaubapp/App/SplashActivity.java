@@ -26,6 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
             Intent intent = new Intent(this, MainActivity.class);
+            if(getIntent().getExtras() != null) intent.putExtras(getIntent().getExtras());
             startActivity(intent);
             finish();
         }

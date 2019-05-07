@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: it, Italian
@@ -53,9 +53,9 @@
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
     <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Consiglia</string>
-    <string name="share_app">consiglia l\'app</string>
-    <string name="share_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
+    <string name="recommend">Consiglia</string>
+    <string name="recommend_app">consiglia l\'app</string>
+    <string name="recommend_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
     <string name="rate">Valuta</string>
     <string name="add_own_sensor">Aggiungere il proprio sensore</string>
     <string name="my_favourites">I miei preferiti</string>

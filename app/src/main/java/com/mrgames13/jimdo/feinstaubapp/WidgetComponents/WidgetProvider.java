@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
+import com.mrgames13.jimdo.feinstaubapp.App.SplashActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -42,7 +43,7 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 
         //App öffnen
-        Intent open_app = new Intent(context, MainActivity.class);
+        Intent open_app = new Intent(context, SplashActivity.class);
         PendingIntent open_app_pi = PendingIntent.getActivity(context, 0, open_app, 0);
         rv.setOnClickPendingIntent(R.id.open_app, open_app_pi);
 

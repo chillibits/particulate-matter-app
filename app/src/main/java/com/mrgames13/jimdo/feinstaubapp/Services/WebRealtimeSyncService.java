@@ -122,7 +122,7 @@ public class WebRealtimeSyncService extends Service {
                                 String name = String.valueOf(sensor.get("name"));
                                 boolean favorized = Boolean.parseBoolean(sensor.get("fav").toString());
                                 String color = String.valueOf(sensor.get("color"));
-                                if(!su.isFavouriteExisting(chip_id) && !su.isSensorExistingLocally(chip_id)) {
+                                if(!su.isFavouriteExisting(chip_id) && !su.isSensorExisting(chip_id)) {
                                     if(favorized) {
                                         su.addFavourite(new Sensor(chip_id, name, Color.parseColor(color)), true);
                                     } else {

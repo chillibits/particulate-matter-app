@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: es, Spanish
@@ -53,9 +53,9 @@
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
     <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Recomendar</string>
-    <string name="share_app">Recomendar la aplicación</string>
-    <string name="share_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
+    <string name="recommend">Recomendar</string>
+    <string name="recommend_app">Recomendar la aplicación</string>
+    <string name="recommend_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
     <string name="rate">Evaluar</string>
     <string name="add_own_sensor">Añadir sensor propio</string>
     <string name="my_favourites">iten\n\nMy favourites\n\nMis favoritos</string>

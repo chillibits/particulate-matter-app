@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Xml;
 
 import androidx.core.content.FileProvider;
 
@@ -22,8 +23,14 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -198,7 +205,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         return null;
     }
 
-    public boolean isSensorExistingLocally(String chip_id) {
+    public boolean isSensorExisting(String chip_id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT sensor_id FROM " + TABLE_SENSORS + " WHERE sensor_id = '" + chip_id + "'", null);
         int count = cursor.getCount();
@@ -391,24 +398,21 @@ public class StorageUtils extends SQLiteOpenHelper {
         return null;
     }
 
-    public Uri exportDiagram(Bitmap image) {
-        Uri uri = null;
+    public void shareImage(Bitmap image, String share_message) {
         try {
+            //Speichern
             FileOutputStream out = context.openFileOutput("export.png", Context.MODE_PRIVATE);
             image.compress(Bitmap.CompressFormat.PNG, 80, out);
             out.close();
-            uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.png"));
+            Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.png"));
+            //Teilen
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType(URLConnection.guessContentTypeFromName(uri.getPath()));
+            i.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(Intent.createChooser(i, share_message));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uri;
-    }
-
-    public void shareDiagram(Uri export_uri) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType(URLConnection.guessContentTypeFromName(export_uri.getPath()));
-        i.putExtra(Intent.EXTRA_STREAM, export_uri);
-        context.startActivity(Intent.createChooser(i, context.getString(R.string.export_diagram)));
     }
 
     public Uri exportDataRecords(ArrayList<DataRecord> records) {
@@ -447,5 +451,120 @@ public class StorageUtils extends SQLiteOpenHelper {
             Log.i("FA", "Deleted Database: " + cursor.getString(0));
         }
         cursor.close();
+    }
+
+    public boolean importXMLFile(String path) {
+        try {
+            InputStream input_stream = new FileInputStream(path);
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(input_stream, null);
+            parser.nextTag();
+
+            ArrayList<Sensor> favourites = new ArrayList<>();
+            ArrayList<Sensor> own_sensors = new ArrayList<>();
+            //Favouriten
+            parser.require(XmlPullParser.START_TAG, null, "sensor-configuration");
+            parser.nextTag();
+            parser.require(XmlPullParser.START_TAG, null, "favourites");
+            while (parser.next() != XmlPullParser.END_TAG) {
+                if (parser.getEventType() != XmlPullParser.START_TAG) continue;
+
+                parser.require(XmlPullParser.START_TAG, null, "sensor");
+
+                Sensor s = new Sensor();
+                s.setId(parser.getAttributeValue(null, "id"));
+                s.setName(parser.getAttributeValue(null, "name"));
+                s.setColor(Integer.parseInt(parser.getAttributeValue(null, "color")));
+                favourites.add(s);
+
+                parser.nextTag();
+                parser.require(XmlPullParser.END_TAG, null, "sensor");
+            }
+            parser.require(XmlPullParser.END_TAG, null, "favourites");
+            parser.nextTag();
+            //Eigene Sensoren
+            parser.require(XmlPullParser.START_TAG, null, "own-sensors");
+            while (parser.next() != XmlPullParser.END_TAG) {
+                if (parser.getEventType() != XmlPullParser.START_TAG) continue;
+
+                parser.require(XmlPullParser.START_TAG, null, "sensor");
+
+                Sensor s = new Sensor();
+                s.setId(parser.getAttributeValue(null, "id"));
+                s.setName(parser.getAttributeValue(null, "name"));
+                s.setColor(Integer.parseInt(parser.getAttributeValue(null, "color")));
+                own_sensors.add(s);
+
+                parser.nextTag();
+                parser.require(XmlPullParser.END_TAG, null, "sensor");
+            }
+            parser.require(XmlPullParser.END_TAG, null, "own-sensors");
+            parser.nextTag();
+            parser.require(XmlPullParser.END_TAG, null, "sensor-configuration");
+
+            //Importieren
+            for(Sensor s : favourites) {
+                if(!isSensorExisting(s.getChipID())) addFavourite(s, false);
+            }
+            for(Sensor s : own_sensors) {
+                if(!isSensorExisting(s.getChipID())) addOwnSensor(s, true, false);
+            }
+            Log.i("FA", "Imported favourites: " + favourites.size());
+            Log.i("FA", "Imported own sensors: " + own_sensors.size());
+
+            input_stream.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void exportXMLFile() {
+        ArrayList<Sensor> favourites = getAllFavourites();
+        ArrayList<Sensor> own_sensors = getAllOwnSensors();
+
+        XmlSerializer serializer = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+        try{
+            serializer.setOutput(writer);
+            serializer.startDocument("UTF-8", true);
+            serializer.startTag("", "sensor-configuration");
+            //Favouriten
+            serializer.startTag("", "favourites");
+            for (Sensor s : favourites) {
+                serializer.startTag("", "sensor");
+                serializer.attribute("", "id", s.getChipID());
+                serializer.attribute("", "name", s.getName());
+                serializer.attribute("", "color", String.valueOf(s.getColor()));
+                serializer.endTag("", "sensor");
+            }
+            serializer.endTag("", "favourites");
+            //Eigene Sensoren
+            serializer.startTag("", "own-sensors");
+            for (Sensor s : own_sensors) {
+                serializer.startTag("", "sensor");
+                serializer.attribute("", "id", s.getChipID());
+                serializer.attribute("", "name", s.getName());
+                serializer.attribute("", "color", String.valueOf(s.getColor()));
+                serializer.endTag("", "sensor");
+            }
+            serializer.endTag("", "own-sensors");
+            serializer.endTag("", "sensor-configuration");
+            serializer.endDocument();
+            //In Datei schreiben
+            FileOutputStream out = context.openFileOutput("sensor_config.xml", Context.MODE_PRIVATE);
+            out.write(writer.toString().getBytes());
+            out.close();
+            Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("sensor_config.xml"));
+            //Teilen
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType(URLConnection.guessContentTypeFromName(uri.getPath()));
+            i.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(Intent.createChooser(i, context.getString(R.string.export_xml_file)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

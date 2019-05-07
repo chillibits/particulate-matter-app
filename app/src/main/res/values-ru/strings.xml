@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: ru, Russian
@@ -53,9 +53,9 @@
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
     <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Рекомендовать</string>
-    <string name="share_app">порекомендуйте приложение</string>
-    <string name="share_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
+    <string name="recommend">Рекомендовать</string>
+    <string name="recommend_app">порекомендуйте приложение</string>
+    <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
     <string name="rate">Оценить</string>
     <string name="add_own_sensor">Добавить собственный датчик</string>
     <string name="my_favourites">Мои закладки</string>

@@ -44,10 +44,11 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_widget_configuration);
+        setContentView(R.layout.activity_sensor_selection);
 
         //Toolbar initialisieren
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.widget_select_sensor);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -64,7 +65,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         if(sensors.size() > 0) {
             //RecyclerView initialisieren
             sensor_view = findViewById(R.id.sensors);
-            sensor_view_adapter = new SelectSensorAdapter(this, su, sensors);
+            sensor_view_adapter = new SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE);
             sensor_view.setItemViewCacheSize(100);
             sensor_view.setLayoutManager(new LinearLayoutManager(this));
             sensor_view.setAdapter(sensor_view_adapter);

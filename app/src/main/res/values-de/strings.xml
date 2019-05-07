@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: de, German
@@ -53,9 +53,9 @@
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
-    <string name="share">Weiterempfehlen</string>
-    <string name="share_app">App weiterempfehlen</string>
-    <string name="share_m">Empfehlen Sie die App Ihren Freunden!</string>
+    <string name="recommend">Weiterempfehlen</string>
+    <string name="recommend_app">App weiterempfehlen</string>
+    <string name="recommend_m">Empfehlen Sie die App Ihren Freunden!</string>
     <string name="rate">Bewerten</string>
     <string name="add_own_sensor">Eigenen Sensor hinzufügen</string>
     <string name="my_favourites">Meine Favoriten</string>
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Grenzwerte ausblenden</string>
     <string name="help">Hilfe</string>
     <string name="zoom_in">Vergrößern</string>
+    <string name="scan_qr_code">QR-Code scannen</string>
+    <string name="show_qr_code">QR-Code anzeigen</string>
+    <string name="import_xml_file">XML-Datei importieren</string>
+    <string name="export_xml_file">XML-Datei exportieren</string>
+    <string name="please_select_at_least_one_sensor">Bitte wählen Sie mindestens einen Sensor</string>
+    <string name="scan_qr_code_prompt">Bitte scannen Sie den QR-Code.</string>
+    <string name="share_qr_code">QR-Code teilen</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml export: Android string resources
+ Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: pl, Polish
@@ -53,9 +53,9 @@
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
     <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.g...</string>
-    <string name="share">Polecam</string>
-    <string name="share_app">Polecam aplikację</string>
-    <string name="share_m">Polecam Particulate Matter znajomym !</string>
+    <string name="recommend">Polecam</string>
+    <string name="recommend_app">Polecam aplikację</string>
+    <string name="recommend_m">Polecam Particulate Matter znajomym !</string>
     <string name="rate">Oceń</string>
     <string name="add_own_sensor">Dodaj własny sensor</string>
     <string name="my_favourites">Moje ulubione</string>
