@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: bg, Bulgarian
+ Exported by: M&R Games
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Приложение Финни частици</string>
+    <string name="ok">ОК</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
+    <string name="cancel">Отмени</string>
+    <string name="sensors">сензори</string>
+    <string name="exit">Изход</string>
+    <string name="settings">Настройки</string>
+    <string name="no_data">Липсват данни</string>
+    <string name="loading">Зарежда...</string>
+    <string name="loading_data">Зареждане на данните...</string>
+    <string name="internet_is_not_available">Няма интернет</string>
+    <string name="activate_wlan">Активирай WiFi</string>
+    <string name="please_wait_">Моля, изчакайте...</string>
+    <string name="error_try_again">Възникна грешка. Моля, опитайте отново.</string>
+    <string name="offline_t">Сървърът е офлайн</string>
+    <string name="offline_m">Сървърът е офлайн. Докато сървърът е офлайн, няма да имате достъп до вашите данни.</string>
+    <string name="maintenance_t">Сървърът е в процес на ремонт</string>
+    <string name="maintenance_m">Сървърът е процес на ремонт. Докато сървърът е офлайн, няма да имате достъп до вашите данни.</string>
+    <string name="support_end_t">Поддръжката на приложените изтече</string>
+    <string name="support_end_m">Съжаляваме! Приложението вече не се поддържа. Можете да деинсталирате приложението.</string>
+    <string name="update_necessary_t">Има налична актуализация!</string>
+    <string name="update_necessary_m">Трябва да актуализирате приложението, за да продължите го използвате.</string>
+    <string name="download_update">Свали</string>
+    <string name="update_available">Има налична актуализация</string>
+    <string name="download">Свали</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Дисплей за финните частици</string>
+    <string name="widget_app_data_cleared">Данните на приложението са премахнати. Моля, изберете сензора отново.</string>
+    <string name="widget_select_sensor">Изберете сензор</string>
+    <string name="widget_open_app">Отвори приложението</string>
+    <string name="widget_no_data">Все още няма любими елементи. Чукнете отдолу, за да добавите любим елемент и избере уиджета отново.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Чукнете отново за да излезете</string>
+    <string name="compare_sensors">Сравнете данните</string>
+    <string name="edit_sensor">Редактирай сензор</string>
+    <string name="complete_sensor">Завърши сензор</string>
+    <string name="unlink_sensor">Премахни връзка със сензор</string>
+    <string name="really_unlink_sensor_1">Наистина ли искате да премахнете връзката със сензора \'</string>
+    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
+    <string name="rate_app">Поставете рейтинг на приложението</string>
+    <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
+    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend">Препоръчай</string>
+    <string name="recommend_app">препоръчай приложението</string>
+    <string name="recommend_m">Препоръчай приложението Финни частици на твоите приятели!</string>
+    <string name="rate">Постави рейтинг</string>
+    <string name="add_own_sensor">Добави собствен сензор</string>
+    <string name="my_favourites">Моите любими</string>
+    <string name="all_sensors">Всички сензори</string>
+    <string name="my_sensors">Моите сензори</string>
+    <string name="no_favourites">Нямате любими елементи все още. Моля, сменете на \"Всички сензори\", изберете един или повече сензори и изберете \"Добави към любими\"</string>
+    <string name="show_measurements">Покажи измервания</string>
+    <string name="add_favourite">Добави към любими</string>
+    <string name="favourite_added">Добъвено към любими</string>
+    <string name="properties">Свойства</string>
+    <string name="public_short_">Обществен:</string>
+    <string name="online_since_">Онлайн от:</string>
+    <string name="height_short_">Монтирано на височина:</string>
+    <string name="compare_instruction">Чукни и задръж сензора, за да го избереш. Избери два или повече сензори, за да сравниш измерванията им.</string>
+    <string name="enable_location_m">Покажи собствена позиция?</string>
+    <string name="enable_location">Включи</string>
+    <string name="search_for_sensors">Търси сензори</string>
+    <string name="enabled_gps_t">Местоположението е включено</string>
+    <string name="enabled_gps_m">Току-що включихте местоположението. Може да отнеме няколко минути докато позицията се визуализира на картата.</string>
+    <string name="sensor_position_completion_m_short">Моля, попълнете данните за сензора, за да се визуализира на картата.</string>
+    <string name="web_version">Уеб версия</string>
+    <string name="scan_prompt">Отворете https://pm.mrgames-server.de на вашия компютър</string>
+    <string name="successfully_connected">Успешно свързване</string>
+    <string name="sync_disconnected">Прекъсната връзка</string>
+    <string name="search_places">Моля, въведете място...</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Готово</string>
+    <string name="name_">Наименование:</string>
+    <string name="chip_id">ID на чипа:</string>
+    <string name="choose_color">Избери цвят</string>
+    <string name="not_all_filled">Моля, попълнете всички полета</string>
+    <string name="sensor_existing">Сензорът е свързан вече</string>
+    <string name="add_sensor_tick_not_set_message">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
+    <string name="add_sensor_tick_not_set_message_duty">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
+    <string name="dont_show_again">Не показвай отново</string>
+    <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
+    <string name="choose_location">Избере точното местоположение на сензора</string>
+    <string name="sensor_height">Височина над земята/улицата</string>
+    <string name="latitude">Географска ширина</string>
+    <string name="latitude_">Географска ширина:</string>
+    <string name="longitude">Географска дължина</string>
+    <string name="longitude_">Географска дължина:</string>
+    <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
+    <string name="gps_will_be_synchronized">Ако към сензорната ви система е свързан GPS сензор, позицията автоматично ще се синхронизира с....</string>
+    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de">contactin...</a></string>
+    <string name="unknown_location">Неизвестно местоположение</string>
+    <!-- SensorActivity -->
+    <string name="date">Дата</string>
+    <string name="tab_diagram">Графика</string>
+    <string name="tab_data">Записи</string>
+    <string name="refresh">Обнови</string>
+    <string name="no_data_date">Няма данни за тази дата</string>
+    <string name="diagram_instruction">Чукни на графиката, за да се покаже на пълен екран</string>
+    <string name="date_time">Час</string>
+    <string name="temperature_short">Темп</string>
+    <string name="temperature">Температура</string>
+    <string name="humidity_short">Влажност</string>
+    <string name="pressure_short">Налягане</string>
+    <string name="humidity">Влажност</string>
+    <string name="pressure">Налягане</string>
+    <string name="no_diagram_selected">Не е избрана графика</string>
+    <string name="from">от</string>
+    <string name="to">до</string>
+    <string name="current_values">Текущи измервания</string>
+    <string name="state_of_">Състояние от</string>
+    <string name="curve_smoothness_">Гладкост на кривата</string>
+    <string name="export_data">Експорт на данните</string>
+    <string name="export_diagram">Експорт на графиката</string>
+    <string name="export_data_records">Експорт на записите</string>
+    <string name="share_sensor">Сподели сензор</string>
+    <string name="median">Медиана</string>
+    <string name="normal">Нормално</string>
+    <string name="terrain">Терен</string>
+    <string name="satellite">Сателит</string>
+    <string name="hybrid">Хибриден</string>
+    <string name="traffic_show">Покажи трафик</string>
+    <string name="traffic_hide">Скрий трафик</string>
+    <!-- DiagramActivity -->
+    <string name="time_">Час на измерване:</string>
+    <string name="value_">Стойност:</string>
+    <!-- NotificationStrings -->
+    <string name="limit_exceeded">Границата е надхвърлена</string>
+    <string name="limit_exceeded_p1">Границата от PM10 е надхвърлена</string>
+    <string name="limit_exceeded_p2">Границата от PM2,5 е надхвърлена</string>
+    <string name="limit_exceeded_temp">Температурната граница е надхвърлена</string>
+    <string name="limit_exceeded_humidity">Границата на влажността е надхвърлена</string>
+    <string name="limit_exceeded_pressure">Границата на налягането е надхвърлена</string>
+    <string name="sensor_breakdown">Разбивка на сензорите</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Системни известия</string>
+    <string name="nc_system_description">Системни известия от приложението Particulate Matter App.</string>
+    <string name="nc_limit_name">Границата е надхвърлена</string>
+    <string name="nc_limit_description">Показвай изведстия в лентата за статуса, когато една от дефинираните граници е надхвърлена.</string>
+    <string name="nc_missing_measurements_name">Липсват измервания</string>
+    <string name="nc_missing_measurements_description">Показва уведомления в лентата на състоянието, когато даден сензор не изпраща повече измервания и ако има съмнение за срив на датчика</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">функции</string>
+    <string name="enable_daily_average">Покажи дневната средна</string>
+    <string name="enable_daily_median">Покажи дневната медиана</string>
+    <string name="enable_daily_average_median_s">Покажи под данните</string>
+    <string name="enable_nothing">Изключи средната/медианата</string>
+    <string name="enable_auto_correction_t">Автоматична корекция на грешките</string>
+    <string name="enable_auto_correction_s">Автоматична корекция на неправилни измервания</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Синхронизация</string>
+    <string name="sync_cycle">Цикъл на синхронизация</string>
+    <string name="sync_cycle_t">Цикъл на синхронизация (сек)</string>
+    <string name="sync_cycle_background">Фон на цикъла на синхронизация</string>
+    <string name="sync_cycle_background_t">Фон на цикъла на синхронизация (мин)</string>
+    <string name="seconds">секунди</string>
+    <string name="second">секунда</string>
+    <string name="minutes">минути</string>
+    <string name="minute">минута</string>
+    <string name="reduce_data_consumption">Намали консумацията на данни</string>
+    <string name="reduce_data_consumption_s">Изтегляне само на необходимите данни (може да доведе до грешки при смяна на времето)</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Външен вид</string>
+    <string name="pref_theme">Тема на приложението</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Автоматично по време</item>
+        <item name="pref_theme_array1">Светла тема</item>
+        <item name="pref_theme_array2">Тъмна тема</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
+    <string name="app_restart_t">Необходим е рестарт</string>
+    <string name="app_restart_m">За да приложите промените, е необходимо рестартиране на приложение. Искате ли да рестартирате сега или по-късно?</string>
+    <string name="now">Сега</string>
+    <string name="later">По-късно</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Известия</string>
+    <string name="pref_notification_averages">Уведомление за превишена средна стойност</string>
+    <string name="pref_notification_averages_s_true">Уведомление, когато дневната средна стойност надвишава определената стойност</string>
+    <string name="pref_notification_averages_s_false">Уведомление, когато текущата стойност надвишава определената стойност</string>
+    <string name="pref_notification_breakdown">Уведомление за повреда на датчика</string>
+    <string name="pref_notification_breakdown_s">Уведомяване за собствени сензори при спиране на няколко измервания</string>
+    <string name="pref_notification_breakdown_number">Допустим брой липсващи измервания</string>
+    <string name="pref_limit_p1">Граница на PM10</string>
+    <string name="pref_limit_p1_t">Граница на PM10 (µg/m³)</string>
+    <string name="pref_limit_p2">Граница на PM2,5</string>
+    <string name="pref_limit_p2_t">Граница на PM2,5 (µg/m³)</string>
+    <string name="pref_limit_temp">Граница на температурата</string>
+    <string name="pref_limit_temp_t">Граница на температурата (°C)</string>
+    <string name="pref_limit_humidity">Граница на влажността</string>
+    <string name="pref_limit_humidity_t">Граница на влажността (%)</string>
+    <string name="pref_limit_pressure">Граница на налягането</string>
+    <string name="pref_limit_pressure_t">Граница на налягането (hPa)</string>
+    <string name="pref_limit_disabled">Известяването е изключено</string>
+    <string name="zero_to_disable">Сложи 0, за да изключиш</string>
+    <string name="measurement">измерване</string>
+    <string name="measurements">измервания</string>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Производителност</string>
+    <string name="pref_increase_diagram_performance">Увеличи представянето на графиката</string>
+    <string name="pref_increase_diagram_performance_s">Графиката може да стане неточна</string>
+    <string name="pref_enable_marker_clustering">Включи струпането на маркерите</string>
+    <string name="pref_enable_marker_clustering_s">Сензорите на картата ще бъдат струпани интелигентно</string>
+    <string name="clear_sensor_data_t">Изчисти данните от сензора</string>
+    <string name="clear_sensor_data_m">Премахни кешираните данни, за да спестиш място</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">За приложението Финни частици</string>
+    <string name="pref_serverinfo_t">Информация за сървъра</string>
+    <string name="pref_serverinfo_downloading_">Сваля инфорамация за сървъра</string>
+    <string name="server_state">Състояние на сървъра</string>
+    <string name="client_name">Име на клиента</string>
+    <string name="min_app_version">Минимална версия</string>
+    <string name="newest_app_version">Най-новата версия</string>
+    <string name="owners">Собственик на сървъра</string>
+    <string name="serverstate_1">Сървърът е онлайн</string>
+    <string name="serverstate_2">Сървърат е офлайн</string>
+    <string name="serverstate_3">Сървърът е в ремонт</string>
+    <string name="serverstate_4">Приложението вече не се поддържа</string>
+    <string name="serverstate_1_short">Онлайн</string>
+    <string name="serverstate_2_short">Офлайн</string>
+    <string name="serverstate_3_short">В момента е в ремонт</string>
+    <string name="serverstate_4_short">Вече не се поддържа</string>
+    <string name="pref_opensource_t">Open-source лицензи</string>
+    <string name="pref_opensource_m">Подробности за лиценза за open-source софтуера</string>
+    <string name="pref_appversion">Версия на приложението</string>
+    <string name="pref_developers_t">Разработчиците</string>
+    <string name="pref_more_apps_t">Още приложения от нас</string>
+    <string name="pref_more_apps_m">Нашият PlayStore сайт</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Натиснете на Цвят, за да го приложите</string>
+    <string name="altitude">Височина</string>
+    <string name="show_gps_data">Покажи GPS данните</string>
+    <string name="show_threshold_who">Покажи прага на СЗО</string>
+    <string name="show_threshold_eu">Покажи прага на ЕС</string>
+    <string name="hide_thresholds">Скрий праговите стойности</string>
+    <string name="help">Помощ</string>
+    <string name="zoom_in">Приближи</string>
+    <string name="scan_qr_code">Сканирай QR код</string>
+    <string name="show_qr_code">Покажи QR код</string>
+    <string name="import_xml_file">Импортирай XML файл</string>
+    <string name="export_xml_file">Експортирай XML файл</string>
+    <string name="please_select_at_least_one_sensor">Моля, изберете поне един сензор</string>
+    <string name="scan_qr_code_prompt">Моля, сканирайте QR кода</string>
+    <string name="share_qr_code">Сподели QR код</string>
+</resources>

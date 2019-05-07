@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml xml_export: Android string resources
+ Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
- Locale: nl-NL, Dutch
+ Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -250,4 +250,11 @@
     <string name="hide_thresholds">Verberg drempelwaarden</string>
     <string name="help">Help</string>
     <string name="zoom_in">Zoom in</string>
+    <string name="scan_qr_code">Scan QR-code</string>
+    <string name="show_qr_code">Qr-code weergeven</string>
+    <string name="import_xml_file">XML-bestand importeren</string>
+    <string name="export_xml_file">XML-bestand exporteren</string>
+    <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
+    <string name="scan_qr_code_prompt">Gelieve de qr-code te scannen.</string>
+    <string name="share_qr_code">Deel qr-code</string>
 </resources>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Loco xml xml_export: Android string resources
+ Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
- Locale: en-US, English
+ Locale: en, English
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Tue, 07 May 2019 22:15:13 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
