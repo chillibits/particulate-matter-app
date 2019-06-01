@@ -68,6 +68,7 @@ public class CompareActivity extends AppCompatActivity {
     private GraphView diagram_humidity;
     private GraphView diagram_pressure;
     private ImageView card_date_next;
+    private ImageView card_date_today;
 
     //Variablen
     public static long selected_day_timestamp;
@@ -118,7 +119,7 @@ public class CompareActivity extends AppCompatActivity {
         //Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
-        ImageView card_date_today = findViewById(R.id.card_date_today);
+        card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
@@ -150,6 +151,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 card_date_next.setEnabled(false);
+                card_date_today.setEnabled(false);
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
@@ -170,6 +172,7 @@ public class CompareActivity extends AppCompatActivity {
                 current_calendar.set(Calendar.SECOND, 0);
                 current_calendar.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar.before(current_calendar));
+                card_date_today.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
@@ -190,12 +193,14 @@ public class CompareActivity extends AppCompatActivity {
                 current_calendar.set(Calendar.SECOND, 0);
                 current_calendar.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar.before(current_calendar));
+                card_date_today.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
             }
         });
         card_date_next.setEnabled(false);
+        card_date_today.setEnabled(false);
 
         diagram_p1 = findViewById(R.id.diagram_p1);
         diagram_p1.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -330,6 +335,7 @@ public class CompareActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.SECOND, 0);
                 calendar_new.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar_new.before(calendar));
+                card_date_today.setEnabled(calendar_new.before(calendar));
 
                 selected_day_timestamp = calendar_new.getTime().getTime();
                 card_date_value.setText(sdf_date.format(calendar_new.getTime()));

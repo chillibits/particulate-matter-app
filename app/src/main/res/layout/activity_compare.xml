@@ -37,7 +37,7 @@
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_date_back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -48,7 +48,8 @@
                 android:layout_below="@+id/card_date_title"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentStart="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/card_date_value"
@@ -61,24 +62,10 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:gravity="center_vertical"
-                android:layout_toRightOf="@+id/card_date_back"
-                android:layout_toLeftOf="@+id/card_date_today"/>
+                android:layout_toEndOf="@+id/card_date_back"
+                android:layout_toStartOf="@+id/card_date_today"/>
 
-            <ImageView
-                android:id="@+id/card_date_today"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="2dp"
-                app:srcCompat="@drawable/today_primary"
-                android:gravity="center"
-                android:adjustViewBounds="true"
-                android:layout_below="@+id/card_date_title"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/card_date_edit"/>
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_date_edit"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -90,10 +77,26 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/card_date_next"/>
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/card_date_today"/>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/card_date_today"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                app:srcCompat="@drawable/today_primary"
+                app:tint="@drawable/button_selector"
+                android:gravity="center"
+                android:adjustViewBounds="true"
+                android:layout_below="@+id/card_date_title"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/card_date_next"
+                android:focusable="true" />
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_date_next"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -106,7 +109,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -160,7 +163,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 android:layout_below="@+id/diagram_p1"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/heading_p2"
@@ -188,7 +191,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 android:layout_below="@+id/diagram_p2"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/heading_temp"
@@ -216,7 +219,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 android:layout_below="@+id/diagram_temp"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/heading_humidity"
@@ -244,7 +247,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 android:layout_below="@+id/diagram_humidity"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/heading_pressure"
@@ -271,7 +274,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 android:layout_below="@+id/diagram_pressure"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

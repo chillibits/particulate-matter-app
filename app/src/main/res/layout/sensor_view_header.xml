@@ -16,8 +16,8 @@
         android:id="@+id/header_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/header_close"
-        android:layout_toRightOf="@+id/header_icon"
+        android:layout_toStartOf="@+id/header_close"
+        android:layout_toEndOf="@+id/header_icon"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textColor="@color/white"
@@ -33,5 +33,5 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?selectableItemBackgroundBorderless"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

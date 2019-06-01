@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_COMPARE = 10004;
     private static final int REQ_SCAN_WEB = 10005;
     private static final int REQ_SCAN_SENSOR = 10006;
-    private static final String REQ_IMPORT_XML = "Import_XML";
-    private static final int REQ_SELECT_SENSORS = 10007;
 
     //Variablen als Objekte
     public static MainActivity own_instance;
@@ -155,10 +153,7 @@ public class MainActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(3);
         pager_adapter = new ViewPagerAdapterMain(getSupportFragmentManager(), this, su, smu);
         pager.setAdapter(pager_adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int pos) {
                 if (searchView.isSearchOpen()) searchView.closeSearch();
@@ -219,10 +214,6 @@ public class MainActivity extends AppCompatActivity {
                 bottom_nav.getMenu().getItem(pos).setChecked(true);
                 prevMenuItem = bottom_nav.getMenu().getItem(pos);
                 if(search_item != null) search_item.setVisible(pos != 1);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
             }
         });
 

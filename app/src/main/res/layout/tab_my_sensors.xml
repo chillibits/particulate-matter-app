@@ -6,8 +6,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sensor_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:id="@+id/no_data"
@@ -26,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/no_sensors" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="220dp"
             android:layout_height="250dp"
             android:layout_centerHorizontal="true"

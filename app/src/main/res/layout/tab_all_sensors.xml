@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/color_selection"
-        android:layout_toRightOf="@+id/map_type"
+        android:layout_toEndOf="@+id/map_type"
         android:layout_marginTop="6dp"
         android:padding="2dp"/>
 
@@ -33,19 +33,19 @@
         android:id="@+id/map_sensor_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/map_traffic"
+        android:layout_toEndOf="@+id/map_traffic"
         android:layout_alignParentTop="true"
         android:background="@color/color_selection"
         android:padding="3dp"
         android:text="@string/loading"
         android:layout_margin="6dp"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/map_sensor_refresh"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="3dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="@color/color_selection"
         app:srcCompat="@drawable/refresh_white"
         android:tint="@color/colorPrimary"/>
@@ -72,12 +72,12 @@
             android:id="@+id/sensor_chip_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:text="@string/loading"
             android:textStyle="bold"
             android:lines="1"
-            android:layout_toRightOf="@+id/sensor_icon"
+            android:layout_toEndOf="@+id/sensor_icon"
             android:layout_alignParentTop="true"/>
 
         <TextView
@@ -88,7 +88,7 @@
             android:text="@string/loading"
             android:textStyle="italic"
             android:lines="1"
-            android:layout_toRightOf="@+id/sensor_icon"
+            android:layout_toEndOf="@+id/sensor_icon"
             android:layout_below="@+id/sensor_chip_id" />
 
         <TextView
@@ -143,8 +143,8 @@
             android:id="@+id/info_sensor_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/sensor_cluster_icon"
-            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/sensor_cluster_icon"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:textStyle="bold"
             android:text="@string/loading"/>
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:text="@string/loading"
             android:layout_below="@+id/info_sensor_count"
-            android:layout_alignLeft="@+id/info_sensor_count"/>
+            android:layout_alignStart="@+id/info_sensor_count"/>
 
         <Button
             android:id="@+id/info_sensors_compare"

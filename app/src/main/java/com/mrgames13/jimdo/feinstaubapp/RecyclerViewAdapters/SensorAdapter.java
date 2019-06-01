@@ -54,6 +54,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //Variablen
     private int mode;
+    private long click_start;
 
     public SensorAdapter(MainActivity activity, ArrayList<Sensor> sensors, StorageUtils su, ServerMessagingUtils smu, int mode) {
         this.activity = activity;
@@ -131,14 +132,17 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(selected_sensors.size() > 0) {
-                        h.item_icon.flip(!h.item_icon.isFlipped());
-                    } else {
-                        Intent i = new Intent(activity, SensorActivity.class);
-                        i.putExtra("Name", sensor.getName());
-                        i.putExtra("ID", sensor.getChipID());
-                        i.putExtra("Color", sensor.getColor());
-                        activity.startActivity(i);
+                    if(System.currentTimeMillis() > click_start + 1000) {
+                        if(selected_sensors.size() > 0) {
+                            h.item_icon.flip(!h.item_icon.isFlipped());
+                        } else {
+                            Intent i = new Intent(activity, SensorActivity.class);
+                            i.putExtra("Name", sensor.getName());
+                            i.putExtra("ID", sensor.getChipID());
+                            i.putExtra("Color", sensor.getColor());
+                            activity.startActivity(i);
+                            click_start = System.currentTimeMillis();
+                        }
                     }
                 }
             });

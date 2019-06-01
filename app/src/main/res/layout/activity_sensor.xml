@@ -42,11 +42,12 @@
                     android:textStyle="bold"
                     android:textSize="16sp"/>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/card_date_back"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     app:srcCompat="@drawable/chevron_back"
+                    app:tint="@drawable/button_selector"
                     android:padding="2dp"
                     android:gravity="center"
                     android:adjustViewBounds="true"
@@ -54,7 +55,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentStart="true"/>
 
                 <TextView
                     android:id="@+id/card_date_value"
@@ -67,40 +68,42 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
-                    android:layout_toRightOf="@+id/card_date_back"
-                    android:layout_toLeftOf="@+id/card_date_today"/>
+                    android:layout_toEndOf="@+id/card_date_back"
+                    android:layout_toStartOf="@+id/card_date_today"/>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/card_date_edit"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:padding="2dp"
                     app:srcCompat="@drawable/edit_primary"
+                    app:tint="@drawable/button_selector"
                     android:gravity="center"
                     android:adjustViewBounds="true"
                     android:layout_below="@+id/card_date_title"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/card_date_today"/>
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/card_date_today"/>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/card_date_today"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:padding="2dp"
                     app:srcCompat="@drawable/today_primary"
+                    app:tint="@drawable/button_selector"
                     android:gravity="center"
                     android:adjustViewBounds="true"
                     android:layout_below="@+id/card_date_title"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginRight="5dp"
-                    android:layout_toLeftOf="@+id/card_date_next"/>
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/card_date_next"/>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/card_date_next"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -113,7 +116,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

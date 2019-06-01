@@ -21,8 +21,8 @@
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/item_icon"
-        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/item_icon"
+        android:layout_marginStart="10dp"
         android:textStyle="bold"
         android:textSize="19sp"
         android:layout_marginTop="3dp"
@@ -32,7 +32,7 @@
         android:id="@+id/item_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/item_name"
+        android:layout_alignStart="@+id/item_name"
         android:layout_below="@+id/item_name"
         android:textColor="@color/gray_light"
         android:text="@string/loading"/>
@@ -43,11 +43,11 @@
         android:layout_height="20dp"
         app:srcCompat="@drawable/sensor_white"
         app:tint="@color/colorAccent"
-        android:layout_toRightOf="@+id/item_name"
+        android:layout_toEndOf="@+id/item_name"
         android:layout_alignTop="@+id/item_name"
         android:layout_alignBottom="@id/item_name"
         android:layout_marginTop="2dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginStart="5dp"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_warning"
@@ -56,7 +56,7 @@
         android:padding="5dp"
         app:srcCompat="@drawable/warning"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/item_more"
+        android:layout_toStartOf="@+id/item_more"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
@@ -68,11 +68,11 @@
         android:layout_height="45dp"
         android:layout_centerVertical="true"
         android:padding="9dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         app:srcCompat="@drawable/more_vert"
         app:tint="@color/colorPrimary"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

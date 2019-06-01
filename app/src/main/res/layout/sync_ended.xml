@@ -7,36 +7,30 @@
     android:layout_gravity="center">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/success_image_container"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/simple_circle"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/error"
+        android:elevation="5dp">
 
-        <RelativeLayout
-            android:id="@+id/success_image_container"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@drawable/simple_circle"
-            android:layout_centerHorizontal="true"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:backgroundTint="#8F000A"
-            android:elevation="5dp">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/warning"
-                android:elevation="10dp"/>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sync_disconnected"
-            android:layout_below="@+id/success_image_container"
-            android:textSize="20sp"
-            android:layout_marginTop="50dp"
-            android:layout_centerHorizontal="true"/>
-
+            android:tint="@color/white"
+            app:srcCompat="@drawable/warning"
+            android:elevation="10dp"/>
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sync_disconnected"
+        android:layout_below="@+id/success_image_container"
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

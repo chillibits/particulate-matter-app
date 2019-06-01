@@ -154,7 +154,6 @@
             android:layout_height="wrap_content"
             android:text="@string/loading"
             android:background="#00cab7"
-            android:layout_below="@+id/cv_container"
             android:textColor="#FFF"
             android:padding="3dp"/>
     </LinearLayout>
@@ -228,7 +227,7 @@
         android:layout_height="30dp"
         android:layout_margin="10dp"
         android:padding="3dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:visibility="gone"/>
 </RelativeLayout>

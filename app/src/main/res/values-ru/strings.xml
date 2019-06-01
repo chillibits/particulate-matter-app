@@ -9,7 +9,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Приложение Particulate Matter</string>
+    <string name="app_name">Твёрдые Частицы</string>
     <string name="ok">Хорошо</string>
     <string name="yes">да</string>
     <string name="no">нет</string>

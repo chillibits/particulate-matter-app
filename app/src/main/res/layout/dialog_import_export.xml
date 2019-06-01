@@ -25,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/import_qr_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/import_qr_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/scan_qr_code"/>
     </RelativeLayout>
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/export_qr_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/export_qr_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/show_qr_code"/>
     </RelativeLayout>
@@ -78,8 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/import_xml_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/import_xml_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/import_xml_file"/>
     </RelativeLayout>
@@ -104,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/share_data_records_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/share_data_records_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/export_xml_file"/>
     </RelativeLayout>

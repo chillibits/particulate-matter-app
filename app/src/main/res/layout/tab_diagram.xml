@@ -286,8 +286,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/humidity"
                         android:padding="5dp"
-                        android:background="@color/current_values_color"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:background="@color/current_values_color"/>
 
                     <TextView
                         android:id="@+id/cv_humidity"
@@ -295,8 +295,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
                         android:padding="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/color_selection"/>
+                        android:background="@color/color_selection"
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -329,7 +329,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/loading"
                     android:background="@color/colorPrimary"
-                    android:layout_below="@+id/cv_container"
                     android:textColor="@color/white"
                     android:padding="5dp"/>
             </LinearLayout>

@@ -90,7 +90,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return tabTitles.size();
+        return 2;
     }
 
     @Override

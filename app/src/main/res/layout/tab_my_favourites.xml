@@ -7,8 +7,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sensor_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:id="@+id/no_data"
@@ -17,7 +16,7 @@
         android:layout_centerInParent="true"
         android:visibility="visible">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/no_data_image"
             app:srcCompat="@drawable/star_impossible"
             app:tint="@color/colorPrimary"

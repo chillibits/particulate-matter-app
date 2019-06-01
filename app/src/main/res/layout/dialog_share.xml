@@ -13,7 +13,7 @@
         android:focusable="true"
         android:background="?selectableItemBackground">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_sensor_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -25,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/share_sensor_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/share_sensor_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/share_sensor"/>
     </RelativeLayout>
@@ -40,7 +40,7 @@
         android:focusable="true"
         android:background="?selectableItemBackground">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_diagram_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/share_diagram_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/share_diagram_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/export_diagram"/>
     </RelativeLayout>
@@ -67,7 +67,7 @@
         android:focusable="true"
         android:background="?selectableItemBackground">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_data_records_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -79,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/share_data_records_image"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/share_data_records_image"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/export_data_records"/>
     </RelativeLayout>

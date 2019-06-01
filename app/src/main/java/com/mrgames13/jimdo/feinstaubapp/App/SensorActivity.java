@@ -74,6 +74,7 @@ public class SensorActivity extends AppCompatActivity {
     private ViewPagerAdapterSensor view_pager_adapter;
     private Calendar calendar;
     private ImageView card_date_next;
+    private ImageView card_date_today;
     private MenuItem progress_menu_item;
     private ScheduledExecutorService service;
     public static ArrayList<DataRecord> records = new ArrayList<>();
@@ -164,7 +165,7 @@ public class SensorActivity extends AppCompatActivity {
         //CardView-Komponenten initialisieren
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
-        ImageView card_date_today = findViewById(R.id.card_date_today);
+        card_date_today = findViewById(R.id.card_date_today);
         ImageView card_date_back = findViewById(R.id.card_date_back);
         card_date_next = findViewById(R.id.card_date_next);
 
@@ -196,6 +197,7 @@ public class SensorActivity extends AppCompatActivity {
                 card_date_value.setText(sdf_date.format(calendar.getTime()));
 
                 card_date_next.setEnabled(false);
+                card_date_today.setEnabled(false);
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
@@ -216,6 +218,7 @@ public class SensorActivity extends AppCompatActivity {
                 current_calendar.set(Calendar.SECOND, 0);
                 current_calendar.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar.before(current_calendar));
+                card_date_today.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
@@ -236,12 +239,14 @@ public class SensorActivity extends AppCompatActivity {
                 current_calendar.set(Calendar.SECOND, 0);
                 current_calendar.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar.before(current_calendar));
+                card_date_today.setEnabled(calendar.before(current_calendar));
 
                 //Daten für ausgewähltes Datum laden
                 loadData();
             }
         });
         card_date_next.setEnabled(false);
+        card_date_today.setEnabled(false);
 
         //RefreshPeriod setzen
         int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
@@ -279,6 +284,7 @@ public class SensorActivity extends AppCompatActivity {
                 calendar_new.set(Calendar.SECOND, 0);
                 calendar_new.set(Calendar.MILLISECOND, 0);
                 card_date_next.setEnabled(calendar_new.before(calendar));
+                card_date_today.setEnabled(calendar_new.before(calendar));
 
                 selected_day_timestamp = calendar_new.getTime().getTime();
                 card_date_value.setText(sdf_date.format(calendar_new.getTime()));
