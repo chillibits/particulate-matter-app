@@ -203,14 +203,6 @@
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/open_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/widget_refresh"
-        android:text="@string/widget_open_app"
-        android:layout_below="@+id/cv_container"/>
-
     <!-- !!!! android:src Muss so bleiben !!!! -->
     <ImageView
         android:id="@+id/widget_refresh"

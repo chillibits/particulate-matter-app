@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.mrgames13.jimdo.feinstaubapp.App.MainActivity;
-import com.mrgames13.jimdo.feinstaubapp.App.SplashActivity;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.DataRecord;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -41,11 +39,6 @@ public class WidgetProvider extends AppWidgetProvider {
         initialize(context);
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
-
-        //App öffnen
-        Intent open_app = new Intent(context, SplashActivity.class);
-        PendingIntent open_app_pi = PendingIntent.getActivity(context, 0, open_app, 0);
-        rv.setOnClickPendingIntent(R.id.open_app, open_app_pi);
 
         for(int widget_id : app_widget_id) {
             //Refresh-Button
@@ -99,11 +92,6 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     private void initializeComponents(Context context, RemoteViews rv, int widget_id) {
-        //App öffnen
-        Intent open_app = new Intent(context, MainActivity.class);
-        PendingIntent open_app_pi = PendingIntent.getActivity(context, 0, open_app, 0);
-        rv.setOnClickPendingIntent(R.id.open_app, open_app_pi);
-
         //Refresh-Button
         Intent refresh = new Intent(context, getClass());
         refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
