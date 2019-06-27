@@ -1,6 +1,6 @@
 # Feinstaub-App
 
-This is the App-Code for the Feinstaub-App.
+This is the App-Code for the Particulate Matter App.
 
 To help us translating the app, please send an email to mrgames@outlook.de
 
