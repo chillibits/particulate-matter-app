@@ -575,7 +575,7 @@ public class MainActivity extends AppCompatActivity {
                                 new AlertDialog.Builder(MainActivity.this)
                                         .setView(qr_view)
                                         .setPositiveButton(getString(R.string.ok), null)
-                                        .setNeutralButton(getString(R.string.share_sensor), new DialogInterface.OnClickListener() {
+                                        .setNeutralButton(getString(R.string.share_qr_code), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 su.shareImage(bitmap, getString(R.string.share_qr_code));

@@ -52,7 +52,7 @@
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
-    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:\nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Aanbevolen</string>
     <string name="recommend_app">aanbevolen app</string>
     <string name="recommend_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
@@ -107,7 +107,7 @@
     <string name="tab_diagram">Diagram</string>
     <string name="tab_data">Gegevensbestanden</string>
     <string name="refresh">verversen</string>
-    <string name="no_data_date">\nGeen gegevens beschikbaar voor deze datum</string>
+    <string name="no_data_date">Geen gegevens beschikbaar voor deze datum</string>
     <string name="diagram_instruction">Tik op de grafiek om deze in volledig scherm weer te geven</string>
     <string name="date_time">Tijd</string>
     <string name="temperature_short">Temp</string>
@@ -116,12 +116,12 @@
     <string name="pressure_short">Luchtdruk</string>
     <string name="humidity">Luchtvochtigheid</string>
     <string name="pressure">Luchtdruk</string>
-    <string name="no_diagram_selected">\nGeen diagram geselecteerd</string>
+    <string name="no_diagram_selected">Geen diagram geselecteerd</string>
     <string name="from">van</string>
     <string name="to">naar</string>
-    <string name="current_values">\nHuidige metingen</string>
-    <string name="state_of_">\nStaat van</string>
-    <string name="curve_smoothness_">\nCurve-gladheid:</string>
+    <string name="current_values">Huidige metingen</string>
+    <string name="state_of_">Staat van</string>
+    <string name="curve_smoothness_">Curve-gladheid:</string>
     <string name="export_data">Exporteer gegevens</string>
     <string name="export_diagram">Exporteer diagram</string>
     <string name="export_data_records">Exporteer gegevensbestanden</string>
@@ -130,53 +130,53 @@
     <string name="normal">Normaal</string>
     <string name="terrain">Terrein</string>
     <string name="satellite">Satelliet</string>
-    <string name="hybrid">\nHybride</string>
-    <string name="traffic_show">\nToon verkeer</string>
-    <string name="traffic_hide">\nVerberg verkeer</string>
+    <string name="hybrid">Hybride</string>
+    <string name="traffic_show">Toon verkeer</string>
+    <string name="traffic_hide">Verberg verkeer</string>
     <!-- DiagramActivity -->
     <string name="time_">Tijd van maatregel:</string>
     <string name="value_">Waarde:</string>
     <!-- NotificationStrings -->
-    <string name="limit_exceeded">\nLimiet overschreden</string>
+    <string name="limit_exceeded">Limiet overschreden</string>
     <string name="limit_exceeded_p1">PM10-limiet overschreden</string>
-    <string name="limit_exceeded_p2">\nPM2,5-limiet overschreden</string>
+    <string name="limit_exceeded_p2">PM2,5-limiet overschreden</string>
     <string name="limit_exceeded_temp">Temperatuurgrens overschreden</string>
-    <string name="limit_exceeded_humidity">\nLuchtvochtigheidsgrens overschreden</string>
-    <string name="limit_exceeded_pressure">\nDruklimiet overschreden</string>
+    <string name="limit_exceeded_humidity">Luchtvochtigheidsgrens overschreden</string>
+    <string name="limit_exceeded_pressure">Druklimiet overschreden</string>
     <string name="sensor_breakdown">Sensorafbraak</string>
     <!-- NotificationChannels -->
     <string name="nc_system_name">Systeemmeldingen</string>
-    <string name="nc_system_description">\nSysteemmeldingen van de Particulate Matter-app.</string>
-    <string name="nc_limit_name">\nLimiet overschrijdingen</string>
+    <string name="nc_system_description">Systeemmeldingen van de Particulate Matter-app.</string>
+    <string name="nc_limit_name">Limiet overschrijdingen</string>
     <string name="nc_limit_description">Geef meldingen weer in de statusbalk wanneer een van de aangepaste limieten wordt overschreden.</string>
     <string name="nc_missing_measurements_name">Ontbrekende metingen</string>
-    <string name="nc_missing_measurements_description">\nToont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
+    <string name="nc_missing_measurements_description">Toont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
     <!-- Feature Settings -->
     <string name="pref_header_features">Kenmerken</string>
     <string name="enable_daily_average">Toon dagelijks gemiddelde</string>
     <string name="enable_daily_median">Toon dagelijkse mediaan</string>
     <string name="enable_daily_average_median_s">Wordt weergegeven onder de gegevensbestanden</string>
-    <string name="enable_nothing">\nSchakel gemiddelde / mediaan uit</string>
-    <string name="enable_auto_correction_t">\nAutomatische foutcorrectie</string>
-    <string name="enable_auto_correction_s">\nAutomatische correctie van defecte metingen</string>
+    <string name="enable_nothing">Schakel gemiddelde / mediaan uit</string>
+    <string name="enable_auto_correction_t">Automatische foutcorrectie</string>
+    <string name="enable_auto_correction_s">Automatische correctie van defecte metingen</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisatie</string>
     <string name="sync_cycle">Synchronisatiecyclus</string>
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
-    <string name="sync_cycle_background_t">\nSynchronisatiecyclus achtergrond (min)</string>
+    <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
     <string name="seconds">secondes</string>
     <string name="second">seconde</string>
     <string name="minutes">minuten</string>
     <string name="minute">minuut</string>
-    <string name="reduce_data_consumption">\nVerminder gegevensgebruik</string>
+    <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Verschijning</string>
-    <string name="pref_theme">\nApp-Thema</string>
+    <string name="pref_theme">App-Thema</string>
     <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">\nAutomatisch op tijd</item>
-        <item name="pref_theme_array1">\nLicht thema</item>
+        <item name="pref_theme_array0">Automatisch op tijd</item>
+        <item name="pref_theme_array1">Licht thema</item>
         <item name="pref_theme_array2">Donker thema</item>
     </string-array>
     <string-array name="pref_theme_array_values">
@@ -184,7 +184,7 @@
         <item name="pref_theme_array_values1">1</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
-    <string name="app_restart_t">\nHerstart nodig</string>
+    <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wilt u nu of later opnieuw opstarten?</string>
     <string name="now">Nu</string>
     <string name="later">Later</string>
@@ -192,31 +192,31 @@
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
     <string name="pref_notification_averages_s_true">Melding, wanneer het daggemiddelde de vastgestelde waarde overschrijdt</string>
-    <string name="pref_notification_averages_s_false">\nMelding, wanneer de huidige waarde groter is dan de vastgestelde waarde</string>
-    <string name="pref_notification_breakdown">\nMelding over sensorafbraak</string>
-    <string name="pref_notification_breakdown_s">\nMelding voor eigen sensoren wanneer breukmetingen opschorten</string>
+    <string name="pref_notification_averages_s_false">Melding, wanneer de huidige waarde groter is dan de vastgestelde waarde</string>
+    <string name="pref_notification_breakdown">Melding over sensorafbraak</string>
+    <string name="pref_notification_breakdown_s">Melding voor eigen sensoren wanneer breukmetingen opschorten</string>
     <string name="pref_notification_breakdown_number">Toegestaan ​​aantal ontbrekende metingen</string>
     <string name="pref_limit_p1">PM10 limiet</string>
     <string name="pref_limit_p1_t">PM10-limiet (μg/m³)</string>
     <string name="pref_limit_p2">PM2,5 limiet</string>
-    <string name="pref_limit_p2_t">\nPM2,5-limiet (μg/m³)</string>
+    <string name="pref_limit_p2_t">PM2,5-limiet (μg/m³)</string>
     <string name="pref_limit_temp">Temperatuur limiet</string>
-    <string name="pref_limit_temp_t">\nTemperatuurlimiet (° C)</string>
-    <string name="pref_limit_humidity">\nVochtigheidslimiet</string>
+    <string name="pref_limit_temp_t">Temperatuurlimiet (° C)</string>
+    <string name="pref_limit_humidity">Vochtigheidslimiet</string>
     <string name="pref_limit_humidity_t">Luchtvochtigheid limiet (%)</string>
     <string name="pref_limit_pressure">Luchtdruk limiet</string>
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
-    <string name="pref_limit_disabled">\nMelding uitgeschakeld</string>
+    <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
     <string name="measurement">meting</string>
-    <string name="measurements">\nmetingen</string>
+    <string name="measurements">metingen</string>
     <!-- Performance Settings -->
-    <string name="pref_header_performance">\nPrestatie</string>
+    <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
     <string name="pref_increase_diagram_performance_s">Diagram kan onnauwkeurig worden</string>
-    <string name="pref_enable_marker_clustering">\nMarkeringclustering inschakelen</string>
+    <string name="pref_enable_marker_clustering">Markeringclustering inschakelen</string>
     <string name="pref_enable_marker_clustering_s">Sensoren op de kaart worden intelligent geclusterd</string>
-    <string name="clear_sensor_data_t">\nWis sensorgegevens</string>
+    <string name="clear_sensor_data_t">Wis sensorgegevens</string>
     <string name="clear_sensor_data_m">Wis gecachte gegevens om opslag te besparen</string>
     <!-- About Settings -->
     <string name="pref_header_about">Over de Particulate Matter-app</string>
@@ -230,13 +230,13 @@
     <string name="serverstate_1">Server is online</string>
     <string name="serverstate_2">Server is offline</string>
     <string name="serverstate_3">Server wordt onderhouden</string>
-    <string name="serverstate_4">\nApp wordt niet langer ondersteund</string>
+    <string name="serverstate_4">App wordt niet langer ondersteund</string>
     <string name="serverstate_1_short">Online</string>
     <string name="serverstate_2_short">Offline</string>
     <string name="serverstate_3_short">Wordt onderhouden</string>
     <string name="serverstate_4_short">Wordt niet langer ondersteunt</string>
-    <string name="pref_opensource_t">\nOpen-source licenties</string>
-    <string name="pref_opensource_m">\nLicentiedetails voor open-source-software</string>
+    <string name="pref_opensource_t">Open-source licenties</string>
+    <string name="pref_opensource_m">Licentiedetails voor open-source-software</string>
     <string name="pref_appversion">App versie</string>
     <string name="pref_developers_t">De ontwikkelaars</string>
     <string name="pref_more_apps_t">Meer apps van ons</string>

@@ -363,6 +363,14 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             map = googleMap;
             map.getUiSettings().setRotateGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
+
+            //MyLocationButton verschieben
+            View locationButton = ((View) map_fragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+            rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            rlp.setMargins(0, 0, 27, 430);
+
             @SuppressLint("ResourceType") View zoomControls = map_fragment.getView().findViewById(0x1);
             if (zoomControls != null && zoomControls.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) zoomControls.getLayoutParams();

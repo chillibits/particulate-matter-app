@@ -94,11 +94,19 @@ public class SyncJobService extends JobService {
         //Prüfen, ob Intenet verfügbar ist
         if(smu.isInternetAvailable()) {
             //MaxLimit aus den SharedPreferences auslesen
-            limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
-            limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
-            limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
-            limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
-            limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
+            try{ // Dieser Try-Catch Block ist vorübergehend aufgrund von Fehler durch NumberFormat Exception drin
+                limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
+                limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
+                limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
+                limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
+                limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
+            } catch (NumberFormatException e) {
+                su.putString("limit_p1", String.valueOf(limit_p1 = Constants.DEFAULT_P1_LIMIT));
+                su.putString("limit_p2", String.valueOf(limit_p2 = Constants.DEFAULT_P2_LIMIT));
+                su.putString("limit_temp", String.valueOf(limit_temp = Constants.DEFAULT_TEMP_LIMIT));
+                su.putString("limit_humidity", String.valueOf(limit_humidity = Constants.DEFAULT_HUMIDITY_LIMIT));
+                su.putString("limit_pressure", String.valueOf(limit_pressure = Constants.DEFAULT_PRESSURE_LIMIT));
+            }
 
             new Thread(new Runnable() {
                 @Override

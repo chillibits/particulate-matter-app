@@ -148,6 +148,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static LineDataSet th_who_p1;
         private static LineDataSet th_who_p2;
         private static ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        private static ArrayList<ILineDataSet> dataSetsFull = new ArrayList<>();
         private static TextView cv_p1;
         private static TextView cv_p2;
         private static TextView cv_temp;
@@ -169,7 +170,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             chart.setPinchZoom(false);
             chart.setHighlightPerTapEnabled(false);
             chart.setHighlightPerDragEnabled(false);
-            chart.setKeepPositionOnRotation(true);
             chart.setDescription(null);
             chart.getLegend().setEnabled(false);
             //Linke y-Achse
@@ -177,6 +177,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             left.setValueFormatter(new LargeValueFormatter());
             left.setDrawAxisLine(true);
             left.setDrawGridLines(false);
+            left.setAxisMinimum(0);
             //Rechte y-Achse
             YAxis right = chart.getAxisRight();
             right.setValueFormatter(new LargeValueFormatter());
@@ -247,6 +248,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         med_p1.setVisible(custom_median.isChecked() && value);
                         th_eu_p1.setVisible(custom_threshold_eu.isChecked() && value);
                         th_who_p1.setVisible(custom_threshold_who.isChecked() && value);
+
+                        /*double highest = 0;
+                        if(value) highest = Tools.findHighestMeasurement(records, 1);
+                        if(custom_p2.isChecked()) highest = Math.max(highest, Tools.findHighestMeasurement(records, 2));
+                        Log.d("FA", String.valueOf(highest));
+                        chart.getAxisLeft().setAxisMaximum((float) (highest));*/
+
                         showGraph(0, value);
                     }
                 }
@@ -264,6 +272,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         med_p2.setVisible(custom_median.isChecked() && value);
                         th_eu_p2.setVisible(custom_threshold_eu.isChecked() && value);
                         th_who_p2.setVisible(custom_threshold_who.isChecked() && value);
+
+                        /*double highest = 0;
+                        if(custom_p1.isChecked()) highest = Tools.findHighestMeasurement(records, 1);
+                        if(value) highest = Math.max(highest, Tools.findHighestMeasurement(records, 2));
+                        Log.d("FA", String.valueOf(highest));
+                        chart.getAxisLeft().setAxisMaximum((float) (highest));*/
+
                         showGraph(1, value);
                     }
                 }
@@ -434,6 +449,9 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
         private static void showGraph(int index, boolean show) {
             dataSets.get(index).setVisible(show);
+            /*if(show) dataSets.set(index, dataSetsFull.get(index));
+            if(!show) dataSets.set(index, new LineDataSet(null, ""));*/
+            chart.fitScreen();
             chart.invalidate();
         }
 
@@ -602,6 +620,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     contentView.findViewById(R.id.no_data).setVisibility(View.GONE);
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.VISIBLE);
 
+                    //Datensätze sortieren
                     int tmp = SensorActivity.sort_mode;
                     SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
                     Collections.sort(records);
@@ -623,7 +642,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                     }
 
-                    //Normale Graphen
+                    //Normale Linien
                     //PM1
                     p1 = new LineDataSet(entries_1, res.getString(R.string.value1) + " (µg/m³)");
                     p1.setColor(res.getColor(R.color.series1));
@@ -631,7 +650,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     p1.setLineWidth(1.5f);
                     p1.setDrawValues(false);
                     p1.setAxisDependency(YAxis.AxisDependency.LEFT);
-                    p1.setVisible(/*dataSets.size() > 0 ? dataSets.get(0).isVisible() : */SensorActivity.custom_p1);
+                    p1.setVisible(SensorActivity.custom_p1);
 
                     //PM2
                     p2 = new LineDataSet(entries_2, res.getString(R.string.value2) + " (µg/m³)");
@@ -640,7 +659,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     p2.setLineWidth(1.5f);
                     p2.setDrawValues(false);
                     p2.setAxisDependency(YAxis.AxisDependency.LEFT);
-                    p2.setVisible(/*dataSets.size() > 0 ? dataSets.get(1).isVisible() : */SensorActivity.custom_p2);
+                    p2.setVisible(SensorActivity.custom_p2);
 
                     //Temperature
                     temp = new LineDataSet(entries_3, res.getString(R.string.temperature) + " (°C)");
@@ -649,7 +668,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     temp.setLineWidth(1.5f);
                     temp.setDrawValues(false);
                     temp.setAxisDependency(YAxis.AxisDependency.RIGHT);
-                    temp.setVisible(/*dataSets.size() > 0 ? dataSets.get(2).isVisible() : */SensorActivity.custom_temp);
+                    temp.setVisible(SensorActivity.custom_temp);
 
                     //Humidity
                     humidity = new LineDataSet(entries_4, res.getString(R.string.humidity) + " (%)");
@@ -658,7 +677,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     humidity.setLineWidth(1.5f);
                     humidity.setDrawValues(false);
                     humidity.setAxisDependency(YAxis.AxisDependency.RIGHT);
-                    humidity.setVisible(/*dataSets.size() > 0 ? dataSets.get(3).isVisible() : */SensorActivity.custom_humidity);
+                    humidity.setVisible(SensorActivity.custom_humidity);
 
                     //Pressure
                     pressure = new LineDataSet(entries_5, res.getString(R.string.pressure) + " (hPa)");
@@ -667,7 +686,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     pressure.setLineWidth(1.5f);
                     pressure.setDrawValues(false);
                     pressure.setAxisDependency(YAxis.AxisDependency.RIGHT);
-                    pressure.setVisible(/*dataSets.size() > 0 ? dataSets.get(4).isVisible() : */SensorActivity.custom_pressure);
+                    pressure.setVisible(SensorActivity.custom_pressure);
 
                     //Durchschnitte
                     av_p1 = getAverageMedianPM1(true, false, first_time);
@@ -689,6 +708,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     th_who_p1 = getThresholdPM1(false, true, first_time);
                     th_who_p2 = getThresholdPM2(false, true, first_time);
 
+                    //Die einzelnen Linien zu eimem Diagramm zusammenfassen
                     dataSets.clear();
                     dataSets.add(p1);
                     dataSets.add(p2);
@@ -709,15 +729,16 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     dataSets.add(th_eu_p2);
                     dataSets.add(th_who_p1);
                     dataSets.add(th_who_p2);
+                    dataSetsFull = (ArrayList<ILineDataSet>) dataSets.clone();
                     chart.setData(new LineData(dataSets));
 
+                    //Neu zeichnen & animieren
                     chart.invalidate();
                     chart.animateY(700, Easing.EaseInCubic);
                 } else {
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
-
                 updateLastValues();
             } else {
                 contentView.findViewById(R.id.diagram_container).setVisibility(View.GONE);

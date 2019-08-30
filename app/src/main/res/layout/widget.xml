@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#f1f1f1"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:text="@string/value1"/>
 
@@ -46,7 +46,7 @@
                 android:id="@+id/cv_p1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:background="#FFF"
                 android:text="@string/loading"/>
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/value2"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:background="#FFF"
                 android:layout_weight="1"/>
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:background="#f1f1f1"/>
         </LinearLayout>
@@ -88,14 +88,14 @@
                 android:text="@string/temperature"
                 android:layout_weight="1"
                 android:background="#f1f1f1"
-                android:padding="5dp"/>
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/cv_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:background="#FFF"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -110,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/humidity"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:background="#FFF"
                 android:layout_weight="1"/>
 
@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:background="#f1f1f1"/>
         </LinearLayout>
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pressure"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_weight="1"
                 android:background="#f1f1f1"/>
 
@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:background="#FFF"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -154,6 +154,7 @@
             android:layout_height="wrap_content"
             android:text="@string/loading"
             android:background="#00cab7"
+            android:textSize="15sp"
             android:textColor="#FFF"
             android:padding="3dp"/>
     </LinearLayout>
@@ -210,7 +211,7 @@
         android:layout_height="30dp"
         android:src="@drawable/refresh_white"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:layout_alignParentRight="true"/>
 
     <ProgressBar

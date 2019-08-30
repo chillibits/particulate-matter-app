@@ -56,19 +56,6 @@ public class Tools {
         return "";
     }
 
-    /*public static long timestampToUTCTimestamp(long timestamp) {
-        Calendar cal = Calendar.getInstance();
-        long offset = cal.getTimeZone().getOffset(timestamp);
-        return timestamp - offset;
-    }
-
-    public static long UTCTimestampToTimestamp(long timestamp) {
-        Calendar cal = Calendar.getInstance();
-        long offset = cal.getTimeZone().getOffset(timestamp);
-        //offset += TimeUnit.HOURS.toMillis(1);
-        return timestamp + offset;
-    }*/
-
     public static double calculateMedian(ArrayList<Double> records) {
         if(records.size() == 0) return 0;
         Collections.sort(records);
@@ -232,5 +219,22 @@ public class Tools {
         for(int i = 1; i < records.size(); i++) distances.add(records.get(i).getDateTime().getTime() - records.get(i -1).getDateTime().getTime());
         Collections.sort(distances);
         return distances.get(distances.size() / 2);
+    }
+
+    public static double findHighestMeasurement(ArrayList<DataRecord> records, int mode) {
+        double highest = 0;
+        if(mode == 1) {
+            for(DataRecord r : records) highest = r.getP1() > highest ? r.getP1() : highest;
+        } else if(mode == 2) {
+            for(DataRecord r : records) highest = r.getP2() > highest ? r.getP2() : highest;
+        } else if(mode == 3) {
+            for(DataRecord r : records) highest = r.getTemp() > highest ? r.getTemp() : highest;
+        } else if(mode == 4) {
+            for(DataRecord r : records) highest = r.getHumidity() > highest ? r.getHumidity() : highest;
+        } else if(mode == 5) {
+            for(DataRecord r : records) highest = r.getPressure() > highest ? r.getPressure() : highest;
+        }
+        Log.d("FA", "Highest: " + highest);
+        return highest;
     }
 }
