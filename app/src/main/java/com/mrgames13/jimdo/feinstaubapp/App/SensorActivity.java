@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.Manifest;
@@ -9,12 +13,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -51,7 +57,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class SensorActivity extends AppCompatActivity {
+public class SensorActivity extends AppCompatActivity implements ViewPagerAdapterSensor.OnFragmentsLoadedListener {
 
     //Konstanten
     public static final int SORT_MODE_TIME_ASC = 101;
@@ -96,19 +102,32 @@ public class SensorActivity extends AppCompatActivity {
     public static boolean custom_humidity = false;
     public static boolean custom_pressure = false;
     private int export_mode;
+    private int bottomInsets = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor);
 
-        //Resourcen initialisieren
-        res = getResources();
-
         //Toolbar initialisieren
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                    toolbar.setPadding(0, insets.getSystemWindowInsetTop(), 0, 0);
+                    bottomInsets = insets.getSystemWindowInsetBottom();
+                    return insets;
+                }
+            });
+        }
+
+        //Resourcen initialisieren
+        res = getResources();
 
         //StorageUtils initialisieren
         su = new StorageUtils(this);
@@ -130,7 +149,16 @@ public class SensorActivity extends AppCompatActivity {
 
         //ViewPager initialisieren
         view_pager = findViewById(R.id.view_pager);
-        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()));
+        view_pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | (position == 0 ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0));
+                }
+            }
+        });
+        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()), bottomInsets);
         view_pager.setAdapter(view_pager_adapter);
 
         //TabLayout aufsetzen
@@ -553,6 +581,19 @@ public class SensorActivity extends AppCompatActivity {
             i.setType(URLConnection.guessContentTypeFromName(export_uri.getPath()));
             i.putExtra(Intent.EXTRA_STREAM, export_uri);
             startActivity(Intent.createChooser(i, getString(R.string.export_data_records)));
+        }
+    }
+
+    @Override
+    public void onDiagramFragmentLoaded(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) view.setPadding(0, 0, 0, bottomInsets + Tools.dpToPx(3));
+    }
+
+    @Override
+    public void onDataFragmentLoaded(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            int paddingInPixels = Tools.dpToPx(3);
+            view.setPadding(paddingInPixels, paddingInPixels, paddingInPixels, bottomInsets + paddingInPixels);
         }
     }
 }

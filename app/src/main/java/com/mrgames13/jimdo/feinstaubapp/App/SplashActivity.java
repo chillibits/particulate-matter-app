@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.App;
 
 import android.content.Intent;
@@ -17,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         //SplashScreen anzeigen
         SplashScreenBuilder.getInstance(this)
                 .setVideo(R.raw.splash_animation)
+                .setVideoDark(R.raw.splash_animation_dark)
                 .setImage(R.drawable.app_icon)
                 .show();
         overridePendingTransition(0, 0);
@@ -24,9 +29,10 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
             Intent intent = new Intent(this, MainActivity.class);
-            if(getIntent().getExtras() != null) intent.putExtras(getIntent().getExtras());
+            if (getIntent().getExtras() != null) intent.putExtras(getIntent().getExtras());
             startActivity(intent);
             finish();
         }

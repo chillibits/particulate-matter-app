@@ -1,5 +1,10 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.App;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -31,8 +36,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,7 +48,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -64,6 +70,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.FullscreenMode;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
@@ -101,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Variablen als Objekte
     public static MainActivity own_instance;
+    private Toolbar toolbar;
     private Resources res;
+    private RelativeLayout container;
     private ViewPager pager;
     public ViewPagerAdapterMain pager_adapter;
     private BottomNavigationView bottom_nav;
@@ -122,17 +131,23 @@ public class MainActivity extends AppCompatActivity {
     private boolean pressedOnce;
     private int selected_page;
     private boolean selection_running;
+    private boolean show_toolbar = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Toolbar initialisieren
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+
         //StorageUtils initialisieren
         su = new StorageUtils(this);
 
-        int state = Integer.parseInt(su.getString("app_theme", "0"));
-        AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //int state = Integer.parseInt(su.getString("app_theme", "0"));
+        //AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO_TIME : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
 
         //Eigene Intanz initialisieren
         own_instance = this;
@@ -140,15 +155,11 @@ public class MainActivity extends AppCompatActivity {
         //Resourcen initialisieren
         res = getResources();
 
-        //Toolbar initialisieren
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        setSupportActionBar(toolbar);
-
         //ServerMessagingUtils initialisieren
         smu = new ServerMessagingUtils(this, su);
 
         //Komponenten initialisieren
+        container = findViewById(R.id.container);
         pager = findViewById(R.id.view_pager);
         pager.setOffscreenPageLimit(3);
         pager_adapter = new ViewPagerAdapterMain(getSupportFragmentManager(), this, su, smu);
@@ -161,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fab.getVisibility() == View.VISIBLE) {
                         Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
                         a.setAnimationListener(new SimpleAnimationListener() {
+                            @SuppressLint("RestrictedApi")
                             @Override
                             public void onAnimationEnd(Animation animation) {
                                 fab.setVisibility(View.GONE);
@@ -228,6 +240,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                    toolbar.setPadding(0, insets.getSystemWindowInsetTop(), 0, 0);
+                    bottom_nav.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+                    return insets;
+                }
+            });
+        }
 
         final int nightModeFlags = res.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
@@ -366,21 +390,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(searchView.isSearchOpen()) {
-                searchView.closeSearch();
-            } else if(!pager_adapter.closeInfoWindow()) {
-                if(!pressedOnce) {
-                    pressedOnce = true;
-                    Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            pressedOnce = false;
-                        }
-                    }, 2500);
-                } else {
-                    pressedOnce = false;
-                    onBackPressed();
+            if(!show_toolbar) {
+                toggleToolbar();
+            } else {
+                if(searchView.isSearchOpen()) {
+                    searchView.closeSearch();
+                } else if(!pager_adapter.closeInfoWindow()) {
+                    if(!pressedOnce) {
+                        pressedOnce = true;
+                        Toast.makeText(MainActivity.this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                pressedOnce = false;
+                            }
+                        }, 2500);
+                    } else {
+                        pressedOnce = false;
+                        onBackPressed();
+                    }
                 }
             }
             return true;
@@ -673,12 +701,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQ_ADD_OWN_SENSOR) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();
-        } else if(requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
+        } else if (requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
             Place place = PlaceAutocomplete.getPlace(this, data);
             ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
-        } else if(requestCode == REQ_COMPARE) {
+        } else if (requestCode == REQ_COMPARE) {
             sheet_fab_compare.contractFab();
         } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -686,11 +715,11 @@ public class MainActivity extends AppCompatActivity {
                 String searchWrd = matches.get(0);
                 if (!TextUtils.isEmpty(searchWrd)) searchView.setQuery(searchWrd, false);
             }
-        } else if(requestCode == REQ_SCAN_WEB && resultCode == RESULT_OK) {
-            try{
+        } else if (requestCode == REQ_SCAN_WEB && resultCode == RESULT_OK) {
+            try {
                 IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
                 String sync_key = result.getContents();
-                if(sync_key.length() == 25 && !sync_key.startsWith("http")) {
+                if (sync_key.length() == 25 && !sync_key.startsWith("http")) {
                     Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
                     i.putExtra("sync_key", sync_key);
                     startService(i);
@@ -706,18 +735,18 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(MainActivity.this, R.string.error_try_again, Toast.LENGTH_SHORT).show();
             }
-        } else if(requestCode == REQ_SCAN_SENSOR && resultCode == RESULT_OK) {
-            try{
+        } else if (requestCode == REQ_SCAN_SENSOR && resultCode == RESULT_OK) {
+            try {
                 IntentResult result = IntentIntegrator.parseActivityResult(resultCode, data);
                 String configuration_string = result.getContents();
-                if(configuration_string.startsWith(QR_PREFIX_SUFFIX) && configuration_string.endsWith(QR_PREFIX_SUFFIX)) {
+                if (configuration_string.startsWith(QR_PREFIX_SUFFIX) && configuration_string.endsWith(QR_PREFIX_SUFFIX)) {
                     configuration_string = configuration_string.substring(0, configuration_string.length() - QR_PREFIX_SUFFIX.length()).substring(QR_PREFIX_SUFFIX.length());
                     String[] configs = configuration_string.split(";");
-                    for(String config : configs) {
+                    for (String config : configs) {
                         String chip_id = config.split(",")[0];
                         String name = new String(Base64.decode(config.split(",")[1], Base64.DEFAULT), StandardCharsets.UTF_8);
                         int color = Integer.parseInt(config.split(",")[2]);
-                        if(!su.isSensorExisting(chip_id)) {
+                        if (!su.isSensorExisting(chip_id)) {
                             su.addFavourite(new Sensor(chip_id, name, color), false);
                             Toast.makeText(MainActivity.this, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show();
                         } else {
@@ -854,5 +883,70 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         }
+    }
+
+    public void toggleToolbar() {
+        if(show_toolbar) {
+            hideToolbar();
+        } else {
+            showToolbar();
+        }
+        FullscreenMode.setFullscreenMode(getWindow(), show_toolbar);
+        show_toolbar = !show_toolbar;
+    }
+
+    private void hideToolbar() {
+        toolbar.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
+
+        pager.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
+        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() + bottom_nav.getMeasuredHeight() + toolbar.getMeasuredHeight());
+        va.setDuration(500L);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) container.getLayoutParams();
+                layoutParams.height = val;
+                container.setLayoutParams(layoutParams);
+
+            }
+        });
+        va.start();
+
+        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_out);
+        a.setAnimationListener(new SimpleAnimationListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationStart(Animation animation) {
+                fab.setVisibility(View.GONE);
+            }
+        });
+        fab.startAnimation(a);
+    }
+
+    private void showToolbar() {
+        toolbar.animate().translationY(0).setDuration(250L).start();
+
+        pager.animate().translationY(0).setDuration(250L).start();
+        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() - bottom_nav.getMeasuredHeight() - toolbar.getMeasuredHeight());
+        va.setDuration(250L);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) container.getLayoutParams();
+                layoutParams.height = val;
+                container.setLayoutParams(layoutParams);
+            }
+        });
+        va.start();
+
+        Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_in);
+        a.setAnimationListener(new SimpleAnimationListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationStart(Animation animation) {
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
+        fab.startAnimation(a);
     }
 }

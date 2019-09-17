@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mrgames13.jimdo.feinstaubapp"
@@ -83,7 +87,7 @@
         <activity
             android:name=".App.DiagramActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.Fullscreen"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
@@ -112,7 +116,7 @@
         <activity
             android:name=".App.AddSensorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- CompareActivity -->
         <activity

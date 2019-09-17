@@ -1,6 +1,9 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.App;
 
-import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -23,8 +26,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.text.Html;
 import android.text.SpannableString;
@@ -33,6 +34,7 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,6 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -85,7 +86,7 @@ public class SettingsActivity extends PreferenceActivity {
         smu = new ServerMessagingUtils(this, su);
 
         //Toolbar initialisieren
-        LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
+        final LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
         toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
         toolbar.setTitleTextColor(res.getColor(R.color.white));
@@ -94,6 +95,18 @@ public class SettingsActivity extends PreferenceActivity {
         upArrow.setColorFilter(res.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(upArrow);
         root.addView(toolbar, 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                    getListView().setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+                    toolbar.setPadding(0, insets.getSystemWindowInsetTop(), 0, 0);
+                    return insets;
+                }
+            });
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +124,6 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void setupPreferencesScreen() {
-        if (isSimplePreferences(this)) return;
         addPreferencesFromResource(R.xml.pref_main);
 
         EditTextPreference sync_cycle = (EditTextPreference) findPreference("sync_cycle");
@@ -119,7 +131,7 @@ public class SettingsActivity extends PreferenceActivity {
         sync_cycle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 20) return false;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.MIN_SYNC_CYCLE) return false;
                 preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
                 return true;
             }
@@ -130,7 +142,7 @@ public class SettingsActivity extends PreferenceActivity {
         sync_cycle_background.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < 15) return false;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.MIN_SYNC_CYCLE_BACKGROUND) return false;
                 preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -465,59 +477,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onIsMultiPane() {
-        return isXLargeTablet(this) && isSimplePreferences(this);
-    }
-
-    private static boolean isXLargeTablet(Context context) {
-        //return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
         return false;
-    }
-
-    private static boolean isSimplePreferences(Context context) {
-        return !ALWAYS_SIMPLE_PREFS && isXLargeTablet(context);
-    }
-
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        if (isSimplePreferences(this)) loadHeadersFromResource(R.xml.prefs_headers, target);
-    }
-
-    private static Preference.OnPreferenceChangeListener value_listener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
-            if (preference instanceof ListPreference) {
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-                preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
-            } else {
-                preference.setSummary(stringValue);
-            }
-            return true;
-        }
-    };
-
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        preference.setOnPreferenceChangeListener(value_listener);
-        value_listener.onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
-    }
-
-    @Override
-    protected boolean isValidFragment(String fragmentName) {
-        return MainPreferenceFragment.class.getName().equals(fragmentName);
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class MainPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_main);
-
-            bindPreferenceSummaryToValue(findPreference("sensor_id"));
-            bindPreferenceSummaryToValue(findPreference("sync_cycle"));
-        }
     }
 
     private void getServerInfo(final boolean showProgressDialog, final boolean showResultDialog) {

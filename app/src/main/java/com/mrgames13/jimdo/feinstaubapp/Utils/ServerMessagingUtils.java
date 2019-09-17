@@ -1,10 +1,16 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -134,7 +140,11 @@ public class ServerMessagingUtils {
                     .setAction(R.string.activate_wlan, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            wifiManager.setWifiEnabled(true);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                context.startActivity(new Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY));
+                            } else {
+                                wifiManager.setWifiEnabled(true);
+                            }
                         }
                     })
                     .show();

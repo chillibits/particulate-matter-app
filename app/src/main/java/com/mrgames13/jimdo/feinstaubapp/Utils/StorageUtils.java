@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.content.ContentValues;
@@ -14,6 +18,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
@@ -516,6 +521,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             input_stream.close();
             return true;
         } catch (Exception e) {
+            Toast.makeText(context, R.string.error_try_again, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         return false;

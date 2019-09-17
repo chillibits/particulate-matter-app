@@ -1,5 +1,10 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -62,14 +67,22 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     private static Handler h;
     public static ArrayList<DataRecord> records = new ArrayList<>();
     private static SimpleDateFormat df_time = new SimpleDateFormat("HH:mm:ss");
+    private static OnFragmentsLoadedListener listener;
 
     //Utils-Pakete
     private static StorageUtils su;
 
     //Variablen
     private static boolean show_gps_data;
+    private static int bottomInset = 0;
 
-    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su, boolean show_gps_data) {
+    //Interfaces
+    public interface OnFragmentsLoadedListener {
+        void onDiagramFragmentLoaded(View view);
+        void onDataFragmentLoaded(View view);
+    }
+
+    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su, boolean show_gps_data, int bottomInset) {
         super(manager);
         res = activity.getResources();
         ViewPagerAdapterSensor.activity = activity;
@@ -79,8 +92,10 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         tabTitles.add(res.getString(R.string.tab_data));
         df_time.setTimeZone(TimeZone.getDefault());
         ViewPagerAdapterSensor.show_gps_data = show_gps_data;
+        ViewPagerAdapterSensor.bottomInset = bottomInset;
     }
 
+    @NotNull
     @Override
     public Fragment getItem(int pos) {
         if(pos == 0) return new DiagramFragment();
@@ -155,8 +170,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static TextView cv_humidity;
         private static TextView cv_pressure;
         private static TextView cv_time;
-
-        //Variablen
 
         @Nullable
         @Override
@@ -426,7 +439,19 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             cv_pressure = contentView.findViewById(R.id.cv_pressure);
             cv_time = contentView.findViewById(R.id.cv_time);
 
+            listener.onDiagramFragmentLoaded(contentView.findViewById(R.id.diagram_container));
+
             return contentView;
+        }
+
+        public void onAttach(@NotNull Context context) {
+            super.onAttach(context);
+            try {
+                listener = (OnFragmentsLoadedListener) context;
+            }
+            catch (final ClassCastException e) {
+                throw new ClassCastException(context.toString() + " must implement OnCompleteListener");
+            }
         }
 
         private static void updateLastValues() {
@@ -784,13 +809,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static TextView footer_median_temp;
         private static TextView footer_median_humidity;
         private static TextView footer_median_pressure;
-        private static TextView record_conter;
+        private static TextView record_counter;
 
         //Variablen
 
         @Nullable
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             contentView = inflater.inflate(R.layout.tab_data, null);
             //Komponenten initialisieren
             data_view_adapter = new DataAdapter();
@@ -829,6 +854,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 footer_median_temp = contentView.findViewById(R.id.footer_median_temp);
                 footer_median_humidity = contentView.findViewById(R.id.footer_median_humidity);
                 footer_median_pressure = contentView.findViewById(R.id.footer_median_pressure);
+                record_counter = contentView.findViewById(R.id.record_counter);
 
                 heading_time.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -906,7 +932,19 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
             showGPSData(show_gps_data);
 
+            listener.onDataFragmentLoaded(record_counter);
+
             return contentView;
+        }
+
+        public void onAttach(@NotNull Context context) {
+            super.onAttach(context);
+            try {
+                listener = (OnFragmentsLoadedListener) context;
+            }
+            catch (final ClassCastException e) {
+                throw new ClassCastException(context.toString() + " must implement OnCompleteListener");
+            }
         }
 
         private void timeSortClicked() {
@@ -1036,14 +1074,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     contentView.findViewById(R.id.no_data).setVisibility(records.size() == 0 ? View.VISIBLE : View.GONE);
 
                     if (records.size() > 0) {
-                        record_conter = contentView.findViewById(R.id.record_counter);
-                        record_conter.setVisibility(View.VISIBLE);
+                        record_counter.setVisibility(View.VISIBLE);
                         contentView.findViewById(R.id.data_heading).setVisibility(View.VISIBLE);
                         contentView.findViewById(R.id.data_footer).setVisibility(View.VISIBLE);
                         contentView.findViewById(R.id.data_footer_average).setVisibility(su.getBoolean("enable_daily_average", true) ? View.VISIBLE : View.GONE);
                         contentView.findViewById(R.id.data_footer_median).setVisibility(su.getBoolean("enable_daily_median", false) ? View.VISIBLE : View.GONE);
                         String footer_string = records.size() + " " + res.getString(R.string.tab_data) + " - " + res.getString(R.string.from) + " " + df_time.format(records.get(0).getDateTime()) + " " + res.getString(R.string.to) + " " + df_time.format(records.get(records.size() - 1).getDateTime());
-                        record_conter.setText(footer_string);
+                        record_counter.setText(footer_string);
 
                         if(su.getBoolean("enable_daily_average", true)) {
                             //Mittelwerte berechnen
@@ -1117,7 +1154,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 } else {
                     contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);
                     contentView.findViewById(R.id.data_footer).setVisibility(View.INVISIBLE);
-                    contentView.findViewById(R.id.record_counter).setVisibility(View.INVISIBLE);
+                    record_counter.setVisibility(View.INVISIBLE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {}
