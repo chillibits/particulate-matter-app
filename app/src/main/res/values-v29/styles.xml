@@ -7,24 +7,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/gray_transparent</item>
-        <item name="android:statusBarColor">@color/gray_transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:navigationBarColor">@color/gray_transparent</item>
-        <item name="android:statusBarColor">@color/gray_transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="AppTheme.NoActionBar.TranslucentStatusBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:navigationBarColor">@color/gray_transparent</item>
-        <item name="android:statusBarColor">@color/gray_transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="Theme.AppCompat.DayNight.NoActionBar.Fullscreen" parent="Theme.AppCompat.DayNight.NoActionBar">

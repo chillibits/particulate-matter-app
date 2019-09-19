@@ -48,6 +48,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -79,6 +80,7 @@ import com.mrgames13.jimdo.feinstaubapp.Services.WebRealtimeSyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.NotificationUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
+import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
 import com.mrgames13.jimdo.splashscreen.HelpClasses.SimpleAnimationListener;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
@@ -132,28 +134,31 @@ public class MainActivity extends AppCompatActivity {
     private int selected_page;
     private boolean selection_running;
     private boolean show_toolbar = true;
+    private boolean shown_again_once;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //Toolbar initialisieren
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        setSupportActionBar(toolbar);
-
         //StorageUtils initialisieren
         su = new StorageUtils(this);
 
-        //int state = Integer.parseInt(su.getString("app_theme", "0"));
-        //AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO_TIME : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            int state = Integer.parseInt(su.getString("app_theme", "0"));
+            AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO_TIME : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
+        }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //Eigene Intanz initialisieren
         own_instance = this;
 
         //Resourcen initialisieren
         res = getResources();
+
+        //Toolbar initialisieren
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
 
         //ServerMessagingUtils initialisieren
         smu = new ServerMessagingUtils(this, su);
@@ -887,19 +892,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void toggleToolbar() {
         if(show_toolbar) {
-            hideToolbar();
+            hideSystemBars();
         } else {
-            showToolbar();
+            showSystemBars();
         }
         FullscreenMode.setFullscreenMode(getWindow(), show_toolbar);
         show_toolbar = !show_toolbar;
     }
 
-    private void hideToolbar() {
+    private void hideSystemBars() {
+        int statusBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getStatusBarHeight(this);
+        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getNavigationBarHeight(this);
         toolbar.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
-
         pager.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
-        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() + bottom_nav.getMeasuredHeight() + toolbar.getMeasuredHeight());
+        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() + bottom_nav.getMeasuredHeight() + toolbar.getMeasuredHeight() + (shown_again_once ? 0 : statusBarHeight) +navigationBarHeight);
         va.setDuration(500L);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -923,11 +929,12 @@ public class MainActivity extends AppCompatActivity {
         fab.startAnimation(a);
     }
 
-    private void showToolbar() {
+    private void showSystemBars() {
+        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getNavigationBarHeight(this);
         toolbar.animate().translationY(0).setDuration(250L).start();
-
+        toolbar.setPadding(0, Tools.getStatusBarHeight(this), 0, 0);
         pager.animate().translationY(0).setDuration(250L).start();
-        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() - bottom_nav.getMeasuredHeight() - toolbar.getMeasuredHeight());
+        ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() - bottom_nav.getMeasuredHeight() - toolbar.getMeasuredHeight() - navigationBarHeight);
         va.setDuration(250L);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -948,5 +955,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         fab.startAnimation(a);
+        shown_again_once = true;
     }
 }

@@ -26,6 +26,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.SwitchPreference;
 import android.text.Html;
 import android.text.SpannableString;
@@ -40,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
@@ -106,6 +108,9 @@ public class SettingsActivity extends PreferenceActivity {
                     return insets;
                 }
             });
+        } else {
+            int state = Integer.parseInt(su.getString("app_theme", "0"));
+            AppCompatDelegate.setDefaultNightMode(state == 0 ? AppCompatDelegate.MODE_NIGHT_AUTO_TIME : (state == 1 ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES));
         }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -174,27 +179,32 @@ public class SettingsActivity extends PreferenceActivity {
         });
 
         ListPreference app_theme = (ListPreference) findPreference("app_theme");
-        app_theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
-                        .setTitle(R.string.app_restart_t)
-                        .setMessage(R.string.app_restart_m)
-                        .setCancelable(true)
-                        .setNegativeButton(R.string.later, null)
-                        .setPositiveButton(R.string.now, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        })
-                        .create();
-                d.show();
-                return true;
-            }
-        });
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            PreferenceCategory category = (PreferenceCategory) findPreference("appearance_settings");
+            getPreferenceScreen().removePreference(category);
+        } else {
+            app_theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    AlertDialog d = new AlertDialog.Builder(SettingsActivity.this)
+                            .setTitle(R.string.app_restart_t)
+                            .setMessage(R.string.app_restart_m)
+                            .setCancelable(true)
+                            .setNegativeButton(R.string.later, null)
+                            .setPositiveButton(R.string.now, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                }
+                            })
+                            .create();
+                    d.show();
+                    return true;
+                }
+            });
+        }
 
         EditTextPreference limit_p1 = (EditTextPreference) findPreference("limit_p1");
         EditTextPreference limit_p2 = (EditTextPreference) findPreference("limit_p2");
