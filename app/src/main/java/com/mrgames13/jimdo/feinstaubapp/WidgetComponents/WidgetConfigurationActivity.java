@@ -1,11 +1,17 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.WidgetComponents;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.Button;
 import android.widget.RemoteViews;
 
@@ -51,6 +57,18 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.widget_select_sensor);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                    toolbar.setPadding(0, insets.getSystemWindowInsetTop(), 0, 0);
+                    sensor_view.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+                    return insets;
+                }
+            });
+        }
 
         //AppWidgetID laden
         Intent intent = getIntent();

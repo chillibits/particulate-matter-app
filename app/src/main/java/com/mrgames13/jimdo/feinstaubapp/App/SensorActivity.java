@@ -11,7 +11,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -75,7 +74,6 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     private static final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
     //Variablen als Objekte
-    private Resources res;
     private ViewPager view_pager;
     private ViewPagerAdapterSensor view_pager_adapter;
     private Calendar calendar;
@@ -126,9 +124,6 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             });
         }
 
-        //Resourcen initialisieren
-        res = getResources();
-
         //StorageUtils initialisieren
         su = new StorageUtils(this);
 
@@ -145,7 +140,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             getSupportActionBar().setTitle(getIntent().getStringExtra("Name"));
         }
         if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
-        if (getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", res.getColor(R.color.colorPrimary)));
+        if (getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", getResources().getColor(R.color.colorPrimary)));
 
         //ViewPager initialisieren
         view_pager = findViewById(R.id.view_pager);
@@ -158,14 +153,14 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 }
             }
         });
-        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()), bottomInsets);
+        view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()));
         view_pager.setAdapter(view_pager_adapter);
 
         //TabLayout aufsetzen
         TabLayout tab_layout = findViewById(R.id.tablayout);
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         tab_layout.setupWithViewPager(view_pager);
-        tab_layout.setBackgroundColor(res.getColor(R.color.colorPrimary));
+        tab_layout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

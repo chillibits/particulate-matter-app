@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters;
 
 import android.content.Context;
@@ -47,7 +51,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
         this.selection_mode = selection_mode;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         //Variablen als Objekte
         private FlipView item_icon;
         private TextView item_name;

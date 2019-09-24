@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
 <resources>
     <!-- Long Strings -->
-    <string name="openSourceLicense" translatable="false"><![CDATA[<b>This application may use or contain portions of libraries subject to the following licenses:</b><br><br>- appcompat-v7<br>- design<br>- recyclerview-v7<br>- palette-v7<br>- support-v4<br>- support-vector-drawable<br>- cardview-v7<br>- graphview<br>- MaterialScrollBar<br>- ColorPickerPreference<br>- FabTransitionActivity<br>- Google Maps API<br>- Google Places API<br>- FlipView<br>- MaterialSearchView<br><br><b><a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a></b>]]></string>
+    <string name="openSourceLicense" translatable="false"><![CDATA[<b>This application may use or contain portions of libraries subject to the following licenses:</b><br><br>- appcompat<br>- material<br>- recyclerview<br>- palette<br>- legacy-support-v4<br>- vector-drawable<br>- cardview<br>- graphview<br>- MaterialScrollBar<br>- ColorPickerPreference<br>- fabtransitionactivity<br>- play-services-maps<br>- play-services-places<br>- android-maps-utils<br>- flipview<br>- materialsearchview<br>- zxing-android-embedded<br>- zxing core<br>- constraintlayout<br>- firebase-database<br>- simple-places-search-dialog<br>- okhttp<br>- MPAndroidChart<br>- filepicker<br><br><b><a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a></b>]]></string>
 </resources>

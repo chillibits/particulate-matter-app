@@ -74,7 +74,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
     //Variablen
     private static boolean show_gps_data;
-    private static int bottomInset = 0;
 
     //Interfaces
     public interface OnFragmentsLoadedListener {
@@ -82,7 +81,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         void onDataFragmentLoaded(View view);
     }
 
-    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su, boolean show_gps_data, int bottomInset) {
+    public ViewPagerAdapterSensor(FragmentManager manager, SensorActivity activity, StorageUtils su, boolean show_gps_data) {
         super(manager);
         res = activity.getResources();
         ViewPagerAdapterSensor.activity = activity;
@@ -92,7 +91,6 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         tabTitles.add(res.getString(R.string.tab_data));
         df_time.setTimeZone(TimeZone.getDefault());
         ViewPagerAdapterSensor.show_gps_data = show_gps_data;
-        ViewPagerAdapterSensor.bottomInset = bottomInset;
     }
 
     @NotNull
