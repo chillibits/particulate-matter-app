@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception e) {}
+        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception ignored) {}
     }
 
     @Override
@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
                 //JobScheduler starten
                 ComponentName component = new ComponentName(this, SyncJobService.class);
                 JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                         .setPeriodic(background_sync_frequency)
                         .setPersisted(true);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true);
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
         //Intent-Abfragen vornehmen
         Intent intent = getIntent();
         Uri appLinkData = intent.getData();
-        if(appLinkData != null && appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/")) {
+        if(appLinkData != null && (appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/") || appLinkData.toString().startsWith("https://pm.mrgames-server.de/s/"))) {
             String chip_id = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1);
             Random random = new Random();
             int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
@@ -795,14 +795,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
             }
         }).start();
     }
 
     private void parseServerInfo(int server_state, int min_app_version, int newest_app_version, String user_msg) {
         int app_version_code = 0;
-        try { app_version_code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (PackageManager.NameNotFoundException e1) {}
+        try { app_version_code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (PackageManager.NameNotFoundException ignored) {}
         //ServerState verarbeiten
         if(server_state == 2) {
             AlertDialog d = new AlertDialog.Builder(MainActivity.this)

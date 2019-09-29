@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -39,7 +43,6 @@
     <string name="widget_label">Display for particulate matter</string>
     <string name="widget_app_data_cleared">The app data was cleared. Please select the sensor again</string>
     <string name="widget_select_sensor">Select sensor</string>
-    <string name="widget_open_app">Open app</string>
     <string name="widget_no_data">There are no favourites yet. Tap below to add a favourite and select the widget again.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Tap again to quit</string>
@@ -70,11 +73,7 @@
     <string name="online_since_">Online since:</string>
     <string name="height_short_">Mounting height:</string>
     <string name="compare_instruction">Tap and hold a sensor to select it. Select two or more sensors to compare their measurements.</string>
-    <string name="enable_location_m">Show own position?</string>
-    <string name="enable_location">Enable</string>
     <string name="search_for_sensors">Search for sensors</string>
-    <string name="enabled_gps_t">Location enabled</string>
-    <string name="enabled_gps_m">You just enabled the location service. It can last a few moments until your position gets located on the map.</string>
     <string name="sensor_position_completion_m_short">Please complete the sensor data to make the sensor appear on the map.</string>
     <string name="web_version">Web version</string>
     <string name="scan_prompt">Open https://pm.mrgames-server.de on your computer.</string>
@@ -121,7 +120,6 @@
     <string name="to">to</string>
     <string name="current_values">Current measurements</string>
     <string name="state_of_">State from</string>
-    <string name="curve_smoothness_">Curve smoothness:</string>
     <string name="export_data">Export data</string>
     <string name="export_diagram">Export diagram</string>
     <string name="export_data_records">Export data records</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Show traffic</string>
     <string name="traffic_hide">Hide traffic</string>
     <!-- DiagramActivity -->
-    <string name="time_">Time of measure:</string>
-    <string name="value_">Value:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Limit exceeded</string>
     <string name="limit_exceeded_p1">PM10 limit exceeded</string>

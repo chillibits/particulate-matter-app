@@ -49,6 +49,7 @@
             android:text="@string/name_"
             android:gravity="center_vertical"
             android:textSize="17sp"
+            android:labelFor="@+id/sensor_name_value"
             android:layout_alignTop="@+id/sensor_name_value"
             android:layout_alignBottom="@+id/sensor_name_value" />
 
@@ -59,6 +60,7 @@
             android:layout_toEndOf="@+id/sensor_name"
             android:inputType="textCapSentences"
             android:maxLength="30"
+            android:importantForAutofill="no"
             android:layout_marginStart="10dp"/>
 
         <TextView
@@ -67,6 +69,7 @@
             android:text="@string/chip_id"
             android:gravity="center_vertical"
             android:textSize="17sp"
+            android:labelFor="@+id/chip_id_value"
             android:layout_alignTop="@+id/chip_id_value"
             android:layout_alignBottom="@+id/chip_id_value"/>
 
@@ -77,6 +80,7 @@
             android:layout_toEndOf="@+id/sensor_name"
             android:layout_marginStart="10dp"
             android:inputType="number"
+            android:importantForAutofill="no"
             android:maxLength="12"
             android:layout_below="@+id/sensor_name_value"/>
 
@@ -159,6 +163,7 @@
                     android:layout_weight="1"
                     android:maxLength="6"
                     android:enabled="false"
+                    android:importantForAutofill="no"
                     android:hint="@string/latitude"
                     android:inputType="numberDecimal" />
 
@@ -169,11 +174,12 @@
                     android:layout_weight="1"
                     android:maxLength="7"
                     android:enabled="false"
+                    android:importantForAutofill="no"
                     android:hint="@string/longitude"
                     android:inputType="numberDecimal" />
             </LinearLayout>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/coordinates_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -188,7 +194,6 @@
                 android:layout_marginStart="10dp"/>
 
             <TextView
-                android:id="@+id/height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sensor_height"
@@ -197,6 +202,7 @@
                 android:layout_alignTop="@+id/height_value"
                 android:layout_alignBottom="@+id/height_value"
                 android:layout_alignParentStart="true"
+                android:labelFor="@+id/height_value"
                 android:layout_toStartOf="@+id/height_value"/>
 
             <EditText
@@ -206,6 +212,7 @@
                 android:layout_alignParentEnd="true"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
+                android:importantForAutofill="no"
                 android:layout_below="@+id/coordinates_container"
                 android:layout_marginStart="10dp"/>
 

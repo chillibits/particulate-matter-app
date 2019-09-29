@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml xml_export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -39,7 +43,6 @@
     <string name="widget_label">Feinstaub-Anzeige</string>
     <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
     <string name="widget_select_sensor">Sensor wählen</string>
-    <string name="widget_open_app">App starten</string>
     <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Nochmals tippen zum Beenden</string>
@@ -70,11 +73,7 @@
     <string name="online_since_">Online seit:</string>
     <string name="height_short_">Montagehöhe:</string>
     <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
-    <string name="enable_location_m">Eigene Position zeigen?</string>
-    <string name="enable_location">Aktivieren</string>
     <string name="search_for_sensors">Sensoren durchsuchen</string>
-    <string name="enabled_gps_t">Standort aktiviert</string>
-    <string name="enabled_gps_m">Sie haben gerade die Standortermittlung aktiviert. Es kann etwas dauern, bis Ihre Position auf der Karte angezeigt wird.</string>
     <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
     <string name="web_version">Web-Version</string>
     <string name="scan_prompt">Öffnen Sie https://feinstaub.mrgames-server.de auf Ihrem Computer.</string>
@@ -121,7 +120,6 @@
     <string name="to">bis</string>
     <string name="current_values">Aktuelle Messwerte</string>
     <string name="state_of_">Stand</string>
-    <string name="curve_smoothness_">Feinheit der Kurve:</string>
     <string name="export_data">Daten exportieren</string>
     <string name="export_diagram">Diagramm exportieren</string>
     <string name="export_data_records">Datensätze exportieren</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Verkehr anzeigen</string>
     <string name="traffic_hide">Verkehr ausblenden</string>
     <!-- DiagramActivity -->
-    <string name="time_">Messzeit:</string>
-    <string name="value_">Wert:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Grenzwert überschritten</string>
     <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -39,7 +43,6 @@
     <string name="widget_label">Отображение твёрдых частиц</string>
     <string name="widget_app_data_cleared">Данные приложения очищены. Пожалуйста, снова выберите датчик</string>
     <string name="widget_select_sensor">Выберите датчик</string>
-    <string name="widget_open_app">Открыть приложение</string>
     <string name="widget_no_data">Пока нет закладок. Нажмите ниже, чтобы добавить датчик в закладки и выберите виджет ещё раз.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Нажмите ещё раз, чтобы выйти</string>
@@ -70,11 +73,7 @@
     <string name="online_since_">Работает с:</string>
     <string name="height_short_">Высота над поверхностью:</string>
     <string name="compare_instruction">Нажмите и удерживайте датчик, чтобы выделить его. Выберите 2 или больше датчиков, чтобы сравнить их показания.</string>
-    <string name="enable_location_m">Показывать моё расположение</string>
-    <string name="enable_location">Включить</string>
     <string name="search_for_sensors">Искать датчики</string>
-    <string name="enabled_gps_t">Определение расположения включено</string>
-    <string name="enabled_gps_m">Вы включили службы определения расположения. Понадобиться где-то с пол-минуты, чтобы положение на карте определилось.</string>
     <string name="sensor_position_completion_m_short">Пожалуйста, заполните данные о датчике, чтобы он появился на карте.</string>
     <string name="web_version">Веб-версия</string>
     <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.mrgames-server.de</string>
@@ -121,7 +120,6 @@
     <string name="to">по</string>
     <string name="current_values">Текущие данные</string>
     <string name="state_of_">Начиная с\u0020</string>
-    <string name="curve_smoothness_">Сглаживание графика</string>
     <string name="export_data">Экспорт данных</string>
     <string name="export_diagram">Экспорт графика</string>
     <string name="export_data_records">Экспорт записей</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Показывать пробки</string>
     <string name="traffic_hide">Скрыть пробки</string>
     <!-- DiagramActivity -->
-    <string name="time_">Время измерения</string>
-    <string name="value_">Значение:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Превышен порог</string>
     <string name="limit_exceeded_p1">Порог PM-10 превышен</string>

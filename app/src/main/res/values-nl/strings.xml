@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -18,7 +22,7 @@
     <string name="exit">Afsluiten</string>
     <string name="settings">Instellingen</string>
     <string name="no_data">Geen gegevens</string>
-    <string name="loading">Laden ...</string>
+    <string name="loading">Laden …</string>
     <string name="loading_data">Gegevens laden</string>
     <string name="internet_is_not_available">Internet niet beschikbaar</string>
     <string name="activate_wlan">WIFI Activeren</string>
@@ -39,7 +43,6 @@
     <string name="widget_label">Weergave van fijnstof</string>
     <string name="widget_app_data_cleared">De app-gegevens zijn gewist. Selecteer de sensor opnieuw</string>
     <string name="widget_select_sensor">Selecteer sensor</string>
-    <string name="widget_open_app">Open de app</string>
     <string name="widget_no_data">Er zijn nog geen favorieten. Tik onderaan om een favoriet toe te voegen en selecteer de widget opnieuw.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Tik opnieuw om af te sluiten</string>
@@ -52,7 +55,7 @@
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
-    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore:https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Aanbevolen</string>
     <string name="recommend_app">aanbevolen app</string>
     <string name="recommend_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
@@ -70,11 +73,7 @@
     <string name="online_since_">Online sinds:</string>
     <string name="height_short_">Bevestigingshoogte:</string>
     <string name="compare_instruction">Tik op een sensor en hou vast om deze te selecteren. Selecteer twee of meer sensoren om de metingen te vergelijken.</string>
-    <string name="enable_location_m">Toon eigen positie?</string>
-    <string name="enable_location">Inscakelen</string>
     <string name="search_for_sensors">Zoek naar sensoren</string>
-    <string name="enabled_gps_t">Locatie gebruiken</string>
-    <string name="enabled_gps_m">Je hebt zojuist het gebruik van de locatie service aangezet. Het kan een paar momenten duren voor je locatie gevonden wordt op de kaart.\u0020</string>
     <string name="sensor_position_completion_m_short">Vul alle sensorgegevens in om de sensor te laten verschijnen op de kaart.\u0020</string>
     <string name="web_version">Web versie</string>
     <string name="scan_prompt">Open https://pm.mrgames-server.de op je computer.</string>
@@ -121,7 +120,6 @@
     <string name="to">naar</string>
     <string name="current_values">Huidige metingen</string>
     <string name="state_of_">Staat van</string>
-    <string name="curve_smoothness_">Curve-gladheid:</string>
     <string name="export_data">Exporteer gegevens</string>
     <string name="export_diagram">Exporteer diagram</string>
     <string name="export_data_records">Exporteer gegevensbestanden</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Toon verkeer</string>
     <string name="traffic_hide">Verberg verkeer</string>
     <!-- DiagramActivity -->
-    <string name="time_">Tijd van maatregel:</string>
-    <string name="value_">Waarde:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Limiet overschreden</string>
     <string name="limit_exceeded_p1">PM10-limiet overschreden</string>
@@ -221,7 +217,7 @@
     <!-- About Settings -->
     <string name="pref_header_about">Over de Particulate Matter-app</string>
     <string name="pref_serverinfo_t">Serverinfo</string>
-    <string name="pref_serverinfo_downloading_">Downloading serverinfo ...</string>
+    <string name="pref_serverinfo_downloading_">Downloading serverinfo …</string>
     <string name="server_state">Server status</string>
     <string name="client_name">Klantnaam</string>
     <string name="min_app_version">minimale versie</string>

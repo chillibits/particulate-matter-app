@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Project: Feinstaub-App
  Release: Working copy
  Locale: fr, French
@@ -38,7 +42,6 @@
     <string name="widget_label">Affichage de matière particulaire</string>
     <string name="widget_app_data_cleared">Les données de l\'application ont été supprimées. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
     <string name="widget_select_sensor">Choisir le capteur</string>
-    <string name="widget_open_app">Lancer l\'application</string>
     <string name="widget_no_data">Il n\'y a pas de favori. Tapez en dessous, pour ajouter un favori et sélectionnez le widget encore une fois.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Tapez encore une fois pour quitter</string>
@@ -69,11 +72,7 @@
     <string name="online_since_">En ligne depuis:</string>
     <string name="height_short_">Hauteur:</string>
     <string name="compare_instruction">Tapez et gardez appuyé un capteur pour le choisir. Choisissez plusieurs capteurs pour comparer leurs valeurs.</string>
-    <string name="enable_location_m">Afficher sa propre position?</string>
-    <string name="enable_location">Activer</string>
     <string name="search_for_sensors">Rechercher des capteurs</string>
-    <string name="enabled_gps_t">Localisation activée</string>
-    <string name="enabled_gps_m">Vous venez d\'activer la géolocalisation. Cela peut prendre quelques temps, jusqu\'à ce que votre position soit affichée sur la carte.</string>
     <string name="sensor_position_completion_m_short">Merci de renseigner les données du capteur pour le faire apparaître sur la carte, s\'il vous plaît.</string>
     <string name="web_version">Version web</string>
     <string name="scan_prompt">Ouvrez https://pm.mrgames-server.de sur votre ordinateur.</string>
@@ -120,7 +119,6 @@
     <string name="to">à</string>
     <string name="current_values">Mesures courantes</string>
     <string name="state_of_">Dernière mesure:</string>
-    <string name="curve_smoothness_">Douceur de la courbe:</string>
     <string name="export_data">Exporter des données</string>
     <string name="export_diagram">Exporter le graphique</string>
     <string name="export_data_records">Exporter des enregistrements</string>
@@ -133,8 +131,6 @@
     <string name="traffic_show">Afficher le trafic</string>
     <string name="traffic_hide">Cacher le trafic</string>
     <!-- DiagramActivity -->
-    <string name="time_">Temps de mesure:</string>
-    <string name="value_">Valeur:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">La limite est dépassée</string>
     <string name="limit_exceeded_p1">La limite de PM10 est dépassée</string>

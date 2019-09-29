@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -18,13 +22,13 @@
     <string name="exit">Cerrar</string>
     <string name="settings">Ajustes</string>
     <string name="no_data">No datos</string>
-    <string name="loading">Cargando ...</string>
-    <string name="loading_data">Cargando datos ...</string>
+    <string name="loading">Cargando …</string>
+    <string name="loading_data">Cargando datos …</string>
     <string name="internet_is_not_available">Internet no disponible</string>
     <string name="activate_wlan">Activar WiFi</string>
     <string name="please_wait_">Por favor espera …</string>
     <string name="error_try_again">Ocurrió un error. Inténtalo de nuevo</string>
-    <string name="offline_t">Servidor fuera de linea</string>
+    <string name="offline_t">Servidor fuera de línea</string>
     <string name="offline_m">El servidor está desconectado. Mientras el servidor está fuera de línea, no puede acceder a sus datos.</string>
     <string name="maintenance_t">El mantenimiento del servidor</string>
     <string name="maintenance_m">El servidor se mantiene. Mientras el servidor está fuera de línea, no puede acceder a sus datos.</string>
@@ -39,7 +43,6 @@
     <string name="widget_label">Pantalla para partículas</string>
     <string name="widget_app_data_cleared">Se borraron los datos de la aplicación. Por favor, seleccione el sensor de nuevo</string>
     <string name="widget_select_sensor">Seleccionar sensor</string>
-    <string name="widget_open_app">Abre la app</string>
     <string name="widget_no_data">No hay favoritos todavía. Toque abajo para agregar un favorito y seleccionar el widget nuevamente.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Toque de nuevo para salir</string>
@@ -67,20 +70,16 @@
     <string name="favourite_added">Favorito añadido</string>
     <string name="properties">Propiedades</string>
     <string name="public_short_">Público:</string>
-    <string name="online_since_">En linea desde:</string>
+    <string name="online_since_">En línea desde:</string>
     <string name="height_short_">Altura de montaje:</string>
     <string name="compare_instruction">Toque y mantenga presionado un sensor para seleccionarlo. Seleccione dos o más sensores para comparar sus medidas.</string>
-    <string name="enable_location_m">Mostrar posición propia?</string>
-    <string name="enable_location">Habilitar</string>
     <string name="search_for_sensors">Buscar sensores</string>
-    <string name="enabled_gps_t">Ubicación habilitada</string>
-    <string name="enabled_gps_m">Acabas de habilitar el servicio de localización. Puede durar unos instantes hasta que su posición se ubique en el mapa.</string>
     <string name="sensor_position_completion_m_short">Complete los datos del sensor para que aparezca en el mapa.</string>
     <string name="web_version">Version web</string>
     <string name="scan_prompt">Abra https://pm.mrgames-server.de en su computadora.</string>
     <string name="successfully_connected">Conectado exitosamente</string>
     <string name="sync_disconnected">Desconectado</string>
-    <string name="search_places">Por favor ingrese un lugar ...</string>
+    <string name="search_places">Por favor ingrese un lugar …</string>
     <!-- AddSensorActivity -->
     <string name="done">Hecho</string>
     <string name="name_">Nombre para mostrar:</string>
@@ -121,7 +120,6 @@
     <string name="to">a</string>
     <string name="current_values">Mediciones de corriente</string>
     <string name="state_of_">Estado desde</string>
-    <string name="curve_smoothness_">Suavidad de la curva:</string>
     <string name="export_data">Exportar datos</string>
     <string name="export_diagram">Diagrama de exportación</string>
     <string name="export_data_records">Registros de datos de exportación</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Mostrar trafico</string>
     <string name="traffic_hide">Ocultar tráfico</string>
     <!-- DiagramActivity -->
-    <string name="time_">Tiempo de medida:</string>
-    <string name="value_">Valor:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Límite excedido</string>
     <string name="limit_exceeded_p1">Límite de PM10 excedido</string>
@@ -221,13 +217,13 @@
     <!-- About Settings -->
     <string name="pref_header_about">Acerca de la aplicación de materia particulada</string>
     <string name="pref_serverinfo_t">Información del servidor</string>
-    <string name="pref_serverinfo_downloading_">Descargando serverinfo ...</string>
+    <string name="pref_serverinfo_downloading_">Descargando serverinfo …</string>
     <string name="server_state">Estado del servidor</string>
     <string name="client_name">Nombre del cliente</string>
     <string name="min_app_version">Versión mínima</string>
     <string name="newest_app_version">La versión más nueva</string>
     <string name="owners">Propietario del servidor</string>
-    <string name="serverstate_1">El servidor esta en linea</string>
+    <string name="serverstate_1">El servidor esta en línea</string>
     <string name="serverstate_2">El servidor esta desconectado</string>
     <string name="serverstate_3">El servidor se mantiene</string>
     <string name="serverstate_4">La aplicación ya no es compatible</string>

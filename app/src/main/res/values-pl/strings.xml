@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
@@ -18,11 +22,11 @@
     <string name="exit">Wyjście</string>
     <string name="settings">Ustawienia</string>
     <string name="no_data">Brak danych</string>
-    <string name="loading">Ładowanie ...</string>
-    <string name="loading_data">Ładowanie danych ...</string>
+    <string name="loading">Ładowanie …</string>
+    <string name="loading_data">Ładowanie danych …</string>
     <string name="internet_is_not_available">Internet niedostępny</string>
     <string name="activate_wlan">Aktywuj WiFi</string>
-    <string name="please_wait_">Proszę czekać ...</string>
+    <string name="please_wait_">Proszę czekać …</string>
     <string name="error_try_again">Wystąpił błąd. Spróbuj ponownie</string>
     <string name="offline_t">Serwer offline</string>
     <string name="offline_m">Serwer jest w trybie offline. Gdy serwer jest w trybie offline, nie możesz uzyskać dostępu do swoich danych.</string>
@@ -39,7 +43,6 @@
     <string name="widget_label">Wyświetl dla particulate matter</string>
     <string name="widget_app_data_cleared">Dane aplikacji zostały wyczyszczone. Wybierz sensor ponownie</string>
     <string name="widget_select_sensor">Wybierz sensor</string>
-    <string name="widget_open_app">Otwórz aplikacje</string>
     <string name="widget_no_data">Nie ma jeszcze ulubionych. Stuknij poniżej, aby dodać ulubione i ponownie wybierz widget.</string>
     <!-- MainActivity -->
     <string name="tap_again_to_exit_app">Stuknij ponownie, aby wyjść</string>
@@ -52,7 +55,7 @@
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
-    <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.g...</string>
+    <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Polecam</string>
     <string name="recommend_app">Polecam aplikację</string>
     <string name="recommend_m">Polecam Particulate Matter znajomym !</string>
@@ -70,17 +73,13 @@
     <string name="online_since_">Online od</string>
     <string name="height_short_">Wysokość montażu:</string>
     <string name="compare_instruction">Stuknij i przytrzymaj sensor, aby wybrać. Wybierz dwa lub więcej, aby porównać.</string>
-    <string name="enable_location_m">Pokazać twoją pozycję ?</string>
-    <string name="enable_location">Włączone</string>
     <string name="search_for_sensors">Szukaj sensorów</string>
-    <string name="enabled_gps_t">Lokalizacja włączona</string>
-    <string name="enabled_gps_m">Właśnie włączyłeś usługę lokalizacji. Może trwać to kilka chwil, dopóki twoja pozycja nie znajdzie się na mapie.</string>
     <string name="sensor_position_completion_m_short">Uzupełnij dane sensora, aby sensor pojawił się na mapie.</string>
     <string name="web_version">Wersja WWW</string>
     <string name="scan_prompt">Otwórz https://pm.mrgames-server.de w twoim komputerze.</string>
     <string name="successfully_connected">Połączenie udane</string>
     <string name="sync_disconnected">Rozłączono</string>
-    <string name="search_places">Podaj miejsce ...</string>
+    <string name="search_places">Podaj miejsce …</string>
     <!-- AddSensorActivity -->
     <string name="done">Gotowe</string>
     <string name="name_">Wyświetlana nazwa:</string>
@@ -121,7 +120,6 @@
     <string name="to">do</string>
     <string name="current_values">Aktualne pomiary</string>
     <string name="state_of_">Pokaż od</string>
-    <string name="curve_smoothness_">Płynność krzywych:</string>
     <string name="export_data">Eksportuj dane</string>
     <string name="export_diagram">Eksportuj wykres</string>
     <string name="export_data_records">Eksportuj rekordy danych</string>
@@ -134,8 +132,6 @@
     <string name="traffic_show">Pokaż ruch</string>
     <string name="traffic_hide">Ukryj ruch</string>
     <!-- DiagramActivity -->
-    <string name="time_">Czas pomiaru</string>
-    <string name="value_">Wartość:</string>
     <!-- NotificationStrings -->
     <string name="limit_exceeded">Limit przekroczony</string>
     <string name="limit_exceeded_p1">PM10 Limit przekroczony</string>

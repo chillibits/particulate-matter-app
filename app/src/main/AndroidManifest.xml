@@ -63,19 +63,25 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="feinstaub.mrgames-server.de"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:host="feinstaub.mrgames-server.de" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="pm.mrgames-server.de"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:host="pm.mrgames-server.de" />
             </intent-filter>
         </activity>
         <!-- SettingsActivity -->
@@ -102,14 +108,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:scheme="https"
                     android:host="feinstaub.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:pathPattern="/sensor" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:scheme="https"
                     android:host="pm.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:pathPattern="/sensor" />
             </intent-filter>
         </activity>
         <!-- AddSensorActivity -->

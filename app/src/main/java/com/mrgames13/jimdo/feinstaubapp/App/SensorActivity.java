@@ -168,14 +168,16 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         //Kalender initialisieren
-        if(selected_day_timestamp == 0 || calendar == null) {
+        if (selected_day_timestamp == 0 || calendar == null) {
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
@@ -279,7 +281,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if(selected_day_timestamp == current_day_timestamp) {
+                if (selected_day_timestamp == current_day_timestamp) {
                     Log.i("FA", "Auto refreshing ...");
                     loadData();
                 }
@@ -449,7 +451,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     }
 
     public static void resortData() {
-        try{ Collections.sort(records); } catch (Exception e) {}
+        try{ Collections.sort(records); } catch (Exception ignored) {}
     }
 
     private void checkSensorAvailability() {
