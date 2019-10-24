@@ -75,6 +75,9 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize resources
+        res = getResources();
+
         // Initialize StorageUtils
         su = new StorageUtils(this);
 

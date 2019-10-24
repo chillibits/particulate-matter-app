@@ -138,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // Initialize resources
+        res = getResources();
+
         // Initialize StorageUtils
         su = new StorageUtils(this);
 

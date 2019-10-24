@@ -54,6 +54,9 @@ public class DiagramActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_diagram);
 
+        // Get resources
+        res = getResources();
+
         // Get intent extras
         Intent intent = getIntent();
         int mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
