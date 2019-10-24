@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters;
 
 
@@ -19,17 +23,15 @@ import java.util.ArrayList;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private ArrayList<ViewHolder> holders = new ArrayList<>();
 
-    //Variablen
+    // Variables
     private boolean show_gps_data;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //Variablen als Objekte
+        // Variables as objects
         TextView item_time;
         TextView item_p1;
         TextView item_p2;
@@ -43,7 +45,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            //Oberflächenkomponenten initialisieren
+            // Initialize UI components
             item_time = itemView.findViewById(R.id.item_time);
             item_p1 = itemView.findViewById(R.id.item_p1);
             item_p2 = itemView.findViewById(R.id.item_p2);
@@ -65,7 +67,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int pos) {
-        //Daten befüllen
+        // Fill in data
         try{
             DataRecord record = SensorActivity.records.get(pos);
             holder.item_time.setText(sdf.format(record.getDateTime()));
@@ -79,7 +81,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             holder.item_alt.setText(String.valueOf(Tools.round(record.getAlt(), 1)).concat(" m"));
             holder.item_gps_container.setVisibility(show_gps_data ? View.VISIBLE : View.GONE);
             this.holders.add(holder);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     public void showGPSData(boolean show) {

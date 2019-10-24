@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.BroadcastReceivers;
 
 import android.app.AlarmManager;
@@ -12,23 +16,21 @@ import com.mrgames13.jimdo.feinstaubapp.Services.SyncService;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
-	
-	//Konstanten
 
-    //Variablen als Objekte
+    // Variables as objects
     private StorageUtils su;
 
-    //Variablen
+    // Variables
     private int background_sync_frequency;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && (intent.getAction().equals("android.intent.action.BOOT_COMPLETED") || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON") || intent.getAction().equals("com.htc.intent.action.QUICKBOOT_POWERON"))) {
-		    //StorageUtils initialisieren
+		    // Initialize StorageUtils
             su = new StorageUtils(context);
             background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
 
-            //Alarmmanager aufsetzen
+            // Setup AlarmManager
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             Intent start_service_intent = new Intent(context, SyncService.class);

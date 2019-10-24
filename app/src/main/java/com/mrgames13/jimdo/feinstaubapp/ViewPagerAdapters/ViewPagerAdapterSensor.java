@@ -58,9 +58,7 @@ import java.util.TimeZone;
 
 public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private static Resources res;
     private static SensorActivity activity;
     private ArrayList<String> tabTitles = new ArrayList<>();
@@ -69,13 +67,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     private static SimpleDateFormat df_time = new SimpleDateFormat("HH:mm:ss");
     private static OnFragmentsLoadedListener listener;
 
-    //Utils-Pakete
+    // Utils packages
     private static StorageUtils su;
 
-    //Variablen
+    // Variables
     private static boolean show_gps_data;
 
-    //Interfaces
+    // Interfaces
     public interface OnFragmentsLoadedListener {
         void onDiagramFragmentLoaded(View view);
         void onDataFragmentLoaded(View view);
@@ -127,9 +125,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     //-------------------------------------------Fragmente------------------------------------------
 
     public static class DiagramFragment extends Fragment {
-        //Konstanten
 
-        //Variablen als Objekte
+        // Variables as objects
         private static View contentView;
         private static LineChart chart;
         private static CheckBox custom_p1;
@@ -183,24 +180,24 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             chart.setHighlightPerDragEnabled(false);
             chart.setDescription(null);
             chart.getLegend().setEnabled(false);
-            //Linke y-Achse
+            // Left y axis
             YAxis left = chart.getAxisLeft();
             left.setValueFormatter(new LargeValueFormatter());
             left.setDrawAxisLine(true);
             left.setDrawGridLines(false);
             left.setAxisMinimum(0);
-            //Rechte y-Achse
+            // Right y axis
             YAxis right = chart.getAxisRight();
             right.setValueFormatter(new LargeValueFormatter());
             right.setDrawAxisLine(true);
             right.setDrawGridLines(false);
-            //x-Achse
+            // x axis
             XAxis xAxis = chart.getXAxis();
             xAxis.setGranularity(60f);
             xAxis.setGranularityEnabled(true);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            //OnClickListener setzen
+            // Set OnClickListener
             chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -222,7 +219,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 }
             });
 
-            //CustomControls initialisieren
+            // Initialize custom controls
             custom_p1 = contentView.findViewById(R.id.custom_p1);
             custom_p2 = contentView.findViewById(R.id.custom_p2);
             custom_temp = contentView.findViewById(R.id.custom_temp);
@@ -643,13 +640,13 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     contentView.findViewById(R.id.no_data).setVisibility(View.GONE);
                     contentView.findViewById(R.id.diagram_container).setVisibility(View.VISIBLE);
 
-                    //Datensätze sortieren
+                    // Sort records
                     int tmp = SensorActivity.sort_mode;
                     SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
                     Collections.sort(records);
                     SensorActivity.sort_mode = tmp;
 
-                    //Daten eintragen
+                    // Plot data
                     List<Entry> entries_1 = new ArrayList<>();
                     List<Entry> entries_2 = new ArrayList<>();
                     List<Entry> entries_3 = new ArrayList<>();
@@ -665,8 +662,8 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                     }
 
-                    //Normale Linien
-                    //PM1
+                    // Generic lines
+                    // PM1
                     p1 = new LineDataSet(entries_1, res.getString(R.string.value1) + " (µg/m³)");
                     p1.setColor(res.getColor(R.color.series1));
                     p1.setDrawCircles(false);
@@ -675,7 +672,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     p1.setAxisDependency(YAxis.AxisDependency.LEFT);
                     p1.setVisible(SensorActivity.custom_p1);
 
-                    //PM2
+                    // PM2
                     p2 = new LineDataSet(entries_2, res.getString(R.string.value2) + " (µg/m³)");
                     p2.setColor(res.getColor(R.color.series2));
                     p2.setDrawCircles(false);
@@ -684,7 +681,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     p2.setAxisDependency(YAxis.AxisDependency.LEFT);
                     p2.setVisible(SensorActivity.custom_p2);
 
-                    //Temperature
+                    // Temperature
                     temp = new LineDataSet(entries_3, res.getString(R.string.temperature) + " (°C)");
                     temp.setColor(res.getColor(R.color.series3));
                     temp.setDrawCircles(false);
@@ -693,7 +690,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     temp.setAxisDependency(YAxis.AxisDependency.RIGHT);
                     temp.setVisible(SensorActivity.custom_temp);
 
-                    //Humidity
+                    // Humidity
                     humidity = new LineDataSet(entries_4, res.getString(R.string.humidity) + " (%)");
                     humidity.setColor(res.getColor(R.color.series4));
                     humidity.setDrawCircles(false);
@@ -702,7 +699,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     humidity.setAxisDependency(YAxis.AxisDependency.RIGHT);
                     humidity.setVisible(SensorActivity.custom_humidity);
 
-                    //Pressure
+                    // Pressure
                     pressure = new LineDataSet(entries_5, res.getString(R.string.pressure) + " (hPa)");
                     pressure.setColor(res.getColor(R.color.series5));
                     pressure.setDrawCircles(false);
@@ -711,27 +708,27 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     pressure.setAxisDependency(YAxis.AxisDependency.RIGHT);
                     pressure.setVisible(SensorActivity.custom_pressure);
 
-                    //Durchschnitte
+                    // Averages
                     av_p1 = getAverageMedianPM1(true, false, first_time);
                     av_p2 = getAverageMedianPM2(true, false, first_time);
                     av_temp = getAverageMedianTemperature(true, false, first_time);
                     av_humidity = getAverageMedianHumidity(true, false, first_time);
                     av_pressure = getAverageMedianPressure(true, false, first_time);
 
-                    //Mediane
+                    // Medians
                     med_p1 = getAverageMedianPM1(false, true, first_time);
                     med_p2 = getAverageMedianPM2(false, true, first_time);
                     med_temp = getAverageMedianTemperature(false, true, first_time);
                     med_humidity = getAverageMedianHumidity(false, true, first_time);
                     med_pressure = getAverageMedianPressure(false, true, first_time);
 
-                    //Grenzwerte
+                    // Thresholds
                     th_eu_p1 = getThresholdPM1(true, false, first_time);
                     th_eu_p2 = getThresholdPM2(true, false, first_time);
                     th_who_p1 = getThresholdPM1(false, true, first_time);
                     th_who_p2 = getThresholdPM2(false, true, first_time);
 
-                    //Die einzelnen Linien zu eimem Diagramm zusammenfassen
+                    // Combine all lines to one diagram
                     dataSets.clear();
                     dataSets.add(p1);
                     dataSets.add(p2);
@@ -755,7 +752,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     dataSetsFull = (ArrayList<ILineDataSet>) dataSets.clone();
                     chart.setData(new LineData(dataSets));
 
-                    //Neu zeichnen & animieren
+                    // Redraw and animate
                     chart.invalidate();
                     chart.animateY(700, Easing.EaseInCubic);
                 } else {
@@ -775,14 +772,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
     }
 
     public static class DataFragment extends Fragment {
-        //Konstanten
 
-        //Variablen als Objekte
+        // Variables as objects
         private static View contentView;
         private static RecyclerView data_view;
         private static DataAdapter data_view_adapter;
         private RecyclerView.LayoutManager data_view_manager;
-
         private static LinearLayout heading;
         private TextView heading_time;
         private ImageView heading_time_arrow;
@@ -809,13 +804,12 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
         private static TextView footer_median_pressure;
         private static TextView record_counter;
 
-        //Variablen
-
         @Nullable
         @Override
         public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             contentView = inflater.inflate(R.layout.tab_data, null);
-            //Komponenten initialisieren
+
+            // Initialize components
             data_view_adapter = new DataAdapter();
             data_view = contentView.findViewById(R.id.data);
             data_view_manager = new LinearLayoutManager(getContext());
@@ -1081,7 +1075,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         record_counter.setText(footer_string);
 
                         if(su.getBoolean("enable_daily_average", true)) {
-                            //Mittelwerte berechnen
+                            // Calculate averages
                             double average_p1 = 0;
                             double average_p2 = 0;
                             double average_temp = 0;
@@ -1108,34 +1102,35 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                         }
 
                         if(su.getBoolean("enable_daily_median")) {
-                            //Mediane berechnen
+                            // Calculate medians
                             double median_p1;
                             double median_p2;
                             double median_temp;
                             double median_humidity;
                             double median_pressure;
+                            // Save current sort mode
                             int current_sort_mode = SensorActivity.sort_mode;
-                            //P1
+                            // P1
                             SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_ASC;
                             Collections.sort(records);
                             median_p1 = records.get(records.size() / 2).getP1();
-                            //P2
+                            // P2
                             SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_ASC;
                             Collections.sort(records);
                             median_p2 = records.get(records.size() / 2).getP2();
-                            //Temp
+                            // Temperature
                             SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_ASC;
                             Collections.sort(records);
                             median_temp = records.get(records.size() / 2).getTemp();
-                            //Humidity
+                            // Humidity
                             SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_ASC;
                             Collections.sort(records);
                             median_humidity = records.get(records.size() / 2).getHumidity();
-                            //Pressure
+                            // Pressure
                             SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_ASC;
                             Collections.sort(records);
                             median_pressure = records.get(records.size() / 2).getPressure();
-                            //Alten SortMode wiederherstellen
+                            // Restore old sort mode
                             SensorActivity.sort_mode = current_sort_mode;
                             Collections.sort(records);
 
@@ -1155,7 +1150,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                     record_counter.setVisibility(View.INVISIBLE);
                     contentView.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                 }
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 }

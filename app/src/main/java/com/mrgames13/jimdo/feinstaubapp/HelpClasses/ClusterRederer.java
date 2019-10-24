@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 import android.content.Context;
@@ -11,12 +15,8 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 
 public class ClusterRederer extends DefaultClusterRenderer<SensorClusterItem> {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private StorageUtils su;
-
-    //Variablen
 
     public ClusterRederer(Context context, GoogleMap map, ClusterManager<SensorClusterItem> clusterManager, StorageUtils su) {
         super(context, map, clusterManager);

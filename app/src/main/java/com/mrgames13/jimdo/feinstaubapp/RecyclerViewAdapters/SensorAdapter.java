@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters;
 
 import android.content.DialogInterface;
@@ -35,24 +39,24 @@ import eu.davidea.flipview.FlipView;
 
 public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //Konstanten
+    // Constants
     public static final int MODE_FAVOURITES = 10001;
     public static final int MODE_OWN_SENSORS = 10002;
     private static final int TYPE_ITEM = 10003;
     private static final int TYPE_HEADER = 10004;
 
-    //Variablen als Objekte
+    // Variables as objects
     private MainActivity activity;
     private Resources res;
     private ArrayList<Sensor> sensors;
     private ArrayList<Sensor> selected_sensors = new ArrayList<>();
     private ArrayList<ViewHolder> view_holders = new ArrayList<>();
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Variablen
+    // Variables
     private int mode;
     private long click_start;
 
@@ -66,18 +70,16 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //Variablen als Objekte
+        // Variables as objects
         private FlipView item_icon;
         private TextView item_name;
         private TextView item_id;
         private ImageView item_warning;
         private ImageView item_more;
 
-        //Variablen
-
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            //Oberflächenkomponenten initialisieren
+            // Initialize UI components
             item_icon = itemView.findViewById(R.id.item_icon);
             item_name = itemView.findViewById(R.id.item_name);
             item_id = itemView.findViewById(R.id.item_id);
@@ -93,9 +95,9 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         //Variablen
 
-        public HeaderViewHolder(@NonNull View itemView) {
+        HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            //Oberflächenkomponenten initialisieren
+            // Initialize UI components
             header_text = itemView.findViewById(R.id.header_text);
             header_close = itemView.findViewById(R.id.header_close);
         }
@@ -122,7 +124,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if(holder instanceof ViewHolder) {
             final ViewHolder h = (ViewHolder) holder;
             view_holders.add(h);
-            //Daten befüllen
+            // Fill in data
             final Sensor sensor = sensors.get(shallShowHeader() ? pos -1 : pos);
 
             h.item_icon.getFrontLayout().getBackground().setColorFilter(sensor.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -203,9 +205,9 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .setPositiveButton(R.string.unlink_sensor, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                //Daten-Datenbank des Sensors löschen
+                                                // Delete database for this sensor
                                                 su.deleteDataDatabase(sensor.getChipID());
-                                                //Sensor aus der Datenbank löschen
+                                                // Delete sensor from the database
                                                 if(mode == MODE_FAVOURITES) {
                                                     su.removeFavourite(sensor.getChipID(), false);
                                                 } else {

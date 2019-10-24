@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
 import androidx.annotation.NonNull;
@@ -6,11 +10,7 @@ import java.io.Serializable;
 
 public class Sensor implements Comparable, Serializable {
 
-    //Konstanten
-
-    //Variablen als Objekte
-
-    //Variablen
+    // Variables
     private String id = "no_id";
     private String name = "unknown";
     private int color = 0;

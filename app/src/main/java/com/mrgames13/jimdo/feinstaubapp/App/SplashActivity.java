@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //SplashScreen anzeigen
+        // Display SplashScreen
         SplashScreenBuilder.getInstance(this)
                 .setVideo(R.raw.splash_animation)
                 .setVideoDark(R.raw.splash_animation_dark)

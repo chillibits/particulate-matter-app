@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.Utils;
 
 import android.app.NotificationChannel;
@@ -17,19 +21,19 @@ import com.mrgames13.jimdo.feinstaubapp.R;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class NotificationUtils {
-    //Vibrations
+
+    // Vibrations
     private static final int VIBRATION_SHORT = 300;
-    //Lights
+    // Lights
     private static final int LIGHT_SHORT = 500;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Context context;
     private NotificationManager nm;
     private Resources res;
 
-    //Variablen
+    // Variables
 
-    //Konstruktor
     public NotificationUtils(Context context) {
         this.context = context;
         res = context.getResources();
@@ -39,19 +43,19 @@ public class NotificationUtils {
     public static void createNotificationChannels(Context context) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            //System-Channel
+            // System channel
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel_system = new NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance);
             channel_system.setShowBadge(false);
             channel_system.setSound(null, null);
             channel_system.setDescription(context.getString(R.string.nc_system_description));
             notificationManager.createNotificationChannel(channel_system);
-            //Limit-Channel
+            // Limit channel
             importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel_limit = new NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance);
             channel_limit.setDescription(context.getString(R.string.nc_limit_description));
             notificationManager.createNotificationChannel(channel_limit);
-            //MissingMeasurements-Channel
+            // Missing measurements channel
             importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel_missing_measurements = new NotificationChannel(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.nc_missing_measurements_name), importance);
             channel_missing_measurements.setDescription(context.getString(R.string.nc_missing_measurements_description));
@@ -72,7 +76,7 @@ public class NotificationUtils {
     }
 
     private void displayNotification(String channel_id, String title, String message, int id, Intent i, long[] vibration, long time) {
-        //Notification aufbauen
+        // Setup notification
         NotificationCompat.Builder n = buildNotification(title, message);
         n.setAutoCancel(true);
         n.setSmallIcon(R.drawable.notification_icon);
@@ -81,7 +85,7 @@ public class NotificationUtils {
             PendingIntent pi = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
             n.setContentIntent(pi);
         }
-        //ID ermitteln
+        // Get id
         if(id == 0) id = (int) ((Math.random()) * Integer.MAX_VALUE);
         n.setPriority(NotificationCompat.PRIORITY_HIGH);
         n.setLights(res.getColor(R.color.colorPrimary), NotificationUtils.LIGHT_SHORT, NotificationUtils.LIGHT_SHORT);

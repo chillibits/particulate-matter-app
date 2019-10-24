@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 import com.github.mikephil.charting.components.AxisBase;
@@ -8,12 +12,10 @@ import java.util.Date;
 
 public class TimeFormatter extends ValueFormatter {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private SimpleDateFormat sdf;
 
-    //Variablen
+    // Variables
     private long first_timestamp;
 
     public TimeFormatter(long first_timestamp) {

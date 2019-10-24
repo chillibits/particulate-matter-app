@@ -38,11 +38,11 @@ import java.util.List;
 
 public class DiagramActivity extends AppCompatActivity {
 
-    //Konstanten
+    // Constants
     public static final int MODE_SENSOR_DATA = 10001;
     public static final int MODE_COMPARE_DATA = 10002;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Resources res;
     private ArrayList<DataRecord> records;
     private ArrayList<ArrayList<DataRecord>> compare_records;
@@ -54,13 +54,10 @@ public class DiagramActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_diagram);
 
-        //Resourcen initialisieren
-        res = getResources();
-
-        //Intent-Extras auslesen
+        // Get intent extras
         Intent intent = getIntent();
         int mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA);
-        //Variablen
+
         boolean show_1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false);
         boolean show_2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false);
         boolean show_3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false);
@@ -72,41 +69,41 @@ public class DiagramActivity extends AppCompatActivity {
         boolean enable_threshold_eu = intent.hasExtra("EnableThresholdEU") && intent.getBooleanExtra("EnableThresholdEU", false);
 
         if(mode == MODE_SENSOR_DATA) {
-            //Daten von der SensorActivity übernehmen
+            // Receive data from SensorActivity
             records = SensorActivity.records;
 
-            //Daten vorbereiten
+            // Prepare data
             SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
             Collections.sort(records);
         } else if(mode == MODE_COMPARE_DATA) {
             compare_records = CompareActivity.records;
             compare_sensors = CompareActivity.sensors;
 
-            //Daten vorbereiten
+            // Prepare data
             SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_ASC;
             for(ArrayList<DataRecord> current_records : compare_records) Collections.sort(current_records);
         }
 
         try{
-            //Diagramm initialisieren
+            // Initialize diagram
             LineChart chart = findViewById(R.id.chart);
             chart.setHardwareAccelerationEnabled(true);
             chart.setKeepScreenOn(true);
             chart.setKeepPositionOnRotation(true);
             chart.setDescription(null);
-            //Linke y-Achse
+            // Left y axis
             YAxis left = chart.getAxisLeft();
             left.setValueFormatter(new LargeValueFormatter());
-            //x-Achse
+            // x axis
             XAxis xAxis = chart.getXAxis();
             xAxis.setGranularityEnabled(true);
             xAxis.setGranularity(60f);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            //Sensor-Modus oder Vergleich-Modus
+            // Sensor mode or comparison mode
             long first_time = 0;
             if(mode == MODE_SENSOR_DATA) {
-                //Daten eintragen
+                // Plot data
                 List<Entry> entries_1 = new ArrayList<>();
                 List<Entry> entries_2 = new ArrayList<>();
                 List<Entry> entries_3 = new ArrayList<>();
@@ -122,7 +119,7 @@ public class DiagramActivity extends AppCompatActivity {
                     if(show_5) entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
                 }
 
-                //PM1
+                // PM1
                 LineDataSet p1 = new LineDataSet(entries_1, getString(R.string.value1) + " (µg/m³)");
                 p1.setColor(res.getColor(R.color.series1));
                 p1.setCircleColor(res.getColor(R.color.series1));
@@ -132,7 +129,7 @@ public class DiagramActivity extends AppCompatActivity {
                 p1.setHighLightColor(res.getColor(R.color.series1));
                 //p1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                //PM2
+                // PM2
                 LineDataSet p2 = new LineDataSet(entries_2, getString(R.string.value2) + " (µg/m³)");
                 p2.setColor(res.getColor(R.color.series2));
                 p2.setCircleColor(res.getColor(R.color.series2));
@@ -142,7 +139,7 @@ public class DiagramActivity extends AppCompatActivity {
                 p2.setHighLightColor(res.getColor(R.color.series2));
                 //p2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                //Temperature
+                // Temperature
                 LineDataSet temp = new LineDataSet(entries_3, getString(R.string.temperature) + " (°C)");
                 temp.setColor(res.getColor(R.color.series3));
                 temp.setCircleColor(res.getColor(R.color.series3));
@@ -152,7 +149,7 @@ public class DiagramActivity extends AppCompatActivity {
                 temp.setHighLightColor(res.getColor(R.color.series3));
                 //temp.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                //Humidity
+                // Humidity
                 LineDataSet humidity = new LineDataSet(entries_4, getString(R.string.humidity) + " (%)");
                 humidity.setColor(res.getColor(R.color.series4));
                 humidity.setCircleColor(res.getColor(R.color.series4));
@@ -162,7 +159,7 @@ public class DiagramActivity extends AppCompatActivity {
                 humidity.setHighLightColor(res.getColor(R.color.series4));
                 //humidity.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                //Pressure
+                // Pressure
                 LineDataSet pressure = new LineDataSet(entries_5, getString(R.string.pressure) + " (hPa)");
                 pressure.setColor(res.getColor(R.color.series5));
                 pressure.setCircleColor(res.getColor(R.color.series5));
@@ -172,7 +169,7 @@ public class DiagramActivity extends AppCompatActivity {
                 pressure.setHighLightColor(res.getColor(R.color.series5));
                 //pressure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                //Einzelnen Linien hinzügen
+                // Add single lines
                 List<ILineDataSet> dataSets = new ArrayList<>();
                 if(show_1) dataSets.add(p1);
                 if(show_1 && (enable_average || enable_median)) dataSets.add(getAverageMedianPM1(enable_average, enable_median, first_time));
@@ -190,7 +187,7 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 chart.setData(new LineData(dataSets));
             } else if(mode == MODE_COMPARE_DATA) {
-                //Erste Zeit erfassen
+                // Get first time
                 first_time = Long.MAX_VALUE;
                 for(int i = 0; i < compare_sensors.size(); i++) {
                     try{
@@ -199,7 +196,7 @@ public class DiagramActivity extends AppCompatActivity {
                     } catch (Exception e) {}
                 }
                 xAxis.setValueFormatter(new TimeFormatter(first_time));
-                //Daten einzeichnen
+                // Plot data
                 List<ILineDataSet> dataSets = new ArrayList<>();
                 for(int i = 0; i < compare_sensors.size(); i++) {
                     if(compare_records.get(i).size() > 0) {
@@ -241,11 +238,11 @@ public class DiagramActivity extends AppCompatActivity {
             }
 
             chart.setMarker(new DiagramMarkerView(this, R.layout.diagram_marker_view, first_time));
-            //Legende anpassen
+            // Customize legend
             chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
             chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
             chart.getLegend().setWordWrapEnabled(true);
-            //Neu zeichnen & animieren
+            // Redraw & animate
             chart.invalidate();
             chart.animateY(700, Easing.EaseInCubic);
         } catch (Exception e) {
@@ -309,7 +306,9 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        return getDashedLine(am_entries, R.color.series3);
+        LineDataSet average_median_temperature = getDashedLine(am_entries, R.color.series3);
+        average_median_temperature.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        return average_median_temperature;
     }
 
     @NotNull
@@ -329,7 +328,9 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        return getDashedLine(am_entries, R.color.series4);
+        LineDataSet average_median_humidity = getDashedLine(am_entries, R.color.series4);
+        average_median_humidity.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        return average_median_humidity;
     }
 
     @NotNull
@@ -349,7 +350,9 @@ public class DiagramActivity extends AppCompatActivity {
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
-        return getDashedLine(am_entries, R.color.series5);
+        LineDataSet average_median_pressure = getDashedLine(am_entries, R.color.series5);
+        average_median_pressure.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        return average_median_pressure;
     }
 
     @NotNull

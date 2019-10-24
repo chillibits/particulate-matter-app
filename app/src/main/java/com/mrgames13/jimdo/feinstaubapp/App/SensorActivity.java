@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SensorActivity extends AppCompatActivity implements ViewPagerAdapterSensor.OnFragmentsLoadedListener {
 
-    //Konstanten
+    // Constants
     public static final int SORT_MODE_TIME_ASC = 101;
     public static final int SORT_MODE_TIME_DESC = 102;
     public static final int SORT_MODE_VALUE1_ASC = 103;
@@ -73,7 +73,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     public static final int SORT_MODE_PRESSURE_DESC = 112;
     private static final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
-    //Variablen als Objekte
+    // Variables as objects
     private ViewPager view_pager;
     private ViewPagerAdapterSensor view_pager_adapter;
     private Calendar calendar;
@@ -85,15 +85,15 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     private Sensor sensor;
     private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
 
-    //Utils-Pakete
+    // Utils packages
     private ServerMessagingUtils smu;
     private StorageUtils su;
     private NotificationUtils nu;
 
-    //Variablen
+    // Variables
     public static long selected_day_timestamp;
     public static long current_day_timestamp;
-    public static int sort_mode = SORT_MODE_TIME_ASC; // Vorsicht!! Nach dem Verstellen funktioniert der ViewPagerAdapterSensor nicht mehr richtig
+    public static int sort_mode = SORT_MODE_TIME_ASC; // Attention!! When you alter that attribute, the ViewPagerAdapterSensor does not work correctly any more
     public static boolean custom_p1 = true;
     public static boolean custom_p2 = true;
     public static boolean custom_temp = false;
@@ -107,7 +107,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor);
 
-        //Toolbar initialisieren
+        // Initialize toolbar
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -124,16 +124,16 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             });
         }
 
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServerMessagingUtils
         smu = new ServerMessagingUtils(SensorActivity.this, su);
 
-        //NotificationUtils initialisieren
+        // Initialize NotificationUtils
         nu = new NotificationUtils(this);
 
-        //Intent-Extras auslesen
+        // Get intent extras
         sensor = new Sensor();
         if (getIntent().hasExtra("Name")) {
             sensor.setName(getIntent().getStringExtra("Name"));
@@ -142,7 +142,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         if (getIntent().hasExtra("ID")) sensor.setId(getIntent().getStringExtra("ID"));
         if (getIntent().hasExtra("Color")) sensor.setColor(getIntent().getIntExtra("Color", getResources().getColor(R.color.colorPrimary)));
 
-        //ViewPager initialisieren
+        // Initialize ViewPager
         view_pager = findViewById(R.id.view_pager);
         view_pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -156,7 +156,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         view_pager_adapter = new ViewPagerAdapterSensor(getSupportFragmentManager(), SensorActivity.this, su, su.getBoolean("ShowGPS_" + sensor.getChipID()));
         view_pager.setAdapter(view_pager_adapter);
 
-        //TabLayout aufsetzen
+        // Setup TabLayout
         TabLayout tab_layout = findViewById(R.id.tablayout);
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         tab_layout.setupWithViewPager(view_pager);
@@ -176,7 +176,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             }
         });
 
-        //Kalender initialisieren
+        // Initialize calendar
         if (selected_day_timestamp == 0 || calendar == null) {
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -187,7 +187,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             selected_day_timestamp = current_day_timestamp;
         }
 
-        //CardView-Komponenten initialisieren
+        // Initialize card component
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
         card_date_today = findViewById(R.id.card_date_today);
@@ -198,21 +198,21 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         card_date_value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
+                // Select date
                 chooseDate(card_date_value);
             }
         });
         card_date_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
+                // Select date
                 chooseDate(card_date_value);
             }
         });
         card_date_today.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auf den heutigen Tag setzen
+                // Set date to the current day
                 calendar.setTime(new Date());
                 calendar.set(Calendar.HOUR_OF_DAY, 0);
                 calendar.set(Calendar.MINUTE, 0);
@@ -224,14 +224,14 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 card_date_next.setEnabled(false);
                 card_date_today.setEnabled(false);
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Einen Tag zurück gehen
+                // Go to previous day
                 calendar.add(Calendar.DATE, -1);
 
                 selected_day_timestamp = calendar.getTime().getTime();
@@ -245,14 +245,14 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 card_date_next.setEnabled(calendar.before(current_calendar));
                 card_date_today.setEnabled(calendar.before(current_calendar));
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
         card_date_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Einen Tag vor gehen
+                // Go to next day
                 calendar.add(Calendar.DATE, 1);
 
                 selected_day_timestamp = calendar.getTime().getTime();
@@ -266,17 +266,17 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 card_date_next.setEnabled(calendar.before(current_calendar));
                 card_date_today.setEnabled(calendar.before(current_calendar));
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
         card_date_next.setEnabled(false);
         card_date_today.setEnabled(false);
 
-        //RefreshPeriod setzen
+        // Set refresh period
         int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
-        //ScheduledExecutorService aufsetzen
+        // Setup ScheduledExecutorService
         service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(new Runnable() {
             @Override
@@ -295,8 +295,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     }
 
     private void chooseDate(final TextView card_date_value) {
-        //Datum auswählen
-        //Daten für ausgewähltes Datum laden
+        // Select date
         DatePickerDialog date_picker_dialog = new DatePickerDialog(SensorActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -316,7 +315,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
 
                 calendar = calendar_new;
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -344,11 +343,11 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
             view_pager_adapter.showGPSData(item.isChecked());
             su.putBoolean("ShowGPS_" + sensor.getChipID(), item.isChecked());
         } else if(id == R.id.action_refresh) {
-            //Daten neu laden
+            // Reload data
             Log.i("FA", "User refreshing ...");
             loadData();
         } else if(id == R.id.action_settings) {
-            //SettingsActivity starten
+            //Launch SettingsActivity
             startActivity(new Intent(SensorActivity.this, SettingsActivity.class));
         } else if(id == R.id.action_exit) {
             finish();
@@ -377,47 +376,47 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     //-----------------------------------Private Methoden-------------------------------------------
 
     private void loadData() {
-        //ProgressMenuItem setzen
+        // Set ProgressMenuItem
         if (progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //Datensätze leeren
+                // Clear records
                 records.clear();
 
-                //Timestamps für from und to ermitteln
+                // Get timestamps for 'from' and'to'
                 long from = selected_day_timestamp;
                 long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
                 if(su.getBoolean("reduce_data_consumption", true) && records.size() > 0 && selected_day_timestamp == current_day_timestamp) {
-                    //Existierenden Datensätze aus der lokalen Datenbank laden
+                    // Load existing records from local database
                     records = su.loadRecords(sensor.getChipID(), from, to);
-                    //Sortieren nach Uhrzeit
+                    // Sort by time
                     resortData();
                     from = records.get(records.size() -1).getDateTime().getTime() +1000;
                 }
 
-                //Wenn der letzte Datensatz mehr als 30s her
+                // If previous record was more than 30 secs ago
                 if((records.size() > 0 ? records.get(records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {
-                    //Prüfen, ob Intenet verfügbar ist
+                    // Check if internet is available
                     if(smu.isInternetAvailable()) {
-                        //Internet ist verfügbar
+                        // Internet is available
                         records.addAll(smu.manageDownloadsRecords(sensor.getChipID(), from, to));
                     } else {
-                        //Internet ist nicht verfügbar
+                        // Internet is not available
                         smu.checkConnection(findViewById(R.id.container));
                     }
                 }
 
-                //Sortieren nach Uhrzeit
+                // Sort by time
                 resortData();
-                //ggf. Fehlerkorrektur(en) durchführen
+                // Possibly execute error correction
                 if (su.getBoolean("enable_auto_correction", true)) {
                     records = Tools.measurementCorrection1(records);
                     records = Tools.measurementCorrection2(records);
                 }
-                //Auf einen Ausfall prüfen
+                // Detect sensor breakdown
                 if (smu.isInternetAvailable()) {
                     if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.isMeasurementBreakdown(su, records)) {
                         if (!su.getBoolean("BD_" + sensor.getChipID())) {
@@ -429,9 +428,9 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                         su.removeKey("BD_" + sensor.getChipID());
                     }
                 }
-                //Datensätze in Adapter übernehmen
+                // Push data records into adapter
                 ViewPagerAdapterSensor.records = records;
-                //Wenn es ein Widget für diesen Sensor gibt, updaten
+                // If there is a widget for this sensor, refresh it
                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                 update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
@@ -440,9 +439,9 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //ViewpagerAdapter refreshen
+                        // Refresh ViewpagerAdapter
                         view_pager_adapter.refreshFragments();
-                        //ProgressMenuItem zurücksetzen
+                        // Reset ProgressMenuItem
                         if (progress_menu_item != null) progress_menu_item.setActionView(null);
                     }
                 });
@@ -557,7 +556,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     }
 
     private void shareSensor() {
-        //Sensor teilen
+        // Share sensor
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor));
@@ -566,12 +565,12 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
     }
 
     private void exportDiagram() {
-        //Diagramm exportieren
+        // Eyport Diagram
         view_pager_adapter.exportDiagram();
     }
 
     private void exportDataRecords() {
-        //Datensätze exportieren
+        // Export data records
         Uri export_uri = su.exportDataRecords(records);
         if(export_uri != null) {
             Intent i = new Intent(Intent.ACTION_SEND);

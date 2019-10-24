@@ -1,14 +1,14 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 import com.github.mikephil.charting.data.Entry;
 
 public class DiagramEntry extends Entry {
 
-    //Konstanten
-
-    //Variablen als Objekte
-
-    //Variablen
+    // Variables
     private String unit;
 
     public DiagramEntry(float x, float y, String unit) {
@@ -16,7 +16,7 @@ public class DiagramEntry extends Entry {
         this.unit = unit;
     }
 
-    public String getUnit() {
+    String getUnit() {
         return unit;
     }
 }

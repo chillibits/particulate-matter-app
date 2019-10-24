@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.Services;
 
 import android.app.Service;
@@ -28,19 +32,17 @@ import java.util.concurrent.TimeUnit;
 
 public class SyncService extends Service {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private Calendar calendar;
     private ArrayList<DataRecord> records;
 
-    //Utils-Pakete
+    // Utils packages
     private Resources res;
     private StorageUtils su;
     private ServerMessagingUtils smu;
     private NotificationUtils nu;
 
-    //Variablen
+    // Veriables
     private int limit_p1;
     private int limit_p2;
     private int limit_temp;
@@ -61,16 +63,13 @@ public class SyncService extends Service {
     }
 
     private void doWork(final boolean fromForeground) {
-        //Resourcen initialisieren
-        res = getResources();
-
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServerMessagingUtils
         smu = new ServerMessagingUtils(this, su);
 
-        //NotificationUtils initialisieren
+        // Initialize NotificationUtils
         nu = new NotificationUtils(this);
 
         if(fromForeground) {
@@ -82,7 +81,7 @@ public class SyncService extends Service {
             startForeground(111, n.build());
         }
 
-        //Kalender initialisieren
+        // Initialize calendar
         if(selected_day_timestamp == 0 || calendar == null) {
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -92,9 +91,9 @@ public class SyncService extends Service {
             selected_day_timestamp = calendar.getTime().getTime();
         }
 
-        //Prüfen, ob Intenet verfügbar ist
+        // Check, if internet is available
         if(smu.isInternetAvailable()) {
-            //MaxLimit aus den SharedPreferences auslesen
+            // Get max limit from SharedPreferences
             limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
             limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
             limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
@@ -105,7 +104,7 @@ public class SyncService extends Service {
                 @Override
                 public void run() {
                     try {
-                        //Timestamps für from und to ermitteln
+                        // Get timestamps for 'from' and 'to'
                         long from = selected_day_timestamp;
                         long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
@@ -113,18 +112,18 @@ public class SyncService extends Service {
                         sensors.addAll(su.getAllFavourites());
                         sensors.addAll(su.getAllOwnSensors());
                         for (Sensor s : sensors) {
-                            //Existierenden Datensätze aus der lokalen Datenbank laden
+                            // Load existing records from local database
                             records = su.loadRecords(s.getChipID(), from, to);
-                            //Sortieren nach Uhrzeit
+                            // Sort by time
                             Collections.sort(records);
-                            //Datensätze vom Server laden
+                            // Load records from server
                             ArrayList<DataRecord> records_external = smu.manageDownloadsRecords(s.getChipID(), records.size() > 0 ? records.get(records.size() -1).getDateTime().getTime() +1000 : from, to);
                             if(records_external != null) records.addAll(records_external);
-                            //Sortieren nach Uhrzeit
+                            // Sort by time
                             Collections.sort(records);
 
                             if (records.size() > 0) {
-                                //Auf einen Ausfall prüfen
+                                // Detect breakdown
                                 if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
                                     if(records_external != null && !su.getBoolean("BD_" + s.getChipID())) {
                                         nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
@@ -134,18 +133,18 @@ public class SyncService extends Service {
                                     nu.cancelNotification(Integer.parseInt(s.getChipID()) * 10);
                                     su.removeKey("BD_" + s.getChipID());
                                 }
-                                //Durchschnittswerte bilden
+                                // Calculate average values
                                 double average_p1 = getP1Average(records);
                                 double average_p2 = getP2Average(records);
                                 double average_temp = getTempAverage(records);
                                 double average_humidity = getHumidityAverage(records);
                                 double average_pressure = getPressureAverage(records);
                                 records = trimDataRecordsToSyncTime(s.getChipID(), records);
-                                //Auswerten
+                                // Evaluate
                                 for (DataRecord r : records) {
                                     if (!fromForeground && !su.getBoolean(selected_day_timestamp + "_p1_exceeded") && limit_p1 > 0 && (su.getBoolean("notification_averages", true) ? average_p1 > limit_p1 : (r.getP1() > limit_p1)) && r.getP1() > su.getDouble(selected_day_timestamp + "_p1_max")) {
                                         Log.i("FA", "P1 limit exceeded");
-                                        //P1 Notification
+                                        // P1 notification
                                         nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p1), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(selected_day_timestamp + "_p1_max", r.getP1());
                                         su.putBoolean(selected_day_timestamp + "_p1_exceeded", true);
@@ -155,7 +154,7 @@ public class SyncService extends Service {
                                     }
                                     if (!fromForeground && !su.getBoolean(selected_day_timestamp + "_p2_exceeded") && limit_p2 > 0 && (su.getBoolean("notification_averages", true) ? average_p2 > limit_p2 : (r.getP2() > limit_p2)) && r.getP2() > su.getDouble(selected_day_timestamp + "_p2_max")) {
                                         Log.i("FA", "P2 limit exceeded");
-                                        //P2 Notification
+                                        // P2 notification
                                         nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_p2), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(selected_day_timestamp + "_p2_max", r.getP2());
                                         su.putBoolean(selected_day_timestamp + "_p2_exceeded", true);
@@ -165,7 +164,7 @@ public class SyncService extends Service {
                                     }
                                     if (!fromForeground && !su.getBoolean(selected_day_timestamp + "_temp_exceeded") && limit_temp > 0 && (su.getBoolean("notification_averages", true) ? average_temp > limit_temp : (r.getTemp() > limit_temp)) && r.getTemp() > su.getDouble(selected_day_timestamp + "_temp_max")) {
                                         Log.i("FA", "Temp limit exceeded");
-                                        //Temperatur Notification
+                                        // Temperature notification
                                         nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_temp), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(selected_day_timestamp + "_temp_max", r.getTemp());
                                         su.putBoolean(selected_day_timestamp + "_temp_exceeded", true);
@@ -175,7 +174,7 @@ public class SyncService extends Service {
                                     }
                                     if (!fromForeground && !su.getBoolean(selected_day_timestamp + "_humidity_exceeded") && limit_humidity > 0 && (su.getBoolean("notification_averages", true) ? average_humidity > limit_humidity : (r.getHumidity() > limit_humidity)) && r.getHumidity() > su.getDouble(selected_day_timestamp + "_humidity_max")) {
                                         Log.i("FA", "Humidity limit exceeded");
-                                        //Luftfeuchtigkeit Notification
+                                        // Humidity notification
                                         nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_humidity), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(selected_day_timestamp + "_humidity_max", r.getHumidity());
                                         su.putBoolean(selected_day_timestamp + "_humidity_exceeded", true);
@@ -185,7 +184,7 @@ public class SyncService extends Service {
                                     }
                                     if (!fromForeground && !su.getBoolean(selected_day_timestamp + "_pressure_exceeded") && limit_pressure > 0 && (su.getBoolean("notification_averages", true) ? average_pressure > limit_pressure : (r.getPressure() > limit_pressure)) && r.getHumidity() > su.getDouble(selected_day_timestamp + "_pressure_max")) {
                                         Log.i("FA", "Pressure limit exceeded");
-                                        //Luftdruck Notification
+                                        // Pressure notification
                                         nu.displayLimitExceededNotification(s.getName() + " - " + res.getString(R.string.limit_exceeded_pressure), s.getChipID(), r.getDateTime().getTime());
                                         su.putDouble(selected_day_timestamp + "_pressure_max", r.getTemp());
                                         su.putBoolean(selected_day_timestamp + "_pressure_exceeded", true);
@@ -195,16 +194,16 @@ public class SyncService extends Service {
                                     }
                                 }
 
-                                //Homescreen Widget updaten
+                                // Refresh homescreen widget
                                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                                 update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getChipID());
                                 sendBroadcast(update_intent);
                             }
                         }
-                    } catch (Exception e) {}
+                    } catch (Exception ignored) {}
 
-                    //Foreground Notification beenden
+                    // Cancel foreground notification
                     if(fromForeground) nu.cancelNotification(111);
 
                     stopSelf();
@@ -244,7 +243,7 @@ public class SyncService extends Service {
     }
 
     private ArrayList<DataRecord> trimDataRecordsToSyncTime(String chip_id, ArrayList<DataRecord> all_records) {
-        //Letzte Ausführung laden
+        // Load last execution time
         long last_record = su.getLong(chip_id + "_LastRecord", System.currentTimeMillis());
 
         ArrayList<DataRecord> records = new ArrayList<>();
@@ -252,7 +251,7 @@ public class SyncService extends Service {
             if(r.getDateTime().getTime() > last_record) records.add(r);
         }
 
-        //Ausführungszeit speichern
+        // Save execution time
         if(all_records.size() > 0) su.putLong(chip_id + "_LastRecord", all_records.get(all_records.size() -1).getDateTime().getTime());
 
         return records;

@@ -35,7 +35,7 @@ import okhttp3.Response;
 
 public class ServerMessagingUtils {
 
-    //Konstanten
+    // Constants
     private static final String SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/";
     private static final String SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/";
     private static final String SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v310.php";
@@ -44,7 +44,7 @@ public class ServerMessagingUtils {
     private static final String SERVER_GET_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "get.php";
     private static final int MAX_REQUEST_REPEAT = 10;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Context context;
     private ConnectivityManager cm;
     private WifiManager wifiManager;
@@ -52,10 +52,10 @@ public class ServerMessagingUtils {
     private URL main_url;
     private URL get_url;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
 
-    //Variablen
+    // Variables
     private int repeat_count = 0;
 
     public ServerMessagingUtils(Context context, StorageUtils su) {
@@ -64,7 +64,7 @@ public class ServerMessagingUtils {
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         this.client = new OkHttpClient();
-        //URL erstellen
+        // Create URL
         try { main_url = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? new URL(SERVER_MAIN_SCRIPT_HTTP) : new URL(SERVER_MAIN_SCRIPT_HTTPS); } catch (MalformedURLException e) {}
         try { get_url = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT ? new URL(SERVER_GET_SCRIPT_HTTP) : new URL(SERVER_GET_SCRIPT_HTTPS); } catch (MalformedURLException e) {}
     }
@@ -95,7 +95,7 @@ public class ServerMessagingUtils {
     }
 
     public ArrayList<DataRecord> manageDownloadsRecords(final String chip_id, final long from, final long to) {
-        //Datensätze herunterladen
+        // Download data records
         if(isInternetAvailable()) {
             try {
                 RequestBody body = new MultipartBody.Builder()
@@ -111,7 +111,7 @@ public class ServerMessagingUtils {
                         .post(body)
                         .build();
                 String response = client.newCall(request).execute().body().string();
-                //Datensätze parsen
+                // Parse records
                 ArrayList<DataRecord> records = new ArrayList<>();
                 if(!response.isEmpty() && response.startsWith("[") && response.endsWith("]")) {
                     JSONArray array = new JSONArray(response);

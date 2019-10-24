@@ -44,7 +44,7 @@ import java.util.Date;
 
 public class StorageUtils extends SQLiteOpenHelper {
 
-    //Konstanten
+    // Constants
     private static final String DEFAULT_STRING_VALUE = "";
     private static final int DEFAULT_INT_VALUE = 0;
     private static final boolean DEFAULT_BOOLEAN_VALUE = false;
@@ -54,12 +54,10 @@ public class StorageUtils extends SQLiteOpenHelper {
     private static final String TABLE_EXTERNAL_SENSORS = "ExternalSensors";
     private static final String TABLE_FAVOURITES = "Favourites";
 
-    //Variablen als Objekte
+    // Variables as objects
     private Context context;
     private SharedPreferences prefs;
     private SharedPreferences.Editor e;
-
-    //Variablen
 
     public StorageUtils(Context context) {
         super(context, "database.db", null, 3);
@@ -67,7 +65,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    //-----------------------------------------Dateisystem------------------------------------------
+    //-----------------------------------------File-system------------------------------------------
 
     public void clearSensorDataMetadata() {
         e = prefs.edit();
@@ -113,15 +111,9 @@ public class StorageUtils extends SQLiteOpenHelper {
         return prefs.getString(name, DEFAULT_STRING_VALUE);
     }
 
-    public int getInt(String name) {
-        return prefs.getInt(name, DEFAULT_INT_VALUE);
-    }
-
     public boolean getBoolean(String name) {
         return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE);
     }
-
-    public long getLong(String name) { return prefs.getLong(name, DEFAULT_LONG_VALUE); }
 
     public double getDouble(String name) {
         return prefs.getFloat(name, (float) DEFAULT_DOUBLE_VALUE);
@@ -143,10 +135,6 @@ public class StorageUtils extends SQLiteOpenHelper {
         return  prefs.getLong(name, default_value);
     }
 
-    public double getDouble(String name, double default_value) {
-        return prefs.getFloat(name, (float) default_value);
-    }
-
     public void removeKey(String name) {
         e = prefs.edit();
         for (String key : prefs.getAll().keySet()) {
@@ -155,12 +143,12 @@ public class StorageUtils extends SQLiteOpenHelper {
         e.apply();
     }
 
-    //------------------------------------------Datenbank-------------------------------------------
+    //------------------------------------------Database--------------------------------------------
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try{
-            //Tabellen erstellen
+            // Create tables
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SENSORS + " (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);");
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_EXTERNAL_SENSORS + " (sensor_id text PRIMARY KEY, latitude double, longitude double);");
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FAVOURITES + " (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);");
@@ -172,7 +160,7 @@ public class StorageUtils extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion && newVersion == 3) {
-            //Datenbank-Update
+            // Update database
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_EXTERNAL_SENSORS + " (sensor_id text PRIMARY KEY, latitude double, longitude double);");
         }
     }
@@ -187,7 +175,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         db.execSQL(command);
     }
 
-    //---------------------------------------Eigene Sensoren----------------------------------------
+    //-----------------------------------------Own-sensors------------------------------------------
 
     public void addOwnSensor(Sensor sensor, boolean offline, boolean request_from_realtime_sync_service) {
         ContentValues values = new ContentValues();
@@ -196,12 +184,11 @@ public class StorageUtils extends SQLiteOpenHelper {
         values.put("sensor_color", sensor.getColor());
         addRecord(TABLE_SENSORS, values);
         putBoolean(sensor.getChipID() + "_offline", offline);
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public Sensor getSensor(String chip_id) {
-        Log.d("FA", "GetSensor: " + chip_id);
         ArrayList<Sensor> sensors = getAllOwnSensors();
         sensors.addAll(getAllFavourites());
         for(Sensor s : sensors) {
@@ -220,14 +207,14 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public void updateOwnSensor(Sensor new_sensor, boolean request_from_realtime_sync_service) {
         execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public void removeOwnSensor(String chip_id, boolean request_from_realtime_sync_service) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_SENSORS, "sensor_id = ?", new String[]{chip_id});
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
@@ -242,7 +229,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             cursor.close();
             Collections.sort(sensors);
             return sensors;
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return new ArrayList<>();
     }
 
@@ -250,7 +237,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         return getBoolean(chip_id + "_offline");
     }
 
-    //------------------------------------------Favoriten-------------------------------------------
+    //------------------------------------------Favourites------------------------------------------
 
     public void addFavourite(Sensor sensor, boolean request_from_realtime_sync_service) {
         ContentValues values = new ContentValues();
@@ -258,7 +245,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         values.put("sensor_name", sensor.getName());
         values.put("sensor_color", sensor.getColor());
         addRecord(TABLE_FAVOURITES, values);
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
@@ -272,14 +259,14 @@ public class StorageUtils extends SQLiteOpenHelper {
 
     public void updateFavourite(Sensor new_sensor, boolean request_from_realtime_sync_service) {
         execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.getName() + "', sensor_color = '" + new_sensor.getColor() + "' WHERE sensor_id = '" + new_sensor.getChipID() + "';");
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
     public void removeFavourite(String chip_id, boolean request_from_realtime_sync_service) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_FAVOURITES, "sensor_id = ?", new String[]{chip_id});
-        //Falls ein Web-Client verbunden ist, refreshen
+        // Refresh, if a web client is connected
         if(WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context);
     }
 
@@ -294,7 +281,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             cursor.close();
             Collections.sort(sensors);
             return sensors;
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return new ArrayList<>();
     }
 
@@ -338,7 +325,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             }
             cursor.close();
             return sensors;
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return new ArrayList<>();
     }
 
@@ -347,9 +334,9 @@ public class StorageUtils extends SQLiteOpenHelper {
     void saveRecords(String chip_id, ArrayList<DataRecord> records) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        //Tabelle erstellen, falls sie noch nicht existiert
+        // Create table if it doesn't already exist
         db.compileStatement("CREATE TABLE IF NOT EXISTS data_" + chip_id + " (time integer PRIMARY KEY, pm2_5 double, pm10 double, temp double, humidity double, pressure double, gps_lat double, gps_lng double, gps_alt double, note text);").execute();
-        //Datensätze in Tabelle schreiben
+        // Write records into db
         SQLiteStatement stmt = db.compileStatement("INSERT INTO data_" + chip_id + " (time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
         for(DataRecord r : records) {
             try{
@@ -363,7 +350,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                 stmt.bindDouble(8, r.getLng());
                 stmt.bindDouble(9, r.getAlt());
                 stmt.execute();
-            } catch (SQLiteConstraintException e) {} finally {
+            } catch (SQLiteConstraintException ignored) {} finally {
                 stmt.clearBindings();
             }
         }
@@ -383,7 +370,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             }
             cursor.close();
             return records;
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return new ArrayList<>();
     }
 
@@ -397,27 +384,23 @@ public class StorageUtils extends SQLiteOpenHelper {
             DataRecord record =  new DataRecord(time, cursor.getDouble(2), cursor.getDouble(1), cursor.getDouble(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6), cursor.getDouble(7), cursor.getDouble(8));
             cursor.close();
             return record;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         return null;
     }
 
     public void shareImage(Bitmap image, String share_message) {
         try {
-            //Speichern
+            // Save
             FileOutputStream out = context.openFileOutput("export.png", Context.MODE_PRIVATE);
             image.compress(Bitmap.CompressFormat.PNG, 80, out);
             out.close();
             Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.png"));
-            //Teilen
+            // Share
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType(URLConnection.guessContentTypeFromName(uri.getPath()));
             i.putExtra(Intent.EXTRA_STREAM, uri);
             context.startActivity(Intent.createChooser(i, share_message));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) {}
     }
 
     public Uri exportDataRecords(ArrayList<DataRecord> records) {
@@ -439,7 +422,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             }
             out.close();
             return FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.csv"));
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return null;
     }
 
@@ -453,7 +436,7 @@ public class StorageUtils extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'data_%'", null);
         while(cursor.moveToNext()) {
             db.execSQL("DROP TABLE " + cursor.getString(0));
-            Log.i("FA", "Deleted Database: " + cursor.getString(0));
+            Log.i("FA", "Deleted database: " + cursor.getString(0));
         }
         cursor.close();
     }
@@ -468,7 +451,7 @@ public class StorageUtils extends SQLiteOpenHelper {
 
             ArrayList<Sensor> favourites = new ArrayList<>();
             ArrayList<Sensor> own_sensors = new ArrayList<>();
-            //Favouriten
+            // Favourites
             parser.require(XmlPullParser.START_TAG, null, "sensor-configuration");
             parser.nextTag();
             parser.require(XmlPullParser.START_TAG, null, "favourites");
@@ -488,7 +471,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             }
             parser.require(XmlPullParser.END_TAG, null, "favourites");
             parser.nextTag();
-            //Eigene Sensoren
+            // Own sensors
             parser.require(XmlPullParser.START_TAG, null, "own-sensors");
             while (parser.next() != XmlPullParser.END_TAG) {
                 if (parser.getEventType() != XmlPullParser.START_TAG) continue;
@@ -508,7 +491,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             parser.nextTag();
             parser.require(XmlPullParser.END_TAG, null, "sensor-configuration");
 
-            //Importieren
+            // Import
             for(Sensor s : favourites) {
                 if(!isSensorExisting(s.getChipID())) addFavourite(s, false);
             }
@@ -537,7 +520,7 @@ public class StorageUtils extends SQLiteOpenHelper {
             serializer.setOutput(writer);
             serializer.startDocument("UTF-8", true);
             serializer.startTag("", "sensor-configuration");
-            //Favouriten
+            // Favourites
             serializer.startTag("", "favourites");
             for (Sensor s : favourites) {
                 serializer.startTag("", "sensor");
@@ -547,7 +530,7 @@ public class StorageUtils extends SQLiteOpenHelper {
                 serializer.endTag("", "sensor");
             }
             serializer.endTag("", "favourites");
-            //Eigene Sensoren
+            // Own sensors
             serializer.startTag("", "own-sensors");
             for (Sensor s : own_sensors) {
                 serializer.startTag("", "sensor");
@@ -559,18 +542,16 @@ public class StorageUtils extends SQLiteOpenHelper {
             serializer.endTag("", "own-sensors");
             serializer.endTag("", "sensor-configuration");
             serializer.endDocument();
-            //In Datei schreiben
+            // Write to file
             FileOutputStream out = context.openFileOutput("sensor_config.xml", Context.MODE_PRIVATE);
             out.write(writer.toString().getBytes());
             out.close();
             Uri uri = FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("sensor_config.xml"));
-            //Teilen
+            // Share
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType(URLConnection.guessContentTypeFromName(uri.getPath()));
             i.putExtra(Intent.EXTRA_STREAM, uri);
             context.startActivity(Intent.createChooser(i, context.getString(R.string.export_xml_file)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
     }
 }

@@ -25,14 +25,14 @@ import eu.davidea.flipview.FlipView;
 
 public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapter.ViewHolder> {
 
-    //Konstanten
+    // Constants
     public static final int MODE_SELECTION_SINGLE = 10001;
-    public static final int MODE_SELECTION_MULTI = 10002;
+    private static final int MODE_SELECTION_MULTI = 10002;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Resources res;
     private Handler h;
     private ArrayList<Sensor> sensors;
@@ -40,7 +40,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
     private ArrayList<Sensor> selected_sensors = new ArrayList<>();
     private ViewHolder selected_sensor_holder;
 
-    //Variablen
+    // Variables
     private int selection_mode;
 
     public SelectSensorAdapter(Context context, StorageUtils su, ArrayList<Sensor> sensors, int selection_mode) {
@@ -52,16 +52,14 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        //Variablen als Objekte
+        // Variables as objects
         private FlipView item_icon;
         private TextView item_name;
         private TextView item_id;
 
-        //Variablen
-
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            //Oberflächenkomponenten initialisieren
+            // Initialize UI components
             item_icon = itemView.findViewById(R.id.item_icon);
             item_name = itemView.findViewById(R.id.item_name);
             item_id = itemView.findViewById(R.id.item_id);
@@ -82,7 +80,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder h, int pos) {
-        //Daten befüllen
+        // Fill in data
         final Sensor sensor = sensors.get(pos);
 
         h.item_icon.getFrontLayout().getBackground().setColorFilter(sensor.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -155,9 +153,5 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
 
     public Sensor getSelectedSensor() {
         return selected_sensor;
-    }
-
-    public ArrayList<Sensor> getSeletedSensors() {
-        return selected_sensors;
     }
 }

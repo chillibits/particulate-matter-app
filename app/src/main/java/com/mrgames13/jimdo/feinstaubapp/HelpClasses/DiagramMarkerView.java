@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.HelpClasses;
 
 import android.content.Context;
@@ -15,16 +19,14 @@ import java.util.Date;
 
 public class DiagramMarkerView extends MarkerView implements IMarker {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private SimpleDateFormat sdf;
     private TextView time;
     private TextView value;
 
     private MPPointF mOffset;
 
-    //Variablen
+    // Variables
     private long first_timestamp;
 
     public DiagramMarkerView(Context context, int layoutResource, long first_timestamp) {

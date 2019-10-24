@@ -1,12 +1,12 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
 public class ExternalSensor {
 
-    //Konstanten
-
-    //Variablen als Objekte
-
-    //Variablen
+    // Variables
     private String chip_id = "no_id";
     private double lat = 0;
     private double lng = 0;

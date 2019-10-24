@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.WidgetComponents;
 
 import android.app.PendingIntent;
@@ -7,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -22,16 +25,13 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import java.text.SimpleDateFormat;
 
 public class WidgetProvider extends AppWidgetProvider {
-    //Konstanten
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Resources res;
     private SimpleDateFormat sdf_datetime = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-
-    //Variablen
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] app_widget_id) {
@@ -41,13 +41,13 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 
         for(int widget_id : app_widget_id) {
-            //Refresh-Button
+            // Refresh button
             Intent refresh = new Intent(context, getClass());
             refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id);
             PendingIntent refresh_pi = PendingIntent.getBroadcast(context, 0, refresh, 0);
             rv.setOnClickPendingIntent(R.id.widget_refresh, refresh_pi);
-            //Daten updaten
+            // Update data
             updateData(context, rv, widget_id);
         }
     }
@@ -60,7 +60,7 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 
         if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.WIDGET_EXTRA_SENSOR_ID)) {
-            //WidgetID herausfinden
+            // Get WidgetID
             int widget_id = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_EXTRA_SENSOR_ID), AppWidgetManager.INVALID_APPWIDGET_ID);
             if(widget_id != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 rv.setViewVisibility(R.id.widget_refreshing, View.GONE);
@@ -92,7 +92,7 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     private void initializeComponents(Context context, RemoteViews rv, int widget_id) {
-        //Refresh-Button
+        // Refresh button
         Intent refresh = new Intent(context, getClass());
         refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id);
@@ -102,11 +102,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
     private void updateData(Context context, RemoteViews rv, int widget_id) {
         try {
-            //Sensor laden
+            // Load sensors
             Sensor sensor = su.getSensor(su.getString("Widget_" + widget_id));
-            //Letzten Datensatz aus der Datenbank auslesen
+            // Get last record from the db
             DataRecord last_record = su.getLastRecord(sensor.getChipID());
-            Log.d("FA", "LastRecord null: " + (sensor.getChipID()));
             if (last_record != null) {
                 rv.setTextViewText(R.id.cv_title, res.getString(R.string.current_values) + " - " + sensor.getName());
                 rv.setTextViewText(R.id.cv_p1, Tools.round(last_record.getP1(), 2) + " µg/m³");

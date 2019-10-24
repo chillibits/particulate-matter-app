@@ -11,7 +11,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,11 +50,10 @@ import java.util.concurrent.TimeUnit;
 
 public class CompareActivity extends AppCompatActivity {
 
-    //Konstanten
+    // Constants
     private static final int REQ_WRITE_EXTERNAL_STORAGE = 1;
 
-    //Variablen als Objekte
-    private Resources res;
+    // Variables as objects
     private Calendar calendar;
     public static ArrayList<Sensor> sensors;
     public static ArrayList<ArrayList<DataRecord>> records = new ArrayList<>();
@@ -63,11 +61,11 @@ public class CompareActivity extends AppCompatActivity {
     private SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy");
     private SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
 
-    //Utils-Pakete
+    // Utils packages
     private static StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Komponenten
+    // Components
     private GraphView diagram_p1;
     private GraphView diagram_p2;
     private GraphView diagram_temp;
@@ -76,7 +74,7 @@ public class CompareActivity extends AppCompatActivity {
     private ImageView card_date_next;
     private ImageView card_date_today;
 
-    //Variablen
+    // Variables
     public static long selected_day_timestamp;
     public static long current_day_timestamp;
     private boolean no_data;
@@ -89,10 +87,7 @@ public class CompareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare);
 
-        //Resourcen initialisieren
-        res = getResources();
-
-        //Toolbar initialisieren
+        // Initialize toolbar
         final Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.compare_sensors);
         setSupportActionBar(toolbar);
@@ -110,7 +105,7 @@ public class CompareActivity extends AppCompatActivity {
             });
         }
 
-        //Kalender initialisieren
+        // Initialize calendar
         if(selected_day_timestamp == 0 || calendar == null) {
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -121,20 +116,20 @@ public class CompareActivity extends AppCompatActivity {
             selected_day_timestamp = current_day_timestamp;
         }
 
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServiceMessagingUtils
         smu = new ServerMessagingUtils(this, su);
 
-        //Sensoren laden
+        // Load sensors
         if(!getIntent().hasExtra("Sensors")) {
             finish();
             return;
         }
         sensors = (ArrayList<Sensor>) getIntent().getSerializableExtra("Sensors");
 
-        //Komponenten initialisieren
+        // Initialize components
         final TextView card_date_value = findViewById(R.id.card_date_value);
         ImageView card_date_edit = findViewById(R.id.card_date_edit);
         card_date_today = findViewById(R.id.card_date_today);
@@ -145,21 +140,21 @@ public class CompareActivity extends AppCompatActivity {
         card_date_value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
+                // Select date
                 chooseDate(card_date_value);
             }
         });
         card_date_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auswählen
+                // Select date
                 chooseDate(card_date_value);
             }
         });
         card_date_today.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Datum auf den heutigen Tag setzen
+                // Set date to the current day
                 calendar.setTime(new Date());
                 calendar.set(Calendar.HOUR_OF_DAY, 0);
                 calendar.set(Calendar.MINUTE, 0);
@@ -171,14 +166,14 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_next.setEnabled(false);
                 card_date_today.setEnabled(false);
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
         card_date_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Einen Tag zurück gehen
+                // Select previous day
                 calendar.add(Calendar.DATE, -1);
 
                 selected_day_timestamp = calendar.getTime().getTime();
@@ -192,14 +187,14 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
                 card_date_today.setEnabled(calendar.before(current_calendar));
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
         card_date_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Einen Tag vor gehen
+                // Select next day
                 calendar.add(Calendar.DATE, 1);
 
                 selected_day_timestamp = calendar.getTime().getTime();
@@ -213,7 +208,7 @@ public class CompareActivity extends AppCompatActivity {
                 card_date_next.setEnabled(calendar.before(current_calendar));
                 card_date_today.setEnabled(calendar.before(current_calendar));
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         });
@@ -339,8 +334,7 @@ public class CompareActivity extends AppCompatActivity {
     }
 
     private void chooseDate(final TextView card_date_value) {
-        //Datum auswählen
-        //Daten für ausgewähltes Datum laden
+        // Select date
         DatePickerDialog date_picker_dialog = new DatePickerDialog(CompareActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -360,7 +354,7 @@ public class CompareActivity extends AppCompatActivity {
 
                 calendar = calendar_new;
 
-                //Daten für ausgewähltes Datum laden
+                // Load data for selected date
                 loadData();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -420,7 +414,7 @@ public class CompareActivity extends AppCompatActivity {
             }
         } else if(id == R.id.action_refresh) {
             Log.i("FA", "User refreshing ...");
-            //Daten neu laden
+            // Reload data
             loadData();
         } else if(id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
@@ -436,51 +430,51 @@ public class CompareActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        //ProgressMenuItem setzen
+        // Set ProgressMenuItem
         if(progress_menu_item != null) progress_menu_item.setActionView(R.layout.menu_item_loading);
 
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setCancelable(false);
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setTitle(res.getString(R.string.loading_data));
+        pd.setTitle(getString(R.string.loading_data));
         pd.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //ArrayList leeren
+                // Clear ArrayList
                 records.clear();
-                //Diagramme leeren
+                // Clear diagrams
                 diagram_p1.removeAllSeries();
                 diagram_p2.removeAllSeries();
                 diagram_humidity.removeAllSeries();
                 diagram_temp.removeAllSeries();
                 diagram_pressure.removeAllSeries();
 
-                //Timestamps für from und to ermitteln
+                // Get timestamps for 'from' and 'to'
                 long from = selected_day_timestamp;
                 long to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1);
 
-                //Zeit des ersten Datensatzes ermitteln
+                // Get time of first record
                 first_time = Long.MAX_VALUE;
                 last_time = Long.MIN_VALUE;
                 pd.setMax(sensors.size());
                 for(int i = 0; i < sensors.size(); i++) {
-                    //Existierenden Datensätze aus der lokalen Datenbank laden
+                    // Load existing data records from local database
                     ArrayList<DataRecord> current_records = su.loadRecords(sensors.get(i).getChipID(), from, to);
-                    //Sortieren nach Uhrzeit
+                    // Sort by time
                     Collections.sort(current_records);
-                    //Wenn der letzte Datensatz mehr als 30s her
+                    // If previous record was more than 30 secs ago
                     if((current_records.size() > 0 ? current_records.get(current_records.size() -1).getDateTime().getTime() : from) < System.currentTimeMillis() - 30000) {
-                        //Prüfen, ob Intenet verfügbar ist
+                        // Check if internet is available
                         if(smu.isInternetAvailable()) {
-                            //Internet ist verfügbar
+                            // Internet is available
                             current_records.addAll(smu.manageDownloadsRecords(sensors.get(i).getChipID(), current_records.size() > 0 && selected_day_timestamp == current_day_timestamp ? current_records.get(current_records.size() -1).getDateTime().getTime() +1000 : from, to));
                         }
                     }
-                    //Sortieren nach Uhrzeit
+                    // Sort by time
                     Collections.sort(current_records);
-                    //Datensätze zur Liste hinzufügen
-                    records.add(current_records); // Muss add heißen, nicht addAll, weil es eine ArrayList in der ArrayList ist.
+                    // Add records to the list
+                    records.add(current_records); // Has to be 'add', not 'addAll' cause it's an ArrayList within an ArrayList
                     try{
                         long current_first_time = records.get(i).get(0).getDateTime().getTime();
                         long current_last_time = records.get(i).get(records.get(i).size() -1).getDateTime().getTime();
@@ -494,7 +488,7 @@ public class CompareActivity extends AppCompatActivity {
 
                 for(int i = 0; i < sensors.size(); i++) {
                     ArrayList<DataRecord> current_records = records.get(i);
-                    //ggf. Fehlerkorrektur(en) durchführen
+                    // Possibly execute error correction
                     if(su.getBoolean("enable_auto_correction", true)) {
                         current_records = Tools.measurementCorrection1(current_records);
                         current_records = Tools.measurementCorrection2(current_records);
@@ -596,7 +590,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             findViewById(R.id.no_data).setVisibility(no_data ? View.VISIBLE : View.GONE);
                             findViewById(R.id.container).setVisibility(no_data ? View.GONE : View.VISIBLE);
-                            //ProgressMenuItem zurücksetzen
+                            // Reset ProgressMenuItem
                             if(progress_menu_item != null) progress_menu_item.setActionView(null);
                             pd.dismiss();
                         } catch (Exception e) {}

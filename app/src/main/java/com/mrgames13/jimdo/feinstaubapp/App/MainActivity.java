@@ -100,7 +100,7 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Konstanten
+    // Constants
     private static final String QR_PREFIX_SUFFIX = "01010";
     public static final int REQ_ADD_OWN_SENSOR = 10002;
     public static final int REQ_SEARCH_LOCATION = 10003;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_SCAN_WEB = 10005;
     private static final int REQ_SCAN_SENSOR = 10006;
 
-    //Variablen als Objekte
+    // Variables as objects
     public static MainActivity own_instance;
     private Toolbar toolbar;
     private Resources res;
@@ -125,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
     private MaterialSearchView searchView;
     private MenuItem search_item;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Variablen
+    // Variables
     private boolean pressedOnce;
     private int selected_page;
     private boolean selection_running;
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
@@ -149,21 +149,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Eigene Intanz initialisieren
+        // Initialize own instance
         own_instance = this;
 
-        //Resourcen initialisieren
-        res = getResources();
-
-        //Toolbar initialisieren
+        // Initialize toolbar
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServerMessagingUtils
         smu = new ServerMessagingUtils(this, su);
 
-        //Komponenten initialisieren
+        // Initialize components
         container = findViewById(R.id.container);
         pager = findViewById(R.id.view_pager);
         pager.setOffscreenPageLimit(3);
@@ -304,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         sheet_fab_compare.setFabAnimationEndListener(new SheetLayout.OnFabAnimationEndListener() {
             @Override
             public void onFabAnimationEnd() {
-                //CompareActivity starten
+                // Launch CompareActivity
                 Intent i = new Intent(MainActivity.this, CompareActivity.class);
                 i.putExtra("Sensors", pager_adapter.getSelectedSensors());
                 startActivityForResult(i, REQ_COMPARE);
@@ -316,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         fab_compare_dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Alle Sensoren deselektieren
+                // Deselect all sensors
                 pager_adapter.deselectAllSensors();
                 updateSelectionMode();
             }
@@ -340,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
         });
         if(nightModeFlags == UI_MODE_NIGHT_YES) searchView.setBackgroundColor(res.getColor(R.color.gray_light));
 
-        //Start-Position auf der Karte
+        // Start on the map
         pager.setCurrentItem(1);
 
         initializeApp();
@@ -422,17 +419,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeApp() {
-        //Notification Channels erstellen
+        // Create notification channels
         NotificationUtils.createNotificationChannels(this);
 
-        //ServerInfo abfragen
+        // Request server info
         getServerInfo();
 
-        //Hintergrundservices starten
+        // Start background services
         int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if(!isJobServiceOn(this)) {
-                //JobScheduler starten
+                // Start JobScheduler
                 ComponentName component = new ComponentName(this, SyncJobService.class);
                 JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
                         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
@@ -443,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
             }
         } else {
-            //Alarmmanager aufsetzen
+            // Setup AlarmManager
             AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent start_service_intent = new Intent(this, SyncService.class);
             PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
@@ -452,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
         }
 
-        //Intent-Abfragen vornehmen
+        // Get data from intent
         Intent intent = getIntent();
         Uri appLinkData = intent.getData();
         if(appLinkData != null && (appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/") || appLinkData.toString().startsWith("https://pm.mrgames-server.de/s/"))) {
@@ -728,7 +725,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent i = new Intent(MainActivity.this, WebRealtimeSyncService.class);
                     i.putExtra("sync_key", sync_key);
                     startService(i);
-                    //Toast anzeigen
+                    // Show toast
                     Toast t = new Toast(MainActivity.this);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.setDuration(Toast.LENGTH_LONG);
@@ -782,12 +779,12 @@ public class MainActivity extends AppCompatActivity {
                         final int min_appversion = Integer.parseInt(jsonobject.getString("min_appversion"));
                         final int newest_appversion = Integer.parseInt(jsonobject.getString("newest_appversion"));
                         final String user_msg = jsonobject.getString("user_message");
-                        //Parameter abspeichern
+                        // Save parameters
                         su.putInt("ServerState", server_state);
                         su.putInt("MinAppVersion", min_appversion);
                         su.putInt("NewestAppVersion", newest_appversion);
                         su.putString("UserMsg", user_msg);
-                        //ServerInfo verarbeiten
+                        // Process server info
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -803,7 +800,7 @@ public class MainActivity extends AppCompatActivity {
     private void parseServerInfo(int server_state, int min_app_version, int newest_app_version, String user_msg) {
         int app_version_code = 0;
         try { app_version_code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode; } catch (PackageManager.NameNotFoundException ignored) {}
-        //ServerState verarbeiten
+        // Process server state
         if(server_state == 2) {
             AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
@@ -847,7 +844,7 @@ public class MainActivity extends AppCompatActivity {
                     .create();
             d.show();
         } else {
-            //AppVersion überprüfen
+            // Check for app updates
             if(app_version_code < min_app_version) {
                 AlertDialog d = new AlertDialog.Builder(MainActivity.this)
                         .setCancelable(false)

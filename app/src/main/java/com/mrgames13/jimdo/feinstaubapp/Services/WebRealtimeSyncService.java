@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.Services;
 
 import android.app.Service;
@@ -28,17 +32,15 @@ import java.util.Map;
 
 public class WebRealtimeSyncService extends Service {
 
-    //Konstanten
-
-    //Variablen als Objekte
+    // Variables as objects
     private static DatabaseReference ref;
     ArrayList<Sensor> favourites;
     ArrayList<Sensor> own_sensors;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
 
-    //Variablen
+    // Variables
     public static WebRealtimeSyncService own_instance;
     private long timestamp;
 
@@ -52,13 +54,13 @@ public class WebRealtimeSyncService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String sync_key = intent.getStringExtra("sync_key");
 
-        //Eigene Instanz initialisieren
+        // Initialize own instance
         own_instance = this;
 
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(getApplicationContext());
 
-        //Firebase initialisieren
+        // Initialize Firebase
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         ref = db.getReference("sync/" + sync_key);
 
@@ -70,11 +72,11 @@ public class WebRealtimeSyncService extends Service {
     public void refresh(final Context context) {
         timestamp = System.currentTimeMillis();
 
-        //Favoriten und eigene Sensoren aus der DB holen
+        // Get favourites and own sensors from local db
         favourites = su.getAllFavourites();
         own_sensors = su.getAllOwnSensors();
 
-        //Daten zusammensetzen
+        // Assenble data
         final HashMap<String, Object> data = new HashMap<>();
         int object_id = 0;
         for(Sensor s : favourites) {
@@ -96,14 +98,14 @@ public class WebRealtimeSyncService extends Service {
             object_id++;
         }
 
-        //Connection bauen
+        // Build connection
         HashMap<String, Object> connection = new HashMap<>();
         connection.put("time", timestamp);
         connection.put("device", "app");
         connection.put("data", data);
         ref.setValue(connection);
 
-        //DataChange-Listener setzen
+        // Set DateChangeListener
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snap) {
@@ -117,7 +119,7 @@ public class WebRealtimeSyncService extends Service {
                             for(Sensor s : own_sensors) su.removeOwnSensor(s.getChipID(), true);
                             for(int i = 0; i < new_sensors.size(); i++) {
                                 Map<String, Object> sensor = (Map<String, Object>) new_sensors.get(i);
-                                //Daten extrahieren
+                                // Extract data
                                 String chip_id = String.valueOf(sensor.get("chip_id"));
                                 String name = String.valueOf(sensor.get("name"));
                                 boolean favorized = Boolean.parseBoolean(sensor.get("fav").toString());
@@ -136,7 +138,7 @@ public class WebRealtimeSyncService extends Service {
                     }
                 } else {
                     ref.removeEventListener(this);
-                    //Toast anzeigen
+                    // Show toast
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
                     Toast t = new Toast(context);
                     t.setGravity(Gravity.CENTER, 0, 0);

@@ -59,35 +59,29 @@ import java.util.HashMap;
 
 public class SettingsActivity extends PreferenceActivity {
 
-    //Konstanten
-    private static final boolean ALWAYS_SIMPLE_PREFS = false;
-
-    //Variablen als Objekte
+    // Variables as objects
     private Resources res;
     private Toolbar toolbar;
     private ProgressDialog pd;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Variablen
+    // Variables
     private String result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Resourcen initialisieren
-        res = getResources();
-
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServerMessagingUtils
         smu = new ServerMessagingUtils(this, su);
 
-        //Toolbar initialisieren
+        // Initialize toolbar
         final LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
         toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
@@ -151,7 +145,7 @@ public class SettingsActivity extends PreferenceActivity {
                 preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    //JobScheduler updaten
+                    // Update JobScheduler
                     int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
                     ComponentName component = new ComponentName(SettingsActivity.this, SyncJobService.class);
                     JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
@@ -162,7 +156,7 @@ public class SettingsActivity extends PreferenceActivity {
                     JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
                     Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
                 } else {
-                    //AlarmManager updaten
+                    // Update AlarmManager
                     int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
                     AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     Intent start_service_intent = new Intent(SettingsActivity.this, SyncService.class);
@@ -342,7 +336,7 @@ public class SettingsActivity extends PreferenceActivity {
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //Sensordaten löschen
+                                // Delete sensor data
                                 final ProgressDialog pd = new ProgressDialog(SettingsActivity.this);
                                 pd.setMessage(res.getString(R.string.please_wait_));
                                 pd.show();
@@ -389,15 +383,15 @@ public class SettingsActivity extends PreferenceActivity {
                 @Override
                 public void run() {
                     try{
-                        //Info vom Server holen
+                        // Get info from server
                         getServerInfo(false, false);
-                        //Result auseinandernehmen
+                        // Extract result
                         if(!result.isEmpty()) {
                             JSONArray array = new JSONArray(result);
                             JSONObject jsonobject = array.getJSONObject(0);
                             final int server_state_int = jsonobject.getInt("serverstate");
 
-                            //ServerState überschreiben
+                            // Override server state
                             String server_state = "";
                             if(server_state_int == 1) server_state = res.getString(R.string.serverstate_1);
                             if(server_state_int == 2) server_state = res.getString(R.string.serverstate_2);
@@ -411,7 +405,7 @@ public class SettingsActivity extends PreferenceActivity {
                                 }
                             });
                         }
-                    } catch(Exception e) {}
+                    } catch(Exception ignored) {}
                 }
             }).start();
         } else {
@@ -446,7 +440,7 @@ public class SettingsActivity extends PreferenceActivity {
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             version.setSummary("Version " + pinfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {}
+        } catch (PackageManager.NameNotFoundException ignored) {}
         version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -496,7 +490,7 @@ public class SettingsActivity extends PreferenceActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //Dialog für den Fortschritt anzeigen
+                        // Show ProgressDialog
                         pd = new ProgressDialog(SettingsActivity.this);
                         pd.setMessage(res.getString(R.string.pref_serverinfo_downloading_));
                         pd.setIndeterminate(true);
@@ -505,11 +499,11 @@ public class SettingsActivity extends PreferenceActivity {
                     }
                 });
             }
-            //Abfrage an den Server senden
+            // Send request to server
             result = smu.sendRequest(null, new HashMap<String, String>() {{
                 put("command", "getserverinfo");
             }});
-            //Result auseinandernehmen
+            // Extract result
             if(!result.isEmpty()) {
                 JSONArray array = new JSONArray(result);
                 JSONObject jsonobject = array.getJSONObject(0);
@@ -519,24 +513,24 @@ public class SettingsActivity extends PreferenceActivity {
                 final String newest_appversion = jsonobject.getString("newest_appversion");
                 final String owners = jsonobject.getString("owner");
 
-                //Dialog für das Ergebnis anzeigen
+                // Show dialog to display the result
                 if(showResultDialog) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if(showProgressDialog) pd.dismiss();
-                            //Serverinfo überschreiben
+                            // Override server info
                             String server_state_display = null;
                             if(server_state == 1) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_1_short);
                             if(server_state == 2) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_2_short);
                             if(server_state == 3) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_3_short);
                             if(server_state == 4) server_state_display = res.getString(R.string.server_state) + ": " + res.getString(R.string.serverstate_4_short);
-                            //String einzeln zusammensetzen
+                            // Concatenate strings
                             String client_name_display = res.getString(R.string.client_name) + ": " + client_name;
                             String min_app_version_display = res.getString(R.string.min_app_version) + ": " + min_appversion;
                             String newest_app_version_display = res.getString(R.string.newest_app_version) + ": " + newest_appversion;
                             String owners_display = res.getString(R.string.owners) + ": " + owners;
-                            //String zusammensetzen und Dialog anzeigen
+                            // Concatenate strings and display dialog
                             final SpannableString info = new SpannableString(client_name_display + "\n" + server_state_display + "\n" + min_app_version_display + "\n" + newest_app_version_display + "\n" + owners_display);
                             Linkify.addLinks(info, Linkify.WEB_URLS);
                             androidx.appcompat.app.AlertDialog.Builder d_Result;

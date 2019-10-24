@@ -92,18 +92,16 @@ import java.util.Random;
 
 public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
-    //Konstanten
+    // Constants
     private static final int REQ_LOCATION_PERMISSION = 10001;
 
-    //Variablen als Objekte
+    // Variables as objects
     private static MainActivity activity;
     private static Random random;
 
-    //Utils-Pakete
+    // Utils packages
     private static StorageUtils su;
     private static ServerMessagingUtils smu;
-
-    //Variablen
 
     public ViewPagerAdapterMain(FragmentManager manager, MainActivity activity, StorageUtils su, ServerMessagingUtils smu) {
         super(manager);
@@ -169,15 +167,12 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
     //-------------------------------------------Fragmente------------------------------------------
 
     public static class MyFavouritesFragment extends Fragment {
-        //Konstanten
 
-        //Variablen als Objekte
+        // Variables as objects
         private static View contentView;
         private static RecyclerView sensor_view;
         private static SensorAdapter sensor_view_adapter;
         private static ArrayList<Sensor> sensors;
-
-        //Variablen
 
         @Nullable
         @Override
@@ -228,9 +223,8 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
     }
 
     public static class AllSensorsFragment extends Fragment implements OnMapReadyCallback {
-        //Konstanten
 
-        //Variablen als Objekte
+        // Variables as objects
         private static View contentView;
         private static SupportMapFragment map_fragment;
         private Spinner map_type;
@@ -242,7 +236,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private static ArrayList<ExternalSensor> sensors;
         private static LatLng current_country;
         private static ProgressDialog pd;
-        //Sensor InfoWindow
+        // Sensor info window
         private static RelativeLayout sensor_container;
         private TextView sensor_chip_id;
         private TextView sensor_coordinates;
@@ -250,7 +244,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private Button sensor_show_data;
         private Button sensor_link;
         private static LatLng selected_marker_position;
-        //Sensor Cluster InfoWindow
+        // Sensor cluster info window
         private static RelativeLayout sensor_cluster_container;
         private TextView info_sensor_count;
         private TextView info_average_value;
@@ -258,7 +252,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         private Button info_zoom_in;
         private static LatLng selected_cluster_position;
 
-        //Variablen
+        // Variables
         private int current_color;
 
         @Nullable
@@ -344,7 +338,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
             map_fragment.getMapAsync(this);
 
-            //Sensor Info Fenster initialisieren
+            // Initialize sensor info window
             sensor_container = contentView.findViewById(R.id.sensor_container);
             sensor_chip_id = contentView.findViewById(R.id.sensor_chip_id);
             sensor_coordinates = contentView.findViewById(R.id.sensor_coordinates);
@@ -352,7 +346,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             sensor_show_data = contentView.findViewById(R.id.sensor_show_data);
             sensor_link = contentView.findViewById(R.id.sensor_link);
 
-            //Sensor Cluster Info Fenster initialisieren
+            // Initialize sensor cluster info window
             sensor_cluster_container = contentView.findViewById(R.id.sensor_cluster_container);
             info_sensor_count = contentView.findViewById(R.id.info_sensor_count);
             info_average_value = contentView.findViewById(R.id.info_average_value);
@@ -368,7 +362,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
             map.getUiSettings().setRotateGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
 
-            //MyLocationButton verschieben
+            // relocate MyLocationButton
             View locationButton = ((View) map_fragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
             RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
             rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
@@ -390,7 +384,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, getResources().getColor(R.color.colorPrimary) == getResources().getColor(R.color.dark_mode_indicator) ? R.raw.map_style_dark : R.raw.map_style_silver));
 
-            //ClusterManager initialisieren
+            // Initialize ClusterManager
             clusterManager = new ClusterManager<>(activity, map);
             clusterManager.setRenderer(new ClusterRederer(activity, map, clusterManager, su));
             if(su.getBoolean("enable_marker_clustering", true)) {
@@ -421,14 +415,14 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 });
             }
 
-            //Zoom zum aktuellen Land
+            // Zoom to current country
             try{
                 TelephonyManager teleMgr = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
                     current_country = Tools.getLocationFromAddress(activity, iso);
                 }
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
 
             map.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
                 @Override
@@ -466,13 +460,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     } else if(selected_cluster_position != null) {
                         exitReveal(sensor_cluster_container);
                     } else {
-                        //Toolbar und BottomNavigationBar aus-/einblenden
+                        // Show/Hide toolbar und BottomNavigationBar
                         activity.toggleToolbar();
                     }
                 }
             });
 
-            //Sensoren laden
+            // Load sensors
             loadAllSensors();
         }
 
@@ -514,7 +508,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         }
 
         private void chooseColor(final ImageView sensor_color) {
-            //Farb-Auswahl-Dialog anzeigen
+            // Show color picker dialog
             ColorPickerDialog color_picker = new ColorPickerDialog(activity, current_color);
             color_picker.setAlphaSliderVisible(false);
             color_picker.setHexValueEnabled(true);
@@ -531,18 +525,18 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
 
         private static void loadAllSensors() {
             if(smu.checkConnection(contentView)) {
-                // Das Gerät ist online, die Daten können vom Server geladen werden
+                // The device is online. We're able to load data from the server
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try{
-                            //Alte Sensoren aus der lokalen Datenbank laden
+                            // Load old sensors from the local db
                             sensors = su.getExternalSensors();
-                            //Hash erzeugen
+                            // Create hash
                             double chip_sum = 0;
                             for(ExternalSensor s : sensors) chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
                             final String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
-                            //Neue Sensoren vom Server laden
+                            // Load new sensors from server
                             long last_request = su.getLong("LastRequest", 0);
                             final String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
                             long new_last_request = System.currentTimeMillis();
@@ -568,7 +562,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                         if(!found) su.deleteExternalSensor(s.getChipID());
                                     }
                                 }
-                                //Update verarbeiten
+                                // Process update
                                 for (int i = 0; i < array_update.length(); i++) {
                                     JSONObject jsonobject = array_update.getJSONObject(i);
                                     ExternalSensor sensor = new ExternalSensor();
@@ -599,14 +593,14 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     }
                 }).start();
             } else {
-                // Wir sind offline, Daten aus der lokalen DB laden
+                // We're offline, load the old data from the local db
                 sensors = su.getExternalSensors();
                 drawSensorsToMap();
             }
         }
 
         private static void drawSensorsToMap() {
-            //Sensoren auf der Karte einzeichnen
+            // Draw the sensors on the map
             map_sensor_count.setText(String.valueOf(sensors.size()));
             if(map != null) {
                 boolean is_marker_clustering_enabled = su.getBoolean("enable_marker_clustering", true);
@@ -639,7 +633,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 public void run() {
                     try{
                         long start = System.currentTimeMillis();
-                        //Neue Sensoren vom Server laden
+                        // Load new sensors from server
                         long new_last_request = System.currentTimeMillis();
                         String result = smu.sendRequest(contentView.findViewById(R.id.container), new HashMap<String, String>() {{
                             put("command", "getallnonsync");
@@ -660,7 +654,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             su.putLong("LastRequest", new_last_request);
                             sensors = su.getExternalSensors();
 
-                            //Sensoren auf der Karte einzeichnen
+                            // Draw sensors on the map
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -728,7 +722,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             name.setHint(marker.getTag());
                             chip_id.setText(marker.getTitle());
 
-                            //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+                            // Initialize randomizer and generate random color
                             random = new Random();
                             current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
                             sensor_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
@@ -767,7 +761,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                                     .create();
                             d.show();
                         } else {
-                            //Sensor ist bereits verknüpft
+                            // Sensor is already linked
                             Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -834,7 +828,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                     @Override
                     public void onClick(View view) {
                         exitReveal(sensor_cluster_container);
-                        //CompareActivity starten
+                        // Launch CompareActivity
                         Intent i = new Intent(activity, CompareActivity.class);
                         i.putExtra("Sensors", sensors);
                         startActivity(i);
@@ -851,7 +845,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        //Informationen vom Server holen
+                        // Get information from the server
                         final String result = smu.sendRequest(null, new HashMap<String, String>() {{
                             put("command", "getclusterinfo");
                             put("ids", param_string);
@@ -915,16 +909,13 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
     }
 
     public static class MySensorsFragment extends Fragment {
-        //Konstanten
 
-        //Variablen als Objekte
+        // Variables as objects
         private static View contentView;
         private TextView no_data_text;
         private static RecyclerView sensor_view;
         private static SensorAdapter sensor_view_adapter;
         private static ArrayList<Sensor> sensors;
-
-        //Variablen
 
         @Nullable
         @Override

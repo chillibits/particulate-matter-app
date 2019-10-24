@@ -33,18 +33,16 @@ import java.util.Collections;
 
 public class WidgetConfigurationActivity extends AppCompatActivity {
 
-    //Konstanten
-
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
 
-    //Variablen als Objekte
+    // Variables as objects
     private Toolbar toolbar;
     private RecyclerView sensor_view;
     private SelectSensorAdapter sensor_view_adapter;
     private ArrayList<Sensor> sensors;
 
-    //Variablen
+    // Variables
     private int app_widget_id;
 
     @Override
@@ -52,7 +50,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_selection);
 
-        //Toolbar initialisieren
+        // Initialize toolbar
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.widget_select_sensor);
         setSupportActionBar(toolbar);
@@ -70,18 +68,18 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
             });
         }
 
-        //AppWidgetID laden
+        // Load AppWidgetID
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(extras != null) app_widget_id = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
-        //Sensoren laden
+        // Load Sensors
         su = new StorageUtils(this);
         sensors = su.getAllFavourites();
         sensors.addAll(su.getAllOwnSensors());
         Collections.sort(sensors);
         if(sensors.size() > 0) {
-            //RecyclerView initialisieren
+            // Initialize RecyclerView
             sensor_view = findViewById(R.id.sensors);
             sensor_view_adapter = new SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE);
             sensor_view.setItemViewCacheSize(100);

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Marc Auberer. All rights reserved.
+ */
+
 package com.mrgames13.jimdo.feinstaubapp.CommonObjects;
 
 import androidx.annotation.NonNull;
@@ -8,11 +12,7 @@ import java.util.Date;
 
 public class DataRecord implements Comparable {
 
-    //Konstanten
-
-    //Variablen als Objekte
-
-    //Variablen
+    // Variables
     private Date date_time;
     private Double p1;
     private Double p2;
@@ -88,7 +88,7 @@ public class DataRecord implements Comparable {
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return other_record.getHumidity().compareTo(getHumidity());
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) return getPressure().compareTo(other_record.getPressure());
             if(SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_DESC) return other_record.getPressure().compareTo(getPressure());
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return 0;
     }
 }

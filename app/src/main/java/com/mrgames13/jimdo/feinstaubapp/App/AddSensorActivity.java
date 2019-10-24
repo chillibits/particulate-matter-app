@@ -9,7 +9,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -49,7 +48,7 @@ import java.util.Random;
 
 public class AddSensorActivity extends AppCompatActivity {
 
-    //Konstanten
+    // Constants
     private static final int REQ_SELECT_PLACE = 10001;
     public static final int MODE_NEW = 10001;
     public static final int MODE_EDIT = 10002;
@@ -57,8 +56,7 @@ public class AddSensorActivity extends AppCompatActivity {
     public static final int TARGET_FAVOURITE = 10003;
     public static final int TARGET_OWN_SENSOR = 10004;
 
-    //Variablen als Objekte
-    private Resources res;
+    // Variables as objects
     private Toolbar toolbar;
     private View reveal_view;
     private View reveal_background_view;
@@ -72,11 +70,11 @@ public class AddSensorActivity extends AppCompatActivity {
     private ImageView coordinates_info;
     private EditText alt;
 
-    //Utils-Pakete
+    // Utils packages
     private StorageUtils su;
     private ServerMessagingUtils smu;
 
-    //Variablen
+    // Variables
     private int current_color;
     private int mode = MODE_NEW;
     private int target = TARGET_OWN_SENSOR;
@@ -86,12 +84,9 @@ public class AddSensorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sensor);
 
-        //Resourcen initialisieren
-        res = getResources();
-
-        //Toolbar initialisieren
+        // Initialize toolbar
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(res.getString(R.string.add_own_sensor));
+        toolbar.setTitle(getString(R.string.add_own_sensor));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -107,17 +102,17 @@ public class AddSensorActivity extends AppCompatActivity {
             });
         }
 
-        //StorageUtils initialisieren
+        // Initialize StorageUtils
         su = new StorageUtils(this);
 
-        //ServerMessagingUtils initialisieren
+        // Initialize ServerMessagingUtils
         smu = new ServerMessagingUtils(this, su);
 
-        //RevealView initialisieren
+        // Initialize RevealView
         reveal_view = findViewById(R.id.reveal);
         reveal_background_view = findViewById(R.id.reveal_background);
 
-        //Komponenten initialisieren
+        // Initialize Components
         iv_color = findViewById(R.id.sensor_color);
         iv_color.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +129,7 @@ public class AddSensorActivity extends AppCompatActivity {
             }
         });
 
-        //Zufallsgenerator initialisieren und zufällige Farbe ermitteln
+        // Initialize randomizer and choose random color
         Random random = new Random();
         current_color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
         iv_color.setColorFilter(current_color, PorterDuff.Mode.SRC);
@@ -146,7 +141,7 @@ public class AddSensorActivity extends AppCompatActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(res.getString(R.string.link_id_info))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_id_info))));
             }
         });
 
@@ -193,7 +188,7 @@ public class AddSensorActivity extends AppCompatActivity {
             }
         });
 
-        //Intent-Extras auslesen
+        // Get intent extras
         Intent i = getIntent();
         if(i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
             mode = MODE_EDIT;
@@ -249,11 +244,11 @@ public class AddSensorActivity extends AppCompatActivity {
     }
 
     private void selectNewColor() {
-        //Farb-Auswahl-Dialog anzeigen
+        // Show color selection dialog
         ColorPickerDialog color_picker = new ColorPickerDialog(AddSensorActivity.this, current_color);
         color_picker.setAlphaSliderVisible(false);
         color_picker.setHexValueEnabled(true);
-        color_picker.setTitle(res.getString(R.string.choose_color));
+        color_picker.setTitle(getString(R.string.choose_color));
         color_picker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {
@@ -266,7 +261,7 @@ public class AddSensorActivity extends AppCompatActivity {
     }
 
     private void animateToolAndStatusBar(final int toColor) {
-        //Animation für die Toolbar und die Statusleiste anzeigen
+        // Show animation for statusbar and toolbar
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Animator animator = ViewAnimationUtils.createCircularReveal(reveal_view, toolbar.getWidth() / 2, toolbar.getHeight() / 2, 0, toolbar.getWidth() / 2 + 50);
             animator.addListener(new AnimatorListenerAdapter() {
@@ -312,7 +307,7 @@ public class AddSensorActivity extends AppCompatActivity {
             if(mode == MODE_NEW) {
                 if(!su.isSensorExisting(chip_id)) {
                     final ProgressDialog pd = new ProgressDialog(this);
-                    pd.setMessage(res.getString(R.string.please_wait_));
+                    pd.setMessage(getString(R.string.please_wait_));
                     pd.setCancelable(false);
                     pd.show();
 
@@ -320,14 +315,14 @@ public class AddSensorActivity extends AppCompatActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                //Prüfen, ob schon Daten des Sensors auf dem Server verfügbar sind
+                                //Check, if data already is available on server
                                 String result = smu.sendRequest(findViewById(R.id.container), new HashMap<String, String>() {{
                                     put("command", "issensordataexisting");
                                     put("chip_id", chip_id);
                                 }});
                                 pd.dismiss();
                                 if(Boolean.parseBoolean(result)) {
-                                    //ggf. Sensor auf dem Server hinzufügen
+                                    // Possibly add sensor on server
                                     if(sensor_public.isChecked()) {
                                         result = smu.sendRequest(null, new HashMap<String, String>() {{
                                             put("command", "addsensor");
@@ -337,7 +332,7 @@ public class AddSensorActivity extends AppCompatActivity {
                                             put("alt", alt);
                                         }});
                                         if(result.equals("1")) {
-                                            //Neuen Sensor speichern
+                                            // Save new sensor
                                             if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
                                             su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), false, false);
                                             runOnUiThread(new Runnable() {
@@ -357,7 +352,7 @@ public class AddSensorActivity extends AppCompatActivity {
                                             });
                                         }
                                     } else {
-                                        //Neuen Sensor speichern
+                                        // Save new sensor
                                         if(su.isFavouriteExisting(chip_id)) su.removeFavourite(chip_id, false);
                                         su.addOwnSensor(new Sensor(chip_id, sensor_name, current_color), true, false);
                                         runOnUiThread(new Runnable() {
@@ -389,11 +384,11 @@ public class AddSensorActivity extends AppCompatActivity {
                         Toast.makeText(AddSensorActivity.this, getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    //Sensor ist bereits verknüpft
-                    Toast.makeText(this, res.getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
+                    // Sensor is already linked
+                    Toast.makeText(this, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show();
                 }
             } else if(mode == MODE_EDIT) {
-                //Sensor aktualisieren
+                // Update sensor
                 if(target == TARGET_FAVOURITE) {
                     su.updateFavourite(new Sensor(chip_id, sensor_name, current_color), false);
                 } else {
@@ -407,8 +402,8 @@ public class AddSensorActivity extends AppCompatActivity {
                 onOptionsItemSelected(item);
             }
         } else {
-            //Es sind nicht alle Felder ausgefüllt
-            Toast.makeText(this, res.getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
+            // Not all fields filled
+            Toast.makeText(this, getString(R.string.not_all_filled), Toast.LENGTH_SHORT).show();
         }
     }
 }
