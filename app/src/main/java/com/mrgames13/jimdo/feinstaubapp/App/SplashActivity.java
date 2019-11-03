@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Display SplashScreen
-        SplashScreenBuilder.getInstance(this)
+        SplashScreenBuilder.Companion.getInstance(this)
                 .setVideo(R.raw.splash_animation)
                 .setVideoDark(R.raw.splash_animation_dark)
                 .setImage(R.drawable.app_icon)
@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SplashScreenBuilder.SPLASH_SCREEN_FINISHED) {
+        if (requestCode == SplashScreenBuilder.Companion.getSPLASH_SCREEN_FINISHED()) {
             Intent intent = new Intent(this, MainActivity.class);
             if (getIntent().getExtras() != null) intent.putExtras(getIntent().getExtras());
             startActivity(intent);

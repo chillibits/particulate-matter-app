@@ -72,6 +72,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.FullscreenMode;
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
@@ -82,7 +83,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
-import com.mrgames13.jimdo.splashscreen.HelpClasses.SimpleAnimationListener;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
 import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 

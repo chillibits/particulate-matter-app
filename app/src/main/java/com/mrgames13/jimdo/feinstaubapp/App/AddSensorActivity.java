@@ -338,7 +338,7 @@ public class AddSensorActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                    try { MainActivity.own_instance.refresh(); } catch (Exception ignored) {}
                                                     finish();
                                                 }
                                             });
@@ -358,7 +358,7 @@ public class AddSensorActivity extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                try { MainActivity.own_instance.refresh(); } catch (Exception e) {}
+                                                try { MainActivity.own_instance.refresh(); } catch (Exception ignored) {}
                                                 finish();
                                             }
                                         });
