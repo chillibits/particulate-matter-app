@@ -45,19 +45,19 @@ public class NotificationUtils {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             // System channel
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel_system = new NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance);
+            NotificationChannel channel_system = new NotificationChannel(Constants.INSTANCE.getCHANNEL_SYSTEM(), context.getString(R.string.nc_system_name), importance);
             channel_system.setShowBadge(false);
             channel_system.setSound(null, null);
             channel_system.setDescription(context.getString(R.string.nc_system_description));
             notificationManager.createNotificationChannel(channel_system);
             // Limit channel
             importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel_limit = new NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance);
+            NotificationChannel channel_limit = new NotificationChannel(Constants.INSTANCE.getCHANNEL_LIMIT(), context.getString(R.string.nc_limit_name), importance);
             channel_limit.setDescription(context.getString(R.string.nc_limit_description));
             notificationManager.createNotificationChannel(channel_limit);
             // Missing measurements channel
             importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel_missing_measurements = new NotificationChannel(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.nc_missing_measurements_name), importance);
+            NotificationChannel channel_missing_measurements = new NotificationChannel(Constants.INSTANCE.getCHANNEL_MISSING_MEASUREMENTS(), context.getString(R.string.nc_missing_measurements_name), importance);
             channel_missing_measurements.setDescription(context.getString(R.string.nc_missing_measurements_description));
             notificationManager.createNotificationChannel(channel_missing_measurements);
         }
@@ -66,13 +66,13 @@ public class NotificationUtils {
     public void displayLimitExceededNotification(String message, String chip_id, long time) {
         Intent i = new Intent(context, MainActivity.class);
         i.putExtra("ChipID", chip_id);
-        displayNotification(Constants.CHANNEL_LIMIT, res.getString(R.string.limit_exceeded), message, Integer.parseInt(chip_id), i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
+        displayNotification(Constants.INSTANCE.getCHANNEL_LIMIT(), res.getString(R.string.limit_exceeded), message, Integer.parseInt(chip_id), i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, time);
     }
 
     public void displayMissingMeasurementsNotification(String chip_id, String sensor_name) {
         Intent i = new Intent(context, MainActivity.class);
         i.putExtra("ChipID", chip_id);
-        displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
+        displayNotification(Constants.INSTANCE.getCHANNEL_MISSING_MEASUREMENTS(), res.getString(R.string.sensor_breakdown), sensor_name + " (" + chip_id + ")", Integer.parseInt(chip_id) * 10, i, new long[]{0, VIBRATION_SHORT, VIBRATION_SHORT, VIBRATION_SHORT}, System.currentTimeMillis());
     }
 
     private void displayNotification(String channel_id, String title, String message, int id, Intent i, long[] vibration, long time) {

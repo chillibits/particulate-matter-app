@@ -274,7 +274,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         card_date_today.setEnabled(false);
 
         // Set refresh period
-        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
+        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE())));
 
         // Setup ScheduledExecutorService
         service = Executors.newSingleThreadScheduledExecutor();
@@ -433,7 +433,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 // If there is a widget for this sensor, refresh it
                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
+                update_intent.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID(), sensor.getChipID());
                 sendBroadcast(update_intent);
 
                 runOnUiThread(new Runnable() {

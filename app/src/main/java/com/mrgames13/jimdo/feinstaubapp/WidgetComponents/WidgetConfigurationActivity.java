@@ -127,7 +127,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
 
             Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
             update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.getSelectedSensor().getChipID());
+            update_intent.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID(), sensor_view_adapter.getSelectedSensor().getChipID());
             sendBroadcast(update_intent);
 
             Intent resultValue = new Intent();

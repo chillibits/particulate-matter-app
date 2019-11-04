@@ -61,8 +61,8 @@ public class Tools {
     }
 
     public static ArrayList<DataRecord> fitArrayList(StorageUtils su, ArrayList<DataRecord> records) {
-        if(!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records;
-        int divider = records.size() / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT;
+        if(!su.getBoolean("increase_diagram_performance", Constants.INSTANCE.getDEFAULT_FIT_ARRAY_LIST_ENABLED())) return records;
+        int divider = records.size() / Constants.INSTANCE.getDEFAULT_FIT_ARRAY_LIST_CONSTANT();
         if(divider == 0) return records;
         ArrayList<DataRecord> new_records = new ArrayList<>();
         for(int i = 0; i < records.size(); i+=divider+1) new_records.add(records.get(i));
@@ -208,7 +208,7 @@ public class Tools {
     public static boolean isMeasurementBreakdown(StorageUtils su, ArrayList<DataRecord> records) {
         long measurement_interval = records.size() > 2 ? getMeasurementInteval(records) : 0;
         if(measurement_interval <= 0) return false;
-        return System.currentTimeMillis() > records.get(records.size() - 1).getDateTime().getTime() + measurement_interval * (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER))) + 1);
+        return System.currentTimeMillis() > records.get(records.size() - 1).getDateTime().getTime() + measurement_interval * (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.INSTANCE.getDEFAULT_MISSING_MEASUREMENT_NUMBER()))) + 1);
     }
 
     private static long getMeasurementInteval(ArrayList<DataRecord> records) {

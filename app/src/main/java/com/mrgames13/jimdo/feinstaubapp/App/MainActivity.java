@@ -429,12 +429,12 @@ public class MainActivity extends AppCompatActivity {
         getServerInfo();
 
         // Start background services
-        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+        int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE_BACKGROUND()))) * 1000 * 60;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if(!isJobServiceOn(this)) {
                 // Start JobScheduler
                 ComponentName component = new ComponentName(this, SyncJobService.class);
-                JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                JobInfo.Builder info = new JobInfo.Builder(Constants.INSTANCE.getJOB_SYNC_ID(), component)
                         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                         .setPeriodic(background_sync_frequency)
                         .setPersisted(true);
@@ -446,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
             // Setup AlarmManager
             AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent start_service_intent = new Intent(this, SyncService.class);
-            PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+            PendingIntent start_service_pending_intent = PendingIntent.getService(this, Constants.INSTANCE.getREQ_ALARM_MANAGER_BACKGROUND_SYNC(), start_service_intent, 0);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
@@ -481,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
         boolean hasBeenScheduled = false ;
 
         for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
-            if (jobInfo.getId() == Constants.JOB_SYNC_ID) {
+            if (jobInfo.getId() == Constants.INSTANCE.getJOB_SYNC_ID()) {
                 hasBeenScheduled = true ;
                 break;
             }
@@ -896,7 +896,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showSystemBars();
         }
-        FullscreenMode.setFullscreenMode(getWindow(), show_toolbar);
+        FullscreenMode.INSTANCE.setFullscreenMode(getWindow(), show_toolbar);
         show_toolbar = !show_toolbar;
     }
 

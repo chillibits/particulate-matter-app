@@ -129,29 +129,29 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_main);
 
         EditTextPreference sync_cycle = (EditTextPreference) findPreference("sync_cycle");
-        sync_cycle.setSummary(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)) + " " + (Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE))) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
+        sync_cycle.setSummary(su.getString("sync_cycle", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE())) + " " + (Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE()))) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
         sync_cycle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.MIN_SYNC_CYCLE) return false;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.INSTANCE.getMIN_SYNC_CYCLE()) return false;
                 preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.second) : res.getString(R.string.seconds)));
                 return true;
             }
         });
 
         EditTextPreference sync_cycle_background = (EditTextPreference) findPreference("sync_cycle_background");
-        sync_cycle_background.setSummary(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND)) + " " + (Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
+        sync_cycle_background.setSummary(su.getString("sync_cycle_background", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE_BACKGROUND())) + " " + (Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE_BACKGROUND()))) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
         sync_cycle_background.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.MIN_SYNC_CYCLE_BACKGROUND) return false;
+                if(String.valueOf(o).equals("") || Integer.parseInt(String.valueOf(o)) < Constants.INSTANCE.getMIN_SYNC_CYCLE_BACKGROUND()) return false;
                 preference.setSummary(o + " " + (Integer.parseInt(String.valueOf(o)) == 1 ? res.getString(R.string.minute) : res.getString(R.string.minutes)));
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     // Update JobScheduler
-                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE_BACKGROUND()))) * 1000 * 60;
                     ComponentName component = new ComponentName(SettingsActivity.this, SyncJobService.class);
-                    JobInfo.Builder info = new JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                    JobInfo.Builder info = new JobInfo.Builder(Constants.INSTANCE.getJOB_SYNC_ID(), component)
                             .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                             .setPeriodic(background_sync_frequency)
                             .setPersisted(true);
@@ -160,10 +160,10 @@ public class SettingsActivity extends PreferenceActivity {
                     Log.d("FA", scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS ? "Job scheduled successfully" : "Job schedule failed");
                 } else {
                     // Update AlarmManager
-                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.DEFAULT_SYNC_CYCLE_BACKGROUND))) * 1000 * 60;
+                    int background_sync_frequency = Integer.parseInt(su.getString("sync_cycle_background", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE_BACKGROUND()))) * 1000 * 60;
                     AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     Intent start_service_intent = new Intent(SettingsActivity.this, SyncService.class);
-                    PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0);
+                    PendingIntent start_service_pending_intent = PendingIntent.getService(SettingsActivity.this, Constants.INSTANCE.getREQ_ALARM_MANAGER_BACKGROUND_SYNC(), start_service_intent, 0);
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), background_sync_frequency, start_service_pending_intent);
@@ -209,7 +209,7 @@ public class SettingsActivity extends PreferenceActivity {
         EditTextPreference limit_humidity = (EditTextPreference) findPreference("limit_humidity");
         EditTextPreference limit_pressure = (EditTextPreference) findPreference("limit_pressure");
 
-        limit_p1.setSummary(Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT))) > 0 ? su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_p1.setSummary(Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.INSTANCE.getDEFAULT_P1_LIMIT()))) > 0 ? su.getString("limit_p1", String.valueOf(Constants.INSTANCE.getDEFAULT_P1_LIMIT())) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
         limit_p1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -224,7 +224,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_p2.setSummary(Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT))) > 0 ? su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
+        limit_p2.setSummary(Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.INSTANCE.getDEFAULT_P2_LIMIT()))) > 0 ? su.getString("limit_p2", String.valueOf(Constants.INSTANCE.getDEFAULT_P2_LIMIT())) + " µg/m³" : res.getString(R.string.pref_limit_disabled));
         limit_p2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -240,7 +240,7 @@ public class SettingsActivity extends PreferenceActivity {
         });
 
 
-        limit_temp.setSummary(Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT))) > 0 ? su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)) + "°C" : res.getString(R.string.pref_limit_disabled));
+        limit_temp.setSummary(Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.INSTANCE.getDEFAULT_TEMP_LIMIT()))) > 0 ? su.getString("limit_temp", String.valueOf(Constants.INSTANCE.getDEFAULT_TEMP_LIMIT())) + "°C" : res.getString(R.string.pref_limit_disabled));
         limit_temp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -255,7 +255,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)) + "%" : res.getString(R.string.pref_limit_disabled));
+        limit_humidity.setSummary(Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.INSTANCE.getDEFAULT_HUMIDITY_LIMIT()))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.INSTANCE.getDEFAULT_HUMIDITY_LIMIT())) + "%" : res.getString(R.string.pref_limit_disabled));
         limit_humidity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -270,7 +270,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)) + " hPa" : res.getString(R.string.pref_limit_disabled));
+        limit_pressure.setSummary(Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.INSTANCE.getDEFAULT_PRESSURE_LIMIT()))) > 0 ? su.getString("limit_humidity", String.valueOf(Constants.INSTANCE.getDEFAULT_PRESSURE_LIMIT())) + " hPa" : res.getString(R.string.pref_limit_disabled));
         limit_pressure.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -317,7 +317,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
         notification_breakdown_number.setEnabled(su.getBoolean("notification_breakdown", true));
-        notification_breakdown_number.setSummary(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER)) + " " + (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER))) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
+        notification_breakdown_number.setSummary(su.getString("notification_breakdown_number", String.valueOf(Constants.INSTANCE.getDEFAULT_MISSING_MEASUREMENT_NUMBER())) + " " + (Integer.parseInt(su.getString("notification_breakdown_number", String.valueOf(Constants.INSTANCE.getDEFAULT_MISSING_MEASUREMENT_NUMBER()))) > 1 ? res.getString(R.string.measurements) : res.getString(R.string.measurement)));
         notification_breakdown_number.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {

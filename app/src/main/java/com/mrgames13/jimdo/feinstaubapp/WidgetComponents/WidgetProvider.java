@@ -44,7 +44,7 @@ public class WidgetProvider extends AppWidgetProvider {
             // Refresh button
             Intent refresh = new Intent(context, getClass());
             refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id);
+            refresh.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_WIDGET_ID(), widget_id);
             PendingIntent refresh_pi = PendingIntent.getBroadcast(context, 0, refresh, 0);
             rv.setOnClickPendingIntent(R.id.widget_refresh, refresh_pi);
             // Update data
@@ -59,9 +59,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 
-        if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.WIDGET_EXTRA_SENSOR_ID)) {
+        if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID())) {
             // Get WidgetID
-            int widget_id = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_EXTRA_SENSOR_ID), AppWidgetManager.INVALID_APPWIDGET_ID);
+            int widget_id = su.getInt("Widget_" + intent.getStringExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID()), AppWidgetManager.INVALID_APPWIDGET_ID);
             if(widget_id != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 rv.setViewVisibility(R.id.widget_refreshing, View.GONE);
                 rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE);
@@ -70,8 +70,8 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 updateData(context, rv, widget_id);
             }
-        } else if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.WIDGET_EXTRA_WIDGET_ID)) {
-            int widget_id = intent.getIntExtra(Constants.WIDGET_EXTRA_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        } else if(intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) && intent.hasExtra(Constants.INSTANCE.getWIDGET_EXTRA_WIDGET_ID())) {
+            int widget_id = intent.getIntExtra(Constants.INSTANCE.getWIDGET_EXTRA_WIDGET_ID(), AppWidgetManager.INVALID_APPWIDGET_ID);
             rv.setViewVisibility(R.id.widget_refreshing, View.VISIBLE);
             rv.setViewVisibility(R.id.widget_refresh, View.INVISIBLE);
 
@@ -95,7 +95,7 @@ public class WidgetProvider extends AppWidgetProvider {
         // Refresh button
         Intent refresh = new Intent(context, getClass());
         refresh.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id);
+        refresh.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_WIDGET_ID(), widget_id);
         PendingIntent refresh_pi = PendingIntent.getBroadcast(context, 0, refresh, 0);
         rv.setOnClickPendingIntent(R.id.widget_refresh, refresh_pi);
     }
