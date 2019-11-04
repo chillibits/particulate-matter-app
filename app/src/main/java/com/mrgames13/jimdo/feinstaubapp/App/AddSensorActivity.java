@@ -290,8 +290,8 @@ public class AddSensorActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_SELECT_PLACE && resultCode == RESULT_OK) {
             Place place = PlacePicker.getPlace(this, data);
-            lat.setText(String.valueOf(Tools.round(place.getLatLng().latitude, 5)));
-            lng.setText(String.valueOf(Tools.round(place.getLatLng().longitude, 5)));
+            lat.setText(String.valueOf(Tools.INSTANCE.round(place.getLatLng().latitude, 5)));
+            lng.setText(String.valueOf(Tools.INSTANCE.round(place.getLatLng().longitude, 5)));
             choose_location.setText(place.getName());
         }
     }
@@ -327,8 +327,8 @@ public class AddSensorActivity extends AppCompatActivity {
                                         result = smu.sendRequest(null, new HashMap<String, String>() {{
                                             put("command", "addsensor");
                                             put("chip_id", chip_id);
-                                            put("lat", String.valueOf(Tools.round(Double.parseDouble(lat), 3)));
-                                            put("lng", String.valueOf(Tools.round(Double.parseDouble(lng), 3)));
+                                            put("lat", String.valueOf(Tools.INSTANCE.round(Double.parseDouble(lat), 3)));
+                                            put("lng", String.valueOf(Tools.INSTANCE.round(Double.parseDouble(lng), 3)));
                                             put("alt", alt);
                                         }});
                                         if(result.equals("1")) {

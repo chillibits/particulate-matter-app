@@ -901,8 +901,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hideSystemBars() {
-        int statusBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getStatusBarHeight(this);
-        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getNavigationBarHeight(this);
+        int statusBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.INSTANCE.getStatusBarHeight(this);
+        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.INSTANCE.getNavigationBarHeight(this);
         toolbar.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
         pager.animate().translationY(-toolbar.getMeasuredHeight()).setDuration(500L).start();
         ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() + bottom_nav.getMeasuredHeight() + toolbar.getMeasuredHeight() + (shown_again_once ? 0 : statusBarHeight) +navigationBarHeight);
@@ -930,9 +930,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSystemBars() {
-        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.getNavigationBarHeight(this);
+        int navigationBarHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? 0 : Tools.INSTANCE.getNavigationBarHeight(this);
         toolbar.animate().translationY(0).setDuration(250L).start();
-        toolbar.setPadding(0, Tools.getStatusBarHeight(this), 0, 0);
+        toolbar.setPadding(0, Tools.INSTANCE.getStatusBarHeight(this), 0, 0);
         pager.animate().translationY(0).setDuration(250L).start();
         ValueAnimator va = ValueAnimator.ofInt(container.getMeasuredHeight(), container.getMeasuredHeight() - bottom_nav.getMeasuredHeight() - toolbar.getMeasuredHeight() - navigationBarHeight);
         va.setDuration(250L);

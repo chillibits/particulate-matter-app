@@ -71,14 +71,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         try{
             DataRecord record = SensorActivity.records.get(pos);
             holder.item_time.setText(sdf.format(record.getDateTime()));
-            holder.item_p1.setText(String.valueOf(Tools.round(record.getP1(), 1)).replace(".", ",").concat(" µg/m³"));
-            holder.item_p2.setText(String.valueOf(Tools.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_p1.setText(String.valueOf(Tools.INSTANCE.round(record.getP1(), 1)).replace(".", ",").concat(" µg/m³"));
+            holder.item_p2.setText(String.valueOf(Tools.INSTANCE.round(record.getP2(), 1)).replace(".", ",").concat(" µg/m³"));
             holder.item_temp.setText(String.valueOf(record.getTemp()).replace(".", ",").concat(" °C"));
             holder.item_humidity.setText(String.valueOf(record.getHumidity()).replace(".", ",").concat(" %"));
-            holder.item_pressure.setText(String.valueOf(Tools.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
-            holder.item_lat.setText(String.valueOf(Tools.round(record.getLat(), 3)).concat(" °"));
-            holder.item_lng.setText(String.valueOf(Tools.round(record.getLng(), 3)).concat(" °"));
-            holder.item_alt.setText(String.valueOf(Tools.round(record.getAlt(), 1)).concat(" m"));
+            holder.item_pressure.setText(String.valueOf(Tools.INSTANCE.round(record.getPressure(), 2)).replace(".", ",").concat(" hPa"));
+            holder.item_lat.setText(String.valueOf(Tools.INSTANCE.round(record.getLat(), 3)).concat(" °"));
+            holder.item_lng.setText(String.valueOf(Tools.INSTANCE.round(record.getLng(), 3)).concat(" °"));
+            holder.item_alt.setText(String.valueOf(Tools.INSTANCE.round(record.getAlt(), 1)).concat(" m"));
             holder.item_gps_container.setVisibility(show_gps_data ? View.VISIBLE : View.GONE);
             this.holders.add(holder);
         } catch (Exception ignored) {}

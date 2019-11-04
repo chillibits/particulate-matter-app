@@ -490,15 +490,15 @@ public class CompareActivity extends AppCompatActivity {
                     ArrayList<DataRecord> current_records = records.get(i);
                     // Possibly execute error correction
                     if(su.getBoolean("enable_auto_correction", true)) {
-                        current_records = Tools.measurementCorrection1(current_records);
-                        current_records = Tools.measurementCorrection2(current_records);
+                        current_records = Tools.INSTANCE.measurementCorrection1(current_records);
+                        current_records = Tools.INSTANCE.measurementCorrection2(current_records);
                     }
                     if(current_records.size() > 0) {
                         no_data = false;
                         try{
                             final LineGraphSeries<DataPoint> series_p1 = new LineGraphSeries<>();
                             series_p1.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                            for(DataRecord record : Tools.INSTANCE.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_p1.appendData(new DataPoint(time.getTime(), record.getP1()), false, 1000000);
@@ -507,7 +507,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             final LineGraphSeries<DataPoint> series_p2 = new LineGraphSeries<>();
                             series_p2.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                            for(DataRecord record : Tools.INSTANCE.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_p2.appendData(new DataPoint(time.getTime(), record.getP2()), false, 1000000);
@@ -516,7 +516,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             final LineGraphSeries<DataPoint> series_temp = new LineGraphSeries<>();
                             series_temp.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                            for(DataRecord record : Tools.INSTANCE.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_temp.appendData(new DataPoint(time.getTime(), record.getTemp()), false, 1000000);
@@ -525,7 +525,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             final LineGraphSeries<DataPoint> series_humidity = new LineGraphSeries<>();
                             series_humidity.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                            for(DataRecord record : Tools.INSTANCE.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_humidity.appendData(new DataPoint(time.getTime(), record.getHumidity()), false, 1000000);
@@ -534,7 +534,7 @@ public class CompareActivity extends AppCompatActivity {
 
                             final LineGraphSeries<DataPoint> series_pressure = new LineGraphSeries<>();
                             series_pressure.setColor(sensors.get(i).getColor());
-                            for(DataRecord record : Tools.fitArrayList(su, current_records)) {
+                            for(DataRecord record : Tools.INSTANCE.fitArrayList(su, current_records)) {
                                 Date time = record.getDateTime();
                                 try{
                                     series_pressure.appendData(new DataPoint(time.getTime(), record.getPressure()), false, 1000000);

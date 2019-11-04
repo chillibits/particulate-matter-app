@@ -131,7 +131,7 @@ public class SyncJobService extends JobService {
 
                             if (records.size() > 0) {
                                 // Detect a breakdown
-                                if(su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.getChipID()) && Tools.isMeasurementBreakdown(su, records)) {
+                                if(su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.getChipID()) && Tools.INSTANCE.isMeasurementBreakdown(su, records)) {
                                     if (records_external != null && !su.getBoolean("BD_" + s.getChipID())) {
                                         nu.displayMissingMeasurementsNotification(s.getChipID(), s.getName());
                                         su.putBoolean("BD_" + s.getChipID(), true);

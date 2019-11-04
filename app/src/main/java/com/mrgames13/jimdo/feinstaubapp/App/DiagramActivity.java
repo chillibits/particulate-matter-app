@@ -265,7 +265,7 @@ public class DiagramActivity extends AppCompatActivity {
         } else if(enable_median) {
             ArrayList<Double> double_records = new ArrayList<>();
             for(DataRecord record : records) double_records.add(record.getP1());
-            double median = Tools.calculateMedian(double_records);
+            double median = Tools.INSTANCE.calculateMedian(double_records);
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
@@ -285,7 +285,7 @@ public class DiagramActivity extends AppCompatActivity {
         } else if(enable_median) {
             ArrayList<Double> double_records = new ArrayList<>();
             for(DataRecord record : records) double_records.add(record.getP2());
-            double median = Tools.calculateMedian(double_records);
+            double median = Tools.INSTANCE.calculateMedian(double_records);
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
@@ -305,7 +305,7 @@ public class DiagramActivity extends AppCompatActivity {
         } else if(enable_median) {
             ArrayList<Double> double_records = new ArrayList<>();
             for(DataRecord record : records) double_records.add(record.getTemp());
-            double median = Tools.calculateMedian(double_records);
+            double median = Tools.INSTANCE.calculateMedian(double_records);
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
@@ -327,7 +327,7 @@ public class DiagramActivity extends AppCompatActivity {
         } else if(enable_median) {
             ArrayList<Double> double_records = new ArrayList<>();
             for(DataRecord record : records) double_records.add(record.getHumidity());
-            double median = Tools.calculateMedian(double_records);
+            double median = Tools.INSTANCE.calculateMedian(double_records);
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }
@@ -349,7 +349,7 @@ public class DiagramActivity extends AppCompatActivity {
         } else if(enable_median) {
             ArrayList<Double> double_records = new ArrayList<>();
             for(DataRecord record : records) double_records.add(record.getPressure());
-            double median = Tools.calculateMedian(double_records);
+            double median = Tools.INSTANCE.calculateMedian(double_records);
             am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
         }

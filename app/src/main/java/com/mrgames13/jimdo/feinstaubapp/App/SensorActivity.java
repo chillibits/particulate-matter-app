@@ -413,12 +413,12 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 resortData();
                 // Possibly execute error correction
                 if (su.getBoolean("enable_auto_correction", true)) {
-                    records = Tools.measurementCorrection1(records);
-                    records = Tools.measurementCorrection2(records);
+                    records = Tools.INSTANCE.measurementCorrection1(records);
+                    records = Tools.INSTANCE.measurementCorrection2(records);
                 }
                 // Detect sensor breakdown
                 if (smu.isInternetAvailable()) {
-                    if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.isMeasurementBreakdown(su, records)) {
+                    if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(sensor.getChipID()) && selected_day_timestamp == current_day_timestamp && Tools.INSTANCE.isMeasurementBreakdown(su, records)) {
                         if (!su.getBoolean("BD_" + sensor.getChipID())) {
                             nu.displayMissingMeasurementsNotification(sensor.getChipID(), sensor.getName());
                             su.putBoolean("BD_" + sensor.getChipID(), true);
@@ -582,13 +582,13 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
 
     @Override
     public void onDiagramFragmentLoaded(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) view.setPadding(0, 0, 0, bottomInsets + Tools.dpToPx(3));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) view.setPadding(0, 0, 0, bottomInsets + Tools.INSTANCE.dpToPx(3));
     }
 
     @Override
     public void onDataFragmentLoaded(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            int paddingInPixels = Tools.dpToPx(3);
+            int paddingInPixels = Tools.INSTANCE.dpToPx(3);
             view.setPadding(paddingInPixels, paddingInPixels, paddingInPixels, bottomInsets + paddingInPixels);
         }
     }

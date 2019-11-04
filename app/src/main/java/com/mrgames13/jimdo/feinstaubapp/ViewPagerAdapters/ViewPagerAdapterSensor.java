@@ -455,7 +455,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                 cv_p2.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getP2()).concat(" µg/m³"));
                 cv_temp.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getTemp()).concat(" °C"));
                 cv_humidity.setText(String.valueOf(SensorActivity.records.get(SensorActivity.records.size() -1).getHumidity()).concat(" %"));
-                cv_pressure.setText(String.valueOf(Tools.round(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure(), 3)).concat(" hPa"));
+                cv_pressure.setText(String.valueOf(Tools.INSTANCE.round(SensorActivity.records.get(SensorActivity.records.size() -1).getPressure(), 3)).concat(" hPa"));
                 SimpleDateFormat sdf_date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 cv_time.setText(res.getString(R.string.state_of_) + " " + sdf_date.format(SensorActivity.records.get(SensorActivity.records.size() -1).getDateTime()));
 
@@ -487,7 +487,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else if(enable_median) {
                 ArrayList<Double> double_records = new ArrayList<>();
                 for(DataRecord record : records) double_records.add(record.getP1());
-                double median = Tools.calculateMedian(double_records);
+                double median = Tools.INSTANCE.calculateMedian(double_records);
                 am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
                 am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             }
@@ -510,7 +510,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else if(enable_median) {
                 ArrayList<Double> double_records = new ArrayList<>();
                 for(DataRecord record : records) double_records.add(record.getP2());
-                double median = Tools.calculateMedian(double_records);
+                double median = Tools.INSTANCE.calculateMedian(double_records);
                 am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
                 am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             }
@@ -533,7 +533,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else if(enable_median) {
                 ArrayList<Double> double_records = new ArrayList<>();
                 for(DataRecord record : records) double_records.add(record.getTemp());
-                double median = Tools.calculateMedian(double_records);
+                double median = Tools.INSTANCE.calculateMedian(double_records);
                 am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
                 am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             }
@@ -556,7 +556,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else if(enable_median) {
                 ArrayList<Double> double_records = new ArrayList<>();
                 for(DataRecord record : records) double_records.add(record.getHumidity());
-                double median = Tools.calculateMedian(double_records);
+                double median = Tools.INSTANCE.calculateMedian(double_records);
                 am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
                 am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             }
@@ -579,7 +579,7 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             } else if(enable_median) {
                 ArrayList<Double> double_records = new ArrayList<>();
                 for(DataRecord record : records) double_records.add(record.getPressure());
-                double median = Tools.calculateMedian(double_records);
+                double median = Tools.INSTANCE.calculateMedian(double_records);
                 am_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
                 am_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) median));
             }
@@ -1094,11 +1094,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             average_humidity = average_humidity / records.size();
                             average_pressure = average_pressure / records.size();
 
-                            footer_average_p1.setText(String.valueOf(Tools.round(average_p1, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_average_p2.setText(String.valueOf(Tools.round(average_p2, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_average_temp.setText(String.valueOf(Tools.round(average_temp, 1)).replace(".", ",").concat(" °C"));
-                            footer_average_humidity.setText(String.valueOf(Tools.round(average_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_average_pressure.setText(String.valueOf(Tools.round(average_pressure, 1)).replace(".", ",").concat(" hPa"));
+                            footer_average_p1.setText(String.valueOf(Tools.INSTANCE.round(average_p1, 1)).replace(".", ",").concat(" µg/m³"));
+                            footer_average_p2.setText(String.valueOf(Tools.INSTANCE.round(average_p2, 1)).replace(".", ",").concat(" µg/m³"));
+                            footer_average_temp.setText(String.valueOf(Tools.INSTANCE.round(average_temp, 1)).replace(".", ",").concat(" °C"));
+                            footer_average_humidity.setText(String.valueOf(Tools.INSTANCE.round(average_humidity, 1)).replace(".", ",").concat(" %"));
+                            footer_average_pressure.setText(String.valueOf(Tools.INSTANCE.round(average_pressure, 1)).replace(".", ",").concat(" hPa"));
                         }
 
                         if(su.getBoolean("enable_daily_median")) {
@@ -1134,11 +1134,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
                             SensorActivity.sort_mode = current_sort_mode;
                             Collections.sort(records);
 
-                            footer_median_p1.setText(String.valueOf(Tools.round(median_p1, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_median_p2.setText(String.valueOf(Tools.round(median_p2, 1)).replace(".", ",").concat(" µg/m³"));
-                            footer_median_temp.setText(String.valueOf(Tools.round(median_temp, 1)).replace(".", ",").concat(" °C"));
-                            footer_median_humidity.setText(String.valueOf(Tools.round(median_humidity, 1)).replace(".", ",").concat(" %"));
-                            footer_median_pressure.setText(String.valueOf(Tools.round(median_pressure, 1)).replace(".", ",").concat(" hPa"));
+                            footer_median_p1.setText(String.valueOf(Tools.INSTANCE.round(median_p1, 1)).replace(".", ",").concat(" µg/m³"));
+                            footer_median_p2.setText(String.valueOf(Tools.INSTANCE.round(median_p2, 1)).replace(".", ",").concat(" µg/m³"));
+                            footer_median_temp.setText(String.valueOf(Tools.INSTANCE.round(median_temp, 1)).replace(".", ",").concat(" °C"));
+                            footer_median_humidity.setText(String.valueOf(Tools.INSTANCE.round(median_humidity, 1)).replace(".", ",").concat(" %"));
+                            footer_median_pressure.setText(String.valueOf(Tools.INSTANCE.round(median_pressure, 1)).replace(".", ",").concat(" hPa"));
                         }
                     } else {
                         contentView.findViewById(R.id.data_heading).setVisibility(View.INVISIBLE);

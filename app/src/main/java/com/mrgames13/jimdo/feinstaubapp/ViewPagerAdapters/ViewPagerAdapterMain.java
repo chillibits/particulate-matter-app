@@ -147,7 +147,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
         ArrayList<Sensor> selected_sensors = new ArrayList<>();
         selected_sensors.addAll(MyFavouritesFragment.getSelectedSensors());
         selected_sensors.addAll(MySensorsFragment.getSelectedSensors());
-        return Tools.removeDuplicateSensors(selected_sensors);
+        return Tools.INSTANCE.removeDuplicateSensors(selected_sensors);
     }
 
     public void deselectAllSensors() {
@@ -420,7 +420,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 TelephonyManager teleMgr = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
                 if (teleMgr != null) {
                     String iso = teleMgr.getSimCountryIso();
-                    current_country = Tools.getLocationFromAddress(activity, iso);
+                    current_country = Tools.INSTANCE.getLocationFromAddress(activity, iso);
                 }
             } catch (Exception ignored) {}
 
@@ -535,7 +535,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             // Create hash
                             double chip_sum = 0;
                             for(ExternalSensor s : sensors) chip_sum+=Long.parseLong(s.getChipID()) / 1000d;
-                            final String sensor_hash = Tools.md5(String.valueOf((int) Tools.round(chip_sum, 0)));
+                            final String sensor_hash = Tools.INSTANCE.md5(String.valueOf((int) Tools.INSTANCE.round(chip_sum, 0)));
                             // Load new sensors from server
                             long last_request = su.getLong("LastRequest", 0);
                             final String last_request_string = String.valueOf(last_request).length() > 10 ? String.valueOf(last_request).substring(0, 10) : String.valueOf(last_request);
@@ -854,7 +854,7 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                             @Override
                             public void run() {
                                 try{
-                                    info_average_value.setText("Ø " + Tools.round(Double.parseDouble(result), 2) + " µg/m³");
+                                    info_average_value.setText("Ø " + Tools.INSTANCE.round(Double.parseDouble(result), 2) + " µg/m³");
                                 } catch (Exception e) {
                                     info_average_value.setText(R.string.error_try_again);
                                 }
