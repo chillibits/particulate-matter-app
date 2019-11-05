@@ -22,13 +22,13 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -274,7 +274,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
         card_date_today.setEnabled(false);
 
         // Set refresh period
-        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.INSTANCE.getDEFAULT_SYNC_CYCLE())));
+        int period = Integer.parseInt(su.getString("sync_cycle", String.valueOf(Constants.DEFAULT_SYNC_CYCLE)));
 
         // Setup ScheduledExecutorService
         service = Executors.newSingleThreadScheduledExecutor();
@@ -433,7 +433,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 // If there is a widget for this sensor, refresh it
                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                update_intent.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID(), sensor.getChipID());
+                update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.getChipID());
                 sendBroadcast(update_intent);
 
                 runOnUiThread(new Runnable() {
@@ -494,7 +494,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 .create();
         d.show();
 
-        RelativeLayout share_sensor = v.findViewById(R.id.share_sensor);
+        ConstraintLayout share_sensor = v.findViewById(R.id.share_sensor);
         share_sensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -507,7 +507,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 }, 200);
             }
         });
-        RelativeLayout export_diagram = v.findViewById(R.id.share_diagram);
+        ConstraintLayout export_diagram = v.findViewById(R.id.share_diagram);
         export_diagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -530,7 +530,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                 }
             }
         });
-        RelativeLayout export_data_records = v.findViewById(R.id.share_data_records);
+        ConstraintLayout export_data_records = v.findViewById(R.id.share_data_records);
         export_data_records.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

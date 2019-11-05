@@ -363,11 +363,11 @@ public class DiagramActivity extends AppCompatActivity {
         List<Entry> th_entries;
         th_entries = new ArrayList<>();
         if(enable_eu_thresholds) {
-            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM10()));
-            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM10()));
+            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
+            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
         } else if(enable_who_thresholds) {
-            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM10()));
-            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM10()));
+            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
+            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
         }
         return getDashedLine(th_entries, R.color.error);
     }
@@ -377,11 +377,11 @@ public class DiagramActivity extends AppCompatActivity {
         List<Entry> th_entries;
         th_entries = new ArrayList<>();
         if(enable_eu_thresholds) {
-            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM2_5()));
-            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM2_5()));
+            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
+            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
         } else if(enable_who_thresholds) {
-            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM2_5()));
-            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM2_5()));
+            th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
+            th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
         }
         return getDashedLine(th_entries, R.color.error);
     }

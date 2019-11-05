@@ -53,7 +53,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            window.decorView.setOnApplyWindowInsetsListener { v, insets ->
+            window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
                 sensor_view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets

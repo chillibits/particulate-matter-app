@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="35dp">
 
@@ -20,7 +22,7 @@
             android:ellipsize="end"
             android:text="@string/loading"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="0.01"
@@ -37,7 +39,7 @@
             android:ellipsize="end"
             android:text="@string/loading"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="0.01"
@@ -54,7 +56,7 @@
             android:ellipsize="end"
             android:text="@string/loading"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="0.01"
@@ -71,7 +73,7 @@
             android:ellipsize="end"
             android:text="@string/loading"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="0.01"
@@ -88,7 +90,7 @@
             android:ellipsize="end"
             android:text="@string/loading"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="0.01"
@@ -113,7 +115,7 @@
             android:weightSum="3.03"
             android:visibility="gone">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="0.01"
@@ -130,7 +132,7 @@
                 android:ellipsize="end"
                 android:text="@string/loading"/>
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="0.01"
@@ -147,7 +149,7 @@
                 android:ellipsize="end"
                 android:text="@string/loading"/>
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="0.01"
@@ -165,4 +167,4 @@
                 android:text="@string/loading"/>
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,13 +16,17 @@
         app:frontImage="@drawable/sensor_white"
         app:frontImagePadding="0dp"
         app:rearImage="@drawable/done_white"
-        app:rearImageAnimationDelay="0"/>
+        app:rearImageAnimationDelay="0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/item_icon"
+        app:layout_constraintStart_toEndOf="@+id/item_icon"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="10dp"
         android:textStyle="bold"
         android:textSize="19sp"
@@ -30,11 +35,12 @@
 
     <TextView
         android:id="@+id/item_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/item_name"
-        android:layout_below="@+id/item_name"
         android:textColor="@color/gray_light"
+        app:layout_constraintStart_toEndOf="@+id/item_icon"
+        app:layout_constraintTop_toBottomOf="@+id/item_name"
+        android:layout_marginStart="10dp"
         android:text="@string/loading"/>
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -43,9 +49,9 @@
         android:layout_height="20dp"
         app:srcCompat="@drawable/sensor_white"
         app:tint="@color/colorAccent"
-        android:layout_toEndOf="@+id/item_name"
-        android:layout_alignTop="@+id/item_name"
-        android:layout_alignBottom="@id/item_name"
+        app:layout_constraintStart_toEndOf="@+id/item_name"
+        app:layout_constraintTop_toTopOf="@+id/item_name"
+        app:layout_constraintBottom_toBottomOf="@+id/item_name"
         android:layout_marginTop="2dp"
         android:layout_marginStart="5dp"/>
 
@@ -55,8 +61,9 @@
         android:layout_height="45dp"
         android:padding="5dp"
         app:srcCompat="@drawable/warning"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/item_more"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/item_more"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
@@ -66,13 +73,14 @@
         android:id="@+id/item_more"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_centerVertical="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:padding="9dp"
         android:layout_marginEnd="5dp"
         app:srcCompat="@drawable/more_vert"
         app:tint="@color/colorPrimary"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:focusable="true"
-        android:layout_alignParentEnd="true"/>
-</RelativeLayout>
+        android:focusable="true"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

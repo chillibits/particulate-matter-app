@@ -594,11 +594,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             List<Entry> th_entries;
             th_entries = new ArrayList<>();
             if(enable_eu_thresholds) {
-                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM10()));
-                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM10()));
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM10));
             } else if(enable_who_thresholds) {
-                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM10()));
-                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM10()));
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM10));
             }
             LineDataSet th_p1 = getDashedLine(th_entries, R.color.error);
             th_p1.setVisible(enable_eu_thresholds ? custom_threshold_eu.isChecked() && custom_p1.isChecked() : custom_threshold_who.isChecked() && custom_p1.isChecked());
@@ -610,11 +610,11 @@ public class ViewPagerAdapterSensor extends FragmentPagerAdapter {
             List<Entry> th_entries;
             th_entries = new ArrayList<>();
             if(enable_eu_thresholds) {
-                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM2_5()));
-                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_EU_PM2_5()));
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_EU_PM2_5));
             } else if(enable_who_thresholds) {
-                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM2_5()));
-                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.INSTANCE.getTHRESHOLD_WHO_PM2_5()));
+                th_entries.add(new Entry((float) ((records.get(0).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
+                th_entries.add(new Entry((float) ((records.get(records.size() -1).getDateTime().getTime() - first_timestamp) / 1000), (float) Constants.THRESHOLD_WHO_PM2_5));
             }
             LineDataSet th_p2 = getDashedLine(th_entries, R.color.error);
             th_p2.setVisible(enable_eu_thresholds ? custom_threshold_eu.isChecked() && custom_p2.isChecked() : custom_threshold_who.isChecked() && custom_p2.isChecked());

@@ -815,11 +815,11 @@ public class ViewPagerAdapterMain extends FragmentPagerAdapter {
                 enterReveal(sensor_cluster_container);
 
                 final Collection<SensorClusterItem> items = cluster.getItems();
-                String param = "";
+                StringBuilder param = new StringBuilder();
                 final ArrayList<Sensor> sensors = new ArrayList<>();
                 Random rand = new Random();
                 for(SensorClusterItem s : items) {
-                    param+=";"+s.getTitle();
+                    param.append(";").append(s.getTitle());
                     sensors.add(new Sensor(s.getTitle(), s.getSnippet(), Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))));
                 }
                 final String param_string = param.substring(1);

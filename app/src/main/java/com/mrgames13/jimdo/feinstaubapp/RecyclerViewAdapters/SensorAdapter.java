@@ -111,10 +111,10 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == TYPE_HEADER) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sensor_view_header, null);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sensor_view_header, parent, false);
             return new HeaderViewHolder(itemView);
         } else {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, null);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, parent, false);
             return new ViewHolder(itemView);
         }
     }
@@ -180,7 +180,7 @@ public class SensorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             h.item_more.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
                     PopupMenu popup = new PopupMenu(activity, h.item_more);
                     popup.inflate(R.menu.menu_sensor_more);
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

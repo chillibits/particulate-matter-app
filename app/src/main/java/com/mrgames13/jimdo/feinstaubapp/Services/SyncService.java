@@ -8,7 +8,6 @@ import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -73,11 +72,10 @@ public class SyncService extends Service {
         nu = new NotificationUtils(this);
 
         if(fromForeground) {
-            NotificationCompat.Builder n = nu.buildNotification(getString(R.string.app_name), getString(R.string.loading_data));
+            NotificationCompat.Builder n = nu.buildNotification(Constants.CHANNEL_SYSTEM, getString(R.string.app_name), getString(R.string.loading_data));
             n.setSmallIcon(R.drawable.notification_icon);
             n.setSound(null);
             n.setVibrate(null);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) n.setChannelId(Constants.INSTANCE.getCHANNEL_SYSTEM());
             startForeground(111, n.build());
         }
 
@@ -94,11 +92,11 @@ public class SyncService extends Service {
         // Check, if internet is available
         if(smu.isInternetAvailable()) {
             // Get max limit from SharedPreferences
-            limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.INSTANCE.getDEFAULT_P1_LIMIT())));
-            limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.INSTANCE.getDEFAULT_P2_LIMIT())));
-            limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.INSTANCE.getDEFAULT_TEMP_LIMIT())));
-            limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.INSTANCE.getDEFAULT_HUMIDITY_LIMIT())));
-            limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.INSTANCE.getDEFAULT_PRESSURE_LIMIT())));
+            limit_p1 = Integer.parseInt(su.getString("limit_p1", String.valueOf(Constants.DEFAULT_P1_LIMIT)));
+            limit_p2 = Integer.parseInt(su.getString("limit_p2", String.valueOf(Constants.DEFAULT_P2_LIMIT)));
+            limit_temp = Integer.parseInt(su.getString("limit_temp", String.valueOf(Constants.DEFAULT_TEMP_LIMIT)));
+            limit_humidity = Integer.parseInt(su.getString("limit_humidity", String.valueOf(Constants.DEFAULT_HUMIDITY_LIMIT)));
+            limit_pressure = Integer.parseInt(su.getString("limit_pressure", String.valueOf(Constants.DEFAULT_PRESSURE_LIMIT)));
 
             new Thread(new Runnable() {
                 @Override
@@ -197,7 +195,7 @@ public class SyncService extends Service {
                                 // Refresh homescreen widget
                                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                                update_intent.putExtra(Constants.INSTANCE.getWIDGET_EXTRA_SENSOR_ID(), s.getChipID());
+                                update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.getChipID());
                                 sendBroadcast(update_intent);
                             }
                         }

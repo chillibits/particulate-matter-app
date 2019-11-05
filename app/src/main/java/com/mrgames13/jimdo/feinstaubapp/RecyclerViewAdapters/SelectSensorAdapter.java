@@ -74,7 +74,7 @@ public class SelectSensorAdapter extends RecyclerView.Adapter<SelectSensorAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, null);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, parent, false);
         return new SelectSensorAdapter.ViewHolder(itemView);
     }
 
