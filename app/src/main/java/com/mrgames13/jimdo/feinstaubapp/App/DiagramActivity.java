@@ -115,11 +115,11 @@ public class DiagramActivity extends AppCompatActivity {
                 first_time = records.get(0).getDateTime().getTime();
                 xAxis.setValueFormatter(new TimeFormatter(first_time));
                 for (DataRecord r : records) {
-                    if(show_1) entries_1.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
-                    if(show_2) entries_2.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
-                    if(show_3) entries_3.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
-                    if(show_4) entries_4.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
-                    if(show_5) entries_5.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
+                    if(show_1) entries_1.add(new DiagramEntry((r.getDateTime().getTime() - first_time) / 1000, r.getP1(), "µg/m³"));
+                    if(show_2) entries_2.add(new DiagramEntry((r.getDateTime().getTime() - first_time) / 1000, r.getP2(), "µg/m³"));
+                    if(show_3) entries_3.add(new DiagramEntry((r.getDateTime().getTime() - first_time) / 1000, r.getTemp(), "°C"));
+                    if(show_4) entries_4.add(new DiagramEntry((r.getDateTime().getTime() - first_time) / 1000, r.getHumidity(), "%"));
+                    if(show_5) entries_5.add(new DiagramEntry((r.getDateTime().getTime() - first_time) / 1000, r.getPressure(), "hPa"));
                 }
 
                 // PM1
@@ -207,15 +207,15 @@ public class DiagramActivity extends AppCompatActivity {
                         for(DataRecord r : compare_records.get(i)) {
                             try{
                                 if(show_1) {
-                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP1().floatValue(), "µg/m³"));
+                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), (float) r.getP1(), "µg/m³"));
                                 } else if(show_2) {
-                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getP2().floatValue(), "µg/m³"));
+                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), (float) r.getP2(), "µg/m³"));
                                 } else if(show_3) {
-                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getTemp().floatValue(), "°C"));
+                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), (float) r.getTemp(), "°C"));
                                 } else if(show_4) {
-                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getHumidity().floatValue(), "%"));
+                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), (float) r.getHumidity(), "%"));
                                 } else if(show_5) {
-                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), r.getPressure().floatValue(), "hPa"));
+                                    entries.add(new DiagramEntry((float) ((r.getDateTime().getTime() - first_time) / 1000), (float) r.getPressure(), "hPa"));
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

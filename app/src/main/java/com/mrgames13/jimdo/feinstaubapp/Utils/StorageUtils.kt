@@ -185,7 +185,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         addRecord(TABLE_SENSORS, values)
         putBoolean(sensor.chipID + "_offline", offline)
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     fun getSensor(chip_id: String): Sensor? {
@@ -208,14 +208,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     fun updateOwnSensor(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
         execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     fun removeOwnSensor(chip_id: String, request_from_realtime_sync_service: Boolean) {
         val db = writableDatabase
         db.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chip_id))
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     fun isSensorInOfflineMode(chip_id: String): Boolean {
@@ -231,7 +231,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         values.put("sensor_color", sensor.color)
         addRecord(TABLE_FAVOURITES, values)
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     fun isFavouriteExisting(chip_id: String): Boolean {
@@ -245,14 +245,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     fun updateFavourite(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
         execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     fun removeFavourite(chip_id: String, request_from_realtime_sync_service: Boolean) {
         val db = writableDatabase
         db.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chip_id))
         // Refresh, if a web client is connected
-        if (WebRealtimeSyncService.own_instance != null && !request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
     }
 
     //---------------------------------------Externe Sensoren---------------------------------------
@@ -297,14 +297,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         for (r in records) {
             try {
                 stmt.bindLong(1, r.dateTime.time / 1000)
-                stmt.bindDouble(2, r.p2!!)
-                stmt.bindDouble(3, r.p1!!)
-                stmt.bindDouble(4, r.temp!!)
-                stmt.bindDouble(5, r.humidity!!)
-                stmt.bindDouble(6, r.pressure!!)
-                stmt.bindDouble(7, r.lat!!)
-                stmt.bindDouble(8, r.lng!!)
-                stmt.bindDouble(9, r.alt!!)
+                stmt.bindDouble(2, r.p2)
+                stmt.bindDouble(3, r.p1)
+                stmt.bindDouble(4, r.temp)
+                stmt.bindDouble(5, r.humidity)
+                stmt.bindDouble(6, r.pressure)
+                stmt.bindDouble(7, r.lat)
+                stmt.bindDouble(8, r.lng)
+                stmt.bindDouble(9, r.alt)
                 stmt.execute()
             } catch (ignored: SQLiteConstraintException) {} finally {
                 stmt.clearBindings()
@@ -362,7 +362,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     fun exportDataRecords(records: ArrayList<DataRecord>): Uri? {
         try {
             val out = context.openFileOutput("export.csv", Context.MODE_PRIVATE)
-            val sdfDatetime = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+            val sdfDatetime = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
             out.write("Time;PM10;PM2.5;Temperature;Humidity;Pressure;Latitude;Longitude;Altitude\n".toByteArray())
             for (record in records) {
                 val time = sdfDatetime.format(record.dateTime.time)
@@ -371,10 +371,10 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 val temp = record.temp.toString()
                 val humidity = record.humidity.toString()
                 val pressure = record.pressure.toString()
-                val gps_lat = record.lat.toString()
-                val gps_lng = record.lng.toString()
-                val gps_alt = record.alt.toString()
-                out.write("$time;$p1;$p2;$temp;$humidity;$pressure;$gps_lat;$gps_lng;$gps_alt\n".toByteArray())
+                val gpsLat = record.lat.toString()
+                val gpsLng = record.lng.toString()
+                val gpsAlt = record.alt.toString()
+                out.write("$time;$p1;$p2;$temp;$humidity;$pressure;$gpsLat;$gpsLng;$gpsAlt\n".toByteArray())
             }
             out.close()
             return FileProvider.getUriForFile(context, "com.mrgames13.jimdo.feinstaubapp", context.getFileStreamPath("export.csv"))
@@ -406,7 +406,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             parser.nextTag()
 
             val favourites = ArrayList<Sensor>()
-            val own_sensors = ArrayList<Sensor>()
+            val ownSensors = ArrayList<Sensor>()
             // Favourites
             parser.require(XmlPullParser.START_TAG, null, "sensor-configuration")
             parser.nextTag()
@@ -438,7 +438,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 s.setId(parser.getAttributeValue(null, "id"))
                 s.name = parser.getAttributeValue(null, "name")
                 s.color = Integer.parseInt(parser.getAttributeValue(null, "color"))
-                own_sensors.add(s)
+                ownSensors.add(s)
 
                 parser.nextTag()
                 parser.require(XmlPullParser.END_TAG, null, "sensor")
@@ -451,11 +451,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             for (s in favourites) {
                 if (!isSensorExisting(s.chipID)) addFavourite(s, false)
             }
-            for (s in own_sensors) {
-                if (!isSensorExisting(s.chipID)) addOwnSensor(s, true, false)
+            for (s in ownSensors) {
+                if (!isSensorExisting(s.chipID)) addOwnSensor(s, offline = true, request_from_realtime_sync_service = false)
             }
             Log.i("FA", "Imported favourites: " + favourites.size)
-            Log.i("FA", "Imported own sensors: " + own_sensors.size)
+            Log.i("FA", "Imported own sensors: " + ownSensors.size)
 
             inputStream.close()
             return true
@@ -513,13 +513,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     companion object {
         // Constants
-        private val DEFAULT_STRING_VALUE = ""
-        private val DEFAULT_INT_VALUE = 0
-        private val DEFAULT_BOOLEAN_VALUE = false
-        private val DEFAULT_LONG_VALUE: Long = -1
-        private val DEFAULT_DOUBLE_VALUE = 0.0
-        private val TABLE_SENSORS = "Sensors"
-        private val TABLE_EXTERNAL_SENSORS = "ExternalSensors"
-        private val TABLE_FAVOURITES = "Favourites"
+        private const val DEFAULT_STRING_VALUE = ""
+        private const val DEFAULT_BOOLEAN_VALUE = false
+        private const val DEFAULT_DOUBLE_VALUE = 0.0
+        private const val TABLE_SENSORS = "Sensors"
+        private const val TABLE_EXTERNAL_SENSORS = "ExternalSensors"
+        private const val TABLE_FAVOURITES = "Favourites"
     }
 }

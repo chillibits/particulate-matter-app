@@ -34,12 +34,12 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     // Variables as objects
     private lateinit var toolbar: Toolbar
-    private lateinit var sensor_view: RecyclerView
-    private lateinit var sensor_view_adapter: SelectSensorAdapter
+    private lateinit var sensorView: RecyclerView
+    private lateinit var sensorViewAdapter: SelectSensorAdapter
     private lateinit var sensors: ArrayList<Sensor>
 
     // Variables
-    private var app_widget_id: Int = 0
+    private var appWidgetId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
-                sensor_view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                sensorView.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets
             }
         }
@@ -63,24 +63,24 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         // Load AppWidgetID
         val intent = intent
         val extras = intent.extras
-        if (extras != null) app_widget_id = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        if (extras != null) appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
 
         // Load Sensors
         su = StorageUtils(this)
         sensors = su.allFavourites
         sensors.addAll(su.allOwnSensors)
-        Collections.sort(sensors)
+        sensors.sort()
         if (sensors.size > 0) {
             // Initialize RecyclerView
-            sensor_view = findViewById(R.id.sensors)
-            sensor_view_adapter = SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE)
-            sensor_view.setItemViewCacheSize(100)
-            sensor_view.layoutManager = LinearLayoutManager(this)
-            sensor_view.adapter = sensor_view_adapter
+            sensorView = findViewById(R.id.sensors)
+            sensorViewAdapter = SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE)
+            sensorView.setItemViewCacheSize(100)
+            sensorView.layoutManager = LinearLayoutManager(this)
+            sensorView.adapter = sensorViewAdapter
         } else {
             findViewById<View>(R.id.no_data).visibility = View.VISIBLE
-            val btn_add_favourite = findViewById<Button>(R.id.add_sensor)
-            btn_add_favourite.setOnClickListener {
+            val btnAddFavourite = findViewById<Button>(R.id.add_sensor)
+            btnAddFavourite.setOnClickListener {
                 startActivity(Intent(this@WidgetConfigurationActivity, MainActivity::class.java))
                 finish()
             }
@@ -103,23 +103,23 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     }
 
     private fun finishConfiguration() {
-        if (sensor_view_adapter.selectedSensor != null) {
+        if(sensorViewAdapter.selectedSensor != null) {
             startService(Intent(this, SyncService::class.java))
-            su.putInt("Widget_" + sensor_view_adapter.selectedSensor.chipID, app_widget_id)
-            su.putString("Widget_$app_widget_id", sensor_view_adapter.selectedSensor.chipID)
+            su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
+            su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 
             val appWidgetManager = AppWidgetManager.getInstance(this)
             val views = RemoteViews(packageName, R.layout.widget)
-            appWidgetManager.updateAppWidget(app_widget_id, views)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
 
-            val update_intent = Intent(applicationContext, WidgetProvider::class.java)
-            update_intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            update_intent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor_view_adapter.selectedSensor.chipID)
-            sendBroadcast(update_intent)
+            val updateIntent = Intent(applicationContext, WidgetProvider::class.java)
+            updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
+            sendBroadcast(updateIntent)
 
             val resultValue = Intent()
             resultValue.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, app_widget_id)
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             setResult(Activity.RESULT_OK, resultValue)
         }
         finish()

@@ -12,11 +12,7 @@ import java.util.*
 class TimeFormatter(private val first_timestamp: Long) : ValueFormatter() {
 
     // Variables as objects
-    private val sdf: SimpleDateFormat
-
-    init {
-        sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-    }
+    private val sdf: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
         val date = Date()

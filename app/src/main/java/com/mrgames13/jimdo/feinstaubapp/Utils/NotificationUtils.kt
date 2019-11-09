@@ -65,30 +65,30 @@ class NotificationUtils(private val context: Context) {
 
     companion object {
         // Vibrations
-        private val VIBRATION_SHORT = 300
+        private const val VIBRATION_SHORT = 300
         // Lights
-        private val LIGHT_SHORT = 500
+        private const val LIGHT_SHORT = 500
 
         fun createNotificationChannels(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationManager = context.getSystemService(NotificationManager::class.java)
                 // System channel
                 var importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel_system = NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance)
-                channel_system.setShowBadge(false)
-                channel_system.setSound(null, null)
-                channel_system.description = context.getString(R.string.nc_system_description)
-                notificationManager!!.createNotificationChannel(channel_system)
+                val channelSystem = NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance)
+                channelSystem.setShowBadge(false)
+                channelSystem.setSound(null, null)
+                channelSystem.description = context.getString(R.string.nc_system_description)
+                notificationManager!!.createNotificationChannel(channelSystem)
                 // Limit channel
                 importance = NotificationManager.IMPORTANCE_HIGH
-                val channel_limit = NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance)
-                channel_limit.description = context.getString(R.string.nc_limit_description)
-                notificationManager.createNotificationChannel(channel_limit)
+                val channelLimit = NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance)
+                channelLimit.description = context.getString(R.string.nc_limit_description)
+                notificationManager.createNotificationChannel(channelLimit)
                 // Missing measurements channel
                 importance = NotificationManager.IMPORTANCE_HIGH
-                val channel_missing_measurements = NotificationChannel(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.nc_missing_measurements_name), importance)
-                channel_missing_measurements.description = context.getString(R.string.nc_missing_measurements_description)
-                notificationManager.createNotificationChannel(channel_missing_measurements)
+                val channelMissingMeasurements = NotificationChannel(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.nc_missing_measurements_name), importance)
+                channelMissingMeasurements.description = context.getString(R.string.nc_missing_measurements_description)
+                notificationManager.createNotificationChannel(channelMissingMeasurements)
             }
         }
     }

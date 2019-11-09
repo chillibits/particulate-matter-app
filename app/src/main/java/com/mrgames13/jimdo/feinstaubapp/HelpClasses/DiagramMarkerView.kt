@@ -18,17 +18,11 @@ import java.util.*
 class DiagramMarkerView(context: Context, layoutResource: Int, private val first_timestamp: Long) : MarkerView(context, layoutResource), IMarker {
 
     // Variables as objects
-    private val sdf: SimpleDateFormat
-    private val time: TextView
-    private val value: TextView
+    private val sdf: SimpleDateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+    private val time: TextView = findViewById(R.id.marker_time)
+    private val value: TextView = findViewById(R.id.marker_value)
 
     private var mOffset: MPPointF? = null
-
-    init {
-        sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        time = findViewById(R.id.marker_time)
-        value = findViewById(R.id.marker_value)
-    }
 
     override fun refreshContent(e: Entry, highlight: Highlight?) {
         try {

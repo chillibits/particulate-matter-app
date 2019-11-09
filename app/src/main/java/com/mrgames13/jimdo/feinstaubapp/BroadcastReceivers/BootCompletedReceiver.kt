@@ -18,24 +18,24 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 class BootCompletedReceiver : BroadcastReceiver() {
 
     // Variables as objects
-    private var su: StorageUtils? = null
+    private lateinit var su: StorageUtils
 
     // Variables
-    private var background_sync_frequency: Int = 0
+    private var backgroundSyncFrequency: Int = 0
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && (intent.action == "android.intent.action.BOOT_COMPLETED" || intent.action == "android.intent.action.QUICKBOOT_POWERON" || intent.action == "com.htc.intent.action.QUICKBOOT_POWERON")) {
             // Initialize StorageUtils
             su = StorageUtils(context)
-            background_sync_frequency = Integer.parseInt(su!!.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
+            backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
 
             // Setup AlarmManager
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            val start_service_intent = Intent(context, SyncService::class.java)
-            start_service_intent.putExtra("FromBackground", true)
-            val start_service_pending_intent = PendingIntent.getService(context, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, start_service_intent, 0)
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), background_sync_frequency.toLong(), start_service_pending_intent)
+            val startServiceIntent = Intent(context, SyncService::class.java)
+            startServiceIntent.putExtra("FromBackground", true)
+            val startServicePendingIntent = PendingIntent.getService(context, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, startServiceIntent, 0)
+            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), backgroundSyncFrequency.toLong(), startServicePendingIntent)
         }
     }
 }

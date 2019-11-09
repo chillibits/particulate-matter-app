@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                             .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
                                 @Override
                                 public void onPlaceSelected(@NotNull Place place) {
-                                    ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
+                                    ViewPagerAdapterMain.AllSensorsFragment.Companion.moveCamera(place.getLatLng());
                                 }
                             }).build();
                     if(nightModeFlags == UI_MODE_NIGHT_YES) {
@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try { WebRealtimeSyncService.own_instance.stop(); } catch (Exception ignored) {}
+        try { WebRealtimeSyncService.Companion.getOwn_instance().stop(); } catch (Exception ignored) {}
     }
 
     @Override
@@ -711,7 +711,7 @@ public class MainActivity extends AppCompatActivity {
             sheet_fab.contractFab();
         } else if (requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
             Place place = PlaceAutocomplete.getPlace(this, data);
-            ViewPagerAdapterMain.AllSensorsFragment.moveCamera(place.getLatLng());
+            ViewPagerAdapterMain.AllSensorsFragment.Companion.moveCamera(place.getLatLng());
         } else if (requestCode == REQ_COMPARE) {
             sheet_fab_compare.contractFab();
         } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {

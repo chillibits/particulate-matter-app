@@ -15,7 +15,7 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
-import java.util.*
+import kotlin.math.abs
 
 object Tools {
 
@@ -50,7 +50,7 @@ object Tools {
 
     fun calculateMedian(records: ArrayList<Double>): Double {
         if (records.size == 0) return 0.0
-        Collections.sort(records)
+        records.sort()
         return records[records.size / 2]
     }
 
@@ -58,24 +58,24 @@ object Tools {
         if (!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records
         val divider = records.size / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT
         if (divider == 0) return records
-        val new_records = ArrayList<DataRecord>()
+        val newRecords = ArrayList<DataRecord>()
         var i = 0
         while (i < records.size) {
-            new_records.add(records[i])
+            newRecords.add(records[i])
             i += divider + 1
         }
-        return new_records
+        return newRecords
     }
 
     fun removeDuplicateSensors(sensors: ArrayList<Sensor>): ArrayList<Sensor> {
-        val sensors_new = ArrayList<Sensor>()
+        val sensorsNew = ArrayList<Sensor>()
         outerloop@ for (s_new in sensors) {
-            for (s_old in sensors_new) {
+            for (s_old in sensorsNew) {
                 if (s_old.chipID == s_new.chipID) continue@outerloop
             }
-            sensors_new.add(s_new)
+            sensorsNew.add(s_new)
         }
-        return sensors_new
+        return sensorsNew
     }
 
     fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
@@ -94,58 +94,58 @@ object Tools {
     fun measurementCorrection1(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
         for (i in 1 until records.size) {
             // Get current and previous record
-            val current_record = records[i]
-            val record_before = records[i - 1]
+            val currentRecord = records[i]
+            val recordBefore = records[i - 1]
             // Detect zero-values of particulate matter
-            if (current_record.p1 == 0.0 && current_record.p2 == 0.0) {
+            if (currentRecord.p1 == 0.0 && currentRecord.p2 == 0.0) {
                 // Get next non-zero record
-                var record_after = record_before
+                var recordAfter = recordBefore
                 for (j in i + 1 until records.size) {
                     if (!(records[j].temp == 0.0 && records[j].humidity == 0.0 || records[j].temp == 0.0 && records[j].pressure == 0.0 || records[j].humidity == 0.0 && records[j].pressure == 0.0)) {
-                        record_after = records[j]
+                        recordAfter = records[j]
                         break
                     }
                 }
                 // Calculate average values
                 // PM10
-                var m = Math.abs(record_before.p1!! - record_after.p1!!) / (record_after.dateTime.time - record_before.dateTime.time)
-                var b = record_before.p1 - m * record_before.dateTime.time
-                val avg_p1 = round(m * current_record.dateTime.time + b, 2)
+                var m = abs(recordBefore.p1 - recordAfter.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                var b = recordBefore.p1 - m * recordBefore.dateTime.time
+                val avgP1 = round(m * currentRecord.dateTime.time + b, 2)
                 // PM2.5
-                m = Math.abs(record_before.p2!! - record_after.p2!!) / (record_after.dateTime.time - record_before.dateTime.time)
-                b = record_before.p2 - m * record_before.dateTime.time
-                val avg_p2 = round(m * current_record.dateTime.time + b, 2)
+                m = abs(recordBefore.p2 - recordAfter.p2) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                b = recordBefore.p2 - m * recordBefore.dateTime.time
+                val avgP2 = round(m * currentRecord.dateTime.time + b, 2)
 
                 // Alter record according to results
-                val new_record = DataRecord(current_record.dateTime, avg_p1, avg_p2, current_record.temp, current_record.humidity, current_record.pressure, 0.0, 0.0, 0.0)
-                records[i] = new_record
+                val newRecord = DataRecord(currentRecord.dateTime, avgP1, avgP2, currentRecord.temp, currentRecord.humidity, currentRecord.pressure, 0.0, 0.0, 0.0)
+                records[i] = newRecord
             }
             // Detect zero-values of temperature, humidity or pressure
-            if (current_record.temp == 0.0 && current_record.humidity == 0.0 || current_record.temp == 0.0 && current_record.pressure == 0.0 || current_record.humidity == 0.0 && current_record.pressure == 0.0) {
+            if (currentRecord.temp == 0.0 && currentRecord.humidity == 0.0 || currentRecord.temp == 0.0 && currentRecord.pressure == 0.0 || currentRecord.humidity == 0.0 && currentRecord.pressure == 0.0) {
                 // Get next non-zero record
-                var record_after = record_before
+                var recordAfter = recordBefore
                 for (j in i + 1 until records.size) {
                     if (!(records[j].temp == 0.0 && records[j].humidity == 0.0 || records[j].temp == 0.0 && records[j].pressure == 0.0 || records[j].humidity == 0.0 && records[j].pressure == 0.0)) {
-                        record_after = records[j]
+                        recordAfter = records[j]
                         break
                     }
                 }
                 // Calculate average values
                 // Temperature
-                var m = Math.abs(record_before.temp!! - record_after.temp!!) / (record_after.dateTime.time - record_before.dateTime.time)
-                var b = record_before.temp - m * record_before.dateTime.time
-                val avg_temp = round(m * current_record.dateTime.time + b, 2)
+                var m = abs(recordBefore.temp - recordAfter.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                var b = recordBefore.temp - m * recordBefore.dateTime.time
+                val avgTemp = round(m * currentRecord.dateTime.time + b, 2)
                 // Humidity
-                m = Math.abs(record_before.humidity!! - record_after.humidity!!) / (record_after.dateTime.time - record_before.dateTime.time)
-                b = record_before.humidity - m * record_before.dateTime.time
-                val avg_humidity = round(m * current_record.dateTime.time + b, 2)
+                m = abs(recordBefore.humidity - recordAfter.humidity) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                b = recordBefore.humidity - m * recordBefore.dateTime.time
+                val avgHumidity = round(m * currentRecord.dateTime.time + b, 2)
                 // Pressure
-                m = Math.abs(record_before.pressure!! - record_after.pressure!!) / (record_after.dateTime.time - record_before.dateTime.time)
-                b = record_before.pressure - m * record_before.dateTime.time
-                val avg_pressure = round(m * current_record.dateTime.time + b, 2)
+                m = abs(recordBefore.pressure - recordAfter.pressure) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                b = recordBefore.pressure - m * recordBefore.dateTime.time
+                val avgPressure = round(m * currentRecord.dateTime.time + b, 2)
                 // Alter record according to results
-                val new_record = DataRecord(current_record.dateTime, current_record.p1, current_record.p2, avg_temp, avg_humidity, avg_pressure, 0.0, 0.0, 0.0)
-                records[i] = new_record
+                val newRecord = DataRecord(currentRecord.dateTime, currentRecord.p1, currentRecord.p2, avgTemp, avgHumidity, avgPressure, 0.0, 0.0, 0.0)
+                records[i] = newRecord
             }
         }
         return records
@@ -203,14 +203,14 @@ object Tools {
     }
 
     fun isMeasurementBreakdown(su: StorageUtils, records: ArrayList<DataRecord>): Boolean {
-        val measurement_interval = if (records.size > 2) getMeasurementInteval(records) else 0
-        return if (measurement_interval <= 0) false else System.currentTimeMillis() > records[records.size - 1].dateTime.time + measurement_interval * (Integer.parseInt(su.getString("notification_breakdown_number", Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER.toString())) + 1)
+        val measurementInterval = if (records.size > 2) getMeasurementInteval(records) else 0
+        return if (measurementInterval <= 0) false else System.currentTimeMillis() > records[records.size - 1].dateTime.time + measurementInterval * (Integer.parseInt(su.getString("notification_breakdown_number", Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER.toString())) + 1)
     }
 
     private fun getMeasurementInteval(records: ArrayList<DataRecord>): Long {
         val distances = ArrayList<Long>()
         for (i in 1 until records.size) distances.add(records[i].dateTime.time - records[i - 1].dateTime.time)
-        Collections.sort(distances)
+        distances.sort()
         return distances[distances.size / 2]
     }
 

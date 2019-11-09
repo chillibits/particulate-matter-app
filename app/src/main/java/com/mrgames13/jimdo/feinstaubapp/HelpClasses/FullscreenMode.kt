@@ -8,6 +8,7 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.view.View
 import android.view.Window
+import androidx.core.content.ContextCompat
 
 import com.mrgames13.jimdo.feinstaubapp.R
 
@@ -39,6 +40,6 @@ object FullscreenMode {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setTranslucentStatusBarLollipop(window: Window) {
-        window.statusBarColor = window.context.resources.getColor(R.color.bg_dark)
+        window.statusBarColor = ContextCompat.getColor(window.context, R.color.bg_dark)
     }
 }

@@ -429,7 +429,7 @@ public class SensorActivity extends AppCompatActivity implements ViewPagerAdapte
                     }
                 }
                 // Push data records into adapter
-                ViewPagerAdapterSensor.records = records;
+                ViewPagerAdapterSensor.Companion.setRecords(records);
                 // If there is a widget for this sensor, refresh it
                 Intent update_intent = new Intent(getApplicationContext(), WidgetProvider.class);
                 update_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

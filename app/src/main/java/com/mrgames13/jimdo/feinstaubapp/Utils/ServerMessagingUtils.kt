@@ -26,14 +26,14 @@ import java.util.*
 class ServerMessagingUtils(private val context: Context, private val su: StorageUtils) {
 
     // Variables as objects
-    private val cm: ConnectivityManager
-    private val wifiManager: WifiManager
-    private val client: OkHttpClient
-    private lateinit var main_url: URL
-    private lateinit var get_url: URL
+    private val cm: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val wifiManager: WifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    private val client: OkHttpClient = OkHttpClient()
+    private lateinit var mainUrl: URL
+    private lateinit var getUrl: URL
 
     // Variables
-    private var repeat_count = 0
+    private var repeatCount = 0
 
     val isInternetAvailable: Boolean
         get() {
@@ -42,12 +42,9 @@ class ServerMessagingUtils(private val context: Context, private val su: Storage
         }
 
     init {
-        this.cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        this.wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        this.client = OkHttpClient()
         // Create URL
-        try { main_url = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) URL(SERVER_MAIN_SCRIPT_HTTP) else URL(SERVER_MAIN_SCRIPT_HTTPS) } catch (ignored: MalformedURLException) {}
-        try { get_url = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) URL(SERVER_GET_SCRIPT_HTTP) else URL(SERVER_GET_SCRIPT_HTTPS) } catch (ignored: MalformedURLException) {}
+        try { mainUrl = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) URL(SERVER_MAIN_SCRIPT_HTTP) else URL(SERVER_MAIN_SCRIPT_HTTPS) } catch (ignored: MalformedURLException) {}
+        try { getUrl = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) URL(SERVER_GET_SCRIPT_HTTP) else URL(SERVER_GET_SCRIPT_HTTPS) } catch (ignored: MalformedURLException) {}
     }
 
     fun sendRequest(v: View?, params: HashMap<String, String>): String {
@@ -56,14 +53,14 @@ class ServerMessagingUtils(private val context: Context, private val su: Storage
                 val body = MultipartBody.Builder().setType(MultipartBody.FORM)
                 for (key in params.keys) body.addFormDataPart(key, params[key]!!)
                 val request = Request.Builder()
-                        .url(main_url)
+                        .url(mainUrl)
                         .post(body.build())
                         .build()
                 client.newCall(request).execute().use { response -> return response.body()!!.string() }
             } catch (e: IOException) {
                 e.printStackTrace()
-                repeat_count++
-                return if (repeat_count <= MAX_REQUEST_REPEAT) sendRequest(v, params) else ""
+                repeatCount++
+                return if (repeatCount <= MAX_REQUEST_REPEAT) sendRequest(v, params) else ""
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -86,13 +83,13 @@ class ServerMessagingUtils(private val context: Context, private val su: Storage
                         .addFormDataPart("gps", "true")
                         .build()
                 val request = Request.Builder()
-                        .url(get_url)
+                        .url(getUrl)
                         .post(body)
                         .build()
                 val response = client.newCall(request).execute().body()!!.string()
                 // Parse records
                 val records = ArrayList<DataRecord>()
-                if (!response.isEmpty() && response.startsWith("[") && response.endsWith("]")) {
+                if (response.isNotEmpty() && response.startsWith("[") && response.endsWith("]")) {
                     val array = JSONArray(response)
                     for (i in 0 until array.length()) {
                         val obj = array.getJSONObject(i)
@@ -130,12 +127,12 @@ class ServerMessagingUtils(private val context: Context, private val su: Storage
 
     companion object {
         // Constants
-        private val SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/"
-        private val SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/"
-        private val SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v310.php"
-        private val SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript_v310.php"
-        private val SERVER_GET_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "get.php"
-        private val SERVER_GET_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "get.php"
-        private val MAX_REQUEST_REPEAT = 10
+        private const val SERVER_ADRESS_HTTP = "http://h2801469.stratoserver.net/"
+        private const val SERVER_ADRESS_HTTPS = "https://h2801469.stratoserver.net/"
+        private const val SERVER_MAIN_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "ServerScript_v310.php"
+        private const val SERVER_MAIN_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "ServerScript_v310.php"
+        private const val SERVER_GET_SCRIPT_HTTP = SERVER_ADRESS_HTTP + "get.php"
+        private const val SERVER_GET_SCRIPT_HTTPS = SERVER_ADRESS_HTTPS + "get.php"
+        private const val MAX_REQUEST_REPEAT = 10
     }
 }
