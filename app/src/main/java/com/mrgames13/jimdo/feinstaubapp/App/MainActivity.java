@@ -36,7 +36,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -57,8 +59,7 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.github.fabtransitionactivity.SheetLayout;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -73,6 +74,7 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.FullscreenMode;
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SimpleAnimationListener;
+import com.mrgames13.jimdo.feinstaubapp.PlacesSearchDialog.PlacesSearchDialog;
 import com.mrgames13.jimdo.feinstaubapp.R;
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter;
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService;
@@ -83,10 +85,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils;
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools;
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain;
-import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialog;
-import com.taskail.googleplacessearchdialog.SimplePlacesSearchDialogBuilder;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -98,15 +97,14 @@ import java.util.Random;
 
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PlacesSearchDialog.PlaceSelectedCallback {
 
     // Constants
     private static final String QR_PREFIX_SUFFIX = "01010";
     public static final int REQ_ADD_OWN_SENSOR = 10002;
-    public static final int REQ_SEARCH_LOCATION = 10003;
-    private static final int REQ_COMPARE = 10004;
-    private static final int REQ_SCAN_WEB = 10005;
-    private static final int REQ_SCAN_SENSOR = 10006;
+    private static final int REQ_COMPARE = 10003;
+    private static final int REQ_SCAN_WEB = 10004;
+    private static final int REQ_SCAN_SENSOR = 10005;
 
     // Variables as objects
     public static MainActivity own_instance;
@@ -265,14 +263,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (pager.getCurrentItem() == 1) {
-                    SimplePlacesSearchDialog d = new SimplePlacesSearchDialogBuilder(MainActivity.this)
-                            .setSearchHint(getString(R.string.search_places))
-                            .setLocationListener(new SimplePlacesSearchDialog.PlaceSelectedCallback() {
-                                @Override
-                                public void onPlaceSelected(@NotNull Place place) {
-                                    ViewPagerAdapterMain.AllSensorsFragment.Companion.moveCamera(place.getLatLng());
-                                }
-                            }).build();
+                    PlacesSearchDialog d = new PlacesSearchDialog(MainActivity.this, MainActivity.this);
+                    Window window = d.getWindow();
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                     if(nightModeFlags == UI_MODE_NIGHT_YES) {
                         ((View)d.findViewById(R.id.search_edit_text).getParent()).setBackgroundColor(res.getColor(R.color.bg_dark));
                         d.findViewById(R.id.recyclerFrame).setBackgroundColor(res.getColor(R.color.bg_dark));
@@ -709,9 +703,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab();
-        } else if (requestCode == REQ_SEARCH_LOCATION && resultCode == RESULT_OK) {
-            Place place = PlaceAutocomplete.getPlace(this, data);
-            ViewPagerAdapterMain.AllSensorsFragment.Companion.moveCamera(place.getLatLng());
         } else if (requestCode == REQ_COMPARE) {
             sheet_fab_compare.contractFab();
         } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
@@ -956,5 +947,10 @@ public class MainActivity extends AppCompatActivity {
         });
         fab.startAnimation(a);
         shown_again_once = true;
+    }
+
+    @Override
+    public void onPlaceSelected(Place place) {
+        ViewPagerAdapterMain.AllSensorsFragment.Companion.moveCamera(place.getLatLng());
     }
 }

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Sat, 09 Nov 2019 22:51:48 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -131,8 +127,7 @@
     <string name="hybrid">Hybrid</string>
     <string name="traffic_show">Show traffic</string>
     <string name="traffic_hide">Hide traffic</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!--  NotificationStrings -->
     <string name="limit_exceeded">Limit exceeded</string>
     <string name="limit_exceeded_p1">PM10 limit exceeded</string>
     <string name="limit_exceeded_p2">PM2,5 limit exceeded</string>
@@ -172,12 +167,18 @@
     <string name="pref_theme">App-Theme</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">Automatic by time</item>
+        <item name="pref_theme_array0">Automatic by time</item>
         <item name="pref_theme_array1">Light theme</item>
+        <item name="pref_theme_array1">Light theme</item>
+        <item name="pref_theme_array2">Dark theme</item>
         <item name="pref_theme_array2">Dark theme</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Restart needed</string>
@@ -253,4 +254,5 @@
     <string name="please_select_at_least_one_sensor">Please select at least one sensor</string>
     <string name="scan_qr_code_prompt">Please scan the qr code.</string>
     <string name="share_qr_code">Share qr code</string>
+    <string name="nothing_found">Nothing found</string>
 </resources>

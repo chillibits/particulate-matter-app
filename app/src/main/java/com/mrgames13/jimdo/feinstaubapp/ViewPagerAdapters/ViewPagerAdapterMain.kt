@@ -571,7 +571,6 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
         companion object {
-
             // Variables as objects
             private lateinit var contentView: View
             private var map_fragment: SupportMapFragment? = null
