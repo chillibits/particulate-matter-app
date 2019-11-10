@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -22,11 +18,11 @@
     <string name="exit">Изход</string>
     <string name="settings">Настройки</string>
     <string name="no_data">Липсват данни</string>
-    <string name="loading">Зарежда…</string>
-    <string name="loading_data">Зареждане на данните…</string>
+    <string name="loading">Зарежда...</string>
+    <string name="loading_data">Зареждане на данните...</string>
     <string name="internet_is_not_available">Няма интернет</string>
     <string name="activate_wlan">Активирай WiFi</string>
-    <string name="please_wait_">Моля, изчакайте…</string>
+    <string name="please_wait_">Моля, изчакайте...</string>
     <string name="error_try_again">Възникна грешка. Моля, опитайте отново.</string>
     <string name="offline_t">Сървърът е офлайн</string>
     <string name="offline_m">Сървърът е офлайн. Докато сървърът е офлайн, няма да имате достъп до вашите данни.</string>
@@ -79,7 +75,7 @@
     <string name="scan_prompt">Отворете https://pm.mrgames-server.de на вашия компютър</string>
     <string name="successfully_connected">Успешно свързване</string>
     <string name="sync_disconnected">Прекъсната връзка</string>
-    <string name="search_places">Моля, въведете място…</string>
+    <string name="search_places">Моля, въведете място...</string>
     <!-- AddSensorActivity -->
     <string name="done">Готово</string>
     <string name="name_">Наименование:</string>
@@ -131,8 +127,8 @@
     <string name="hybrid">Хибриден</string>
     <string name="traffic_show">Покажи трафик</string>
     <string name="traffic_hide">Скрий трафик</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Границата е надхвърлена</string>
     <string name="limit_exceeded_p1">Границата от PM10 е надхвърлена</string>
     <string name="limit_exceeded_p2">Границата от PM2,5 е надхвърлена</string>
@@ -172,12 +168,18 @@
     <string name="pref_theme">Тема на приложението</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">Автоматично по време</item>
+        <item name="pref_theme_array0">Автоматично по време</item>
         <item name="pref_theme_array1">Светла тема</item>
+        <item name="pref_theme_array1">Светла тема</item>
+        <item name="pref_theme_array2">Тъмна тема</item>
         <item name="pref_theme_array2">Тъмна тема</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Необходим е рестарт</string>
@@ -253,4 +255,9 @@
     <string name="please_select_at_least_one_sensor">Моля, изберете поне един сензор</string>
     <string name="scan_qr_code_prompt">Моля, сканирайте QR кода</string>
     <string name="share_qr_code">Сподели QR код</string>
+    <string name="nothing_found">Нищо не е намерено</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s секунди</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s минути</string>
 </resources>

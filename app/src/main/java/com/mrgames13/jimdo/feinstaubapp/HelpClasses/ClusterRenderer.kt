@@ -13,7 +13,7 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 
-class ClusterRederer(context: Context, map: GoogleMap, clusterManager: ClusterManager<SensorClusterItem>, private val su: StorageUtils) : DefaultClusterRenderer<SensorClusterItem>(context, map, clusterManager) {
+class ClusterRenderer(context: Context, map: GoogleMap, clusterManager: ClusterManager<SensorClusterItem>, private val su: StorageUtils) : DefaultClusterRenderer<SensorClusterItem>(context, map, clusterManager) {
     override fun onBeforeClusterItemRendered(item: SensorClusterItem, markerOptions: MarkerOptions) {
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(item.title)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(item.title)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
     }

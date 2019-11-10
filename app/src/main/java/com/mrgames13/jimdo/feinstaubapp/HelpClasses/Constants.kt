@@ -7,10 +7,10 @@ package com.mrgames13.jimdo.feinstaubapp.HelpClasses
 object Constants {
 
     // Default values
-    const val DEFAULT_SYNC_CYCLE = 30 // 30 secs
-    const val MIN_SYNC_CYCLE = 15 // 15 secs
-    const val DEFAULT_SYNC_CYCLE_BACKGROUND = 15 // 15 mins
-    const val MIN_SYNC_CYCLE_BACKGROUND = 10 // 10 mins
+    const val DEFAULT_SYNC_CYCLE = 30 // 30 seconds
+    const val MIN_SYNC_CYCLE = 15 // 15 seconds
+    const val DEFAULT_SYNC_CYCLE_BACKGROUND = 15 // 15 minutes
+    const val MIN_SYNC_CYCLE_BACKGROUND = 10 // 10 minutes
     const val DEFAULT_FIT_ARRAY_LIST_ENABLED = true
     const val DEFAULT_FIT_ARRAY_LIST_CONSTANT = 200 // Optimize as of 200 data records
     const val DEFAULT_P1_LIMIT = 40

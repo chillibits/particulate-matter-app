@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -131,8 +127,8 @@
     <string name="hybrid">Спутник и схема</string>
     <string name="traffic_show">Показывать пробки</string>
     <string name="traffic_hide">Скрыть пробки</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Превышен порог</string>
     <string name="limit_exceeded_p1">Порог PM-10 превышен</string>
     <string name="limit_exceeded_p2">Порог PM-2.5 превышен</string>
@@ -172,12 +168,18 @@
     <string name="pref_theme">Тема оформления</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">По времени</item>
+        <item name="pref_theme_array0">По времени</item>
         <item name="pref_theme_array1">Светлая тема</item>
+        <item name="pref_theme_array1">Светлая тема</item>
+        <item name="pref_theme_array2">Тёмная тема</item>
         <item name="pref_theme_array2">Тёмная тема</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Требуется перезапуск</string>
@@ -247,10 +249,15 @@
     <string name="help">Помощь</string>
     <string name="zoom_in">Приблизить</string>
     <string name="scan_qr_code">Сканирование QR-кода</string>
-    <string name="show_qr_code">Показать код qr</string>
+    <string name="show_qr_code">Показать QR-код</string>
     <string name="import_xml_file">Импортировать файл XML</string>
     <string name="export_xml_file">Экспорт XML-файла</string>
     <string name="please_select_at_least_one_sensor">Пожалуйста, выберите хотя бы один датчик</string>
-    <string name="scan_qr_code_prompt">Пожалуйста, отсканируйте код qr.</string>
+    <string name="scan_qr_code_prompt">Пожалуйста, отсканируйте QR-код.</string>
     <string name="share_qr_code">Поделиться QR-кодом</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s секунды</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s минуты</string>
 </resources>

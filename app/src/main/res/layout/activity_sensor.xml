@@ -121,7 +121,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tablayout"
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/toolbarStyle"
@@ -139,6 +139,6 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tablayout"/>
+            android:layout_below="@+id/tabLayout"/>
     </RelativeLayout>
 </RelativeLayout>

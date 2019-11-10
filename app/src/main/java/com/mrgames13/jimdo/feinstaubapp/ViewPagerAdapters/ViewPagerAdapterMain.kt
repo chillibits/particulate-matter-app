@@ -50,7 +50,7 @@ import com.mrgames13.jimdo.feinstaubapp.App.MainActivity
 import com.mrgames13.jimdo.feinstaubapp.App.SensorActivity
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor
-import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRederer
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.R
@@ -305,7 +305,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             // Initialize ClusterManager
             clusterManager = ClusterManager(ViewPagerAdapterMain.activity, map)
-            clusterManager.renderer = ClusterRederer(ViewPagerAdapterMain.activity, map, clusterManager, su)
+            clusterManager.renderer = ClusterRenderer(ViewPagerAdapterMain.activity, map, clusterManager, su)
             if (su.getBoolean("enable_marker_clustering", true)) {
                 map.setOnMarkerClickListener(clusterManager)
                 clusterManager.setOnClusterItemClickListener { sensorClusterItem ->
@@ -571,7 +571,6 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
         companion object {
-
             // Variables as objects
             private lateinit var contentView: View
             private var map_fragment: SupportMapFragment? = null

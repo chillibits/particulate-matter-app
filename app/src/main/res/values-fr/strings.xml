@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
+ Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: fr, French
- Reviewed by: Régis Lorient
- At: Tue, 08 Aug 2019 08:38:00 +0200
+ Exported by: M&R Games
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -61,16 +58,16 @@
     <string name="rate">Évaluer</string>
     <string name="add_own_sensor">Ajouter son propre capteur</string>
     <string name="my_favourites">Mes favoris</string>
-    <string name="all_sensors">Tous capteurs</string>
+    <string name="all_sensors">Tous les capteurs</string>
     <string name="my_sensors">Mes capteurs</string>
-    <string name="no_favourites">Pas encore de favori disponible. Pour ajouter des favoris, allez dans \'Tous capteurs\', tapez sur un ou plusieurs capteurs et sélectionnez \'Mettre en favori\'.</string>
-    <string name="show_measurements">Voir les mesures</string>
+    <string name="no_favourites">Pas encore de favori disponible. Pour ajouter des favoris, allez dans \'Tous les capteurs\', tapez sur un ou plusieurs capteurs et sélectionnez \'Mettre en favori\'.</string>
+    <string name="show_measurements">Afficher les valeurs</string>
     <string name="add_favourite">Mettre en favori</string>
     <string name="favourite_added">Le favori est ajouté</string>
     <string name="properties">Propriétés</string>
     <string name="public_short_">Public:</string>
-    <string name="online_since_">En ligne depuis:</string>
-    <string name="height_short_">Hauteur:</string>
+    <string name="online_since_">En ligne depuis le:</string>
+    <string name="height_short_">Hauteur de montage:</string>
     <string name="compare_instruction">Tapez et gardez appuyé un capteur pour le choisir. Choisissez plusieurs capteurs pour comparer leurs valeurs.</string>
     <string name="search_for_sensors">Rechercher des capteurs</string>
     <string name="sensor_position_completion_m_short">Merci de renseigner les données du capteur pour le faire apparaître sur la carte, s\'il vous plaît.</string>
@@ -130,8 +127,8 @@
     <string name="hybrid">Hybride</string>
     <string name="traffic_show">Afficher le trafic</string>
     <string name="traffic_hide">Cacher le trafic</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">La limite est dépassée</string>
     <string name="limit_exceeded_p1">La limite de PM10 est dépassée</string>
     <string name="limit_exceeded_p2">La limite de PM2,5 est dépassée</string>
@@ -170,13 +167,19 @@
     <string name="pref_header_appearance">Apparence</string>
     <string name="pref_theme">Thème de l\'application</string>
     <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatique par heure</item>
         <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
+        <item name="pref_theme_array1">Thème lumière</item>
         <item name="pref_theme_array1">Thème clair</item>
+        <item name="pref_theme_array2">Thème sombre</item>
         <item name="pref_theme_array2">Thème sombre</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Redémarrage nécessaire</string>
@@ -234,7 +237,7 @@
     <string name="pref_opensource_m">Détails des licences des logiciels open-source</string>
     <string name="pref_appversion">Version de l\'application</string>
     <string name="pref_developers_t">Les développeurs</string>
-    <string name="pref_more_apps_t">Plus sur nos applications </string>
+    <string name="pref_more_apps_t">Plus sur nos applications</string>
     <string name="pref_more_apps_m">Notre page Play Store</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Pour confirmer, tapez sur une couleur</string>
@@ -252,4 +255,9 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
+    <string name="nothing_found">rien n\'a été trouvé</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s secondes</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s minutes</string>
 </resources>

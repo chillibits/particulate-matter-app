@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -22,11 +18,11 @@
     <string name="exit">Wyjście</string>
     <string name="settings">Ustawienia</string>
     <string name="no_data">Brak danych</string>
-    <string name="loading">Ładowanie …</string>
-    <string name="loading_data">Ładowanie danych …</string>
+    <string name="loading">Ładowanie ...</string>
+    <string name="loading_data">Ładowanie danych ...</string>
     <string name="internet_is_not_available">Internet niedostępny</string>
     <string name="activate_wlan">Aktywuj WiFi</string>
-    <string name="please_wait_">Proszę czekać …</string>
+    <string name="please_wait_">Proszę czekać ...</string>
     <string name="error_try_again">Wystąpił błąd. Spróbuj ponownie</string>
     <string name="offline_t">Serwer offline</string>
     <string name="offline_m">Serwer jest w trybie offline. Gdy serwer jest w trybie offline, nie możesz uzyskać dostępu do swoich danych.</string>
@@ -79,7 +75,7 @@
     <string name="scan_prompt">Otwórz https://pm.mrgames-server.de w twoim komputerze.</string>
     <string name="successfully_connected">Połączenie udane</string>
     <string name="sync_disconnected">Rozłączono</string>
-    <string name="search_places">Podaj miejsce …</string>
+    <string name="search_places">Podaj miejsce ...</string>
     <!-- AddSensorActivity -->
     <string name="done">Gotowe</string>
     <string name="name_">Wyświetlana nazwa:</string>
@@ -131,8 +127,8 @@
     <string name="hybrid">Hybrydowy</string>
     <string name="traffic_show">Pokaż ruch</string>
     <string name="traffic_hide">Ukryj ruch</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Limit przekroczony</string>
     <string name="limit_exceeded_p1">PM10 Limit przekroczony</string>
     <string name="limit_exceeded_p2">PM2,5 Limit przekroczony</string>
@@ -172,12 +168,18 @@
     <string name="pref_theme">Motyw</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">Automatycznie według czasu</item>
+        <item name="pref_theme_array0">Automatycznie według czasu</item>
         <item name="pref_theme_array1">Jasny schemat</item>
+        <item name="pref_theme_array1">Jasny schemat</item>
+        <item name="pref_theme_array2">Ciemny schemat</item>
         <item name="pref_theme_array2">Ciemny schemat</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Potrzebny restart</string>
@@ -253,4 +255,9 @@
     <string name="please_select_at_least_one_sensor">Wybierz co najmniej jeden sensor</string>
     <string name="scan_qr_code_prompt">Proszę zeskanować kod QR</string>
     <string name="share_qr_code">Udostępnij kod QR</string>
+    <string name="nothing_found">Nic nie znaleziono</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s sekundy</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s minuty</string>
 </resources>

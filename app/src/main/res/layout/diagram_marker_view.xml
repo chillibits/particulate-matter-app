@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="110dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/infowindow_background"
+    android:background="@drawable/info_window_background"
     android:padding="3dp">
 
     <TextView

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -27,7 +23,7 @@
     <string name="internet_is_not_available">Internet niet beschikbaar</string>
     <string name="activate_wlan">WIFI Activeren</string>
     <string name="please_wait_">Wacht AUB</string>
-    <string name="error_try_again">Fout opgetreden. Probeer opnieuw</string>
+    <string name="error_try_again">Er is een fout opgetreden. Probeer opnieuw</string>
     <string name="offline_t">Server offline</string>
     <string name="offline_m">De server is offline. Als de server offline is, zijn je gegevens niet beschikbaar.</string>
     <string name="maintenance_t">Server onderhoud</string>
@@ -54,11 +50,11 @@
     <string name="really_unlink_sensor_2">\'?</string>
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
-    <string name="rate_m">Beoordeel de Particulate Matter App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
-    <string name="recommend_string">De Particulate Matter App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="rate_m">Beoordeel de Fijnstof App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
+    <string name="recommend_string">De Fijnstof App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: \nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Aanbevolen</string>
     <string name="recommend_app">aanbevolen app</string>
-    <string name="recommend_m">Beveel de Particulate Matter app aan bij je vrienden!</string>
+    <string name="recommend_m">Beveel de Fijnstof app aan bij je vrienden!</string>
     <string name="rate">Beoordeel</string>
     <string name="add_own_sensor">Voeg je eigen sensor toe</string>
     <string name="my_favourites">Mijn favorieten</string>
@@ -104,8 +100,8 @@
     <!-- SensorActivity -->
     <string name="date">Datum</string>
     <string name="tab_diagram">Diagram</string>
-    <string name="tab_data">Gegevensbestanden</string>
-    <string name="refresh">verversen</string>
+    <string name="tab_data">Eerdere metingen</string>
+    <string name="refresh">Verversen</string>
     <string name="no_data_date">Geen gegevens beschikbaar voor deze datum</string>
     <string name="diagram_instruction">Tik op de grafiek om deze in volledig scherm weer te geven</string>
     <string name="date_time">Tijd</string>
@@ -124,64 +120,70 @@
     <string name="export_diagram">Exporteer diagram</string>
     <string name="export_data_records">Exporteer gegevensbestanden</string>
     <string name="share_sensor">Deel sensor</string>
-    <string name="median">Gemiddelde</string>
+    <string name="median">Mediaan</string>
     <string name="normal">Normaal</string>
     <string name="terrain">Terrein</string>
     <string name="satellite">Satelliet</string>
     <string name="hybrid">Hybride</string>
     <string name="traffic_show">Toon verkeer</string>
     <string name="traffic_hide">Verberg verkeer</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Limiet overschreden</string>
     <string name="limit_exceeded_p1">PM10-limiet overschreden</string>
-    <string name="limit_exceeded_p2">PM2,5-limiet overschreden</string>
+    <string name="limit_exceeded_p2">PM2,5 limiet overschreden</string>
     <string name="limit_exceeded_temp">Temperatuurgrens overschreden</string>
-    <string name="limit_exceeded_humidity">Luchtvochtigheidsgrens overschreden</string>
-    <string name="limit_exceeded_pressure">Druklimiet overschreden</string>
-    <string name="sensor_breakdown">Sensorafbraak</string>
+    <string name="limit_exceeded_humidity">\nLuchtvochtigheidsgrens overschreden</string>
+    <string name="limit_exceeded_pressure">Luchtdruklimiet overschreden</string>
+    <string name="sensor_breakdown">Sensor fout</string>
     <!-- NotificationChannels -->
     <string name="nc_system_name">Systeemmeldingen</string>
-    <string name="nc_system_description">Systeemmeldingen van de Particulate Matter-app.</string>
-    <string name="nc_limit_name">Limiet overschrijdingen</string>
+    <string name="nc_system_description">\nSysteemmeldingen van de Fijnstof app.</string>
+    <string name="nc_limit_name">\nLimiet overschrijdingen</string>
     <string name="nc_limit_description">Geef meldingen weer in de statusbalk wanneer een van de aangepaste limieten wordt overschreden.</string>
     <string name="nc_missing_measurements_name">Ontbrekende metingen</string>
-    <string name="nc_missing_measurements_description">Toont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
+    <string name="nc_missing_measurements_description">\nToont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
     <!-- Feature Settings -->
     <string name="pref_header_features">Kenmerken</string>
     <string name="enable_daily_average">Toon dagelijks gemiddelde</string>
     <string name="enable_daily_median">Toon dagelijkse mediaan</string>
     <string name="enable_daily_average_median_s">Wordt weergegeven onder de gegevensbestanden</string>
-    <string name="enable_nothing">Schakel gemiddelde / mediaan uit</string>
-    <string name="enable_auto_correction_t">Automatische foutcorrectie</string>
-    <string name="enable_auto_correction_s">Automatische correctie van defecte metingen</string>
+    <string name="enable_nothing">\nSchakel gemiddelde / mediaan uit</string>
+    <string name="enable_auto_correction_t">\nAutomatische foutcorrectie</string>
+    <string name="enable_auto_correction_s">Automatische correctie van foute metingen</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisatie</string>
     <string name="sync_cycle">Synchronisatiecyclus</string>
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
     <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
-    <string name="seconds">secondes</string>
+    <string name="seconds">seconden</string>
     <string name="second">seconde</string>
     <string name="minutes">minuten</string>
     <string name="minute">minuut</string>
     <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
-    <string name="pref_header_appearance">Verschijning</string>
+    <string name="pref_header_appearance">Uiterlijk</string>
     <string name="pref_theme">App-Thema</string>
     <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatisch door tijd</item>
         <item name="pref_theme_array0">Automatisch op tijd</item>
         <item name="pref_theme_array1">Licht thema</item>
+        <item name="pref_theme_array1">Licht thema</item>
+        <item name="pref_theme_array2">Donker thema</item>
         <item name="pref_theme_array2">Donker thema</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Herstart nodig</string>
-    <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wilt u nu of later opnieuw opstarten?</string>
+    <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
     <string name="now">Nu</string>
     <string name="later">Later</string>
     <!-- Notification Settings -->
@@ -190,14 +192,14 @@
     <string name="pref_notification_averages_s_true">Melding, wanneer het daggemiddelde de vastgestelde waarde overschrijdt</string>
     <string name="pref_notification_averages_s_false">Melding, wanneer de huidige waarde groter is dan de vastgestelde waarde</string>
     <string name="pref_notification_breakdown">Melding over sensorafbraak</string>
-    <string name="pref_notification_breakdown_s">Melding voor eigen sensoren wanneer breukmetingen opschorten</string>
+    <string name="pref_notification_breakdown_s">Melding voor eigen sensoren wanneer meerdere metingen mislukken</string>
     <string name="pref_notification_breakdown_number">Toegestaan ​​aantal ontbrekende metingen</string>
     <string name="pref_limit_p1">PM10 limiet</string>
     <string name="pref_limit_p1_t">PM10-limiet (μg/m³)</string>
     <string name="pref_limit_p2">PM2,5 limiet</string>
     <string name="pref_limit_p2_t">PM2,5-limiet (μg/m³)</string>
     <string name="pref_limit_temp">Temperatuur limiet</string>
-    <string name="pref_limit_temp_t">Temperatuurlimiet (° C)</string>
+    <string name="pref_limit_temp_t">\nTemperatuurlimiet (° C)</string>
     <string name="pref_limit_humidity">Vochtigheidslimiet</string>
     <string name="pref_limit_humidity_t">Luchtvochtigheid limiet (%)</string>
     <string name="pref_limit_pressure">Luchtdruk limiet</string>
@@ -215,9 +217,9 @@
     <string name="clear_sensor_data_t">Wis sensorgegevens</string>
     <string name="clear_sensor_data_m">Wis gecachte gegevens om opslag te besparen</string>
     <!-- About Settings -->
-    <string name="pref_header_about">Over de Particulate Matter-app</string>
+    <string name="pref_header_about">Over de Fijnstof app</string>
     <string name="pref_serverinfo_t">Serverinfo</string>
-    <string name="pref_serverinfo_downloading_">Downloading serverinfo …</string>
+    <string name="pref_serverinfo_downloading_">Downloaden van de serverinfo ...</string>
     <string name="server_state">Server status</string>
     <string name="client_name">Klantnaam</string>
     <string name="min_app_version">minimale versie</string>
@@ -238,7 +240,7 @@
     <string name="pref_more_apps_t">Meer apps van ons</string>
     <string name="pref_more_apps_m">Onze PlayStore site</string>
     <!-- ColorPickerDialog -->
-    <string name="press_color_to_apply">Druk op Kleur om toe te passen</string>
+    <string name="press_color_to_apply">Druk op de kleur om toe te passen</string>
     <string name="altitude">Hoogte</string>
     <string name="show_gps_data">Toon GPS gegevens</string>
     <string name="show_threshold_who">Toon WHO drempelwaarde</string>
@@ -247,10 +249,15 @@
     <string name="help">Help</string>
     <string name="zoom_in">Zoom in</string>
     <string name="scan_qr_code">Scan QR-code</string>
-    <string name="show_qr_code">Qr-code weergeven</string>
+    <string name="show_qr_code">QR-code weergeven</string>
     <string name="import_xml_file">XML-bestand importeren</string>
     <string name="export_xml_file">XML-bestand exporteren</string>
     <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
-    <string name="scan_qr_code_prompt">Gelieve de qr-code te scannen.</string>
-    <string name="share_qr_code">Deel qr-code</string>
+    <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
+    <string name="share_qr_code">Deel QR-code</string>
+    <string name="nothing_found">niets gevonden</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s seconden</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s minuten</string>
 </resources>

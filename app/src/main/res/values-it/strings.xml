@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Tue, 07 May 2019 22:15:13 +0200
+ Exported at: Mon, 11 Nov 2019 22:14:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -131,8 +127,8 @@
     <string name="hybrid">Ibrido</string>
     <string name="traffic_show">Mostra il traffico</string>
     <string name="traffic_hide">Nascondi il traffico</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Limite superato</string>
     <string name="limit_exceeded_p1">PM10 limite superato</string>
     <string name="limit_exceeded_p2">PM2,5 limite superato</string>
@@ -172,12 +168,18 @@
     <string name="pref_theme">Tema dell\'App</string>
     <string-array name="pref_theme_array">
         <item name="pref_theme_array0">Automatico in base all\'orario</item>
+        <item name="pref_theme_array0">Automatico in base all\\\'orario</item>
         <item name="pref_theme_array1">Tema chiaro</item>
+        <item name="pref_theme_array1">Tema chiaro</item>
+        <item name="pref_theme_array2">Tema scuro</item>
         <item name="pref_theme_array2">Tema scuro</item>
     </string-array>
     <string-array name="pref_theme_array_values">
         <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values0">0</item>
         <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Riavvio necessario</string>
@@ -217,7 +219,7 @@
     <!-- About Settings -->
     <string name="pref_header_about">In merito all\'app. Particulate Matter</string>
     <string name="pref_serverinfo_t">Info sul server</string>
-    <string name="pref_serverinfo_downloading_">Scaricamento informazioni server…</string>
+    <string name="pref_serverinfo_downloading_">Scaricamento informazioni server...</string>
     <string name="server_state">Situazione del server</string>
     <string name="client_name">Nome del client</string>
     <string name="min_app_version">Versione minimale</string>
@@ -253,4 +255,9 @@
     <string name="please_select_at_least_one_sensor">Prego selezionare almeno un sensore</string>
     <string name="scan_qr_code_prompt">Prego scannerizzare il codice qr</string>
     <string name="share_qr_code">Condividere il codice qr</string>
+    <string name="nothing_found">Non abbiamo trovato nulla</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_seconds">%s secondi</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="_minutes">%s minuti</string>
 </resources>

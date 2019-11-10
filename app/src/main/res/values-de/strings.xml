@@ -165,6 +165,8 @@
     <string name="second">Sekunde</string>
     <string name="minutes">Minuten</string>
     <string name="minute">Minute</string>
+    <string name="_seconds">%s seconds</string>
+    <string name="_minutes">%s minutes</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Nur benötigte Daten herunterladen (kann Fehler bei Zeitverschiebung verursachen)</string>
     <!-- Apperance Settings -->
@@ -253,4 +255,6 @@
     <string name="please_select_at_least_one_sensor">Bitte wählen Sie mindestens einen Sensor</string>
     <string name="scan_qr_code_prompt">Bitte scannen Sie den QR-Code.</string>
     <string name="share_qr_code">QR-Code teilen</string>
+    <!-- PlacesSearchDialog -->
+    <string name="nothing_found">Nothing Found</string>
 </resources>
