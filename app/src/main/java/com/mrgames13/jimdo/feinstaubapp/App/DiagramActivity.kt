@@ -9,7 +9,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -26,6 +25,7 @@ import com.mrgames13.jimdo.feinstaubapp.HelpClasses.DiagramMarkerView
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.TimeFormatter
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
+import kotlinx.android.synthetic.main.activity_diagram.*
 import java.util.*
 
 class DiagramActivity : AppCompatActivity() {
@@ -72,7 +72,6 @@ class DiagramActivity : AppCompatActivity() {
 
         try {
             // Initialize diagram
-            val chart = findViewById<LineChart>(R.id.chart)
             chart.setHardwareAccelerationEnabled(true)
             chart.keepScreenOn = true
             chart.isKeepPositionOnRotation = true

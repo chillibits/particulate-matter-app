@@ -23,7 +23,8 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
-import eu.davidea.flipview.FlipView
+import kotlinx.android.synthetic.main.item_sensor.view.*
+import kotlinx.android.synthetic.main.sensor_view_header.view.*
 import org.json.JSONArray
 import java.text.DateFormat
 import java.util.*
@@ -37,20 +38,12 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
     // Variables
     private var clickStart: Long = 0
 
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Components
-        internal val itemIcon: FlipView = itemView.findViewById(R.id.item_icon)
-        internal val itemName: TextView = itemView.findViewById(R.id.item_name)
-        internal val itemId: TextView = itemView.findViewById(R.id.item_id)
-        internal val itemWarning: ImageView = itemView.findViewById(R.id.item_warning)
-        internal val itemMore: ImageView = itemView.findViewById(R.id.item_more)
-    }
+    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private inner class HeaderViewHolder
 
     internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // Variables as objects
-        internal val headerText: TextView = itemView.findViewById(R.id.header_text)
         internal val headerClose: ImageView = itemView.findViewById(R.id.header_close)
     }
 
@@ -74,14 +67,14 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
             // Fill in data
             val sensor = sensors[if (shallShowHeader()) pos - 1 else pos]
 
-            holder.itemIcon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
-            holder.itemName.text = sensor.name
-            holder.itemId.text = activity.getString(R.string.chip_id) + " " + sensor.chipID
+            holder.itemView.item_icon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
+            holder.itemView.item_name.text = sensor.name
+            holder.itemView.item_id.text = activity.getString(R.string.chip_id) + " " + sensor.chipID
 
             holder.itemView.setOnClickListener {
                 if (System.currentTimeMillis() > clickStart + 1000) {
                     if (selectedSensors.size > 0) {
-                        holder.itemIcon.flip(!holder.itemIcon.isFlipped)
+                        holder.itemView.item_icon.flip(!holder.itemView.item_icon.isFlipped)
                     } else {
                         val i = Intent(activity, SensorActivity::class.java)
                         i.putExtra("Name", sensor.name)
@@ -93,23 +86,23 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 }
             }
             holder.itemView.setOnLongClickListener {
-                holder.itemIcon.flip(!holder.itemIcon.isFlipped)
+                holder.itemView.item_icon.flip(!holder.itemView.item_icon.isFlipped)
                 true
             }
-            holder.itemIcon.setOnClickListener { holder.itemIcon.flip(!holder.itemIcon.isFlipped) }
-            holder.itemIcon.setOnLongClickListener {
-                holder.itemIcon.flip(!holder.itemIcon.isFlipped)
+            holder.itemView.item_icon.setOnClickListener { holder.itemView.item_icon.flip(!holder.itemView.item_icon.isFlipped) }
+            holder.itemView.item_icon.setOnLongClickListener {
+                holder.itemView.item_icon.flip(!holder.itemView.item_icon.isFlipped)
                 true
             }
-            holder.itemIcon.setOnFlippingListener { flipView, checked ->
+            holder.itemView.item_icon.setOnFlippingListener { flipView, checked ->
                 if (checked) selectedSensors.add(sensor)
                 if (!checked) selectedSensors.remove(sensor)
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(activity, if (checked) R.color.color_selection else R.color.transparent))
                 activity.updateSelectionMode()
             }
 
-            holder.itemMore.setOnClickListener {
-                val popup = PopupMenu(activity, holder.itemMore)
+            holder.itemView.item_more.setOnClickListener {
+                val popup = PopupMenu(activity, holder.itemView.item_more)
                 popup.inflate(R.menu.menu_sensor_more)
                 popup.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
@@ -238,7 +231,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 popup.show()
             }
 
-            holder.itemMore.visibility = if (su.isSensorExisting(sensor.chipID) && mode == MODE_FAVOURITES) View.GONE else View.VISIBLE
+            holder.itemView.item_more.visibility = if (su.isSensorExisting(sensor.chipID) && mode == MODE_FAVOURITES) View.GONE else View.VISIBLE
             holder.itemView.findViewById<View>(R.id.item_own_sensor).visibility = if (su.isSensorExisting(sensor.chipID) && mode == MODE_FAVOURITES) View.VISIBLE else View.GONE
 
             if (mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.chipID)) { // TODO: Remove this part for the next update
@@ -251,8 +244,8 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                     })
                     if (result == "0") {
                         activity.runOnUiThread {
-                            holder.itemWarning.visibility = View.VISIBLE
-                            holder.itemWarning.setOnClickListener {
+                            holder.itemView.item_warning.visibility = View.VISIBLE
+                            holder.itemView.item_warning.setOnClickListener {
                                 val i = Intent(activity, AddSensorActivity::class.java)
                                 i.putExtra("Mode", AddSensorActivity.MODE_COMPLETE)
                                 i.putExtra("Name", sensor.name)
@@ -265,7 +258,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 }).start()
             }
         } else if (holder is HeaderViewHolder && shallShowHeader()) {
-            holder.headerText.text = activity.getString(R.string.compare_instruction)
+            holder.itemView.header_text.text = activity.getString(R.string.compare_instruction)
             holder.headerClose.setOnClickListener {
                 su.putBoolean("SensorViewHeader", false)
                 activity.refresh()
@@ -285,8 +278,8 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
         Thread(Runnable {
             for (h in viewHolders) {
                 try {
-                    if (h.itemIcon.isFlipped) {
-                        activity.runOnUiThread { h.itemIcon.flip(false) }
+                    if (h.itemView.item_icon.isFlipped) {
+                        activity.runOnUiThread { h.itemView.item_icon.flip(false) }
                         Thread.sleep(100)
                     }
                 } catch (ignored: Exception) {}

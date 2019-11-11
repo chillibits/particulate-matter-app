@@ -20,10 +20,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
-import androidx.appcompat.widget.Toolbar
 import com.google.android.libraries.places.api.model.Place
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor
 import com.mrgames13.jimdo.feinstaubapp.R
@@ -31,24 +32,11 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
 import com.rtchagas.pingplacepicker.PingPlacePicker
+import kotlinx.android.synthetic.main.activity_add_sensor.*
 import net.margaritov.preference.colorpicker.ColorPickerDialog
 import java.util.*
 
 class AddSensorActivity : AppCompatActivity() {
-
-    // Variables as objects
-    private lateinit var toolbar: Toolbar
-    private lateinit var revealView: View
-    private lateinit var revealBackgroundView: View
-    private lateinit var ivColor: ImageView
-    private lateinit var sensorName1: EditText
-    private lateinit var chipId: EditText
-    private lateinit var sensorPublic: SwitchCompat
-    private lateinit var chooseLocation: Button
-    private lateinit var lat: EditText
-    private lateinit var lng: EditText
-    private lateinit var coordinatesInfo: ImageView
-    private lateinit var alt: EditText
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -64,7 +52,6 @@ class AddSensorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_sensor)
 
         // Initialize toolbar
-        toolbar = findViewById(R.id.toolbar)
         toolbar.title = getString(R.string.add_own_sensor)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -84,13 +71,8 @@ class AddSensorActivity : AppCompatActivity() {
         // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this, su)
 
-        // Initialize RevealView
-        revealView = findViewById(R.id.reveal)
-        revealBackgroundView = findViewById(R.id.reveal_background)
-
         // Initialize Components
-        ivColor = findViewById(R.id.sensor_color)
-        ivColor.setOnClickListener { selectNewColor() }
+        sensor_color.setOnClickListener { selectNewColor() }
 
         val chooseColor = findViewById<Button>(R.id.choose_sensor_color)
         chooseColor.setOnClickListener { selectNewColor() }
@@ -98,37 +80,27 @@ class AddSensorActivity : AppCompatActivity() {
         // Initialize randomizer and choose random color
         val random = Random()
         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
-        ivColor.setColorFilter(currentColor, PorterDuff.Mode.SRC)
-
-        sensorName1 = findViewById(R.id.sensor_name_value)
-        chipId = findViewById(R.id.chip_id_value)
+        sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
 
         val info = findViewById<ImageView>(R.id.chip_id_info)
         info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_id_info)))) }
 
-        sensorPublic = findViewById(R.id.sensor_public)
-        sensorPublic.setOnCheckedChangeListener { _, b ->
-            chooseLocation.isEnabled = b
+        sensor_public.setOnCheckedChangeListener { _, b ->
+            choose_location.isEnabled = b
             lat.isEnabled = b
             lng.isEnabled = b
-            alt.isEnabled = b
-            coordinatesInfo.isEnabled = b
+            height_value.isEnabled = b
+            coordinates_info.isEnabled = b
         }
 
-        chooseLocation = findViewById(R.id.choose_location)
-        chooseLocation.setOnClickListener {
+        choose_location.setOnClickListener {
             val builder = PingPlacePicker.IntentBuilder()
             builder.setAndroidApiKey(getString(R.string.maps_api_key))
             builder.setMapsApiKey(getString(R.string.maps_api_key))
             startActivityForResult(builder.build(this@AddSensorActivity), REQ_SELECT_PLACE)
         }
 
-        lat = findViewById(R.id.lat)
-        lng = findViewById(R.id.lng)
-        alt = findViewById(R.id.height_value)
-
-        coordinatesInfo = findViewById(R.id.coordinates_info)
-        coordinatesInfo.setOnClickListener {
+        coordinates_info.setOnClickListener {
             val d = AlertDialog.Builder(this@AddSensorActivity)
                     .setCancelable(true)
                     .setTitle(R.string.app_name)
@@ -142,13 +114,13 @@ class AddSensorActivity : AppCompatActivity() {
         val i = intent
         if (i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_EDIT) {
             mode = MODE_EDIT
-            sensorName1.setText(i.getStringExtra("Name"))
-            chipId.setText(i.getStringExtra("ID"))
-            chipId.isEnabled = false
+            sensor_name_value.setText(i.getStringExtra("Name"))
+            chip_id_value.setText(i.getStringExtra("ID"))
+            chip_id_value.isEnabled = false
             currentColor = i.getIntExtra("Color", currentColor)
-            ivColor.setColorFilter(currentColor, PorterDuff.Mode.SRC)
+            sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
             toolbar.setTitle(R.string.edit_sensor)
-            sensorPublic.isChecked = false
+            sensor_public.isChecked = false
             findViewById<View>(R.id.additional_info).visibility = View.GONE
 
             if (i.hasExtra("Target")) target = i.getIntExtra("Target", TARGET_OWN_SENSOR)
@@ -158,13 +130,13 @@ class AddSensorActivity : AppCompatActivity() {
             infoText.movementMethod = LinkMovementMethod.getInstance()
         } else if (i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_COMPLETE) {
             mode = MODE_COMPLETE
-            sensorName1.setText(i.getStringExtra("Name"))
-            chipId.setText(i.getStringExtra("ID"))
-            chipId.isEnabled = false
+            sensor_name_value.setText(i.getStringExtra("Name"))
+            chip_id_value.setText(i.getStringExtra("ID"))
+            chip_id_value.isEnabled = false
             currentColor = i.getIntExtra("Color", currentColor)
-            ivColor.setColorFilter(currentColor, PorterDuff.Mode.SRC)
+            sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
             toolbar.setTitle(R.string.complete_sensor)
-            chooseLocation.requestFocus()
+            choose_location.requestFocus()
 
             val d = AlertDialog.Builder(this)
                     .setCancelable(true)
@@ -200,7 +172,7 @@ class AddSensorActivity : AppCompatActivity() {
         colorPicker.setOnColorChangedListener { color ->
             currentColor = color
             animateToolAndStatusBar(color)
-            ivColor.setColorFilter(color, PorterDuff.Mode.SRC)
+            sensor_color.setColorFilter(color, PorterDuff.Mode.SRC)
         }
         colorPicker.show()
     }
@@ -208,23 +180,23 @@ class AddSensorActivity : AppCompatActivity() {
     private fun animateToolAndStatusBar(toColor: Int) {
         // Show animation for statusBar and toolbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val animator = ViewAnimationUtils.createCircularReveal(revealView, toolbar.width / 2, toolbar.height / 2, 0f, (toolbar.width / 2 + 50).toFloat())
+            val animator = ViewAnimationUtils.createCircularReveal(reveal, toolbar.width / 2, toolbar.height / 2, 0f, (toolbar.width / 2 + 50).toFloat())
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
-                    revealView.setBackgroundColor(toColor)
+                    reveal.setBackgroundColor(toColor)
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
-                    revealBackgroundView.setBackgroundColor(toColor)
+                    reveal_background.setBackgroundColor(toColor)
                 }
             })
 
             animator.duration = 480
             animator.start()
-            revealView.visibility = View.VISIBLE
+            reveal.visibility = View.VISIBLE
         } else {
-            revealView.setBackgroundColor(toColor)
-            revealBackgroundView.setBackgroundColor(toColor)
+            reveal.setBackgroundColor(toColor)
+            reveal_background.setBackgroundColor(toColor)
         }
     }
 
@@ -234,18 +206,18 @@ class AddSensorActivity : AppCompatActivity() {
             val place: Place? = PingPlacePicker.getPlace(data!!)
             lat.setText(Tools.round(place?.latLng!!.latitude, 5).toString())
             lng.setText(Tools.round(place.latLng!!.longitude, 5).toString())
-            chooseLocation.text = place.name
+            choose_location.text = place.name
         }
     }
 
     private fun addSensor(item: MenuItem) {
-        val chipId = this.chipId.text.toString().trim { it <= ' ' }
-        val sensorName = this.sensorName1.text.toString().trim { it <= ' ' }
+        val chipId = this.chip_id_value.text.toString().trim { it <= ' ' }
+        val sensorName = this.sensor_name_value.text.toString().trim()
         val lat = this.lat.text.toString()
         val lng = this.lng.text.toString()
-        val alt = this.alt.text.toString()
+        val alt = this.height_value.text.toString()
 
-        if (chipId.isNotEmpty() && sensorName.isNotEmpty() && (!sensorPublic.isChecked || lat.isNotEmpty() && lng.isNotEmpty() && alt.isNotEmpty())) {
+        if (chipId.isNotEmpty() && sensorName.isNotEmpty() && (!sensor_public.isChecked || lat.isNotEmpty() && lng.isNotEmpty() && alt.isNotEmpty())) {
             if (mode == MODE_NEW) {
                 if (!su.isSensorExisting(chipId)) {
                     val pd = ProgressDialog(this)
@@ -265,7 +237,7 @@ class AddSensorActivity : AppCompatActivity() {
                             pd.dismiss()
                             if (java.lang.Boolean.parseBoolean(result)) {
                                 // Possibly add sensor on server
-                                if (sensorPublic.isChecked) {
+                                if (sensor_public.isChecked) {
                                     result = smu.sendRequest(null, object : HashMap<String, String>() {
                                         init {
                                             put("command", "addsensor")

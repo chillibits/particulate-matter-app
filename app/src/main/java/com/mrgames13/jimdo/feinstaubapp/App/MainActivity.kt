@@ -34,7 +34,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -67,6 +66,8 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterMain
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_import_export.view.*
+import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.json.JSONArray
 import java.nio.charset.StandardCharsets
@@ -203,8 +204,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
                 if (nightModeFlags == UI_MODE_NIGHT_YES) {
-                    (d.findViewById<View>(R.id.search_edit_text)?.parent as View).setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark))
-                    d.findViewById<View>(R.id.recyclerFrame)?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark))
+                    (d.search_edit_text.parent as View).setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark))
+                    d.recyclerFrame.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_dark))
                 }
                 d.show()
             } else if (view_pager.currentItem == 2) {
@@ -421,8 +422,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 .create()
         d.show()
 
-        val importQr = v.findViewById<RelativeLayout>(R.id.import_qr)
-        importQr.setOnClickListener {
+        v.import_qr.setOnClickListener {
             Handler().postDelayed({
                 d.dismiss()
                 val integrator = IntentIntegrator(this@MainActivity)
@@ -434,8 +434,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 integrator.initiateScan()
             }, 200)
         }
-        val exportQr = v.findViewById<RelativeLayout>(R.id.export_qr)
-        exportQr.setOnClickListener {
+        v.export_qr.setOnClickListener {
             Handler().postDelayed({
                 d.dismiss()
 
@@ -475,8 +474,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 }
             }, 200)
         }
-        val importXml = v.findViewById<RelativeLayout>(R.id.import_xml)
-        importXml.setOnClickListener {
+        v.import_xml.setOnClickListener {
             Handler().postDelayed({
                 d.dismiss()
                 val properties = DialogProperties()
@@ -495,8 +493,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 dialog.show()
             }, 200)
         }
-        val exportXml = v.findViewById<RelativeLayout>(R.id.export_xml)
-        exportXml.setOnClickListener {
+        v.export_xml.setOnClickListener {
             Handler().postDelayed({
                 d.dismiss()
                 su.exportXMLFile()

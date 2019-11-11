@@ -21,8 +21,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
@@ -37,7 +35,11 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
 import com.mrgames13.jimdo.feinstaubapp.ViewPagerAdapters.ViewPagerAdapterSensor
 import com.mrgames13.jimdo.feinstaubapp.WidgetComponents.WidgetProvider
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.container
+import kotlinx.android.synthetic.main.activity_main.view_pager
+import kotlinx.android.synthetic.main.activity_sensor.*
+import kotlinx.android.synthetic.main.dialog_share.view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
@@ -69,7 +71,6 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         setContentView(R.layout.activity_sensor)
 
         // Initialize toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -113,7 +114,6 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout
-        val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         tabLayout.setupWithViewPager(view_pager)
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -138,21 +138,14 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             selected_day_timestamp = current_day_timestamp
         }
 
-        // Initialize card component
-        val cardDateValue = findViewById<TextView>(R.id.card_date_value)
-        val cardDateEdit = findViewById<ImageView>(R.id.card_date_edit)
-        cardDateToday = findViewById(R.id.card_date_today)
-        val cardDateBack = findViewById<ImageView>(R.id.card_date_back)
-        cardDateNext = findViewById(R.id.card_date_next)
-
-        cardDateValue.text = sdfDate.format(calendar.time)
-        cardDateValue.setOnClickListener {
+        card_date_value.text = sdfDate.format(calendar.time)
+        card_date_value.setOnClickListener {
             // Select date
-            chooseDate(cardDateValue)
+            chooseDate(card_date_value)
         }
-        cardDateEdit.setOnClickListener {
+        card_date_edit.setOnClickListener {
             // Select date
-            chooseDate(cardDateValue)
+            chooseDate(card_date_value)
         }
         cardDateToday.setOnClickListener {
             // Set date to the current day
@@ -162,7 +155,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             calendar.set(Calendar.SECOND, 0)
             calendar.set(Calendar.MILLISECOND, 0)
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
             cardDateNext.isEnabled = false
             cardDateToday.isEnabled = false
@@ -170,12 +163,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // Load data for selected date
             loadData()
         }
-        cardDateBack.setOnClickListener {
+        card_date_back.setOnClickListener {
             // Go to previous day
             calendar.add(Calendar.DATE, -1)
 
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
             currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -193,7 +186,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             calendar.add(Calendar.DATE, 1)
 
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
             currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -327,7 +320,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                     records.addAll(smu.manageDownloadsRecords(sensor.chipID, from, to)!!)
                 } else {
                     // Internet is not available
-                    smu.checkConnection(findViewById(R.id.container))
+                    smu.checkConnection(container)
                 }
             }
 
@@ -370,7 +363,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     private fun checkSensorAvailability() {
         if (!su.getBoolean("DontShowAgain_" + sensor.chipID) && smu.isInternetAvailable) {
             Thread(Runnable {
-                val result = smu.sendRequest(findViewById(R.id.container), object : HashMap<String, String>() {
+                val result = smu.sendRequest(container, object : HashMap<String, String>() {
                     init {
                         put("command", "issensordataexisting")
                         put("chip_id", sensor.chipID)
@@ -399,15 +392,13 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 .create()
         d.show()
 
-        val shareSensor = v.findViewById<ConstraintLayout>(R.id.share_sensor)
-        shareSensor.setOnClickListener {
+        v.share_sensor.setOnClickListener {
             Handler().postDelayed({
                 shareSensor()
                 d.dismiss()
             }, 200)
         }
-        val exportDiagram = v.findViewById<ConstraintLayout>(R.id.share_diagram)
-        exportDiagram.setOnClickListener {
+        v.share_diagram.setOnClickListener {
             if (records.size > 0) {
                 if (ContextCompat.checkSelfPermission(this@SensorActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     Handler().postDelayed({
@@ -423,8 +414,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 Toast.makeText(this@SensorActivity, R.string.no_data_date, Toast.LENGTH_SHORT).show()
             }
         }
-        val exportDataRecords = v.findViewById<ConstraintLayout>(R.id.share_data_records)
-        exportDataRecords.setOnClickListener {
+        v.share_data_records.setOnClickListener {
             if (records.size > 0) {
                 if (ContextCompat.checkSelfPermission(this@SensorActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     Handler().postDelayed({

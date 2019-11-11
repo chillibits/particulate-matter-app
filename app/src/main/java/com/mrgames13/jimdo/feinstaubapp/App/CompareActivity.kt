@@ -16,7 +16,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
@@ -24,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
 import com.jjoe64.graphview.DefaultLabelFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -35,7 +33,6 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
 import kotlinx.android.synthetic.main.activity_compare.*
-
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -52,8 +49,6 @@ class CompareActivity : AppCompatActivity() {
     private lateinit var smu: ServerMessagingUtils
     
     // Components
-    private var cardDateNext: ImageView? = null
-    private var cardDateToday: ImageView? = null
     private var noData: Boolean = false
     private var exportOption: Int = 0
     private var firstTime: Long = 0
@@ -102,23 +97,16 @@ class CompareActivity : AppCompatActivity() {
         }
         sensors = intent.getSerializableExtra("Sensors") as ArrayList<Sensor>
 
-        // Initialize components
-        val cardDateValue = findViewById<TextView>(R.id.card_date_value)
-        val cardDateEdit = findViewById<ImageView>(R.id.card_date_edit)
-        cardDateToday = findViewById(R.id.card_date_today)
-        val cardDateBack = findViewById<ImageView>(R.id.card_date_back)
-        cardDateNext = findViewById(R.id.card_date_next)
-
-        cardDateValue.text = sdfDate.format(calendar.time)
-        cardDateValue.setOnClickListener {
+        card_date_value.text = sdfDate.format(calendar.time)
+        card_date_value.setOnClickListener {
             // Select date
-            chooseDate(cardDateValue)
+            chooseDate(card_date_value)
         }
-        cardDateEdit.setOnClickListener {
+        card_date_edit.setOnClickListener {
             // Select date
-            chooseDate(cardDateValue)
+            chooseDate(card_date_value)
         }
-        cardDateToday!!.setOnClickListener {
+        card_date_today.setOnClickListener {
             // Set date to the current day
             calendar.time = Date()
             calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -126,52 +114,52 @@ class CompareActivity : AppCompatActivity() {
             calendar.set(Calendar.SECOND, 0)
             calendar.set(Calendar.MILLISECOND, 0)
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
-            cardDateNext!!.isEnabled = false
-            cardDateToday!!.isEnabled = false
+            card_date_next.isEnabled = false
+            card_date_today.isEnabled = false
 
             // Load data for selected date
             loadData()
         }
-        cardDateBack.setOnClickListener {
+        card_date_back.setOnClickListener {
             // Select previous day
             calendar.add(Calendar.DATE, -1)
 
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
             currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
             currentCalendar.set(Calendar.MINUTE, 0)
             currentCalendar.set(Calendar.SECOND, 0)
             currentCalendar.set(Calendar.MILLISECOND, 0)
-            cardDateNext!!.isEnabled = calendar.before(currentCalendar)
-            cardDateToday!!.isEnabled = calendar.before(currentCalendar)
+            card_date_next.isEnabled = calendar.before(currentCalendar)
+            card_date_today.isEnabled = calendar.before(currentCalendar)
 
             // Load data for selected date
             loadData()
         }
-        cardDateNext!!.setOnClickListener {
+        card_date_next.setOnClickListener {
             // Select next day
             calendar.add(Calendar.DATE, 1)
 
             selected_day_timestamp = calendar.time.time
-            cardDateValue.text = sdfDate.format(calendar.time)
+            card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
             currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
             currentCalendar.set(Calendar.MINUTE, 0)
             currentCalendar.set(Calendar.SECOND, 0)
             currentCalendar.set(Calendar.MILLISECOND, 0)
-            cardDateNext!!.isEnabled = calendar.before(currentCalendar)
-            cardDateToday!!.isEnabled = calendar.before(currentCalendar)
+            card_date_next.isEnabled = calendar.before(currentCalendar)
+            card_date_today.isEnabled = calendar.before(currentCalendar)
 
             // Load data for selected date
             loadData()
         }
-        cardDateNext!!.isEnabled = false
-        cardDateToday!!.isEnabled = false
+        card_date_next.isEnabled = false
+        card_date_today.isEnabled = false
 
         diagram_p1.gridLabelRenderer.numHorizontalLabels = 3
         diagram_p1.gridLabelRenderer.labelFormatter = object : DefaultLabelFormatter() {
@@ -278,8 +266,8 @@ class CompareActivity : AppCompatActivity() {
             calendarNew.set(Calendar.MINUTE, 0)
             calendarNew.set(Calendar.SECOND, 0)
             calendarNew.set(Calendar.MILLISECOND, 0)
-            cardDateNext!!.isEnabled = calendarNew.before(calendar)
-            cardDateToday!!.isEnabled = calendarNew.before(calendar)
+            card_date_next.isEnabled = calendarNew.before(calendar)
+            card_date_today.isEnabled = calendarNew.before(calendar)
 
             selected_day_timestamp = calendarNew.time.time
             card_date_value.text = sdfDate.format(calendarNew.time)

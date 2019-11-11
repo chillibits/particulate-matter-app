@@ -9,7 +9,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
-import eu.davidea.flipview.FlipView
+import kotlinx.android.synthetic.main.item_sensor.view.*
 import java.util.*
 
 class SelectSensorAdapter(private var context: Context, private val su: StorageUtils, private val sensors: ArrayList<Sensor>, private val selection_mode: Int) : RecyclerView.Adapter<SelectSensorAdapter.ViewHolder>() {
@@ -29,18 +28,13 @@ class SelectSensorAdapter(private var context: Context, private val su: StorageU
     private var selectedSensorHolder: ViewHolder? = null
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Variables as objects
-        val itemIcon: FlipView = itemView.findViewById(R.id.item_icon)
-        val itemName: TextView = itemView.findViewById(R.id.item_name)
-        val itemId: TextView = itemView.findViewById(R.id.item_id)
-
         init {
             // Initialize UI components
-            itemView.findViewById<View>(R.id.item_more).visibility = View.GONE
+            itemView.item_more.visibility = View.GONE
         }
 
         internal fun deselect() {
-            itemIcon.flip(false)
+            itemView.item_icon.flip(false)
         }
     }
 
@@ -53,21 +47,21 @@ class SelectSensorAdapter(private var context: Context, private val su: StorageU
         // Fill in data
         val sensor = sensors[pos]
 
-        h.itemIcon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
-        h.itemName.text = sensor.name
-        h.itemId.text = context.getString(R.string.chip_id) + " " + sensor.chipID
+        h.itemView.item_icon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
+        h.itemView.item_name.text = sensor.name
+        h.itemView.item_id.text = context.getString(R.string.chip_id) + " " + sensor.chipID
 
-        h.itemView.setOnClickListener { h.itemIcon.flip(!h.itemIcon.isFlipped) }
+        h.itemView.setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
         h.itemView.setOnLongClickListener {
-            h.itemIcon.flip(!h.itemIcon.isFlipped)
+            h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
             true
         }
-        h.itemIcon.setOnClickListener { h.itemIcon.flip(!h.itemIcon.isFlipped) }
-        h.itemIcon.setOnLongClickListener {
-            h.itemIcon.flip(!h.itemIcon.isFlipped)
+        h.itemView.item_icon.setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
+        h.itemView.item_icon.setOnLongClickListener {
+            h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
             true
         }
-        h.itemIcon.setOnFlippingListener { _, checked ->
+        h.itemView.item_icon.setOnFlippingListener { _, checked ->
             if (checked) {
                 if (selection_mode == MODE_SELECTION_SINGLE) {
                     this@SelectSensorAdapter.h.postDelayed({
@@ -91,7 +85,7 @@ class SelectSensorAdapter(private var context: Context, private val su: StorageU
             h.itemView.setBackgroundColor(ContextCompat.getColor(context, if (checked) R.color.color_selection else R.color.transparent))
         }
 
-        h.itemView.findViewById<View>(R.id.item_own_sensor).visibility = if (su.isSensorExisting(sensor.chipID)) View.VISIBLE else View.GONE
+        h.itemView.item_own_sensor.visibility = if (su.isSensorExisting(sensor.chipID)) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {
