@@ -204,7 +204,7 @@
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
-    <!-- !!!! android:src Muss so bleiben !!!! -->
+    <!-- !!!! Has to be android:src! Don't change this !!!! -->
     <ImageView
         android:id="@+id/widget_refresh"
         android:layout_width="30dp"

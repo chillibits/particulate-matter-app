@@ -122,7 +122,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         return AllSensorsFragment.closeInfoWindow()
     }
 
-    //-------------------------------------------Fragmente------------------------------------------
+    //-------------------------------------------Fragments------------------------------------------
 
     class MyFavouritesFragment : Fragment() {
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -327,8 +327,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             // Zoom to current country
             try {
-                val teleMgr = ViewPagerAdapterMain.activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                val iso = teleMgr.simCountryIso
+                val telManager = ViewPagerAdapterMain.activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                val iso = telManager.simCountryIso
                 current_country = Tools.getLocationFromAddress(ViewPagerAdapterMain.activity, iso)
             } catch (ignored: Exception) {}
 
@@ -451,7 +451,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 .setTitle(R.string.add_favourite)
                                 .setView(v)
                                 .setPositiveButton(R.string.done) { dialogInterface, i ->
-                                    //Neuen Sensor speichern
+                                    // Save new sensor
                                     var nameString: String? = name.text.toString().trim { it <= ' ' }
                                     if (nameString!!.isEmpty()) nameString = marker.tag
                                     su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)

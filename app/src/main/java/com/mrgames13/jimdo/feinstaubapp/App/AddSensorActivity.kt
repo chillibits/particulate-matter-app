@@ -281,7 +281,7 @@ class AddSensorActivity : AppCompatActivity() {
                                         su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, request_from_realtime_sync_service = false)
                                         runOnUiThread {
                                             try {
-                                                MainActivity.own_instance.refresh()
+                                                MainActivity.own_instance?.refresh()
                                             } catch (ignored: Exception) {}
                                             finish()
                                         }
@@ -297,7 +297,7 @@ class AddSensorActivity : AppCompatActivity() {
                                     su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, request_from_realtime_sync_service = false)
                                     runOnUiThread {
                                         try {
-                                            MainActivity.own_instance.refresh()
+                                            MainActivity.own_instance?.refresh()
                                         } catch (ignored: Exception) {}
                                         finish()
                                     }
@@ -330,7 +330,7 @@ class AddSensorActivity : AppCompatActivity() {
                     su.updateOwnSensor(Sensor(chipId, sensorName, currentColor), false)
                 }
                 try {
-                    MainActivity.own_instance.refresh()
+                    MainActivity.own_instance?.refresh()
                 } catch (e: Exception) {}
                 finish()
             } else if (mode == MODE_COMPLETE) {

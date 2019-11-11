@@ -56,7 +56,7 @@ class WebRealtimeSyncService : Service() {
         favourites = su.allFavourites
         ownSensors = su.allOwnSensors
 
-        // Assenble data
+        // Assemble data
         val data = HashMap<String, Any>()
         var objectId = 0
         for (s in favourites) {
@@ -111,8 +111,8 @@ class WebRealtimeSyncService : Service() {
                                     }
                                 }
                             }
-                            MainActivity.own_instance.pager_adapter.refreshFavourites()
-                            MainActivity.own_instance.pager_adapter.refreshMySensors()
+                            MainActivity.own_instance?.pagerAdapter?.refreshFavourites()
+                            MainActivity.own_instance?.pagerAdapter?.refreshMySensors()
                         }
                     }
                 } else {

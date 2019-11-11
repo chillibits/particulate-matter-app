@@ -148,7 +148,7 @@
             </RadioGroup>
 
             <RelativeLayout
-                android:id="@+id/seperator_02"
+                android:id="@+id/divider_02"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/color_selection"
@@ -157,7 +157,7 @@
 
             <RadioGroup
                 android:id="@+id/enable_who_eu"
-                android:layout_below="@+id/seperator_02"
+                android:layout_below="@+id/divider_02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

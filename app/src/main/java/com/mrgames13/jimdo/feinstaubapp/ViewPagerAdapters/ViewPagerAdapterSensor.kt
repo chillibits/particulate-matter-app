@@ -87,7 +87,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
         DataFragment.showGPSData(show)
     }
 
-    //-------------------------------------------Fragmente------------------------------------------
+    //-------------------------------------------Fragments------------------------------------------
 
     class DiagramFragment : Fragment() {
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {

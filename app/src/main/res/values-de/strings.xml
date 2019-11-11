@@ -208,6 +208,7 @@
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
     <string name="measurement">Messung</string>
     <string name="measurements">Messungen</string>
+    <string name="_measurements">%s Messungen</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>

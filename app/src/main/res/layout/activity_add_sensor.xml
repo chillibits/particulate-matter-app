@@ -125,7 +125,7 @@
             android:layout_below="@+id/sensor_color">
 
             <RelativeLayout
-                android:id="@+id/separator_01"
+                android:id="@+id/divider_01"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_light"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/public_sensor"
-                android:layout_below="@+id/separator_01"/>
+                android:layout_below="@+id/divider_01"/>
 
             <Button
                 android:id="@+id/choose_location"
