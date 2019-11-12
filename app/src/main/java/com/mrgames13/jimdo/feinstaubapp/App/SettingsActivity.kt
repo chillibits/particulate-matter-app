@@ -7,7 +7,6 @@ package com.mrgames13.jimdo.feinstaubapp.App
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
-import android.app.ProgressDialog
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
@@ -34,6 +33,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.Constants
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncJobService
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService
@@ -43,10 +43,6 @@ import org.json.JSONArray
 import java.util.*
 
 class SettingsActivity : PreferenceActivity() {
-
-    // Variables as objects
-    private var toolbar: Toolbar? = null
-    private var pd: ProgressDialog? = null
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -66,20 +62,20 @@ class SettingsActivity : PreferenceActivity() {
 
         // Initialize toolbar
         val root = findViewById<View>(android.R.id.list).parent.parent.parent as LinearLayout
-        toolbar = LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false) as Toolbar
-        toolbar?.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
-        toolbar?.title = getString(R.string.settings)
+        val toolbar = LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false) as Toolbar
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        toolbar.title = getString(R.string.settings)
         val upArrow = resources.getDrawable(R.drawable.arrow_back)
         upArrow.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP)
-        toolbar?.navigationIcon = upArrow
+        toolbar.navigationIcon = upArrow
         root.addView(toolbar, 0)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             window.decorView.setOnApplyWindowInsetsListener { v, insets ->
                 listView.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
-                toolbar?.setPadding(0, insets.systemWindowInsetTop, 0, 0)
+                toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
                 insets
             }
         } else {
@@ -87,7 +83,7 @@ class SettingsActivity : PreferenceActivity() {
             AppCompatDelegate.setDefaultNightMode(if (state == 0) AppCompatDelegate.MODE_NIGHT_AUTO_TIME else if (state == 1) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES)
         }
 
-        toolbar?.setNavigationOnClickListener { finish() }
+        toolbar.setNavigationOnClickListener { finish() }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -268,9 +264,10 @@ class SettingsActivity : PreferenceActivity() {
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.yes) { dialogInterface, i ->
                         // Delete sensor data
-                        val pd = ProgressDialog(this@SettingsActivity)
+                        /*val pd = ProgressDialog(this@SettingsActivity)
                         pd.setMessage(getString(R.string.please_wait_))
-                        pd.show()
+                        pd.show()*/
+                        val pd = ProgressDialog(this@SettingsActivity).setMessage(R.string.please_wait_).show()
                         Thread(Runnable {
                             su.deleteAllDataDatabases()
                             su.clearSensorDataMetadata()
@@ -377,14 +374,14 @@ class SettingsActivity : PreferenceActivity() {
 
     private fun getServerInfo(showProgressDialog: Boolean, showResultDialog: Boolean) {
         try {
+            // Create ProgressDialog
+            val pd = ProgressDialog(this)
+                    .setTitle(R.string.pref_serverinfo_t)
+                    .setMessage(R.string.pref_serverinfo_downloading_)
             if (showProgressDialog) {
                 runOnUiThread {
                     // Show ProgressDialog
-                    pd = ProgressDialog(this@SettingsActivity)
-                    pd!!.setMessage(getString(R.string.pref_serverinfo_downloading_))
-                    pd!!.isIndeterminate = true
-                    pd!!.setTitle(getString(R.string.pref_serverinfo_t))
-                    pd!!.show()
+                    pd.show()
                 }
             }
             // Send request to server
@@ -406,7 +403,7 @@ class SettingsActivity : PreferenceActivity() {
                 // Show dialog to display the result
                 if (showResultDialog) {
                     runOnUiThread {
-                        if (showProgressDialog) pd!!.dismiss()
+                        if (pd.isShowing()) pd.dismiss()
                         // Override server info
                         var serverStateDisplay: String? = null
                         if (serverState == 1) serverStateDisplay = getString(R.string.server_state) + ": " + getString(R.string.serverstate_1_short)

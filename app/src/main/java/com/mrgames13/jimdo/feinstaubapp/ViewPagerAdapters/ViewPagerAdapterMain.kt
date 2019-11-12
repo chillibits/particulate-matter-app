@@ -8,7 +8,6 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -52,6 +51,7 @@ import com.mrgames13.jimdo.feinstaubapp.CommonObjects.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.CommonObjects.Sensor
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.MarkerItem
+import com.mrgames13.jimdo.feinstaubapp.HelpClasses.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.HelpClasses.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter
@@ -250,10 +250,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             mapSensorRefresh = contentView.findViewById(R.id.map_sensor_refresh)
             mapSensorRefresh.setOnClickListener {
-                pd = ProgressDialog(activity)
-                pd.setMessage(resources.getString(R.string.loading_data))
-                pd.setCancelable(false)
-                pd.show()
+                pd = ProgressDialog(requireContext()).show()
                 loadAllSensorsNonSync()
             }
 
@@ -716,7 +713,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                             // Draw sensors on the map
                             activity.runOnUiThread {
                                 drawSensorsToMap()
-                                if (pd.isShowing) pd.dismiss()
+                                if (pd.isShowing()) pd.dismiss()
                             }
                         } else {
                             activity.runOnUiThread { pd.dismiss() }
