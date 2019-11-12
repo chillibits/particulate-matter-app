@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +24,7 @@ import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SelectSensorAdapter
 import com.mrgames13.jimdo.feinstaubapp.Services.SyncService
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
+import kotlinx.android.synthetic.main.activity_sensor_selection.*
 import java.util.*
 
 class WidgetConfigurationActivity : AppCompatActivity() {
@@ -79,8 +79,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             sensorView.adapter = sensorViewAdapter
         } else {
             findViewById<View>(R.id.no_data).visibility = View.VISIBLE
-            val btnAddFavourite = findViewById<Button>(R.id.add_sensor)
-            btnAddFavourite.setOnClickListener {
+            add_sensor.setOnClickListener {
                 startActivity(Intent(this@WidgetConfigurationActivity, MainActivity::class.java))
                 finish()
             }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/colorPrimaryTransparent">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimaryTransparent" />
+            <corners android:radius="150dp" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="150dp" />
+            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
+        </shape>
+    </item>
+</ripple>

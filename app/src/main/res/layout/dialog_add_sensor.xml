@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
@@ -13,16 +13,21 @@
         android:text="@string/name_"
         android:gravity="center_vertical"
         android:textSize="17sp"
-        android:layout_alignTop="@+id/sensor_name_value"
-        android:layout_alignBottom="@+id/sensor_name_value" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sensor_name_value"
+        app:layout_constraintBottom_toBottomOf="@+id/sensor_name_value"
+        android:labelFor="@+id/sensor_name_value"/>
 
     <EditText
         android:id="@+id/sensor_name_value"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/sensor_name"
+        app:layout_constraintStart_toEndOf="@+id/sensor_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:inputType="textCapSentences"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginStart="10dp"
+        android:importantForAutofill="no" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,36 +35,42 @@
         android:text="@string/chip_id"
         android:gravity="center_vertical"
         android:textSize="17sp"
-        android:layout_alignTop="@+id/sensor_chip_id_value"
-        android:layout_alignBottom="@+id/sensor_chip_id_value"/>
+        app:layout_constraintTop_toTopOf="@+id/sensor_chip_id_value"
+        app:layout_constraintBottom_toBottomOf="@+id/sensor_chip_id_value"
+        app:layout_constraintStart_toStartOf="parent"
+        android:labelFor="@+id/sensor_chip_id_value"/>
 
     <EditText
         android:id="@+id/sensor_chip_id_value"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/sensor_name"
-        android:layout_marginStart="10dp"
         android:enabled="false"
-        android:layout_below="@+id/sensor_name_value"/>
+        android:inputType="number"
+        android:importantForAutofill="no"
+        app:layout_constraintStart_toStartOf="@+id/sensor_name_value"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_name_value"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sensor_color"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/simple_circle"
-        android:layout_below="@+id/sensor_chip_id_value"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_chip_id_value"
+        app:layout_constraintStart_toStartOf="parent"
         android:elevation="5dp"
         android:clickable="true"
-        android:contextClickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"/>
 
     <Button
         android:id="@+id/choose_sensor_color"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/choose_color"
-        android:layout_toEndOf="@+id/sensor_color"
-        android:layout_below="@+id/sensor_chip_id_value"
+        app:layout_constraintStart_toEndOf="@+id/sensor_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_chip_id_value"
+        android:background="@drawable/button_outline"
+        android:textColor="@color/colorPrimary"
         android:layout_marginStart="10dp"/>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

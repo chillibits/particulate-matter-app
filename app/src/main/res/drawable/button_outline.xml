@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="150dp" />
+            <solid android:color="@color/white_dark" />
+            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="150dp" />
+            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
+        </shape>
+    </item>
+</selector>

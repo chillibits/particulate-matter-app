@@ -58,6 +58,7 @@ import com.mrgames13.jimdo.feinstaubapp.RecyclerViewAdapters.SensorAdapter
 import com.mrgames13.jimdo.feinstaubapp.Utils.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
+import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import net.margaritov.preference.colorpicker.ColorPickerDialog
 import org.json.JSONArray
 import org.json.JSONObject
@@ -430,21 +431,17 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensorLink.setOnClickListener {
                     if (!su.isFavouriteExisting(marker.title) && !su.isSensorExisting(marker.title)) {
                         val v = layoutInflater.inflate(R.layout.dialog_add_sensor, null)
-                        val name = v.findViewById<EditText>(R.id.sensor_name_value)
-                        val chipId = v.findViewById<EditText>(R.id.sensor_chip_id_value)
-                        val chooseColor = v.findViewById<Button>(R.id.choose_sensor_color)
-                        val sensorColor = v.findViewById<ImageView>(R.id.sensor_color)
 
-                        name.hint = marker.tag
-                        chipId.setText(marker.title)
+                        v.sensor_name_value.hint = marker.tag
+                        v.sensor_chip_id_value.setText(marker.title)
 
                         // Initialize randomizer and generate random color
                         random = Random()
                         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
-                        sensorColor.setColorFilter(currentColor, PorterDuff.Mode.SRC)
+                        v.sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
 
-                        sensorColor.setOnClickListener { chooseColor(sensorColor) }
-                        chooseColor.setOnClickListener { chooseColor(sensorColor) }
+                        v.sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
+                        v.choose_sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
 
                         val d = AlertDialog.Builder(ViewPagerAdapterMain.activity)
                                 .setCancelable(true)
@@ -452,7 +449,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 .setView(v)
                                 .setPositiveButton(R.string.done) { dialogInterface, i ->
                                     // Save new sensor
-                                    var nameString: String? = name.text.toString().trim { it <= ' ' }
+                                    var nameString: String? = v.sensor_name_value.text.toString().trim()
                                     if (nameString!!.isEmpty()) nameString = marker.tag
                                     su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
                                     MyFavouritesFragment.refresh()

@@ -3,26 +3,30 @@
   ~ Copyright © 2019 Marc Auberer. All rights reserved.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WidgetComponents.WidgetConfigurationActivity">
 
     <include layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sensors"
-        android:layout_below="@+id/toolbar"
-        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/no_data"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone">
 
         <TextView
@@ -31,15 +35,22 @@
             android:layout_height="wrap_content"
             android:text="@string/widget_no_data"
             android:gravity="center"
-            android:layout_centerHorizontal="true"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
             android:id="@+id/add_sensor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_favourite"
-            android:layout_below="@+id/no_data_text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"/>
-    </RelativeLayout>
-</RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/no_data_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:background="@drawable/button_outline"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="15dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

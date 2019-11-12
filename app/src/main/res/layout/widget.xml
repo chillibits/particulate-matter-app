@@ -201,6 +201,10 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/no_id_text"
             android:text="@string/widget_select_sensor"
+            android:background="@drawable/button_outline"
+            android:backgroundTint="@color/white_dark"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
 

@@ -143,6 +143,6 @@ class WebRealtimeSyncService : Service() {
         private lateinit var ref: DatabaseReference
 
         // Variables
-        lateinit var own_instance: WebRealtimeSyncService
+        var own_instance: WebRealtimeSyncService? = null
     }
 }

@@ -185,7 +185,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         addRecord(TABLE_SENSORS, values)
         putBoolean(sensor.chipID + "_offline", offline)
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun getSensor(chip_id: String): Sensor? {
@@ -208,14 +208,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     fun updateOwnSensor(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
         execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun removeOwnSensor(chip_id: String, request_from_realtime_sync_service: Boolean) {
         val db = writableDatabase
         db.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chip_id))
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun isSensorInOfflineMode(chip_id: String): Boolean {
@@ -231,7 +231,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         values.put("sensor_color", sensor.color)
         addRecord(TABLE_FAVOURITES, values)
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun isFavouriteExisting(chip_id: String): Boolean {
@@ -245,14 +245,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     fun updateFavourite(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
         execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun removeFavourite(chip_id: String, request_from_realtime_sync_service: Boolean) {
         val db = writableDatabase
         db.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chip_id))
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance.refresh(context)
+        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     //---------------------------------------Externe Sensoren---------------------------------------

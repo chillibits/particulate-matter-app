@@ -4,8 +4,6 @@
 
 package com.mrgames13.jimdo.feinstaubapp.App
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -19,10 +17,6 @@ import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewAnimationUtils
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.model.Place
@@ -33,6 +27,7 @@ import com.mrgames13.jimdo.feinstaubapp.Utils.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.Utils.Tools
 import com.rtchagas.pingplacepicker.PingPlacePicker
 import kotlinx.android.synthetic.main.activity_add_sensor.*
+import kotlinx.android.synthetic.main.toolbar.*
 import net.margaritov.preference.colorpicker.ColorPickerDialog
 import java.util.*
 
@@ -54,7 +49,7 @@ class AddSensorActivity : AppCompatActivity() {
         // Initialize toolbar
         toolbar.title = getString(R.string.add_own_sensor)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
@@ -74,21 +69,17 @@ class AddSensorActivity : AppCompatActivity() {
         // Initialize Components
         sensor_color.setOnClickListener { selectNewColor() }
 
-        val chooseColor = findViewById<Button>(R.id.choose_sensor_color)
-        chooseColor.setOnClickListener { selectNewColor() }
+        choose_sensor_color.setOnClickListener { selectNewColor() }
 
         // Initialize randomizer and choose random color
         val random = Random()
         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
         sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
 
-        val info = findViewById<ImageView>(R.id.chip_id_info)
-        info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_id_info)))) }
+        chip_id_info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_id_info)))) }
 
         sensor_public.setOnCheckedChangeListener { _, b ->
             choose_location.isEnabled = b
-            lat.isEnabled = b
-            lng.isEnabled = b
             height_value.isEnabled = b
             coordinates_info.isEnabled = b
         }
@@ -121,13 +112,12 @@ class AddSensorActivity : AppCompatActivity() {
             sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
             toolbar.setTitle(R.string.edit_sensor)
             sensor_public.isChecked = false
-            findViewById<View>(R.id.additional_info).visibility = View.GONE
+            additional_info.visibility = View.GONE
 
             if (i.hasExtra("Target")) target = i.getIntExtra("Target", TARGET_OWN_SENSOR)
 
-            findViewById<View>(R.id.edit_position_info).visibility = View.VISIBLE
-            val infoText = findViewById<TextView>(R.id.edit_position_info_text)
-            infoText.movementMethod = LinkMovementMethod.getInstance()
+            edit_position_info.visibility = View.VISIBLE
+            edit_position_info_text.movementMethod = LinkMovementMethod.getInstance()
         } else if (i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_COMPLETE) {
             mode = MODE_COMPLETE
             sensor_name_value.setText(i.getStringExtra("Name"))
@@ -171,33 +161,9 @@ class AddSensorActivity : AppCompatActivity() {
         colorPicker.setTitle(getString(R.string.choose_color))
         colorPicker.setOnColorChangedListener { color ->
             currentColor = color
-            animateToolAndStatusBar(color)
             sensor_color.setColorFilter(color, PorterDuff.Mode.SRC)
         }
         colorPicker.show()
-    }
-
-    private fun animateToolAndStatusBar(toColor: Int) {
-        // Show animation for statusBar and toolbar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val animator = ViewAnimationUtils.createCircularReveal(reveal, toolbar.width / 2, toolbar.height / 2, 0f, (toolbar.width / 2 + 50).toFloat())
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator) {
-                    reveal.setBackgroundColor(toColor)
-                }
-
-                override fun onAnimationEnd(animation: Animator) {
-                    reveal_background.setBackgroundColor(toColor)
-                }
-            })
-
-            animator.duration = 480
-            animator.start()
-            reveal.visibility = View.VISIBLE
-        } else {
-            reveal.setBackgroundColor(toColor)
-            reveal_background.setBackgroundColor(toColor)
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -211,7 +177,7 @@ class AddSensorActivity : AppCompatActivity() {
     }
 
     private fun addSensor(item: MenuItem) {
-        val chipId = this.chip_id_value.text.toString().trim { it <= ' ' }
+        val chipId = this.chip_id_value.text.toString().trim()
         val sensorName = this.sensor_name_value.text.toString().trim()
         val lat = this.lat.text.toString()
         val lng = this.lng.text.toString()
@@ -228,7 +194,7 @@ class AddSensorActivity : AppCompatActivity() {
                     if (smu.isInternetAvailable) {
                         Thread(Runnable {
                             //Check, if data already is available on server
-                            var result = smu.sendRequest(findViewById(R.id.container), object : HashMap<String, String>() {
+                            var result = smu.sendRequest(container, object : HashMap<String, String>() {
                                 init {
                                     put("command", "issensordataexisting")
                                     put("chipId", chipId)

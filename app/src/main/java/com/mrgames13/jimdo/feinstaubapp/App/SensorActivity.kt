@@ -17,7 +17,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -52,8 +51,6 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     // Variables as objects
     private lateinit var viewPagerAdapter: ViewPagerAdapterSensor
     private lateinit var calendar: Calendar
-    private lateinit var cardDateNext: ImageView
-    private lateinit var cardDateToday: ImageView
     private var progressMenuItem: MenuItem? = null
     private lateinit var service: ScheduledExecutorService
     private lateinit var sensor: Sensor
@@ -147,7 +144,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // Select date
             chooseDate(card_date_value)
         }
-        cardDateToday.setOnClickListener {
+        card_date_today.setOnClickListener {
             // Set date to the current day
             calendar.time = Date()
             calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -157,8 +154,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             selected_day_timestamp = calendar.time.time
             card_date_value.text = sdfDate.format(calendar.time)
 
-            cardDateNext.isEnabled = false
-            cardDateToday.isEnabled = false
+            card_date_next.isEnabled = false
+            card_date_today.isEnabled = false
 
             // Load data for selected date
             loadData()
@@ -175,13 +172,13 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             currentCalendar.set(Calendar.MINUTE, 0)
             currentCalendar.set(Calendar.SECOND, 0)
             currentCalendar.set(Calendar.MILLISECOND, 0)
-            cardDateNext.isEnabled = calendar.before(currentCalendar)
-            cardDateToday.isEnabled = calendar.before(currentCalendar)
+            card_date_next.isEnabled = calendar.before(currentCalendar)
+            card_date_today.isEnabled = calendar.before(currentCalendar)
 
             // Load data for selected date
             loadData()
         }
-        cardDateNext.setOnClickListener {
+        card_date_next.setOnClickListener {
             // Go to next day
             calendar.add(Calendar.DATE, 1)
 
@@ -193,14 +190,14 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             currentCalendar.set(Calendar.MINUTE, 0)
             currentCalendar.set(Calendar.SECOND, 0)
             currentCalendar.set(Calendar.MILLISECOND, 0)
-            cardDateNext.isEnabled = calendar.before(currentCalendar)
-            cardDateToday.isEnabled = calendar.before(currentCalendar)
+            card_date_next.isEnabled = calendar.before(currentCalendar)
+            card_date_today.isEnabled = calendar.before(currentCalendar)
 
             // Load data for selected date
             loadData()
         }
-        cardDateNext.isEnabled = false
-        cardDateToday.isEnabled = false
+        card_date_next.isEnabled = false
+        card_date_today.isEnabled = false
 
         // Set refresh period
         val period = Integer.parseInt(su.getString("sync_cycle", Constants.DEFAULT_SYNC_CYCLE.toString()))
@@ -231,8 +228,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             calendarNew.set(Calendar.MINUTE, 0)
             calendarNew.set(Calendar.SECOND, 0)
             calendarNew.set(Calendar.MILLISECOND, 0)
-            cardDateNext.isEnabled = calendarNew.before(calendar)
-            cardDateToday.isEnabled = calendarNew.before(calendar)
+            card_date_next.isEnabled = calendarNew.before(calendar)
+            card_date_today.isEnabled = calendarNew.before(calendar)
 
             selected_day_timestamp = calendarNew.time.time
             card_date_value.text = sdfDate.format(calendarNew.time)

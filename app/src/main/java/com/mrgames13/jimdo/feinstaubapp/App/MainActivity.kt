@@ -255,10 +255,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     override fun onDestroy() {
         super.onDestroy()
         try {
-            WebRealtimeSyncService.own_instance.stop()
-        } catch (ignored: Exception) {
-        }
-
+            WebRealtimeSyncService.own_instance?.stop()
+        } catch (ignored: Exception) {}
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -270,8 +268,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
+        when (item.itemId) {
             R.id.action_settings -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             R.id.action_rate -> rateApp()
             R.id.action_share -> recommendApp()
