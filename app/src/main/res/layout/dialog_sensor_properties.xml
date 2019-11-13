@@ -8,10 +8,11 @@
     android:paddingTop="10dp"
     android:baselineAligned="false">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/sensor_name"
@@ -33,7 +34,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_name"
             android:layout_marginTop="5dp"
             android:text="@string/chip_id"/>
 
@@ -46,7 +46,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_chip_id"
             android:layout_marginTop="5dp"
             android:text="@string/public_short_"/>
 
@@ -60,7 +59,6 @@
             android:singleLine="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="1"
-            android:layout_below="@+id/sensor_public"
             android:layout_marginTop="5dp"
             android:text="@string/online_since_"/>
 
@@ -73,7 +71,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_creation"
             android:layout_marginTop="5dp"
             android:text="@string/latitude_"/>
 
@@ -86,7 +83,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_lat"
             android:layout_marginTop="5dp"
             android:text="@string/longitude_"/>
 
@@ -98,15 +94,15 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_lng"
             android:layout_marginTop="5dp"
             android:text="@string/height_short_"/>
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/sensor_name_value"
@@ -126,7 +122,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_name_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
 
@@ -138,7 +133,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_chip_id_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
 
@@ -150,7 +144,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_public_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
 
@@ -162,7 +155,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_creation_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
 
@@ -174,7 +166,6 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_lat_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
 
@@ -186,8 +177,7 @@
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_below="@+id/sensor_lng_value"
             android:layout_marginTop="5dp"
             android:text="@string/loading"/>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

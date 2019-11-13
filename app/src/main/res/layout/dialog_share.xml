@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/share_sensor"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="?selectableItemBackground"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="horizontal"
+        android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_sensor_image"
@@ -22,34 +21,25 @@
             android:layout_height="60dp"
             android:padding="10dp"
             android:tint="@color/gray_light"
-            app:srcCompat="@drawable/forward"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:srcCompat="@drawable/forward"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:text="@string/share_sensor"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/share_sensor_image"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="@string/share_sensor"/>
+    </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/share_diagram"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/share_sensor"
         android:clickable="true"
         android:focusable="true"
         android:background="?selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@+id/share_sensor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_diagram_image"
@@ -57,34 +47,24 @@
             android:layout_height="60dp"
             android:padding="10dp"
             android:tint="@color/gray_light"
-            app:srcCompat="@drawable/diagram"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:srcCompat="@drawable/diagram"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/export_diagram"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/share_diagram_image"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:gravity="center_vertical"/>
+    </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/share_data_records"
-        android:layout_below="@+id/share_diagram"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="?selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@+id/share_diagram"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/share_data_records_image"
@@ -92,20 +72,14 @@
             android:layout_height="60dp"
             android:padding="10dp"
             android:tint="@color/gray_light"
-            app:srcCompat="@drawable/data_records"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:srcCompat="@drawable/data_records"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:text="@string/export_data_records"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/share_data_records_image"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+</LinearLayout>
