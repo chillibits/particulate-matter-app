@@ -21,7 +21,7 @@ import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
-import com.mrgames13.jimdo.feinstaubapp.ui.adapter.SelectSensorAdapter
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SelectSensorAdapter
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
 import kotlinx.android.synthetic.main.activity_sensor_selection.*
 import java.util.*
@@ -70,7 +70,13 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         sensors.sort()
         if (sensors.size > 0) {
             // Initialize RecyclerView
-            sensorViewAdapter = SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE)
+            sensorViewAdapter =
+                SelectSensorAdapter(
+                    this,
+                    su,
+                    sensors,
+                    SelectSensorAdapter.MODE_SELECTION_SINGLE
+                )
             sensor_view.setItemViewCacheSize(100)
             sensor_view.layoutManager = LinearLayoutManager(this)
             sensor_view.adapter = sensorViewAdapter

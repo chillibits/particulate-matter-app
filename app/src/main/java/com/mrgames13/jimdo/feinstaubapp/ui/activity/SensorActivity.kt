@@ -34,9 +34,8 @@ import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.NotificationUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
-import com.mrgames13.jimdo.feinstaubapp.ui.adapter.ViewPagerAdapterSensor
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterSensor
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view_pager
 import kotlinx.android.synthetic.main.activity_sensor.*
 import kotlinx.android.synthetic.main.activity_sensor.container
@@ -113,7 +112,13 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 }
             }
         })
-        viewPagerAdapter = ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
+        viewPagerAdapter =
+            ViewPagerAdapterSensor(
+                supportFragmentManager,
+                this@SensorActivity,
+                su,
+                su.getBoolean("ShowGPS_" + sensor.chipID)
+            )
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout

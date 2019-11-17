@@ -57,8 +57,8 @@ import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
 import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.service.WebRealtimeSyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.*
-import com.mrgames13.jimdo.feinstaubapp.ui.adapter.SensorAdapter
-import com.mrgames13.jimdo.feinstaubapp.ui.adapter.ViewPagerAdapterMain
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SensorAdapter
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feinstaubapp.ui.view.PlacesSearchDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
@@ -112,7 +112,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         // Initialize components
         view_pager.offscreenPageLimit = 3
-        pagerAdapter = ViewPagerAdapterMain(supportFragmentManager, this, su, smu)
+        pagerAdapter = ViewPagerAdapterMain(
+            supportFragmentManager,
+            this,
+            su,
+            smu
+        )
         view_pager.adapter = pagerAdapter
         view_pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(pos: Int) {

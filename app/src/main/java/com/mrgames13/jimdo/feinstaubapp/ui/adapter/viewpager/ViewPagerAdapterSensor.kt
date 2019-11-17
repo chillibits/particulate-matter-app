@@ -2,7 +2,7 @@
  * Copyright © 2019 Marc Auberer. All rights reserved.
  */
 
-package com.mrgames13.jimdo.feinstaubapp.ui.adapter
+package com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager
 
 import android.content.Context
 import android.content.Intent
@@ -35,6 +35,7 @@ import com.mrgames13.jimdo.feinstaubapp.tool.TimeFormatter
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.DiagramActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.DataAdapter
 import com.mrgames13.jimdo.feinstaubapp.ui.model.DiagramEntry
 import java.text.SimpleDateFormat
 import java.util.*
@@ -83,7 +84,9 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
     }
 
     fun showGPSData(show: Boolean) {
-        DataFragment.showGPSData(show)
+        DataFragment.showGPSData(
+            show
+        )
     }
 
     //-------------------------------------------Fragments------------------------------------------
@@ -176,7 +179,10 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                         Log.d("FA", String.valueOf(highest));
                         chart.getAxisLeft().setAxisMaximum((float) (highest));*/
 
-                    showGraph(0, value)
+                    showGraph(
+                        0,
+                        value
+                    )
                 }
             })
             custom_p2.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -197,7 +203,10 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                         Log.d("FA", String.valueOf(highest));
                         chart.getAxisLeft().setAxisMaximum((float) (highest));*/
 
-                    showGraph(1, value)
+                    showGraph(
+                        1,
+                        value
+                    )
                 }
             })
             custom_temp.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -209,7 +218,10 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_temp.isVisible = custom_average.isChecked && value
                     med_temp.isVisible = custom_median.isChecked && value
-                    showGraph(2, value)
+                    showGraph(
+                        2,
+                        value
+                    )
                 }
             })
             custom_humidity.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -221,7 +233,10 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_humidity.isVisible = custom_average.isChecked && value
                     med_humidity.isVisible = custom_median.isChecked && value
-                    showGraph(3, value)
+                    showGraph(
+                        3,
+                        value
+                    )
                 }
             })
             custom_pressure.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -233,7 +248,10 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_pressure.isVisible = custom_average.isChecked && value
                     med_pressure.isVisible = custom_median.isChecked && value
-                    showGraph(4, value)
+                    showGraph(
+                        4,
+                        value
+                    )
                 }
             })
             customNothing.setOnCheckedChangeListener { _, checked ->
@@ -316,7 +334,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             cv_pressure = contentView.findViewById(R.id.cv_pressure)
             cv_time = contentView.findViewById(R.id.cv_time)
 
-            listener.onDiagramFragmentLoaded(contentView.findViewById(R.id.diagram_container))
+            listener.onDiagramFragmentLoaded(
+                contentView.findViewById(R.id.diagram_container))
 
             return contentView
         }
@@ -410,7 +429,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     amEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                     amEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                 }
-                val p1Am = getDashedLine(amEntries, R.color.series1)
+                val p1Am =
+                    getDashedLine(
+                        amEntries,
+                        R.color.series1
+                    )
                 p1Am.isVisible = if (enable_average) custom_average.isChecked && custom_p1.isChecked else custom_median.isChecked && custom_p1.isChecked
                 p1Am.axisDependency = YAxis.AxisDependency.LEFT
                 return p1Am
@@ -432,7 +455,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     amEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                     amEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                 }
-                val p2Am = getDashedLine(amEntries, R.color.series2)
+                val p2Am =
+                    getDashedLine(
+                        amEntries,
+                        R.color.series2
+                    )
                 p2Am.isVisible = if (enable_average) custom_average.isChecked && custom_p2.isChecked else custom_median.isChecked && custom_p2.isChecked
                 p2Am.axisDependency = YAxis.AxisDependency.LEFT
                 return p2Am
@@ -454,7 +481,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     amEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                     amEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                 }
-                val tempAm = getDashedLine(amEntries, R.color.series3)
+                val tempAm =
+                    getDashedLine(
+                        amEntries,
+                        R.color.series3
+                    )
                 tempAm.isVisible = if (enable_average) custom_average.isChecked && custom_temp.isChecked else custom_median.isChecked && custom_temp.isChecked
                 tempAm.axisDependency = YAxis.AxisDependency.RIGHT
                 return tempAm
@@ -476,7 +507,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     amEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                     amEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                 }
-                val humidityAm = getDashedLine(amEntries, R.color.series4)
+                val humidityAm =
+                    getDashedLine(
+                        amEntries,
+                        R.color.series4
+                    )
                 humidityAm.isVisible = if (enable_average) custom_average.isChecked && custom_humidity.isChecked else custom_median.isChecked && custom_humidity.isChecked
                 humidityAm.axisDependency = YAxis.AxisDependency.RIGHT
                 return humidityAm
@@ -498,7 +533,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     amEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                     amEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
                 }
-                val pressureAm = getDashedLine(amEntries, R.color.series5)
+                val pressureAm =
+                    getDashedLine(
+                        amEntries,
+                        R.color.series5
+                    )
                 pressureAm.isVisible = if (enable_average) custom_average.isChecked && custom_pressure.isChecked else custom_median.isChecked && custom_pressure.isChecked
                 pressureAm.axisDependency = YAxis.AxisDependency.RIGHT
                 return pressureAm
@@ -514,7 +553,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     thEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), Constants.THRESHOLD_WHO_PM10.toFloat()))
                     thEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), Constants.THRESHOLD_WHO_PM10.toFloat()))
                 }
-                val thP1 = getDashedLine(thEntries, R.color.error)
+                val thP1 =
+                    getDashedLine(
+                        thEntries,
+                        R.color.error
+                    )
                 thP1.isVisible = if (enable_eu_thresholds) custom_threshold_eu.isChecked && custom_p1.isChecked else custom_threshold_who.isChecked && custom_p1.isChecked
                 return thP1
             }
@@ -529,7 +572,11 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     thEntries.add(Entry(((records!![0].dateTime.time - first_timestamp) / 1000).toFloat(), Constants.THRESHOLD_WHO_PM2_5.toFloat()))
                     thEntries.add(Entry(((records!![records!!.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), Constants.THRESHOLD_WHO_PM2_5.toFloat()))
                 }
-                val thP2 = getDashedLine(thEntries, R.color.error)
+                val thP2 =
+                    getDashedLine(
+                        thEntries,
+                        R.color.error
+                    )
                 thP2.isVisible = if (enable_eu_thresholds) custom_threshold_eu.isChecked && custom_p2.isChecked else custom_threshold_who.isChecked && custom_p2.isChecked
                 return thP2
             }
@@ -577,7 +624,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                         // Generic lines
                         // PM1
                         p1 = LineDataSet(entries1, activity.getString(R.string.value1) + " (µg/m³)")
-                        p1.color = ContextCompat.getColor(activity, R.color.series1)
+                        p1.color = ContextCompat.getColor(
+                            activity, R.color.series1)
                         p1.setDrawCircles(false)
                         p1.lineWidth = 1.5f
                         p1.setDrawValues(false)
@@ -586,7 +634,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
 
                         // PM2
                         p2 = LineDataSet(entries2, activity.getString(R.string.value2) + " (µg/m³)")
-                        p2.color = ContextCompat.getColor(activity, R.color.series2)
+                        p2.color = ContextCompat.getColor(
+                            activity, R.color.series2)
                         p2.setDrawCircles(false)
                         p2.lineWidth = 1.5f
                         p2.setDrawValues(false)
@@ -595,7 +644,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
 
                         // Temperature
                         temp = LineDataSet(entries3, activity.getString(R.string.temperature) + " (°C)")
-                        temp.color = ContextCompat.getColor(activity, R.color.series3)
+                        temp.color = ContextCompat.getColor(
+                            activity, R.color.series3)
                         temp.setDrawCircles(false)
                         temp.lineWidth = 1.5f
                         temp.setDrawValues(false)
@@ -604,7 +654,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
 
                         // Humidity
                         humidity = LineDataSet(entries4, activity.getString(R.string.humidity) + " (%)")
-                        humidity.color = ContextCompat.getColor(activity, R.color.series4)
+                        humidity.color = ContextCompat.getColor(
+                            activity, R.color.series4)
                         humidity.setDrawCircles(false)
                         humidity.lineWidth = 1.5f
                         humidity.setDrawValues(false)
@@ -613,7 +664,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
 
                         // Pressure
                         pressure = LineDataSet(entries5, activity.getString(R.string.pressure) + " (hPa)")
-                        pressure.color = ContextCompat.getColor(activity, R.color.series5)
+                        pressure.color = ContextCompat.getColor(
+                            activity, R.color.series5)
                         pressure.setDrawCircles(false)
                         pressure.lineWidth = 1.5f
                         pressure.setDrawValues(false)
@@ -621,48 +673,158 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                         pressure.isVisible = SensorActivity.custom_pressure
 
                         // Averages
-                        av_p1 = getAverageMedianPM1(enable_average = true, enable_median = false, first_timestamp = firstTime)
-                        av_p2 = getAverageMedianPM2(enable_average = true, enable_median = false, first_timestamp = firstTime)
-                        av_temp = getAverageMedianTemperature(enable_average = true, enable_median = false, first_timestamp = firstTime)
-                        av_humidity = getAverageMedianHumidity(enable_average = true, enable_median = false, first_timestamp = firstTime)
-                        av_pressure = getAverageMedianPressure(enable_average = true, enable_median = false, first_timestamp = firstTime)
+                        av_p1 =
+                            getAverageMedianPM1(
+                                enable_average = true,
+                                enable_median = false,
+                                first_timestamp = firstTime
+                            )
+                        av_p2 =
+                            getAverageMedianPM2(
+                                enable_average = true,
+                                enable_median = false,
+                                first_timestamp = firstTime
+                            )
+                        av_temp =
+                            getAverageMedianTemperature(
+                                enable_average = true,
+                                enable_median = false,
+                                first_timestamp = firstTime
+                            )
+                        av_humidity =
+                            getAverageMedianHumidity(
+                                enable_average = true,
+                                enable_median = false,
+                                first_timestamp = firstTime
+                            )
+                        av_pressure =
+                            getAverageMedianPressure(
+                                enable_average = true,
+                                enable_median = false,
+                                first_timestamp = firstTime
+                            )
 
                         // Medians
-                        med_p1 = getAverageMedianPM1(enable_average = false, enable_median = true, first_timestamp = firstTime)
-                        med_p2 = getAverageMedianPM2(enable_average = false, enable_median = true, first_timestamp = firstTime)
-                        med_temp = getAverageMedianTemperature(enable_average = false, enable_median = true, first_timestamp = firstTime)
-                        med_humidity = getAverageMedianHumidity(enable_average = false, enable_median = true, first_timestamp = firstTime)
-                        med_pressure = getAverageMedianPressure(enable_average = false, enable_median = true, first_timestamp = firstTime)
+                        med_p1 =
+                            getAverageMedianPM1(
+                                enable_average = false,
+                                enable_median = true,
+                                first_timestamp = firstTime
+                            )
+                        med_p2 =
+                            getAverageMedianPM2(
+                                enable_average = false,
+                                enable_median = true,
+                                first_timestamp = firstTime
+                            )
+                        med_temp =
+                            getAverageMedianTemperature(
+                                enable_average = false,
+                                enable_median = true,
+                                first_timestamp = firstTime
+                            )
+                        med_humidity =
+                            getAverageMedianHumidity(
+                                enable_average = false,
+                                enable_median = true,
+                                first_timestamp = firstTime
+                            )
+                        med_pressure =
+                            getAverageMedianPressure(
+                                enable_average = false,
+                                enable_median = true,
+                                first_timestamp = firstTime
+                            )
 
                         // Thresholds
-                        th_eu_p1 = getThresholdPM1(enable_eu_thresholds = true, enable_who_thresholds = false, first_timestamp = firstTime)
-                        th_eu_p2 = getThresholdPM2(enable_eu_thresholds = true, enable_who_thresholds = false, first_timestamp = firstTime)
-                        th_who_p1 = getThresholdPM1(enable_eu_thresholds = false, enable_who_thresholds = true, first_timestamp = firstTime)
-                        th_who_p2 = getThresholdPM2(enable_eu_thresholds = false, enable_who_thresholds = true, first_timestamp = firstTime)
+                        th_eu_p1 =
+                            getThresholdPM1(
+                                enable_eu_thresholds = true,
+                                enable_who_thresholds = false,
+                                first_timestamp = firstTime
+                            )
+                        th_eu_p2 =
+                            getThresholdPM2(
+                                enable_eu_thresholds = true,
+                                enable_who_thresholds = false,
+                                first_timestamp = firstTime
+                            )
+                        th_who_p1 =
+                            getThresholdPM1(
+                                enable_eu_thresholds = false,
+                                enable_who_thresholds = true,
+                                first_timestamp = firstTime
+                            )
+                        th_who_p2 =
+                            getThresholdPM2(
+                                enable_eu_thresholds = false,
+                                enable_who_thresholds = true,
+                                first_timestamp = firstTime
+                            )
 
                         // Combine all lines to one diagram
                         dataSets.clear()
-                        dataSets.add(p1)
-                        dataSets.add(p2)
-                        dataSets.add(temp)
-                        dataSets.add(humidity)
-                        dataSets.add(pressure)
-                        dataSets.add(av_p1)
-                        dataSets.add(av_p2)
-                        dataSets.add(av_temp)
-                        dataSets.add(av_humidity)
-                        dataSets.add(av_pressure)
-                        dataSets.add(med_p1)
-                        dataSets.add(med_p2)
-                        dataSets.add(med_temp)
-                        dataSets.add(med_humidity)
-                        dataSets.add(med_pressure)
-                        dataSets.add(th_eu_p1)
-                        dataSets.add(th_eu_p2)
-                        dataSets.add(th_who_p1)
-                        dataSets.add(th_who_p2)
+                        dataSets.add(
+                            p1
+                        )
+                        dataSets.add(
+                            p2
+                        )
+                        dataSets.add(
+                            temp
+                        )
+                        dataSets.add(
+                            humidity
+                        )
+                        dataSets.add(
+                            pressure
+                        )
+                        dataSets.add(
+                            av_p1
+                        )
+                        dataSets.add(
+                            av_p2
+                        )
+                        dataSets.add(
+                            av_temp
+                        )
+                        dataSets.add(
+                            av_humidity
+                        )
+                        dataSets.add(
+                            av_pressure
+                        )
+                        dataSets.add(
+                            med_p1
+                        )
+                        dataSets.add(
+                            med_p2
+                        )
+                        dataSets.add(
+                            med_temp
+                        )
+                        dataSets.add(
+                            med_humidity
+                        )
+                        dataSets.add(
+                            med_pressure
+                        )
+                        dataSets.add(
+                            th_eu_p1
+                        )
+                        dataSets.add(
+                            th_eu_p2
+                        )
+                        dataSets.add(
+                            th_who_p1
+                        )
+                        dataSets.add(
+                            th_who_p2
+                        )
                         dataSetsFull = dataSets.clone() as ArrayList<ILineDataSet>
-                        chart.data = LineData(dataSets)
+                        chart.data = LineData(
+                            dataSets
+                        )
 
                         // Redraw and animate
                         chart.invalidate()
@@ -679,7 +841,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             }
 
             internal fun exportDiagram() {
-                su.shareImage(chart.chartBitmap, activity.getString(R.string.export_diagram))
+                su.shareImage(
+                    chart.chartBitmap, activity.getString(R.string.export_diagram))
             }
         }
     }
@@ -703,11 +866,13 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             contentView = LayoutInflater.from(parent?.context).inflate(R.layout.tab_data, parent, false)
 
             // Initialize components
-            data_view_adapter = DataAdapter()
+            data_view_adapter =
+                DataAdapter()
             data_view = contentView.findViewById(R.id.data)
             dataViewManager = LinearLayoutManager(context)
             data_view.layoutManager = dataViewManager
-            data_view.adapter = data_view_adapter
+            data_view.adapter =
+                data_view_adapter
             data_view.setHasFixedSize(true)
             if (records != null) {
                 contentView.findViewById<View>(R.id.loading).visibility = View.GONE
@@ -755,9 +920,13 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 headingPressureArrow.setOnClickListener { pressureSortClicked() }
             }
 
-            showGPSData(show_gps_data)
+            showGPSData(
+                show_gps_data
+            )
 
-            listener.onDataFragmentLoaded(record_counter)
+            listener.onDataFragmentLoaded(
+                record_counter
+            )
 
             return contentView
         }
@@ -902,9 +1071,12 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 contentView.findViewById<View>(R.id.heading_gps).visibility = if (show) View.VISIBLE else View.GONE
                 contentView.findViewById<View>(R.id.footer_average_gps).visibility = if (show) View.VISIBLE else View.GONE
                 contentView.findViewById<View>(R.id.footer_median_gps).visibility = if (show) View.VISIBLE else View.GONE
-                data_view.layoutParams.width = round(activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
-                heading.layoutParams.width = round(activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
-                footer.layoutParams.width = round(activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
+                data_view.layoutParams.width = round(
+                    activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
+                heading.layoutParams.width = round(
+                    activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
+                footer.layoutParams.width = round(
+                    activity.resources.displayMetrics.density * if (show) 830 else 530).toInt()
                 data_view_adapter.showGPSData(show)
             }
 
@@ -922,7 +1094,9 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                             contentView.findViewById<View>(R.id.data_footer).visibility = View.VISIBLE
                             contentView.findViewById<View>(R.id.data_footer_average).visibility = if (su.getBoolean("enable_daily_average", true)) View.VISIBLE else View.GONE
                             contentView.findViewById<View>(R.id.data_footer_median).visibility = if (su.getBoolean("enable_daily_median", false)) View.VISIBLE else View.GONE
-                            val footerString = records!!.size.toString() + " " + activity.getString(R.string.tab_data) + " - " + activity.getString(R.string.from) + " " + df_time.format(records!![0].dateTime) + " " + activity.getString(R.string.to) + " " + df_time.format(records!![records!!.size - 1].dateTime)
+                            val footerString = records!!.size.toString() + " " + activity.getString(R.string.tab_data) + " - " + activity.getString(R.string.from) + " " + df_time.format(
+                                records!![0].dateTime) + " " + activity.getString(R.string.to) + " " + df_time.format(
+                                records!![records!!.size - 1].dateTime)
                             record_counter.text = footerString
 
                             if (su.getBoolean("enable_daily_average", true)) {

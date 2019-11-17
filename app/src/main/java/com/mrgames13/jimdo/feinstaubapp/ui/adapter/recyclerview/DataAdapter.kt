@@ -2,7 +2,7 @@
  * Copyright © 2019 Marc Auberer. All rights reserved.
  */
 
-package com.mrgames13.jimdo.feinstaubapp.ui.adapter
+package com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview
 
 
 import android.view.LayoutInflater

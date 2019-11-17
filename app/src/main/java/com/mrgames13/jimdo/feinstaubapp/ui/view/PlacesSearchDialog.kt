@@ -24,7 +24,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.ui.adapter.PlaceAutocompleteAdapter
+import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.PlaceAutocompleteAdapter
 import kotlinx.android.synthetic.main.place_search_dialog.*
 
 class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedCallback): AppCompatDialog(mContext), PlaceAutocompleteAdapter.PlaceSelectedListener {
@@ -61,7 +61,11 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
     }
 
     private fun initDialog(){
-        val adapter = PlaceAutocompleteAdapter(results, this)
+        val adapter =
+            PlaceAutocompleteAdapter(
+                results,
+                this
+            )
 
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -87,7 +91,11 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
                                     results.clear()
                                     for(prediction in response.autocompletePredictions) results.add(prediction)
 
-                                    recyclerView.adapter = PlaceAutocompleteAdapter(results, this@PlacesSearchDialog)
+                                    recyclerView.adapter =
+                                        PlaceAutocompleteAdapter(
+                                            results,
+                                            this@PlacesSearchDialog
+                                        )
                                     recyclerFrame.visibility = View.VISIBLE
                                 } else {
                                     noResultsLayout.visibility = View.VISIBLE
