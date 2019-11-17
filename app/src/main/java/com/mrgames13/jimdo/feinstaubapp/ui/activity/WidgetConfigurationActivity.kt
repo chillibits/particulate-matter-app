@@ -16,7 +16,6 @@ import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import com.mrgames13.jimdo.feinstaubapp.service.SyncService
@@ -34,7 +33,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     // Variables as objects
     private lateinit var toolbar: Toolbar
-    private lateinit var sensorView: RecyclerView
     private lateinit var sensorViewAdapter: SelectSensorAdapter
     private lateinit var sensors: ArrayList<Sensor>
 
@@ -55,7 +53,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
-                sensorView.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                sensor_view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets
             }
         }
@@ -72,11 +70,10 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         sensors.sort()
         if (sensors.size > 0) {
             // Initialize RecyclerView
-            sensorView = findViewById(R.id.sensors)
             sensorViewAdapter = SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE)
-            sensorView.setItemViewCacheSize(100)
-            sensorView.layoutManager = LinearLayoutManager(this)
-            sensorView.adapter = sensorViewAdapter
+            sensor_view.setItemViewCacheSize(100)
+            sensor_view.layoutManager = LinearLayoutManager(this)
+            sensor_view.adapter = sensorViewAdapter
         } else {
             findViewById<View>(R.id.no_data).visibility = View.VISIBLE
             add_sensor.setOnClickListener {

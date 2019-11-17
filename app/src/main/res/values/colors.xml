@@ -12,6 +12,8 @@
     <color name="current_values_color">@color/white</color>
     <color name="enabled">@color/colorPrimary</color>
     <color name="disabled">@color/gray_light</color>
+    <color name="button_color">@color/colorPrimary</color>
+    <color name="button_color_transparent">@color/colorPrimaryTransparent</color>
 
     <!-- Common Colors -->
     <color name="white">#FFF</color>
