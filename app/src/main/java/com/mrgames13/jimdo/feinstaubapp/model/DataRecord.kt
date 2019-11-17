@@ -5,6 +5,8 @@
 package com.mrgames13.jimdo.feinstaubapp.model
 
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.StringDescriptor
 import java.util.*
 
 class DataRecord(
@@ -40,3 +42,34 @@ class DataRecord(
         return 0
     }
 }
+
+@Serializable
+data class DataRecordCompressedList (
+    val items: List<DataRecordCompressed> = emptyList()
+) {
+    @Serializer(DataRecordCompressedList::class)
+    companion object : KSerializer<DataRecordCompressedList> {
+        override val descriptor: SerialDescriptor = StringDescriptor.withName("DataRecordCompressedList")
+
+        override fun serialize(encoder: Encoder, obj: DataRecordCompressedList) {
+            DataRecordCompressed.serializer().list.serialize(encoder, obj.items)
+        }
+
+        override fun deserialize(decoder: Decoder): DataRecordCompressedList {
+            return DataRecordCompressedList(DataRecordCompressed.serializer().list.deserialize(decoder))
+        }
+    }
+}
+
+@Serializable
+data class DataRecordCompressed (
+    val time: Long,
+    val p1: Double,
+    val p2: Double,
+    val t: Double,
+    val h: Double,
+    val p: Double,
+    val la: Double,
+    val ln: Double,
+    val a: Double
+)

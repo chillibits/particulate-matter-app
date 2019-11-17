@@ -12,8 +12,16 @@ import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.*
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
+import com.mrgames13.jimdo.feinstaubapp.tool.NotificationUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -82,7 +90,7 @@ class SyncService : Service() {
             limitHumidity = Integer.parseInt(su.getString("limitHumidity", Constants.DEFAULT_HUMIDITY_LIMIT.toString()))
             limitPressure = Integer.parseInt(su.getString("limitPressure", Constants.DEFAULT_PRESSURE_LIMIT.toString()))
 
-            Thread(Runnable {
+            CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Get timestamps for 'from' and 'to'
                     val from = selectedDayTimestamp
@@ -95,12 +103,12 @@ class SyncService : Service() {
                         // Load existing records from local database
                         records = su.loadRecords(s.chipID, from, to)
                         // Sort by time
-                        records!!.sort()
+                        records?.sort()
                         // Load records from server
-                        val recordsExternal = smu.manageDownloadsRecords(s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
+                        val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
                         if (recordsExternal != null) records!!.addAll(recordsExternal)
                         // Sort by time
-                        records!!.sort()
+                        records?.sort()
 
                         if (records!!.size > 0) {
                             // Detect breakdown
@@ -181,14 +189,13 @@ class SyncService : Service() {
                             sendBroadcast(updateIntent)
                         }
                     }
-                } catch (ignored: Exception) {
-                }
+                } catch (ignored: Exception) {}
 
                 // Cancel foreground notification
                 if (fromForeground) nu.cancelNotification(111)
 
                 stopSelf()
-            }).start()
+            }
         }
     }
 

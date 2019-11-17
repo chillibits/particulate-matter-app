@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -18,14 +17,20 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.isSensorExisting
+import com.mrgames13.jimdo.feinstaubapp.network.loadSensorInfo
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.AddSensorActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.MainActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_sensor_properties.view.*
 import kotlinx.android.synthetic.main.item_sensor.view.*
 import kotlinx.android.synthetic.main.sensor_view_header.view.*
-import org.json.JSONArray
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.*
 
@@ -116,7 +121,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                             activity.startActivity(i)
                         }
                         R.id.action_sensor_unlink -> {
-                            val d = AlertDialog.Builder(activity)
+                            AlertDialog.Builder(activity)
                                     .setCancelable(true)
                                     .setIcon(R.drawable.delete_red)
                                     .setTitle(R.string.unlink_sensor)
@@ -133,97 +138,63 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                         }
                                         activity.refresh()
                                     }
-                                    .create()
-                            d.show()
+                                    .show()
                         }
                         R.id.action_sensor_properties -> {
-                            val v = activity.layoutInflater.inflate(R.layout.dialog_sensor_properties, null)
-                            val sensorName = v.findViewById<TextView>(R.id.sensor_name_value)
-                            val sensorChipId = v.findViewById<TextView>(R.id.sensor_chip_id_value)
-                            val sensorPublic = v.findViewById<TextView>(R.id.sensor_public_value)
-                            val sensorCreation = v.findViewById<TextView>(R.id.sensor_creation_value)
-                            val sensorLat = v.findViewById<TextView>(R.id.sensor_lat_value)
-                            val sensorLng = v.findViewById<TextView>(R.id.sensor_lng_value)
-                            val sensorAlt = v.findViewById<TextView>(R.id.sensor_alt_value)
+                            if (smu.checkConnection(activity.container)) {
+                                val v = activity.layoutInflater.inflate(R.layout.dialog_sensor_properties, null)
 
-                            sensorPublic.isSelected = true
-                            sensorCreation.isSelected = true
-                            sensorLat.isSelected = true
-                            sensorLng.isSelected = true
-                            sensorAlt.isSelected = true
+                                v.sensor_public_value.isSelected = true
+                                v.sensor_creation_value.isSelected = true
+                                v.sensor_lat_value.isSelected = true
+                                v.sensor_lng_value.isSelected = true
+                                v.sensor_alt_value.isSelected = true
 
-                            sensorName.text = sensor.name
-                            sensorChipId.text = sensor.chipID
+                                v.sensor_name_value.text = sensor.name
+                                v.sensor_chip_id_value.text = sensor.chipID
 
-                            val d = AlertDialog.Builder(activity)
+                                AlertDialog.Builder(activity)
                                     .setIcon(R.drawable.info_outline)
                                     .setTitle(R.string.properties)
                                     .setCancelable(true)
                                     .setView(v)
                                     .setPositiveButton(R.string.ok, null)
-                                    .create()
-                            d.show()
+                                    .show()
 
-                            Thread(Runnable {
-                                if (smu.isInternetAvailable) {
+                                CoroutineScope(Dispatchers.IO).launch {
                                     try {
-                                        val result = smu.sendRequest(null, object : HashMap<String, String>() {
-                                            init {
-                                                put("command", "getsensorinfo")
-                                                put("chip_id", sensor.chipID)
-                                            }
-                                        })
-                                        if (result.isNotEmpty()) {
-                                            val array = JSONArray(result)
-                                            val jsonobject = array.getJSONObject(0)
-
+                                        val result = loadSensorInfo(activity, sensor.chipID)
+                                        if(result != null) {
                                             val df = DateFormat.getDateInstance()
                                             val c = Calendar.getInstance()
-                                            c.timeInMillis = jsonobject.getLong("creation_date") * 1000
+                                            c.timeInMillis = result.creationDate * 1000
                                             activity.runOnUiThread {
-                                                try {
-                                                    sensorPublic.text = activity.getString(R.string.yes)
-                                                    sensorCreation.text = df.format(c.time)
-                                                    sensorLat.text = jsonobject.getDouble("lat").toString().replace(".", ",")
-                                                    sensorLng.text = jsonobject.getDouble("lng").toString().replace(".", ",")
-                                                    sensorAlt.text = jsonobject.getDouble("alt").toString().replace(".", ",") + " m"
-                                                } catch (e: Exception) {
-                                                    sensorPublic.text = activity.getString(R.string.no)
-                                                    sensorCreation.text = "-"
-                                                    sensorLat.text = "-"
-                                                    sensorLng.text = "-"
-                                                    sensorAlt.text = "-"
-                                                }
+                                                v.sensor_public_value.text = activity.getString(R.string.yes)
+                                                v.sensor_creation_value.text = df.format(c.time)
+                                                v.sensor_lat_value.text = result.lat.toString().replace(".", ",")
+                                                v.sensor_lng_value.text = result.lng.toString().replace(".", ",")
+                                                v.sensor_alt_value.text = result.alt.toString().replace(".", ",") + " m"
                                             }
                                         } else {
                                             activity.runOnUiThread {
-                                                sensorPublic.text = activity.getString(R.string.no)
-                                                sensorCreation.text = "-"
-                                                sensorLat.text = "-"
-                                                sensorLng.text = "-"
-                                                sensorAlt.text = "-"
+                                                v.sensor_public_value.text = activity.getString(R.string.no)
+                                                v.sensor_creation_value.text = "-"
+                                                v.sensor_lat_value.text = "-"
+                                                v.sensor_lng_value.text = "-"
+                                                v.sensor_alt_value.text = "-"
                                             }
                                         }
                                     } catch (e: Exception) {
                                         activity.runOnUiThread {
-                                            sensorPublic.text = activity.getString(R.string.no)
-                                            sensorCreation.text = "-"
-                                            sensorLat.text = "-"
-                                            sensorLng.text = "-"
-                                            sensorAlt.text = "-"
+                                            v.sensor_public_value.text = activity.getString(R.string.no)
+                                            v.sensor_creation_value.text = "-"
+                                            v.sensor_lat_value.text = "-"
+                                            v.sensor_lng_value.text = "-"
+                                            v.sensor_alt_value.text = "-"
                                         }
                                     }
-
-                                } else {
-                                    activity.runOnUiThread {
-                                        sensorPublic.text = "-"
-                                        sensorCreation.text = "-"
-                                        sensorLat.text = "-"
-                                        sensorLng.text = "-"
-                                        sensorAlt.text = "-"
-                                    }
                                 }
-                            }).start()
+                            }
                         }
                     }
                     true
@@ -235,14 +206,8 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
             holder.itemView.findViewById<View>(R.id.item_own_sensor).visibility = if (su.isSensorExisting(sensor.chipID) && mode == MODE_FAVOURITES) View.VISIBLE else View.GONE
 
             if (mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.chipID)) { // TODO: Remove this part for the next update
-                Thread(Runnable {
-                    val result = smu.sendRequest(null, object : HashMap<String, String>() {
-                        init {
-                            put("command", "issensorexisting")
-                            put("chip_id", sensor.chipID)
-                        }
-                    })
-                    if (result == "0") {
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!isSensorExisting(activity, sensor.chipID)) {
                         activity.runOnUiThread {
                             holder.itemView.item_warning.visibility = View.VISIBLE
                             holder.itemView.item_warning.setOnClickListener {
@@ -255,7 +220,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                             }
                         }
                     }
-                }).start()
+                }
             }
         } else if (holder is HeaderViewHolder && shallShowHeader()) {
             holder.itemView.header_text.text = activity.getString(R.string.compare_instruction)
@@ -275,7 +240,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
     }
 
     fun deselectAllSensors() {
-        Thread(Runnable {
+        CoroutineScope(Dispatchers.Default).launch {
             for (h in viewHolders) {
                 try {
                     if (h.itemView.item_icon.isFlipped) {
@@ -284,7 +249,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                     }
                 } catch (ignored: Exception) {}
             }
-        }).start()
+        }
     }
 
     companion object {

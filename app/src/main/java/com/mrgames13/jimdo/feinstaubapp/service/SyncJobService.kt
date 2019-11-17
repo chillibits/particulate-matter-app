@@ -14,8 +14,16 @@ import androidx.annotation.RequiresApi
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.*
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
+import com.mrgames13.jimdo.feinstaubapp.tool.NotificationUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -98,7 +106,7 @@ class SyncJobService : JobService() {
                 su.putString("limitPressure", limitPressure.toString())
             }
 
-            Thread(Runnable {
+            CoroutineScope(Dispatchers.IO).launch {
                 try {
                     // Get timestamps for 'from' and 'to'
                     val from = selectedDayTimestamp
@@ -113,7 +121,7 @@ class SyncJobService : JobService() {
                         // Sort by time
                         records!!.sort()
                         // Load records from server
-                        val recordsExternal = smu.manageDownloadsRecords(s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
+                        val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
                         if (recordsExternal != null) records!!.addAll(recordsExternal)
                         // Sort by time
                         records!!.sort()
@@ -141,7 +149,8 @@ class SyncJobService : JobService() {
                                 if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p1_exceeded") && limitP1 > 0 && (if (su.getBoolean("notification_averages", true)) averageP1 > limitP1 else r.p1 > limitP1) && r.p1 > su.getDouble(selectedDayTimestamp.toString() + "_p1_max")) {
                                     Log.i("FA", "P1 limit exceeded")
                                     // P1 notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p1), s.chipID, r.dateTime.time)
+                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(
+                                        R.string.limit_exceeded_p1), s.chipID, r.dateTime.time)
                                     su.putDouble(selectedDayTimestamp.toString() + "_p1_max", r.p1)
                                     su.putBoolean(selectedDayTimestamp.toString() + "_p1_exceeded", true)
                                     break
@@ -151,7 +160,8 @@ class SyncJobService : JobService() {
                                 if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p2_exceeded") && limitP2 > 0 && (if (su.getBoolean("notification_averages", true)) averageP2 > limitP2 else r.p2 > limitP2) && r.p2 > su.getDouble(selectedDayTimestamp.toString() + "_p2_max")) {
                                     Log.i("FA", "P2 limit exceeded")
                                     // P2 notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p2), s.chipID, r.dateTime.time)
+                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(
+                                        R.string.limit_exceeded_p2), s.chipID, r.dateTime.time)
                                     su.putDouble(selectedDayTimestamp.toString() + "_p2_max", r.p2)
                                     su.putBoolean(selectedDayTimestamp.toString() + "_p2_exceeded", true)
                                     break
@@ -161,7 +171,8 @@ class SyncJobService : JobService() {
                                 if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_temp_exceeded") && limitTemp > 0 && (if (su.getBoolean("notification_averages", true)) averageTemp > limitTemp else r.temp > limitTemp) && r.temp > su.getDouble(selectedDayTimestamp.toString() + "_temp_max")) {
                                     Log.i("FA", "Temp limit exceeded")
                                     // Temperature notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_temp), s.chipID, r.dateTime.time)
+                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(
+                                        R.string.limit_exceeded_temp), s.chipID, r.dateTime.time)
                                     su.putDouble(selectedDayTimestamp.toString() + "_temp_max", r.temp)
                                     su.putBoolean(selectedDayTimestamp.toString() + "_temp_exceeded", true)
                                     break
@@ -171,7 +182,8 @@ class SyncJobService : JobService() {
                                 if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded") && limitHumidity > 0 && (if (su.getBoolean("notification_averages", true)) averageHumidity > limitHumidity else r.humidity > limitHumidity) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_humidity_max")) {
                                     Log.i("FA", "Humidity limit exceeded")
                                     // Humidity notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_humidity), s.chipID, r.dateTime.time)
+                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(
+                                        R.string.limit_exceeded_humidity), s.chipID, r.dateTime.time)
                                     su.putDouble(selectedDayTimestamp.toString() + "_humidity_max", r.humidity)
                                     su.putBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded", true)
                                     break
@@ -181,7 +193,8 @@ class SyncJobService : JobService() {
                                 if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded") && limitPressure > 0 && (if (su.getBoolean("notification_averages", true)) averagePressure > limitPressure else r.pressure > limitPressure) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_pressure_max")) {
                                     Log.i("FA", "Pressure limit exceeded")
                                     // Pressure notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_pressure), s.chipID, r.dateTime.time)
+                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(
+                                        R.string.limit_exceeded_pressure), s.chipID, r.dateTime.time)
                                     su.putDouble(selectedDayTimestamp.toString() + "_pressure_max", r.temp)
                                     su.putBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded", true)
                                     break
@@ -202,7 +215,7 @@ class SyncJobService : JobService() {
                 } catch (e: Exception) {
                     if (params != null) jobFinished(params, true)
                 }
-            }).start()
+            }
         } else {
             if (params != null) jobFinished(params, false)
         }

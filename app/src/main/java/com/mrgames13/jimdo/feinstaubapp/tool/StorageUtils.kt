@@ -29,6 +29,7 @@ import java.io.StringWriter
 import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "database.db", null, 3) {
 
@@ -257,15 +258,36 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //---------------------------------------Externe Sensoren---------------------------------------
 
+    fun addAllExternalSensors(sensors: ArrayList<ExternalSensor>) {
+        val db = writableDatabase
+        db.beginTransaction()
+        // Create table if it doesn't already exist
+        db.compileStatement("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);").execute()
+        // Write records into db
+        val stmt = db.compileStatement("INSERT INTO $TABLE_EXTERNAL_SENSORS (sensor_id, latitude, longitude) VALUES (?, ?, ?);")
+        for (s in sensors) {
+            try {
+                stmt.bindString(1, s.chipId)
+                stmt.bindDouble(2, s.lat)
+                stmt.bindDouble(3, s.lng)
+                stmt.execute()
+            } catch (ignored: SQLiteConstraintException) {} finally {
+                stmt.clearBindings()
+            }
+        }
+        db.setTransactionSuccessful()
+        db.endTransaction()
+    }
+
     fun addExternalSensor(sensor: ExternalSensor) {
-        if (!isExternalSensorExisting(sensor.chipID)) {
+        if (!isExternalSensorExisting(sensor.chipId)) {
             val values = ContentValues()
-            values.put("sensor_id", sensor.chipID)
+            values.put("sensor_id", sensor.chipId)
             values.put("latitude", sensor.lat)
             values.put("longitude", sensor.lng)
             addRecord(TABLE_EXTERNAL_SENSORS, values)
         } else {
-            execSQL("UPDATE " + TABLE_EXTERNAL_SENSORS + " SET latitude = " + sensor.lat + ", longitude = " + sensor.lng + " WHERE sensor_id = '" + sensor.chipID + "';")
+            execSQL("UPDATE " + TABLE_EXTERNAL_SENSORS + " SET latitude = " + sensor.lat + ", longitude = " + sensor.lng + " WHERE sensor_id = '" + sensor.chipId + "';")
         }
     }
 

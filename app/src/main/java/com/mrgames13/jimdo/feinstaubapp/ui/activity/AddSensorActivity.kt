@@ -22,12 +22,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.model.Place
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.addSensorOnServer
+import com.mrgames13.jimdo.feinstaubapp.network.isSensorDataExisting
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.rtchagas.pingplacepicker.PingPlacePicker
 import kotlinx.android.synthetic.main.activity_add_sensor.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.margaritov.preference.colorpicker.ColorPickerDialog
 import java.util.*
 
@@ -76,7 +81,7 @@ class AddSensorActivity : AppCompatActivity() {
         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
         sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
 
-        chip_id_info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_id_info)))) }
+        chip_id_info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_id_info)))) }
 
         sensor_public.setOnCheckedChangeListener { _, b ->
             choose_location.isEnabled = b
@@ -92,13 +97,12 @@ class AddSensorActivity : AppCompatActivity() {
         }
 
         coordinates_info.setOnClickListener {
-            val d = AlertDialog.Builder(this@AddSensorActivity)
+            AlertDialog.Builder(this@AddSensorActivity)
                     .setCancelable(true)
                     .setTitle(R.string.app_name)
                     .setMessage(R.string.coordinates_info)
                     .setPositiveButton(R.string.ok, null)
-                    .create()
-            d.show()
+                    .show()
         }
 
         // Get intent extras
@@ -128,13 +132,12 @@ class AddSensorActivity : AppCompatActivity() {
             toolbar.setTitle(R.string.complete_sensor)
             choose_location.requestFocus()
 
-            val d = AlertDialog.Builder(this)
+             AlertDialog.Builder(this)
                     .setCancelable(true)
                     .setTitle(R.string.complete_sensor)
                     .setMessage(R.string.sensor_position_completion_m_short)
                     .setPositiveButton(R.string.ok, null)
-                    .create()
-            d.show()
+                    .show()
         }
     }
 
@@ -177,11 +180,11 @@ class AddSensorActivity : AppCompatActivity() {
     }
 
     private fun addSensor(item: MenuItem) {
-        val chipId = this.chip_id_value.text.toString().trim()
-        val sensorName = this.sensor_name_value.text.toString().trim()
-        val lat = this.lat.text.toString()
-        val lng = this.lng.text.toString()
-        val alt = this.height_value.text.toString()
+        val chipId = chip_id_value.text.toString().trim()
+        val sensorName = sensor_name_value.text.toString().trim()
+        val lat = lat.text.toString()
+        val lng = lng.text.toString()
+        val alt = height_value.text.toString()
 
         if (chipId.isNotEmpty() && sensorName.isNotEmpty() && (!sensor_public.isChecked || lat.isNotEmpty() && lng.isNotEmpty() && alt.isNotEmpty())) {
             if (mode == MODE_NEW) {
@@ -192,35 +195,19 @@ class AddSensorActivity : AppCompatActivity() {
                     pd.show()
 
                     if (smu.isInternetAvailable) {
-                        Thread(Runnable {
+                        CoroutineScope(Dispatchers.IO).launch {
                             //Check, if data already is available on server
-                            var result = smu.sendRequest(container, object : HashMap<String, String>() {
-                                init {
-                                    put("command", "issensordataexisting")
-                                    put("chipId", chipId)
-                                }
-                            })
-                            pd.dismiss()
-                            if (java.lang.Boolean.parseBoolean(result)) {
+                            if (isSensorDataExisting(this@AddSensorActivity, chipId)) {
                                 // Possibly add sensor on server
                                 if (sensor_public.isChecked) {
-                                    result = smu.sendRequest(null, object : HashMap<String, String>() {
-                                        init {
-                                            put("command", "addsensor")
-                                            put("chipId", chipId)
-                                            put("lat", Tools.round(java.lang.Double.parseDouble(lat), 3).toString())
-                                            put("lng", Tools.round(java.lang.Double.parseDouble(lng), 3).toString())
-                                            put("alt", alt)
-                                        }
-                                    })
-                                    if (result == "1") {
+                                    val result = addSensorOnServer(this@AddSensorActivity, chipId, lat, lng, alt)
+                                    if (result) {
                                         // Save new sensor
                                         if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
                                         su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, request_from_realtime_sync_service = false)
                                         runOnUiThread {
-                                            try {
-                                                MainActivity.own_instance?.refresh()
-                                            } catch (ignored: Exception) {}
+                                            pd.dismiss()
+                                            try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
                                             finish()
                                         }
                                     } else {
@@ -242,16 +229,15 @@ class AddSensorActivity : AppCompatActivity() {
                                 }
                             } else {
                                 runOnUiThread {
-                                    val d = AlertDialog.Builder(this@AddSensorActivity)
-                                            .setCancelable(true)
-                                            .setTitle(R.string.app_name)
-                                            .setMessage(R.string.add_sensor_tick_not_set_message_duty)
-                                            .setPositiveButton(R.string.ok, null)
-                                            .create()
-                                    d.show()
+                                    AlertDialog.Builder(this@AddSensorActivity)
+                                        .setCancelable(true)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(R.string.add_sensor_tick_not_set_message_duty)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .show()
                                 }
                             }
-                        }).start()
+                        }
                     } else {
                         pd.dismiss()
                         Toast.makeText(this@AddSensorActivity, getString(R.string.internet_is_not_available), Toast.LENGTH_SHORT).show()

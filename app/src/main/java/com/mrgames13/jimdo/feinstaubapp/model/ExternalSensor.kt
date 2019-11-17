@@ -4,18 +4,45 @@
 
 package com.mrgames13.jimdo.feinstaubapp.model
 
-class ExternalSensor {
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.StringDescriptor
 
-    // Variables
-    var chipID = "no_id"
-    var lat = 0.0
-    var lng = 0.0
+@Serializable
+data class ExternalSensor (
+    val chipId: String,
+    val lat: Double,
+    val lng: Double,
+    val alt: Double = 0.0,
+    val creationDate: Long = 0
+)
 
-    constructor()
+@Serializable
+data class ExternalSensorSyncPackage (
+    val ids: List<String>,
+    val update: List<ExternalSensorCompressed>
+)
 
-    constructor(chip_id: String, lat: Double, lng: Double) {
-        this.chipID = chip_id
-        this.lat = lat
-        this.lng = lng
+@Serializable
+data class ExternalSensorCompressedList (
+    val items: List<ExternalSensorCompressed> = emptyList()
+) {
+    @Serializer(ExternalSensorCompressedList::class)
+    companion object : KSerializer<ExternalSensorCompressedList> {
+        override val descriptor: SerialDescriptor = StringDescriptor.withName("ExternalSensorCompressedList")
+
+        override fun serialize(encoder: Encoder, obj: ExternalSensorCompressedList) {
+            ExternalSensorCompressed.serializer().list.serialize(encoder, obj.items)
+        }
+
+        override fun deserialize(decoder: Decoder): ExternalSensorCompressedList {
+            return ExternalSensorCompressedList(ExternalSensorCompressed.serializer().list.deserialize(decoder))
+        }
     }
 }
+
+@Serializable
+data class ExternalSensorCompressed (
+    val i: String,
+    val l: Double,
+    val b: Double
+)

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Sat, 16 Nov 2019 16:04:22 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -27,7 +27,7 @@
     <string name="offline_t">Server offline</string>
     <string name="offline_m">The server is offline. While the server is offline, you cannot access your data.</string>
     <string name="maintenance_t">Server maintenance</string>
-    <string name="maintenance_m">The server gets maintenanced. While the server is offline, you cannot access your data.</string>
+    <string name="maintenance_m">The server gets maintained. While the server is offline, you cannot access your data.</string>
     <string name="support_end_t">App support ended</string>
     <string name="support_end_m">We are sorry! The particulate matter app is not supported any more. You can now uninstall the app.</string>
     <string name="update_necessary_t">Update available!</string>
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Sensor is already linked</string>
     <string name="add_sensor_tick_not_set_message">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor. After you enabled the checkbox, it can last up to 10 minutes until the first data gets sent to our server. Please be patient.</string>
     <string name="add_sensor_tick_not_set_message_duty">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor. Enable this to proceed. After you enabled the checkbox, it can last up to 10 minutes until the first data gets sent to our server. Please be patient.</string>
-    <string name="dont_show_again">Don\'t show again</string>
+    <string name="do_not_show_again">Don\'t show again</string>
     <string name="public_sensor">Show sensor to other users and make it visible on the map</string>
     <string name="choose_location">Choose exact sensor location</string>
     <string name="sensor_height">Height over ground/street (m):</string>
@@ -94,7 +94,7 @@
     <string name="longitude">Longitude</string>
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">The Coordinates get rounded due data protection reasons.</string>
-    <string name="gps_will_be_synchronized">If there is a GPS sensor is connected to your sensor system, the position will gets automatically synchronized with the map.</string>
+    <string name="gps_will_be_synchronized">If you have a GPS sensor connected to your sensor system, the position will update automatically on the map in realtime.</string>
     <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de">contacting us</a>.</string>
     <string name="unknown_location">Unknown location</string>
     <!-- SensorActivity -->
@@ -139,7 +139,7 @@
     <!-- NotificationChannels -->
     <string name="nc_system_name">System notifications</string>
     <string name="nc_system_description">System notifications from the Particulate Matter App.</string>
-    <string name="nc_limit_name">Limit exceedings</string>
+    <string name="nc_limit_name">Limit exceedances</string>
     <string name="nc_limit_description">Display notifications in the status bar, when one of the adjusted limit is exceeded.</string>
     <string name="nc_missing_measurements_name">Missing measurements</string>
     <string name="nc_missing_measurements_description">Displays notifications in the status bar, when a sensor sends no measurements any more and if the suspicion of sensor breakdown appears.</string>
@@ -183,16 +183,16 @@
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Restart needed</string>
-    <string name="app_restart_m">To apply the changings, a app restart is needed. Would you like to restart now or later?</string>
+    <string name="app_restart_m">To apply the changes, a app restart is needed.</string>
     <string name="now">Now</string>
     <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Notification on exceeded average</string>
-    <string name="pref_notification_averages_s_true">Notification, when daily average exceeds the determinated value</string>
-    <string name="pref_notification_averages_s_false">Notification, when current value exceeds the determinated value</string>
+    <string name="pref_notification_averages_s_true">Notification, when daily average exceeds the specified value</string>
+    <string name="pref_notification_averages_s_false">Notification, when current value exceeds the specified value</string>
     <string name="pref_notification_breakdown">Notification on sensor breakdown</string>
-    <string name="pref_notification_breakdown_s">Notification for own sensors when severeral measurements suspend</string>
+    <string name="pref_notification_breakdown_s">Notification for own sensors when several measurements suspend</string>
     <string name="pref_notification_breakdown_number">Allowed number of missing measurements</string>
     <string name="pref_limit_p1">PM10 limit</string>
     <string name="pref_limit_p1_t">PM10 limit (µg/m³)</string>
@@ -218,23 +218,23 @@
     <string name="clear_sensor_data_m">Clear cached data to save storage</string>
     <!-- About Settings -->
     <string name="pref_header_about">About the Particulate Matter App</string>
-    <string name="pref_serverinfo_t">Serverinfo</string>
-    <string name="pref_serverinfo_downloading_">Downloading serverinfo …</string>
-    <string name="server_state">Server state</string>
-    <string name="client_name">Client name</string>
-    <string name="min_app_version">Minimal version</string>
-    <string name="newest_app_version">Newest Version</string>
-    <string name="owners">Server owner</string>
-    <string name="serverstate_1">Server is online</string>
-    <string name="serverstate_2">Server is offline</string>
-    <string name="serverstate_3">Server gets maintained</string>
-    <string name="serverstate_4">App no longer supported</string>
-    <string name="serverstate_1_short">Online</string>
-    <string name="serverstate_2_short">Offline</string>
-    <string name="serverstate_3_short">Gets maintained</string>
-    <string name="serverstate_4_short">No longer supported</string>
-    <string name="pref_opensource_t">Open-source licenses</string>
-    <string name="pref_opensource_m">License details for open-source-software</string>
+    <string name="pref_server_info_t">Server info</string>
+    <string name="pref_server_info_downloading_">Downloading server info …</string>
+    <string name="server_status_">Server status</string>
+    <string name="client_name_">Client name:</string>
+    <string name="min_app_version_">Minimal app version:</string>
+    <string name="latest_app_version_">Latest app version:</string>
+    <string name="server_owner_">Server owner</string>
+    <string name="server_status_online">Server is online</string>
+    <string name="server_status_offline">Server is offline</string>
+    <string name="server_status_maintenance">Server gets maintained</string>
+    <string name="server_status_support_ended">App support ended</string>
+    <string name="server_status_online_short">Online</string>
+    <string name="server_status_offline_short">Offline</string>
+    <string name="server_status_maintenance_short">Gets maintained</string>
+    <string name="server_status_support_ended_short">Support ended</string>
+    <string name="pref_open_source_t">Open-source licenses</string>
+    <string name="pref_open_source_m">License details for open-source-software</string>
     <string name="pref_appversion">App version</string>
     <string name="pref_developers_t">The developers</string>
     <string name="pref_more_apps_t">More apps from us</string>

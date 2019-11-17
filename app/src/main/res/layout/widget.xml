@@ -202,6 +202,7 @@
             android:layout_below="@+id/no_id_text"
             android:text="@string/widget_select_sensor"
             android:background="@drawable/button_outline"
+            android:textColor="@drawable/button_outline_text"
             android:backgroundTint="@color/white_dark"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"

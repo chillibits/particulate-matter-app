@@ -29,10 +29,14 @@ import com.jjoe64.graphview.series.LineGraphSeries
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import kotlinx.android.synthetic.main.activity_compare.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -303,7 +307,7 @@ class CompareActivity : AppCompatActivity() {
                 val exportTemp = v.findViewById<RadioButton>(R.id.export_diagram_temp)
                 val exportHumidity = v.findViewById<RadioButton>(R.id.export_diagram_humidity)
                 val exportPressure = v.findViewById<RadioButton>(R.id.export_diagram_pressure)
-                val d = AlertDialog.Builder(this)
+                AlertDialog.Builder(this)
                         .setTitle(R.string.export_diagram)
                         .setView(v)
                         .setNegativeButton(R.string.cancel, null)
@@ -317,8 +321,7 @@ class CompareActivity : AppCompatActivity() {
                             }
                             exportData()
                         }
-                        .create()
-                d.show()
+                        .show()
             } else {
                 Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show()
             }
@@ -347,7 +350,8 @@ class CompareActivity : AppCompatActivity() {
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
         pd.setTitle(getString(R.string.loading_data))
         pd.show()
-        Thread(Runnable {
+
+        CoroutineScope(Dispatchers.IO).launch {
             // Clear ArrayList
             records.clear()
             // Clear diagrams
@@ -375,7 +379,7 @@ class CompareActivity : AppCompatActivity() {
                     // Check if internet is available
                     if (smu.isInternetAvailable) {
                         // Internet is available
-                        currentRecords.addAll(smu.manageDownloadsRecords(sensors[i].chipID, if (currentRecords.size > 0 && selected_day_timestamp == current_day_timestamp) currentRecords[currentRecords.size - 1].dateTime.time + 1000 else from, to)!!)
+                        currentRecords.addAll(loadDataRecords(this@CompareActivity, sensors[i].chipID, if (currentRecords.size > 0 && selected_day_timestamp == current_day_timestamp) currentRecords[currentRecords.size - 1].dateTime.time + 1000 else from, to)!!)
                     }
                 }
                 // Sort by time
@@ -455,9 +459,7 @@ class CompareActivity : AppCompatActivity() {
                             diagram_humidity.addSeries(seriesHumidity)
                             diagram_pressure.addSeries(seriesPressure)
                         }
-                    } catch (e: Exception) {
-                    }
-
+                    } catch (ignored: Exception) {}
                 }
             }
             runOnUiThread {
@@ -497,10 +499,9 @@ class CompareActivity : AppCompatActivity() {
                     // Reset ProgressMenuItem
                     if (progressMenuItem != null) progressMenuItem!!.actionView = null
                     pd.dismiss()
-                } catch (e: Exception) {
-                }
+                } catch (ignored: Exception) { }
             }
-        }).start()
+        }
     }
 
     private fun exportData() {

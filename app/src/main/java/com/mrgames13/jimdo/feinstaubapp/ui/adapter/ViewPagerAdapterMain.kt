@@ -47,7 +47,10 @@ import com.google.maps.android.clustering.ClusterManager
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.loadClusterAverage
+import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsNonSync
+import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsSync
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.CompareActivity
@@ -58,10 +61,13 @@ import com.mrgames13.jimdo.feinstaubapp.ui.model.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.model.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
+import kotlinx.android.synthetic.main.tab_all_sensors.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.margaritov.preference.colorpicker.ColorPickerDialog
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
@@ -256,19 +262,19 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map_fragment?.getMapAsync(this)
 
             // Initialize sensor info window
-            sensor_container = contentView.findViewById(R.id.sensor_container)
-            sensorChipId = contentView.findViewById(R.id.sensor_chip_id)
-            sensorCoordinates = contentView.findViewById(R.id.sensor_coordinates)
-            sensorLocation = contentView.findViewById(R.id.sensor_location)
-            sensorShowData = contentView.findViewById(R.id.sensor_show_data)
-            sensorLink = contentView.findViewById(R.id.sensor_link)
+            sensor_container = contentView.sensor_container
+            sensorChipId = contentView.sensor_chip_id
+            sensorCoordinates = contentView.sensor_coordinates
+            sensorLocation = contentView.sensor_location
+            sensorShowData = contentView.sensor_show_data
+            sensorLink = contentView.sensor_link
 
             // Initialize sensor cluster info window
-            sensor_cluster_container = contentView.findViewById(R.id.sensor_cluster_container)
-            infoSensorCount = contentView.findViewById(R.id.info_sensor_count)
-            infoAverageValue = contentView.findViewById(R.id.info_average_value)
-            infoCompareSensors = contentView.findViewById(R.id.info_sensors_compare)
-            infoZoomIn = contentView.findViewById(R.id.info_sensors_zoom)
+            sensor_cluster_container = contentView.sensor_cluster_container
+            infoSensorCount = contentView.info_sensor_count
+            infoAverageValue = contentView.info_average_value
+            infoCompareSensors = contentView.info_sensors_compare
+            infoZoomIn = contentView.info_sensors_zoom
 
             return contentView
         }
@@ -439,11 +445,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         v.sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
                         v.choose_sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
 
-                        val d = AlertDialog.Builder(ViewPagerAdapterMain.activity)
+                        AlertDialog.Builder(ViewPagerAdapterMain.activity)
                                 .setCancelable(true)
                                 .setTitle(R.string.add_favourite)
                                 .setView(v)
-                                .setPositiveButton(R.string.done) { dialogInterface, i ->
+                                .setPositiveButton(R.string.done) { _, _ ->
                                     // Save new sensor
                                     var nameString: String? = v.sensor_name_value.text.toString().trim()
                                     if (nameString!!.isEmpty()) nameString = marker.tag
@@ -454,8 +460,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     sensor_container.visibility = View.GONE
                                     Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show()
                                 }
-                                .create()
-                        d.show()
+                                .show()
                     } else {
                         // Sensor is already linked
                         Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show()
@@ -513,14 +518,13 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 enterReveal(sensor_cluster_container)
 
                 val items = cluster.items
-                val param = StringBuilder()
                 val sensors = ArrayList<Sensor>()
+                val ids = ArrayList<String>()
                 val rand = Random()
                 for (s in items) {
-                    param.append(";").append(s.title)
+                    ids.add(s.title)
                     sensors.add(Sensor(s.title, s.snippet, Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))))
                 }
-                val paramString = param.substring(1)
 
                 infoCompareSensors.setOnClickListener {
                     exitReveal(sensor_cluster_container)
@@ -534,22 +538,12 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.position, min(map.maxZoomLevel, map.cameraPosition.zoom + 3)))
                 }
 
-                Thread(Runnable {
-                    // Get information from the server
-                    val result = smu.sendRequest(null, object : HashMap<String, String>() {
-                        init {
-                            put("command", "getclusterinfo")
-                            put("ids", paramString)
-                        }
-                    })
+                CoroutineScope(Dispatchers.IO).launch {
+                    val result = loadClusterAverage(ViewPagerAdapterMain.activity, ids)
                     ViewPagerAdapterMain.activity.runOnUiThread {
-                        try {
-                            infoAverageValue.text = "Ø " + Tools.round(java.lang.Double.parseDouble(result), 2) + " µg/m³"
-                        } catch (e: Exception) {
-                            infoAverageValue.setText(R.string.error_try_again)
-                        }
+                        infoAverageValue.text = if(result == 0.0) getString(R.string.error_try_again) else "Ø $result µg/m³"
                     }
-                }).start()
+                }
             }
         }
 
@@ -594,61 +588,38 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private fun loadAllSensors() {
                 if (smu.checkConnection(contentView)) {
                     // The device is online. We're able to load data from the server
-                    Thread(Runnable {
+                    CoroutineScope(Dispatchers.IO).launch {
                         try {
                             // Load old sensors from the local db
                             sensors = su.externalSensors
-                            // Create hash
-                            var chipSum = 0.0
-                            for (s in sensors) chipSum += java.lang.Long.parseLong(s.chipID) / 1000.0
+                            val chipSum = sensors.map { it.chipId.toLong() }.sum() / 10000.0
                             val sensorHash = Tools.md5(Tools.round(chipSum, 0).toInt().toString())
                             // Load new sensors from server
                             val lastRequest = su.getLong("LastRequest", 0)
                             val lastRequestString = if (lastRequest.toString().length > 10) lastRequest.toString().substring(0, 10) else lastRequest.toString()
                             val newLastRequest = System.currentTimeMillis()
-                            val result = smu.sendRequest(contentView.findViewById(R.id.container), object : HashMap<String, String>() {
-                                init {
-                                    put("command", "getall")
-                                    put("last_request", lastRequestString)
-                                    put("cs", sensorHash)
-                                }
-                            })
-                            if (result.isNotEmpty()) {
-                                val array = JSONObject(result)
-                                val arrayUpdate = array.getJSONArray("update")
-                                val arrayIds = array.getJSONArray("ids")
-                                if (arrayIds.length() > 0) {
-                                    for (s in sensors) {
-                                        var found = false
-                                        for (i in 0 until arrayIds.length()) {
-                                            val chipId = arrayIds.get(i).toString()
-                                            if (chipId == s.chipID) {
-                                                found = true
-                                                break
-                                            }
-                                        }
-                                        if (!found) su.deleteExternalSensor(s.chipID)
+                            // Send request
+                            val syncPackage = loadSensorsSync(activity, lastRequestString, sensorHash)
+                            if (syncPackage != null) {
+                                // Remove sensors, that are not in the ids list
+                                if(syncPackage.ids.isNotEmpty()) {
+                                    for(s in sensors) {
+                                        if(s.chipId !in syncPackage.ids) su.deleteExternalSensor(s.chipId)
                                     }
                                 }
-                                // Process update
-                                for (i in 0 until arrayUpdate.length()) {
-                                    val jsonObject = arrayUpdate.getJSONObject(i)
-                                    val sensor = ExternalSensor()
-                                    sensor.chipID = jsonObject.getString("i")
-                                    sensor.lat = jsonObject.getDouble("l")
-                                    sensor.lng = jsonObject.getDouble("b")
-                                    su.addExternalSensor(sensor)
-                                }
+                                // Add or edit sensors, that are in the update list
+                                su.addAllExternalSensors(ArrayList(syncPackage.update.map { ExternalSensor(it.i, it.l, it.b) }))
+                                // Save, reload sensors and redraw
                                 su.putLong("LastRequest", newLastRequest)
                                 sensors = su.externalSensors
                                 activity.runOnUiThread { drawSensorsToMap() }
                             } else {
                                 activity.runOnUiThread { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
                             }
-                        } catch (e: Exception) {
+                        } catch (e: java.lang.Exception) {
                             e.printStackTrace()
                         }
-                    }).start()
+                    }
                 } else {
                     // We're offline, load the old data from the local db
                     sensors = su.externalSensors
@@ -667,13 +638,13 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 }
                 for (sensor in sensors) {
                     if (isMarkerClusteringEnabled) {
-                        val m = MarkerItem(sensor.chipID, sensor.lat.toString() + ", " + sensor.lng, LatLng(sensor.lat, sensor.lng))
-                        clusterManager.addItem(SensorClusterItem(sensor.lat, sensor.lng, sensor.chipID, sensor.lat.toString() + ", " + sensor.lng, m))
+                        val m = MarkerItem(sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, LatLng(sensor.lat, sensor.lng))
+                        clusterManager.addItem(SensorClusterItem(sensor.lat, sensor.lng, sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, m))
                     } else {
                         map.addMarker(MarkerOptions()
-                                .icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(sensor.chipID)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(sensor.chipID)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
+                                .icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
                                 .position(LatLng(sensor.lat, sensor.lng))
-                                .title(sensor.chipID)
+                                .title(sensor.chipId)
                                 .snippet(sensor.lat.toString() + ", " + sensor.lng)
                         )
                     }
@@ -683,31 +654,17 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             }
 
             private fun loadAllSensorsNonSync() {
-                Thread(Runnable {
+                CoroutineScope(Dispatchers.IO).launch {
                     try {
-                        val start = System.currentTimeMillis()
-                        // Load new sensors from server
+                        // Load all sensors from server
                         val newLastRequest = System.currentTimeMillis()
-                        val result = smu.sendRequest(contentView.findViewById(R.id.container), object : HashMap<String, String>() {
-                            init {
-                                put("command", "getallnonsync")
-                            }
-                        })
-                        Log.i("FA", "Loading time: " + (System.currentTimeMillis() - start))
+                        val result = ArrayList(loadSensorsNonSync(activity))
+                        Log.i("FA", "Loading time: " + (System.currentTimeMillis() - newLastRequest))
                         if (result.isNotEmpty()) {
                             su.clearExternalSensors()
-                            val array = JSONArray(result)
-                            sensors = ArrayList()
-                            for (i in 0 until array.length()) {
-                                val jsonObject = array.getJSONObject(i)
-                                val sensor = ExternalSensor()
-                                sensor.chipID = jsonObject.getString("i")
-                                sensor.lat = jsonObject.getDouble("l")
-                                sensor.lng = jsonObject.getDouble("b")
-                                su.addExternalSensor(sensor)
-                            }
+                            su.addAllExternalSensors(result)
                             su.putLong("LastRequest", newLastRequest)
-                            sensors = su.externalSensors
+                            sensors = result
 
                             // Draw sensors on the map
                             activity.runOnUiThread {
@@ -720,7 +677,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                }).start()
+                }
             }
 
             internal fun exitReveal(v: View?) {

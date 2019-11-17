@@ -12,9 +12,19 @@
     </item>
 
     <item android:id="@android:id/background">
-        <shape>
-            <corners android:radius="150dp" />
-            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
-        </shape>
+        <selector>
+            <item android:state_enabled="false">
+                <shape>
+                    <corners android:radius="150dp" />
+                    <stroke android:color="@color/gray_transparent" android:width="1.5dp" />
+                </shape>
+            </item>
+            <item>
+                <shape>
+                    <corners android:radius="150dp" />
+                    <stroke android:color="@color/colorPrimary" android:width="1.5dp" />
+                </shape>
+            </item>
+        </selector>
     </item>
 </ripple>

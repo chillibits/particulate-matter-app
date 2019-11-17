@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- API Endpoints -->
+    <string name="host" translatable="false">h2801469.stratoserver.net</string>
+    <string name="path_main" translatable="false">/backend_android_v%s.php</string>
+    <string name="path_data" translatable="false">/get.php</string>
+
+    <!-- Common URLs -->
+    <string name="url_homepage" translatable="false">https://mrgames13.jimdo.com/</string>
+    <string name="url_store_developer_site_market" translatable="false">market://dev?id=5593276126732355283</string>
+    <string name="url_store_developer_site" translatable="false">https://play.google.com/store/apps/dev?id=5593276126732355283</string>
+    <string name="url_id_info" translatable="false">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
+</resources>

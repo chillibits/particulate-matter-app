@@ -15,7 +15,6 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Color
@@ -44,7 +43,6 @@ import com.github.angads25.filepicker.model.DialogConfigs
 import com.github.angads25.filepicker.model.DialogProperties
 import com.github.angads25.filepicker.view.FilePickerDialog
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.integration.android.IntentIntegrator
@@ -52,6 +50,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.handleServerInfo
+import com.mrgames13.jimdo.feinstaubapp.network.loadServerInfo
 import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
 import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.service.WebRealtimeSyncService
@@ -63,7 +64,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.json.JSONArray
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.nio.charset.StandardCharsets
 import java.util.*
 
@@ -377,15 +380,14 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.rate)) { dialog, which ->
                     dialog.dismiss()
-                    val appPackageName = packageName
                     try {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
                     } catch (e: android.content.ActivityNotFoundException) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
                     }
                 }
                 .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
-                .create().show()
+                .show()
     }
 
     private fun recommendApp() {
@@ -403,15 +405,14 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                     startActivity(i)
                 }
                 .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
-                .create().show()
+                .show()
     }
 
     private fun importExportConfiguration() {
         val v = layoutInflater.inflate(R.layout.dialog_import_export, null)
         val d = android.app.AlertDialog.Builder(this)
                 .setView(v)
-                .create()
-        d.show()
+                .show()
 
         v.import_qr.setOnClickListener {
             Handler().postDelayed({
@@ -456,7 +457,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                                 .setView(qrView)
                                 .setPositiveButton(getString(R.string.ok), null)
                                 .setNeutralButton(getString(R.string.share_qr_code)) { _, _ -> su.shareImage(bitmap, getString(R.string.share_qr_code)) }
-                                .create().show()
+                                .show()
                     } else {
                         Toast.makeText(this@MainActivity, getString(R.string.please_select_at_least_one_sensor), Toast.LENGTH_SHORT).show()
                     }
@@ -587,105 +588,18 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     }
 
     private fun getServerInfo() {
-        Thread(Runnable {
-            try {
-                val result = smu.sendRequest(null, object : HashMap<String, String>() {
-                    init {
-                        put("command", "getserverinfo")
+        if(smu.checkConnection(container)) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = loadServerInfo(this@MainActivity)
+                if(result != null) {
+                    su.putInt("ServerStatus", result.serverStatus)
+                    su.putInt("MinAppVersion", result.minAppVersion)
+                    su.putInt("LatestAppVersion", result.latestAppVersion)
+                    su.putString("UserMessage", result.userMessage)
+                    runOnUiThread {
+                        handleServerInfo(this@MainActivity, container, result)
                     }
-                })
-                if (result.isNotEmpty()) {
-                    val array = JSONArray(result)
-                    val jsonObject = array.getJSONObject(0)
-                    val serverState = jsonObject.getInt("serverstate")
-                    val minAppVersion = Integer.parseInt(jsonObject.getString("min_appversion"))
-                    val newestAppVersion = Integer.parseInt(jsonObject.getString("newest_appversion"))
-                    val userMsg = jsonObject.getString("user_message")
-                    // Save parameters
-                    su.putInt("ServerState", serverState)
-                    su.putInt("MinAppVersion", minAppVersion)
-                    su.putInt("NewestAppVersion", newestAppVersion)
-                    su.putString("UserMsg", userMsg)
-                    // Process server info
-                    runOnUiThread { parseServerInfo(serverState, minAppVersion, newestAppVersion, userMsg) }
                 }
-            } catch (ignored: Exception) {
-            }
-        }).start()
-    }
-
-    private fun parseServerInfo(server_state: Int, min_app_version: Int, newest_app_version: Int, user_msg: String) {
-        var appVersionCode = 0
-        try {
-            appVersionCode = packageManager.getPackageInfo(packageName, 0).versionCode
-        } catch (ignored: PackageManager.NameNotFoundException) {}
-
-        // Process server state
-        if (server_state == 2) {
-            val d = AlertDialog.Builder(this@MainActivity)
-                    .setCancelable(false)
-                    .setTitle(getString(R.string.offline_t))
-                    .setMessage(if (user_msg == "") getString(R.string.offline_m) else user_msg)
-                    .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                        dialog.dismiss()
-                        finish()
-                    }
-                    .create()
-            d.show()
-        } else if (server_state == 3) {
-            val d = AlertDialog.Builder(this@MainActivity)
-                    .setCancelable(false)
-                    .setTitle(getString(R.string.maintenance_t))
-                    .setMessage(if (user_msg == "") getString(R.string.maintenance_m) else user_msg)
-                    .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                        dialog.dismiss()
-                        finish()
-                    }
-                    .create()
-            d.show()
-        } else if (server_state == 4) {
-            val d = AlertDialog.Builder(this@MainActivity)
-                    .setCancelable(false)
-                    .setTitle(getString(R.string.support_end_t))
-                    .setMessage(if (user_msg == "") getString(R.string.support_end_m) else user_msg)
-                    .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                        dialog.dismiss()
-                        finish()
-                    }
-                    .create()
-            d.show()
-        } else {
-            // Check for app updates
-            if (appVersionCode < min_app_version) {
-                val d = AlertDialog.Builder(this@MainActivity)
-                        .setCancelable(false)
-                        .setTitle(getString(R.string.update_necessary_t))
-                        .setMessage(getString(R.string.update_necessary_m))
-                        .setPositiveButton(getString(R.string.download_update)) { dialog, which ->
-                            try {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-                            } catch (e: android.content.ActivityNotFoundException) {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
-                            }
-
-                            finish()
-                        }
-                        .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
-                            dialog.dismiss()
-                            finish()
-                        }
-                        .create()
-                d.show()
-            } else if (appVersionCode < newest_app_version) {
-                Snackbar.make(container, getString(R.string.update_available), Snackbar.LENGTH_LONG)
-                        .setAction(getString(R.string.download)) {
-                            try {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-                            } catch (e: android.content.ActivityNotFoundException) {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
-                            }
-                        }
-                        .show()
             }
         }
     }

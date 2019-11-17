@@ -27,14 +27,24 @@ import com.google.android.material.tabs.TabLayout
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.tool.*
+import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
+import com.mrgames13.jimdo.feinstaubapp.network.isSensorDataExisting
+import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
+import com.mrgames13.jimdo.feinstaubapp.tool.NotificationUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
+import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.ViewPagerAdapterSensor
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
-import kotlinx.android.synthetic.main.activity_main.container
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view_pager
 import kotlinx.android.synthetic.main.activity_sensor.*
+import kotlinx.android.synthetic.main.activity_sensor.container
 import kotlinx.android.synthetic.main.dialog_share.view.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
@@ -289,7 +299,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Set ProgressMenuItem
         progressMenuItem?.setActionView(R.layout.menu_item_loading)
 
-        Thread(Runnable {
+        CoroutineScope(Dispatchers.IO).launch {
             // Clear records
             records.clear()
 
@@ -310,7 +320,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 // Check if internet is available
                 if (smu.isInternetAvailable) {
                     // Internet is available
-                    records.addAll(smu.manageDownloadsRecords(sensor.chipID, from, to)!!)
+                    records.addAll(loadDataRecords(this@SensorActivity, sensor.chipID, from, to)!!)
                 } else {
                     // Internet is not available
                     smu.checkConnection(container)
@@ -350,31 +360,24 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 // Reset ProgressMenuItem
                 progressMenuItem?.actionView = null
             }
-        }).start()
+        }
     }
 
     private fun checkSensorAvailability() {
         if (!su.getBoolean("DontShowAgain_" + sensor.chipID) && smu.isInternetAvailable) {
-            Thread(Runnable {
-                val result = smu.sendRequest(container, object : HashMap<String, String>() {
-                    init {
-                        put("command", "issensordataexisting")
-                        put("chip_id", sensor.chipID)
-                    }
-                })
-                if (!java.lang.Boolean.parseBoolean(result)) {
+            CoroutineScope(Dispatchers.IO).launch {
+                if(!isSensorDataExisting(this@SensorActivity, sensor.chipID)) {
                     runOnUiThread {
-                        val d = AlertDialog.Builder(this@SensorActivity)
-                                .setCancelable(true)
-                                .setTitle(R.string.app_name)
-                                .setMessage(R.string.add_sensor_tick_not_set_message)
-                                .setPositiveButton(R.string.ok, null)
-                                .setNegativeButton(R.string.dont_show_again) { _, _ -> su.putBoolean("DontShowAgain_" + sensor.chipID, true) }
-                                .create()
-                        d.show()
+                        AlertDialog.Builder(this@SensorActivity)
+                            .setCancelable(true)
+                            .setTitle(R.string.app_name)
+                            .setMessage(R.string.add_sensor_tick_not_set_message)
+                            .setPositiveButton(R.string.ok, null)
+                            .setNegativeButton(R.string.do_not_show_again) { _, _ -> su.putBoolean("DontShowAgain_" + sensor.chipID, true) }
+                            .show()
                     }
                 }
-            }).start()
+            }
         }
     }
 
@@ -382,8 +385,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         val v = layoutInflater.inflate(R.layout.dialog_share, null)
         val d = AlertDialog.Builder(this)
                 .setView(v)
-                .create()
-        d.show()
+                .show()
 
         v.share_sensor.setOnClickListener {
             Handler().postDelayed({

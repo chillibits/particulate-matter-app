@@ -4,17 +4,23 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="150dp" />
+            <stroke android:color="@color/gray_transparent" android:width="1.5dp" />
+        </shape>
+    </item>
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="150dp" />
-            <solid android:color="@color/white_dark" />
-            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
+            <solid android:color="@color/colorPrimaryTransparent" />
+            <stroke android:color="@color/colorPrimary" android:width="1.5dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="150dp" />
-            <stroke android:color="@color/colorPrimaryTransparent" android:width="1.5dp" />
+            <stroke android:color="@color/colorPrimary" android:width="1.5dp" />
         </shape>
     </item>
 </selector>

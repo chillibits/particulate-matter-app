@@ -71,6 +71,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sensor_chip_id_value"
         android:background="@drawable/button_outline"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@drawable/button_outline_text"
         android:layout_marginStart="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
