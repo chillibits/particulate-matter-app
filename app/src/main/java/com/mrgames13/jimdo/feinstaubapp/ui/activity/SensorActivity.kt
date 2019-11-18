@@ -136,8 +136,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         })
 
         // Initialize calendar
-        calendar = Calendar.getInstance()
-        if (selected_day_timestamp == 0L) {
+        if (selected_day_timestamp == 0L || !::calendar.isInitialized) {
+            calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
@@ -311,6 +311,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // Get timestamps for 'from' and'to'
             var from = selected_day_timestamp
             val to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1)
+            Log.d("FA", selected_day_timestamp.toString())
 
             if (su.getBoolean("reduce_data_consumption", true) && records.size > 0 && selected_day_timestamp == current_day_timestamp) {
                 // Load existing records from local database

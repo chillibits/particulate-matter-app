@@ -119,7 +119,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // LimitP1
         val limitP1 = findPreference<EditTextPreference>("limit_p1")
         limitP1?.setOnBindEditTextListener { editText ->
-            applyEditTextAttributes(editText, 6)
+            applyEditTextAttributes(editText, 4)
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitP1?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
@@ -132,7 +132,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // LimitP2
         val limitP2 = findPreference<EditTextPreference>("limit_p2")
         limitP2?.setOnBindEditTextListener { editText ->
-            applyEditTextAttributes(editText, 6)
+            applyEditTextAttributes(editText, 4)
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitP2?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
@@ -145,7 +145,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // LimitTemperature
         val limitTemp = findPreference<EditTextPreference>("limit_temp")
         limitTemp?.setOnBindEditTextListener { editText ->
-            applyEditTextAttributes(editText, 3)
+            applyEditTextAttributes(editText, 2)
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitTemp?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
@@ -158,7 +158,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // LimitHumidity
         val limitHumidity = findPreference<EditTextPreference>("limit_humidity")
         limitHumidity?.setOnBindEditTextListener { editText ->
-            applyEditTextAttributes(editText, 6)
+            applyEditTextAttributes(editText, 2)
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitHumidity?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
@@ -171,7 +171,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // LimitPressure
         val limitPressure = findPreference<EditTextPreference>("limit_pressure")
         limitPressure?.setOnBindEditTextListener { editText ->
-            applyEditTextAttributes(editText, 7)
+            applyEditTextAttributes(editText, 6)
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitPressure?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->

@@ -29,6 +29,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -233,7 +234,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             map_fragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
-            mapType = contentView.findViewById(R.id.map_type)
+            mapType = contentView.map_type
             val mapTypes = ArrayList<String>()
             mapTypes.add(getString(R.string.normal))
             mapTypes.add(getString(R.string.terrain))
@@ -328,8 +329,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             enableOwnLocation()
 
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(
-                ViewPagerAdapterMain.activity, if (resources.getColor(R.color.colorPrimary) == resources.getColor(R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.activity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
 
             // Initialize ClusterManager
             clusterManager = ClusterManager(
