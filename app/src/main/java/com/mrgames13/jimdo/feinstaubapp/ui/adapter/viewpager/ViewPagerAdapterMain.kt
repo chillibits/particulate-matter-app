@@ -469,9 +469,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensorCoordinates.text = marker.snippet
                 marker.tag = marker.title
                 sensorShowData.setOnClickListener {
-                    exitReveal(
-                        sensor_container
-                    )
+                    exitReveal(sensor_container)
 
                     random = Random()
                     currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
@@ -540,6 +538,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     if (addresses[0].countryName != null) countryCityText = addresses[0].countryName
                     if (addresses[0].locality != null) countryCityText += " - " + addresses[0].locality
                     sensorLocation.text = countryCityText
+                    marker.tag = if(addresses[0].locality.isNotEmpty()) addresses[0].locality else marker.title
                 } catch (e: Exception) {
                     sensorLocation.setText(R.string.unknown_location)
                     marker.tag = marker.title

@@ -39,6 +39,9 @@ import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.DataAdapter
 import com.mrgames13.jimdo.feinstaubapp.ui.model.DiagramEntry
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.round
 
 class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity, su: StorageUtils, show_gps_data: Boolean) : FragmentStatePagerAdapter(manager) {
@@ -109,12 +112,13 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             left.valueFormatter = LargeValueFormatter()
             left.setDrawAxisLine(true)
             left.setDrawGridLines(false)
-            left.axisMinimum = 0f
+            left.spaceBottom = 0f
             // Right y axis
             val right = chart.axisRight
             right.valueFormatter = LargeValueFormatter()
             right.setDrawAxisLine(true)
             right.setDrawGridLines(false)
+            right.setDrawZeroLine(true)
             // x axis
             val xAxis = chart.xAxis
             xAxis.granularity = 60f
@@ -173,16 +177,13 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     th_eu_p1.isVisible = custom_threshold_eu.isChecked && value
                     th_who_p1.isVisible = custom_threshold_who.isChecked && value
 
-                    /*double highest = 0;
-                        if(value) highest = Tools.findHighestMeasurement(records, 1);
-                        if(custom_p2.isChecked()) highest = Math.max(highest, Tools.findHighestMeasurement(records, 2));
-                        Log.d("FA", String.valueOf(highest));
-                        chart.getAxisLeft().setAxisMaximum((float) (highest));*/
+                    var highest = 1.0
+                    if(custom_p2.isChecked) highest = Tools.findMaxMeasurement(records, 2)
+                    if(value) highest = max(highest, Tools.findMaxMeasurement(records, 1))
+                    left.axisMaximum = highest.toFloat()
+                    left.calculate(0f, highest.toFloat())
 
-                    showGraph(
-                        0,
-                        value
-                    )
+                    showGraph(0, value)
                 }
             })
             custom_p2.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -197,16 +198,13 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     th_eu_p2.isVisible = custom_threshold_eu.isChecked && value
                     th_who_p2.isVisible = custom_threshold_who.isChecked && value
 
-                    /*double highest = 0;
-                        if(custom_p1.isChecked()) highest = Tools.findHighestMeasurement(records, 1);
-                        if(value) highest = Math.max(highest, Tools.findHighestMeasurement(records, 2));
-                        Log.d("FA", String.valueOf(highest));
-                        chart.getAxisLeft().setAxisMaximum((float) (highest));*/
+                    var highest = 1.0
+                    if(custom_p1.isChecked) highest = Tools.findMaxMeasurement(records, 1)
+                    if(value) highest = max(highest, Tools.findMaxMeasurement(records, 2))
+                    left.axisMaximum = highest.toFloat()
+                    left.calculate(0f, highest.toFloat())
 
-                    showGraph(
-                        1,
-                        value
-                    )
+                    showGraph(1, value)
                 }
             })
             custom_temp.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -218,10 +216,24 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_temp.isVisible = custom_average.isChecked && value
                     med_temp.isVisible = custom_median.isChecked && value
-                    showGraph(
-                        2,
-                        value
-                    )
+
+                    var highest = 1.0
+                    var lowest = 0.0
+                    if(value) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    }
+                    if(custom_humidity.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                    }
+                    if(custom_pressure.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                    }
+                    right.calculate(lowest.toFloat(), highest.toFloat())
+
+                    showGraph(2, value)
                 }
             })
             custom_humidity.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -233,10 +245,24 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_humidity.isVisible = custom_average.isChecked && value
                     med_humidity.isVisible = custom_median.isChecked && value
-                    showGraph(
-                        3,
-                        value
-                    )
+
+                    var highest = 1.0
+                    var lowest = 0.0
+                    if(custom_temp.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    }
+                    if(value) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                    }
+                    if(custom_pressure.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                    }
+                    right.calculate(lowest.toFloat(), highest.toFloat())
+
+                    showGraph(3, value)
                 }
             })
             custom_pressure.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { cb, value ->
@@ -248,12 +274,27 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 if (dataSets.size >= 5) {
                     av_pressure.isVisible = custom_average.isChecked && value
                     med_pressure.isVisible = custom_median.isChecked && value
-                    showGraph(
-                        4,
-                        value
-                    )
+
+                    var highest = 1.0
+                    var lowest = 0.0
+                    if(custom_temp.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    }
+                    if(custom_humidity.isChecked) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                    }
+                    if(value) {
+                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                    }
+                    right.calculate(lowest.toFloat(), highest.toFloat())
+
+                    showGraph(4, value)
                 }
             })
+
             customNothing.setOnCheckedChangeListener { _, checked ->
                 if (checked) {
                     av_p1.isVisible = false
@@ -334,8 +375,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             cv_pressure = contentView.findViewById(R.id.cv_pressure)
             cv_time = contentView.findViewById(R.id.cv_time)
 
-            listener.onDiagramFragmentLoaded(
-                contentView.findViewById(R.id.diagram_container))
+            listener.onDiagramFragmentLoaded(contentView.findViewById(R.id.diagram_container))
 
             return contentView
         }

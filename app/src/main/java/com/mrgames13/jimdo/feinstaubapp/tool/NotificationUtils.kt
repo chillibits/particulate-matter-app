@@ -33,7 +33,7 @@ class NotificationUtils(private val context: Context) {
         displayNotification(Constants.CHANNEL_MISSING_MEASUREMENTS, context.getString(R.string.sensor_breakdown), "$sensor_name ($chip_id)", Integer.parseInt(chip_id) * 10, i, longArrayOf(0, VIBRATION_SHORT.toLong(), VIBRATION_SHORT.toLong(), VIBRATION_SHORT.toLong()), System.currentTimeMillis())
     }
 
-    private fun displayNotification(channel_id: String, title: String, message: String, id: Int = (Math.random() * Integer.MAX_VALUE).toInt(), i: Intent?, vibration: LongArray, time: Long) {
+    private fun displayNotification(channel_id: String, title: String, message: String, id: Int = (Math.random()* Integer.MAX_VALUE).toInt(), i: Intent?, vibration: LongArray, time: Long) {
         // Setup notification
         val n = buildNotification(channel_id, title, message)
         n.setAutoCancel(true)

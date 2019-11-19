@@ -16,6 +16,8 @@ import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
 import kotlin.math.abs
 
+
+
 object Tools {
 
     fun round(value: Double, places: Int): Double {
@@ -151,52 +153,62 @@ object Tools {
     }
 
     fun measurementCorrection2(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
-        /*for(int i = 2; i < records.size(); i++) {
+        /*for (i in 2 until records.size) {
             // Get current and previous record
-            DataRecord current_record = records.get(i);
-            DataRecord record_before = records.get(i -1);
-            DataRecord record_before2 = records.get(i -2);
+            val currentRecord = records[i]
+            val recordBefore = records[i - 1]
+            val recordBefore2 = records[i - 2]
             // PM10
-            double deltaY1 = current_record.getP1() - record_before.getP1();
-            double deltaY2 = record_before.getP1() - record_before2.getP1();
-            double new_p1 = current_record.getP1();
-            double new_p2 = current_record.getP2();
+            var deltaY1 = currentRecord.p1 - recordBefore.p1
+            var deltaY2 = recordBefore.p1 - recordBefore2.p1
+            var newP1 = currentRecord.p1
+            var newP2 = currentRecord.p2
             // Detect measurement errors
-            if(current_record.getP1() > 30 && current_record.getP1() > record_before.getP1() * 3 && deltaY1 > deltaY2 * 3) {
-                double threshold = (current_record.getP1() + record_before.getP1()) / 2;
-                DataRecord record_after = record_before;
-                for(int j = i +1; j < records.size(); j++) {
-                    if(records.get(j).getP1() < threshold) {
-                        record_after = records.get(j);
-                        break;
+            if (currentRecord.p1 > 30 && currentRecord.p1 > recordBefore.p1 * 3 && deltaY1 > deltaY2 * 3) {
+                val threshold = (currentRecord.p1 + recordBefore.p1) / 2
+                var recordAfter = recordBefore
+                for (j in i + 1 until records.size) {
+                    if (records[j].p1 < threshold) {
+                        recordAfter = records[j]
+                        break
                     }
                 }
                 // Form linear function
-                double m = Math.abs(record_before.getP1() - record_after.getP1()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
-                double b = record_before.getP1() - m * record_before.getDateTime().getTime();
-                new_p1 = round(m * current_record.getDateTime().getTime() + b, 2);
+                val m = abs(recordBefore.p1 - recordAfter.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                val b = recordBefore.p1 - m * recordBefore.dateTime.time
+                newP1 = round(m * currentRecord.dateTime.time + b, 2)
             }
             // PM2.5
-            deltaY1 = current_record.getP2() - record_before.getP2();
-            deltaY2 = record_before.getP2() - record_before2.getP2();
-            if(current_record.getP2() > 20 && current_record.getP2() > current_record.getP2() * 3 && deltaY1 > deltaY2 * 3) {
-                double threshold = (current_record.getP2() + record_before.getP2()) / 2;
-                DataRecord record_after = record_before;
-                for(int j = i +1; j < records.size(); j++) {
-                    if(records.get(j).getP2() < threshold) {
-                        record_after = records.get(j);
-                        break;
+            deltaY1 = currentRecord.p2 - recordBefore.p2
+            deltaY2 = recordBefore.p2 - recordBefore2.p2
+            if (currentRecord.p2 > 20 && currentRecord.p2 > currentRecord.p2 * 3 && deltaY1 > deltaY2 * 3) {
+                val threshold = (currentRecord.p2 + recordBefore.p2) / 2
+                var recordAfter = recordBefore
+                for (j in i + 1 until records.size) {
+                    if (records[j].p2 < threshold) {
+                        recordAfter = records[j]
+                        break
                     }
                 }
                 // Form linear function
-                double m = Math.abs(record_before.getP2() - record_after.getP2()) / (record_after.getDateTime().getTime() - record_before.getDateTime().getTime());
-                double b = record_before.getP2() - m * record_before.getDateTime().getTime();
-                new_p2 = round(m * current_record.getDateTime().getTime() + b, 2);
+                val m = abs(recordBefore.p2 - recordAfter.p2) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                val b = recordBefore.p2 - m * recordBefore.dateTime.time
+                newP2 = round(m * currentRecord.dateTime.time + b, 2)
             }
 
             // Alter record according to results
-            DataRecord new_record = new DataRecord(current_record.getDateTime(), new_p1, new_p2, current_record.getTemp(), current_record.getHumidity(), current_record.getPressure(), 0.0, 0.0, 0.0);
-            records.set(i, new_record);
+            val newRecord = DataRecord(
+                currentRecord.dateTime,
+                newP1,
+                newP2,
+                currentRecord.temp,
+                currentRecord.humidity,
+                currentRecord.pressure,
+                0.0,
+                0.0,
+                0.0
+            )
+            records[i] = newRecord
         }*/
         return records
     }
@@ -229,5 +241,37 @@ object Tools {
         val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
         if (resourceId > 0) result = context.resources.getDimensionPixelSize(resourceId)
         return result
+    }
+
+    fun findMaxMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
+        return try {
+            when(mode) {
+                1 -> records?.maxBy { it.p1 }!!.p1
+                2 -> records?.maxBy { it.p2 }!!.p2
+                3 -> records?.maxBy { it.temp }!!.temp
+                4 -> records?.maxBy { it.humidity }!!.humidity
+                5 -> records?.maxBy { it.pressure }!!.pressure
+                else -> 0.0
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0.0
+        }
+    }
+
+    fun findMinMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
+        return try {
+            when(mode) {
+                1 -> records?.minBy { it.p1 }!!.p1
+                2 -> records?.minBy { it.p2 }!!.p2
+                3 -> records?.minBy { it.temp }!!.temp
+                4 -> records?.minBy { it.humidity }!!.humidity
+                5 -> records?.minBy { it.pressure }!!.pressure
+                else -> 0.0
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0.0
+        }
     }
 }
