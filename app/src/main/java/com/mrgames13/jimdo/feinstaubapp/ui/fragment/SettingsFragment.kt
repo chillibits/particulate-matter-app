@@ -335,17 +335,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
         editText.filters += InputFilter.LengthFilter(length)
         editText.selectAll()
     }
+}
 
-    private fun restartApp(context: Context) {
-        AlertDialog.Builder(context)
-                .setTitle(R.string.app_restart_t)
-                .setMessage(R.string.app_restart_m)
-                .setCancelable(false)
-                .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-                    intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                }
-                .show()
-    }
+fun restartApp(context: Context) {
+    AlertDialog.Builder(context)
+        .setTitle(R.string.app_restart_t)
+        .setMessage(R.string.app_restart_m)
+        .setCancelable(false)
+        .setPositiveButton(R.string.ok) { dialogInterface, i ->
+            val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            context.startActivity(intent)
+        }
+        .show()
 }

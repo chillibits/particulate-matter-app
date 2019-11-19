@@ -180,7 +180,6 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     var highest = 1.0
                     if(custom_p2.isChecked) highest = Tools.findMaxMeasurement(records, 2)
                     if(value) highest = max(highest, Tools.findMaxMeasurement(records, 1))
-                    left.axisMaximum = highest.toFloat()
                     left.calculate(0f, highest.toFloat())
 
                     showGraph(0, value)
@@ -201,7 +200,6 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     var highest = 1.0
                     if(custom_p1.isChecked) highest = Tools.findMaxMeasurement(records, 1)
                     if(value) highest = max(highest, Tools.findMaxMeasurement(records, 2))
-                    left.axisMaximum = highest.toFloat()
                     left.calculate(0f, highest.toFloat())
 
                     showGraph(1, value)

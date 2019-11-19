@@ -59,6 +59,7 @@ import com.mrgames13.jimdo.feinstaubapp.service.WebRealtimeSyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.*
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SensorAdapter
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
+import com.mrgames13.jimdo.feinstaubapp.ui.fragment.restartApp
 import com.mrgames13.jimdo.feinstaubapp.ui.view.PlacesSearchDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
@@ -247,6 +248,11 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         view_pager.currentItem = 1
 
         initializeApp()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        restartApp(this)
     }
 
     override fun onDestroy() {
