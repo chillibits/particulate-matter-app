@@ -6,7 +6,6 @@ package com.mrgames13.jimdo.feinstaubapp.ui.activity
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -27,6 +26,7 @@ import com.mrgames13.jimdo.feinstaubapp.network.addSensorOnServer
 import com.mrgames13.jimdo.feinstaubapp.network.isSensorDataExisting
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
+import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
 import com.rtchagas.pingplacepicker.PingPlacePicker
 import kotlinx.android.synthetic.main.activity_add_sensor.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -191,7 +191,7 @@ class AddSensorActivity : AppCompatActivity() {
                 if (!su.isSensorExisting(chipId)) {
                     val pd = ProgressDialog(this)
                     pd.setMessage(getString(R.string.please_wait_))
-                    pd.setCancelable(false)
+                    pd.setDialogCancelable(false)
                     pd.show()
 
                     if (smu.isInternetAvailable) {

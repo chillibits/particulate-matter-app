@@ -7,7 +7,6 @@ package com.mrgames13.jimdo.feinstaubapp.ui.activity
 import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -33,6 +32,7 @@ import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
+import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
 import kotlinx.android.synthetic.main.activity_compare.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -346,8 +346,7 @@ class CompareActivity : AppCompatActivity() {
         if (progressMenuItem != null) progressMenuItem!!.setActionView(R.layout.menu_item_loading)
 
         val pd = ProgressDialog(this)
-        pd.setCancelable(false)
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+        pd.setDialogCancelable(false)
         pd.setTitle(getString(R.string.loading_data))
         pd.show()
 
@@ -368,7 +367,6 @@ class CompareActivity : AppCompatActivity() {
             // Get time of first record
             firstTime = java.lang.Long.MAX_VALUE
             lastTime = java.lang.Long.MIN_VALUE
-            pd.max = sensors.size
             for (i in sensors.indices) {
                 // Load existing data records from local database
                 val currentRecords = su.loadRecords(sensors[i].chipID, from, to)
@@ -392,7 +390,9 @@ class CompareActivity : AppCompatActivity() {
                     firstTime = if (currentFirstTime < firstTime) currentFirstTime else firstTime
                     lastTime = if (currentLastTime > lastTime) currentLastTime else lastTime
                 } catch (e: Exception) {}
-                pd.progress = i + 1
+                runOnUiThread {
+                    pd.setMessage("${i * 100 / sensors.size}%")
+                }
             }
 
             noData = true

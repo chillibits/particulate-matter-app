@@ -54,7 +54,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.13.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0-beta02'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
@@ -78,7 +78,6 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
-    // implementation 'com.squareup.okhttp3:okhttp:3.12.5' // 3.12.5
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.angads25:filepicker:1.1.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'

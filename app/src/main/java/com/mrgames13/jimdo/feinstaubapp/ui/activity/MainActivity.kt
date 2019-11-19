@@ -112,12 +112,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         // Initialize components
         view_pager.offscreenPageLimit = 3
-        pagerAdapter = ViewPagerAdapterMain(
-            supportFragmentManager,
-            this,
-            su,
-            smu
-        )
+        pagerAdapter = ViewPagerAdapterMain(supportFragmentManager, this, su, smu)
         view_pager.adapter = pagerAdapter
         view_pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(pos: Int) {
@@ -190,7 +185,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            window.decorView.setOnApplyWindowInsetsListener { v, insets ->
+            window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar?.setPadding(0, insets.systemWindowInsetTop, 0, 0)
                 bottom_navigation.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets
@@ -621,15 +616,14 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
     private fun hideSystemBars() {
         val statusBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else Tools.getStatusBarHeight(this)
-        val navigationBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else Tools.getNavigationBarHeight(this)
+        val navigationBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else (if(shownAgainOnce) Tools.getNavigationBarHeight(this) else Tools.getNavigationBarHeight(this) * 2)
         toolbar!!.animate().translationY((-toolbar!!.measuredHeight).toFloat()).setDuration(500L).start()
         view_pager.animate().translationY((-toolbar!!.measuredHeight).toFloat()).setDuration(500L).start()
         val va = ValueAnimator.ofInt(container.measuredHeight, container.measuredHeight + bottom_navigation.measuredHeight + toolbar!!.measuredHeight + (if (shownAgainOnce) 0 else statusBarHeight) + navigationBarHeight)
         va.duration = 500L
+        val layoutParams = container.layoutParams as FrameLayout.LayoutParams
         va.addUpdateListener { animation ->
-            val `val` = animation.animatedValue as Int
-            val layoutParams = container.layoutParams as FrameLayout.LayoutParams
-            layoutParams.height = `val`
+            layoutParams.height = animation.animatedValue as Int
             container.layoutParams = layoutParams
         }
         va.start()
@@ -645,16 +639,15 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     }
 
     private fun showSystemBars() {
-        val navigationBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else Tools.getNavigationBarHeight(this)
+        val navigationBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else (if(shownAgainOnce) Tools.getNavigationBarHeight(this) else 0)
         toolbar?.animate()?.translationY(0f)?.setDuration(250L)?.start()
         toolbar?.setPadding(0, Tools.getStatusBarHeight(this), 0, 0)
         view_pager.animate().translationY(0f).setDuration(250L).start()
         val va = ValueAnimator.ofInt(container.measuredHeight, container.measuredHeight - bottom_navigation.measuredHeight - toolbar!!.measuredHeight - navigationBarHeight)
         va.duration = 250L
+        val layoutParams = container.layoutParams as FrameLayout.LayoutParams
         va.addUpdateListener { animation ->
-            val `val` = animation.animatedValue as Int
-            val layoutParams = container.layoutParams as FrameLayout.LayoutParams
-            layoutParams.height = `val`
+            layoutParams.height = animation.animatedValue as Int
             container.layoutParams = layoutParams
         }
         va.start()

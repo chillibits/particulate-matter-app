@@ -84,11 +84,24 @@ class SyncService : Service() {
         // Check, if internet is available
         if (smu.isInternetAvailable) {
             // Get max limit from SharedPreferences
-            limitP1 = Integer.parseInt(su.getString("limitP1", Constants.DEFAULT_P1_LIMIT.toString()))
-            limitP2 = Integer.parseInt(su.getString("limitP2", Constants.DEFAULT_P2_LIMIT.toString()))
-            limitTemp = Integer.parseInt(su.getString("limitTemp", Constants.DEFAULT_TEMP_LIMIT.toString()))
-            limitHumidity = Integer.parseInt(su.getString("limitHumidity", Constants.DEFAULT_HUMIDITY_LIMIT.toString()))
-            limitPressure = Integer.parseInt(su.getString("limitPressure", Constants.DEFAULT_PRESSURE_LIMIT.toString()))
+            try { // This try-catch-block is temporary placed because of an error occurrence of a NumberFormatException
+                limitP1 = Integer.parseInt(su.getString("limit_p1", Constants.DEFAULT_P1_LIMIT.toString()))
+                limitP2 = Integer.parseInt(su.getString("limit_p2", Constants.DEFAULT_P2_LIMIT.toString()))
+                limitTemp = Integer.parseInt(su.getString("limit_temp", Constants.DEFAULT_TEMP_LIMIT.toString()))
+                limitHumidity = Integer.parseInt(su.getString("limit_humidity", Constants.DEFAULT_HUMIDITY_LIMIT.toString()))
+                limitPressure = Integer.parseInt(su.getString("limit_pressure", Constants.DEFAULT_PRESSURE_LIMIT.toString()))
+            } catch (e: Exception) {
+                limitP1 = Constants.DEFAULT_P1_LIMIT
+                su.putString("limit_p1", limitP1.toString())
+                limitP2 = Constants.DEFAULT_P2_LIMIT
+                su.putString("limit_p2", limitP2.toString())
+                limitTemp = Constants.DEFAULT_TEMP_LIMIT
+                su.putString("limit_temp", limitTemp.toString())
+                limitHumidity = Constants.DEFAULT_HUMIDITY_LIMIT
+                su.putString("limit_humidity", limitHumidity.toString())
+                limitPressure = Constants.DEFAULT_PRESSURE_LIMIT
+                su.putString("limit_pressure", limitPressure.toString())
+            }
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
