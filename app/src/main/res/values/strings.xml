@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Synchronization cycle (sec)</string>
     <string name="sync_cycle_background">Synchronization cycle background</string>
     <string name="sync_cycle_background_t">Synchronization cycle background (min)</string>
-    <string name="seconds">seconds</string>
-    <string name="second">second</string>
-    <string name="minutes">minutes</string>
-    <string name="minute">minute</string>
     <string name="reduce_data_consumption">Reduce data consumption</string>
     <string name="reduce_data_consumption_s">Download only the required data (can cause errors on time shift)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Restart needed</string>
     <string name="app_restart_m">To apply the changes, a app restart is needed.</string>
-    <string name="now">Now</string>
-    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Notification on exceeded average</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Humidity limit (%)</string>
     <string name="pref_limit_pressure">Pressure limit</string>
     <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
-    <string name="pref_limit_disabled">Notification disabled</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
     <string name="measurement">measurement</string>
-    <string name="measurements">measurements</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Increase diagram performance</string>

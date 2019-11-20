@@ -161,10 +161,6 @@
     <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
     <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
     <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
-    <string name="seconds">Sekunden</string>
-    <string name="second">Sekunde</string>
-    <string name="minutes">Minuten</string>
-    <string name="minute">Minute</string>
     <string name="_seconds">%s Sekunden</string>
     <string name="_minutes">%s Minuten</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Neustart benötigt</string>
     <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden.</string>
-    <string name="now">Jetzt</string>
-    <string name="later">Später</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
     <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
-    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
     <string name="measurement">Messung</string>
-    <string name="measurements">Messungen</string>
     <string name="_measurements">%s Messungen</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>

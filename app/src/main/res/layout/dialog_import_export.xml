@@ -15,7 +15,6 @@
         android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/import_qr_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"
@@ -40,7 +39,6 @@
         android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/export_qr_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"
@@ -65,7 +63,6 @@
         android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/import_xml_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"
@@ -89,7 +86,6 @@
         android:background="?selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/share_data_records_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"

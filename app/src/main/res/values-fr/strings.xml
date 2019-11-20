@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Cycle de synchronisation (sec)</string>
     <string name="sync_cycle_background">Cycle de synchronisation en arrière-plan</string>
     <string name="sync_cycle_background_t">Cycle de synchronisation en arrière-plan (min)</string>
-    <string name="seconds">secondes</string>
-    <string name="second">seconde</string>
-    <string name="minutes">minutes</string>
-    <string name="minute">minute</string>
     <string name="reduce_data_consumption">Réduire la consommation des données</string>
     <string name="reduce_data_consumption_s">Télécharger seulement les données nécessaires (peut causer des erreurs de décalage horaire)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Redémarrage nécessaire</string>
     <string name="app_restart_m">Pour appliquer les changements, il est nécessaire de redémarrer l\'application. Voulez-vous effectuer le redémarrage maintenant ou plus tard?</string>
-    <string name="now">Maintenant</string>
-    <string name="later">Plus tard</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Dépassement de la valeur moyenne</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Limite de la valeur de l\'humidité relative (%)</string>
     <string name="pref_limit_pressure">Limite de la pression atmosphérique</string>
     <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
-    <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
     <string name="measurement">mesure</string>
-    <string name="measurements">mesures</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Augmenter la performance du graphique</string>

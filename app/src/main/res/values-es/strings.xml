@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Ciclo de sincronización (seg)</string>
     <string name="sync_cycle_background">Fondo del ciclo de sincronización</string>
     <string name="sync_cycle_background_t">Fondo del ciclo de sincronización (min)</string>
-    <string name="seconds">segundos</string>
-    <string name="second">segundo</string>
-    <string name="minutes">minutos</string>
-    <string name="minute">minuto</string>
     <string name="reduce_data_consumption">Reducir el consumo de datos.</string>
     <string name="reduce_data_consumption_s">Descargue solo los datos requeridos (puede causar errores en el turno de tiempo)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Reinicio necesario</string>
     <string name="app_restart_m">Para aplicar los cambios, se necesita reiniciar la aplicación.</string>
-    <string name="now">Ahora</string>
-    <string name="later">Luego</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notificaciones</string>
     <string name="pref_notification_averages">Notificación sobre promedio superado</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Límite de humedad (%)</string>
     <string name="pref_limit_pressure">Pressure limit\n\nLímite de presión</string>
     <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
-    <string name="pref_limit_disabled">Notificación deshabilitada</string>
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
     <string name="measurement">medición</string>
-    <string name="measurements">mediciones</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Actuación</string>
     <string name="pref_increase_diagram_performance">Aumentar el rendimiento del diagrama</string>

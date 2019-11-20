@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         setSupportActionBar(toolbar)
 
         // Initialize ServerMessagingUtils
-        smu = ServerMessagingUtils(this, su)
+        smu = ServerMessagingUtils(this)
 
         // Initialize components
         view_pager.offscreenPageLimit = 3
@@ -384,7 +384,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 .setMessage(getString(R.string.rate_m))
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
-                .setPositiveButton(getString(R.string.rate)) { dialog, which ->
+                .setPositiveButton(getString(R.string.rate)) { dialog, _ ->
                     dialog.dismiss()
                     try {
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
@@ -402,7 +402,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 .setMessage(getString(R.string.recommend_m))
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
-                .setPositiveButton(getString(R.string.recommend)) { dialog, which ->
+                .setPositiveButton(getString(R.string.recommend)) { dialog, _ ->
                     dialog.dismiss()
                     val i = Intent()
                     i.action = Intent.ACTION_SEND
@@ -410,7 +410,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                     i.type = "text/plain"
                     startActivity(i)
                 }
-                .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
                 .show()
     }
 

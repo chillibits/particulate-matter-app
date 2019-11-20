@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Ciclo di sincronizzazione (sec.)</string>
     <string name="sync_cycle_background">Ciclo di sincronizzazione\u0020\u0020in background</string>
     <string name="sync_cycle_background_t">Ciclo di sincronizzazione\u0020\u0020in background (min)</string>
-    <string name="seconds">secondi</string>
-    <string name="second">secondo</string>
-    <string name="minutes">minuti</string>
-    <string name="minute">minuto</string>
     <string name="reduce_data_consumption">Ridurre il consumo di dati</string>
     <string name="reduce_data_consumption_s">Scaricare solo i dati richiesti (può causare errori nel periodo di riferimento)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Riavvio necessario</string>
     <string name="app_restart_m">Per applicare i cambiamenti, è necessario riavviare l\'app. Vuoi riavviarla adesso o dopo?</string>
-    <string name="now">Adesso</string>
-    <string name="later">Dopo</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifiche</string>
     <string name="pref_notification_averages">Notifica di superamento della media</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Limite umidità (%)</string>
     <string name="pref_limit_pressure">Limite pressione</string>
     <string name="pref_limit_pressure_t">Limite pressione (hPa)</string>
-    <string name="pref_limit_disabled">Notifiche disabilitate</string>
     <string name="zero_to_disable">Posizionare a 0 per disabilitare</string>
     <string name="measurement">rilevazione</string>
-    <string name="measurements">rilevazioni</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestazione</string>
     <string name="pref_increase_diagram_performance">Incrementare le performance del diagramma</string>

@@ -62,8 +62,8 @@
                 card_view:layout_constraintEnd_toStartOf="@+id/card_date_edit"
                 android:text="@string/loading"
                 android:textSize="18sp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:gravity="center_vertical"/>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -139,8 +139,8 @@
             android:id="@+id/container"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

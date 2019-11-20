@@ -69,7 +69,7 @@ class AddSensorActivity : AppCompatActivity() {
         su = StorageUtils(this)
 
         // Initialize ServerMessagingUtils
-        smu = ServerMessagingUtils(this, su)
+        smu = ServerMessagingUtils(this)
 
         // Initialize Components
         sensor_color.setOnClickListener { selectNewColor() }

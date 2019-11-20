@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
     <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
-    <string name="seconds">seconden</string>
-    <string name="second">seconde</string>
-    <string name="minutes">minuten</string>
-    <string name="minute">minuut</string>
     <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
-    <string name="now">Nu</string>
-    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Luchtvochtigheid limiet (%)</string>
     <string name="pref_limit_pressure">Luchtdruk limiet</string>
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
-    <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
     <string name="measurement">meting</string>
-    <string name="measurements">metingen</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>

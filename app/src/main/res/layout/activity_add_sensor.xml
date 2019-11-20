@@ -221,7 +221,6 @@
                     android:padding="10dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/gps_info_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         app:srcCompat="@drawable/info_outline"
@@ -253,7 +252,6 @@
                 android:padding="10dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/edit_position_info_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/info_outline"

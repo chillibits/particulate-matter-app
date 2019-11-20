@@ -56,7 +56,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // Initialiize StorageUtils
         val su = StorageUtils(activity)
 
-        smu = ServerMessagingUtils(activity, su)
+        smu = ServerMessagingUtils(activity)
 
         // SyncCycle
         val syncCycle = findPreference<EditTextPreference>("sync_cycle")
@@ -350,7 +350,7 @@ fun restartApp(context: Context) {
         .setTitle(R.string.app_restart_t)
         .setMessage(R.string.app_restart_m)
         .setCancelable(false)
-        .setPositiveButton(R.string.ok) { dialogInterface, i ->
+        .setPositiveButton(R.string.ok) { _, _ ->
             val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             context.startActivity(intent)

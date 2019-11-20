@@ -58,7 +58,7 @@ class SyncService : Service() {
         su = StorageUtils(this)
 
         // Initialize ServerMessagingUtils
-        smu = ServerMessagingUtils(this, su)
+        smu = ServerMessagingUtils(this)
 
         // Initialize NotificationUtils
         nu = NotificationUtils(this)

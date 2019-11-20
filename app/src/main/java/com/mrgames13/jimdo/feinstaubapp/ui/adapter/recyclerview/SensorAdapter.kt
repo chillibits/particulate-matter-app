@@ -99,7 +99,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 holder.itemView.item_icon.flip(!holder.itemView.item_icon.isFlipped)
                 true
             }
-            holder.itemView.item_icon.setOnFlippingListener { flipView, checked ->
+            holder.itemView.item_icon.setOnFlippingListener { _, checked ->
                 if (checked) selectedSensors.add(sensor)
                 if (!checked) selectedSensors.remove(sensor)
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(activity, if (checked) R.color.color_selection else R.color.transparent))
@@ -127,7 +127,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                     .setTitle(R.string.unlink_sensor)
                                     .setMessage(activity.getString(R.string.really_unlink_sensor_1) + sensor.name + activity.getString(R.string.really_unlink_sensor_2))
                                     .setNegativeButton(R.string.cancel, null)
-                                    .setPositiveButton(R.string.unlink_sensor) { dialogInterface, i ->
+                                    .setPositiveButton(R.string.unlink_sensor) { _, _ ->
                                         // Delete database for this sensor
                                         su.deleteDataDatabase(sensor.chipID)
                                         // Delete sensor from the database

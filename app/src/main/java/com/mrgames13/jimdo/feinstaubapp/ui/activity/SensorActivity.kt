@@ -89,7 +89,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         su = StorageUtils(this)
 
         // Initialize ServerMessagingUtils
-        smu = ServerMessagingUtils(this@SensorActivity, su)
+        smu = ServerMessagingUtils(this@SensorActivity)
 
         // Initialize NotificationUtils
         nu = NotificationUtils(this)

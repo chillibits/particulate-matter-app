@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Цикъл на синхронизация (сек)</string>
     <string name="sync_cycle_background">Фон на цикъла на синхронизация</string>
     <string name="sync_cycle_background_t">Фон на цикъла на синхронизация (мин)</string>
-    <string name="seconds">секунди</string>
-    <string name="second">секунда</string>
-    <string name="minutes">минути</string>
-    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Намали консумацията на данни</string>
     <string name="reduce_data_consumption_s">Изтегляне само на необходимите данни (може да доведе до грешки при смяна на времето)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Необходим е рестарт</string>
     <string name="app_restart_m">За да приложите промените, е необходимо рестартиране на приложение. Искате ли да рестартирате сега или по-късно?</string>
-    <string name="now">Сега</string>
-    <string name="later">По-късно</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Известия</string>
     <string name="pref_notification_averages">Уведомление за превишена средна стойност</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Граница на влажността (%)</string>
     <string name="pref_limit_pressure">Граница на налягането</string>
     <string name="pref_limit_pressure_t">Граница на налягането (hPa)</string>
-    <string name="pref_limit_disabled">Известяването е изключено</string>
     <string name="zero_to_disable">Сложи 0, за да изключиш</string>
     <string name="measurement">измерване</string>
-    <string name="measurements">измервания</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Производителност</string>
     <string name="pref_increase_diagram_performance">Увеличи представянето на графиката</string>

@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Период в секундах</string>
     <string name="sync_cycle_background">Период фонового обновления данных</string>
     <string name="sync_cycle_background_t">Период в минутах</string>
-    <string name="seconds">секунды</string>
-    <string name="second">секунда</string>
-    <string name="minutes">минуты</string>
-    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Сократить объём скачиваемых данных</string>
     <string name="reduce_data_consumption_s">Скачивать только новые данные. Может вызвать ошибки при изменении настроек времени.</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Требуется перезапуск</string>
     <string name="app_restart_m">Чтобы применить изменения, приложение надо перезапустить.</string>
-    <string name="now">Сейчас</string>
-    <string name="later">Позже</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_notification_averages">Уведомления о превышении среднего значения</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Предел отн. влажности (%)</string>
     <string name="pref_limit_pressure">Предел давления</string>
     <string name="pref_limit_pressure_t">Предел давления (гПа)</string>
-    <string name="pref_limit_disabled">Уведомление отключено</string>
     <string name="zero_to_disable">Чтобы отключить, задайте 0</string>
     <string name="measurement">измерение</string>
-    <string name="measurements">измерение</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Скорость работы</string>
     <string name="pref_increase_diagram_performance">Ускорить график</string>

@@ -11,10 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.dialog_loading.view.*
 
-class ProgressDialog(context: Context) {
-
-    // Constants
-    private val context = context
+class ProgressDialog(private val context: Context) {
 
     // Variables as objects
     private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null)

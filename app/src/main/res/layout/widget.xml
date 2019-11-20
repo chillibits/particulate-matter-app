@@ -217,7 +217,7 @@
         android:src="@drawable/refresh_white"
         android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 
     <ProgressBar
         android:id="@+id/widget_refreshing"

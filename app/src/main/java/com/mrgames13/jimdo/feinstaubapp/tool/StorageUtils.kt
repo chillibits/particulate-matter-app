@@ -279,26 +279,6 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         db.endTransaction()
     }
 
-    fun addExternalSensor(sensor: ExternalSensor) {
-        if (!isExternalSensorExisting(sensor.chipId)) {
-            val values = ContentValues()
-            values.put("sensor_id", sensor.chipId)
-            values.put("latitude", sensor.lat)
-            values.put("longitude", sensor.lng)
-            addRecord(TABLE_EXTERNAL_SENSORS, values)
-        } else {
-            execSQL("UPDATE " + TABLE_EXTERNAL_SENSORS + " SET latitude = " + sensor.lat + ", longitude = " + sensor.lng + " WHERE sensor_id = '" + sensor.chipId + "';")
-        }
-    }
-
-    private fun isExternalSensorExisting(chip_id: String): Boolean {
-        val db = readableDatabase
-        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_EXTERNAL_SENSORS WHERE sensor_id = '$chip_id'", null)
-        val count = cursor.count
-        cursor.close()
-        return count > 0
-    }
-
     fun clearExternalSensors() {
         execSQL("DELETE FROM $TABLE_EXTERNAL_SENSORS")
     }

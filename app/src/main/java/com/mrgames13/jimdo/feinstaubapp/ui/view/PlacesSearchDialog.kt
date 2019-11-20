@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.place_search_dialog.*
 class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedCallback): AppCompatDialog(mContext), PlaceAutocompleteAdapter.PlaceSelectedListener {
 
     // Variables as objects
-    private val THRESHHOLD: Int = 1
+    private val threshold: Int = 1
     private lateinit var placesClient: PlacesClient
     private lateinit var h: Handler
     private var results = ArrayList<AutocompletePrediction>()
@@ -75,7 +75,7 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(query!!.length > THRESHHOLD) {
+                if(query!!.length > threshold) {
                     loadingIndicator.visibility = View.VISIBLE
                     recyclerFrame.visibility = View.GONE
                     val predictionRequest = FindAutocompletePredictionsRequest.builder()

@@ -50,7 +50,6 @@
             android:text="@string/public_short_"/>
 
         <TextView
-            android:id="@+id/sensor_creation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
@@ -63,7 +62,6 @@
             android:text="@string/online_since_"/>
 
         <TextView
-            android:id="@+id/sensor_lat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
@@ -75,7 +73,6 @@
             android:text="@string/latitude_"/>
 
         <TextView
-            android:id="@+id/sensor_lng"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"

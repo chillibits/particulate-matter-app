@@ -157,10 +157,6 @@
     <string name="sync_cycle_t">Cykl synchronizacji (sek)</string>
     <string name="sync_cycle_background">Cykl synchronizacji w tle</string>
     <string name="sync_cycle_background_t">Cykl synchronizacji w tle (min)</string>
-    <string name="seconds">sekund</string>
-    <string name="second">sekunda</string>
-    <string name="minutes">minut</string>
-    <string name="minute">minuta</string>
     <string name="reduce_data_consumption">Ogranicz pobór danych</string>
     <string name="reduce_data_consumption_s">Pobieraj tylko wymagane dane (może powodować błędy przesunięcia czasu)</string>
     <!-- Apperance Settings -->
@@ -184,8 +180,6 @@
     </string-array>
     <string name="app_restart_t">Potrzebny restart</string>
     <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji.</string>
-    <string name="now">Teraz</string>
-    <string name="later">Później</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Powiadomienia</string>
     <string name="pref_notification_averages">Powiadomienie o przekroczonej średniej</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Limit wilgotności (%)</string>
     <string name="pref_limit_pressure">Limit ciśnienia</string>
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
-    <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
     <string name="measurement">Pomiar</string>
-    <string name="measurements">Pomiary</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
     <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>

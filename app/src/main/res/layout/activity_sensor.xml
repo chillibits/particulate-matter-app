@@ -26,8 +26,8 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:cardCornerRadius="3dp"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
             card_view:cardElevation="4dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,8 +67,8 @@
                     card_view:layout_constraintBottom_toBottomOf="@+id/card_date_edit"
                     android:text="@string/loading"
                     android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:gravity="center_vertical"
                     card_view:layout_constraintStart_toEndOf="@+id/card_date_back"
                     card_view:layout_constraintEnd_toStartOf="@+id/card_date_edit"/>

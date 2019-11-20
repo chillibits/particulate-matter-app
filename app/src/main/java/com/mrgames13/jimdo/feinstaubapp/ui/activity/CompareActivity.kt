@@ -70,7 +70,7 @@ class CompareActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            window.decorView.setOnApplyWindowInsetsListener { v, insets ->
+            window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
                 findViewById<View>(R.id.container).setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets
@@ -92,7 +92,7 @@ class CompareActivity : AppCompatActivity() {
         su = StorageUtils(this)
 
         // Initialize ServiceMessagingUtils
-        smu = ServerMessagingUtils(this, su)
+        smu = ServerMessagingUtils(this)
 
         // Load sensors
         if (!intent.hasExtra("Sensors")) {
@@ -261,7 +261,7 @@ class CompareActivity : AppCompatActivity() {
 
     private fun chooseDate(card_date_value: TextView) {
         // Select date
-        val datePickerDialog = DatePickerDialog(this@CompareActivity, DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+        val datePickerDialog = DatePickerDialog(this@CompareActivity, DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val calendarNew = Calendar.getInstance()
             calendarNew.set(Calendar.YEAR, year)
             calendarNew.set(Calendar.MONTH, month)
@@ -307,21 +307,21 @@ class CompareActivity : AppCompatActivity() {
                 val exportTemp = v.findViewById<RadioButton>(R.id.export_diagram_temp)
                 val exportHumidity = v.findViewById<RadioButton>(R.id.export_diagram_humidity)
                 val exportPressure = v.findViewById<RadioButton>(R.id.export_diagram_pressure)
-                AlertDialog.Builder(this)
-                        .setTitle(R.string.export_diagram)
-                        .setView(v)
-                        .setNegativeButton(R.string.cancel, null)
-                        .setPositiveButton(R.string.done) { dialogInterface, i ->
-                            when {
-                                exportP1.isChecked -> exportOption = 1
-                                exportP2.isChecked -> exportOption = 2
-                                exportTemp.isChecked -> exportOption = 3
-                                exportHumidity.isChecked -> exportOption = 4
-                                exportPressure.isChecked -> exportOption = 5
-                            }
-                            exportData()
+                val show = AlertDialog.Builder(this)
+                    .setTitle(R.string.export_diagram)
+                    .setView(v)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.done) { _, _ ->
+                        when {
+                            exportP1.isChecked -> exportOption = 1
+                            exportP2.isChecked -> exportOption = 2
+                            exportTemp.isChecked -> exportOption = 3
+                            exportHumidity.isChecked -> exportOption = 4
+                            exportPressure.isChecked -> exportOption = 5
                         }
-                        .show()
+                        exportData()
+                    }
+                    .show()
             } else {
                 Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show()
             }

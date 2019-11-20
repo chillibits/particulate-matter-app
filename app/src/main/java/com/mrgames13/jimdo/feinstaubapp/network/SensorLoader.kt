@@ -83,9 +83,9 @@ suspend fun addSensorOnServer(activity: Activity, chipId: String, lat: String, l
     val params = Parameters.build {
         append("command", "addsensor")
         append("chip_id", chipId)
-        append("lat", chipId)
-        append("chip_id", chipId)
-        append("chip_id", chipId)
+        append("lat", lat)
+        append("lng", lng)
+        append("alt", alt)
     }
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()

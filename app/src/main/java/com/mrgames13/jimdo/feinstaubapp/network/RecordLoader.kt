@@ -7,6 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.network
 import android.content.Context
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecordCompressedList
+import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
@@ -29,9 +30,11 @@ suspend fun loadDataRecords(context: Context, chipId: String, from: Long, to: Lo
         val response = client.submitForm<HttpResponse>(getBackendDataUrl(context), params, encodeInQuery = true)
         client.close()
         if(response.status == HttpStatusCode.OK) {
-            return ArrayList(Json.parse(DataRecordCompressedList.serializer(), response.readText()).items.map { DataRecord(
+            val records = ArrayList(Json.parse(DataRecordCompressedList.serializer(), response.readText()).items.map { DataRecord(
                 Date(it.time * 1000), it.p1, it.p2, it.t, it.h, it.p, it.la, it.ln, it.a)
             })
+            StorageUtils(context).saveRecords(chipId, records)
+            return records
         }
     } catch (e: Exception) {
         e.printStackTrace()
