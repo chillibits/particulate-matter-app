@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -222,8 +222,8 @@
     <string name="pref_server_info_downloading_">Scaricamento informazioni server…</string>
     <string name="server_status_">Situazione del server</string>
     <string name="client_name_">Nome del client</string>
-    <string name="min_app_version_">Versione minimale</string>
-    <string name="latest_app_version_">Versione più nuova</string>
+    <string name="min_app_version_">Versione minima dell\'app:</string>
+    <string name="latest_app_version_">Versione più nuova dell\'app.</string>
     <string name="server_owner_">Proprietario del server</string>
     <string name="server_status_online">Il server è online</string>
     <string name="server_status_offline">Il server è offline</string>
@@ -232,7 +232,7 @@
     <string name="server_status_online_short">Online</string>
     <string name="server_status_offline_short">Offline</string>
     <string name="server_status_maintenance_short">In manutenzione</string>
-    <string name="server_status_support_ended_short">Non più supportato</string>
+    <string name="server_status_support_ended_short">Supporto terminato.</string>
     <string name="pref_open_source_t">Licenze open-source</string>
     <string name="pref_open_source_m">Dettagli delle licenze per software open-source</string>
     <string name="pref_appversion">Versione dell\'app.</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s minuti</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s misure</string>
+    <string name="pref_app_open_source_t">L\'app del particolato su GitHub</string>
+    <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>
 </resources>

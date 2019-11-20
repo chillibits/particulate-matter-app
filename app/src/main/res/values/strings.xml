@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Sat, 16 Nov 2019 16:04:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -221,7 +221,7 @@
     <string name="pref_server_info_t">Server info</string>
     <string name="pref_server_info_downloading_">Downloading server info …</string>
     <string name="server_status_">Server status</string>
-    <string name="client_name_">Client name:</string>
+    <string name="client_name_">Client name</string>
     <string name="min_app_version_">Minimal app version:</string>
     <string name="latest_app_version_">Latest app version:</string>
     <string name="server_owner_">Server owner</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s minutes</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s measurements</string>
+    <string name="pref_app_open_source_t">The Particulate Matter App on GitHub</string>
+    <string name="pref_app_open_source_s">Click to visit us on GitHub</string>
 </resources>

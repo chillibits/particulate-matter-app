@@ -236,6 +236,8 @@
     <string name="server_status_support_ended_short">Nicht mehr unterstützt</string>
     <string name="pref_open_source_t">Open-Source-Lizenzen</string>
     <string name="pref_open_source_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_app_open_source_t">Die Feinstaub-App auf GitHub</string>
+    <string name="pref_app_open_source_s">Tippen, um uns auf GitHub zu besuchen</string>
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>

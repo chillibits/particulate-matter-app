@@ -295,6 +295,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             false
         }
 
+        val openSource = findPreference<Preference>("open_source")
+        openSource?.setOnPreferenceClickListener {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(getString(R.string.github_url))
+            startActivity(i)
+            false
+        }
+
         val appVersion = findPreference<Preference>("app_version")
         appVersion?.summaryProvider = Preference.SummaryProvider<Preference> {
             try {

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -94,7 +94,7 @@
     <string name="longitude">Długość</string>
     <string name="longitude_">Długość:</string>
     <string name="coordinates_info">Współrzędne są zaokrąglane w związku z ochroną danych.</string>
-    <string name="gps_will_be_synchronized">Jeśli do systemu czujników podłączony jest czujnik GPS, pozycja zostanie automatycznie zsynchronizowana z mapą.</string>
+    <string name="gps_will_be_synchronized">Jeśli do systemu czujników podłączony jest czujnik GPS, pozycja zostanie automatycznie zsynchronizowana z mapą w czasie rzeczywistym.</string>
     <string name="edit_position_info">Ze względów bezpieczeństwa pozycję czujnika można zmienić tylko <a href="mailto:mrgames@outlook.de"> kontaktując się z nami </a>.</string>
     <string name="unknown_location">Nieznana lokalizacja</string>
     <!-- SensorActivity -->
@@ -139,7 +139,7 @@
     <!-- NotificationChannels -->
     <string name="nc_system_name">Powiadomienie systemowe</string>
     <string name="nc_system_description">Powiadomienie systemowe z Particulate Matter App</string>
-    <string name="nc_limit_name">Przekroczenia limitu.</string>
+    <string name="nc_limit_name">Limit przekroczony</string>
     <string name="nc_limit_description">Wyświetlaj powiadomienia na pasku stanu po przekroczeniu jednego z ustawionych limitów.</string>
     <string name="nc_missing_measurements_name">Brakujące pomiary</string>
     <string name="nc_missing_measurements_description">Wyświetla powiadomienia na pasku stanu, gdy sensor nie wysyła już żadnych pomiarów i jeśli istnieje podejrzenie uszkodzenia sensora</string>
@@ -183,7 +183,7 @@
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Potrzebny restart</string>
-    <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji. Czy chcesz zrestartować teraz czy później?</string>
+    <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji.</string>
     <string name="now">Teraz</string>
     <string name="later">Później</string>
     <!-- Notification Settings -->
@@ -219,11 +219,11 @@
     <!-- About Settings -->
     <string name="pref_header_about">O Particulate Matter App</string>
     <string name="pref_server_info_t">Serwer info</string>
-    <string name="pref_server_info_downloading_">Pobierz serwer info</string>
-    <string name="server_status_">Stan serwera</string>
+    <string name="pref_server_info_downloading_">Pobierz serwer info ...</string>
+    <string name="server_status_">Status serwera</string>
     <string name="client_name_">Nazwa klienta</string>
-    <string name="min_app_version_">Minimalna wersja</string>
-    <string name="latest_app_version_">Najnowsza wersja</string>
+    <string name="min_app_version_">Minimalna wersja apk</string>
+    <string name="latest_app_version_">Najnowsza wersja:</string>
     <string name="server_owner_">Właściciel serwera</string>
     <string name="server_status_online">Serwer jest online</string>
     <string name="server_status_offline">Serwer jest offline</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s minuty</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s pomiary</string>
+    <string name="pref_app_open_source_t">Aplikacja Particulate Matter na GitHub.</string>
+    <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>
 </resources>
