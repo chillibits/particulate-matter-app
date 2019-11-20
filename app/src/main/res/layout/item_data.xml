@@ -1,18 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.01"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/item_p1"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.01"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/item_p2"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.01"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/item_temp"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.01"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/item_humidity"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.01"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/item_pressure"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
 
     <LinearLayout
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:id="@+id/item_gps_container"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="3.03"
+        android:weightSum="3.03"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.01"
+            android:background="@color/gray_light"/>
 
         <TextView
-            android:id="@+id/item_time"
+            android:id="@+id/item_lat"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
@@ -29,7 +132,7 @@
             android:background="@color/gray_light"/>
 
         <TextView
-            android:id="@+id/item_p1"
+            android:id="@+id/item_lng"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
@@ -46,7 +149,7 @@
             android:background="@color/gray_light"/>
 
         <TextView
-            android:id="@+id/item_p2"
+            android:id="@+id/item_alt"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
@@ -55,116 +158,5 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="@string/loading"/>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/item_temp"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/item_humidity"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="0.01"
-            android:background="@color/gray_light"/>
-
-        <TextView
-            android:id="@+id/item_pressure"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"/>
-
-        <LinearLayout
-            android:id="@+id/item_gps_container"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="3.03"
-            android:weightSum="3.03"
-            android:visibility="gone">
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="0.01"
-                android:background="@color/gray_light"/>
-
-            <TextView
-                android:id="@+id/item_lat"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:padding="3dp"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="@string/loading"/>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="0.01"
-                android:background="@color/gray_light"/>
-
-            <TextView
-                android:id="@+id/item_lng"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:padding="3dp"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="@string/loading"/>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="0.01"
-                android:background="@color/gray_light"/>
-
-            <TextView
-                android:id="@+id/item_alt"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:padding="3dp"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="@string/loading"/>
-        </LinearLayout>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

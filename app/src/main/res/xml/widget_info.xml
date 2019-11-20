@@ -9,6 +9,4 @@
     android:initialLayout="@layout/widget"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen|keyguard"
-    android:configure="com.mrgames13.jimdo.feinstaubapp.WidgetComponents.WidgetConfigurationActivity">
-
-</appwidget-provider>
+    android:configure="com.mrgames13.jimdo.feinstaubapp.ui.activity.WidgetConfigurationActivity"/>

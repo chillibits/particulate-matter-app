@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Датчик уже подключён</string>
     <string name="add_sensor_tick_not_set_message">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
     <string name="add_sensor_tick_not_set_message_duty">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
-    <string name="dont_show_again">Более не показывать</string>
+    <string name="do_not_show_again">Более не показывать</string>
     <string name="public_sensor">Показывать датчик другим пользователям и на карте</string>
     <string name="choose_location">Выберите точное положение датчика</string>
     <string name="sensor_height">Высота на поверхностью земли/дороги, в метрах:</string>
@@ -94,7 +94,7 @@
     <string name="longitude">Долгота</string>
     <string name="longitude_">Долгота:</string>
     <string name="coordinates_info">Координаты округляются, чтобы защитить данные и приватность</string>
-    <string name="gps_will_be_synchronized">Если в вашем датчике есть GPS приёмник, положение на карте отобразится автоматически.</string>
+    <string name="gps_will_be_synchronized">Если к вашей станции подключён GPS приёмник, положение на карте будет обновляться автоматически.</string>
     <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de">по эл. почте</a>.</string>
     <string name="unknown_location">Расположение неизвестно</string>
     <!-- SensorActivity -->
@@ -183,7 +183,7 @@
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Требуется перезапуск</string>
-    <string name="app_restart_m">Чтобы изменения подействовали, надо перезапустить приложение. Сейчас или позже?</string>
+    <string name="app_restart_m">Чтобы применить изменения, приложение надо перезапустить.</string>
     <string name="now">Сейчас</string>
     <string name="later">Позже</string>
     <!-- Notification Settings -->
@@ -218,23 +218,23 @@
     <string name="clear_sensor_data_m">Стереть кэш, чтобы освободить место</string>
     <!-- About Settings -->
     <string name="pref_header_about">О приложении Particulate Matter</string>
-    <string name="pref_serverinfo_t">Состояние сервера</string>
-    <string name="pref_serverinfo_downloading_">Получение информации о сервере..</string>
-    <string name="server_state">Состояние сервера</string>
-    <string name="client_name">Имя клиента</string>
-    <string name="min_app_version">Минимальная версия</string>
-    <string name="newest_app_version">Новейшая версия</string>
-    <string name="owners">Владелец сервера</string>
-    <string name="serverstate_1">Сервер онлайн</string>
-    <string name="serverstate_2">сервер не в сети</string>
-    <string name="serverstate_3">Сервер обслуживается</string>
-    <string name="serverstate_4">Приложение больше не поддерживается</string>
-    <string name="serverstate_1_short">На связи</string>
-    <string name="serverstate_2_short">Отключен</string>
-    <string name="serverstate_3_short">Ремонтируется</string>
-    <string name="serverstate_4_short">Более не поддерживается</string>
-    <string name="pref_opensource_t">Лицензии с открытым исходным кодом</string>
-    <string name="pref_opensource_m">Детали лицензии для программного обеспечения с открытым исходным кодом</string>
+    <string name="pref_server_info_t">Состояние сервера</string>
+    <string name="pref_server_info_downloading_">Получение информации о сервере..</string>
+    <string name="server_status_">Состояние сервера</string>
+    <string name="client_name_">Имя клиента</string>
+    <string name="min_app_version_">Минимальная версия</string>
+    <string name="latest_app_version_">Новейшая версия</string>
+    <string name="server_owner_">Владелец сервера</string>
+    <string name="server_status_online">Сервер онлайн</string>
+    <string name="server_status_offline">сервер не в сети</string>
+    <string name="server_status_maintenance">Сервер обслуживается</string>
+    <string name="server_status_support_ended">Приложение больше не поддерживается</string>
+    <string name="server_status_online_short">На связи</string>
+    <string name="server_status_offline_short">Отключен</string>
+    <string name="server_status_maintenance_short">Ремонтируется</string>
+    <string name="server_status_support_ended_short">Более не поддерживается</string>
+    <string name="pref_open_source_t">Лицензии с открытым исходным кодом</string>
+    <string name="pref_open_source_m">Детали лицензии для программного обеспечения с открытым исходным кодом</string>
     <string name="pref_appversion">Версия приложения</string>
     <string name="pref_developers_t">Разработчики</string>
     <string name="pref_more_apps_t">Больше наших приложений</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s минуты</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s измерения</string>
+    <string name="pref_app_open_source_t">Приложение Particulate Matter на GitHub</string>
+    <string name="pref_app_open_source_s">Нажмите, чтобы посетить нас на GitHub</string>
 </resources>

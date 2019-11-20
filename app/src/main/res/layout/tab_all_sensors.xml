@@ -13,7 +13,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/map_type"
@@ -87,7 +87,7 @@
             android:id="@+id/sensor_coordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:text="@string/loading"
             android:textStyle="italic"
             android:lines="1"
@@ -101,7 +101,7 @@
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
             android:ellipsize="end"
-            android:textSize="11.5sp"
+            android:textSize="12sp"
             android:lines="1"
             android:layout_below="@+id/sensor_icon" />
 
@@ -109,10 +109,15 @@
             android:id="@+id/sensor_show_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:text="@string/show_measurements"
             android:lines="1"
-            android:layout_below="@+id/sensor_location" />
+            android:background="@drawable/button_outline"
+            android:textColor="@drawable/button_outline_text"
+            android:layout_below="@+id/sensor_location"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="6dp"/>
 
         <Button
             android:id="@+id/sensor_link"
@@ -120,7 +125,10 @@
             android:layout_height="wrap_content"
             android:text="@string/add_favourite"
             android:lines="1"
-            android:layout_below="@+id/sensor_show_data" />
+            android:background="@drawable/button_outline"
+            android:textColor="@drawable/button_outline_text"
+            android:layout_below="@+id/sensor_show_data"
+            android:layout_margin="3dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -140,7 +148,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/sensor_white"
             app:tint="@color/colorPrimary" />
-
 
         <TextView
             android:id="@+id/info_sensor_count"
@@ -165,13 +172,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/compare_sensors"
-            android:layout_below="@+id/sensor_cluster_icon" />
+            android:background="@drawable/button_outline"
+            android:textColor="@drawable/button_outline_text"
+            android:layout_below="@+id/sensor_cluster_icon"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="6dp"/>
 
         <Button
             android:id="@+id/info_sensors_zoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/zoom_in"
-            android:layout_below="@+id/info_sensors_compare"/>
+            android:background="@drawable/button_outline"
+            android:textColor="@drawable/button_outline_text"
+            android:layout_below="@+id/info_sensors_compare"
+            android:layout_margin="3dp"/>
     </RelativeLayout>
 </RelativeLayout>

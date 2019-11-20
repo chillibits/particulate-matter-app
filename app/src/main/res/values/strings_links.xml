@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="link_homepage" translatable="false">https://mrgames13.jimdo.com/</string>
-    <string name="link_playstore_developer_site_market" translatable="false">market://dev?id=5593276126732355283</string>
-    <string name="link_playstore_developer_site" translatable="false">https://play.google.com/store/apps/dev?id=5593276126732355283</string>
-    <string name="link_id_info" translatable="false">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
-</resources>

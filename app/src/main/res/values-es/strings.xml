@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -85,7 +85,7 @@
     <string name="sensor_existing">El sensor ya está vinculado</string>
     <string name="add_sensor_tick_not_set_message">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \"Enviar a Feinstaub-App\" en la configuración de su sensor. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
     <string name="add_sensor_tick_not_set_message_duty">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \'Enviar a Feinstaub-App\' en la configuración de su sensor. Habilitar esto para continuar. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
-    <string name="dont_show_again">No mostrar de nuevo</string>
+    <string name="do_not_show_again">No mostrar de nuevo</string>
     <string name="public_sensor">Mostrar el sensor a otros usuarios y hacerlo visible en el mapa.</string>
     <string name="choose_location">Elija la ubicación exacta del sensor</string>
     <string name="sensor_height">Altura sobre suelo / calle (m):</string>
@@ -139,7 +139,7 @@
     <!-- NotificationChannels -->
     <string name="nc_system_name">Notificaciones del sistema</string>
     <string name="nc_system_description">Notificaciones del sistema desde la aplicación Particulate Matter.</string>
-    <string name="nc_limit_name">Superar los límites</string>
+    <string name="nc_limit_name">Límite de superaciones</string>
     <string name="nc_limit_description">Mostrar notificaciones en la barra de estado, cuando se excede uno de los límites ajustados.</string>
     <string name="nc_missing_measurements_name">Mediciones faltantes</string>
     <string name="nc_missing_measurements_description">Muestra notificaciones en la barra de estado, cuando un sensor no envía más mediciones y si aparece la sospecha de una falla del sensor.</string>
@@ -183,7 +183,7 @@
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Reinicio necesario</string>
-    <string name="app_restart_m">Para aplicar los cambios, se necesita reiniciar la aplicación. ¿Te gustaría reiniciar ahora o más tarde?</string>
+    <string name="app_restart_m">Para aplicar los cambios, se necesita reiniciar la aplicación.</string>
     <string name="now">Ahora</string>
     <string name="later">Luego</string>
     <!-- Notification Settings -->
@@ -218,23 +218,23 @@
     <string name="clear_sensor_data_m">Borrar datos en caché para guardar el almacenamiento</string>
     <!-- About Settings -->
     <string name="pref_header_about">Acerca de la aplicación de materia particulada</string>
-    <string name="pref_serverinfo_t">Información del servidor</string>
-    <string name="pref_serverinfo_downloading_">Descargando serverinfo …</string>
-    <string name="server_state">Estado del servidor</string>
-    <string name="client_name">Nombre del cliente</string>
-    <string name="min_app_version">Versión mínima</string>
-    <string name="newest_app_version">La versión más nueva</string>
-    <string name="owners">Propietario del servidor</string>
-    <string name="serverstate_1">El servidor esta en línea</string>
-    <string name="serverstate_2">El servidor esta desconectado</string>
-    <string name="serverstate_3">El servidor se mantiene</string>
-    <string name="serverstate_4">La aplicación ya no es compatible</string>
-    <string name="serverstate_1_short">En línea</string>
-    <string name="serverstate_2_short">Desconectado</string>
-    <string name="serverstate_3_short">Se mantiene</string>
-    <string name="serverstate_4_short">Ya no es compatible</string>
-    <string name="pref_opensource_t">Licencias de código abierto</string>
-    <string name="pref_opensource_m">Detalles de licencia para software de código abierto</string>
+    <string name="pref_server_info_t">Información del servidor</string>
+    <string name="pref_server_info_downloading_">Descargando información del servidor ...</string>
+    <string name="server_status_">El estado del servidor</string>
+    <string name="client_name_">Nombre del cliente</string>
+    <string name="min_app_version_">Versión mínima</string>
+    <string name="latest_app_version_">La versión más nueva</string>
+    <string name="server_owner_">Propietario del servidor</string>
+    <string name="server_status_online">El servidor esta en linea</string>
+    <string name="server_status_offline">El servidor esta desconectado</string>
+    <string name="server_status_maintenance">El servidor se mantiene</string>
+    <string name="server_status_support_ended">El soporte de la aplicación finalizó</string>
+    <string name="server_status_online_short">En línea</string>
+    <string name="server_status_offline_short">Desconectado</string>
+    <string name="server_status_maintenance_short">Se mantiene</string>
+    <string name="server_status_support_ended_short">Apoyo finalizado</string>
+    <string name="pref_open_source_t">Licencias de código abierto</string>
+    <string name="pref_open_source_m">Detalles de licencia para software de código abierto</string>
     <string name="pref_appversion">Version de aplicacion</string>
     <string name="pref_developers_t">Los desarrolladores</string>
     <string name="pref_more_apps_t">Más aplicaciones de nosotros</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s minutos</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s medidas</string>
+    <string name="pref_app_open_source_t">La aplicación Particulate Matter en GitHub</string>
+    <string name="pref_app_open_source_s">Haga clic para visitarnos en GitHub</string>
 </resources>

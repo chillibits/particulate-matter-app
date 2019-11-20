@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Wed, 20 Nov 2019 20:23:29 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -75,7 +75,7 @@
     <string name="scan_prompt">Отворете https://pm.mrgames-server.de на вашия компютър</string>
     <string name="successfully_connected">Успешно свързване</string>
     <string name="sync_disconnected">Прекъсната връзка</string>
-    <string name="search_places">Моля, въведете място…</string>
+    <string name="search_places">Моля, въведете място...</string>
     <!-- AddSensorActivity -->
     <string name="done">Готово</string>
     <string name="name_">Наименование:</string>
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Сензорът е свързан вече</string>
     <string name="add_sensor_tick_not_set_message">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
     <string name="add_sensor_tick_not_set_message_duty">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
-    <string name="dont_show_again">Не показвай отново</string>
+    <string name="do_not_show_again">Не показвай отново</string>
     <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
     <string name="choose_location">Избере точното местоположение на сензора</string>
     <string name="sensor_height">Височина над земята/улицата</string>
@@ -94,7 +94,7 @@
     <string name="longitude">Географска дължина</string>
     <string name="longitude_">Географска дължина:</string>
     <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
-    <string name="gps_will_be_synchronized">Ако към сензорната ви система е свързан GPS сензор, позицията автоматично ще се синхронизира с....</string>
+    <string name="gps_will_be_synchronized">Ако имате GPS сензор, свързан към вашата сензорна система, позицията ще се актуализира автоматично на картата в реално време.</string>
     <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de">contactin...</a></string>
     <string name="unknown_location">Неизвестно местоположение</string>
     <!-- SensorActivity -->
@@ -218,23 +218,23 @@
     <string name="clear_sensor_data_m">Премахни кешираните данни, за да спестиш място</string>
     <!-- About Settings -->
     <string name="pref_header_about">За приложението Финни частици</string>
-    <string name="pref_serverinfo_t">Информация за сървъра</string>
-    <string name="pref_serverinfo_downloading_">Сваля инфорамация за сървъра</string>
-    <string name="server_state">Състояние на сървъра</string>
-    <string name="client_name">Име на клиента</string>
-    <string name="min_app_version">Минимална версия</string>
-    <string name="newest_app_version">Най-новата версия</string>
-    <string name="owners">Собственик на сървъра</string>
-    <string name="serverstate_1">Сървърът е онлайн</string>
-    <string name="serverstate_2">Сървърат е офлайн</string>
-    <string name="serverstate_3">Сървърът е в ремонт</string>
-    <string name="serverstate_4">Приложението вече не се поддържа</string>
-    <string name="serverstate_1_short">Онлайн</string>
-    <string name="serverstate_2_short">Офлайн</string>
-    <string name="serverstate_3_short">В момента е в ремонт</string>
-    <string name="serverstate_4_short">Вече не се поддържа</string>
-    <string name="pref_opensource_t">Open-source лицензи</string>
-    <string name="pref_opensource_m">Подробности за лиценза за open-source софтуера</string>
+    <string name="pref_server_info_t">Информация за сървъра</string>
+    <string name="pref_server_info_downloading_">Сваля инфорамация за сървъра</string>
+    <string name="server_status_">Състояние на сървъра</string>
+    <string name="client_name_">Име на клиента</string>
+    <string name="min_app_version_">Минимална версия</string>
+    <string name="latest_app_version_">Най-новата версия</string>
+    <string name="server_owner_">Собственик на сървъра</string>
+    <string name="server_status_online">Сървърът е онлайн</string>
+    <string name="server_status_offline">Сървърат е офлайн</string>
+    <string name="server_status_maintenance">Сървърът е в ремонт</string>
+    <string name="server_status_support_ended">Приложението вече не се поддържа</string>
+    <string name="server_status_online_short">Онлайн</string>
+    <string name="server_status_offline_short">Офлайн</string>
+    <string name="server_status_maintenance_short">В момента е в ремонт</string>
+    <string name="server_status_support_ended_short">Вече не се поддържа</string>
+    <string name="pref_open_source_t">Open-source лицензи</string>
+    <string name="pref_open_source_m">Подробности за лиценза за open-source софтуера</string>
     <string name="pref_appversion">Версия на приложението</string>
     <string name="pref_developers_t">Разработчиците</string>
     <string name="pref_more_apps_t">Още приложения от нас</string>
@@ -262,4 +262,6 @@
     <string name="_minutes">%s минути</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s измервания</string>
+    <string name="pref_app_open_source_t">приложението за частици за материята на GitHub</string>
+    <string name="pref_app_open_source_s">Кликнете, за да ни посетите в GitHub</string>
 </resources>

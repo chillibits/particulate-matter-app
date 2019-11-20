@@ -3,43 +3,22 @@
   ~ Copyright © 2019 Marc Auberer. All rights reserved.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".App.AddSensorActivity">
+    tools:context=".ui.activity.AddSensorActivity">
 
-    <View
-        android:id="@+id/reveal_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/toolbar"
-        android:fitsSystemWindows="false"
-        android:background="@color/colorPrimary"/>
+    <include layout="@layout/toolbar"/>
 
-    <View
-        android:id="@+id/reveal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/toolbar"
-        android:fitsSystemWindows="false"
-        android:background="@color/colorPrimary"/>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:theme="@style/toolbarStyle"
-        android:title="@string/app_name"
-        android:elevation="1dp"/>
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:padding="12dp">
 
         <TextView
@@ -50,48 +29,50 @@
             android:gravity="center_vertical"
             android:textSize="17sp"
             android:labelFor="@+id/sensor_name_value"
-            android:layout_alignTop="@+id/sensor_name_value"
-            android:layout_alignBottom="@+id/sensor_name_value" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sensor_name_value"
+            app:layout_constraintBottom_toBottomOf="@+id/sensor_name_value" />
 
         <EditText
             android:id="@+id/sensor_name_value"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/sensor_name"
             android:inputType="textCapSentences"
             android:maxLength="30"
             android:importantForAutofill="no"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sensor_name"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chip_id"
-            android:gravity="center_vertical"
             android:textSize="17sp"
             android:labelFor="@+id/chip_id_value"
-            android:layout_alignTop="@+id/chip_id_value"
-            android:layout_alignBottom="@+id/chip_id_value"/>
+            app:layout_constraintTop_toTopOf="@id/chip_id_value"
+            app:layout_constraintBottom_toBottomOf="@+id/chip_id_value"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <EditText
             android:id="@+id/chip_id_value"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/sensor_name"
-            android:layout_marginStart="10dp"
             android:inputType="number"
             android:importantForAutofill="no"
             android:maxLength="12"
-            android:layout_below="@+id/sensor_name_value"/>
+            app:layout_constraintStart_toStartOf="@+id/sensor_name_value"
+            app:layout_constraintTop_toBottomOf="@+id/sensor_name_value"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/chip_id_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/info_outline"
-            android:layout_alignTop="@+id/chip_id_value"
-            android:layout_alignBottom="@id/chip_id_value"
-            android:layout_toEndOf="@+id/chip_id_value"
+            app:layout_constraintTop_toTopOf="@+id/chip_id_value"
+            app:layout_constraintBottom_toBottomOf="@+id/chip_id_value"
+            app:layout_constraintStart_toEndOf="@+id/chip_id_value"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -102,35 +83,38 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/simple_circle"
-            android:layout_below="@+id/chip_id_value"
+            app:layout_constraintTop_toBottomOf="@+id/chip_id_value"
+            app:layout_constraintStart_toStartOf="parent"
             android:elevation="5dp"
             android:clickable="true"
-            android:contextClickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <Button
             android:id="@+id/choose_sensor_color"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/choose_color"
-            android:layout_toEndOf="@+id/sensor_color"
-            android:layout_below="@+id/chip_id_value"
+            android:textColor="@drawable/button_outline_text"
+            android:background="@drawable/button_outline_rounded"
+            app:layout_constraintStart_toEndOf="@+id/sensor_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chip_id_value"
             android:layout_marginStart="10dp"/>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/additional_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sensor_color">
+            app:layout_constraintTop_toBottomOf="@+id/sensor_color">
 
-            <RelativeLayout
+            <View
                 android:id="@+id/divider_01"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_light"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"/>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/sensor_public"
@@ -138,30 +122,35 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/public_sensor"
-                android:layout_below="@+id/divider_01"/>
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/divider_01"/>
 
             <Button
                 android:id="@+id/choose_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_location"
-                android:layout_below="@+id/sensor_public"
+                android:textColor="@drawable/button_outline_text"
+                android:background="@drawable/button_outline_rounded"
+                app:layout_constraintTop_toBottomOf="@+id/sensor_public"
                 android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:id="@+id/coordinates_container"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_toStartOf="@+id/coordinates_info"
-                android:layout_below="@+id/choose_location">
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/coordinates_info"
+                app:layout_constraintTop_toBottomOf="@+id/choose_location">
 
                 <EditText
                     android:id="@+id/lat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:maxLength="6"
                     android:enabled="false"
                     android:importantForAutofill="no"
                     android:hint="@string/latitude"
@@ -172,7 +161,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:maxLength="7"
                     android:enabled="false"
                     android:importantForAutofill="no"
                     android:hint="@string/longitude"
@@ -184,9 +172,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/info_outline"
-                android:layout_alignTop="@+id/coordinates_container"
-                android:layout_alignBottom="@id/coordinates_container"
-                android:layout_alignParentEnd="true"
+                app:layout_constraintTop_toTopOf="@+id/coordinates_container"
+                app:layout_constraintBottom_toBottomOf="@+id/coordinates_container"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -194,38 +182,40 @@
                 android:layout_marginStart="10dp"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sensor_height"
                 android:gravity="center_vertical"
                 android:textSize="17sp"
-                android:layout_alignTop="@+id/height_value"
-                android:layout_alignBottom="@+id/height_value"
-                android:layout_alignParentStart="true"
+                app:layout_constraintTop_toTopOf="@+id/height_value"
+                app:layout_constraintBottom_toBottomOf="@+id/height_value"
+                app:layout_constraintStart_toStartOf="parent"
                 android:labelFor="@+id/height_value"
-                android:layout_toStartOf="@+id/height_value"/>
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintEnd_toStartOf="@+id/height_value"/>
 
             <EditText
                 android:id="@+id/height_value"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
                 android:importantForAutofill="no"
-                android:layout_below="@+id/coordinates_container"
+                app:layout_constraintTop_toBottomOf="@+id/coordinates_container"
                 android:layout_marginStart="10dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/height_value"
+                app:layout_constraintTop_toBottomOf="@+id/height_value"
                 app:cardBackgroundColor="@color/warning"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="5dp"
                 android:elevation="5dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp">
@@ -241,24 +231,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/gps_will_be_synchronized"
-                        android:layout_toEndOf="@+id/gps_info_icon"
                         android:layout_marginStart="10dp"/>
-                </RelativeLayout>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/edit_position_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/additional_info"
+            app:layout_constraintTop_toBottomOf="@+id/additional_info"
             app:cardBackgroundColor="@color/warning"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="5dp"
             android:elevation="5dp"
             android:visibility="gone">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
@@ -275,9 +264,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_position_info"
-                    android:layout_toEndOf="@+id/edit_position_info_icon"
                     android:layout_marginStart="10dp"/>
-            </RelativeLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
