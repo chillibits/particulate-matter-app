@@ -74,7 +74,7 @@
                 android:text="@string/diagram_instruction"
                 android:textColor="@color/gray_light"
                 app:layout_constraintTop_toBottomOf="@+id/chart"
-                android:textSize="11sp"/>
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:id="@+id/checkbox_container"

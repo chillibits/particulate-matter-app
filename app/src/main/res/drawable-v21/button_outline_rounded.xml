@@ -7,7 +7,7 @@
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="@color/button_color_transparent" />
-            <corners android:radius="3dp" />
+            <corners android:radius="150dp" />
         </shape>
     </item>
 
@@ -15,13 +15,13 @@
         <selector>
             <item android:state_enabled="false">
                 <shape>
-                    <corners android:radius="3dp" />
+                    <corners android:radius="150dp" />
                     <stroke android:color="@color/disabled" android:width="1.5dp" />
                 </shape>
             </item>
             <item>
                 <shape>
-                    <corners android:radius="3dp" />
+                    <corners android:radius="150dp" />
                     <stroke android:color="@color/button_color" android:width="1.5dp" />
                 </shape>
             </item>

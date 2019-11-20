@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="@string/choose_color"
             android:textColor="@drawable/button_outline_text"
-            android:background="@drawable/button_outline"
+            android:background="@drawable/button_outline_rounded"
             app:layout_constraintStart_toEndOf="@+id/sensor_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chip_id_value"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/choose_location"
                 android:textColor="@drawable/button_outline_text"
-                android:background="@drawable/button_outline"
+                android:background="@drawable/button_outline_rounded"
                 app:layout_constraintTop_toBottomOf="@+id/sensor_public"
                 android:layout_marginTop="10dp"/>
 
