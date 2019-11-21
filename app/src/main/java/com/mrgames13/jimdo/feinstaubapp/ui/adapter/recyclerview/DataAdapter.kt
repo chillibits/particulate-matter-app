@@ -41,7 +41,7 @@ class DataAdapter : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
             holder.itemView.item_p2.text = Tools.round(record.p2, 1).toString().replace(".", ",") + " µg/m³"
             holder.itemView.item_temp.text = record.temp.toString().replace(".", ",") + " °C"
             holder.itemView.item_humidity.text = record.humidity.toString().replace(".", ",") + " %"
-            holder.itemView.item_pressure.text = Tools.round(record.pressure, 2).toString().replace(".", ",") + " hPa"
+            holder.itemView.item_pressure.text = Tools.round(record.pressure, 1).toString().replace(".", ",") + " hPa"
             holder.itemView.item_lat.text = Tools.round(record.lat, 3).toString() + " °"
             holder.itemView.item_lng.text = Tools.round(record.lng, 3).toString() + " °"
             holder.itemView.item_alt.text = Tools.round(record.alt, 1).toString() + " m"

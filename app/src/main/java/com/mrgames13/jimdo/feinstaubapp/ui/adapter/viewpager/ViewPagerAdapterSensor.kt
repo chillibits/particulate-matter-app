@@ -113,12 +113,14 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             left.setDrawAxisLine(true)
             left.setDrawGridLines(false)
             left.spaceBottom = 0f
+            left.setDrawLabels(SensorActivity.custom_p1 || SensorActivity.custom_p2)
             // Right y axis
             val right = chart.axisRight
             right.valueFormatter = LargeValueFormatter()
             right.setDrawAxisLine(true)
             right.setDrawGridLines(false)
-            right.setDrawZeroLine(true)
+            right.setDrawZeroLine(SensorActivity.custom_temp || SensorActivity.custom_humidity || SensorActivity.custom_pressure)
+            right.setDrawLabels(SensorActivity.custom_temp || SensorActivity.custom_humidity || SensorActivity.custom_pressure)
             // x axis
             val xAxis = chart.xAxis
             xAxis.granularity = 60f
@@ -177,10 +179,17 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     th_eu_p1.isVisible = custom_threshold_eu.isChecked && value
                     th_who_p1.isVisible = custom_threshold_who.isChecked && value
 
-                    var highest = 1.0
-                    if(custom_p2.isChecked) highest = Tools.findMaxMeasurement(records, 2)
-                    if(value) highest = max(highest, Tools.findMaxMeasurement(records, 1))
-                    left.calculate(0f, highest.toFloat())
+                    if(value || custom_p2.isChecked) {
+                        var highest = 1.0
+                        if(value) highest = max(highest, Tools.findMaxMeasurement(records, 1))
+                        if(custom_p2.isChecked) highest = max(highest, Tools.findMaxMeasurement(records, 2))
+                        left.calculate(0f, highest.toFloat())
+                        left.setDrawLabels(true)
+                        left.setDrawZeroLine(true)
+                    } else {
+                        left.setDrawLabels(false)
+                        left.setDrawZeroLine(false)
+                    }
 
                     showGraph(0, value)
                 }
@@ -197,10 +206,17 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     th_eu_p2.isVisible = custom_threshold_eu.isChecked && value
                     th_who_p2.isVisible = custom_threshold_who.isChecked && value
 
-                    var highest = 1.0
-                    if(custom_p1.isChecked) highest = Tools.findMaxMeasurement(records, 1)
-                    if(value) highest = max(highest, Tools.findMaxMeasurement(records, 2))
-                    left.calculate(0f, highest.toFloat())
+                    if(custom_p1.isChecked || value) {
+                        var highest = 1.0
+                        if(custom_p1.isChecked) highest = Tools.findMaxMeasurement(records, 1)
+                        if(value) highest = max(highest, Tools.findMaxMeasurement(records, 2))
+                        left.calculate(0f, highest.toFloat())
+                        left.setDrawLabels(true)
+                        left.setDrawZeroLine(true)
+                    } else {
+                        left.setDrawLabels(false)
+                        left.setDrawZeroLine(false)
+                    }
 
                     showGraph(1, value)
                 }
@@ -215,21 +231,28 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     av_temp.isVisible = custom_average.isChecked && value
                     med_temp.isVisible = custom_median.isChecked && value
 
-                    var highest = 1.0
-                    var lowest = 0.0
-                    if(value) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    if(value || custom_humidity.isChecked || custom_pressure.isChecked) {
+                        var highest = 1.0
+                        var lowest = 0.0
+                        if(value) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                        }
+                        if(custom_humidity.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                        }
+                        if(custom_pressure.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                        }
+                        right.calculate(lowest.toFloat(), highest.toFloat())
+                        right.setDrawLabels(true)
+                        right.setDrawZeroLine(true)
+                    } else {
+                        right.setDrawLabels(false)
+                        right.setDrawZeroLine(false)
                     }
-                    if(custom_humidity.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
-                    }
-                    if(custom_pressure.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
-                    }
-                    right.calculate(lowest.toFloat(), highest.toFloat())
 
                     showGraph(2, value)
                 }
@@ -244,21 +267,28 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     av_humidity.isVisible = custom_average.isChecked && value
                     med_humidity.isVisible = custom_median.isChecked && value
 
-                    var highest = 1.0
-                    var lowest = 0.0
-                    if(custom_temp.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    if(custom_temp.isChecked || value || custom_pressure.isChecked) {
+                        var highest = 1.0
+                        var lowest = 0.0
+                        if(custom_temp.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                        }
+                        if(value) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                        }
+                        if(custom_pressure.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                        }
+                        right.calculate(lowest.toFloat(), highest.toFloat())
+                        right.setDrawLabels(true)
+                        right.setDrawZeroLine(true)
+                    } else {
+                        right.setDrawLabels(false)
+                        right.setDrawZeroLine(false)
                     }
-                    if(value) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
-                    }
-                    if(custom_pressure.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
-                    }
-                    right.calculate(lowest.toFloat(), highest.toFloat())
 
                     showGraph(3, value)
                 }
@@ -273,21 +303,28 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     av_pressure.isVisible = custom_average.isChecked && value
                     med_pressure.isVisible = custom_median.isChecked && value
 
-                    var highest = 1.0
-                    var lowest = 0.0
-                    if(custom_temp.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 3))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                    if(custom_temp.isChecked || custom_humidity.isChecked || value) {
+                        var highest = 1.0
+                        var lowest = 0.0
+                        if(custom_temp.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 3))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 3))
+                        }
+                        if(custom_humidity.isChecked) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 4))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 4))
+                        }
+                        if(value) {
+                            highest = max(highest, Tools.findMaxMeasurement(records, 5))
+                            lowest = min(lowest, Tools.findMinMeasurement(records, 5))
+                        }
+                        right.calculate(lowest.toFloat(), highest.toFloat())
+                        right.setDrawLabels(true)
+                        right.setDrawZeroLine(true)
+                    } else {
+                        right.setDrawLabels(false)
+                        right.setDrawZeroLine(false)
                     }
-                    if(custom_humidity.isChecked) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 4))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 4))
-                    }
-                    if(value) {
-                        highest = max(highest, Tools.findMaxMeasurement(records, 5))
-                        lowest = min(lowest, Tools.findMinMeasurement(records, 5))
-                    }
-                    right.calculate(lowest.toFloat(), highest.toFloat())
 
                     showGraph(4, value)
                 }

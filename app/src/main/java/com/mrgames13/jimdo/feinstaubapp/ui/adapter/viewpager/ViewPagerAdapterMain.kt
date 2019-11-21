@@ -510,6 +510,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     sensor_container.visibility = View.GONE
                                     Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show()
                                 }
+                                .setNegativeButton(R.string.cancel, null)
                                 .show()
                     } else {
                         // Sensor is already linked

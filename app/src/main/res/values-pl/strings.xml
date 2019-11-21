@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Długość:</string>
     <string name="coordinates_info">Współrzędne są zaokrąglane w związku z ochroną danych.</string>
     <string name="gps_will_be_synchronized">Jeśli do systemu czujników podłączony jest czujnik GPS, pozycja zostanie automatycznie zsynchronizowana z mapą w czasie rzeczywistym.</string>
-    <string name="edit_position_info">Ze względów bezpieczeństwa pozycję czujnika można zmienić tylko <a href="mailto:mrgames@outlook.de"> kontaktując się z nami </a>.</string>
+    <string name="edit_position_info">Ze względów bezpieczeństwa pozycję czujnika można zmienić tylko <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position"> kontaktując się z nami </a>.</string>
     <string name="unknown_location">Nieznana lokalizacja</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Cykl synchronizacji (sek)</string>
     <string name="sync_cycle_background">Cykl synchronizacji w tle</string>
     <string name="sync_cycle_background_t">Cykl synchronizacji w tle (min)</string>
+    <string name="seconds">sekund</string>
+    <string name="second">sekunda</string>
+    <string name="minutes">minut</string>
+    <string name="minute">minuta</string>
     <string name="reduce_data_consumption">Ogranicz pobór danych</string>
     <string name="reduce_data_consumption_s">Pobieraj tylko wymagane dane (może powodować błędy przesunięcia czasu)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Wygląd</string>
     <string name="pref_theme">Motyw</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatycznie według czasu</item>
-        <item name="pref_theme_array0">Automatycznie według czasu</item>
-        <item name="pref_theme_array1">Jasny schemat</item>
-        <item name="pref_theme_array1">Jasny schemat</item>
-        <item name="pref_theme_array2">Ciemny schemat</item>
-        <item name="pref_theme_array2">Ciemny schemat</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Potrzebny restart</string>
     <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji.</string>
+    <string name="now">Teraz</string>
+    <string name="later">Później</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Powiadomienia</string>
     <string name="pref_notification_averages">Powiadomienie o przekroczonej średniej</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Limit wilgotności (%)</string>
     <string name="pref_limit_pressure">Limit ciśnienia</string>
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
+    <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
     <string name="measurement">Pomiar</string>
+    <string name="measurements">Pomiary</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
     <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
@@ -211,7 +203,7 @@
     <!-- About Settings -->
     <string name="pref_header_about">O Particulate Matter App</string>
     <string name="pref_server_info_t">Serwer info</string>
-    <string name="pref_server_info_downloading_">Pobierz serwer info ...</string>
+    <string name="pref_server_info_downloading_">Pobierz serwer info …</string>
     <string name="server_status_">Status serwera</string>
     <string name="client_name_">Nazwa klienta</string>
     <string name="min_app_version_">Minimalna wersja apk</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Wybierz co najmniej jeden sensor</string>
     <string name="scan_qr_code_prompt">Proszę zeskanować kod QR</string>
     <string name="share_qr_code">Udostępnij kod QR</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatycznie według czasu</item>
+        <item name="pref_theme_array1">Jasny schemat</item>
+        <item name="pref_theme_array2">Ciemny schemat</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">Nic nie znaleziono</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s sekundy</string>

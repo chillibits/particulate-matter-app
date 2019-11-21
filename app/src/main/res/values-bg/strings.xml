@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Географска дължина:</string>
     <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
     <string name="gps_will_be_synchronized">Ако имате GPS сензор, свързан към вашата сензорна система, позицията ще се актуализира автоматично на картата в реално време.</string>
-    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de">contactin...</a></string>
+    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactin...</a></string>
     <string name="unknown_location">Неизвестно местоположение</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Цикъл на синхронизация (сек)</string>
     <string name="sync_cycle_background">Фон на цикъла на синхронизация</string>
     <string name="sync_cycle_background_t">Фон на цикъла на синхронизация (мин)</string>
+    <string name="seconds">секунди</string>
+    <string name="second">секунда</string>
+    <string name="minutes">минути</string>
+    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Намали консумацията на данни</string>
     <string name="reduce_data_consumption_s">Изтегляне само на необходимите данни (може да доведе до грешки при смяна на времето)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Външен вид</string>
     <string name="pref_theme">Тема на приложението</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Автоматично по време</item>
-        <item name="pref_theme_array0">Автоматично по време</item>
-        <item name="pref_theme_array1">Светла тема</item>
-        <item name="pref_theme_array1">Светла тема</item>
-        <item name="pref_theme_array2">Тъмна тема</item>
-        <item name="pref_theme_array2">Тъмна тема</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Необходим е рестарт</string>
     <string name="app_restart_m">За да приложите промените, е необходимо рестартиране на приложение. Искате ли да рестартирате сега или по-късно?</string>
+    <string name="now">Сега</string>
+    <string name="later">По-късно</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Известия</string>
     <string name="pref_notification_averages">Уведомление за превишена средна стойност</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Граница на влажността (%)</string>
     <string name="pref_limit_pressure">Граница на налягането</string>
     <string name="pref_limit_pressure_t">Граница на налягането (hPa)</string>
+    <string name="pref_limit_disabled">Известяването е изключено</string>
     <string name="zero_to_disable">Сложи 0, за да изключиш</string>
     <string name="measurement">измерване</string>
+    <string name="measurements">измервания</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Производителност</string>
     <string name="pref_increase_diagram_performance">Увеличи представянето на графиката</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Моля, изберете поне един сензор</string>
     <string name="scan_qr_code_prompt">Моля, сканирайте QR кода</string>
     <string name="share_qr_code">Сподели QR код</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Автоматично по време</item>
+        <item name="pref_theme_array1">Светла тема</item>
+        <item name="pref_theme_array2">Тъмна тема</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">Нищо не е намерено</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s секунди</string>

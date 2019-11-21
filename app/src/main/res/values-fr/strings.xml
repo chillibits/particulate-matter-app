@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">À cause de la protection des données, les coordonnées sont arrondies.</string>
     <string name="gps_will_be_synchronized">Si votre capteur dispose d\'une puce GPS, la position sera automatiquement synchronisée sur la carte.</string>
-    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:mrgames@outlook.de">contactant</a></string>
+    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactant</a></string>
     <string name="unknown_location">Position inconnue</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Cycle de synchronisation (sec)</string>
     <string name="sync_cycle_background">Cycle de synchronisation en arrière-plan</string>
     <string name="sync_cycle_background_t">Cycle de synchronisation en arrière-plan (min)</string>
+    <string name="seconds">secondes</string>
+    <string name="second">seconde</string>
+    <string name="minutes">minutes</string>
+    <string name="minute">minute</string>
     <string name="reduce_data_consumption">Réduire la consommation des données</string>
     <string name="reduce_data_consumption_s">Télécharger seulement les données nécessaires (peut causer des erreurs de décalage horaire)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Apparence</string>
     <string name="pref_theme">Thème de l\'application</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatique par heure</item>
-        <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
-        <item name="pref_theme_array1">Thème lumière</item>
-        <item name="pref_theme_array1">Thème clair</item>
-        <item name="pref_theme_array2">Thème sombre</item>
-        <item name="pref_theme_array2">Thème sombre</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Redémarrage nécessaire</string>
     <string name="app_restart_m">Pour appliquer les changements, il est nécessaire de redémarrer l\'application. Voulez-vous effectuer le redémarrage maintenant ou plus tard?</string>
+    <string name="now">Maintenant</string>
+    <string name="later">Plus tard</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Dépassement de la valeur moyenne</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Limite de la valeur de l\'humidité relative (%)</string>
     <string name="pref_limit_pressure">Limite de la pression atmosphérique</string>
     <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
+    <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
     <string name="measurement">mesure</string>
+    <string name="measurements">mesures</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Augmenter la performance du graphique</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
+        <item name="pref_theme_array1">Thème clair</item>
+        <item name="pref_theme_array2">Thème sombre</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">rien n\'a été trouvé</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s secondes</string>

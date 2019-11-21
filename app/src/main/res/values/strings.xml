@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">The Coordinates get rounded due data protection reasons.</string>
     <string name="gps_will_be_synchronized">If you have a GPS sensor connected to your sensor system, the position will update automatically on the map in realtime.</string>
-    <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de">contacting us</a>.</string>
+    <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contacting us</a>.</string>
     <string name="unknown_location">Unknown location</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Synchronization cycle (sec)</string>
     <string name="sync_cycle_background">Synchronization cycle background</string>
     <string name="sync_cycle_background_t">Synchronization cycle background (min)</string>
+    <string name="seconds">seconds</string>
+    <string name="second">second</string>
+    <string name="minutes">minutes</string>
+    <string name="minute">minute</string>
     <string name="reduce_data_consumption">Reduce data consumption</string>
     <string name="reduce_data_consumption_s">Download only the required data (can cause errors on time shift)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Appearance</string>
     <string name="pref_theme">App-Theme</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatic by time</item>
-        <item name="pref_theme_array0">Automatic by time</item>
-        <item name="pref_theme_array1">Light theme</item>
-        <item name="pref_theme_array1">Light theme</item>
-        <item name="pref_theme_array2">Dark theme</item>
-        <item name="pref_theme_array2">Dark theme</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Restart needed</string>
     <string name="app_restart_m">To apply the changes, a app restart is needed.</string>
+    <string name="now">Now</string>
+    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Notification on exceeded average</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Humidity limit (%)</string>
     <string name="pref_limit_pressure">Pressure limit</string>
     <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
+    <string name="pref_limit_disabled">Notification disabled</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
     <string name="measurement">measurement</string>
+    <string name="measurements">measurements</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Increase diagram performance</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Please select at least one sensor</string>
     <string name="scan_qr_code_prompt">Please scan the qr code.</string>
     <string name="share_qr_code">Share qr code</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatic by time</item>
+        <item name="pref_theme_array1">Light theme</item>
+        <item name="pref_theme_array2">Dark theme</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">Nothing found</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s seconds</string>

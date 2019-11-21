@@ -31,7 +31,7 @@ suspend fun loadDataRecords(context: Context, chipId: String, from: Long, to: Lo
         client.close()
         if(response.status == HttpStatusCode.OK) {
             val records = ArrayList(Json.parse(DataRecordCompressedList.serializer(), response.readText()).items.map { DataRecord(
-                Date(it.time * 1000), it.p1, it.p2, it.t, it.h, it.p, it.la, it.ln, it.a)
+                Date(it.time * 1000), it.p1, it.p2, it.t, it.h, it.p / 100, it.la, it.ln, it.a)
             })
             StorageUtils(context).saveRecords(chipId, records)
             return records

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Долгота:</string>
     <string name="coordinates_info">Координаты округляются, чтобы защитить данные и приватность</string>
     <string name="gps_will_be_synchronized">Если к вашей станции подключён GPS приёмник, положение на карте будет обновляться автоматически.</string>
-    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de">по эл. почте</a>.</string>
+    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">по эл. почте</a>.</string>
     <string name="unknown_location">Расположение неизвестно</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Период в секундах</string>
     <string name="sync_cycle_background">Период фонового обновления данных</string>
     <string name="sync_cycle_background_t">Период в минутах</string>
+    <string name="seconds">секунды</string>
+    <string name="second">секунда</string>
+    <string name="minutes">минуты</string>
+    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Сократить объём скачиваемых данных</string>
     <string name="reduce_data_consumption_s">Скачивать только новые данные. Может вызвать ошибки при изменении настроек времени.</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Внешний вид</string>
     <string name="pref_theme">Тема оформления</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">По времени</item>
-        <item name="pref_theme_array0">По времени</item>
-        <item name="pref_theme_array1">Светлая тема</item>
-        <item name="pref_theme_array1">Светлая тема</item>
-        <item name="pref_theme_array2">Тёмная тема</item>
-        <item name="pref_theme_array2">Тёмная тема</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Требуется перезапуск</string>
     <string name="app_restart_m">Чтобы применить изменения, приложение надо перезапустить.</string>
+    <string name="now">Сейчас</string>
+    <string name="later">Позже</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_notification_averages">Уведомления о превышении среднего значения</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Предел отн. влажности (%)</string>
     <string name="pref_limit_pressure">Предел давления</string>
     <string name="pref_limit_pressure_t">Предел давления (гПа)</string>
+    <string name="pref_limit_disabled">Уведомление отключено</string>
     <string name="zero_to_disable">Чтобы отключить, задайте 0</string>
     <string name="measurement">измерение</string>
+    <string name="measurements">измерение</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Скорость работы</string>
     <string name="pref_increase_diagram_performance">Ускорить график</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Пожалуйста, выберите хотя бы один датчик</string>
     <string name="scan_qr_code_prompt">Пожалуйста, отсканируйте QR-код.</string>
     <string name="share_qr_code">Поделиться QR-кодом</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">По времени</item>
+        <item name="pref_theme_array1">Светлая тема</item>
+        <item name="pref_theme_array2">Тёмная тема</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">Ничего не найдено</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s секунды</string>

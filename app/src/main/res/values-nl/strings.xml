@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Wed, 20 Nov 2019 20:23:29 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -95,7 +95,7 @@
     <string name="longitude_">Lengtegraad:</string>
     <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.\u0020</string>
     <string name="gps_will_be_synchronized">Als er een GPS ontvanger is aangesloten op je sensorsysteem, zal de positie automatisch gesynchroniseerd worden met de kaart.</string>
-    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de">contact met ons op te nemen</a>.</string>
+    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contact met ons op te nemen</a>.</string>
     <string name="unknown_location">Onbekende locatie</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -157,29 +157,19 @@
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
     <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
+    <string name="seconds">seconden</string>
+    <string name="second">seconde</string>
+    <string name="minutes">minuten</string>
+    <string name="minute">minuut</string>
     <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Uiterlijk</string>
     <string name="pref_theme">App-Thema</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatisch door tijd</item>
-        <item name="pref_theme_array0">Automatisch op tijd</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
+    <string name="now">Nu</string>
+    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
@@ -198,8 +188,10 @@
     <string name="pref_limit_humidity_t">Luchtvochtigheid limiet (%)</string>
     <string name="pref_limit_pressure">Luchtdruk limiet</string>
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
+    <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
     <string name="measurement">meting</string>
+    <string name="measurements">metingen</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
@@ -247,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
     <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
     <string name="share_qr_code">Deel QR-code</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatisch op tijd</item>
+        <item name="pref_theme_array1">Licht thema</item>
+        <item name="pref_theme_array2">Donker thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">niets gevonden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s seconden</string>
