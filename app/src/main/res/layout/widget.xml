@@ -201,6 +201,11 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/no_id_text"
             android:text="@string/widget_select_sensor"
+            android:background="@drawable/button_outline_rounded"
+            android:textColor="@drawable/button_outline_text"
+            android:backgroundTint="@color/white_dark"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
@@ -212,7 +217,7 @@
         android:src="@drawable/refresh_white"
         android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 
     <ProgressBar
         android:id="@+id/widget_refreshing"

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,16 +18,20 @@
             android:id="@+id/loading_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_data"
-            android:layout_below="@+id/loading_progress"
+            app:layout_constraintTop_toBottomOf="@+id/loading_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="7dp"
             android:textSize="17sp"/>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <HorizontalScrollView
         android:id="@+id/scroll_view"
@@ -47,51 +51,56 @@
                 android:visibility="invisible"
                 android:baselineAligned="false">
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_time"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/date_time"/>
+                        android:text="@string/date_time"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_time"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_time"
                         android:layout_width="20dp"
                         android:layout_height="30dp"
-                        android:gravity="center"
-                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="visible"/>
-                </RelativeLayout>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.01"
                     android:background="@color/gray_light"/>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_p1"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/value1"/>
+                        android:text="@string/value1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_p1"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_p1"
@@ -100,30 +109,35 @@
                         android:gravity="center"
                         android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.01"
                     android:background="@color/gray_light"/>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_p2"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/value2"/>
+                        android:text="@string/value2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_p2"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_p2"
@@ -132,30 +146,35 @@
                         android:gravity="center"
                         android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.01"
                     android:background="@color/gray_light"/>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_temp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/temperature_short"/>
+                        android:text="@string/temperature_short"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_temp"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_temp"
@@ -164,73 +183,83 @@
                         android:gravity="center"
                         android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.01"
                     android:background="@color/gray_light"/>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_humidity"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/humidity_short"/>
+                        android:text="@string/humidity_short"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_humidity"/>
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_humidity"
                         android:layout_width="20dp"
                         android:layout_height="30dp"
                         android:gravity="center"
-                        android:layout_alignParentRight="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.01"
                     android:background="@color/gray_light"/>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/heading_pressure"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:padding="5dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@string/pressure_short"/>
+                        android:text="@string/pressure_short"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_pressure"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sort_pressure"
                         android:layout_width="20dp"
                         android:layout_height="30dp"
                         android:gravity="center"
-                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/arrow_drop_down_grey"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:id="@+id/heading_gps"
@@ -240,7 +269,7 @@
                     android:weightSum="3.03"
                     android:visibility="gone">
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -256,7 +285,7 @@
                         android:ellipsize="end"
                         android:text="@string/latitude"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -272,7 +301,7 @@
                         android:ellipsize="end"
                         android:text="@string/longitude"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -315,15 +344,15 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="Ø" />
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -334,14 +363,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -352,14 +381,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -370,14 +399,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -388,14 +417,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -406,8 +435,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -421,7 +450,7 @@
                         android:weightSum="3.03"
                         android:visibility="gone">
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -431,15 +460,15 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:text="-"/>
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -449,15 +478,15 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:text="-"/>
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -467,8 +496,8 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"
@@ -489,15 +518,15 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/median" />
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -508,14 +537,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -526,14 +555,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -544,14 +573,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -562,14 +591,14 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="@string/loading"/>
 
-                    <RelativeLayout
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.01"
@@ -580,8 +609,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="2dp"
-                        android:paddingRight="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -595,7 +624,7 @@
                         android:weightSum="3.03"
                         android:visibility="gone">
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -605,15 +634,15 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:text="-"/>
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -623,15 +652,15 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:text="-"/>
 
-                        <RelativeLayout
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="0.01"
@@ -641,8 +670,8 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
                             android:textStyle="bold"
                             android:maxLines="1"
                             android:ellipsize="end"

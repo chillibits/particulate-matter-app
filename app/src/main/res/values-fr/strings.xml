@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Le capteur est déjà lié</string>
     <string name="add_sensor_tick_not_set_message">NOTE: Cette application peut recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Cela peut prendre 10 minutes après que vous ayez activé cette fonction jusqu\'à ce que notre serveur reçoive les premières données. Merci de patienter.</string>
     <string name="add_sensor_tick_not_set_message_duty">NOTE: Cette app application recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Activez cette option pour continuer. Cela peut prendre 10 minutes après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoive les premières données. Merci de patentier.</string>
-    <string name="dont_show_again">Ne plus afficher</string>
+    <string name="do_not_show_again">Ne plus afficher</string>
     <string name="public_sensor">Montrer le capteur aux autres utilisateurs et le rendre visible sur la carte</string>
     <string name="choose_location">Sélectionner la position exacte du capteur</string>
     <string name="sensor_height">Hauteur au-dessus du sol / de la rue (m):</string>
@@ -95,7 +95,7 @@
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">À cause de la protection des données, les coordonnées sont arrondies.</string>
     <string name="gps_will_be_synchronized">Si votre capteur dispose d\'une puce GPS, la position sera automatiquement synchronisée sur la carte.</string>
-    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:mrgames@outlook.de">contactant</a></string>
+    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactant</a></string>
     <string name="unknown_location">Position inconnue</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>
@@ -166,22 +166,6 @@
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Apparence</string>
     <string name="pref_theme">Thème de l\'application</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatique par heure</item>
-        <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
-        <item name="pref_theme_array1">Thème lumière</item>
-        <item name="pref_theme_array1">Thème clair</item>
-        <item name="pref_theme_array2">Thème sombre</item>
-        <item name="pref_theme_array2">Thème sombre</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Redémarrage nécessaire</string>
     <string name="app_restart_m">Pour appliquer les changements, il est nécessaire de redémarrer l\'application. Voulez-vous effectuer le redémarrage maintenant ou plus tard?</string>
     <string name="now">Maintenant</string>
@@ -218,23 +202,23 @@
     <string name="clear_sensor_data_m">Effacer les données mises en cache afin d\'éconimiser la mémoire</string>
     <!-- About Settings -->
     <string name="pref_header_about">A propos de l\'application Matière Particulaire</string>
-    <string name="pref_serverinfo_t">Informations sur le serveur</string>
-    <string name="pref_serverinfo_downloading_">Téléchargement en cours des informations du serveur…</string>
-    <string name="server_state">Statut de serveur</string>
-    <string name="client_name">Nom du client</string>
-    <string name="min_app_version">Version minimale</string>
-    <string name="newest_app_version">Dernière version</string>
-    <string name="owners">Propriétaire du serveur</string>
-    <string name="serverstate_1">Le serveur est en ligne</string>
-    <string name="serverstate_2">Le serveur est hors ligne</string>
-    <string name="serverstate_3">Le serveur est en maintenance</string>
-    <string name="serverstate_4">L\'application n\'est plus supportée</string>
-    <string name="serverstate_1_short">En ligne</string>
-    <string name="serverstate_2_short">Hors ligne</string>
-    <string name="serverstate_3_short">En maintenance</string>
-    <string name="serverstate_4_short">Plus supportée</string>
-    <string name="pref_opensource_t">Licences open-source</string>
-    <string name="pref_opensource_m">Détails des licences des logiciels open-source</string>
+    <string name="pref_server_info_t">Informations sur le serveur</string>
+    <string name="pref_server_info_downloading_">Téléchargement en cours des informations du serveur…</string>
+    <string name="server_status_">Statut de serveur</string>
+    <string name="client_name_">Nom du client</string>
+    <string name="min_app_version_">Version minimale</string>
+    <string name="latest_app_version_">Dernière version</string>
+    <string name="server_owner_">Propriétaire du serveur</string>
+    <string name="server_status_online">Le serveur est en ligne</string>
+    <string name="server_status_offline">Le serveur est hors ligne</string>
+    <string name="server_status_maintenance">Le serveur est en maintenance</string>
+    <string name="server_status_support_ended">L\'application n\'est plus supportée</string>
+    <string name="server_status_online_short">En ligne</string>
+    <string name="server_status_offline_short">Hors ligne</string>
+    <string name="server_status_maintenance_short">En maintenance</string>
+    <string name="server_status_support_ended_short">Plus supportée</string>
+    <string name="pref_open_source_t">Licences open-source</string>
+    <string name="pref_open_source_m">Détails des licences des logiciels open-source</string>
     <string name="pref_appversion">Version de l\'application</string>
     <string name="pref_developers_t">Les développeurs</string>
     <string name="pref_more_apps_t">Plus sur nos applications</string>
@@ -255,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
+        <item name="pref_theme_array1">Thème clair</item>
+        <item name="pref_theme_array2">Thème sombre</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">rien n\'a été trouvé</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s secondes</string>
@@ -262,4 +256,6 @@
     <string name="_minutes">%s minutes</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s mesures</string>
+    <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
+    <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
 </resources>

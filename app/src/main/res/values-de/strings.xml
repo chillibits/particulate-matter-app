@@ -89,7 +89,7 @@
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
     <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
     <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
-    <string name="dont_show_again">Nicht mehr anzeigen</string>
+    <string name="do_not_show_again">Nicht mehr anzeigen</string>
     <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
     <string name="sensor_height">Höhe über Grund/Straße (m):</string>
@@ -99,7 +99,7 @@
     <string name="longitude_">Längengrad:</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
     <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
-    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de">Kontakt</a> aufnehmen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de?subject=%C3%84nderung%20der%20Sensorposition">Kontakt</a> aufnehmen.</string>
     <string name="unknown_location">Unbekannte Position</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -161,12 +161,8 @@
     <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
     <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
     <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
-    <string name="seconds">Sekunden</string>
-    <string name="second">Sekunde</string>
-    <string name="minutes">Minuten</string>
-    <string name="minute">Minute</string>
-    <string name="_seconds">%s seconds</string>
-    <string name="_minutes">%s minutes</string>
+    <string name="_seconds">%s Sekunden</string>
+    <string name="_minutes">%s Minuten</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Nur benötigte Daten herunterladen (kann Fehler bei Zeitverschiebung verursachen)</string>
     <!-- Apperance Settings -->
@@ -183,9 +179,7 @@
         <item name="pref_theme_array_values2">2</item>
     </string-array>
     <string name="app_restart_t">Neustart benötigt</string>
-    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden. Wollen Sie den Neustart jetzt oder später durchführen?</string>
-    <string name="now">Jetzt</string>
-    <string name="later">Später</string>
+    <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden.</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
@@ -204,10 +198,8 @@
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
     <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
-    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
     <string name="measurement">Messung</string>
-    <string name="measurements">Messungen</string>
     <string name="_measurements">%s Messungen</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
@@ -216,26 +208,28 @@
     <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
     <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
     <string name="clear_sensor_data_t">Sensordaten bereinigen</string>
-    <string name="clear_sensor_data_m">Zwischengespeichterte Sensordaten leeren, um Speicher zu sparen</string>
+    <string name="clear_sensor_data_m">Zwischengespeichterte Sensordaten leeren, um Speicherplatz zu sparen</string>
     <!-- About Settings -->
     <string name="pref_header_about">Über die Feinstaub-App</string>
-    <string name="pref_serverinfo_t">Serverinfo</string>
-    <string name="pref_serverinfo_downloading_">Serverinfo wird heruntergeladen …</string>
-    <string name="server_state">Serverstatus</string>
-    <string name="client_name">Client-Name</string>
-    <string name="min_app_version">Minimalversion</string>
-    <string name="newest_app_version">Neueste Version</string>
-    <string name="owners">Serverinhaber</string>
-    <string name="serverstate_1">Server ist online</string>
-    <string name="serverstate_2">Server ist offline</string>
-    <string name="serverstate_3">Server wird gewartet</string>
-    <string name="serverstate_4">App wird nicht mehr unterstützt</string>
-    <string name="serverstate_1_short">Online</string>
-    <string name="serverstate_2_short">Offline</string>
-    <string name="serverstate_3_short">Wird gewartet</string>
-    <string name="serverstate_4_short">Nicht mehr unterstützt</string>
-    <string name="pref_opensource_t">Open-Source-Lizenzen</string>
-    <string name="pref_opensource_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_server_info_t">Serverinfo</string>
+    <string name="pref_server_info_downloading_">Serverinfo wird heruntergeladen …</string>
+    <string name="server_status_">Serverstatus</string>
+    <string name="client_name_">Client-Name</string>
+    <string name="min_app_version_">Minimalversion</string>
+    <string name="latest_app_version_">Neueste Version</string>
+    <string name="server_owner_">Serverinhaber</string>
+    <string name="server_status_online">Server ist online</string>
+    <string name="server_status_offline">Server ist offline</string>
+    <string name="server_status_maintenance">Server wird gewartet</string>
+    <string name="server_status_support_ended">App wird nicht mehr unterstützt</string>
+    <string name="server_status_online_short">Online</string>
+    <string name="server_status_offline_short">Offline</string>
+    <string name="server_status_maintenance_short">Wird gewartet</string>
+    <string name="server_status_support_ended_short">Nicht mehr unterstützt</string>
+    <string name="pref_open_source_t">Open-Source-Lizenzen</string>
+    <string name="pref_open_source_m">Lizenzdetails für Open-Source-Software</string>
+    <string name="pref_app_open_source_t">Die Feinstaub-App auf GitHub</string>
+    <string name="pref_app_open_source_s">Tippen, um uns auf GitHub zu besuchen</string>
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>

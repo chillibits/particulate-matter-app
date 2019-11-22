@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="75dp"
+    android:padding="15dp">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/loading"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/gear_duo"/>
+
+    <TextView
+        android:id="@+id/loading_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading_data"
+        android:textSize="18sp"
+        android:layout_gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
+</LinearLayout>

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Il sensore è già collegato</string>
     <string name="add_sensor_tick_not_set_message">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
     <string name="add_sensor_tick_not_set_message_duty">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Effettua tale abilitazione per continuare. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
-    <string name="dont_show_again">Non mostare più</string>
+    <string name="do_not_show_again">Non mostare più</string>
     <string name="public_sensor">Mostra il sensore agli altri utenti e rendilo visibile sulla mappa.</string>
     <string name="choose_location">Seleziona l\'esatta posizione del sensore</string>
     <string name="sensor_height">Altezza da terra/strada (m.):</string>
@@ -95,7 +95,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di riservatezza dei dati.</string>
     <string name="gps_will_be_synchronized">Se un GPS è connesso al tuo sensore, la posizione sarà automaticamente sincronizzata con la mappa.</string>
-    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo <a href="mailto:mrgames@outlook.de">contattandoci</a>. </string>
+    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contattandoci</a>. </string>
     <string name="unknown_location">Posizione sconosciuta</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -166,22 +166,6 @@
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Aspetto</string>
     <string name="pref_theme">Tema dell\'App</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatico in base all\'orario</item>
-        <item name="pref_theme_array0">Automatico in base all\\\'orario</item>
-        <item name="pref_theme_array1">Tema chiaro</item>
-        <item name="pref_theme_array1">Tema chiaro</item>
-        <item name="pref_theme_array2">Tema scuro</item>
-        <item name="pref_theme_array2">Tema scuro</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Riavvio necessario</string>
     <string name="app_restart_m">Per applicare i cambiamenti, è necessario riavviare l\'app. Vuoi riavviarla adesso o dopo?</string>
     <string name="now">Adesso</string>
@@ -218,23 +202,23 @@
     <string name="clear_sensor_data_m">Pulisci i dati memorizzati per risparmiare spazio</string>
     <!-- About Settings -->
     <string name="pref_header_about">In merito all\'app. Particulate Matter</string>
-    <string name="pref_serverinfo_t">Info sul server</string>
-    <string name="pref_serverinfo_downloading_">Scaricamento informazioni server…</string>
-    <string name="server_state">Situazione del server</string>
-    <string name="client_name">Nome del client</string>
-    <string name="min_app_version">Versione minimale</string>
-    <string name="newest_app_version">Versione più nuova</string>
-    <string name="owners">Proprietario del server</string>
-    <string name="serverstate_1">Il server è online</string>
-    <string name="serverstate_2">Il server è offline</string>
-    <string name="serverstate_3">Il server è in manutenzione</string>
-    <string name="serverstate_4">L\'app. non è più supportata</string>
-    <string name="serverstate_1_short">Online</string>
-    <string name="serverstate_2_short">Offline</string>
-    <string name="serverstate_3_short">In manutenzione</string>
-    <string name="serverstate_4_short">Non più supportato</string>
-    <string name="pref_opensource_t">Licenze open-source</string>
-    <string name="pref_opensource_m">Dettagli delle licenze per software open-source</string>
+    <string name="pref_server_info_t">Info sul server</string>
+    <string name="pref_server_info_downloading_">Scaricamento informazioni server…</string>
+    <string name="server_status_">Situazione del server</string>
+    <string name="client_name_">Nome del client</string>
+    <string name="min_app_version_">Versione minima dell\'app:</string>
+    <string name="latest_app_version_">Versione più nuova dell\'app.</string>
+    <string name="server_owner_">Proprietario del server</string>
+    <string name="server_status_online">Il server è online</string>
+    <string name="server_status_offline">Il server è offline</string>
+    <string name="server_status_maintenance">Il server è in manutenzione</string>
+    <string name="server_status_support_ended">L\'app. non è più supportata</string>
+    <string name="server_status_online_short">Online</string>
+    <string name="server_status_offline_short">Offline</string>
+    <string name="server_status_maintenance_short">In manutenzione</string>
+    <string name="server_status_support_ended_short">Supporto terminato.</string>
+    <string name="pref_open_source_t">Licenze open-source</string>
+    <string name="pref_open_source_m">Dettagli delle licenze per software open-source</string>
     <string name="pref_appversion">Versione dell\'app.</string>
     <string name="pref_developers_t">Gli sviluppatori</string>
     <string name="pref_more_apps_t">Altre nostre app.</string>
@@ -255,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Prego selezionare almeno un sensore</string>
     <string name="scan_qr_code_prompt">Prego scannerizzare il codice qr</string>
     <string name="share_qr_code">Condividere il codice qr</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatico in base all\\\'orario</item>
+        <item name="pref_theme_array1">Tema chiaro</item>
+        <item name="pref_theme_array2">Tema scuro</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">Non abbiamo trovato nulla</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s secondi</string>
@@ -262,4 +256,6 @@
     <string name="_minutes">%s minuti</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s misure</string>
+    <string name="pref_app_open_source_t">L\'app del particolato su GitHub</string>
+    <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>
 </resources>

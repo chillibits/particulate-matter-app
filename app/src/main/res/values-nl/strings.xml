@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Mon, 11 Nov 2019 23:25:22 +0100
+ Exported at: Thu, 21 Nov 2019 22:29:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -85,7 +85,7 @@
     <string name="sensor_existing">Sensor is al gekoppeld</string>
     <string name="add_sensor_tick_not_set_message">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
     <string name="add_sensor_tick_not_set_message_duty">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
-    <string name="dont_show_again">Niet nogmaals tonen</string>
+    <string name="do_not_show_again">Niet nogmaals tonen</string>
     <string name="public_sensor">Toon sensor aan andere gebruikers en maak zichtbaar op de kaart</string>
     <string name="choose_location">Kies exacte sensor locatie</string>
     <string name="sensor_height">Hoogte boven grond/straat (m):</string>
@@ -95,7 +95,7 @@
     <string name="longitude_">Lengtegraad:</string>
     <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.\u0020</string>
     <string name="gps_will_be_synchronized">Als er een GPS ontvanger is aangesloten op je sensorsysteem, zal de positie automatisch gesynchroniseerd worden met de kaart.</string>
-    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de">contact met ons op te nemen</a>.</string>
+    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contact met ons op te nemen</a>.</string>
     <string name="unknown_location">Onbekende locatie</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -139,7 +139,7 @@
     <!-- NotificationChannels -->
     <string name="nc_system_name">Systeemmeldingen</string>
     <string name="nc_system_description">\nSysteemmeldingen van de Fijnstof app.</string>
-    <string name="nc_limit_name">\nLimiet overschrijdingen</string>
+    <string name="nc_limit_name">Limiet overschrijdingen</string>
     <string name="nc_limit_description">Geef meldingen weer in de statusbalk wanneer een van de aangepaste limieten wordt overschreden.</string>
     <string name="nc_missing_measurements_name">Ontbrekende metingen</string>
     <string name="nc_missing_measurements_description">\nToont meldingen in de statusbalk, wanneer een sensor geen metingen meer verzendt en het vermoeden bestaat dat de sensor defect is.</string>
@@ -166,22 +166,6 @@
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Uiterlijk</string>
     <string name="pref_theme">App-Thema</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatisch door tijd</item>
-        <item name="pref_theme_array0">Automatisch op tijd</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
     <string name="now">Nu</string>
@@ -218,27 +202,27 @@
     <string name="clear_sensor_data_m">Wis gecachte gegevens om opslag te besparen</string>
     <!-- About Settings -->
     <string name="pref_header_about">Over de Fijnstof app</string>
-    <string name="pref_serverinfo_t">Serverinfo</string>
-    <string name="pref_serverinfo_downloading_">Downloaden van de serverinfo …</string>
-    <string name="server_state">Server status</string>
-    <string name="client_name">Klantnaam</string>
-    <string name="min_app_version">minimale versie</string>
-    <string name="newest_app_version">Nieuwste versie</string>
-    <string name="owners">Server eigenaar</string>
-    <string name="serverstate_1">Server is online</string>
-    <string name="serverstate_2">Server is offline</string>
-    <string name="serverstate_3">Server wordt onderhouden</string>
-    <string name="serverstate_4">App wordt niet langer ondersteund</string>
-    <string name="serverstate_1_short">Online</string>
-    <string name="serverstate_2_short">Offline</string>
-    <string name="serverstate_3_short">Wordt onderhouden</string>
-    <string name="serverstate_4_short">Wordt niet langer ondersteunt</string>
-    <string name="pref_opensource_t">Open-source licenties</string>
-    <string name="pref_opensource_m">Licentiedetails voor open-source-software</string>
+    <string name="pref_server_info_t">Server info</string>
+    <string name="pref_server_info_downloading_">Downloaden van de serverinfo …</string>
+    <string name="server_status_">Server status</string>
+    <string name="client_name_">Klantnaam</string>
+    <string name="min_app_version_">minimale versie</string>
+    <string name="latest_app_version_">Nieuwste versie</string>
+    <string name="server_owner_">Server eigenaar</string>
+    <string name="server_status_online">Server is online</string>
+    <string name="server_status_offline">Server is offline</string>
+    <string name="server_status_maintenance">Server wordt onderhouden</string>
+    <string name="server_status_support_ended">App wordt niet langer ondersteund</string>
+    <string name="server_status_online_short">Online</string>
+    <string name="server_status_offline_short">Offline</string>
+    <string name="server_status_maintenance_short">Wordt onderhouden</string>
+    <string name="server_status_support_ended_short">Wordt niet langer ondersteunt</string>
+    <string name="pref_open_source_t">Open-source licenties</string>
+    <string name="pref_open_source_m">Licentiedetails voor open-source-software</string>
     <string name="pref_appversion">App versie</string>
     <string name="pref_developers_t">De ontwikkelaars</string>
     <string name="pref_more_apps_t">Meer apps van ons</string>
-    <string name="pref_more_apps_m">Onze PlayStore site</string>
+    <string name="pref_more_apps_m">Onze PlayStore pagina</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Druk op de kleur om toe te passen</string>
     <string name="altitude">Hoogte</string>
@@ -255,6 +239,16 @@
     <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
     <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
     <string name="share_qr_code">Deel QR-code</string>
+    <string-array name="pref_theme_array">
+        <item name="pref_theme_array0">Automatisch op tijd</item>
+        <item name="pref_theme_array1">Licht thema</item>
+        <item name="pref_theme_array2">Donker thema</item>
+    </string-array>
+    <string-array name="pref_theme_array_values">
+        <item name="pref_theme_array_values0">0</item>
+        <item name="pref_theme_array_values1">1</item>
+        <item name="pref_theme_array_values2">2</item>
+    </string-array>
     <string name="nothing_found">niets gevonden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_seconds">%s seconden</string>
@@ -262,4 +256,6 @@
     <string name="_minutes">%s minuten</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s metingen</string>
+    <string name="pref_app_open_source_t">De fijnstof-app op GitHub</string>
+    <string name="pref_app_open_source_s">Klik om ons te bezoeken op GitHub</string>
 </resources>
