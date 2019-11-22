@@ -16,8 +16,6 @@ import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
 import kotlin.math.abs
 
-
-
 object Tools {
 
     fun round(value: Double, places: Int): Double {
@@ -135,15 +133,18 @@ object Tools {
                 // Temperature
                 var m = abs(recordBefore.temp - recordAfter.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 var b = recordBefore.temp - m * recordBefore.dateTime.time
-                val avgTemp = round(m * currentRecord.dateTime.time + b, 2)
+                var avgTemp = round(m * currentRecord.dateTime.time + b, 2)
+                avgTemp = if(avgTemp.isNaN()) 0.0 else avgTemp
                 // Humidity
                 m = abs(recordBefore.humidity - recordAfter.humidity) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 b = recordBefore.humidity - m * recordBefore.dateTime.time
-                val avgHumidity = round(m * currentRecord.dateTime.time + b, 2)
+                var avgHumidity = round(m * currentRecord.dateTime.time + b, 2)
+                avgHumidity = if(avgHumidity.isNaN()) 0.0 else avgHumidity
                 // Pressure
                 m = abs(recordBefore.pressure - recordAfter.pressure) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 b = recordBefore.pressure - m * recordBefore.dateTime.time
-                val avgPressure = round(m * currentRecord.dateTime.time + b, 2)
+                var avgPressure = round(m * currentRecord.dateTime.time + b, 2)
+                avgPressure = if(avgPressure.isNaN()) 0.0 else avgPressure
                 // Alter record according to results
                 val newRecord = DataRecord(currentRecord.dateTime, currentRecord.p1, currentRecord.p2, avgTemp, avgHumidity, avgPressure, 0.0, 0.0, 0.0)
                 records[i] = newRecord

@@ -246,10 +246,10 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             mapType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
                     when (type) {
-                        0 -> map.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        1 -> map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-                        2 -> map.mapType = GoogleMap.MAP_TYPE_SATELLITE
-                        3 -> map.mapType = GoogleMap.MAP_TYPE_HYBRID
+                        0 -> map?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        1 -> map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                        2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                        3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
                     }
                 }
 
@@ -265,7 +265,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             mapTraffic.adapter = adapterTraffic
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
-                    map.isTrafficEnabled = type != 0
+                    map?.isTrafficEnabled = type != 0
                 }
 
                 override fun onNothingSelected(adapterView: AdapterView<*>) {}
@@ -306,8 +306,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
         override fun onMapReady(googleMap: GoogleMap) {
             map = googleMap
-            map.uiSettings.isRotateGesturesEnabled = false
-            map.uiSettings.isZoomControlsEnabled = true
+            map?.uiSettings?.isRotateGesturesEnabled = false
+            map?.uiSettings?.isZoomControlsEnabled = true
 
             // relocate MyLocationButton
             val locationButton = (map_fragment?.view!!.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2"))
@@ -329,7 +329,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             enableOwnLocation()
 
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.activity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
+            map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.activity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
 
             // Initialize ClusterManager
             clusterManager = ClusterManager(
@@ -338,12 +338,12 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             )
             clusterManager.renderer = ClusterRenderer(
                 ViewPagerAdapterMain.activity,
-                map,
+                map!!,
                 clusterManager,
                 su
             )
             if (su.getBoolean("enable_marker_clustering", true)) {
-                map.setOnMarkerClickListener(
+                map?.setOnMarkerClickListener(
                     clusterManager
                 )
                 clusterManager.setOnClusterItemClickListener { sensorClusterItem ->
@@ -354,11 +354,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     showClusterWindow(cluster)
                     true
                 }
-                map.setOnCameraIdleListener(
+                map?.setOnCameraIdleListener(
                     clusterManager
                 )
             } else {
-                map.setOnMarkerClickListener { marker ->
+                map?.setOnMarkerClickListener { marker ->
                     val m = MarkerItem(marker.title, marker.snippet, marker.position)
                     showInfoWindow(m)
                     true
@@ -373,9 +373,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     ViewPagerAdapterMain.activity, iso)
             } catch (ignored: Exception) {}
 
-            map.setOnCameraMoveListener {
+            map?.setOnCameraMoveListener {
                 if (selected_marker_position != null) {
-                    val p = map.projection
+                    val p = map!!.projection
                     val screenPos = p.toScreenLocation(selected_marker_position)
                     val lp = RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT)
                     var x = max(0, screenPos.x - 275)
@@ -386,7 +386,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     sensor_container.layoutParams = lp
                 }
                 if (selected_cluster_position != null) {
-                    val p = map.projection
+                    val p = map!!.projection
                     val screenPos = p.toScreenLocation(selected_cluster_position)
                     val lp = RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT)
                     var x = max(0, screenPos.x - 275)
@@ -398,7 +398,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 }
             }
 
-            map.setOnMapClickListener {
+            map?.setOnMapClickListener {
                 when {
                     selected_marker_position != null -> exitReveal(
                         sensor_container
@@ -424,12 +424,12 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         @SuppressLint("MissingPermission")
         private fun enableOwnLocation() {
             if (isGPSPermissionGranted && isGPSEnabled(ViewPagerAdapterMain.activity)) {
-                map.isMyLocationEnabled = true
-                map.setOnMyLocationChangeListener { location ->
+                map?.isMyLocationEnabled = true
+                map?.setOnMyLocationChangeListener { location ->
                     moveCamera(
                         LatLng(location.latitude, location.longitude)
                     )
-                    map.setOnMyLocationChangeListener(null)
+                    map?.setOnMyLocationChangeListener(null)
                 }
             } else if (isGPSEnabled(ViewPagerAdapterMain.activity)) {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
@@ -518,7 +518,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     }
                 }
 
-                val p = map.projection
+                val p = map!!.projection
                 selected_marker_position = marker.position
                 val screenPos = p.toScreenLocation(selected_marker_position)
 
@@ -560,7 +560,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 infoAverageValue.setText(R.string.loading)
                 infoCompareSensors.isEnabled = cluster.items.size <= 15
 
-                val p = map.projection
+                val p = map!!.projection
                 selected_cluster_position = cluster.position
                 val screenPos = p.toScreenLocation(selected_cluster_position)
 
@@ -595,8 +595,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     exitReveal(
                         sensor_cluster_container
                     )
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.position, min(
-                        map.maxZoomLevel, map.cameraPosition.zoom + 3)))
+                    map?.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.position, min(map!!.maxZoomLevel, map!!.cameraPosition.zoom + 3)))
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
@@ -623,7 +622,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private lateinit var contentView: View
             private var map_fragment: SupportMapFragment? = null
             private lateinit var map_sensor_count: TextView
-            private lateinit var map: GoogleMap
+            private var map: GoogleMap? = null
             private lateinit var clusterManager: ClusterManager<SensorClusterItem>
             private lateinit var sensors: ArrayList<ExternalSensor>
             private var current_country: LatLng? = null
@@ -636,14 +635,14 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private var selected_cluster_position: LatLng? = null
 
             fun moveCamera(coords: LatLng) {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 11f))
+                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 11f))
             }
 
             fun refresh() {
-                val pos = map.cameraPosition
-                map.clear()
+                val pos = map?.cameraPosition
+                map?.clear()
                 loadAllSensors()
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos.target, pos.zoom))
+                map?.moveCamera(CameraUpdateFactory.newLatLngZoom(pos?.target, pos!!.zoom))
             }
 
             private fun loadAllSensors() {
@@ -698,14 +697,14 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 if (isMarkerClusteringEnabled) {
                     clusterManager.clearItems()
                 } else {
-                    map.clear()
+                    map?.clear()
                 }
                 for (sensor in sensors) {
                     if (isMarkerClusteringEnabled) {
                         val m = MarkerItem(sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, LatLng(sensor.lat, sensor.lng))
                         clusterManager.addItem(SensorClusterItem(sensor.lat, sensor.lng, sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, m))
                     } else {
-                        map.addMarker(MarkerOptions()
+                        map?.addMarker(MarkerOptions()
                                 .icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
                                 .position(LatLng(sensor.lat, sensor.lng))
                                 .title(sensor.chipId)
@@ -713,7 +712,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         )
                     }
                 }
-                if(current_country != null) map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                if(current_country != null) map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     current_country, 5f))
                 if (su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster()
             }

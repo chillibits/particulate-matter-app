@@ -232,7 +232,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     med_temp.isVisible = custom_median.isChecked && value
 
                     if(value || custom_humidity.isChecked || custom_pressure.isChecked) {
-                        var highest = 1.0
+                        var highest = 10.0
                         var lowest = 0.0
                         if(value) {
                             highest = max(highest, Tools.findMaxMeasurement(records, 3))
@@ -268,7 +268,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     med_humidity.isVisible = custom_median.isChecked && value
 
                     if(custom_temp.isChecked || value || custom_pressure.isChecked) {
-                        var highest = 1.0
+                        var highest = 10.0
                         var lowest = 0.0
                         if(custom_temp.isChecked) {
                             highest = max(highest, Tools.findMaxMeasurement(records, 3))
@@ -304,7 +304,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     med_pressure.isVisible = custom_median.isChecked && value
 
                     if(custom_temp.isChecked || custom_humidity.isChecked || value) {
-                        var highest = 1.0
+                        var highest = 10.0
                         var lowest = 0.0
                         if(custom_temp.isChecked) {
                             highest = max(highest, Tools.findMaxMeasurement(records, 3))

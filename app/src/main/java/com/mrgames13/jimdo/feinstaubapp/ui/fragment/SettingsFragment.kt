@@ -268,16 +268,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if(smu.isInternetAvailable) {
             CoroutineScope(Dispatchers.IO).launch {
                 val result = loadServerInfo(requireActivity())
-                requireActivity().runOnUiThread {
-                    val summary = when(result?.serverStatus) {
-                        ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
-                        ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)
-                        ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance)
-                        ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended)
-                        else -> ""
+                try {
+                    requireActivity().runOnUiThread {
+                        val summary = when(result?.serverStatus) {
+                            ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
+                            ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)
+                            ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance)
+                            ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended)
+                            else -> ""
+                        }
+                        serverInfo?.extras?.putString("summary", summary)
                     }
-                    serverInfo?.extras?.putString("summary", summary)
-                }
+                } catch (ignored: Exception) {}
             }
         }
 
