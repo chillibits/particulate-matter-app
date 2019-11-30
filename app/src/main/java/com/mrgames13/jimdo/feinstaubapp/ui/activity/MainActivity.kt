@@ -22,7 +22,6 @@ import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.speech.RecognizerIntent
 import android.text.TextUtils
@@ -39,9 +38,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import com.github.angads25.filepicker.model.DialogConfigs
-import com.github.angads25.filepicker.model.DialogProperties
-import com.github.angads25.filepicker.view.FilePickerDialog
+import com.developer.filepicker.model.DialogConfigs
+import com.developer.filepicker.model.DialogProperties
+import com.developer.filepicker.view.FilePickerDialog
 import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -68,6 +67,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import java.nio.charset.StandardCharsets
 import java.util.*
 
@@ -478,9 +478,9 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 val properties = DialogProperties()
                 properties.selection_mode = DialogConfigs.SINGLE_MODE
                 properties.selection_type = DialogConfigs.FILE_SELECT
-                properties.root = Environment.getExternalStorageDirectory()
-                properties.error_dir = Environment.getExternalStorageDirectory()
-                properties.offset = Environment.getExternalStorageDirectory()
+                properties.root = File(DialogConfigs.DEFAULT_DIR)
+                properties.error_dir = File(DialogConfigs.DEFAULT_DIR)
+                properties.offset = File(DialogConfigs.DEFAULT_DIR)
                 properties.extensions = arrayOf("xml")
                 val dialog = FilePickerDialog(this@MainActivity, properties)
                 dialog.setTitle(R.string.import_xml_file)

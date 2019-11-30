@@ -49,6 +49,7 @@ repositories {
 }
 
 dependencies {
+    // Google dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0'
     implementation 'androidx.core:core-ktx:1.2.0-rc01'
@@ -61,6 +62,13 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.0-alpha02'
+
+    // Ktor dependencies
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+
+    // Other dependencies
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.turing-tech:MaterialScrollBar:13.3.2'
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
@@ -76,11 +84,9 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'com.github.angads25:filepicker:1.1.1'
+    //implementation 'com.github.angads25:filepicker:1.1.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
-    implementation "io.ktor:ktor-client-android:$ktor_version"
-    implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
-    implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+    implementation 'com.github.TutorialsAndroid:FilePicker:v5.0.19'
 }
 
 apply plugin: 'com.google.gms.google-services'
