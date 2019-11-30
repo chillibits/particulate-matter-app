@@ -70,6 +70,7 @@
     <string name="favourite_added">Favorit wurde hinzugefügt</string>
     <string name="properties">Eigenschaften</string>
     <string name="public_short_">Öffentlich:</string>
+    <string name="firmware_version_">Firmware Version:</string>
     <string name="online_since_">Online seit:</string>
     <string name="height_short_">Montagehöhe:</string>
     <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>

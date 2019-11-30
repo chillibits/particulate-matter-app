@@ -35,7 +35,7 @@ suspend fun loadSensorsNonSync(activity: Activity): List<ExternalSensor> {
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
     if(handlePossibleErrors(activity, response.status)) {
-        return Json.parse(ExternalSensorCompressedList.serializer(), response.readText()).items.map { ExternalSensor(it.i, it.l, it.b) }
+        return Json.parse(ExternalSensorCompressedList.serializer(), response.readText()).items.map { ExternalSensor(chipId = it.i, lat = it.l, lng = it.b) }
     }
     return emptyList()
 }

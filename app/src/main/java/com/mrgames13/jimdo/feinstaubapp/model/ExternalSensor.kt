@@ -10,6 +10,7 @@ import kotlinx.serialization.internal.StringDescriptor
 @Serializable
 data class ExternalSensor (
     val chipId: String,
+    val firmwareVersion: String = "unknown version",
     val lat: Double,
     val lng: Double,
     val alt: Double = 0.0,

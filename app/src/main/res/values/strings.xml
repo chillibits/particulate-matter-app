@@ -258,4 +258,5 @@
     <string name="_measurements">%s measurements</string>
     <string name="pref_app_open_source_t">The Particulate Matter App on GitHub</string>
     <string name="pref_app_open_source_s">Click to visit us on GitHub</string>
+    <string name="firmware_version_">Firmware version:</string>
 </resources>

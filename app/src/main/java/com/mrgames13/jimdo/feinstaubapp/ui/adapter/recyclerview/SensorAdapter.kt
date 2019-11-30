@@ -145,6 +145,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                 val v = activity.layoutInflater.inflate(R.layout.dialog_sensor_properties, null)
 
                                 v.sensor_public_value.isSelected = true
+                                v.sensor_firmware_version_value.isSelected = true
                                 v.sensor_creation_value.isSelected = true
                                 v.sensor_lat_value.isSelected = true
                                 v.sensor_lng_value.isSelected = true
@@ -170,6 +171,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                             c.timeInMillis = result.creationDate * 1000
                                             activity.runOnUiThread {
                                                 v.sensor_public_value.text = activity.getString(R.string.yes)
+                                                v.sensor_firmware_version_value.text = result.firmwareVersion
                                                 v.sensor_creation_value.text = df.format(c.time)
                                                 v.sensor_lat_value.text = result.lat.toString().replace(".", ",")
                                                 v.sensor_lng_value.text = result.lng.toString().replace(".", ",")
@@ -178,6 +180,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                         } else {
                                             activity.runOnUiThread {
                                                 v.sensor_public_value.text = activity.getString(R.string.no)
+                                                v.sensor_firmware_version_value.text = "-"
                                                 v.sensor_creation_value.text = "-"
                                                 v.sensor_lat_value.text = "-"
                                                 v.sensor_lng_value.text = "-"
@@ -185,8 +188,10 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                             }
                                         }
                                     } catch (e: Exception) {
+                                        e.printStackTrace()
                                         activity.runOnUiThread {
                                             v.sensor_public_value.text = activity.getString(R.string.no)
+                                            v.sensor_firmware_version_value.text = "-"
                                             v.sensor_creation_value.text = "-"
                                             v.sensor_lat_value.text = "-"
                                             v.sensor_lng_value.text = "-"

@@ -670,7 +670,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     }
                                 }
                                 // Add or edit sensors, that are in the update list
-                                su.addAllExternalSensors(ArrayList(syncPackage.update.map { ExternalSensor(it.i, it.l, it.b) }))
+                                su.addAllExternalSensors(ArrayList(syncPackage.update.map { ExternalSensor(chipId = it.i, lat = it.l, lng = it.b) }))
                                 // Save, reload sensors and redraw
                                 su.putLong("LastRequest", newLastRequest)
                                 sensors = su.externalSensors

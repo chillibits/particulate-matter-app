@@ -75,7 +75,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 val cursor = db.rawQuery("SELECT sensor_id, latitude, longitude FROM $TABLE_EXTERNAL_SENSORS", null)
                 val sensors = ArrayList<ExternalSensor>()
                 while (cursor.moveToNext()) {
-                    sensors.add(ExternalSensor(cursor.getString(0), cursor.getDouble(1), cursor.getDouble(2)))
+                    sensors.add(ExternalSensor(chipId = cursor.getString(0), lat = cursor.getDouble(1), lng = cursor.getDouble(2)))
                 }
                 cursor.close()
                 return sensors
