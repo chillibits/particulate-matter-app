@@ -62,6 +62,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.model.ClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.ui.model.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.model.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.view.showSensorInfoWindow
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -215,6 +216,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         private lateinit var sensorChipId: TextView
         private lateinit var sensorCoordinates: TextView
         private lateinit var sensorLocation: TextView
+        private lateinit var sensorInfo: ImageView
         private lateinit var sensorShowData: Button
         private lateinit var sensorLink: Button
         private lateinit var infoSensorCount: TextView
@@ -291,6 +293,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             sensorChipId = contentView.sensor_chip_id
             sensorCoordinates = contentView.sensor_coordinates
             sensorLocation = contentView.sensor_location
+            sensorInfo = contentView.sensor_info
             sensorShowData = contentView.sensor_show_data
             sensorLink = contentView.sensor_link
 
@@ -468,6 +471,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensorChipId.text = marker.title
                 sensorCoordinates.text = marker.snippet
                 marker.tag = marker.title
+                sensorInfo.setOnClickListener {
+                    showSensorInfoWindow(requireActivity(), smu, marker.title)
+                }
                 sensorShowData.setOnClickListener {
                     exitReveal(sensor_container)
 

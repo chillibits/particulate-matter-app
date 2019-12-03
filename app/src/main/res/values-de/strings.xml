@@ -81,6 +81,7 @@
     <string name="successfully_connected">Erfolgreich verbunden</string>
     <string name="sync_disconnected">Verbindung getrennt</string>
     <string name="search_places">Bitte geben Sie einen Ort ein …</string>
+    <string name="unknown_sensor">Unbekannter Sensor</string>
     <!-- AddSensorActivity -->
     <string name="done">Fertig</string>
     <string name="name_">Anzeigename:</string>

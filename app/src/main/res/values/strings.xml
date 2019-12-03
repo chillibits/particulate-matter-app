@@ -76,6 +76,7 @@
     <string name="successfully_connected">Successfully connected</string>
     <string name="sync_disconnected">Disconnected</string>
     <string name="search_places">Please enter a place …</string>
+    <string name="unknown_sensor">Unknown Sensor</string>
     <!-- AddSensorActivity -->
     <string name="done">Done</string>
     <string name="name_">Display name:</string>
