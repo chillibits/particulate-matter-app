@@ -62,6 +62,11 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.6.2'
+    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
 
     // Ktor dependencies
     implementation "io.ktor:ktor-client-android:$ktor_version"
@@ -74,15 +79,10 @@ dependencies {
     implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
     implementation 'com.github.mrgames13:SplashScreen:1.1.0'
     implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.1.0'
     implementation 'com.github.rtchagas:pingplacepicker:1.1.6'
-    implementation 'com.google.maps.android:android-maps-utils:0.6.2'
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
-    implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.TutorialsAndroid:FilePicker:v5.0.19'
