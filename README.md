@@ -19,12 +19,7 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 - etc ...
 
 ## Screenshots (Android 10)
-![Screenshot 1](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/1.png)
-![Screenshot 2](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/2.png)
-![Screenshot 3](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/3.png)
-![Screenshot 4](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/4.png)
-![Screenshot 5](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/5.png)
-![Screenshot 6](https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/6.png)
+<img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/1.png" width="256" title="Screenshot 1"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/2.png" width="256" title="Screenshot 2"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/3.png" width="256" title="Screenshot 3"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/4.png" width="256" title="Screenshot 4"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/5.png" width="256" title="Screenshot 5"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/6.png" width="256" title="Screenshot 6">
 
 
 ## Contribute to this project
