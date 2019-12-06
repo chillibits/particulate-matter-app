@@ -127,10 +127,6 @@
     <string name="export_data_records">Datensätze exportieren</string>
     <string name="share_sensor">Sensor teilen</string>
     <string name="median">Median</string>
-    <string name="normal">Normal</string>
-    <string name="terrain">Terrain</string>
-    <string name="satellite">Satellit</string>
-    <string name="hybrid">Hybrid</string>
     <string name="traffic_show">Verkehr anzeigen</string>
     <string name="traffic_hide">Verkehr ausblenden</string>
     <!-- DiagramActivity -->
@@ -163,25 +159,22 @@
     <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
     <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
     <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
-    <string name="_seconds">%s Sekunden</string>
-    <string name="_minutes">%s Minuten</string>
+    <string name="seconds">%s Sekunden</string>
+    <string name="minutes">%s Minuten</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Nur benötigte Daten herunterladen (kann Fehler bei Zeitverschiebung verursachen)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Erscheinungsbild</string>
-    <string name="pref_theme">App-Thema</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatisch nach Tageszeit</item>
-        <item name="pref_theme_array1">Helles Thema</item>
-        <item name="pref_theme_array2">Dunkles Thema</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="app_restart_t">Neustart benötigt</string>
     <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden.</string>
+    <string name="default_map_type">Kartentyp beim App Start</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normal</item>
+        <item name="map_type_1">Terrain</item>
+        <item name="map_type_2">Satellit</item>
+        <item name="map_type_3">Hybrid</item>
+    </string-array>
+    <string name="enable_traffic_by_default">Verkehr beim App Start einblenden</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
@@ -215,11 +208,11 @@
     <string name="pref_header_about">Über die Feinstaub-App</string>
     <string name="pref_server_info_t">Serverinfo</string>
     <string name="pref_server_info_downloading_">Serverinfo wird heruntergeladen …</string>
-    <string name="server_status_">Serverstatus</string>
-    <string name="client_name_">Client-Name</string>
-    <string name="min_app_version_">Minimalversion</string>
-    <string name="latest_app_version_">Neueste Version</string>
-    <string name="server_owner_">Serverinhaber</string>
+    <string name="server_status_">Serverstatus:</string>
+    <string name="client_name_">Client-Name:</string>
+    <string name="min_app_version_">Minimalversion:</string>
+    <string name="latest_app_version_">Neueste Version:</string>
+    <string name="server_owner_">Serverinhaber:</string>
     <string name="server_status_online">Server ist online</string>
     <string name="server_status_offline">Server ist offline</string>
     <string name="server_status_maintenance">Server wird gewartet</string>

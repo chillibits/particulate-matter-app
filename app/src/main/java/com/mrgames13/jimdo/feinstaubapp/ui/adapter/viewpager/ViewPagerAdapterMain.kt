@@ -79,8 +79,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     val selectedSensors: ArrayList<Sensor>
         get() {
             val selectedSensors = ArrayList<Sensor>()
-            selectedSensors.addAll(MyFavouritesFragment.selectedSensors)
-            selectedSensors.addAll(MySensorsFragment.selectedSensors)
+            selectedSensors.addAll(FavoritesFragment.selectedSensors)
+            selectedSensors.addAll(OwnSensorsFragment.selectedSensors)
             return Tools.removeDuplicateSensors(selectedSensors)
         }
 
@@ -92,7 +92,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     override fun getItem(pos: Int): Fragment {
-        return if (pos == 0) MyFavouritesFragment() else if(pos == 1) AllSensorsFragment() else MySensorsFragment()
+        return if (pos == 0) FavoritesFragment() else if(pos == 1) AllSensorsFragment() else OwnSensorsFragment()
     }
 
     override fun getCount(): Int {
@@ -104,29 +104,29 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     fun refresh() {
-        MyFavouritesFragment.refresh()
+        FavoritesFragment.refresh()
         AllSensorsFragment.refresh()
-        MySensorsFragment.refresh()
+        OwnSensorsFragment.refresh()
     }
 
     fun refreshFavourites() {
-        MyFavouritesFragment.refresh()
+        FavoritesFragment.refresh()
     }
 
     fun refreshMySensors() {
-        MySensorsFragment.refresh()
+        OwnSensorsFragment.refresh()
     }
 
     fun deselectAllSensors() {
-        MyFavouritesFragment.deselectAllSensors()
-        MySensorsFragment.deselectAllSensors()
+        FavoritesFragment.deselectAllSensors()
+        OwnSensorsFragment.deselectAllSensors()
     }
 
     fun search(query: String, mode: Int) {
-        if (mode == SensorAdapter.MODE_FAVOURITES) MyFavouritesFragment.search(
+        if (mode == SensorAdapter.MODE_FAVOURITES) FavoritesFragment.search(
             query
         )
-        if (mode == SensorAdapter.MODE_OWN_SENSORS) MySensorsFragment.search(
+        if (mode == SensorAdapter.MODE_OWN_SENSORS) OwnSensorsFragment.search(
             query
         )
     }
@@ -137,7 +137,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
     //-------------------------------------------Fragments------------------------------------------
 
-    class MyFavouritesFragment : Fragment() {
+    class FavoritesFragment : Fragment() {
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = LayoutInflater.from(parent?.context).inflate(R.layout.tab_my_favourites, parent, false)
 
@@ -237,41 +237,36 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map_fragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
             mapType = contentView.map_type
-            val mapTypes = ArrayList<String>()
-            mapTypes.add(getString(R.string.normal))
-            mapTypes.add(getString(R.string.terrain))
-            mapTypes.add(getString(R.string.satellite))
-            mapTypes.add(getString(R.string.hybrid))
+            val mapTypes = ArrayList<String>(resources.getStringArray(R.array.map_type).toList())
             val adapterType = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTypes)
             adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapType.adapter = adapterType
             mapType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
-                    when (type) {
-                        0 -> map?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        1 -> map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
-                        2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
-                        3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
-                    }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                    changeMapType(pos)
                 }
 
-                override fun onNothingSelected(adapterView: AdapterView<*>) {}
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+            val defaultMapType = su.getString("default_map_type", "0").toInt()
+            changeMapType(defaultMapType)
+            mapType.setSelection(defaultMapType)
 
             mapTraffic = contentView.findViewById(R.id.map_traffic)
-            val mapTrafficItems = ArrayList<String>()
-            mapTrafficItems.add(getString(R.string.traffic_hide))
-            mapTrafficItems.add(getString(R.string.traffic_show))
+            val mapTrafficItems = ArrayList<String>(listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
             val adapterTraffic = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTrafficItems)
             adapterTraffic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = adapterTraffic
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
-                    map?.isTrafficEnabled = type != 0
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                    map?.isTrafficEnabled = pos != 0
                 }
 
                 override fun onNothingSelected(adapterView: AdapterView<*>) {}
             }
+            val trafficEnabled = su.getBoolean("default_traffic", false)
+            map?.isTrafficEnabled = trafficEnabled
+            mapTraffic.setSelection(if(trafficEnabled) 1 else 0)
 
             map_sensor_count = contentView.findViewById(R.id.map_sensor_count)
             map_sensor_count.setOnClickListener {
@@ -305,6 +300,15 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             infoZoomIn = contentView.info_sensors_zoom
 
             return contentView
+        }
+
+        private fun changeMapType(pos: Int) {
+            when (pos) {
+                0 -> map?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                1 -> map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
+            }
         }
 
         override fun onMapReady(googleMap: GoogleMap) {
@@ -510,7 +514,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     var nameString: String? = v.sensor_name_value.text.toString().trim()
                                     if (nameString!!.isEmpty()) nameString = marker.tag
                                     su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
-                                    MyFavouritesFragment.refresh()
+                                    FavoritesFragment.refresh()
                                     refresh()
                                     selected_marker_position = null
                                     sensor_container.visibility = View.GONE
@@ -787,7 +791,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
     }
 
-    class MySensorsFragment : Fragment() {
+    class OwnSensorsFragment : Fragment() {
         private var noDataText: TextView? = null
 
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -64,7 +64,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/sensor_icon"
-            android:layout_width="55dp"
+            android:layout_width="60dp"
             android:layout_height="55dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

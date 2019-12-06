@@ -5,11 +5,11 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Fri, 06 Dec 2019 21:39:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Aplicación de materia particulada</string>
+    <string name="app_name">La aplicación de materia particulada</string>
     <string name="ok">Aceptar</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
@@ -121,10 +121,12 @@
     <string name="export_data_records">Registros de datos de exportación</string>
     <string name="share_sensor">Compartir sensor</string>
     <string name="median">Mediana</string>
-    <string name="normal">Normal</string>
-    <string name="terrain">Terreno</string>
-    <string name="satellite">Satélite</string>
-    <string name="hybrid">Híbrido</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normal</item>
+        <item name="map_type_1">Terreno</item>
+        <item name="map_type_2">Satélite</item>
+        <item name="map_type_3">Híbrido</item>
+    </string-array>
     <string name="traffic_show">Mostrar trafico</string>
     <string name="traffic_hide">Ocultar tráfico</string>
     <!-- DiagramActivity
@@ -157,19 +159,12 @@
     <string name="sync_cycle_t">Ciclo de sincronización (seg)</string>
     <string name="sync_cycle_background">Fondo del ciclo de sincronización</string>
     <string name="sync_cycle_background_t">Fondo del ciclo de sincronización (min)</string>
-    <string name="seconds">segundos</string>
-    <string name="second">segundo</string>
-    <string name="minutes">minutos</string>
-    <string name="minute">minuto</string>
     <string name="reduce_data_consumption">Reducir el consumo de datos.</string>
     <string name="reduce_data_consumption_s">Descargue solo los datos requeridos (puede causar errores en el turno de tiempo)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Apariencia</string>
-    <string name="pref_theme">Tema de aplicación</string>
     <string name="app_restart_t">Reinicio necesario</string>
     <string name="app_restart_m">Para aplicar los cambios, se necesita reiniciar la aplicación.</string>
-    <string name="now">Ahora</string>
-    <string name="later">Luego</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notificaciones</string>
     <string name="pref_notification_averages">Notificación sobre promedio superado</string>
@@ -190,8 +185,7 @@
     <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
     <string name="pref_limit_disabled">Notificación deshabilitada</string>
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
-    <string name="measurement">medición</string>
-    <string name="measurements">mediciones</string>
+    <string name="measurement">1 medición</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Actuación</string>
     <string name="pref_increase_diagram_performance">Aumentar el rendimiento del diagrama</string>
@@ -209,7 +203,7 @@
     <string name="min_app_version_">Versión mínima</string>
     <string name="latest_app_version_">La versión más nueva</string>
     <string name="server_owner_">Propietario del servidor</string>
-    <string name="server_status_online">El servidor esta en linea</string>
+    <string name="server_status_online">El servidor esta en línea</string>
     <string name="server_status_offline">El servidor esta desconectado</string>
     <string name="server_status_maintenance">El servidor se mantiene</string>
     <string name="server_status_support_ended">El soporte de la aplicación finalizó</string>
@@ -239,23 +233,17 @@
     <string name="please_select_at_least_one_sensor">Por favor seleccione al menos un sensor</string>
     <string name="scan_qr_code_prompt">Por favor escanee el código qr.</string>
     <string name="share_qr_code">Compartir código qr</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automático por tiempo</item>
-        <item name="pref_theme_array1">Tema ligero</item>
-        <item name="pref_theme_array2">Tema oscuro</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Nada encontrado</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s segundos</string>
+    <string name="seconds">%s segundos</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minutos</string>
+    <string name="minutes">%s minutos</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s medidas</string>
     <string name="pref_app_open_source_t">La aplicación Particulate Matter en GitHub</string>
     <string name="pref_app_open_source_s">Haga clic para visitarnos en GitHub</string>
+    <string name="firmware_version_">Versión de firmware:</string>
+    <string name="unknown_sensor"></string>
+    <string name="default_map_type"></string>
+    <string name="enable_traffic_by_default"></string>
 </resources>

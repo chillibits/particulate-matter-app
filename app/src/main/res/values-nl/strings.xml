@@ -5,11 +5,11 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Fri, 06 Dec 2019 21:39:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Fijnstof App</string>
+    <string name="app_name">De Fijnstof App</string>
     <string name="ok">OK</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
@@ -121,10 +121,12 @@
     <string name="export_data_records">Exporteer gegevensbestanden</string>
     <string name="share_sensor">Deel sensor</string>
     <string name="median">Mediaan</string>
-    <string name="normal">Normaal</string>
-    <string name="terrain">Terrein</string>
-    <string name="satellite">Satelliet</string>
-    <string name="hybrid">Hybride</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normaal</item>
+        <item name="map_type_1">Terrein</item>
+        <item name="map_type_2">Satelliet</item>
+        <item name="map_type_3">Hybride</item>
+    </string-array>
     <string name="traffic_show">Toon verkeer</string>
     <string name="traffic_hide">Verberg verkeer</string>
     <!-- DiagramActivity
@@ -157,19 +159,12 @@
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
     <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
-    <string name="seconds">seconden</string>
-    <string name="second">seconde</string>
-    <string name="minutes">minuten</string>
-    <string name="minute">minuut</string>
     <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Uiterlijk</string>
-    <string name="pref_theme">App-Thema</string>
     <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
-    <string name="now">Nu</string>
-    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
@@ -190,8 +185,7 @@
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
     <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
-    <string name="measurement">meting</string>
-    <string name="measurements">metingen</string>
+    <string name="measurement">1 meting</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
@@ -239,23 +233,17 @@
     <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
     <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
     <string name="share_qr_code">Deel QR-code</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatisch op tijd</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">niets gevonden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s seconden</string>
+    <string name="seconds">%s seconden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minuten</string>
+    <string name="minutes">%s minuten</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s metingen</string>
     <string name="pref_app_open_source_t">De fijnstof-app op GitHub</string>
     <string name="pref_app_open_source_s">Klik om ons te bezoeken op GitHub</string>
+    <string name="firmware_version_"></string>
+    <string name="unknown_sensor"></string>
+    <string name="default_map_type"></string>
+    <string name="enable_traffic_by_default"></string>
 </resources>

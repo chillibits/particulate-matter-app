@@ -5,11 +5,11 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Fri, 06 Dec 2019 21:39:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Particulate Matter App</string>
+    <string name="app_name">The Particulate Matter App</string>
     <string name="ok">OK</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
@@ -121,10 +121,12 @@
     <string name="export_data_records">Eksportuj rekordy danych</string>
     <string name="share_sensor">Udostępnij sensor</string>
     <string name="median">Mediana</string>
-    <string name="normal">Normalna</string>
-    <string name="terrain">Teren</string>
-    <string name="satellite">Satelita</string>
-    <string name="hybrid">Hybrydowy</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normalna</item>
+        <item name="map_type_1">Teren</item>
+        <item name="map_type_2">Satelita</item>
+        <item name="map_type_3">Hybrydowy</item>
+    </string-array>
     <string name="traffic_show">Pokaż ruch</string>
     <string name="traffic_hide">Ukryj ruch</string>
     <!-- DiagramActivity
@@ -157,19 +159,12 @@
     <string name="sync_cycle_t">Cykl synchronizacji (sek)</string>
     <string name="sync_cycle_background">Cykl synchronizacji w tle</string>
     <string name="sync_cycle_background_t">Cykl synchronizacji w tle (min)</string>
-    <string name="seconds">sekund</string>
-    <string name="second">sekunda</string>
-    <string name="minutes">minut</string>
-    <string name="minute">minuta</string>
     <string name="reduce_data_consumption">Ogranicz pobór danych</string>
     <string name="reduce_data_consumption_s">Pobieraj tylko wymagane dane (może powodować błędy przesunięcia czasu)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Wygląd</string>
-    <string name="pref_theme">Motyw</string>
     <string name="app_restart_t">Potrzebny restart</string>
     <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji.</string>
-    <string name="now">Teraz</string>
-    <string name="later">Później</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Powiadomienia</string>
     <string name="pref_notification_averages">Powiadomienie o przekroczonej średniej</string>
@@ -190,8 +185,7 @@
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
     <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
-    <string name="measurement">Pomiar</string>
-    <string name="measurements">Pomiary</string>
+    <string name="measurement">1 pomiar</string>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
     <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
@@ -239,23 +233,17 @@
     <string name="please_select_at_least_one_sensor">Wybierz co najmniej jeden sensor</string>
     <string name="scan_qr_code_prompt">Proszę zeskanować kod QR</string>
     <string name="share_qr_code">Udostępnij kod QR</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatycznie według czasu</item>
-        <item name="pref_theme_array1">Jasny schemat</item>
-        <item name="pref_theme_array2">Ciemny schemat</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Nic nie znaleziono</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s sekundy</string>
+    <string name="seconds">%s sekundy</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minuty</string>
+    <string name="minutes">%s minuty</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="_measurements">%s pomiary</string>
     <string name="pref_app_open_source_t">Aplikacja Particulate Matter na GitHub.</string>
     <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>
+    <string name="firmware_version_">Wersja firmware:</string>
+    <string name="unknown_sensor">Nieznany sensor</string>
+    <string name="default_map_type"></string>
+    <string name="enable_traffic_by_default"></string>
 </resources>
