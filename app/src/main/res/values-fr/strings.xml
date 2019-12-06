@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Modifier le capteur</string>
     <string name="complete_sensor">Compléter le capteur</string>
     <string name="unlink_sensor">Supprimer le capteur</string>
-    <string name="really_unlink_sensor_1">Voulez-vous vraiment supprimer le capteur \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
     <string name="rate_m">Evaluez l\'application Matière Particulaire dans le Google Play Store avec 5 étoiles, si l\'application vous plaît! Vous pouvez écrire des suggestions d\'amélioration avec l\'évaluation.</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Remplissez toutes les cases, s\'il vous plaît</string>
     <string name="sensor_existing">Le capteur est déjà lié</string>
     <string name="add_sensor_tick_not_set_message">NOTE: Cette application peut recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Cela peut prendre 10 minutes après que vous ayez activé cette fonction jusqu\'à ce que notre serveur reçoive les premières données. Merci de patienter.</string>
-    <string name="add_sensor_tick_not_set_message_duty">NOTE: Cette app application recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Activez cette option pour continuer. Cela peut prendre 10 minutes après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoive les premières données. Merci de patentier.</string>
+    <string name="add_sensor_tick_not_set_message_required">NOTE: Cette app application recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Activez cette option pour continuer. Cela peut prendre 10 minutes après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoive les premières données. Merci de patentier.</string>
     <string name="do_not_show_again">Ne plus afficher</string>
     <string name="public_sensor">Montrer le capteur aux autres utilisateurs et le rendre visible sur la carte</string>
     <string name="choose_location">Sélectionner la position exacte du capteur</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
     <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
-    <string name="measurement">1 mesure</string>
+    <plurals name="measurement">
+        <item quantity="one">1 mesure</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s mesures</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Augmenter la performance du graphique</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s secondes</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s mesures</string>
     <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
     <string name="firmware_version_"></string>

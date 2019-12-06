@@ -476,7 +476,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensorCoordinates.text = marker.snippet
                 marker.tag = marker.title
                 sensorInfo.setOnClickListener {
-                    showSensorInfoWindow(requireActivity(), smu, marker.title)
+                    showSensorInfoWindow(requireActivity(), smu, marker.title, if(marker.tag != marker.title) marker.tag!! else getString(R.string.unknown_sensor))
                 }
                 sensorShowData.setOnClickListener {
                     exitReveal(sensor_container)
@@ -566,7 +566,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     sensor_cluster_container
                 )
             } else {
-                infoSensorCount.text = cluster.items.size.toString() + " " + getString(R.string.sensors)
+                infoSensorCount.text = String.format(getString(R.string.sensors), cluster.items.size)
                 infoAverageValue.setText(R.string.loading)
                 infoCompareSensors.isEnabled = cluster.items.size <= 15
 
@@ -686,8 +686,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 sensors = su.externalSensors
                                 activity.runOnUiThread { drawSensorsToMap() }
                             } else {
-                                activity.runOnUiThread { Toast.makeText(
-                                    activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
+                                activity.runOnUiThread { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
                             }
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()

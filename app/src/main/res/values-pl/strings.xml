@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Edytuj sensor</string>
     <string name="complete_sensor">Sensor kompletny</string>
     <string name="unlink_sensor">Odepnij sensor</string>
-    <string name="really_unlink_sensor_1">Czy naprawdę chcesz odpiąć sensor ?</string>
-    <string name="really_unlink_sensor_2">\?</string>
+    <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Proszę wypełnić wszystkie pola</string>
     <string name="sensor_existing">Sensor jest już połączony</string>
     <string name="add_sensor_tick_not_set_message">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
-    <string name="add_sensor_tick_not_set_message_duty">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
+    <string name="add_sensor_tick_not_set_message_required">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
     <string name="do_not_show_again">Nie pokazuj ponownie</string>
     <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
     <string name="choose_location">Wybierz dokładną lokalizację sensora</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
     <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
-    <string name="measurement">1 pomiar</string>
+    <plurals name="measurement">
+        <item quantity="one">1 pomiar</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="few">%s pomiary</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
     <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s sekundy</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuty</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s pomiary</string>
     <string name="pref_app_open_source_t">Aplikacja Particulate Matter na GitHub.</string>
     <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>
     <string name="firmware_version_">Wersja firmware:</string>

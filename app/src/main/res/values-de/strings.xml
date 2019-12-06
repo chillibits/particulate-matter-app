@@ -18,7 +18,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
-    <string name="sensors">Sensoren</string>
+    <string name="sensors">%s Sensoren</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
     <string name="no_data">Keine Daten</string>
@@ -50,9 +50,8 @@
     <string name="edit_sensor">Sensor bearbeiten</string>
     <string name="complete_sensor">Sensor vervollständigen</string>
     <string name="unlink_sensor">Sensor entfernen</string>
-    <string name="really_unlink_sensor_1">Wollen Sie den Sensor \'</string>
-    <string name="really_unlink_sensor_2">\' wirklich entfernen?</string>
-    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen.  Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="really_unlink_sensor">Wollen Sie den Sensor \'%s\' wirklich entfernen?</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
@@ -90,7 +89,7 @@
     <string name="not_all_filled">Bitte alle Felder füllen</string>
     <string name="sensor_existing">Sensor ist bereits verknüpft</string>
     <string name="add_sensor_tick_not_set_message">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bittem um Geduld.</string>
-    <string name="add_sensor_tick_not_set_message_duty">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
+    <string name="add_sensor_tick_not_set_message_required">HINWEIS: Diese App kann nur Daten von Ihrem Sensor empfangen, wenn in der Konfiguration der Sensor-Firmware das Häkchen bei \'Senden an Feinstaub-App\' gesetzt ist. Aktivieren Sie diese Option um fortzufahren. Nachdem Sie die Option aktiviert haben, kann es bis zu 10 Minuten dauern, bis die ersten Daten auf unserem Server ankommen. Wir bitten um Geduld.</string>
     <string name="do_not_show_again">Nicht mehr anzeigen</string>
     <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
@@ -167,14 +166,14 @@
     <string name="pref_header_appearance">Erscheinungsbild</string>
     <string name="app_restart_t">Neustart benötigt</string>
     <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden.</string>
-    <string name="default_map_type">Kartentyp beim App Start</string>
+    <string name="default_map_type">Kartentyp beim Appstart</string>
     <string-array name="map_type">
         <item name="map_type_0">Normal</item>
         <item name="map_type_1">Terrain</item>
         <item name="map_type_2">Satellit</item>
         <item name="map_type_3">Hybrid</item>
     </string-array>
-    <string name="enable_traffic_by_default">Verkehr beim App Start einblenden</string>
+    <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
@@ -183,6 +182,7 @@
     <string name="pref_notification_breakdown">Nachricht beim Sensor-Ausfall</string>
     <string name="pref_notification_breakdown_s">Benachrichtigung bei eigenen Sensoren, wenn mehrere Messungen ausbleiben</string>
     <string name="pref_notification_breakdown_number">Erlaubte Anzahl fehlender Messungen</string>
+    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="pref_limit_p1">PM10 Grenzwert</string>
     <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
     <string name="pref_limit_p2">PM2.5 Grenzwert</string>
@@ -193,15 +193,17 @@
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
     <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
-    <string name="zero_to_disable">Auf 0 setzen zum deaktivieren</string>
-    <string name="measurement">Messung</string>
-    <string name="_measurements">%s Messungen</string>
+    <string name="zero_to_disable">Zur Deaktivierung auf 0 setzen</string>
+    <plurals name="measurement">
+        <item quantity="one">1 Messung</item>
+        <item quantity="other">%s Messungen</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Diagramm-Performance steigern</string>
     <string name="pref_increase_diagram_performance_s">Diagramm wird möglicherweise ungenau</string>
     <string name="pref_enable_marker_clustering">Marker-Zusammenfassung aktivieren</string>
-    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden intelligent zusammengefasst</string>
+    <string name="pref_enable_marker_clustering_s">Sensoren auf der Karte werden in Clustern zusammengefasst</string>
     <string name="clear_sensor_data_t">Sensordaten bereinigen</string>
     <string name="clear_sensor_data_m">Zwischengespeichterte Sensordaten leeren, um Speicherplatz zu sparen</string>
     <!-- About Settings -->

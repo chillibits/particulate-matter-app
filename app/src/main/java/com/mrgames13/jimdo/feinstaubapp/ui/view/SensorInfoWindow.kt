@@ -5,6 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.ui.view
 
 import android.app.Activity
+import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
@@ -17,16 +18,9 @@ import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.*
 
-fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId: String, sensorName: String = activity.getString(R.string.unknown_sensor)) {
+fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId: String, sensorName: String) {
     if (smu.checkConnection(activity.container)) {
-        val v = activity.layoutInflater.inflate(R.layout.dialog_sensor_properties, null)
-
-        v.sensor_public_value.isSelected = true
-        v.sensor_firmware_version_value.isSelected = true
-        v.sensor_creation_value.isSelected = true
-        v.sensor_lat_value.isSelected = true
-        v.sensor_lng_value.isSelected = true
-        v.sensor_alt_value.isSelected = true
+        val v = LayoutInflater.from(activity).inflate(R.layout.dialog_sensor_properties, activity.container, false)
 
         v.sensor_name_value.text = sensorName
         v.sensor_chip_id_value.text = sensorId

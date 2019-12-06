@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Sensor aanpassen</string>
     <string name="complete_sensor">Sensor afmaken</string>
     <string name="unlink_sensor">Sensor ontkoppelen</string>
-    <string name="really_unlink_sensor_1">Weet je zeker dat je de sensor wilt ontkoppelen \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Weet je zeker dat je de sensor wilt ontkoppelen \'%s\'?</string>
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Fijnstof App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Vul aub alle velden in</string>
     <string name="sensor_existing">Sensor is al gekoppeld</string>
     <string name="add_sensor_tick_not_set_message">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
-    <string name="add_sensor_tick_not_set_message_duty">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
+    <string name="add_sensor_tick_not_set_message_required">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
     <string name="do_not_show_again">Niet nogmaals tonen</string>
     <string name="public_sensor">Toon sensor aan andere gebruikers en maak zichtbaar op de kaart</string>
     <string name="choose_location">Kies exacte sensor locatie</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
     <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
-    <string name="measurement">1 meting</string>
+    <plurals name="measurement">
+        <item quantity="one">1 meting</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s metingen</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s seconden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuten</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s metingen</string>
     <string name="pref_app_open_source_t">De fijnstof-app op GitHub</string>
     <string name="pref_app_open_source_s">Klik om ons te bezoeken op GitHub</string>
     <string name="firmware_version_"></string>

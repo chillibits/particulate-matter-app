@@ -122,7 +122,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                                     .setCancelable(true)
                                     .setIcon(R.drawable.delete_red)
                                     .setTitle(R.string.unlink_sensor)
-                                    .setMessage(activity.getString(R.string.really_unlink_sensor_1) + sensor.name + activity.getString(R.string.really_unlink_sensor_2))
+                                    .setMessage(String.format(activity.getString(R.string.really_unlink_sensor), sensor.name))
                                     .setNegativeButton(R.string.cancel, null)
                                     .setPositiveButton(R.string.unlink_sensor) { _, _ ->
                                         // Delete database for this sensor

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Personalizzare il sensore</string>
     <string name="complete_sensor">Sensore completo</string>
     <string name="unlink_sensor">Scollegare un sensore</string>
-    <string name="really_unlink_sensor_1">Vuoi veramente scollegare il sensore</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
     <string name="no_sensors">Se hai un sensore da www.luftdaten.info, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Prego compila tutti i campi</string>
     <string name="sensor_existing">Il sensore è già collegato</string>
     <string name="add_sensor_tick_not_set_message">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
-    <string name="add_sensor_tick_not_set_message_duty">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Effettua tale abilitazione per continuare. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
+    <string name="add_sensor_tick_not_set_message_required">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Effettua tale abilitazione per continuare. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
     <string name="do_not_show_again">Non mostare più</string>
     <string name="public_sensor">Mostra il sensore agli altri utenti e rendilo visibile sulla mappa.</string>
     <string name="choose_location">Seleziona l\'esatta posizione del sensore</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Limite pressione (hPa)</string>
     <string name="pref_limit_disabled">Notifiche disabilitate</string>
     <string name="zero_to_disable">Posizionare a 0 per disabilitare</string>
-    <string name="measurement">1 rilevazione</string>
+    <plurals name="measurement">
+        <item quantity="one">1 rilevazione</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s misure</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestazione</string>
     <string name="pref_increase_diagram_performance">Incrementare le performance del diagramma</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s secondi</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuti</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s misure</string>
     <string name="pref_app_open_source_t">L\'app del particolato su GitHub</string>
     <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>
     <string name="firmware_version_"></string>

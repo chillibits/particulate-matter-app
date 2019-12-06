@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Редактирай сензор</string>
     <string name="complete_sensor">Завърши сензор</string>
     <string name="unlink_sensor">Премахни връзка със сензор</string>
-    <string name="really_unlink_sensor_1">Наистина ли искате да премахнете връзката със сензора \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
     <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Моля, попълнете всички полета</string>
     <string name="sensor_existing">Сензорът е свързан вече</string>
     <string name="add_sensor_tick_not_set_message">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
-    <string name="add_sensor_tick_not_set_message_duty">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
+    <string name="add_sensor_tick_not_set_message_required">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
     <string name="do_not_show_again">Не показвай отново</string>
     <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
     <string name="choose_location">Избере точното местоположение на сензора</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Граница на налягането (hPa)</string>
     <string name="pref_limit_disabled">Известяването е изключено</string>
     <string name="zero_to_disable">Сложи 0, за да изключиш</string>
-    <string name="measurement">1 измерване</string>
+    <plurals name="measurement">
+        <item quantity="one">1 измерване</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s измервания</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Производителност</string>
     <string name="pref_increase_diagram_performance">Увеличи представянето на графиката</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s секунди</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s минути</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s измервания</string>
     <string name="pref_app_open_source_t">приложението за частици за материята на GitHub</string>
     <string name="pref_app_open_source_s">Кликнете, за да ни посетите в GitHub</string>
     <string name="firmware_version_"></string>

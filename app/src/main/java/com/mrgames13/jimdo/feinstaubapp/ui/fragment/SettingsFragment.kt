@@ -180,7 +180,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         notificationBreakdownNumber?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string._measurements), preference.text)
+            //String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string.measurements), preference.text)
+            resources.getQuantityString(R.plurals.measurement, preference.text.toInt(), preference.text)
         }
 
         // EnableMarkerClustering

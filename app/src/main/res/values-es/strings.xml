@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Editar sensor</string>
     <string name="complete_sensor">Sensor completo</string>
     <string name="unlink_sensor">Desenlazar sensor</string>
-    <string name="really_unlink_sensor_1">¿Realmente quieres desvincular el sensor?</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Por favor llena todos los espacios</string>
     <string name="sensor_existing">El sensor ya está vinculado</string>
     <string name="add_sensor_tick_not_set_message">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \"Enviar a Feinstaub-App\" en la configuración de su sensor. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
-    <string name="add_sensor_tick_not_set_message_duty">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \'Enviar a Feinstaub-App\' en la configuración de su sensor. Habilitar esto para continuar. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
+    <string name="add_sensor_tick_not_set_message_required">NOTA: Esta aplicación solo puede recibir datos del sensor, si habilita \'Enviar a Feinstaub-App\' en la configuración de su sensor. Habilitar esto para continuar. Después de habilitar la casilla de verificación, puede durar hasta 10 minutos hasta que los primeros datos se envíen a nuestro servidor. Por favor sea paciente.</string>
     <string name="do_not_show_again">No mostrar de nuevo</string>
     <string name="public_sensor">Mostrar el sensor a otros usuarios y hacerlo visible en el mapa.</string>
     <string name="choose_location">Elija la ubicación exacta del sensor</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
     <string name="pref_limit_disabled">Notificación deshabilitada</string>
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
-    <string name="measurement">1 medición</string>
+    <plurals name="measurement">
+        <item quantity="one">1 medición</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s medidas</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Actuación</string>
     <string name="pref_increase_diagram_performance">Aumentar el rendimiento del diagrama</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s segundos</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutos</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s medidas</string>
     <string name="pref_app_open_source_t">La aplicación Particulate Matter en GitHub</string>
     <string name="pref_app_open_source_s">Haga clic para visitarnos en GitHub</string>
     <string name="firmware_version_">Versión de firmware:</string>

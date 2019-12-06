@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Edit sensor</string>
     <string name="complete_sensor">Complete sensor</string>
     <string name="unlink_sensor">Unlink sensor</string>
-    <string name="really_unlink_sensor_1">Do you really want to unlink the sensor \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
     <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>
     <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Please fill all fields</string>
     <string name="sensor_existing">Sensor is already linked</string>
     <string name="add_sensor_tick_not_set_message">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor. After you enabled the checkbox, it can last up to 10 minutes until the first data gets sent to our server. Please be patient.</string>
-    <string name="add_sensor_tick_not_set_message_duty">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor. Enable this to proceed. After you enabled the checkbox, it can last up to 10 minutes until the first data gets sent to our server. Please be patient.</string>
+    <string name="add_sensor_tick_not_set_message_required">NOTE: This app only can receive data from the sensor, if you enable \'Send to Feinstaub-App\' in the configuration of your sensor. Enable this to proceed. After you enabled the checkbox, it can last up to 10 minutes until the first data gets sent to our server. Please be patient.</string>
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="public_sensor">Show sensor to other users and make it visible on the map</string>
     <string name="choose_location">Choose exact sensor location</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
     <string name="pref_limit_disabled">Notification disabled</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
-    <string name="measurement">1 measurement</string>
+    <plurals name="measurement">
+        <item quantity="one">1 measurement</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s measurements</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Increase diagram performance</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s seconds</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s measurements</string>
     <string name="pref_app_open_source_t">The Particulate Matter App on GitHub</string>
     <string name="pref_app_open_source_s">Click to visit us on GitHub</string>
     <string name="firmware_version_">Firmware version:</string>

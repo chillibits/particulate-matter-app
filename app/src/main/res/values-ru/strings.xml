@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 21:39:46 +0100
+ Exported at: Fri, 06 Dec 2019 23:34:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -46,8 +46,7 @@
     <string name="edit_sensor">Редактировать датчик</string>
     <string name="complete_sensor">Завершить датчик</string>
     <string name="unlink_sensor">Отключить датчик</string>
-    <string name="really_unlink_sensor_1">Вы уверены, что хотите отлючить датчик \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
@@ -84,7 +83,7 @@
     <string name="not_all_filled">Пожалуйста, заполните все поля</string>
     <string name="sensor_existing">Датчик уже подключён</string>
     <string name="add_sensor_tick_not_set_message">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
-    <string name="add_sensor_tick_not_set_message_duty">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
+    <string name="add_sensor_tick_not_set_message_required">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
     <string name="do_not_show_again">Более не показывать</string>
     <string name="public_sensor">Показывать датчик другим пользователям и на карте</string>
     <string name="choose_location">Выберите точное положение датчика</string>
@@ -185,7 +184,11 @@
     <string name="pref_limit_pressure_t">Предел давления (гПа)</string>
     <string name="pref_limit_disabled">Уведомление отключено</string>
     <string name="zero_to_disable">Чтобы отключить, задайте 0</string>
-    <string name="measurement">1 измерение</string>
+    <plurals name="measurement">
+        <item quantity="one">1 измерение</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="few">%s измерения</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Скорость работы</string>
     <string name="pref_increase_diagram_performance">Ускорить график</string>
@@ -238,8 +241,6 @@
     <string name="seconds">%s секунды</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s минуты</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s измерения</string>
     <string name="pref_app_open_source_t">Приложение Particulate Matter на GitHub</string>
     <string name="pref_app_open_source_s">Нажмите, чтобы посетить нас на GitHub</string>
     <string name="firmware_version_"></string>

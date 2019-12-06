@@ -232,7 +232,7 @@ class AddSensorActivity : AppCompatActivity() {
                                     AlertDialog.Builder(this@AddSensorActivity)
                                         .setCancelable(true)
                                         .setTitle(R.string.app_name)
-                                        .setMessage(R.string.add_sensor_tick_not_set_message_duty)
+                                        .setMessage(R.string.add_sensor_tick_not_set_message_required)
                                         .setPositiveButton(R.string.ok, null)
                                         .show()
                                 }
