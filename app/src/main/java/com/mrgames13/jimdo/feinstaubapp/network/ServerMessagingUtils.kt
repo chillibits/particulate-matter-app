@@ -33,14 +33,14 @@ class ServerMessagingUtils(private val context: Context) {
             true
         } else {
             Snackbar.make(v, context.resources.getString(R.string.internet_is_not_available), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.activate_wlan) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            context.startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-                        } else {
-                            wifiManager.isWifiEnabled = true
-                        }
+                .setAction(R.string.activate_wlan) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        context.startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+                    } else {
+                        wifiManager.isWifiEnabled = true
                     }
-                    .show()
+                }
+                .show()
             false
         }
     }

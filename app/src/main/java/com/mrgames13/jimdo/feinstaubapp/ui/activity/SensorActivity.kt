@@ -217,7 +217,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         service = Executors.newSingleThreadScheduledExecutor()
         service.scheduleAtFixedRate({
             if (selected_day_timestamp == current_day_timestamp) {
-                Log.i("FA", "Auto refreshing ...")
+                Log.i(Constants.TAG, "Auto refreshing ...")
                 loadData()
             }
         }, period.toLong(), period.toLong(), TimeUnit.SECONDS)
@@ -272,7 +272,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             }
             R.id.action_refresh -> {
                 // Reload data
-                Log.i("FA", "User refreshing ...")
+                Log.i(Constants.TAG, "User refreshing ...")
                 loadData()
             }
             R.id.action_settings -> //Launch SettingsActivity
@@ -311,7 +311,6 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // Get timestamps for 'from' and'to'
             var from = selected_day_timestamp
             val to = selected_day_timestamp + TimeUnit.DAYS.toMillis(1)
-            Log.d("FA", selected_day_timestamp.toString())
 
             if (su.getBoolean("reduce_data_consumption", true) && records.size > 0 && selected_day_timestamp == current_day_timestamp) {
                 // Load existing records from local database

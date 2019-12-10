@@ -22,10 +22,10 @@ import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import com.mrgames13.jimdo.feinstaubapp.service.WebRealtimeSyncService
+import kotlinx.io.IOException
+import kotlinx.io.StringWriter
 import org.xmlpull.v1.XmlPullParser
 import java.io.FileInputStream
-import java.io.IOException
-import java.io.StringWriter
 import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
@@ -394,7 +394,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         val cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'data_%'", null)
         while (cursor.moveToNext()) {
             db.execSQL("DROP TABLE " + cursor.getString(0))
-            Log.i("FA", "Deleted database: " + cursor.getString(0))
+            Log.i(Constants.TAG, "Deleted database: " + cursor.getString(0))
         }
         cursor.close()
     }
@@ -456,8 +456,8 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             for (s in ownSensors) {
                 if (!isSensorExisting(s.chipID)) addOwnSensor(s, offline = true, request_from_realtime_sync_service = false)
             }
-            Log.i("FA", "Imported favourites: " + favourites.size)
-            Log.i("FA", "Imported own sensors: " + ownSensors.size)
+            Log.i(Constants.TAG, "Imported favourites: " + favourites.size)
+            Log.i(Constants.TAG, "Imported own sensors: " + ownSensors.size)
 
             inputStream.close()
             return true

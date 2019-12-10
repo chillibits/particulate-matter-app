@@ -338,7 +338,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                         .setPersisted(true)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
                 val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                Log.i("FA", if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
+                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
             }
         } else {
             // Setup AlarmManager

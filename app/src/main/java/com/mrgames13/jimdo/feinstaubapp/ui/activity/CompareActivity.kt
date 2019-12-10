@@ -30,6 +30,7 @@ import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadDataRecords
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
@@ -326,7 +327,7 @@ class CompareActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.no_data_date, Toast.LENGTH_SHORT).show()
             }
         } else if (id == R.id.action_refresh) {
-            Log.i("FA", "User refreshing ...")
+            Log.i(Constants.TAG, "User refreshing ...")
             // Reload data
             loadData()
         } else if (id == R.id.action_settings) {

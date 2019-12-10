@@ -98,11 +98,11 @@ class AddSensorActivity : AppCompatActivity() {
 
         coordinates_info.setOnClickListener {
             AlertDialog.Builder(this@AddSensorActivity)
-                    .setCancelable(true)
-                    .setTitle(R.string.app_name)
-                    .setMessage(R.string.coordinates_info)
-                    .setPositiveButton(R.string.ok, null)
-                    .show()
+                .setCancelable(true)
+                .setTitle(R.string.app_name)
+                .setMessage(R.string.coordinates_info)
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
 
         // Get intent extras
@@ -133,11 +133,11 @@ class AddSensorActivity : AppCompatActivity() {
             choose_location.requestFocus()
 
              AlertDialog.Builder(this)
-                    .setCancelable(true)
-                    .setTitle(R.string.complete_sensor)
-                    .setMessage(R.string.sensor_position_completion_m_short)
-                    .setPositiveButton(R.string.ok, null)
-                    .show()
+                .setCancelable(true)
+                .setTitle(R.string.complete_sensor)
+                .setMessage(R.string.sensor_position_completion_m_short)
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
     }
 

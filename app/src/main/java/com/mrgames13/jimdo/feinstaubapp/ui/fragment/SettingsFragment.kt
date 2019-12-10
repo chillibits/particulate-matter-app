@@ -90,7 +90,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                             .setPersisted(true)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
                     val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                    Log.i("FA", if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
+                    Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
                 } else {
                     // Update AlarmManager
                     val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60

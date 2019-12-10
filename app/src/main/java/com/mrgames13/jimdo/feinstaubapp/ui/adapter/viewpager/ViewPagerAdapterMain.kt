@@ -52,6 +52,7 @@ import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadClusterAverage
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsNonSync
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsSync
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.CompareActivity
@@ -732,7 +733,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         // Load all sensors from server
                         val newLastRequest = System.currentTimeMillis()
                         val result = ArrayList(loadSensorsNonSync(activity))
-                        Log.i("FA", "Loading time: " + (System.currentTimeMillis() - newLastRequest))
+                        Log.i(Constants.TAG, "Loading time: " + (System.currentTimeMillis() - newLastRequest))
                         if (result.isNotEmpty()) {
                             su.clearExternalSensors()
                             su.addAllExternalSensors(result)
