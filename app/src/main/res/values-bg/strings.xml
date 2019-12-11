@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Да</string>
     <string name="no">Не</string>
     <string name="cancel">Отмени</string>
-    <string name="sensors">сензори</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s сензори</string>
     <string name="exit">Изход</string>
     <string name="settings">Настройки</string>
     <string name="no_data">Липсват данни</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Редактирай сензор</string>
     <string name="complete_sensor">Завърши сензор</string>
     <string name="unlink_sensor">Премахни връзка със сензор</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
     <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
@@ -243,8 +245,8 @@
     <string name="minutes">%s минути</string>
     <string name="pref_app_open_source_t">приложението за частици за материята на GitHub</string>
     <string name="pref_app_open_source_s">Кликнете, за да ни посетите в GitHub</string>
-    <string name="firmware_version_"></string>
-    <string name="unknown_sensor"></string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="firmware_version_">Версия на фърмуера:</string>
+    <string name="unknown_sensor">Неизвестен сензор</string>
+    <string name="default_map_type">Тип карта по подразбиране</string>
+    <string name="enable_traffic_by_default">Активирайте трафика по подразбиране</string>
 </resources>

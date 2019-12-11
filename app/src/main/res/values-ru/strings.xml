@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">да</string>
     <string name="no">нет</string>
     <string name="cancel">отменить</string>
-    <string name="sensors">датчики</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s датчики</string>
     <string name="exit">Выйти</string>
     <string name="settings">Настройки</string>
     <string name="no_data">Нет данных</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Редактировать датчик</string>
     <string name="complete_sensor">Завершить датчик</string>
     <string name="unlink_sensor">Отключить датчик</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
@@ -243,8 +245,8 @@
     <string name="minutes">%s минуты</string>
     <string name="pref_app_open_source_t">Приложение Particulate Matter на GitHub</string>
     <string name="pref_app_open_source_s">Нажмите, чтобы посетить нас на GitHub</string>
-    <string name="firmware_version_"></string>
-    <string name="unknown_sensor"></string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="firmware_version_">Версия прошивки</string>
+    <string name="unknown_sensor">Неизвестный датчик</string>
+    <string name="default_map_type">Тип карты по умолчанию</string>
+    <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
 </resources>

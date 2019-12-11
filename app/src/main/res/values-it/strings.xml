@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="cancel">Annulla</string>
-    <string name="sensors">sensori</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s sensori</string>
     <string name="exit">Esci</string>
     <string name="settings">Impostazioni</string>
     <string name="no_data">Assenza dati</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Personalizzare il sensore</string>
     <string name="complete_sensor">Sensore completo</string>
     <string name="unlink_sensor">Scollegare un sensore</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
     <string name="no_sensors">Se hai un sensore da www.luftdaten.info, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
@@ -241,10 +243,10 @@
     <string name="seconds">%s secondi</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuti</string>
-    <string name="pref_app_open_source_t">L\'app del particolato su GitHub</string>
+    <string name="pref_app_open_source_t">L\'App Particulate Matter su GitHub</string>
     <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>
-    <string name="firmware_version_"></string>
-    <string name="unknown_sensor"></string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="firmware_version_">Versione del firmware:</string>
+    <string name="unknown_sensor">Sensore sconosciuto</string>
+    <string name="default_map_type">Tipo di mappa di default</string>
+    <string name="enable_traffic_by_default">Abilitare il traffico dati di default</string>
 </resources>

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="cancel">Anuluj</string>
-    <string name="sensors">Sensor</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s czujników</string>
     <string name="exit">Wyjście</string>
     <string name="settings">Ustawienia</string>
     <string name="no_data">Brak danych</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Edytuj sensor</string>
     <string name="complete_sensor">Sensor kompletny</string>
     <string name="unlink_sensor">Odepnij sensor</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
@@ -245,6 +247,6 @@
     <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>
     <string name="firmware_version_">Wersja firmware:</string>
     <string name="unknown_sensor">Nieznany sensor</string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="default_map_type">Domyślny typ mapy</string>
+    <string name="enable_traffic_by_default">Włącz ruch</string>
 </resources>

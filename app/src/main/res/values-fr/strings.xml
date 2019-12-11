@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="cancel">Annuler</string>
-    <string name="sensors">capteurs</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s capteurs</string>
     <string name="exit">Quitter</string>
     <string name="settings">Paramètres</string>
     <string name="no_data">Pas de donnée</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Modifier le capteur</string>
     <string name="complete_sensor">Compléter le capteur</string>
     <string name="unlink_sensor">Supprimer le capteur</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
@@ -243,8 +245,8 @@
     <string name="minutes">%s minutes</string>
     <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
-    <string name="firmware_version_"></string>
-    <string name="unknown_sensor"></string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="firmware_version_">Version du firmware:</string>
+    <string name="unknown_sensor">Capteur inconnu</string>
+    <string name="default_map_type">Type de carte par défaut</string>
+    <string name="enable_traffic_by_default">Activer le trafic par défaut</string>
 </resources>

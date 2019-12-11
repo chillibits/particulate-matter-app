@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,14 +14,15 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    <string name="sensors">sensors</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s sensors</string>
     <string name="exit">Quit</string>
     <string name="settings">Settings</string>
     <string name="no_data">No data</string>
     <string name="loading">Loading …</string>
     <string name="loading_data">Loading data …</string>
     <string name="internet_is_not_available">Internet not available</string>
-    <string name="activate_wlan">Activate WiFi</string>
+    <string name="activate_wlan">Enable WiFi</string>
     <string name="please_wait_">Please wait …</string>
     <string name="error_try_again">An error occurred. Please try again</string>
     <string name="offline_t">Server offline</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Edit sensor</string>
     <string name="complete_sensor">Complete sensor</string>
     <string name="unlink_sensor">Unlink sensor</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
     <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>

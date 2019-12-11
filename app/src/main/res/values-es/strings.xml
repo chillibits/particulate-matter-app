@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Fri, 06 Dec 2019 23:34:46 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="cancel">Cancelar</string>
-    <string name="sensors">sensores</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s sensores</string>
     <string name="exit">Cerrar</string>
     <string name="settings">Ajustes</string>
     <string name="no_data">No datos</string>
@@ -46,6 +47,7 @@
     <string name="edit_sensor">Editar sensor</string>
     <string name="complete_sensor">Sensor completo</string>
     <string name="unlink_sensor">Desenlazar sensor</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
@@ -244,7 +246,7 @@
     <string name="pref_app_open_source_t">La aplicación Particulate Matter en GitHub</string>
     <string name="pref_app_open_source_s">Haga clic para visitarnos en GitHub</string>
     <string name="firmware_version_">Versión de firmware:</string>
-    <string name="unknown_sensor"></string>
-    <string name="default_map_type"></string>
-    <string name="enable_traffic_by_default"></string>
+    <string name="unknown_sensor">Sensor desconocido</string>
+    <string name="default_map_type">Tipo de mapa predeterminado</string>
+    <string name="enable_traffic_by_default">Habilitar tráfico por defecto</string>
 </resources>
