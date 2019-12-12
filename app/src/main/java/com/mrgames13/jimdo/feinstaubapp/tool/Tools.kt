@@ -19,12 +19,16 @@ import kotlin.math.abs
 object Tools {
 
     fun round(value: Double, places: Int): Double {
-        return if(places >= 0) {
-            var bd = BigDecimal(value)
-            bd = bd.setScale(places, RoundingMode.HALF_UP)
-            bd.toDouble()
-        } else
+        return try {
+            if(places >= 0) {
+                var bd = BigDecimal(value)
+                bd = bd.setScale(places, RoundingMode.HALF_UP)
+                bd.toDouble()
+            } else
+                value
+        } catch (ignored: Exception) {
             value
+        }
     }
 
     fun md5(s: String): String {
