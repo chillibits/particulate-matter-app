@@ -67,8 +67,9 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/chip_id_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:padding="5dp"
             app:srcCompat="@drawable/info_outline"
             app:layout_constraintTop_toTopOf="@+id/chip_id_value"
             app:layout_constraintBottom_toBottomOf="@+id/chip_id_value"
@@ -76,7 +77,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="5dp"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/sensor_color"
@@ -169,8 +170,9 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/coordinates_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
                 app:srcCompat="@drawable/info_outline"
                 app:layout_constraintTop_toTopOf="@+id/coordinates_container"
                 app:layout_constraintBottom_toBottomOf="@+id/coordinates_container"
@@ -178,7 +180,6 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="10dp"/>
 
             <TextView

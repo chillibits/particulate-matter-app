@@ -44,7 +44,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity, su: StorageUtils, show_gps_data: Boolean) : FragmentStatePagerAdapter(manager) {
+class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity, su: StorageUtils, show_gps_data: Boolean) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     // Variables as objects
     private val tabTitles = ArrayList<String>()

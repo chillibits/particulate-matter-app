@@ -19,13 +19,16 @@ import kotlin.math.abs
 object Tools {
 
     fun round(value: Double, places: Int): Double {
-        try {
-            require(places >= 0)
-            var bd = BigDecimal(value)
-            bd = bd.setScale(places, RoundingMode.HALF_UP)
-            return bd.toDouble()
-        } catch (ignored: Exception) {}
-        return value
+        return try {
+            if(places >= 0) {
+                var bd = BigDecimal(value)
+                bd = bd.setScale(places, RoundingMode.HALF_UP)
+                bd.toDouble()
+            } else
+                value
+        } catch (ignored: Exception) {
+            value
+        }
     }
 
     fun md5(s: String): String {
@@ -238,10 +241,8 @@ object Tools {
     }
 
     fun getNavigationBarHeight(context: Context): Int {
-        var result = 0
         val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        if (resourceId > 0) result = context.resources.getDimensionPixelSize(resourceId)
-        return result
+        return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
     }
 
     fun findMaxMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
@@ -255,7 +256,6 @@ object Tools {
                 else -> 0.0
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             0.0
         }
     }
@@ -271,7 +271,6 @@ object Tools {
                 else -> 0.0
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             0.0
         }
     }

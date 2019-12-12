@@ -26,7 +26,6 @@ class Sensor: Comparable<Any>, Serializable {
     }
 
     override operator fun compareTo(other: Any): Int {
-        val otherSensor = other as Sensor
-        return name.compareTo(otherSensor.name)
+        return name.compareTo((other as Sensor).name)
     }
 }

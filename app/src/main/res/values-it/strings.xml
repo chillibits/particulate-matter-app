@@ -5,16 +5,17 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">App Particulate Matter</string>
+    <string name="app_name">L\'app Particulate Matter</string>
     <string name="ok">OK</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="cancel">Annulla</string>
-    <string name="sensors">sensori</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s sensori</string>
     <string name="exit">Esci</string>
     <string name="settings">Impostazioni</string>
     <string name="no_data">Assenza dati</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Personalizzare il sensore</string>
     <string name="complete_sensor">Sensore completo</string>
     <string name="unlink_sensor">Scollegare un sensore</string>
-    <string name="really_unlink_sensor_1">Vuoi veramente scollegare il sensore</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
     <string name="no_sensors">Se hai un sensore da www.luftdaten.info, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Prego compila tutti i campi</string>
     <string name="sensor_existing">Il sensore è già collegato</string>
     <string name="add_sensor_tick_not_set_message">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
-    <string name="add_sensor_tick_not_set_message_duty">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Effettua tale abilitazione per continuare. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
+    <string name="add_sensor_tick_not_set_message_required">Avvertenze: Questa applicazione può ricevere informazioni dal sensore, solo se abiliti \"Send to Feinstaub-App\" nella configurazione del tuo sensore. Effettua tale abilitazione per continuare. Dopo aver effettuato l\'abilitazione possono passare fino a 10 minuti prima che i primi dati arrivino al nostro server. Abbiate pazienza.</string>
     <string name="do_not_show_again">Non mostare più</string>
     <string name="public_sensor">Mostra il sensore agli altri utenti e rendilo visibile sulla mappa.</string>
     <string name="choose_location">Seleziona l\'esatta posizione del sensore</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Esportare i dati</string>
     <string name="share_sensor">Condividere il sensore</string>
     <string name="median">Mediano</string>
-    <string name="normal">Normale</string>
-    <string name="terrain">Terra</string>
-    <string name="satellite">Satellite</string>
-    <string name="hybrid">Ibrido</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normale</item>
+        <item name="map_type_1">Terra</item>
+        <item name="map_type_2">Satellite</item>
+        <item name="map_type_3">Ibrido</item>
+    </string-array>
     <string name="traffic_show">Mostra il traffico</string>
     <string name="traffic_hide">Nascondi il traffico</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Ciclo di sincronizzazione (sec.)</string>
     <string name="sync_cycle_background">Ciclo di sincronizzazione\u0020\u0020in background</string>
     <string name="sync_cycle_background_t">Ciclo di sincronizzazione\u0020\u0020in background (min)</string>
-    <string name="seconds">secondi</string>
-    <string name="second">secondo</string>
-    <string name="minutes">minuti</string>
-    <string name="minute">minuto</string>
     <string name="reduce_data_consumption">Ridurre il consumo di dati</string>
     <string name="reduce_data_consumption_s">Scaricare solo i dati richiesti (può causare errori nel periodo di riferimento)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Aspetto</string>
-    <string name="pref_theme">Tema dell\'App</string>
     <string name="app_restart_t">Riavvio necessario</string>
     <string name="app_restart_m">Per applicare i cambiamenti, è necessario riavviare l\'app. Vuoi riavviarla adesso o dopo?</string>
-    <string name="now">Adesso</string>
-    <string name="later">Dopo</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifiche</string>
     <string name="pref_notification_averages">Notifica di superamento della media</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Limite pressione (hPa)</string>
     <string name="pref_limit_disabled">Notifiche disabilitate</string>
     <string name="zero_to_disable">Posizionare a 0 per disabilitare</string>
-    <string name="measurement">rilevazione</string>
-    <string name="measurements">rilevazioni</string>
+    <plurals name="measurement">
+        <item quantity="one">1 rilevazione</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s misure</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestazione</string>
     <string name="pref_increase_diagram_performance">Incrementare le performance del diagramma</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Prego selezionare almeno un sensore</string>
     <string name="scan_qr_code_prompt">Prego scannerizzare il codice qr</string>
     <string name="share_qr_code">Condividere il codice qr</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatico in base all\\\'orario</item>
-        <item name="pref_theme_array1">Tema chiaro</item>
-        <item name="pref_theme_array2">Tema scuro</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Non abbiamo trovato nulla</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s secondi</string>
+    <string name="seconds">%s secondi</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minuti</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s misure</string>
-    <string name="pref_app_open_source_t">L\'app del particolato su GitHub</string>
+    <string name="minutes">%s minuti</string>
+    <string name="pref_app_open_source_t">L\'App Particulate Matter su GitHub</string>
     <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>
+    <string name="firmware_version_">Versione del firmware:</string>
+    <string name="unknown_sensor">Sensore sconosciuto</string>
+    <string name="default_map_type">Tipo di mappa di default</string>
+    <string name="enable_traffic_by_default">Abilitare il traffico dati di default</string>
 </resources>

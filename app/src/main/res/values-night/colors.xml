@@ -13,6 +13,8 @@
     <color name="color_selection">#3D3D3D</color>
     <color name="dark_mode_indicator">@color/colorPrimary</color>
     <color name="current_values_color">@color/color_selection</color>
+
+    <!-- Button colors -->
     <color name="enabled">@color/gray_light</color>
     <color name="disabled">@color/colorPrimaryTransparent</color>
     <color name="button_color">#BBBBBB</color>

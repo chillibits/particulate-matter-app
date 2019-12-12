@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">Да</string>
     <string name="no">Не</string>
     <string name="cancel">Отмени</string>
-    <string name="sensors">сензори</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s сензори</string>
     <string name="exit">Изход</string>
     <string name="settings">Настройки</string>
     <string name="no_data">Липсват данни</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Редактирай сензор</string>
     <string name="complete_sensor">Завърши сензор</string>
     <string name="unlink_sensor">Премахни връзка със сензор</string>
-    <string name="really_unlink_sensor_1">Наистина ли искате да премахнете връзката със сензора \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
     <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Моля, попълнете всички полета</string>
     <string name="sensor_existing">Сензорът е свързан вече</string>
     <string name="add_sensor_tick_not_set_message">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
-    <string name="add_sensor_tick_not_set_message_duty">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
+    <string name="add_sensor_tick_not_set_message_required">ЗАБЕЛЕЖКА: Това приложение може да получава данни само от сензора, ако активирате „Изпращане до Feinstaub-App“ в конфигурацията на вашия сензор</string>
     <string name="do_not_show_again">Не показвай отново</string>
     <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
     <string name="choose_location">Избере точното местоположение на сензора</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Експорт на записите</string>
     <string name="share_sensor">Сподели сензор</string>
     <string name="median">Медиана</string>
-    <string name="normal">Нормално</string>
-    <string name="terrain">Терен</string>
-    <string name="satellite">Сателит</string>
-    <string name="hybrid">Хибриден</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Нормално</item>
+        <item name="map_type_1">Терен</item>
+        <item name="map_type_2">Сателит</item>
+        <item name="map_type_3">Хибриден</item>
+    </string-array>
     <string name="traffic_show">Покажи трафик</string>
     <string name="traffic_hide">Скрий трафик</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Цикъл на синхронизация (сек)</string>
     <string name="sync_cycle_background">Фон на цикъла на синхронизация</string>
     <string name="sync_cycle_background_t">Фон на цикъла на синхронизация (мин)</string>
-    <string name="seconds">секунди</string>
-    <string name="second">секунда</string>
-    <string name="minutes">минути</string>
-    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Намали консумацията на данни</string>
     <string name="reduce_data_consumption_s">Изтегляне само на необходимите данни (може да доведе до грешки при смяна на времето)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Външен вид</string>
-    <string name="pref_theme">Тема на приложението</string>
     <string name="app_restart_t">Необходим е рестарт</string>
     <string name="app_restart_m">За да приложите промените, е необходимо рестартиране на приложение. Искате ли да рестартирате сега или по-късно?</string>
-    <string name="now">Сега</string>
-    <string name="later">По-късно</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Известия</string>
     <string name="pref_notification_averages">Уведомление за превишена средна стойност</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Граница на налягането (hPa)</string>
     <string name="pref_limit_disabled">Известяването е изключено</string>
     <string name="zero_to_disable">Сложи 0, за да изключиш</string>
-    <string name="measurement">измерване</string>
-    <string name="measurements">измервания</string>
+    <plurals name="measurement">
+        <item quantity="one">1 измерване</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s измервания</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Производителност</string>
     <string name="pref_increase_diagram_performance">Увеличи представянето на графиката</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Моля, изберете поне един сензор</string>
     <string name="scan_qr_code_prompt">Моля, сканирайте QR кода</string>
     <string name="share_qr_code">Сподели QR код</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Автоматично по време</item>
-        <item name="pref_theme_array1">Светла тема</item>
-        <item name="pref_theme_array2">Тъмна тема</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Нищо не е намерено</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s секунди</string>
+    <string name="seconds">%s секунди</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s минути</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s измервания</string>
+    <string name="minutes">%s минути</string>
     <string name="pref_app_open_source_t">приложението за частици за материята на GitHub</string>
     <string name="pref_app_open_source_s">Кликнете, за да ни посетите в GitHub</string>
+    <string name="firmware_version_">Версия на фърмуера:</string>
+    <string name="unknown_sensor">Неизвестен сензор</string>
+    <string name="default_map_type">Тип карта по подразбиране</string>
+    <string name="enable_traffic_by_default">Активирайте трафика по подразбиране</string>
 </resources>

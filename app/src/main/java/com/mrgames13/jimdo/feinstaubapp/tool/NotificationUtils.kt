@@ -52,10 +52,10 @@ class NotificationUtils(private val context: Context) {
 
     fun buildNotification(channel_id: String, title: String, message: String): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, channel_id)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            .setContentTitle(title)
+            .setContentText(message)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
     }
 
     fun cancelNotification(id: Int) {

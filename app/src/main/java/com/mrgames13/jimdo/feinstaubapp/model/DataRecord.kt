@@ -10,7 +10,6 @@ import kotlinx.serialization.internal.StringDescriptor
 import java.util.*
 
 class DataRecord(
-    // Variables
     val dateTime: Date,
     val p1: Double,
     val p2: Double,
@@ -21,32 +20,28 @@ class DataRecord(
     val lng: Double,
     val alt: Double
 ): Comparable<Any> {
-
     override operator fun compareTo(other: Any): Int {
-        try {
-            val otherRecord = other as DataRecord
-
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_ASC) return dateTime.compareTo(otherRecord.dateTime)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_TIME_DESC) return otherRecord.dateTime.compareTo(dateTime)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_ASC) return p1.compareTo(otherRecord.p1)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE1_DESC) return otherRecord.p1.compareTo(p1)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_ASC) return p2.compareTo(otherRecord.p2)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_VALUE2_DESC) return otherRecord.p2.compareTo(p2)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_ASC) return temp.compareTo(otherRecord.temp)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_TEMP_DESC) return otherRecord.temp.compareTo(temp)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_ASC) return humidity.compareTo(otherRecord.humidity)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_HUMIDITY_DESC) return otherRecord.humidity.compareTo(humidity)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_ASC) return pressure.compareTo(otherRecord.pressure)
-            if (SensorActivity.sort_mode == SensorActivity.SORT_MODE_PRESSURE_DESC) return otherRecord.pressure.compareTo(pressure)
-        } catch (ignored: Exception) {}
-        return 0
+        val otherRecord = other as DataRecord
+        return when(SensorActivity.sort_mode) {
+            SensorActivity.SORT_MODE_TIME_ASC -> return dateTime.compareTo(otherRecord.dateTime)
+            SensorActivity.SORT_MODE_TIME_DESC -> return otherRecord.dateTime.compareTo(dateTime)
+            SensorActivity.SORT_MODE_VALUE1_ASC -> return p1.compareTo(otherRecord.p1)
+            SensorActivity.SORT_MODE_VALUE1_DESC -> return otherRecord.p1.compareTo(p1)
+            SensorActivity.SORT_MODE_VALUE2_ASC -> return p2.compareTo(otherRecord.p2)
+            SensorActivity.SORT_MODE_VALUE2_DESC -> return otherRecord.p2.compareTo(p2)
+            SensorActivity.SORT_MODE_TEMP_ASC -> return temp.compareTo(otherRecord.temp)
+            SensorActivity.SORT_MODE_TEMP_DESC -> return otherRecord.temp.compareTo(temp)
+            SensorActivity.SORT_MODE_HUMIDITY_ASC -> return humidity.compareTo(otherRecord.humidity)
+            SensorActivity.SORT_MODE_HUMIDITY_DESC -> return otherRecord.humidity.compareTo(humidity)
+            SensorActivity.SORT_MODE_PRESSURE_ASC -> return pressure.compareTo(otherRecord.pressure)
+            SensorActivity.SORT_MODE_PRESSURE_DESC -> return otherRecord.pressure.compareTo(pressure)
+            else -> 0
+        }
     }
 }
 
 @Serializable
-data class DataRecordCompressedList (
-    val items: List<DataRecordCompressed> = emptyList()
-) {
+data class DataRecordCompressedList(val items: List<DataRecordCompressed> = emptyList()) {
     @Serializer(DataRecordCompressedList::class)
     companion object : KSerializer<DataRecordCompressedList> {
         override val descriptor: SerialDescriptor = StringDescriptor.withName("DataRecordCompressedList")

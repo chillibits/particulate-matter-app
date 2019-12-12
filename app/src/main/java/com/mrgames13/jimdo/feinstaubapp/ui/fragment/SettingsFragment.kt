@@ -27,7 +27,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
-import androidx.preference.*
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.ServerInfo
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
@@ -62,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val syncCycle = findPreference<EditTextPreference>("sync_cycle")
         syncCycle?.setOnBindEditTextListener { editText -> applyEditTextAttributes(editText, 5) }
         syncCycle?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            String.format(getString(R.string._seconds), preference.text)
+            String.format(getString(R.string.seconds), preference.text)
         }
         syncCycle?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty() && newValue.toString().toInt() >= Constants.MIN_SYNC_CYCLE
@@ -72,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val syncCycleBackground = findPreference<EditTextPreference>("sync_cycle_background")
         syncCycleBackground?.setOnBindEditTextListener { editText -> applyEditTextAttributes(editText, 5) }
         syncCycleBackground?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            String.format(getString(R.string._minutes), preference.text)
+            String.format(getString(R.string.minutes), preference.text)
         }
         syncCycleBackground?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue.toString().isNotEmpty() && Integer.parseInt(newValue.toString()) >= Constants.MIN_SYNC_CYCLE_BACKGROUND) {
@@ -87,7 +90,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                             .setPersisted(true)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
                     val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                    Log.i("FA", if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
+                    Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
                 } else {
                     // Update AlarmManager
                     val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
@@ -105,17 +108,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        // AppTheme
-        val appTheme = findPreference<ListPreference>("app_theme")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            preferenceScreen.removePreference(appTheme)
-        } else {
-            appTheme?.setOnPreferenceChangeListener { _, _ ->
-                restartApp(activity)
-                true
-            }
-        }
-
         // LimitP1
         val limitP1 = findPreference<EditTextPreference>("limit_p1")
         limitP1?.setOnBindEditTextListener { editText ->
@@ -123,7 +115,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitP1?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            "${preference.text} µg/m³"
+            if(preference.text == "") getString(R.string.pref_limit_disabled) else "${preference.text} µg/m³"
         }
         limitP1?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty()
@@ -136,7 +128,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitP2?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            "${preference.text} µg/m³"
+            if(preference.text == "") getString(R.string.pref_limit_disabled) else "${preference.text} µg/m³"
         }
         limitP2?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty()
@@ -149,7 +141,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitTemp?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            "${preference.text} °C"
+            if(preference.text == "") getString(R.string.pref_limit_disabled) else "${preference.text} °C"
         }
         limitTemp?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty()
@@ -162,7 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitHumidity?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            "${preference.text} %"
+            if(preference.text == "") getString(R.string.pref_limit_disabled) else "${preference.text} %"
         }
         limitHumidity?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty()
@@ -175,7 +167,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         limitPressure?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            "${preference.text} hPa"
+            if(preference.text == "") getString(R.string.pref_limit_disabled) else "${preference.text} hPa"
         }
         limitPressure?.setOnPreferenceChangeListener { _, newValue ->
             newValue.toString().isNotEmpty()
@@ -188,7 +180,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             editText.hint = getString(R.string.zero_to_disable)
         }
         notificationBreakdownNumber?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-            String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string._measurements), preference.text)
+            //String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string.measurements), preference.text)
+            resources.getQuantityString(R.plurals.measurement, preference.text.toInt(), preference.text)
         }
 
         // EnableMarkerClustering

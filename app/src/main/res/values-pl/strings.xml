@@ -5,16 +5,17 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Particulate Matter App</string>
+    <string name="app_name">The Particulate Matter App</string>
     <string name="ok">OK</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="cancel">Anuluj</string>
-    <string name="sensors">Sensor</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s czujników</string>
     <string name="exit">Wyjście</string>
     <string name="settings">Ustawienia</string>
     <string name="no_data">Brak danych</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Edytuj sensor</string>
     <string name="complete_sensor">Sensor kompletny</string>
     <string name="unlink_sensor">Odepnij sensor</string>
-    <string name="really_unlink_sensor_1">Czy naprawdę chcesz odpiąć sensor ?</string>
-    <string name="really_unlink_sensor_2">\?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Proszę wypełnić wszystkie pola</string>
     <string name="sensor_existing">Sensor jest już połączony</string>
     <string name="add_sensor_tick_not_set_message">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
-    <string name="add_sensor_tick_not_set_message_duty">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
+    <string name="add_sensor_tick_not_set_message_required">UWAGA: Ta aplikacja może odbierać dane tylko z sensora, jeśli w konfiguracji sensora włączysz funkcję \"Wyślij do Feinstaub-App\"</string>
     <string name="do_not_show_again">Nie pokazuj ponownie</string>
     <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
     <string name="choose_location">Wybierz dokładną lokalizację sensora</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Eksportuj rekordy danych</string>
     <string name="share_sensor">Udostępnij sensor</string>
     <string name="median">Mediana</string>
-    <string name="normal">Normalna</string>
-    <string name="terrain">Teren</string>
-    <string name="satellite">Satelita</string>
-    <string name="hybrid">Hybrydowy</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normalna</item>
+        <item name="map_type_1">Teren</item>
+        <item name="map_type_2">Satelita</item>
+        <item name="map_type_3">Hybrydowy</item>
+    </string-array>
     <string name="traffic_show">Pokaż ruch</string>
     <string name="traffic_hide">Ukryj ruch</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Cykl synchronizacji (sek)</string>
     <string name="sync_cycle_background">Cykl synchronizacji w tle</string>
     <string name="sync_cycle_background_t">Cykl synchronizacji w tle (min)</string>
-    <string name="seconds">sekund</string>
-    <string name="second">sekunda</string>
-    <string name="minutes">minut</string>
-    <string name="minute">minuta</string>
     <string name="reduce_data_consumption">Ogranicz pobór danych</string>
     <string name="reduce_data_consumption_s">Pobieraj tylko wymagane dane (może powodować błędy przesunięcia czasu)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Wygląd</string>
-    <string name="pref_theme">Motyw</string>
     <string name="app_restart_t">Potrzebny restart</string>
     <string name="app_restart_m">Aby zastosować zmiany, konieczne jest ponowne uruchomienie aplikacji.</string>
-    <string name="now">Teraz</string>
-    <string name="later">Później</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Powiadomienia</string>
     <string name="pref_notification_averages">Powiadomienie o przekroczonej średniej</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
     <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
-    <string name="measurement">Pomiar</string>
-    <string name="measurements">Pomiary</string>
+    <plurals name="measurement">
+        <item quantity="one">1 pomiar</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="few">%s pomiary</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
     <string name="pref_increase_diagram_performance">Przyśpiesz tworzenie wykresu</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Wybierz co najmniej jeden sensor</string>
     <string name="scan_qr_code_prompt">Proszę zeskanować kod QR</string>
     <string name="share_qr_code">Udostępnij kod QR</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatycznie według czasu</item>
-        <item name="pref_theme_array1">Jasny schemat</item>
-        <item name="pref_theme_array2">Ciemny schemat</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Nic nie znaleziono</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s sekundy</string>
+    <string name="seconds">%s sekundy</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minuty</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s pomiary</string>
+    <string name="minutes">%s minuty</string>
     <string name="pref_app_open_source_t">Aplikacja Particulate Matter na GitHub.</string>
     <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>
+    <string name="firmware_version_">Wersja firmware:</string>
+    <string name="unknown_sensor">Nieznany sensor</string>
+    <string name="default_map_type">Domyślny typ mapy</string>
+    <string name="enable_traffic_by_default">Włącz ruch</string>
 </resources>

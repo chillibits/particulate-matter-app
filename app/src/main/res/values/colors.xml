@@ -10,6 +10,8 @@
     <color name="color_selection">@color/white_dark</color>
     <color name="dark_mode_indicator">#202020</color>
     <color name="current_values_color">@color/white</color>
+
+    <!-- Button colors -->
     <color name="enabled">@color/colorPrimary</color>
     <color name="disabled">@color/gray_light</color>
     <color name="button_color">@color/colorPrimary</color>

@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import com.mrgames13.jimdo.feinstaubapp.BuildConfig
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -25,7 +26,7 @@ fun getNetworkClient(): HttpClient {
 
 fun handlePossibleErrors(activity: Activity, status: HttpStatusCode): Boolean {
     if(status != HttpStatusCode.OK) {
-        Log.e("FA", "Something went wrong during the backend request: " + status.value + " - " + status.description)
+        Log.e(Constants.TAG, "Something went wrong during the backend request: " + status.value + " - " + status.description)
         activity.runOnUiThread {
             Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
         }

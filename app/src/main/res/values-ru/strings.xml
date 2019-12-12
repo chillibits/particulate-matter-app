@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,8 @@
     <string name="yes">да</string>
     <string name="no">нет</string>
     <string name="cancel">отменить</string>
-    <string name="sensors">датчики</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s датчики</string>
     <string name="exit">Выйти</string>
     <string name="settings">Настройки</string>
     <string name="no_data">Нет данных</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Редактировать датчик</string>
     <string name="complete_sensor">Завершить датчик</string>
     <string name="unlink_sensor">Отключить датчик</string>
-    <string name="really_unlink_sensor_1">Вы уверены, что хотите отлючить датчик \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Пожалуйста, заполните все поля</string>
     <string name="sensor_existing">Датчик уже подключён</string>
     <string name="add_sensor_tick_not_set_message">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
-    <string name="add_sensor_tick_not_set_message_duty">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
+    <string name="add_sensor_tick_not_set_message_required">Внимание. Это приложение получит данные с датчика только, если включить \'Send to Feinstaub-App\' в настройках вашего датчика. После того, как поставите галочку, потребуется до 10 минут, прежде, чем первые данные отправятся на наш сервер. Пожалуйста, потерпите.</string>
     <string name="do_not_show_again">Более не показывать</string>
     <string name="public_sensor">Показывать датчик другим пользователям и на карте</string>
     <string name="choose_location">Выберите точное положение датчика</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Экспорт записей</string>
     <string name="share_sensor">Поделиться датчиком</string>
     <string name="median">Медиана</string>
-    <string name="normal">Схема</string>
-    <string name="terrain">Рельеф</string>
-    <string name="satellite">Спутник</string>
-    <string name="hybrid">Спутник и схема</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Схема</item>
+        <item name="map_type_1">Рельеф</item>
+        <item name="map_type_2">Спутник</item>
+        <item name="map_type_3">Спутник и схема</item>
+    </string-array>
     <string name="traffic_show">Показывать пробки</string>
     <string name="traffic_hide">Скрыть пробки</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Период в секундах</string>
     <string name="sync_cycle_background">Период фонового обновления данных</string>
     <string name="sync_cycle_background_t">Период в минутах</string>
-    <string name="seconds">секунды</string>
-    <string name="second">секунда</string>
-    <string name="minutes">минуты</string>
-    <string name="minute">минута</string>
     <string name="reduce_data_consumption">Сократить объём скачиваемых данных</string>
     <string name="reduce_data_consumption_s">Скачивать только новые данные. Может вызвать ошибки при изменении настроек времени.</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Внешний вид</string>
-    <string name="pref_theme">Тема оформления</string>
     <string name="app_restart_t">Требуется перезапуск</string>
     <string name="app_restart_m">Чтобы применить изменения, приложение надо перезапустить.</string>
-    <string name="now">Сейчас</string>
-    <string name="later">Позже</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_notification_averages">Уведомления о превышении среднего значения</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Предел давления (гПа)</string>
     <string name="pref_limit_disabled">Уведомление отключено</string>
     <string name="zero_to_disable">Чтобы отключить, задайте 0</string>
-    <string name="measurement">измерение</string>
-    <string name="measurements">измерение</string>
+    <plurals name="measurement">
+        <item quantity="one">1 измерение</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="few">%s измерения</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Скорость работы</string>
     <string name="pref_increase_diagram_performance">Ускорить график</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Пожалуйста, выберите хотя бы один датчик</string>
     <string name="scan_qr_code_prompt">Пожалуйста, отсканируйте QR-код.</string>
     <string name="share_qr_code">Поделиться QR-кодом</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">По времени</item>
-        <item name="pref_theme_array1">Светлая тема</item>
-        <item name="pref_theme_array2">Тёмная тема</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">Ничего не найдено</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s секунды</string>
+    <string name="seconds">%s секунды</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s минуты</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s измерения</string>
+    <string name="minutes">%s минуты</string>
     <string name="pref_app_open_source_t">Приложение Particulate Matter на GitHub</string>
     <string name="pref_app_open_source_s">Нажмите, чтобы посетить нас на GitHub</string>
+    <string name="firmware_version_">Версия прошивки</string>
+    <string name="unknown_sensor">Неизвестный датчик</string>
+    <string name="default_map_type">Тип карты по умолчанию</string>
+    <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
 </resources>

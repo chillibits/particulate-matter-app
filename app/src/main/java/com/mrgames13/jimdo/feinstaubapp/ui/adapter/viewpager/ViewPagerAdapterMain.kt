@@ -52,6 +52,7 @@ import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadClusterAverage
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsNonSync
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensorsSync
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.CompareActivity
@@ -62,6 +63,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.model.ClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.ui.model.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.model.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.view.showSensorInfoWindow
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -78,8 +80,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     val selectedSensors: ArrayList<Sensor>
         get() {
             val selectedSensors = ArrayList<Sensor>()
-            selectedSensors.addAll(MyFavouritesFragment.selectedSensors)
-            selectedSensors.addAll(MySensorsFragment.selectedSensors)
+            selectedSensors.addAll(FavoritesFragment.selectedSensors)
+            selectedSensors.addAll(OwnSensorsFragment.selectedSensors)
             return Tools.removeDuplicateSensors(selectedSensors)
         }
 
@@ -91,7 +93,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     override fun getItem(pos: Int): Fragment {
-        return if (pos == 0) MyFavouritesFragment() else if(pos == 1) AllSensorsFragment() else MySensorsFragment()
+        return if (pos == 0) FavoritesFragment() else if(pos == 1) AllSensorsFragment() else OwnSensorsFragment()
     }
 
     override fun getCount(): Int {
@@ -103,29 +105,29 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     fun refresh() {
-        MyFavouritesFragment.refresh()
+        FavoritesFragment.refresh()
         AllSensorsFragment.refresh()
-        MySensorsFragment.refresh()
+        OwnSensorsFragment.refresh()
     }
 
     fun refreshFavourites() {
-        MyFavouritesFragment.refresh()
+        FavoritesFragment.refresh()
     }
 
     fun refreshMySensors() {
-        MySensorsFragment.refresh()
+        OwnSensorsFragment.refresh()
     }
 
     fun deselectAllSensors() {
-        MyFavouritesFragment.deselectAllSensors()
-        MySensorsFragment.deselectAllSensors()
+        FavoritesFragment.deselectAllSensors()
+        OwnSensorsFragment.deselectAllSensors()
     }
 
     fun search(query: String, mode: Int) {
-        if (mode == SensorAdapter.MODE_FAVOURITES) MyFavouritesFragment.search(
+        if (mode == SensorAdapter.MODE_FAVOURITES) FavoritesFragment.search(
             query
         )
-        if (mode == SensorAdapter.MODE_OWN_SENSORS) MySensorsFragment.search(
+        if (mode == SensorAdapter.MODE_OWN_SENSORS) OwnSensorsFragment.search(
             query
         )
     }
@@ -136,7 +138,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
     //-------------------------------------------Fragments------------------------------------------
 
-    class MyFavouritesFragment : Fragment() {
+    class FavoritesFragment : Fragment() {
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = LayoutInflater.from(parent?.context).inflate(R.layout.tab_my_favourites, parent, false)
 
@@ -215,6 +217,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         private lateinit var sensorChipId: TextView
         private lateinit var sensorCoordinates: TextView
         private lateinit var sensorLocation: TextView
+        private lateinit var sensorInfo: ImageView
         private lateinit var sensorShowData: Button
         private lateinit var sensorLink: Button
         private lateinit var infoSensorCount: TextView
@@ -235,41 +238,36 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map_fragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
             mapType = contentView.map_type
-            val mapTypes = ArrayList<String>()
-            mapTypes.add(getString(R.string.normal))
-            mapTypes.add(getString(R.string.terrain))
-            mapTypes.add(getString(R.string.satellite))
-            mapTypes.add(getString(R.string.hybrid))
+            val mapTypes = ArrayList<String>(resources.getStringArray(R.array.map_type).toList())
             val adapterType = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTypes)
             adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapType.adapter = adapterType
             mapType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
-                    when (type) {
-                        0 -> map?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        1 -> map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
-                        2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
-                        3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
-                    }
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                    changeMapType(pos)
                 }
 
-                override fun onNothingSelected(adapterView: AdapterView<*>) {}
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+            val defaultMapType = su.getString("default_map_type", "0").toInt()
+            changeMapType(defaultMapType)
+            mapType.setSelection(defaultMapType)
 
             mapTraffic = contentView.findViewById(R.id.map_traffic)
-            val mapTrafficItems = ArrayList<String>()
-            mapTrafficItems.add(getString(R.string.traffic_hide))
-            mapTrafficItems.add(getString(R.string.traffic_show))
+            val mapTrafficItems = ArrayList<String>(listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
             val adapterTraffic = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTrafficItems)
             adapterTraffic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = adapterTraffic
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>, view: View, type: Int, l: Long) {
-                    map?.isTrafficEnabled = type != 0
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                    map?.isTrafficEnabled = pos != 0
                 }
 
                 override fun onNothingSelected(adapterView: AdapterView<*>) {}
             }
+            val trafficEnabled = su.getBoolean("default_traffic", false)
+            map?.isTrafficEnabled = trafficEnabled
+            mapTraffic.setSelection(if(trafficEnabled) 1 else 0)
 
             map_sensor_count = contentView.findViewById(R.id.map_sensor_count)
             map_sensor_count.setOnClickListener {
@@ -291,6 +289,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             sensorChipId = contentView.sensor_chip_id
             sensorCoordinates = contentView.sensor_coordinates
             sensorLocation = contentView.sensor_location
+            sensorInfo = contentView.sensor_info
             sensorShowData = contentView.sensor_show_data
             sensorLink = contentView.sensor_link
 
@@ -302,6 +301,15 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             infoZoomIn = contentView.info_sensors_zoom
 
             return contentView
+        }
+
+        private fun changeMapType(pos: Int) {
+            when (pos) {
+                0 -> map?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                1 -> map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
+            }
         }
 
         override fun onMapReady(googleMap: GoogleMap) {
@@ -468,6 +476,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensorChipId.text = marker.title
                 sensorCoordinates.text = marker.snippet
                 marker.tag = marker.title
+                sensorInfo.setOnClickListener {
+                    showSensorInfoWindow(requireActivity(), smu, marker.title, if(marker.tag != marker.title) marker.tag!! else getString(R.string.unknown_sensor))
+                }
                 sensorShowData.setOnClickListener {
                     exitReveal(sensor_container)
 
@@ -504,7 +515,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     var nameString: String? = v.sensor_name_value.text.toString().trim()
                                     if (nameString!!.isEmpty()) nameString = marker.tag
                                     su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
-                                    MyFavouritesFragment.refresh()
+                                    FavoritesFragment.refresh()
                                     refresh()
                                     selected_marker_position = null
                                     sensor_container.visibility = View.GONE
@@ -556,7 +567,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     sensor_cluster_container
                 )
             } else {
-                infoSensorCount.text = cluster.items.size.toString() + " " + getString(R.string.sensors)
+                infoSensorCount.text = String.format(getString(R.string.sensors), cluster.items.size)
                 infoAverageValue.setText(R.string.loading)
                 infoCompareSensors.isEnabled = cluster.items.size <= 15
 
@@ -670,14 +681,13 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                     }
                                 }
                                 // Add or edit sensors, that are in the update list
-                                su.addAllExternalSensors(ArrayList(syncPackage.update.map { ExternalSensor(it.i, it.l, it.b) }))
+                                su.addAllExternalSensors(ArrayList(syncPackage.update.map { ExternalSensor(chipId = it.i, lat = it.l, lng = it.b) }))
                                 // Save, reload sensors and redraw
                                 su.putLong("LastRequest", newLastRequest)
                                 sensors = su.externalSensors
                                 activity.runOnUiThread { drawSensorsToMap() }
                             } else {
-                                activity.runOnUiThread { Toast.makeText(
-                                    activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
+                                activity.runOnUiThread { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
                             }
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
@@ -723,7 +733,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         // Load all sensors from server
                         val newLastRequest = System.currentTimeMillis()
                         val result = ArrayList(loadSensorsNonSync(activity))
-                        Log.i("FA", "Loading time: " + (System.currentTimeMillis() - newLastRequest))
+                        Log.i(Constants.TAG, "Loading time: " + (System.currentTimeMillis() - newLastRequest))
                         if (result.isNotEmpty()) {
                             su.clearExternalSensors()
                             su.addAllExternalSensors(result)
@@ -781,7 +791,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
     }
 
-    class MySensorsFragment : Fragment() {
+    class OwnSensorsFragment : Fragment() {
         private var noDataText: TextView? = null
 
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {

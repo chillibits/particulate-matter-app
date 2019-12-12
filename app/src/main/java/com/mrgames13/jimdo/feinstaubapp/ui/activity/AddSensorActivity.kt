@@ -98,11 +98,11 @@ class AddSensorActivity : AppCompatActivity() {
 
         coordinates_info.setOnClickListener {
             AlertDialog.Builder(this@AddSensorActivity)
-                    .setCancelable(true)
-                    .setTitle(R.string.app_name)
-                    .setMessage(R.string.coordinates_info)
-                    .setPositiveButton(R.string.ok, null)
-                    .show()
+                .setCancelable(true)
+                .setTitle(R.string.app_name)
+                .setMessage(R.string.coordinates_info)
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
 
         // Get intent extras
@@ -133,11 +133,11 @@ class AddSensorActivity : AppCompatActivity() {
             choose_location.requestFocus()
 
              AlertDialog.Builder(this)
-                    .setCancelable(true)
-                    .setTitle(R.string.complete_sensor)
-                    .setMessage(R.string.sensor_position_completion_m_short)
-                    .setPositiveButton(R.string.ok, null)
-                    .show()
+                .setCancelable(true)
+                .setTitle(R.string.complete_sensor)
+                .setMessage(R.string.sensor_position_completion_m_short)
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
     }
 
@@ -173,8 +173,8 @@ class AddSensorActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_SELECT_PLACE && resultCode == Activity.RESULT_OK) {
             val place: Place? = PingPlacePicker.getPlace(data!!)
-            lat.setText(Tools.round(place?.latLng!!.latitude, 5).toString())
-            lng.setText(Tools.round(place.latLng!!.longitude, 5).toString())
+            lat.setText(Tools.round(place?.latLng!!.latitude, 4).toString())
+            lng.setText(Tools.round(place.latLng!!.longitude, 4).toString())
             choose_location.text = place.name
         }
     }
@@ -198,7 +198,7 @@ class AddSensorActivity : AppCompatActivity() {
                         CoroutineScope(Dispatchers.IO).launch {
                             //Check, if data already is available on server
                             if (isSensorDataExisting(this@AddSensorActivity, chipId)) {
-                                // Possibly add sensor on server
+                                // Add sensor on server, if needed
                                 if (sensor_public.isChecked) {
                                     val result = addSensorOnServer(this@AddSensorActivity, chipId, lat, lng, alt)
                                     if (result) {
@@ -232,7 +232,7 @@ class AddSensorActivity : AppCompatActivity() {
                                     AlertDialog.Builder(this@AddSensorActivity)
                                         .setCancelable(true)
                                         .setTitle(R.string.app_name)
-                                        .setMessage(R.string.add_sensor_tick_not_set_message_duty)
+                                        .setMessage(R.string.add_sensor_tick_not_set_message_required)
                                         .setPositiveButton(R.string.ok, null)
                                         .show()
                                 }

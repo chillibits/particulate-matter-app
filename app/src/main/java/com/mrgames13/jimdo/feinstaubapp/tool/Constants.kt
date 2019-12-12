@@ -6,6 +6,9 @@ package com.mrgames13.jimdo.feinstaubapp.tool
 
 object Constants {
 
+    // Logging tag
+    const val TAG = "FA"
+
     // Default values
     const val DEFAULT_SYNC_CYCLE = 30 // 30 seconds
     const val MIN_SYNC_CYCLE = 15 // 15 seconds

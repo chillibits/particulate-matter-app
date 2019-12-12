@@ -26,43 +26,28 @@ suspend fun loadServerInfo(activity: Activity): ServerInfo? {
     }
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
-    if(handlePossibleErrors(activity, response.status)) {
-        // Everything went fine
-        return Json.parse(ServerInfo.serializer(), response.readText())
-    }
+    if(handlePossibleErrors(activity, response.status)) return Json.parse(ServerInfo.serializer(), response.readText())
     return null
 }
 
 fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
-    // Check server status
-    if (serverInfo.serverStatus == ServerInfo.SERVER_STATUS_OFFLINE) {
-        AlertDialog.Builder(activity)
-            .setCancelable(false)
-            .setTitle(activity.getString(R.string.offline_t))
-            .setMessage(if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.offline_m) else serverInfo.userMessage)
-            .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                activity.finish()
-            }
-            .show()
-    } else if (serverInfo.serverStatus == ServerInfo.SERVER_STATUS_MAINTENANCE) {
-        AlertDialog.Builder(activity)
-            .setCancelable(false)
-            .setTitle(activity.getString(R.string.maintenance_t))
-            .setMessage(if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.maintenance_m) else serverInfo.userMessage)
-            .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                activity.finish()
-            }
-            .show()
-    } else if (serverInfo.serverStatus == ServerInfo.SERVER_STATUS_SUPPORT_ENDED) {
-        AlertDialog.Builder(activity)
-            .setCancelable(false)
-            .setTitle(activity.getString(R.string.support_end_t))
-            .setMessage(if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.support_end_m) else serverInfo.userMessage)
-            .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                activity.finish()
-            }
-            .show()
-    } else {
+    var title = ""
+    var message = ""
+    when(serverInfo.serverStatus) {
+        ServerInfo.SERVER_STATUS_OFFLINE -> {
+            title = activity.getString(R.string.offline_t)
+            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.offline_m) else serverInfo.userMessage
+        }
+        ServerInfo.SERVER_STATUS_MAINTENANCE -> {
+            title = activity.getString(R.string.maintenance_t)
+            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.maintenance_m) else serverInfo.userMessage
+        }
+        ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> {
+            title = activity.getString(R.string.support_end_t)
+            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.support_end_m) else serverInfo.userMessage
+        }
+    }
+    if(serverInfo.serverStatus == ServerInfo.SERVER_STATUS_ONLINE) {
         // Check for app updates
         if (BuildConfig.VERSION_CODE < serverInfo.minAppVersion) {
             AlertDialog.Builder(activity)
@@ -92,5 +77,15 @@ fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
                 }
                 .show()
         }
+    } else {
+        // Show info dialog
+        AlertDialog.Builder(activity)
+            .setCancelable(false)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
+                activity.finish()
+            }
+            .show()
     }
 }

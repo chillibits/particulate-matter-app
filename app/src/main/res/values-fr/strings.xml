@@ -5,16 +5,17 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">App Matière Particulaire</string>
+    <string name="app_name">L\'app Matière Particulaire</string>
     <string name="ok">OK</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="cancel">Annuler</string>
-    <string name="sensors">capteurs</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s capteurs</string>
     <string name="exit">Quitter</string>
     <string name="settings">Paramètres</string>
     <string name="no_data">Pas de donnée</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Modifier le capteur</string>
     <string name="complete_sensor">Compléter le capteur</string>
     <string name="unlink_sensor">Supprimer le capteur</string>
-    <string name="really_unlink_sensor_1">Voulez-vous vraiment supprimer le capteur \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
     <string name="rate_m">Evaluez l\'application Matière Particulaire dans le Google Play Store avec 5 étoiles, si l\'application vous plaît! Vous pouvez écrire des suggestions d\'amélioration avec l\'évaluation.</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Remplissez toutes les cases, s\'il vous plaît</string>
     <string name="sensor_existing">Le capteur est déjà lié</string>
     <string name="add_sensor_tick_not_set_message">NOTE: Cette application peut recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Cela peut prendre 10 minutes après que vous ayez activé cette fonction jusqu\'à ce que notre serveur reçoive les premières données. Merci de patienter.</string>
-    <string name="add_sensor_tick_not_set_message_duty">NOTE: Cette app application recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Activez cette option pour continuer. Cela peut prendre 10 minutes après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoive les premières données. Merci de patentier.</string>
+    <string name="add_sensor_tick_not_set_message_required">NOTE: Cette app application recevoir des données de votre capteur uniquement si vous avez activé l\'option dans la configuration du microprogramme du capteur à \'Transmettre à Feinstaub-App\'. Activez cette option pour continuer. Cela peut prendre 10 minutes après avoir activé cette fonction, jusqu\'à ce que notre serveur reçoive les premières données. Merci de patentier.</string>
     <string name="do_not_show_again">Ne plus afficher</string>
     <string name="public_sensor">Montrer le capteur aux autres utilisateurs et le rendre visible sur la carte</string>
     <string name="choose_location">Sélectionner la position exacte du capteur</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Exporter des enregistrements</string>
     <string name="share_sensor">Partager le capteur</string>
     <string name="median">Médiane</string>
-    <string name="normal">Normal</string>
-    <string name="terrain">Terrain</string>
-    <string name="satellite">Satellite</string>
-    <string name="hybrid">Hybride</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normal</item>
+        <item name="map_type_1">Terrain</item>
+        <item name="map_type_2">Satellite</item>
+        <item name="map_type_3">Hybride</item>
+    </string-array>
     <string name="traffic_show">Afficher le trafic</string>
     <string name="traffic_hide">Cacher le trafic</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Cycle de synchronisation (sec)</string>
     <string name="sync_cycle_background">Cycle de synchronisation en arrière-plan</string>
     <string name="sync_cycle_background_t">Cycle de synchronisation en arrière-plan (min)</string>
-    <string name="seconds">secondes</string>
-    <string name="second">seconde</string>
-    <string name="minutes">minutes</string>
-    <string name="minute">minute</string>
     <string name="reduce_data_consumption">Réduire la consommation des données</string>
     <string name="reduce_data_consumption_s">Télécharger seulement les données nécessaires (peut causer des erreurs de décalage horaire)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Apparence</string>
-    <string name="pref_theme">Thème de l\'application</string>
     <string name="app_restart_t">Redémarrage nécessaire</string>
     <string name="app_restart_m">Pour appliquer les changements, il est nécessaire de redémarrer l\'application. Voulez-vous effectuer le redémarrage maintenant ou plus tard?</string>
-    <string name="now">Maintenant</string>
-    <string name="later">Plus tard</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_notification_averages">Dépassement de la valeur moyenne</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
     <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
-    <string name="measurement">mesure</string>
-    <string name="measurements">mesures</string>
+    <plurals name="measurement">
+        <item quantity="one">1 mesure</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s mesures</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Performance</string>
     <string name="pref_increase_diagram_performance">Augmenter la performance du graphique</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatique en fonction de l\'heure</item>
-        <item name="pref_theme_array1">Thème clair</item>
-        <item name="pref_theme_array2">Thème sombre</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
     <string name="nothing_found">rien n\'a été trouvé</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s secondes</string>
+    <string name="seconds">%s secondes</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minutes</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s mesures</string>
+    <string name="minutes">%s minutes</string>
     <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
+    <string name="firmware_version_">Version du firmware:</string>
+    <string name="unknown_sensor">Capteur inconnu</string>
+    <string name="default_map_type">Type de carte par défaut</string>
+    <string name="enable_traffic_by_default">Activer le trafic par défaut</string>
 </resources>

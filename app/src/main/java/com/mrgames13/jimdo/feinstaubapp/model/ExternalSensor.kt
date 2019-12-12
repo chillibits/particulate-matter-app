@@ -10,6 +10,7 @@ import kotlinx.serialization.internal.StringDescriptor
 @Serializable
 data class ExternalSensor (
     val chipId: String,
+    val firmwareVersion: String = "unknown version",
     val lat: Double,
     val lng: Double,
     val alt: Double = 0.0,
@@ -23,9 +24,7 @@ data class ExternalSensorSyncPackage (
 )
 
 @Serializable
-data class ExternalSensorCompressedList (
-    val items: List<ExternalSensorCompressed> = emptyList()
-) {
+data class ExternalSensorCompressedList (val items: List<ExternalSensorCompressed> = emptyList()) {
     @Serializer(ExternalSensorCompressedList::class)
     companion object : KSerializer<ExternalSensorCompressedList> {
         override val descriptor: SerialDescriptor = StringDescriptor.withName("ExternalSensorCompressedList")

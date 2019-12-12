@@ -24,6 +24,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.PlaceAutocompleteAdapter
 import kotlinx.android.synthetic.main.place_search_dialog.*
 
@@ -105,7 +106,7 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
                             }
                             .addOnFailureListener {exception ->
                                 if(exception is ApiException) {
-                                    Log.e("FA", "Place not found: " + exception.statusCode)
+                                    Log.e(Constants.TAG, "Place not found: " + exception.statusCode)
                                 }
                                 loadingIndicator.visibility = View.GONE
                                 recyclerFrame.visibility = View.VISIBLE
@@ -130,7 +131,7 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
                 }
                 .addOnFailureListener {exception ->
                     if(exception is ApiException) {
-                        Log.e("FA", "Not able to fetch place: " + exception.statusCode)
+                        Log.e(Constants.TAG, "Not able to fetch place: " + exception.statusCode)
                         Toast.makeText(context, R.string.error_try_again, Toast.LENGTH_SHORT).show()
                     }
                 }

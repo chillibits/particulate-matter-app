@@ -5,16 +5,17 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Thu, 21 Nov 2019 22:29:27 +0100
+ Exported at: Wed, 11 Dec 2019 23:29:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">Fijnstof App</string>
+    <string name="app_name">De Fijnstof App</string>
     <string name="ok">OK</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
     <string name="cancel">Annuleren</string>
-    <string name="sensors">sensoren</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s sensoren</string>
     <string name="exit">Afsluiten</string>
     <string name="settings">Instellingen</string>
     <string name="no_data">Geen gegevens</string>
@@ -46,8 +47,8 @@
     <string name="edit_sensor">Sensor aanpassen</string>
     <string name="complete_sensor">Sensor afmaken</string>
     <string name="unlink_sensor">Sensor ontkoppelen</string>
-    <string name="really_unlink_sensor_1">Weet je zeker dat je de sensor wilt ontkoppelen \'</string>
-    <string name="really_unlink_sensor_2">\'?</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Weet je zeker dat je de sensor wilt ontkoppelen \'%s\'?</string>
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Fijnstof App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
@@ -84,7 +85,7 @@
     <string name="not_all_filled">Vul aub alle velden in</string>
     <string name="sensor_existing">Sensor is al gekoppeld</string>
     <string name="add_sensor_tick_not_set_message">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
-    <string name="add_sensor_tick_not_set_message_duty">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
+    <string name="add_sensor_tick_not_set_message_required">LET OP: Deze app kan alleen gegevens ontvangen van de sensor, indien je \'Send to Feinstaub-App\' activeert in de instellingen van je sensor. Activeer dit om door te gaan. Nadat je het vinkje hebt geplaatst, kan het tot 10 minuten duren voordat de eerste gegevens naar onze server worden verstuurd. Heb alstublieft geduld.</string>
     <string name="do_not_show_again">Niet nogmaals tonen</string>
     <string name="public_sensor">Toon sensor aan andere gebruikers en maak zichtbaar op de kaart</string>
     <string name="choose_location">Kies exacte sensor locatie</string>
@@ -121,10 +122,12 @@
     <string name="export_data_records">Exporteer gegevensbestanden</string>
     <string name="share_sensor">Deel sensor</string>
     <string name="median">Mediaan</string>
-    <string name="normal">Normaal</string>
-    <string name="terrain">Terrein</string>
-    <string name="satellite">Satelliet</string>
-    <string name="hybrid">Hybride</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normaal</item>
+        <item name="map_type_1">Terrein</item>
+        <item name="map_type_2">Satelliet</item>
+        <item name="map_type_3">Hybride</item>
+    </string-array>
     <string name="traffic_show">Toon verkeer</string>
     <string name="traffic_hide">Verberg verkeer</string>
     <!-- DiagramActivity
@@ -157,19 +160,12 @@
     <string name="sync_cycle_t">Synchronisatiecyclus (sec)</string>
     <string name="sync_cycle_background">Synchronisatiecyclus achtergrond</string>
     <string name="sync_cycle_background_t">Synchronisatiecyclus achtergrond (min)</string>
-    <string name="seconds">seconden</string>
-    <string name="second">seconde</string>
-    <string name="minutes">minuten</string>
-    <string name="minute">minuut</string>
     <string name="reduce_data_consumption">Verminder gegevensgebruik</string>
     <string name="reduce_data_consumption_s">Download alleen de vereiste gegevens (kan fouten bij time-shift veroorzaken)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Uiterlijk</string>
-    <string name="pref_theme">App-Thema</string>
     <string name="app_restart_t">Herstart nodig</string>
     <string name="app_restart_m">Om de wijzigingen toe te passen, is een herstart van de app nodig. Wil je nu of later opnieuw opstarten?</string>
-    <string name="now">Nu</string>
-    <string name="later">Later</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_notification_averages">Melding over overschreden gemiddelde</string>
@@ -190,8 +186,11 @@
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
     <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
-    <string name="measurement">meting</string>
-    <string name="measurements">metingen</string>
+    <plurals name="measurement">
+        <item quantity="one">1 meting</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s metingen</item>
+    </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Prestatie</string>
     <string name="pref_increase_diagram_performance">Vergroot de diagramprestaties</string>
@@ -239,23 +238,15 @@
     <string name="please_select_at_least_one_sensor">Selecteer alstublieft ten minste één sensor</string>
     <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
     <string name="share_qr_code">Deel QR-code</string>
-    <string-array name="pref_theme_array">
-        <item name="pref_theme_array0">Automatisch op tijd</item>
-        <item name="pref_theme_array1">Licht thema</item>
-        <item name="pref_theme_array2">Donker thema</item>
-    </string-array>
-    <string-array name="pref_theme_array_values">
-        <item name="pref_theme_array_values0">0</item>
-        <item name="pref_theme_array_values1">1</item>
-        <item name="pref_theme_array_values2">2</item>
-    </string-array>
-    <string name="nothing_found">niets gevonden</string>
+    <string name="nothing_found">Niets gevonden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_seconds">%s seconden</string>
+    <string name="seconds">%s seconden</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_minutes">%s minuten</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="_measurements">%s metingen</string>
+    <string name="minutes">%s minuten</string>
     <string name="pref_app_open_source_t">De fijnstof-app op GitHub</string>
     <string name="pref_app_open_source_s">Klik om ons te bezoeken op GitHub</string>
+    <string name="firmware_version_">Firmware versie</string>
+    <string name="unknown_sensor">Onbekende sensor</string>
+    <string name="default_map_type">Standaard map type</string>
+    <string name="enable_traffic_by_default">Schakel verkeer standaard in</string>
 </resources>
