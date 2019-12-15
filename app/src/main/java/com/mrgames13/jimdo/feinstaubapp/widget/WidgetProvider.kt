@@ -13,7 +13,7 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.service.SyncService
+import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
@@ -72,9 +72,9 @@ class WidgetProvider : AppWidgetProvider() {
 
             update(context, rv, widgetId)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(Intent(context, SyncService::class.java))
+                context.startForegroundService(Intent(context, SyncJobService::class.java))
             } else {
-                context.startService(Intent(context, SyncService::class.java))
+                context.startService(Intent(context, SyncJobService::class.java))
             }
         }
     }

@@ -4,9 +4,7 @@
 
 package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
@@ -36,7 +34,6 @@ import com.mrgames13.jimdo.feinstaubapp.model.ServerInfo
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadServerInfo
 import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
-import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
@@ -44,7 +41,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -79,29 +75,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         syncCycleBackground?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue.toString().isNotEmpty() && Integer.parseInt(newValue.toString()) >= Constants.MIN_SYNC_CYCLE_BACKGROUND) {
-                // Restart Background service with new configuration
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    // Update JobScheduler
-                    val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
-                    val component = ComponentName(activity, SyncJobService::class.java)
-                    val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                            .setPeriodic(backgroundSyncFrequency.toLong())
-                            .setPersisted(true)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
-                    val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                    Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
-                } else {
-                    // Update AlarmManager
-                    val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
-                    val am = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val startServiceIntent = Intent(activity, SyncService::class.java)
-                    val startServicePendingIntent = PendingIntent.getService(activity, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, startServiceIntent, 0)
-                    val calendar = Calendar.getInstance()
-                    calendar.timeInMillis = System.currentTimeMillis()
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, backgroundSyncFrequency.toLong(), startServicePendingIntent)
-                    activity.startService(startServiceIntent)
-                }
+                // Restart Background service with new configuration -> update JobScheduler
+                val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
+                val component = ComponentName(activity, SyncJobService::class.java)
+                val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPeriodic(backgroundSyncFrequency.toLong())
+                    .setPersisted(true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
+                val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
                 true
             } else {
                 false

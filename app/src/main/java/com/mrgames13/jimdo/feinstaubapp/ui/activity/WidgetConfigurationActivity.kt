@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
-import com.mrgames13.jimdo.feinstaubapp.service.SyncService
+import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SelectSensorAdapter
@@ -106,7 +106,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun finishConfiguration() {
         if(sensorViewAdapter.selectedSensor != null) {
-            startService(Intent(this, SyncService::class.java))
+            startService(Intent(this, SyncJobService::class.java))
             su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 

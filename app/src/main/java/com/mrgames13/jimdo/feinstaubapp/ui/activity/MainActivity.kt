@@ -6,10 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.ui.activity
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
@@ -35,7 +32,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.developer.filepicker.model.DialogConfigs
@@ -53,7 +49,6 @@ import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.handleServerInfo
 import com.mrgames13.jimdo.feinstaubapp.network.loadServerInfo
 import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
-import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.service.WebRealtimeSyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.*
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SensorAdapter
@@ -90,14 +85,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     private var shownAgainOnce: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Initialize StorageUtils
-        su = StorageUtils(this)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val state = Integer.parseInt(su.getString("app_theme", "0"))
-            AppCompatDelegate.setDefaultNightMode(if (state == 0) AppCompatDelegate.MODE_NIGHT_AUTO_TIME else if (state == 1) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES)
-        }
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -107,6 +94,9 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         // Initialize toolbar
         toolbar.title = getString(R.string.app_name)
         setSupportActionBar(toolbar)
+
+        // Initialize StorageUtils
+        su = StorageUtils(this)
 
         // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
@@ -328,26 +318,16 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         // Start background services
         val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!isJobServiceOn(this)) {
-                // Start JobScheduler
-                val component = ComponentName(this, SyncJobService::class.java)
-                val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                        .setPeriodic(backgroundSyncFrequency.toLong())
-                        .setPersisted(true)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
-                val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
-            }
-        } else {
-            // Setup AlarmManager
-            val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val startServiceIntent = Intent(this, SyncService::class.java)
-            val startServicePendingIntent = PendingIntent.getService(this, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, startServiceIntent, 0)
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, backgroundSyncFrequency.toLong(), startServicePendingIntent)
+        if (!isJobServiceOn(this)) {
+            // Start JobScheduler
+            val component = ComponentName(this, SyncJobService::class.java)
+            val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(backgroundSyncFrequency.toLong())
+                .setPersisted(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
+            val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
         }
 
         // Get data from intent
@@ -392,7 +372,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
                     }
                 }
-                .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
                 .show()
     }
 
@@ -602,7 +582,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                     su.putInt("MinAppVersion", result.minAppVersion)
                     su.putInt("LatestAppVersion", result.latestAppVersion)
                     su.putString("UserMessage", result.userMessage)
-                    runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         handleServerInfo(this@MainActivity, container, result)
                     }
                 }
@@ -684,18 +664,9 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         // Variables as objects
         var own_instance: MainActivity? = null
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         fun isJobServiceOn(context: Context): Boolean {
             val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-            var hasBeenScheduled = false
-
-            for (jobInfo in scheduler.allPendingJobs) {
-                if (jobInfo.id == Constants.JOB_SYNC_ID) {
-                    hasBeenScheduled = true
-                    break
-                }
-            }
-            return hasBeenScheduled
+            return scheduler.allPendingJobs.find { it.id == Constants.JOB_SYNC_ID } != null
         }
     }
 }

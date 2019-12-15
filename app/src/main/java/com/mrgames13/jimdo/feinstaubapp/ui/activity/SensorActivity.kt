@@ -97,10 +97,10 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Get intent extras
         sensor = Sensor()
         if (intent.hasExtra("Name")) {
-            sensor.name = intent.getStringExtra("Name")
+            sensor.name = intent.getStringExtra("Name")!!
             supportActionBar!!.title = intent.getStringExtra("Name")
         }
-        if (intent.hasExtra("ID")) sensor.setId(intent.getStringExtra("ID")!!)
+        if (intent.hasExtra("ID")) sensor.chipID = intent.getStringExtra("ID")!!
         if (intent.hasExtra("Color")) sensor.color = intent.getIntExtra("Color", ContextCompat.getColor(this, R.color.colorPrimary))
 
         // Initialize ViewPager
@@ -113,12 +113,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             }
         })
         viewPagerAdapter =
-            ViewPagerAdapterSensor(
-                supportFragmentManager,
-                this@SensorActivity,
-                su,
-                su.getBoolean("ShowGPS_" + sensor.chipID)
-            )
+            ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout

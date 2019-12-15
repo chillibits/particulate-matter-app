@@ -38,7 +38,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     val allOwnSensors: ArrayList<Sensor>
         get() {
-            try {
+            return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_SENSORS", null)
                 val sensors = ArrayList<Sensor>()
@@ -47,14 +47,13 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 }
                 cursor.close()
                 sensors.sort()
-                return sensors
-            } catch (ignored: Exception) {}
-            return ArrayList()
+                sensors
+            } catch (ignored: Exception) { ArrayList() }
         }
 
     val allFavourites: ArrayList<Sensor>
         get() {
-            try {
+            return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_FAVOURITES", null)
                 val sensors = ArrayList<Sensor>()
@@ -63,14 +62,13 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 }
                 cursor.close()
                 sensors.sort()
-                return sensors
-            } catch (ignored: Exception) {}
-            return ArrayList()
+                sensors
+            } catch (ignored: Exception) { ArrayList() }
         }
 
     val externalSensors: ArrayList<ExternalSensor>
         get() {
-            try {
+            return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, latitude, longitude FROM $TABLE_EXTERNAL_SENSORS", null)
                 val sensors = ArrayList<ExternalSensor>()
@@ -79,8 +77,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 }
                 cursor.close()
                 return sensors
-            } catch (ignored: Exception) {}
-            return ArrayList()
+            } catch (ignored: Exception) { ArrayList() }
         }
 
     //-----------------------------------------File-system------------------------------------------
@@ -136,7 +133,6 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         } catch (e: Exception) {
             Log.e("ChatLet", "Database creation error: ", e)
         }
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -147,13 +143,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     private fun addRecord(table: String, values: ContentValues) {
-        val db = writableDatabase
-        db.insert(table, null, values)
+        writableDatabase.insert(table, null, values)
     }
 
     private fun execSQL(command: String) {
-        val db = writableDatabase
-        db.execSQL(command)
+        writableDatabase.execSQL(command)
     }
 
     //-----------------------------------------Own-sensors------------------------------------------
@@ -170,8 +164,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun getSensor(chipId: String): Sensor? {
-        val sensors = allOwnSensors
-        sensors.addAll(allFavourites)
+        val sensors = allOwnSensors + allFavourites
         return sensors.find { it.chipID == chipId }
     }
 
@@ -196,9 +189,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun isSensorInOfflineMode(chipId: String): Boolean {
-        return getBoolean(chipId + "_offline")
-    }
+    fun isSensorInOfflineMode(chipId: String) = getBoolean("${chipId}_offline")
 
     //------------------------------------------Favourites------------------------------------------
 
@@ -367,17 +358,16 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun deleteAllDataDatabases() {
-        val db = writableDatabase
-        val cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'data_%'", null)
+        val cursor = writableDatabase.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'data_%'", null)
         while (cursor.moveToNext()) {
-            db.execSQL("DROP TABLE " + cursor.getString(0))
+            writableDatabase.execSQL("DROP TABLE " + cursor.getString(0))
             Log.i(Constants.TAG, "Deleted database: " + cursor.getString(0))
         }
         cursor.close()
     }
 
     fun importXMLFile(path: String): Boolean {
-        try {
+        return try {
             val inputStream = FileInputStream(path)
             val parser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
@@ -396,7 +386,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 parser.require(XmlPullParser.START_TAG, null, "sensor")
 
                 val s = Sensor()
-                s.setId(parser.getAttributeValue(null, "id"))
+                s.chipID = parser.getAttributeValue(null, "id")
                 s.name = parser.getAttributeValue(null, "name")
                 s.color = Integer.parseInt(parser.getAttributeValue(null, "color"))
                 favourites.add(s)
@@ -414,7 +404,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 parser.require(XmlPullParser.START_TAG, null, "sensor")
 
                 val s = Sensor()
-                s.setId(parser.getAttributeValue(null, "id"))
+                s.chipID = parser.getAttributeValue(null, "id")
                 s.name = parser.getAttributeValue(null, "name")
                 s.color = Integer.parseInt(parser.getAttributeValue(null, "color"))
                 ownSensors.add(s)
@@ -433,16 +423,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             ownSensors.forEach {
                 if (!isSensorExisting(it.chipID)) addOwnSensor(it, offline = true, requestFromRealtimeSyncService = false)
             }
-            Log.i(Constants.TAG, "Imported favourites: " + favourites.size)
-            Log.i(Constants.TAG, "Imported own sensors: " + ownSensors.size)
+            Log.i(Constants.TAG, "Imported ${favourites.size} favourites and ${ownSensors.size} own sensors ")
 
             inputStream.close()
-            return true
+            true
         } catch (e: Exception) {
             Toast.makeText(context, R.string.error_try_again, Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
+            false
         }
-        return false
     }
 
     fun exportXMLFile() {
