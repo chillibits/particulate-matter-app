@@ -354,7 +354,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.chipID)
             sendBroadcast(updateIntent)
 
-            runOnUiThread {
+            CoroutineScope(Dispatchers.Main).launch {
                 // Refresh ViewpagerAdapter
                 viewPagerAdapter.refreshFragments()
                 // Reset ProgressMenuItem
@@ -367,7 +367,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         if (!su.getBoolean("DontShowAgain_" + sensor.chipID) && smu.isInternetAvailable) {
             CoroutineScope(Dispatchers.IO).launch {
                 if(!isSensorDataExisting(this@SensorActivity, sensor.chipID)) {
-                    runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         AlertDialog.Builder(this@SensorActivity)
                             .setCancelable(true)
                             .setTitle(R.string.app_name)
@@ -384,8 +384,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     private fun exportData() {
         val v = layoutInflater.inflate(R.layout.dialog_share, null)
         val d = AlertDialog.Builder(this)
-                .setView(v)
-                .show()
+            .setView(v)
+            .show()
 
         v.share_sensor.setOnClickListener {
             Handler().postDelayed({

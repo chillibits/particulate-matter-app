@@ -569,7 +569,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val result = loadClusterAverage(ViewPagerAdapterMain.activity, ids)
-                    ViewPagerAdapterMain.activity.runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         infoAverageValue.text = if(result == 0.0) getString(R.string.error_try_again) else "Ø $result µg/m³"
                     }
                 }
@@ -577,12 +577,10 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
         private fun enterReveal(v: View) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                val finalRadius = max(v.width, v.height) + 40
-                val anim = ViewAnimationUtils.createCircularReveal(v, 275, v.measuredHeight, 0f, finalRadius.toFloat())
-                anim.duration = 350
-                anim.start()
-            }
+            val finalRadius = max(v.width, v.height) + 40
+            val anim = ViewAnimationUtils.createCircularReveal(v, 275, v.measuredHeight, 0f, finalRadius.toFloat())
+            anim.duration = 350
+            anim.start()
             v.visibility = View.VISIBLE
         }
 
@@ -641,9 +639,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 // Save, reload sensors and redraw
                                 su.putLong("LastRequest", newLastRequest)
                                 sensors = su.externalSensors
-                                activity.runOnUiThread { drawSensorsToMap() }
+                                CoroutineScope(Dispatchers.Main).launch { drawSensorsToMap() }
                             } else {
-                                activity.runOnUiThread { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
+                                CoroutineScope(Dispatchers.Main).launch { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
                             }
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
@@ -697,12 +695,12 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                             sensors = result
 
                             // Draw sensors on the map
-                            activity.runOnUiThread {
+                            CoroutineScope(Dispatchers.Main).launch {
                                 drawSensorsToMap()
                                 if (pd.isShowing()) pd.dismiss()
                             }
                         } else {
-                            activity.runOnUiThread { pd.dismiss() }
+                            CoroutineScope(Dispatchers.Main).launch { pd.dismiss() }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

@@ -391,7 +391,7 @@ class CompareActivity : AppCompatActivity() {
                     firstTime = if (currentFirstTime < firstTime) currentFirstTime else firstTime
                     lastTime = if (currentLastTime > lastTime) currentLastTime else lastTime
                 } catch (e: Exception) {}
-                runOnUiThread {
+                CoroutineScope(Dispatchers.Main).launch {
                     pd.setMessage("${i * 100 / sensors.size}%")
                 }
             }
@@ -453,7 +453,7 @@ class CompareActivity : AppCompatActivity() {
                             } catch (e: Exception) {}
                         }
 
-                        runOnUiThread {
+                        CoroutineScope(Dispatchers.Main).launch {
                             diagram_p1.addSeries(seriesP1)
                             diagram_p2.addSeries(seriesP2)
                             diagram_temp.addSeries(seriesTemp)
@@ -463,7 +463,7 @@ class CompareActivity : AppCompatActivity() {
                     } catch (ignored: Exception) {}
                 }
             }
-            runOnUiThread {
+            CoroutineScope(Dispatchers.Main).launch {
                 try {
                     diagram_p1.viewport.isScalable = true
                     diagram_p1.viewport.setMinX(firstTime.toDouble())

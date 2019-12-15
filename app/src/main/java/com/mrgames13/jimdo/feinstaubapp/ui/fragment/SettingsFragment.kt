@@ -188,7 +188,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         CoroutineScope(Dispatchers.IO).launch {
                             su.deleteAllDataDatabases()
                             su.clearSensorDataMetadata()
-                            activity.runOnUiThread { pd.dismiss() }
+                            CoroutineScope(Dispatchers.Main).launch { pd.dismiss() }
                         }
                     }
                     .show()
@@ -226,7 +226,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     // Concatenate strings and display dialog
                     val info = SpannableString(clientName+ "\n" + serverStatus + "\n" + minAppVersion + "\n" + latestAppVersion + "\n" + owner)
                     Linkify.addLinks(info, Linkify.WEB_URLS)
-                    activity.runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         pd.dismiss()
                         val d = AlertDialog.Builder(requireContext())
                                 .setTitle(getString(R.string.pref_server_info_t))
@@ -245,7 +245,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             CoroutineScope(Dispatchers.IO).launch {
                 val result = loadServerInfo(requireActivity())
                 try {
-                    requireActivity().runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         val summary = when(result?.serverStatus) {
                             ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
                             ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)

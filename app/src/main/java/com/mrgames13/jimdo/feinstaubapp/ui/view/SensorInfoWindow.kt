@@ -6,6 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.ui.view
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
+import java.text.NumberFormat
 import java.util.*
 
 fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId: String, sensorName: String) {
@@ -40,35 +42,35 @@ fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId
                     val df = DateFormat.getDateInstance()
                     val c = Calendar.getInstance()
                     c.timeInMillis = result.creationDate * 1000
-                    activity.runOnUiThread {
-                        v.sensor_public_value.text = activity.getString(R.string.yes)
-                        v.sensor_firmware_version_value.text = result.firmwareVersion
-                        v.sensor_creation_value.text = df.format(c.time)
-                        v.sensor_lat_value.text = result.lat.toString().replace(".", ",")
-                        v.sensor_lng_value.text = result.lng.toString().replace(".", ",")
-                        v.sensor_alt_value.text = result.alt.toString().replace(".", ",") + " m"
-                    }
+
+                    val nf = NumberFormat.getInstance(Locale.getDefault())
+                    setInfoWindowValues(
+                        activity,
+                        v,
+                        true,
+                        result.firmwareVersion,
+                        df.format(c.time),
+                        nf.format(result.lat),
+                        nf.format(result.lng),
+                        nf.format(result.alt) + " m"
+                    )
                 } else {
-                    activity.runOnUiThread {
-                        v.sensor_public_value.text = activity.getString(R.string.no)
-                        v.sensor_firmware_version_value.text = "-"
-                        v.sensor_creation_value.text = "-"
-                        v.sensor_lat_value.text = "-"
-                        v.sensor_lng_value.text = "-"
-                        v.sensor_alt_value.text = "-"
-                    }
+                    setInfoWindowValues(activity, v)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                activity.runOnUiThread {
-                    v.sensor_public_value.text = activity.getString(R.string.no)
-                    v.sensor_firmware_version_value.text = "-"
-                    v.sensor_creation_value.text = "-"
-                    v.sensor_lat_value.text = "-"
-                    v.sensor_lng_value.text = "-"
-                    v.sensor_alt_value.text = "-"
-                }
+                setInfoWindowValues(activity, v)
             }
         }
+    }
+}
+
+fun setInfoWindowValues(activity: Activity, v: View, public: Boolean = false, firmwareVersion: String = "-", creationDate: String = "-", lat: String = "-", lng: String = "-", alt: String = "-") {
+    CoroutineScope(Dispatchers.Main).launch {
+        v.sensor_public_value.text = if(public) activity.getString(R.string.yes) else activity.getString(R.string.no)
+        v.sensor_firmware_version_value.text = firmwareVersion
+        v.sensor_creation_value.text = creationDate
+        v.sensor_lat_value.text = lat
+        v.sensor_lng_value.text = lng
+        v.sensor_alt_value.text = alt
     }
 }

@@ -25,11 +25,9 @@ class WebRealtimeSyncService : Service() {
 
     // Utils packages
     private lateinit var su: StorageUtils
-    private var timestamp: Long = 0
+    private var timestamp = 0L
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val syncKey = intent.getStringExtra("sync_key")
@@ -59,20 +57,20 @@ class WebRealtimeSyncService : Service() {
         // Assemble data
         val data = HashMap<String, Any>()
         var objectId = 0
-        for (s in favourites) {
+        favourites.forEach {
             val sensorMap = HashMap<String, Any>()
-            sensorMap["name"] = s.name
-            sensorMap["chip_id"] = s.chipID
-            sensorMap["color"] = String.format("#%06X", 0xFFFFFF and s.color)
+            sensorMap["name"] = it.name
+            sensorMap["chip_id"] = it.chipID
+            sensorMap["color"] = String.format("#%06X", 0xFFFFFF and it.color)
             sensorMap["fav"] = true
             data[objectId.toString()] = sensorMap
             objectId++
         }
-        for (s in ownSensors) {
+        ownSensors.forEach {
             val sensorMap = HashMap<String, Any>()
-            sensorMap["name"] = s.name
-            sensorMap["chip_id"] = s.chipID
-            sensorMap["color"] = String.format("#%06X", 0xFFFFFF and s.color)
+            sensorMap["name"] = it.name
+            sensorMap["chip_id"] = it.chipID
+            sensorMap["color"] = String.format("#%06X", 0xFFFFFF and it.color)
             sensorMap["fav"] = false
             data[objectId.toString()] = sensorMap
             objectId++
@@ -94,17 +92,17 @@ class WebRealtimeSyncService : Service() {
                         if (newSensors != null && newSensors.size > 0) {
                             favourites = su.allFavourites
                             ownSensors = su.allOwnSensors
-                            for (s in favourites) su.removeFavourite(s.chipID, true)
-                            for (s in ownSensors) su.removeOwnSensor(s.chipID, true)
+                            favourites.forEach { su.removeFavourite(it.chipID, true) }
+                            ownSensors.forEach { su.removeOwnSensor(it.chipID, true) }
                             for (i in newSensors.indices) {
                                 val sensor = newSensors[i] as Map<*, *>
                                 // Extract data
                                 val chipId = sensor["chip_id"].toString()
                                 val name = sensor["name"].toString()
-                                val favorized = java.lang.Boolean.parseBoolean(sensor["fav"]!!.toString())
+                                val favored = sensor["fav"]!!.toString().toBoolean()
                                 val color = sensor["color"].toString()
                                 if (!su.isFavouriteExisting(chipId) && !su.isSensorExisting(chipId)) {
-                                    if (favorized) {
+                                    if (favored) {
                                         su.addFavourite(Sensor(chipId, name, Color.parseColor(color)), true)
                                     } else {
                                         su.addOwnSensor(Sensor(chipId, name, Color.parseColor(color)), offline = true, requestFromRealtimeSyncService = true)
@@ -122,7 +120,7 @@ class WebRealtimeSyncService : Service() {
                     val t = Toast(context)
                     t.setGravity(Gravity.CENTER, 0, 0)
                     t.duration = Toast.LENGTH_LONG
-                    t.view = inflater.inflate(R.layout.sync_ended, null)
+                    t.view = LayoutInflater.from(context).inflate(R.layout.sync_ended, null, false)
                     t.show()
                 }
             }

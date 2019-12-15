@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.item_sensor.view.*
 import kotlinx.android.synthetic.main.sensor_view_header.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -152,7 +153,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
             if (mode == MODE_OWN_SENSORS && !su.isSensorInOfflineMode(sensor.chipID)) { // TODO: Remove this part for the next update
                 CoroutineScope(Dispatchers.IO).launch {
                     if (!isSensorExisting(activity, sensor.chipID)) {
-                        activity.runOnUiThread {
+                        CoroutineScope(Dispatchers.Main).launch {
                             holder.itemView.item_warning.visibility = View.VISIBLE
                             holder.itemView.item_warning.setOnClickListener {
                                 val i = Intent(activity, AddSensorActivity::class.java)
@@ -185,11 +186,11 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
 
     fun deselectAllSensors() {
         CoroutineScope(Dispatchers.Default).launch {
-            for (h in viewHolders) {
+            viewHolders.forEach {
                 try {
-                    if (h.itemView.item_icon.isFlipped) {
-                        activity.runOnUiThread { h.itemView.item_icon.flip(false) }
-                        Thread.sleep(100)
+                    if (it.itemView.item_icon.isFlipped) {
+                        CoroutineScope(Dispatchers.Main).launch { it.itemView.item_icon.flip(false) }
+                        delay(100)
                     }
                 } catch (ignored: Exception) {}
             }
