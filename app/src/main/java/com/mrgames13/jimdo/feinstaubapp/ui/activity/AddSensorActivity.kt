@@ -249,9 +249,7 @@ class AddSensorActivity : AppCompatActivity() {
                 } else {
                     su.updateOwnSensor(Sensor(chipId, sensorName, currentColor), false)
                 }
-                try {
-                    MainActivity.own_instance?.refresh()
-                } catch (e: Exception) {}
+                try { MainActivity.own_instance?.refresh() } catch (e: Exception) {}
                 finish()
             } else if (mode == MODE_COMPLETE) {
                 su.removeOwnSensor(chipId, false)

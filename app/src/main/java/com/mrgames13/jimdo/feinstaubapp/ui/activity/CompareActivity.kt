@@ -113,11 +113,13 @@ class CompareActivity : AppCompatActivity() {
         }
         card_date_today.setOnClickListener {
             // Set date to the current day
-            calendar.time = Date()
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+            calendar.run {
+                time = Date()
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             selected_day_timestamp = calendar.time.time
             card_date_value.text = sdfDate.format(calendar.time)
 

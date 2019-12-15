@@ -178,20 +178,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val clearSensorData = findPreference<Preference>("clear_sensor_data")
         clearSensorData?.setOnPreferenceClickListener {
             AlertDialog.Builder(activity)
-                    .setCancelable(true)
-                    .setTitle(R.string.clear_sensor_data_t)
-                    .setMessage(R.string.clear_sensor_data_m)
-                    .setIcon(R.drawable.delete_red)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.yes) { _, _ ->
-                        val pd = ProgressDialog(activity).setMessage(R.string.please_wait_).show()
-                        CoroutineScope(Dispatchers.IO).launch {
-                            su.deleteAllDataDatabases()
-                            su.clearSensorDataMetadata()
-                            CoroutineScope(Dispatchers.Main).launch { pd.dismiss() }
-                        }
+                .setCancelable(true)
+                .setTitle(R.string.clear_sensor_data_t)
+                .setMessage(R.string.clear_sensor_data_m)
+                .setIcon(R.drawable.delete_red)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    val pd = ProgressDialog(activity).setMessage(R.string.please_wait_).show()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        su.deleteAllDataDatabases()
+                        su.clearSensorDataMetadata()
+                        CoroutineScope(Dispatchers.Main).launch { pd.dismiss() }
                     }
-                    .show()
+                }
+                .show()
             true
         }
 
@@ -204,9 +204,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (smu.isInternetAvailable) {
                 // Create ProgressDialog
                 val pd = ProgressDialog(requireContext())
-                        .setTitle(R.string.pref_server_info_t)
-                        .setMessage(R.string.pref_server_info_downloading_)
-                        .show()
+                    .setTitle(R.string.pref_server_info_t)
+                    .setMessage(R.string.pref_server_info_downloading_)
+                    .show()
                 CoroutineScope(Dispatchers.IO).launch {
                     val result = loadServerInfo(activity)
 
@@ -229,10 +229,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     CoroutineScope(Dispatchers.Main).launch {
                         pd.dismiss()
                         val d = AlertDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.pref_server_info_t))
-                                .setMessage(info)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                                .show()
+                            .setTitle(getString(R.string.pref_server_info_t))
+                            .setMessage(info)
+                            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                            .show()
                         (d.findViewById<View>(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
                     }
                 }
@@ -265,10 +265,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             Linkify.addLinks(s, Linkify.ALL)
 
             val d = AlertDialog.Builder(activity)
-                    .setTitle(openSourceLicenses.title)
-                    .setMessage(HtmlCompat.fromHtml(s.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                    .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                    .show()
+                .setTitle(openSourceLicenses.title)
+                .setMessage(HtmlCompat.fromHtml(s.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                .show()
             (d.findViewById<View>(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
             false
         }

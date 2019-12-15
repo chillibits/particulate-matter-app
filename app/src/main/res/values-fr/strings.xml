@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Sun, 15 Dec 2019 03:51:47 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -187,7 +187,7 @@
     <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
     <plurals name="measurement">
-        <item quantity="one">1 mesure</item>
+        <item quantity="one">%s mesure</item>
         <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s mesures</item>
     </plurals>
