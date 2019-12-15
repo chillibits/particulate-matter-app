@@ -9,8 +9,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-
 import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 
 class BootCompletedReceiver : BroadcastReceiver() {
@@ -22,7 +20,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
     private var backgroundSyncFrequency: Int = 0
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && (intent.action == "android.intent.action.BOOT_COMPLETED" || intent.action == "android.intent.action.QUICKBOOT_POWERON" || intent.action == "com.htc.intent.action.QUICKBOOT_POWERON")) {
+        if (intent.action == "android.intent.action.BOOT_COMPLETED" || intent.action == "android.intent.action.QUICKBOOT_POWERON" || intent.action == "com.htc.intent.action.QUICKBOOT_POWERON") {
             // Initialize StorageUtils
             su = StorageUtils(context)
             backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60

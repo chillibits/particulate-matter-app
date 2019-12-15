@@ -40,7 +40,7 @@ object Constants {
     // JobScheduler ids
     const val JOB_SYNC_ID = 10001
 
-    // Homescreen widget
+    // HomeScreen widget
     const val WIDGET_EXTRA_SENSOR_ID = "SensorID"
     const val WIDGET_EXTRA_WIDGET_ID = "WidgetID"
 }

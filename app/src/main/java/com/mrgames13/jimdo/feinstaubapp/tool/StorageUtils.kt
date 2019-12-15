@@ -86,8 +86,8 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     //-----------------------------------------File-system------------------------------------------
 
     fun clearSensorDataMetadata() {
-        for (key in prefs.all.keys) {
-            if (key.startsWith("LM_")) prefs.edit().remove(key).apply()
+        prefs.all.keys.filter { it.startsWith("LM_") }.forEach {
+            prefs.edit().remove(it).apply()
         }
     }
 
@@ -113,33 +113,13 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         prefs.edit().putFloat(name, value.toFloat()).apply()
     }
 
-    fun getString(name: String): String {
-        return prefs.getString(name, DEFAULT_STRING_VALUE).toString()
-    }
-
-    fun getBoolean(name: String): Boolean {
-        return prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE)
-    }
-
-    fun getDouble(name: String): Double {
-        return prefs.getFloat(name, DEFAULT_DOUBLE_VALUE.toFloat()).toDouble()
-    }
-
-    fun getString(name: String, default_value: String): String {
-        return prefs.getString(name, default_value).toString()
-    }
-
-    fun getInt(name: String, default_value: Int): Int {
-        return prefs.getInt(name, default_value)
-    }
-
-    fun getBoolean(name: String, default_value: Boolean): Boolean {
-        return prefs.getBoolean(name, default_value)
-    }
-
-    fun getLong(name: String, default_value: Long): Long {
-        return prefs.getLong(name, default_value)
-    }
+    fun getString(name: String) = prefs.getString(name, DEFAULT_STRING_VALUE).toString()
+    fun getBoolean(name: String) = prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE)
+    fun getDouble(name: String) = prefs.getFloat(name, DEFAULT_DOUBLE_VALUE.toFloat()).toDouble()
+    fun getString(name: String, default_value: String) = prefs.getString(name, default_value).toString()
+    fun getInt(name: String, default_value: Int) = prefs.getInt(name, default_value)
+    fun getBoolean(name: String, default_value: Boolean) = prefs.getBoolean(name, default_value)
+    fun getLong(name: String, default_value: Long) = prefs.getLong(name, default_value)
 
     fun removeKey(name: String) {
         prefs.edit().remove(name).apply()
@@ -178,7 +158,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //-----------------------------------------Own-sensors------------------------------------------
 
-    fun addOwnSensor(sensor: Sensor, offline: Boolean, request_from_realtime_sync_service: Boolean) {
+    fun addOwnSensor(sensor: Sensor, offline: Boolean, requestFromRealtimeSyncService: Boolean) {
         val values = ContentValues()
         values.put("sensor_id", sensor.chipID)
         values.put("sensor_name", sensor.name)
@@ -186,74 +166,71 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         addRecord(TABLE_SENSORS, values)
         putBoolean(sensor.chipID + "_offline", offline)
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun getSensor(chip_id: String): Sensor? {
+    fun getSensor(chipId: String): Sensor? {
         val sensors = allOwnSensors
         sensors.addAll(allFavourites)
-        for (s in sensors) {
-            if (s.chipID == chip_id) return s
-        }
-        return null
+        return sensors.find { it.chipID == chipId }
     }
 
-    fun isSensorExisting(chip_id: String): Boolean {
+    fun isSensorExisting(chipId: String): Boolean {
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_SENSORS WHERE sensor_id = '$chip_id'", null)
+        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_SENSORS WHERE sensor_id = '$chipId'", null)
         val count = cursor.count
         cursor.close()
         return count > 0
     }
 
-    fun updateOwnSensor(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
+    fun updateOwnSensor(newSensor: Sensor, requestFromRealtimeSyncService: Boolean) {
+        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun removeOwnSensor(chip_id: String, request_from_realtime_sync_service: Boolean) {
+    fun removeOwnSensor(chipId: String, requestFromRealtimeSyncService: Boolean) {
         val db = writableDatabase
-        db.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chip_id))
+        db.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chipId))
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun isSensorInOfflineMode(chip_id: String): Boolean {
-        return getBoolean(chip_id + "_offline")
+    fun isSensorInOfflineMode(chipId: String): Boolean {
+        return getBoolean(chipId + "_offline")
     }
 
     //------------------------------------------Favourites------------------------------------------
 
-    fun addFavourite(sensor: Sensor, request_from_realtime_sync_service: Boolean) {
+    fun addFavourite(sensor: Sensor, requestFromRealtimeSyncService: Boolean) {
         val values = ContentValues()
         values.put("sensor_id", sensor.chipID)
         values.put("sensor_name", sensor.name)
         values.put("sensor_color", sensor.color)
         addRecord(TABLE_FAVOURITES, values)
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun isFavouriteExisting(chip_id: String): Boolean {
+    fun isFavouriteExisting(chipId: String): Boolean {
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_FAVOURITES WHERE sensor_id = '$chip_id'", null)
+        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_FAVOURITES WHERE sensor_id = '$chipId'", null)
         val count = cursor.count
         cursor.close()
         return count > 0
     }
 
-    fun updateFavourite(new_sensor: Sensor, request_from_realtime_sync_service: Boolean) {
-        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + new_sensor.name + "', sensor_color = '" + new_sensor.color + "' WHERE sensor_id = '" + new_sensor.chipID + "';")
+    fun updateFavourite(newSensor: Sensor, requestFromRealtimeSyncService: Boolean) {
+        execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun removeFavourite(chip_id: String, request_from_realtime_sync_service: Boolean) {
+    fun removeFavourite(chipId: String, requestFromRealtimeSyncService: Boolean) {
         val db = writableDatabase
-        db.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chip_id))
+        db.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chipId))
         // Refresh, if a web client is connected
-        if (!request_from_realtime_sync_service) WebRealtimeSyncService.own_instance?.refresh(context)
+        if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     //---------------------------------------Externe Sensoren---------------------------------------
@@ -265,11 +242,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         db.compileStatement("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);").execute()
         // Write records into db
         val stmt = db.compileStatement("INSERT INTO $TABLE_EXTERNAL_SENSORS (sensor_id, latitude, longitude) VALUES (?, ?, ?);")
-        for (s in sensors) {
+        sensors.forEach {
             try {
-                stmt.bindString(1, s.chipId)
-                stmt.bindDouble(2, s.lat)
-                stmt.bindDouble(3, s.lng)
+                stmt.bindString(1, it.chipId)
+                stmt.bindDouble(2, it.lat)
+                stmt.bindDouble(3, it.lng)
                 stmt.execute()
             } catch (ignored: SQLiteConstraintException) {} finally {
                 stmt.clearBindings()
@@ -289,24 +266,24 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //------------------------------------------Messdaten-------------------------------------------
 
-    internal fun saveRecords(chip_id: String, records: ArrayList<DataRecord>) {
+    internal fun saveRecords(chipId: String, records: ArrayList<DataRecord>) {
         val db = writableDatabase
         db.beginTransaction()
         // Create table if it doesn't already exist
-        db.compileStatement("CREATE TABLE IF NOT EXISTS data_$chip_id (time integer PRIMARY KEY, pm2_5 double, pm10 double, temp double, humidity double, pressure double, gps_lat double, gps_lng double, gps_alt double, note text);").execute()
+        db.compileStatement("CREATE TABLE IF NOT EXISTS data_$chipId (time integer PRIMARY KEY, pm2_5 double, pm10 double, temp double, humidity double, pressure double, gps_lat double, gps_lng double, gps_alt double, note text);").execute()
         // Write records into db
-        val stmt = db.compileStatement("INSERT INTO data_$chip_id (time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);")
-        for (r in records) {
+        val stmt = db.compileStatement("INSERT INTO data_$chipId (time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);")
+        records.forEach {
             try {
-                stmt.bindLong(1, r.dateTime.time / 1000)
-                stmt.bindDouble(2, r.p2)
-                stmt.bindDouble(3, r.p1)
-                stmt.bindDouble(4, r.temp)
-                stmt.bindDouble(5, r.humidity)
-                stmt.bindDouble(6, r.pressure)
-                stmt.bindDouble(7, r.lat)
-                stmt.bindDouble(8, r.lng)
-                stmt.bindDouble(9, r.alt)
+                stmt.bindLong(1, it.dateTime.time / 1000)
+                stmt.bindDouble(2, it.p2)
+                stmt.bindDouble(3, it.p1)
+                stmt.bindDouble(4, it.temp)
+                stmt.bindDouble(5, it.humidity)
+                stmt.bindDouble(6, it.pressure)
+                stmt.bindDouble(7, it.lat)
+                stmt.bindDouble(8, it.lng)
+                stmt.bindDouble(9, it.alt)
                 stmt.execute()
             } catch (ignored: SQLiteConstraintException) {} finally {
                 stmt.clearBindings()
@@ -316,10 +293,10 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         db.endTransaction()
     }
 
-    fun loadRecords(chip_id: String, from: Long, to: Long): ArrayList<DataRecord> {
+    fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {
         try {
             val db = readableDatabase
-            val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_" + chip_id + " WHERE time >= " + from / 1000 + " AND time < " + to / 1000, null)
+            val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_" + chipId + " WHERE time >= " + from / 1000 + " AND time < " + to / 1000, null)
             val records = ArrayList<DataRecord>()
             while (cursor.moveToNext()) {
                 val time = Date()
@@ -332,10 +309,10 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return ArrayList()
     }
 
-    fun getLastRecord(chip_id: String): DataRecord? {
+    fun getLastRecord(chipId: String): DataRecord? {
         try {
             val db = readableDatabase
-            val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_$chip_id ORDER BY time DESC LIMIT 1", null)
+            val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_$chipId ORDER BY time DESC LIMIT 1", null)
             cursor.moveToNext()
             val time = Date()
             time.time = cursor.getLong(0) * 1000
@@ -346,7 +323,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return null
     }
 
-    fun shareImage(image: Bitmap, share_message: String) {
+    fun shareImage(image: Bitmap, shareMessage: String) {
         try {
             // Save
             val out = context.openFileOutput("export.png", Context.MODE_PRIVATE)
@@ -357,7 +334,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             val i = Intent(Intent.ACTION_SEND)
             i.type = URLConnection.guessContentTypeFromName(uri.path)
             i.putExtra(Intent.EXTRA_STREAM, uri)
-            context.startActivity(Intent.createChooser(i, share_message))
+            context.startActivity(Intent.createChooser(i, shareMessage))
         } catch (ignored: IOException) {}
     }
 
@@ -366,16 +343,16 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             val out = context.openFileOutput("export.csv", Context.MODE_PRIVATE)
             val sdfDatetime = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
             out.write("Time;PM10;PM2.5;Temperature;Humidity;Pressure;Latitude;Longitude;Altitude\n".toByteArray())
-            for (record in records) {
-                val time = sdfDatetime.format(record.dateTime.time)
-                val p1 = record.p1.toString()
-                val p2 = record.p2.toString()
-                val temp = record.temp.toString()
-                val humidity = record.humidity.toString()
-                val pressure = record.pressure.toString()
-                val gpsLat = record.lat.toString()
-                val gpsLng = record.lng.toString()
-                val gpsAlt = record.alt.toString()
+            records.forEach {
+                val time = sdfDatetime.format(it.dateTime.time)
+                val p1 = it.p1.toString()
+                val p2 = it.p2.toString()
+                val temp = it.temp.toString()
+                val humidity = it.humidity.toString()
+                val pressure = it.pressure.toString()
+                val gpsLat = it.lat.toString()
+                val gpsLng = it.lng.toString()
+                val gpsAlt = it.alt.toString()
                 out.write("$time;$p1;$p2;$temp;$humidity;$pressure;$gpsLat;$gpsLng;$gpsAlt\n".toByteArray())
             }
             out.close()
@@ -384,9 +361,9 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return null
     }
 
-    fun deleteDataDatabase(chip_id: String) {
+    fun deleteDataDatabase(chipId: String) {
         val db = writableDatabase
-        db.execSQL("DROP TABLE IF EXISTS data_$chip_id")
+        db.execSQL("DROP TABLE IF EXISTS data_$chipId")
     }
 
     fun deleteAllDataDatabases() {
@@ -450,11 +427,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             parser.require(XmlPullParser.END_TAG, null, "sensor-configuration")
 
             // Import
-            for (s in favourites) {
-                if (!isSensorExisting(s.chipID)) addFavourite(s, false)
+            favourites.forEach {
+                if (!isSensorExisting(it.chipID)) addFavourite(it, false)
             }
-            for (s in ownSensors) {
-                if (!isSensorExisting(s.chipID)) addOwnSensor(s, offline = true, request_from_realtime_sync_service = false)
+            ownSensors.forEach {
+                if (!isSensorExisting(it.chipID)) addOwnSensor(it, offline = true, requestFromRealtimeSyncService = false)
             }
             Log.i(Constants.TAG, "Imported favourites: " + favourites.size)
             Log.i(Constants.TAG, "Imported own sensors: " + ownSensors.size)
@@ -480,21 +457,21 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             serializer.startTag("", "sensor-configuration")
             // Favourites
             serializer.startTag("", "favourites")
-            for (s in favourites) {
+            favourites.forEach {
                 serializer.startTag("", "sensor")
-                serializer.attribute("", "id", s.chipID)
-                serializer.attribute("", "name", s.name)
-                serializer.attribute("", "color", s.color.toString())
+                serializer.attribute("", "id", it.chipID)
+                serializer.attribute("", "name", it.name)
+                serializer.attribute("", "color", it.color.toString())
                 serializer.endTag("", "sensor")
             }
             serializer.endTag("", "favourites")
             // Own sensors
             serializer.startTag("", "own-sensors")
-            for (s in ownSensors) {
+            ownSensors.forEach {
                 serializer.startTag("", "sensor")
-                serializer.attribute("", "id", s.chipID)
-                serializer.attribute("", "name", s.name)
-                serializer.attribute("", "color", s.color.toString())
+                serializer.attribute("", "id", it.chipID)
+                serializer.attribute("", "name", it.name)
+                serializer.attribute("", "color", it.color.toString())
                 serializer.endTag("", "sensor")
             }
             serializer.endTag("", "own-sensors")

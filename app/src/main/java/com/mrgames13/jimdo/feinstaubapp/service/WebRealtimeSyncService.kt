@@ -107,7 +107,7 @@ class WebRealtimeSyncService : Service() {
                                     if (favorized) {
                                         su.addFavourite(Sensor(chipId, name, Color.parseColor(color)), true)
                                     } else {
-                                        su.addOwnSensor(Sensor(chipId, name, Color.parseColor(color)), offline = true, request_from_realtime_sync_service = true)
+                                        su.addOwnSensor(Sensor(chipId, name, Color.parseColor(color)), offline = true, requestFromRealtimeSyncService = true)
                                     }
                                 }
                             }

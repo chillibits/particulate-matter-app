@@ -39,10 +39,7 @@ class NotificationUtils(private val context: Context) {
         n.setAutoCancel(true)
         n.setSmallIcon(R.drawable.notification_icon)
         n.setWhen(time)
-        if (i != null) {
-            val pi = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
-            n.setContentIntent(pi)
-        }
+        i?.let { n.setContentIntent(PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)) }
         // Get id
         n.priority = NotificationCompat.PRIORITY_HIGH
         n.setLights(ContextCompat.getColor(context, R.color.colorPrimary), LIGHT_SHORT, LIGHT_SHORT)

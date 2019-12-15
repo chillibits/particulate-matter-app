@@ -79,10 +79,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
     val selectedSensors: ArrayList<Sensor>
         get() {
-            val selectedSensors = ArrayList<Sensor>()
-            selectedSensors.addAll(FavoritesFragment.selectedSensors)
-            selectedSensors.addAll(OwnSensorsFragment.selectedSensors)
-            return Tools.removeDuplicateSensors(selectedSensors)
+            val selectedSensors = FavoritesFragment.selectedSensors + OwnSensorsFragment.selectedSensors
+            return ArrayList(selectedSensors.distinctBy { it.chipID })
         }
 
     init {
@@ -124,12 +122,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     fun search(query: String, mode: Int) {
-        if (mode == SensorAdapter.MODE_FAVOURITES) FavoritesFragment.search(
-            query
-        )
-        if (mode == SensorAdapter.MODE_OWN_SENSORS) OwnSensorsFragment.search(
-            query
-        )
+        if (mode == SensorAdapter.MODE_FAVOURITES) FavoritesFragment.search(query)
+        if (mode == SensorAdapter.MODE_OWN_SENSORS) OwnSensorsFragment.search(query)
     }
 
     fun closeInfoWindow(): Boolean {
@@ -160,19 +154,10 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             fun refresh() {
                 sensors = su.allFavourites
-                sensors.addAll(
-                    su.allOwnSensors)
+                sensors.addAll(su.allOwnSensors)
 
-                sensor_view_adapter =
-                    SensorAdapter(
-                        activity,
-                        sensors,
-                        su,
-                        smu,
-                        SensorAdapter.MODE_FAVOURITES
-                    )
-                sensor_view.adapter =
-                    sensor_view_adapter
+                sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_FAVOURITES)
+                sensor_view.adapter = sensor_view_adapter
                 sensor_view.setHasFixedSize(true)
                 sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
@@ -188,24 +173,15 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             fun search(query: String) {
                 val searchValues: ArrayList<Sensor>?
                 if (query.isEmpty()) {
-                    searchValues =
-                        sensors
+                    searchValues = sensors
                 } else {
                     searchValues = ArrayList()
                     for (s in sensors) {
                         if (s.name.toLowerCase().contains(query.toLowerCase()) || s.chipID.toLowerCase().contains(query.toLowerCase())) searchValues.add(s)
                     }
                 }
-                sensor_view_adapter =
-                    SensorAdapter(
-                        activity,
-                        searchValues,
-                        su,
-                        smu,
-                        SensorAdapter.MODE_FAVOURITES
-                    )
-                sensor_view.adapter =
-                    sensor_view_adapter
+                sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_FAVOURITES)
+                sensor_view.adapter = sensor_view_adapter
             }
         }
     }
@@ -340,10 +316,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.activity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
 
             // Initialize ClusterManager
-            clusterManager = ClusterManager(
-                ViewPagerAdapterMain.activity,
-                map
-            )
+            clusterManager = ClusterManager(ViewPagerAdapterMain.activity, map)
             clusterManager.renderer = ClusterRenderer(
                 ViewPagerAdapterMain.activity,
                 map!!,
@@ -351,9 +324,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 su
             )
             if (su.getBoolean("enable_marker_clustering", true)) {
-                map?.setOnMarkerClickListener(
-                    clusterManager
-                )
+                map?.setOnMarkerClickListener(clusterManager)
                 clusterManager.setOnClusterItemClickListener { sensorClusterItem ->
                     showInfoWindow(sensorClusterItem.marker)
                     true
@@ -362,9 +333,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     showClusterWindow(cluster)
                     true
                 }
-                map?.setOnCameraIdleListener(
-                    clusterManager
-                )
+                map?.setOnCameraIdleListener(clusterManager)
             } else {
                 map?.setOnMarkerClickListener { marker ->
                     val m = MarkerItem(marker.title, marker.snippet, marker.position)
@@ -377,8 +346,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             try {
                 val telManager = ViewPagerAdapterMain.activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val iso = telManager.simCountryIso
-                current_country = Tools.getLocationFromAddress(
-                    ViewPagerAdapterMain.activity, iso)
+                current_country = Tools.getLocationFromAddress(ViewPagerAdapterMain.activity, iso)
             } catch (ignored: Exception) {}
 
             map?.setOnCameraMoveListener {
@@ -408,12 +376,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             map?.setOnMapClickListener {
                 when {
-                    selected_marker_position != null -> exitReveal(
-                        sensor_container
-                    )
-                    selected_cluster_position != null -> exitReveal(
-                        sensor_cluster_container
-                    )
+                    selected_marker_position != null -> exitReveal(sensor_container)
+                    selected_cluster_position != null -> exitReveal(sensor_cluster_container)
                     else -> ViewPagerAdapterMain.activity.toggleToolbar()
                 }
             }
@@ -434,9 +398,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             if (isGPSPermissionGranted && isGPSEnabled(ViewPagerAdapterMain.activity)) {
                 map?.isMyLocationEnabled = true
                 map?.setOnMyLocationChangeListener { location ->
-                    moveCamera(
-                        LatLng(location.latitude, location.longitude)
-                    )
+                    moveCamera(LatLng(location.latitude, location.longitude))
                     map?.setOnMyLocationChangeListener(null)
                 }
             } else if (isGPSEnabled(ViewPagerAdapterMain.activity)) {
@@ -594,18 +556,14 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 }
 
                 infoCompareSensors.setOnClickListener {
-                    exitReveal(
-                        sensor_cluster_container
-                    )
+                    exitReveal(sensor_cluster_container)
                     // Launch CompareActivity
                     val i = Intent(activity, CompareActivity::class.java)
                     i.putExtra("Sensors", sensors)
                     startActivity(i)
                 }
                 infoZoomIn.setOnClickListener {
-                    exitReveal(
-                        sensor_cluster_container
-                    )
+                    exitReveal(sensor_cluster_container)
                     map?.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.position, min(map!!.maxZoomLevel, map!!.cameraPosition.zoom + 3)))
                 }
 
@@ -657,9 +615,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             }
 
             private fun loadAllSensors() {
-                if (smu.checkConnection(
-                        contentView
-                    )) {
+                if (smu.checkConnection(contentView)) {
                     // The device is online. We're able to load data from the server
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
@@ -714,7 +670,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         val m = MarkerItem(sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, LatLng(sensor.lat, sensor.lng))
                         clusterManager.addItem(SensorClusterItem(sensor.lat, sensor.lng, sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, m))
                     } else {
-                        map?.addMarker(MarkerOptions()
+                        map?.addMarker(
+                            MarkerOptions()
                                 .icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(sensor.chipId)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
                                 .position(LatLng(sensor.lat, sensor.lng))
                                 .title(sensor.chipId)
@@ -722,8 +679,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         )
                     }
                 }
-                if(current_country != null) map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    current_country, 5f))
+                if(current_country != null) map?.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5f))
                 if (su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster()
             }
 
@@ -774,15 +730,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             fun closeInfoWindow(): Boolean {
                 if(selected_marker_position != null) {
-                    exitReveal(
-                        sensor_container
-                    )
+                    exitReveal(sensor_container)
                     selected_marker_position = null
                     return true
                 } else if(selected_cluster_position != null) {
-                    exitReveal(
-                        sensor_cluster_container
-                    )
+                    exitReveal(sensor_cluster_container)
                     selected_cluster_position = null
                     return true
                 }
@@ -818,16 +770,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             fun refresh() {
                 sensors = su.allOwnSensors
-                sensor_view_adapter =
-                    SensorAdapter(
-                        activity,
-                        sensors,
-                        su,
-                        smu,
-                        SensorAdapter.MODE_OWN_SENSORS
-                    )
-                sensor_view.adapter =
-                    sensor_view_adapter
+                sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_OWN_SENSORS)
+                sensor_view.adapter = sensor_view_adapter
                 sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
@@ -842,24 +786,15 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             fun search(query: String) {
                 val searchValues: ArrayList<Sensor>?
                 if (query.isEmpty()) {
-                    searchValues =
-                        sensors
+                    searchValues = sensors
                 } else {
                     searchValues = ArrayList()
                     for (s in sensors) {
                         if (s.name.toLowerCase().contains(query.toLowerCase()) || s.chipID.toLowerCase().contains(query.toLowerCase())) searchValues.add(s)
                     }
                 }
-                sensor_view_adapter =
-                    SensorAdapter(
-                        activity,
-                        searchValues,
-                        su,
-                        smu,
-                        SensorAdapter.MODE_OWN_SENSORS
-                    )
-                sensor_view.adapter =
-                    sensor_view_adapter
+                sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_OWN_SENSORS)
+                sensor_view.adapter = sensor_view_adapter
             }
         }
     }

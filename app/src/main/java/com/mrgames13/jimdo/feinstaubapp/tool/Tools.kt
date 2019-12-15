@@ -10,7 +10,6 @@ import android.location.Address
 import android.location.Geocoder
 import com.google.android.gms.maps.model.LatLng
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
-import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
@@ -40,8 +39,8 @@ object Tools {
 
             // Create hex string
             val hexString = StringBuilder()
-            for (aMessageDigest in messageDigest) {
-                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
+            messageDigest.forEach {
+                var h = Integer.toHexString(0xFF and it.toInt())
                 while (h.length < 2) h = "0$h"
                 hexString.append(h)
             }
@@ -67,17 +66,6 @@ object Tools {
             i += divider + 1
         }
         return newRecords
-    }
-
-    fun removeDuplicateSensors(sensors: ArrayList<Sensor>): ArrayList<Sensor> {
-        val sensorsNew = ArrayList<Sensor>()
-        outerloop@ for (s_new in sensors) {
-            for (s_old in sensorsNew) {
-                if (s_old.chipID == s_new.chipID) continue@outerloop
-            }
-            sensorsNew.add(s_new)
-        }
-        return sensorsNew
     }
 
     fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
@@ -218,26 +206,22 @@ object Tools {
     }
 
     fun isMeasurementBreakdown(su: StorageUtils, records: ArrayList<DataRecord>): Boolean {
-        val measurementInterval = if (records.size > 2) getMeasurementInteval(records) else 0
+        val measurementInterval = if (records.size > 2) getMeasurementInterval(records) else 0
         return if (measurementInterval <= 0) false else System.currentTimeMillis() > records[records.size - 1].dateTime.time + measurementInterval * (Integer.parseInt(su.getString("notification_breakdown_number", Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER.toString())) + 1)
     }
 
-    private fun getMeasurementInteval(records: ArrayList<DataRecord>): Long {
+    private fun getMeasurementInterval(records: ArrayList<DataRecord>): Long {
         val distances = ArrayList<Long>()
         for (i in 1 until records.size) distances.add(records[i].dateTime.time - records[i - 1].dateTime.time)
         distances.sort()
         return distances[distances.size / 2]
     }
 
-    fun dpToPx(dp: Int): Int {
-        return (dp * Resources.getSystem().displayMetrics.density).toInt()
-    }
+    fun dpToPx(dp: Int) = (dp * Resources.getSystem().displayMetrics.density).toInt()
 
     fun getStatusBarHeight(context: Context): Int {
-        var result = 0
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) result = context.resources.getDimensionPixelSize(resourceId)
-        return result
+        return if(resourceId > 0 ) context.resources.getDimensionPixelSize(resourceId) else 0
     }
 
     fun getNavigationBarHeight(context: Context): Int {
@@ -255,9 +239,7 @@ object Tools {
                 5 -> records?.maxBy { it.pressure }!!.pressure
                 else -> 0.0
             }
-        } catch (e: Exception) {
-            0.0
-        }
+        } catch (e: Exception) { 0.0 }
     }
 
     fun findMinMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
@@ -270,8 +252,6 @@ object Tools {
                 5 -> records?.minBy { it.pressure }!!.pressure
                 else -> 0.0
             }
-        } catch (e: Exception) {
-            0.0
-        }
+        } catch (e: Exception) { 0.0 }
     }
 }
