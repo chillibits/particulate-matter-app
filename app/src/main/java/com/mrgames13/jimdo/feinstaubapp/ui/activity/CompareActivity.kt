@@ -132,38 +132,12 @@ class CompareActivity : AppCompatActivity() {
         card_date_back.setOnClickListener {
             // Select previous day
             calendar.add(Calendar.DATE, -1)
-
-            selected_day_timestamp = calendar.time.time
-            card_date_value.text = sdfDate.format(calendar.time)
-
-            val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
-            card_date_next.isEnabled = calendar.before(currentCalendar)
-            card_date_today.isEnabled = calendar.before(currentCalendar)
-
-            // Load data for selected date
-            loadData()
+            zap()
         }
         card_date_next.setOnClickListener {
             // Select next day
             calendar.add(Calendar.DATE, 1)
-
-            selected_day_timestamp = calendar.time.time
-            card_date_value.text = sdfDate.format(calendar.time)
-
-            val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
-            card_date_next.isEnabled = calendar.before(currentCalendar)
-            card_date_today.isEnabled = calendar.before(currentCalendar)
-
-            // Load data for selected date
-            loadData()
+            zap()
         }
         card_date_next.isEnabled = false
         card_date_today.isEnabled = false
@@ -262,17 +236,37 @@ class CompareActivity : AppCompatActivity() {
         loadData()
     }
 
+    private fun zap() {
+        selected_day_timestamp = calendar.time.time
+        card_date_value.text = sdfDate.format(calendar.time)
+
+        val currentCalendar = Calendar.getInstance()
+        currentCalendar.run {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        card_date_next.isEnabled = calendar.before(currentCalendar)
+        card_date_today.isEnabled = calendar.before(currentCalendar)
+
+        // Load data for selected date
+        loadData()
+    }
+
     private fun chooseDate(card_date_value: TextView) {
         // Select date
         val datePickerDialog = DatePickerDialog(this@CompareActivity, DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val calendarNew = Calendar.getInstance()
-            calendarNew.set(Calendar.YEAR, year)
-            calendarNew.set(Calendar.MONTH, month)
-            calendarNew.set(Calendar.DAY_OF_MONTH, day)
-            calendarNew.set(Calendar.HOUR_OF_DAY, 0)
-            calendarNew.set(Calendar.MINUTE, 0)
-            calendarNew.set(Calendar.SECOND, 0)
-            calendarNew.set(Calendar.MILLISECOND, 0)
+            calendarNew.run {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, day)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendarNew.before(calendar)
             card_date_today.isEnabled = calendarNew.before(calendar)
 
@@ -412,46 +406,46 @@ class CompareActivity : AppCompatActivity() {
                     try {
                         val seriesP1 = LineGraphSeries<DataPoint>()
                         seriesP1.color = sensors[i].color
-                        for (record in Tools.fitArrayList(su, currentRecords)) {
-                            val time = record.dateTime
+                        Tools.fitArrayList(su, currentRecords).forEach {
                             try {
-                                seriesP1.appendData(DataPoint(time.time.toDouble(), record.p1), false, 1000000)
+                                val time = it.dateTime
+                                seriesP1.appendData(DataPoint(time.time.toDouble(), it.p1), false, 1000000)
                             } catch (e: Exception) {}
                         }
 
                         val seriesP2 = LineGraphSeries<DataPoint>()
                         seriesP2.color = sensors[i].color
-                        for (record in Tools.fitArrayList(su, currentRecords)) {
-                            val time = record.dateTime
+                        Tools.fitArrayList(su, currentRecords).forEach {
                             try {
-                                seriesP2.appendData(DataPoint(time.time.toDouble(), record.p2), false, 1000000)
+                                val time = it.dateTime
+                                seriesP2.appendData(DataPoint(time.time.toDouble(), it.p2), false, 1000000)
                             } catch (e: Exception) {}
                         }
 
                         val seriesTemp = LineGraphSeries<DataPoint>()
                         seriesTemp.color = sensors[i].color
-                        for (record in Tools.fitArrayList(su, currentRecords)) {
-                            val time = record.dateTime
+                        Tools.fitArrayList(su, currentRecords).forEach {
                             try {
-                                seriesTemp.appendData(DataPoint(time.time.toDouble(), record.temp), false, 1000000)
+                                val time = it.dateTime
+                                seriesTemp.appendData(DataPoint(time.time.toDouble(), it.temp), false, 1000000)
                             } catch (e: Exception) {}
                         }
 
                         val seriesHumidity = LineGraphSeries<DataPoint>()
                         seriesHumidity.color = sensors[i].color
-                        for (record in Tools.fitArrayList(su, currentRecords)) {
-                            val time = record.dateTime
+                        Tools.fitArrayList(su, currentRecords).forEach {
                             try {
-                                seriesHumidity.appendData(DataPoint(time.time.toDouble(), record.humidity), false, 1000000)
+                                val time = it.dateTime
+                                seriesHumidity.appendData(DataPoint(time.time.toDouble(), it.humidity), false, 1000000)
                             } catch (e: Exception) {}
                         }
 
                         val seriesPressure = LineGraphSeries<DataPoint>()
                         seriesPressure.color = sensors[i].color
-                        for (record in Tools.fitArrayList(su, currentRecords)) {
-                            val time = record.dateTime
+                        Tools.fitArrayList(su, currentRecords).forEach {
                             try {
-                                seriesPressure.appendData(DataPoint(time.time.toDouble(), record.pressure), false, 1000000)
+                                val time = it.dateTime
+                                seriesPressure.appendData(DataPoint(time.time.toDouble(), it.pressure), false, 1000000)
                             } catch (e: Exception) {}
                         }
 
@@ -467,35 +461,45 @@ class CompareActivity : AppCompatActivity() {
             }
             CoroutineScope(Dispatchers.Main).launch {
                 try {
-                    diagram_p1.viewport.isScalable = true
-                    diagram_p1.viewport.setMinX(firstTime.toDouble())
-                    diagram_p1.viewport.setMaxX(lastTime.toDouble())
-                    diagram_p1.viewport.scrollToEnd()
-                    diagram_p1.viewport.isScalable = false
+                    diagram_p1.viewport.run {
+                        isScalable = true
+                        setMinX(firstTime.toDouble())
+                        setMaxX(lastTime.toDouble())
+                        scrollToEnd()
+                        isScalable = false
+                    }
 
-                    diagram_p2.viewport.isScalable = true
-                    diagram_p2.viewport.setMinX(firstTime.toDouble())
-                    diagram_p2.viewport.setMaxX(lastTime.toDouble())
-                    diagram_p2.viewport.scrollToEnd()
-                    diagram_p2.viewport.isScalable = false
+                    diagram_p2.viewport.run {
+                        isScalable = true
+                        setMinX(firstTime.toDouble())
+                        setMaxX(lastTime.toDouble())
+                        scrollToEnd()
+                        isScalable = false
+                    }
 
-                    diagram_temp.viewport.isScalable = true
-                    diagram_temp.viewport.setMinX(firstTime.toDouble())
-                    diagram_temp.viewport.setMaxX(lastTime.toDouble())
-                    diagram_temp.viewport.scrollToEnd()
-                    diagram_temp.viewport.isScalable = false
+                    diagram_temp.viewport.run {
+                        isScalable = true
+                        setMinX(firstTime.toDouble())
+                        setMaxX(lastTime.toDouble())
+                        scrollToEnd()
+                        isScalable = false
+                    }
 
-                    diagram_humidity.viewport.isScalable = true
-                    diagram_humidity.viewport.setMinX(firstTime.toDouble())
-                    diagram_humidity.viewport.setMaxX(lastTime.toDouble())
-                    diagram_humidity.viewport.scrollToEnd()
-                    diagram_humidity.viewport.isScalable = false
+                    diagram_humidity.viewport.run {
+                        isScalable = true
+                        setMinX(firstTime.toDouble())
+                        setMaxX(lastTime.toDouble())
+                        scrollToEnd()
+                        isScalable = false
+                    }
 
-                    diagram_pressure.viewport.isScalable = true
-                    diagram_pressure.viewport.setMinX(firstTime.toDouble())
-                    diagram_pressure.viewport.setMaxX(lastTime.toDouble())
-                    diagram_pressure.viewport.scrollToEnd()
-                    diagram_pressure.viewport.isScalable = false
+                    diagram_pressure.viewport.run {
+                        isScalable = true
+                        setMinX(firstTime.toDouble())
+                        setMaxX(lastTime.toDouble())
+                        scrollToEnd()
+                        isScalable = false
+                    }
 
                     findViewById<View>(R.id.no_data).visibility = if (noData) View.VISIBLE else View.GONE
                     findViewById<View>(R.id.container).visibility = if (noData) View.GONE else View.VISIBLE
