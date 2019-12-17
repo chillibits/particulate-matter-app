@@ -44,15 +44,15 @@ class DiagramActivity : AppCompatActivity() {
         val intent = intent
         val mode = intent.getIntExtra("Mode", MODE_SENSOR_DATA)
 
-        val show1 = intent.hasExtra("Show1") && intent.getBooleanExtra("Show1", false)
-        val show2 = intent.hasExtra("Show2") && intent.getBooleanExtra("Show2", false)
-        val show3 = intent.hasExtra("Show3") && intent.getBooleanExtra("Show3", false)
-        val show4 = intent.hasExtra("Show4") && intent.getBooleanExtra("Show4", false)
-        val show5 = intent.hasExtra("Show5") && intent.getBooleanExtra("Show5", false)
-        val enableAverage = intent.hasExtra("EnableAverage") && intent.getBooleanExtra("EnableAverage", false)
-        val enableMedian = intent.hasExtra("EnableMedian") && intent.getBooleanExtra("EnableMedian", false)
-        val enableThresholdWho = intent.hasExtra("EnableThresholdWHO") && intent.getBooleanExtra("EnableThresholdWHO", false)
-        val enableThresholdEu = intent.hasExtra("EnableThresholdEU") && intent.getBooleanExtra("EnableThresholdEU", false)
+        val show1 = getIntentExtra("Show1")
+        val show2 = getIntentExtra("Show2")
+        val show3 = getIntentExtra("Show3")
+        val show4 = getIntentExtra("Show4")
+        val show5 = getIntentExtra("Show5")
+        val enableAverage = getIntentExtra("EnableAverage")
+        val enableMedian = getIntentExtra("EnableMedian")
+        val enableThresholdWho = getIntentExtra("EnableThresholdWHO")
+        val enableThresholdEu = getIntentExtra("EnableThresholdEU")
 
         if (mode == MODE_SENSOR_DATA) {
             // Receive data from SensorActivity
@@ -96,63 +96,73 @@ class DiagramActivity : AppCompatActivity() {
                 val entries5 = ArrayList<Entry>()
                 firstTime = records[0].dateTime.time
                 xAxis.valueFormatter = TimeFormatter(firstTime)
-                for (r in records) {
-                    if (show1) entries1.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toDouble(), r.p1, "µg/m³"))
-                    if (show2) entries2.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toDouble(), r.p2, "µg/m³"))
-                    if (show3) entries3.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toDouble(), r.temp, "°C"))
-                    if (show4) entries4.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toDouble(), r.humidity, "%"))
-                    if (show5) entries5.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toDouble(), r.pressure, "hPa"))
+                records.forEach {
+                    if (show1) entries1.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toDouble(), it.p1, "µg/m³"))
+                    if (show2) entries2.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toDouble(), it.p2, "µg/m³"))
+                    if (show3) entries3.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toDouble(), it.temp, "°C"))
+                    if (show4) entries4.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toDouble(), it.humidity, "%"))
+                    if (show5) entries5.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toDouble(), it.pressure, "hPa"))
                 }
 
                 // PM1
                 val p1 = LineDataSet(entries1, getString(R.string.value1) + " (µg/m³)")
-                p1.color = ContextCompat.getColor(this, R.color.series1)
-                p1.setCircleColor(ContextCompat.getColor(this, R.color.series1))
-                p1.lineWidth = 2f
-                p1.setDrawValues(false)
-                p1.axisDependency = YAxis.AxisDependency.LEFT
-                p1.highLightColor = ContextCompat.getColor(this, R.color.series1)
-                //p1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                p1.run {
+                    color = ContextCompat.getColor(this@DiagramActivity, R.color.series1)
+                    setCircleColor(ContextCompat.getColor(this@DiagramActivity, R.color.series1))
+                    lineWidth = 2f
+                    setDrawValues(false)
+                    axisDependency = YAxis.AxisDependency.LEFT
+                    highLightColor = ContextCompat.getColor(this@DiagramActivity, R.color.series1)
+                    //setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }
 
                 // PM2
                 val p2 = LineDataSet(entries2, getString(R.string.value2) + " (µg/m³)")
-                p2.color = ContextCompat.getColor(this, R.color.series2)
-                p2.setCircleColor(ContextCompat.getColor(this, R.color.series2))
-                p2.lineWidth = 2f
-                p2.setDrawValues(false)
-                p2.axisDependency = YAxis.AxisDependency.LEFT
-                p2.highLightColor = ContextCompat.getColor(this, R.color.series2)
-                //p2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                p2.run {
+                    color = ContextCompat.getColor(this@DiagramActivity, R.color.series2)
+                    setCircleColor(ContextCompat.getColor(this@DiagramActivity, R.color.series2))
+                    lineWidth = 2f
+                    setDrawValues(false)
+                    axisDependency = YAxis.AxisDependency.LEFT
+                    highLightColor = ContextCompat.getColor(this@DiagramActivity, R.color.series2)
+                    //setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }
 
                 // Temperature
                 val temp = LineDataSet(entries3, getString(R.string.temperature) + " (°C)")
-                temp.color = ContextCompat.getColor(this, R.color.series3)
-                temp.setCircleColor(ContextCompat.getColor(this, R.color.series3))
-                temp.lineWidth = 2f
-                temp.setDrawValues(false)
-                temp.axisDependency = YAxis.AxisDependency.RIGHT
-                temp.highLightColor = ContextCompat.getColor(this, R.color.series3)
-                //temp.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                temp.run {
+                    color = ContextCompat.getColor(this@DiagramActivity, R.color.series3)
+                    setCircleColor(ContextCompat.getColor(this@DiagramActivity, R.color.series3))
+                    lineWidth = 2f
+                    setDrawValues(false)
+                    axisDependency = YAxis.AxisDependency.RIGHT
+                    highLightColor = ContextCompat.getColor(this@DiagramActivity, R.color.series3)
+                    //setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }
 
                 // Humidity
                 val humidity = LineDataSet(entries4, getString(R.string.humidity) + " (%)")
-                humidity.color = ContextCompat.getColor(this, R.color.series4)
-                humidity.setCircleColor(ContextCompat.getColor(this, R.color.series4))
-                humidity.lineWidth = 2f
-                humidity.setDrawValues(false)
-                humidity.axisDependency = YAxis.AxisDependency.RIGHT
-                humidity.highLightColor = ContextCompat.getColor(this, R.color.series4)
-                //humidity.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                humidity.run {
+                    color = ContextCompat.getColor(this@DiagramActivity, R.color.series4)
+                    setCircleColor(ContextCompat.getColor(this@DiagramActivity, R.color.series4))
+                    lineWidth = 2f
+                    setDrawValues(false)
+                    axisDependency = YAxis.AxisDependency.RIGHT
+                    highLightColor = ContextCompat.getColor(this@DiagramActivity, R.color.series4)
+                    //setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }
 
                 // Pressure
                 val pressure = LineDataSet(entries5, getString(R.string.pressure) + " (hPa)")
-                pressure.color = ContextCompat.getColor(this, R.color.series5)
-                pressure.setCircleColor(ContextCompat.getColor(this, R.color.series5))
-                pressure.lineWidth = 2f
-                pressure.setDrawValues(false)
-                pressure.axisDependency = YAxis.AxisDependency.RIGHT
-                pressure.highLightColor = ContextCompat.getColor(this, R.color.series5)
-                //pressure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                pressure.run {
+                    color = ContextCompat.getColor(this@DiagramActivity, R.color.series5)
+                    setCircleColor(ContextCompat.getColor(this@DiagramActivity, R.color.series5))
+                    lineWidth = 2f
+                    setDrawValues(false)
+                    axisDependency = YAxis.AxisDependency.RIGHT
+                    highLightColor = ContextCompat.getColor(this@DiagramActivity, R.color.series5)
+                    //setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }
 
                 // Add single lines
                 val dataSets = ArrayList<ILineDataSet>()
@@ -174,7 +184,7 @@ class DiagramActivity : AppCompatActivity() {
             } else if (mode == MODE_COMPARE_DATA) {
                 // Get first time
                 firstTime = java.lang.Long.MAX_VALUE
-                for (i in compareSensors.indices) {
+                compareSensors.forEachIndexed { i, _ ->
                     try {
                         val currentFirstTime = compareRecords[i][0].dateTime.time
                         firstTime = if (currentFirstTime < firstTime) currentFirstTime else firstTime
@@ -183,65 +193,68 @@ class DiagramActivity : AppCompatActivity() {
                 xAxis.valueFormatter = TimeFormatter(firstTime)
                 // Plot data
                 val dataSets = ArrayList<ILineDataSet>()
-                for (i in compareSensors.indices) {
+                compareSensors.forEachIndexed { i, sensor ->
                     if (compareRecords[i].size > 0) {
                         val entries = ArrayList<Entry>()
-                        for (r in compareRecords[i]) {
+                        compareRecords[i].forEach {
                             try {
                                 when {
-                                    show1 -> entries.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toFloat().toDouble(), r.p1.toFloat().toDouble(), "µg/m³"))
-                                    show2 -> entries.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toFloat().toDouble(), r.p2.toFloat().toDouble(), "µg/m³"))
-                                    show3 -> entries.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toFloat().toDouble(), r.temp.toFloat().toDouble(), "°C"))
-                                    show4 -> entries.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toFloat().toDouble(), r.humidity.toFloat().toDouble(), "%"))
-                                    show5 -> entries.add(DiagramEntry(((r.dateTime.time - firstTime) / 1000).toFloat().toDouble(), r.pressure.toFloat().toDouble(), "hPa"))
+                                    show1 -> entries.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toFloat().toDouble(), it.p1.toFloat().toDouble(), "µg/m³"))
+                                    show2 -> entries.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toFloat().toDouble(), it.p2.toFloat().toDouble(), "µg/m³"))
+                                    show3 -> entries.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toFloat().toDouble(), it.temp.toFloat().toDouble(), "°C"))
+                                    show4 -> entries.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toFloat().toDouble(), it.humidity.toFloat().toDouble(), "%"))
+                                    show5 -> entries.add(DiagramEntry(((it.dateTime.time - firstTime) / 1000).toFloat().toDouble(), it.pressure.toFloat().toDouble(), "hPa"))
                                 }
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
-
                         }
                         var setName = getString(R.string.error_try_again)
-                        if (show1) setName = compareSensors[i].name + " - " + getString(R.string.value1) + " (µg/m³)"
-                        if (show2) setName = compareSensors[i].name + " - " + getString(R.string.value2) + " (µg/m³)"
-                        if (show3) setName = compareSensors[i].name + " - " + getString(R.string.temperature) + " (°C)"
-                        if (show4) setName = compareSensors[i].name + " - " + getString(R.string.humidity) + " (%)"
-                        if (show5) setName = compareSensors[i].name + " - " + getString(R.string.pressure) + " (hPa)³"
+                        if (show1) setName = sensor.name + " - " + getString(R.string.value1) + " (µg/m³)"
+                        if (show2) setName = sensor.name + " - " + getString(R.string.value2) + " (µg/m³)"
+                        if (show3) setName = sensor.name + " - " + getString(R.string.temperature) + " (°C)"
+                        if (show4) setName = sensor.name + " - " + getString(R.string.humidity) + " (%)"
+                        if (show5) setName = sensor.name + " - " + getString(R.string.pressure) + " (hPa)³"
                         val set = LineDataSet(entries, setName)
-                        set.color = compareSensors[i].color
-                        set.setCircleColor(compareSensors[i].color)
-                        set.lineWidth = 2f
-                        set.setDrawValues(false)
-                        set.axisDependency = if (show1 || show2) YAxis.AxisDependency.LEFT else YAxis.AxisDependency.RIGHT
-                        set.highLightColor = compareSensors[i].color
+                        set.run {
+                            color = sensor.color
+                            setCircleColor(sensor.color)
+                            lineWidth = 2f
+                            setDrawValues(false)
+                            axisDependency = if (show1 || show2) YAxis.AxisDependency.LEFT else YAxis.AxisDependency.RIGHT
+                            highLightColor = sensor.color
+                        }
                         dataSets.add(set)
                     }
                 }
                 chart.data = LineData(dataSets)
             }
 
-            chart.marker = DiagramMarkerView(this, R.layout.diagram_marker_view, firstTime)
-            // Customize legend
-            chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-            chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-            chart.legend.isWordWrapEnabled = true
-            // Redraw & animate
-            chart.invalidate()
-            chart.animateY(700, Easing.EaseInCubic)
+            chart.run {
+                marker = DiagramMarkerView(this@DiagramActivity, R.layout.diagram_marker_view, firstTime)
+                // Customize legend
+                legend.run {
+                    verticalAlignment = Legend.LegendVerticalAlignment.TOP
+                    horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+                    isWordWrapEnabled = true
+                }
+                // Redraw & animate
+                invalidate()
+                animateY(700, Easing.EaseInCubic)
+            }
         } catch (ignored: Exception) {}
     }
+
+    private fun getIntentExtra(extraName: String) = intent.hasExtra(extraName) && intent.getBooleanExtra(extraName, false)
 
     private fun getAverageMedianPM1(enable_average: Boolean, enable_median: Boolean, first_timestamp: Long): LineDataSet {
         val amEntries = ArrayList<Entry>()
         if (enable_average) {
-            var average = 0.0
-            for (record in records) average += record.p1
-            average /= records.size.toDouble()
+            val average = records.map { it.p1 }.average()
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
         } else if (enable_median) {
-            val doubleRecords = ArrayList<Double>()
-            for (record in records) doubleRecords.add(record.p1)
-            val median = Tools.calculateMedian(doubleRecords)
+            val median = Tools.calculateMedian(records.map { it.p1 })
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
         }
@@ -252,15 +265,11 @@ class DiagramActivity : AppCompatActivity() {
         val amEntries: MutableList<Entry>
         amEntries = ArrayList()
         if (enable_average) {
-            var average = 0.0
-            for (record in records) average += record.p2
-            average /= records.size.toDouble()
+            val average = records.map { it.p2 }.average()
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
         } else if (enable_median) {
-            val doubleRecords = ArrayList<Double>()
-            for (record in records) doubleRecords.add(record.p2)
-            val median = Tools.calculateMedian(doubleRecords)
+            val median = Tools.calculateMedian(records.map { it.p2 })
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
         }
@@ -271,15 +280,11 @@ class DiagramActivity : AppCompatActivity() {
         val amEntries: MutableList<Entry>
         amEntries = ArrayList()
         if (enable_average) {
-            var average = 0.0
-            for (record in records) average += record.temp
-            average /= records.size.toDouble()
+            val average = records.map { it.temp }.average()
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
         } else if (enable_median) {
-            val doubleRecords = ArrayList<Double>()
-            for (record in records) doubleRecords.add(record.temp)
-            val median = Tools.calculateMedian(doubleRecords)
+            val median = Tools.calculateMedian(records.map { it.temp })
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
         }
@@ -292,15 +297,11 @@ class DiagramActivity : AppCompatActivity() {
         val amEntries: MutableList<Entry>
         amEntries = ArrayList()
         if (enable_average) {
-            var average = 0.0
-            for (record in records) average += record.humidity
-            average /= records.size.toDouble()
+            val average = records.map { it.humidity }.average()
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
         } else if (enable_median) {
-            val doubleRecords = ArrayList<Double>()
-            for (record in records) doubleRecords.add(record.humidity)
-            val median = Tools.calculateMedian(doubleRecords)
+            val median = Tools.calculateMedian(records.map { it.humidity })
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
         }
@@ -313,15 +314,11 @@ class DiagramActivity : AppCompatActivity() {
         val amEntries: MutableList<Entry>
         amEntries = ArrayList()
         if (enable_average) {
-            var average = 0.0
-            for (record in records) average += record.pressure
-            average /= records.size.toDouble()
+            val average = records.map { it.pressure }.average()
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), average.toFloat()))
         } else if (enable_median) {
-            val doubleRecords = ArrayList<Double>()
-            for (record in records) doubleRecords.add(record.pressure)
-            val median = Tools.calculateMedian(doubleRecords)
+            val median = Tools.calculateMedian(records.map { it.pressure })
             amEntries.add(Entry(((records[0].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
             amEntries.add(Entry(((records[records.size - 1].dateTime.time - first_timestamp) / 1000).toFloat(), median.toFloat()))
         }
@@ -358,12 +355,14 @@ class DiagramActivity : AppCompatActivity() {
 
     private fun getDashedLine(am_entries: List<Entry>, color: Int): LineDataSet {
         val dl = LineDataSet(am_entries, null)
-        dl.color = ContextCompat.getColor(this, color)
-        dl.lineWidth = 1f
-        dl.setDrawValues(false)
-        dl.setDrawCircles(false)
-        dl.isHighlightEnabled = false
-        dl.enableDashedLine(10f, 10f, 0f)
+        dl.run {
+            this.color = ContextCompat.getColor(this@DiagramActivity, color)
+            lineWidth = 1f
+            setDrawValues(false)
+            setDrawCircles(false)
+            isHighlightEnabled = false
+            enableDashedLine(10f, 10f, 0f)
+        }
         return dl
     }
 

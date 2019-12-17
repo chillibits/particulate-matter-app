@@ -49,10 +49,8 @@ object Tools {
         return ""
     }
 
-    fun calculateMedian(records: ArrayList<Double>): Double {
-        if (records.size == 0) return 0.0
-        records.sort()
-        return records[records.size / 2]
+    fun calculateMedian(list: List<Double>) = list.sorted().let {
+        (it[it.size / 2] + it[(it.size - 1) / 2]) / 2
     }
 
     fun fitArrayList(su: StorageUtils, records: ArrayList<DataRecord>): ArrayList<DataRecord> {
