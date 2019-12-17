@@ -360,56 +360,58 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
     private fun rateApp() {
         AlertDialog.Builder(this)
-                .setTitle(getString(R.string.rate))
-                .setMessage(getString(R.string.rate_m))
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(true)
-                .setPositiveButton(getString(R.string.rate)) { dialog, _ ->
-                    dialog.dismiss()
-                    try {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-                    } catch (e: android.content.ActivityNotFoundException) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
-                    }
+            .setTitle(getString(R.string.rate))
+            .setMessage(getString(R.string.rate_m))
+            .setIcon(R.mipmap.ic_launcher)
+            .setCancelable(true)
+            .setPositiveButton(getString(R.string.rate)) { dialog, _ ->
+                dialog.dismiss()
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+                } catch (e: android.content.ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
                 }
-                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-                .show()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
     private fun recommendApp() {
         AlertDialog.Builder(this)
-                .setTitle(getString(R.string.recommend))
-                .setMessage(getString(R.string.recommend_m))
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(true)
-                .setPositiveButton(getString(R.string.recommend)) { dialog, _ ->
-                    dialog.dismiss()
-                    val i = Intent()
-                    i.action = Intent.ACTION_SEND
-                    i.putExtra(Intent.EXTRA_TEXT, getString(R.string.recommend_string))
-                    i.type = "text/plain"
-                    startActivity(i)
-                }
-                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-                .show()
+            .setTitle(getString(R.string.recommend))
+            .setMessage(getString(R.string.recommend_m))
+            .setIcon(R.mipmap.ic_launcher)
+            .setCancelable(true)
+            .setPositiveButton(getString(R.string.recommend)) { dialog, _ ->
+                dialog.dismiss()
+                val i = Intent()
+                i.action = Intent.ACTION_SEND
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.recommend_string))
+                i.type = "text/plain"
+                startActivity(i)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
     private fun importExportConfiguration() {
-        val v = layoutInflater.inflate(R.layout.dialog_import_export, null)
-        val d = android.app.AlertDialog.Builder(this)
-                .setView(v)
-                .show()
+        val v = LayoutInflater.from(this).inflate(R.layout.dialog_import_export, container, false)
+        val d = AlertDialog.Builder(this)
+            .setView(v)
+            .show()
 
         v.import_qr.setOnClickListener {
             Handler().postDelayed({
                 d.dismiss()
                 val integrator = IntentIntegrator(this@MainActivity)
-                integrator.setRequestCode(REQ_SCAN_SENSOR)
-                integrator.setOrientationLocked(true)
-                integrator.setBeepEnabled(false)
-                integrator.setPrompt(getString(R.string.scan_qr_code_prompt))
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-                integrator.initiateScan()
+                integrator.run {
+                    setRequestCode(REQ_SCAN_SENSOR)
+                    setOrientationLocked(true)
+                    setBeepEnabled(false)
+                    setPrompt(getString(R.string.scan_qr_code_prompt))
+                    setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+                    initiateScan()
+                }
             }, 200)
         }
         v.export_qr.setOnClickListener {
@@ -440,10 +442,10 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                         qrView.setImageBitmap(bitmap)
 
                         AlertDialog.Builder(this@MainActivity)
-                                .setView(qrView)
-                                .setPositiveButton(getString(R.string.ok), null)
-                                .setNeutralButton(getString(R.string.share_qr_code)) { _, _ -> su.shareImage(bitmap, getString(R.string.share_qr_code)) }
-                                .show()
+                            .setView(qrView)
+                            .setPositiveButton(getString(R.string.ok), null)
+                            .setNeutralButton(getString(R.string.share_qr_code)) { _, _ -> su.shareImage(bitmap, getString(R.string.share_qr_code)) }
+                            .show()
                     } else {
                         Toast.makeText(this@MainActivity, getString(R.string.please_select_at_least_one_sensor), Toast.LENGTH_SHORT).show()
                     }
@@ -456,12 +458,14 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             Handler().postDelayed({
                 d.dismiss()
                 val properties = DialogProperties()
-                properties.selection_mode = DialogConfigs.SINGLE_MODE
-                properties.selection_type = DialogConfigs.FILE_SELECT
-                properties.root = File(DialogConfigs.DEFAULT_DIR)
-                properties.error_dir = File(DialogConfigs.DEFAULT_DIR)
-                properties.offset = File(DialogConfigs.DEFAULT_DIR)
-                properties.extensions = arrayOf("xml")
+                properties.run {
+                    selection_mode = DialogConfigs.SINGLE_MODE
+                    selection_type = DialogConfigs.FILE_SELECT
+                    root = File(DialogConfigs.DEFAULT_DIR)
+                    error_dir = File(DialogConfigs.DEFAULT_DIR)
+                    offset = File(DialogConfigs.DEFAULT_DIR)
+                    extensions = arrayOf("xml")
+                }
                 val dialog = FilePickerDialog(this@MainActivity, properties)
                 dialog.setTitle(R.string.import_xml_file)
                 dialog.setDialogSelectionListener { files ->
@@ -534,10 +538,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                     startService(i)
                     // Show toast
                     val t = Toast(this@MainActivity)
-                    t.setGravity(Gravity.CENTER, 0, 0)
-                    t.duration = Toast.LENGTH_LONG
-                    t.view = layoutInflater.inflate(R.layout.sync_success, null)
-                    t.show()
+                    t.run {
+                        setGravity(Gravity.CENTER, 0, 0)
+                        duration = Toast.LENGTH_LONG
+                        view = layoutInflater.inflate(R.layout.sync_success, null)
+                        show()
+                    }
                 } else {
                     Toast.makeText(this@MainActivity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
                 }
@@ -569,7 +575,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 e.printStackTrace()
                 Toast.makeText(this@MainActivity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
@@ -578,10 +583,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             CoroutineScope(Dispatchers.IO).launch {
                 val result = loadServerInfo(this@MainActivity)
                 if(result != null) {
-                    su.putInt("ServerStatus", result.serverStatus)
-                    su.putInt("MinAppVersion", result.minAppVersion)
-                    su.putInt("LatestAppVersion", result.latestAppVersion)
-                    su.putString("UserMessage", result.userMessage)
+                    su.run {
+                        putInt("ServerStatus", result.serverStatus)
+                        putInt("MinAppVersion", result.minAppVersion)
+                        putInt("LatestAppVersion", result.latestAppVersion)
+                        putString("UserMessage", result.userMessage)
+                    }
                     CoroutineScope(Dispatchers.Main).launch {
                         handleServerInfo(this@MainActivity, container, result)
                     }

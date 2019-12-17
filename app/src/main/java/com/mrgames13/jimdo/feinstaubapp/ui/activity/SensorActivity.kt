@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -112,8 +113,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 }
             }
         })
-        viewPagerAdapter =
-            ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
+        viewPagerAdapter = ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout
@@ -133,10 +133,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Initialize calendar
         if (selected_day_timestamp == 0L || !::calendar.isInitialized) {
             calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+            calendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             current_day_timestamp = calendar.time.time
             selected_day_timestamp = current_day_timestamp
         }
@@ -153,10 +155,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         card_date_today.setOnClickListener {
             // Set date to the current day
             calendar.time = Date()
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+            calendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             selected_day_timestamp = calendar.time.time
             card_date_value.text = sdfDate.format(calendar.time)
 
@@ -174,10 +178,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
+            currentCalendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendar.before(currentCalendar)
             card_date_today.isEnabled = calendar.before(currentCalendar)
 
@@ -192,10 +198,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
+            currentCalendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendar.before(currentCalendar)
             card_date_today.isEnabled = calendar.before(currentCalendar)
 
@@ -227,13 +235,15 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Select date
         val datePickerDialog = DatePickerDialog(this@SensorActivity, DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val calendarNew = Calendar.getInstance()
-            calendarNew.set(Calendar.YEAR, year)
-            calendarNew.set(Calendar.MONTH, month)
-            calendarNew.set(Calendar.DAY_OF_MONTH, day)
-            calendarNew.set(Calendar.HOUR_OF_DAY, 0)
-            calendarNew.set(Calendar.MINUTE, 0)
-            calendarNew.set(Calendar.SECOND, 0)
-            calendarNew.set(Calendar.MILLISECOND, 0)
+            calendarNew.run {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, day)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendarNew.before(calendar)
             card_date_today.isEnabled = calendarNew.before(calendar)
 
@@ -382,7 +392,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     }
 
     private fun exportData() {
-        val v = layoutInflater.inflate(R.layout.dialog_share, null)
+        val v = LayoutInflater.from(this).inflate(R.layout.dialog_share, container, false)
         val d = AlertDialog.Builder(this)
             .setView(v)
             .show()
@@ -430,9 +440,11 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     private fun shareSensor() {
         // Share sensor
         val i = Intent(Intent.ACTION_SEND)
-        i.type = "text/plain"
-        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor))
-        i.putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.chipID)
+        i.run {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor))
+            putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.chipID)
+        }
         startActivity(Intent.createChooser(i, getString(R.string.share_sensor)))
     }
 
