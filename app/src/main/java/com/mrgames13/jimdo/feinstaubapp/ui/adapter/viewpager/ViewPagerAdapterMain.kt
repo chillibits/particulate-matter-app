@@ -469,22 +469,21 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         v.choose_sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
 
                         AlertDialog.Builder(ViewPagerAdapterMain.activity)
-                                .setCancelable(true)
-                                .setTitle(R.string.add_favourite)
-                                .setView(v)
-                                .setPositiveButton(R.string.done) { _, _ ->
-                                    // Save new sensor
-                                    var nameString: String? = v.sensor_name_value.text.toString().trim()
-                                    if (nameString!!.isEmpty()) nameString = marker.tag
-                                    su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
-                                    FavoritesFragment.refresh()
-                                    refresh()
-                                    selected_marker_position = null
-                                    sensor_container.visibility = View.GONE
-                                    Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show()
-                                }
-                                .setNegativeButton(R.string.cancel, null)
-                                .show()
+                            .setTitle(R.string.add_favourite)
+                            .setView(v)
+                            .setPositiveButton(R.string.done) { _, _ ->
+                                // Save new sensor
+                                var nameString: String? = v.sensor_name_value.text.toString().trim()
+                                if (nameString!!.isEmpty()) nameString = marker.tag
+                                su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
+                                FavoritesFragment.refresh()
+                                refresh()
+                                selected_marker_position = null
+                                sensor_container.visibility = View.GONE
+                                Toast.makeText(activity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show()
+                            }
+                            .setNegativeButton(R.string.cancel, null)
+                            .show()
                     } else {
                         // Sensor is already linked
                         Toast.makeText(activity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show()

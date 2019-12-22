@@ -179,7 +179,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val clearSensorData = findPreference<Preference>("clear_sensor_data")
         clearSensorData?.setOnPreferenceClickListener {
             AlertDialog.Builder(activity)
-                .setCancelable(true)
                 .setTitle(R.string.clear_sensor_data_t)
                 .setMessage(R.string.clear_sensor_data_m)
                 .setIcon(R.drawable.delete_red)

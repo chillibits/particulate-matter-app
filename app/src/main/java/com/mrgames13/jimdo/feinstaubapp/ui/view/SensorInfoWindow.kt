@@ -30,7 +30,6 @@ fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId
         AlertDialog.Builder(activity)
             .setIcon(R.drawable.info_outline)
             .setTitle(R.string.properties)
-            .setCancelable(true)
             .setView(v)
             .setPositiveButton(R.string.ok, null)
             .show()

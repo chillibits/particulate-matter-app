@@ -379,7 +379,6 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 if(!isSensorDataExisting(this@SensorActivity, sensor.chipID)) {
                     CoroutineScope(Dispatchers.Main).launch {
                         AlertDialog.Builder(this@SensorActivity)
-                            .setCancelable(true)
                             .setTitle(R.string.app_name)
                             .setMessage(R.string.add_sensor_tick_not_set_message)
                             .setPositiveButton(R.string.ok, null)

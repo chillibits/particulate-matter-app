@@ -19,7 +19,7 @@ class PlaceAutocompleteAdapter(private val results: ArrayList<AutocompletePredic
         fun onPlaceSelected(placeId: String)
     }
 
-    inner class PlacesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class PlacesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.place_search_item, parent, false)
@@ -28,10 +28,12 @@ class PlaceAutocompleteAdapter(private val results: ArrayList<AutocompletePredic
 
     override fun onBindViewHolder(holder: PlacesViewHolder, pos: Int) {
         val prediction = results[pos]
-        holder.itemView.primaryText.text = prediction.getPrimaryText(null).toString()
-        holder.itemView.secondaryText.text = prediction.getSecondaryText(null).toString()
-        holder.itemView.setOnClickListener {
-            listener.onPlaceSelected(prediction.placeId)
+        holder.itemView.run {
+            primaryText.text = prediction.getPrimaryText(null).toString()
+            secondaryText.text = prediction.getSecondaryText(null).toString()
+            setOnClickListener {
+                listener.onPlaceSelected(prediction.placeId)
+            }
         }
     }
 

@@ -363,7 +363,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             .setTitle(getString(R.string.rate))
             .setMessage(getString(R.string.rate_m))
             .setIcon(R.mipmap.ic_launcher)
-            .setCancelable(true)
             .setPositiveButton(getString(R.string.rate)) { dialog, _ ->
                 dialog.dismiss()
                 try {
@@ -381,7 +380,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             .setTitle(getString(R.string.recommend))
             .setMessage(getString(R.string.recommend_m))
             .setIcon(R.mipmap.ic_launcher)
-            .setCancelable(true)
             .setPositiveButton(getString(R.string.recommend)) { dialog, _ ->
                 dialog.dismiss()
                 val i = Intent()
