@@ -12,14 +12,13 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.jjoe64.graphview.DefaultLabelFormatter
@@ -35,6 +34,8 @@ import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
 import kotlinx.android.synthetic.main.activity_compare.*
+import kotlinx.android.synthetic.main.dialog_export_compare.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,7 +65,6 @@ class CompareActivity : AppCompatActivity() {
         setContentView(R.layout.activity_compare)
 
         // Initialize toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.compare_sensors)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -73,7 +73,7 @@ class CompareActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             window.decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
-                findViewById<View>(R.id.container).setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                container.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
                 insets
             }
         }
@@ -298,23 +298,17 @@ class CompareActivity : AppCompatActivity() {
                 if (r.isNotEmpty()) empty = false
             }
             if (!empty) {
-                val v = layoutInflater.inflate(R.layout.dialog_export_compare, null)
-                val exportP1 = v.findViewById<RadioButton>(R.id.export_diagram_p1)
-                val exportP2 = v.findViewById<RadioButton>(R.id.export_diagram_p2)
-                val exportTemp = v.findViewById<RadioButton>(R.id.export_diagram_temp)
-                val exportHumidity = v.findViewById<RadioButton>(R.id.export_diagram_humidity)
-                val exportPressure = v.findViewById<RadioButton>(R.id.export_diagram_pressure)
-                val show = AlertDialog.Builder(this)
+                AlertDialog.Builder(this)
                     .setTitle(R.string.export_diagram)
-                    .setView(v)
+                    .setView(LayoutInflater.from(this).inflate(R.layout.dialog_export_compare, container, false))
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.done) { _, _ ->
                         when {
-                            exportP1.isChecked -> exportOption = 1
-                            exportP2.isChecked -> exportOption = 2
-                            exportTemp.isChecked -> exportOption = 3
-                            exportHumidity.isChecked -> exportOption = 4
-                            exportPressure.isChecked -> exportOption = 5
+                            export_diagram_p1.isChecked -> exportOption = 1
+                            export_diagram_p2.isChecked -> exportOption = 2
+                            export_diagram_temp.isChecked -> exportOption = 3
+                            export_diagram_humidity.isChecked -> exportOption = 4
+                            export_diagram_pressure.isChecked -> exportOption = 5
                         }
                         exportData()
                     }
@@ -501,8 +495,8 @@ class CompareActivity : AppCompatActivity() {
                         isScalable = false
                     }
 
-                    findViewById<View>(R.id.no_data).visibility = if (noData) View.VISIBLE else View.GONE
-                    findViewById<View>(R.id.container).visibility = if (noData) View.GONE else View.VISIBLE
+                    no_data.visibility = if (noData) View.VISIBLE else View.GONE
+                    container.visibility = if (noData) View.GONE else View.VISIBLE
                     // Reset ProgressMenuItem
                     if (progressMenuItem != null) progressMenuItem!!.actionView = null
                     pd.dismiss()

@@ -132,7 +132,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
     //-------------------------------------------Fragments------------------------------------------
 
-    class FavoritesFragment : Fragment() {
+    class FavoritesFragment: Fragment() {
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = LayoutInflater.from(parent?.context).inflate(R.layout.tab_my_favourites, parent, false)
 
@@ -157,9 +157,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensors.addAll(su.allOwnSensors)
 
                 sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_FAVOURITES)
-                sensor_view.adapter = sensor_view_adapter
-                sensor_view.setHasFixedSize(true)
-                sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
+                sensor_view.run {
+                    adapter = sensor_view_adapter
+                    setHasFixedSize(true)
+                    visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
+                }
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
 
@@ -177,7 +179,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 } else {
                     searchValues = ArrayList()
                     for (s in sensors) {
-                        if (s.name.toLowerCase().contains(query.toLowerCase()) || s.chipID.toLowerCase().contains(query.toLowerCase())) searchValues.add(s)
+                        if (s.name.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault())) || s.chipID.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))) searchValues.add(s)
                     }
                 }
                 sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_FAVOURITES)
@@ -186,7 +188,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
     }
 
-    class AllSensorsFragment : Fragment(), OnMapReadyCallback {
+    class AllSensorsFragment: Fragment(), OnMapReadyCallback {
         private lateinit var mapType: Spinner
         private lateinit var mapTraffic: Spinner
         private lateinit var mapSensorRefresh: ImageView

@@ -22,7 +22,7 @@ import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SelectSensorAdapter
 import com.mrgames13.jimdo.feinstaubapp.widget.WidgetProvider
-import kotlinx.android.synthetic.main.activity_sensor_selection.*
+import kotlinx.android.synthetic.main.activity_widget_configuration.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
@@ -40,7 +40,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sensor_selection)
+        setContentView(R.layout.activity_widget_configuration)
 
         // Initialize toolbar
         toolbar.setTitle(R.string.widget_select_sensor)
@@ -73,7 +73,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
                 adapter = sensorViewAdapter
             }
         } else {
-            findViewById<View>(R.id.no_data).visibility = View.VISIBLE
+            no_data.visibility = View.VISIBLE
             add_sensor.setOnClickListener {
                 startActivity(Intent(this@WidgetConfigurationActivity, MainActivity::class.java))
                 finish()

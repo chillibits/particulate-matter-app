@@ -8,7 +8,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -45,10 +44,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
 
     private inner class HeaderViewHolder
 
-    internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Variables as objects
-        internal val headerClose: ImageView = itemView.findViewById(R.id.header_close)
-    }
+    internal constructor(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun getItemViewType(pos: Int): Int {
         return if (shallShowHeader()) if (pos == 0) TYPE_HEADER else TYPE_ITEM else TYPE_ITEM
@@ -174,7 +170,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
             }
         } else if (holder is HeaderViewHolder && shallShowHeader()) {
             holder.itemView.header_text.text = activity.getString(R.string.compare_instruction)
-            holder.headerClose.setOnClickListener {
+            holder.itemView.header_close.setOnClickListener {
                 su.putBoolean("SensorViewHeader", false)
                 activity.refresh()
             }
