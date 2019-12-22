@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Sun, 15 Dec 2019 03:51:47 +0100
+ Exported at: Sun, 22 Dec 2019 21:40:37 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -186,7 +186,7 @@
     <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
     <string name="pref_limit_disabled">Notificación deshabilitada</string>
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 medición</item>
         <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s medidas</item>

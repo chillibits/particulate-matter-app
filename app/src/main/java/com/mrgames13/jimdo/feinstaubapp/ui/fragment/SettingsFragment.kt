@@ -19,6 +19,7 @@ import android.text.InputType
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
+import android.text.util.Linkify.addLinks
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -164,7 +165,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         notificationBreakdownNumber?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
             //String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string.measurements), preference.text)
-            resources.getQuantityString(R.plurals.measurement, preference.text.toInt(), preference.text)
+            resources.getQuantityString(R.plurals.measurements, preference.text.toInt(), preference.text)
         }
 
         // EnableMarkerClustering
@@ -225,7 +226,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val owner = activity.getString(R.string.server_owner_) + " " + result?.serverOwner
                     // Concatenate strings and display dialog
                     val info = SpannableString(clientName+ "\n" + serverStatus + "\n" + minAppVersion + "\n" + latestAppVersion + "\n" + owner)
-                    Linkify.addLinks(info, Linkify.WEB_URLS)
+                    addLinks(info, Linkify.WEB_URLS)
                     CoroutineScope(Dispatchers.Main).launch {
                         pd.dismiss()
                         val d = AlertDialog.Builder(requireContext())
@@ -262,7 +263,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val openSourceLicenses = findPreference<Preference>("open_source_licenses")
         openSourceLicenses?.setOnPreferenceClickListener {
             val s = SpannableString(getString(R.string.openSourceLicense))
-            Linkify.addLinks(s, Linkify.ALL)
+            addLinks(s, Linkify.ALL)
 
             val d = AlertDialog.Builder(activity)
                 .setTitle(openSourceLicenses.title)
