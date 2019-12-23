@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
-  -->
-
-<!--
- Loco xml xml_export: Android string resources
+ Loco xml export: Android string resources
  Project: Feinstaub-App
  Release: Working copy
  Locale: de, German
  Exported by: M&R Games
- Exported at: Fri, 03 May 2019 20:20:11 +0200
+ Exported at: Mon, 23 Dec 2019 14:55:50 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -18,6 +14,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s Sensoren</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
@@ -50,6 +47,7 @@
     <string name="edit_sensor">Sensor bearbeiten</string>
     <string name="complete_sensor">Sensor vervollständigen</string>
     <string name="unlink_sensor">Sensor entfernen</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Wollen Sie den Sensor \'%s\' wirklich entfernen?</string>
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
@@ -69,7 +67,6 @@
     <string name="favourite_added">Favorit wurde hinzugefügt</string>
     <string name="properties">Eigenschaften</string>
     <string name="public_short_">Öffentlich:</string>
-    <string name="firmware_version_">Firmware Version:</string>
     <string name="online_since_">Online seit:</string>
     <string name="height_short_">Montagehöhe:</string>
     <string name="compare_instruction">Tippen und halten Sie einen Sensor, um ihn auszuwählen. Wählen Sie zwei oder mehr Sensoren aus, um ihre Messdaten zu vergleichen.</string>
@@ -80,7 +77,6 @@
     <string name="successfully_connected">Erfolgreich verbunden</string>
     <string name="sync_disconnected">Verbindung getrennt</string>
     <string name="search_places">Bitte geben Sie einen Ort ein …</string>
-    <string name="unknown_sensor">Unbekannter Sensor</string>
     <!-- AddSensorActivity -->
     <string name="done">Fertig</string>
     <string name="name_">Anzeigename:</string>
@@ -126,10 +122,16 @@
     <string name="export_data_records">Datensätze exportieren</string>
     <string name="share_sensor">Sensor teilen</string>
     <string name="median">Median</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normal</item>
+        <item name="map_type_1">Terrain</item>
+        <item name="map_type_2">Satellit</item>
+        <item name="map_type_3">Hybrid</item>
+    </string-array>
     <string name="traffic_show">Verkehr anzeigen</string>
     <string name="traffic_hide">Verkehr ausblenden</string>
-    <!-- DiagramActivity -->
-    <!-- NotificationStrings -->
+    <!-- DiagramActivity
+        NotificationStrings -->
     <string name="limit_exceeded">Grenzwert überschritten</string>
     <string name="limit_exceeded_p1">PM10 Grenzwert überschritten</string>
     <string name="limit_exceeded_p2">PM2,5 Grenzwert überschritten</string>
@@ -158,22 +160,12 @@
     <string name="sync_cycle_t">Synchronisationszyklus (sec)</string>
     <string name="sync_cycle_background">Synchronisationszyklus im Hintergrund</string>
     <string name="sync_cycle_background_t">Synchronisationszyklus im Hintergrund (min)</string>
-    <string name="seconds">%s Sekunden</string>
-    <string name="minutes">%s Minuten</string>
     <string name="reduce_data_consumption">Datenverbrauch reduzieren</string>
     <string name="reduce_data_consumption_s">Nur benötigte Daten herunterladen (kann Fehler bei Zeitverschiebung verursachen)</string>
     <!-- Apperance Settings -->
     <string name="pref_header_appearance">Erscheinungsbild</string>
     <string name="app_restart_t">Neustart benötigt</string>
     <string name="app_restart_m">Um die Änderungen anzuwenden, muss die App neu gestartet werden.</string>
-    <string name="default_map_type">Kartentyp beim Appstart</string>
-    <string-array name="map_type">
-        <item name="map_type_0">Normal</item>
-        <item name="map_type_1">Terrain</item>
-        <item name="map_type_2">Satellit</item>
-        <item name="map_type_3">Hybrid</item>
-    </string-array>
-    <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_notification_averages">Mittelwertüberschreitung</string>
@@ -182,7 +174,6 @@
     <string name="pref_notification_breakdown">Nachricht beim Sensor-Ausfall</string>
     <string name="pref_notification_breakdown_s">Benachrichtigung bei eigenen Sensoren, wenn mehrere Messungen ausbleiben</string>
     <string name="pref_notification_breakdown_number">Erlaubte Anzahl fehlender Messungen</string>
-    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="pref_limit_p1">PM10 Grenzwert</string>
     <string name="pref_limit_p1_t">PM10 Grenzwert (µg/m³)</string>
     <string name="pref_limit_p2">PM2.5 Grenzwert</string>
@@ -193,9 +184,11 @@
     <string name="pref_limit_humidity_t">Luftfeuchtigkeit Grenzwert (%)</string>
     <string name="pref_limit_pressure">Luftdruck Grenzwert</string>
     <string name="pref_limit_pressure_t">Luftdruck Grenzwert (hPa)</string>
+    <string name="pref_limit_disabled">Benachrichtigung deaktiviert</string>
     <string name="zero_to_disable">Zur Deaktivierung auf 0 setzen</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 Messung</item>
+        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s Messungen</item>
     </plurals>
     <!-- Performance Settings -->
@@ -225,8 +218,6 @@
     <string name="server_status_support_ended_short">Nicht mehr unterstützt</string>
     <string name="pref_open_source_t">Open-Source-Lizenzen</string>
     <string name="pref_open_source_m">Lizenzdetails für Open-Source-Software</string>
-    <string name="pref_app_open_source_t">Die Feinstaub-App auf GitHub</string>
-    <string name="pref_app_open_source_s">Tippen, um uns auf GitHub zu besuchen</string>
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>
@@ -249,4 +240,14 @@
     <string name="share_qr_code">QR-Code teilen</string>
     <!-- PlacesSearchDialog -->
     <string name="nothing_found">Nothing Found</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="seconds">%s Sekunden</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="minutes">%s Minuten</string>
+    <string name="pref_app_open_source_t">Die Feinstaub-App auf GitHub</string>
+    <string name="pref_app_open_source_s">Tippen, um uns auf GitHub zu besuchen</string>
+    <string name="firmware_version_">Firmware Version:</string>
+    <string name="unknown_sensor">Unbekannter Sensor</string>
+    <string name="default_map_type">Kartentyp beim Appstart</string>
+    <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
 </resources>

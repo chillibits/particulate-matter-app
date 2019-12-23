@@ -96,52 +96,58 @@ task downloadTranslations {
     group 'pre-build tasks'
     description 'Downloads all translation files when building the app.'
 
-    ext.apiKey = '7qUo-LUKd4VIHSwRYB5005T7QQbaFCGw'
+    ext.apiKey1 = '7qUo-LUKd4VIHSwRYB5005T7QQbaFCGw'
+    ext.apiKey2 = 'mg24uL96-mSwhchnk4LnJAzeyBtOsYy3'
 
     //English
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values/strings.xml")
-        new URL("https://localise.biz/api/export/locale/en.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/en.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Bulgarian
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-bg/strings.xml")
-        new URL("https://localise.biz/api/export/locale/bg.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/bg.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Dutch
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-nl/strings.xml")
-        new URL("https://localise.biz/api/export/locale/nl.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/nl.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //French
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-fr/strings.xml")
-        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Italian
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-it/strings.xml")
-        new URL("https://localise.biz/api/export/locale/it.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/it.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Polish
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-pl/strings.xml")
-        new URL("https://localise.biz/api/export/locale/pl.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/pl.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Romanian
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-ro/strings.xml")
-        new URL("https://localise.biz/api/export/locale/ro.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/ro.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Russian
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-ru/strings.xml")
-        new URL("https://localise.biz/api/export/locale/ru.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/ru.xml?format=android&key=${apiKey1}").withInputStream{ i -> f.withOutputStream{ it << i }}
+    }
+    //German
+    doLast {
+        def f = new File("${project.projectDir}/src/main/res/values-de/strings.xml")
+        new URL("https://localise.biz/api/export/locale/de.xml?format=android&key=${apiKey2}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
     //Spanish
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-es/strings.xml")
-        new URL("https://localise.biz/api/export/locale/es.xml?format=android&key=${apiKey}").withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL("https://localise.biz/api/export/locale/es.xml?format=android&key=${apiKey2}").withInputStream{ i -> f.withOutputStream{ it << i }}
     }
 }
 

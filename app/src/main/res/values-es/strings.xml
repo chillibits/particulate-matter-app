@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Sun, 22 Dec 2019 21:40:37 +0000
+ Exported at: Mon, 23 Dec 2019 14:55:50 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -47,7 +47,7 @@
     <string name="edit_sensor">Editar sensor</string>
     <string name="complete_sensor">Sensor completo</string>
     <string name="unlink_sensor">Desenlazar sensor</string>
-    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
@@ -238,6 +238,7 @@
     <string name="please_select_at_least_one_sensor">Por favor seleccione al menos un sensor</string>
     <string name="scan_qr_code_prompt">Por favor escanee el código qr.</string>
     <string name="share_qr_code">Compartir código qr</string>
+    <!-- PlacesSearchDialog -->
     <string name="nothing_found">Nada encontrado</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s segundos</string>
