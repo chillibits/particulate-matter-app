@@ -53,9 +53,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.pref, rootKey)
         val activity = requireActivity()
 
-        // Initialiize StorageUtils
+        // Initialize StorageUtils
         val su = StorageUtils(activity)
 
+        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(activity)
 
         // SyncCycle

@@ -36,7 +36,7 @@ import com.mrgames13.jimdo.feinstaubapp.tool.Tools
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.DiagramActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.DataAdapter
-import com.mrgames13.jimdo.feinstaubapp.ui.model.DiagramEntry
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.DiagramEntry
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

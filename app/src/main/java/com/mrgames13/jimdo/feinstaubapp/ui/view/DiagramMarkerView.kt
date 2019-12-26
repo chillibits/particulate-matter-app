@@ -10,7 +10,7 @@ import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
-import com.mrgames13.jimdo.feinstaubapp.ui.model.DiagramEntry
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.DiagramEntry
 import kotlinx.android.synthetic.main.diagram_marker_view.view.*
 import java.text.SimpleDateFormat
 import java.util.*

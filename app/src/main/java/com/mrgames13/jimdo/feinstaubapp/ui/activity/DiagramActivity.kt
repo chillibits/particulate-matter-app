@@ -23,8 +23,8 @@ import com.mrgames13.jimdo.feinstaubapp.model.Sensor
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.TimeFormatter
 import com.mrgames13.jimdo.feinstaubapp.tool.Tools
-import com.mrgames13.jimdo.feinstaubapp.ui.model.DiagramEntry
 import com.mrgames13.jimdo.feinstaubapp.ui.view.DiagramMarkerView
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.DiagramEntry
 import kotlinx.android.synthetic.main.activity_diagram.*
 import java.util.*
 

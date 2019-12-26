@@ -60,7 +60,6 @@ class WidgetProvider : AppWidgetProvider() {
                 rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE)
 
                 initializeComponents(context, rv, widgetId)
-
                 updateData(context, rv, widgetId)
             }
         } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_WIDGET_ID)) {
@@ -99,14 +98,16 @@ class WidgetProvider : AppWidgetProvider() {
             // Get last record from the db
             val lastRecord = su.getLastRecord(sensor!!.chipID)
             if (lastRecord != null) {
-                rv.setTextViewText(R.id.cv_title, context.getString(R.string.current_values) + " - " + sensor.name)
-                rv.setTextViewText(R.id.cv_p1, Tools.round(lastRecord.p1, 2).toString() + " µg/m³")
-                rv.setTextViewText(R.id.cv_p2, Tools.round(lastRecord.p2, 2).toString() + " µg/m³")
-                rv.setTextViewText(R.id.cv_temp, Tools.round(lastRecord.temp, 1).toString() + " °C")
-                rv.setTextViewText(R.id.cv_humidity, Tools.round(lastRecord.humidity, 2).toString() + " %")
-                rv.setTextViewText(R.id.cv_pressure, Tools.round(lastRecord.pressure, 3).toString() + " hPa")
-                rv.setTextViewText(R.id.cv_time, context.getString(R.string.state_of_) + " " + sdfDatetime.format(lastRecord.dateTime))
-                rv.setViewVisibility(R.id.no_data, View.GONE)
+                rv.run {
+                    setTextViewText(R.id.cv_title, context.getString(R.string.current_values) + " - " + sensor.name)
+                    setTextViewText(R.id.cv_p1, Tools.round(lastRecord.p1, 2).toString() + " µg/m³")
+                    setTextViewText(R.id.cv_p2, Tools.round(lastRecord.p2, 2).toString() + " µg/m³")
+                    setTextViewText(R.id.cv_temp, Tools.round(lastRecord.temp, 1).toString() + " °C")
+                    setTextViewText(R.id.cv_humidity, Tools.round(lastRecord.humidity, 2).toString() + " %")
+                    setTextViewText(R.id.cv_pressure, Tools.round(lastRecord.pressure, 3).toString() + " hPa")
+                    setTextViewText(R.id.cv_time, context.getString(R.string.state_of_) + " " + sdfDatetime.format(lastRecord.dateTime))
+                    setViewVisibility(R.id.no_data, View.GONE)
+                }
             } else {
                 rv.setViewVisibility(R.id.no_data, View.VISIBLE)
             }

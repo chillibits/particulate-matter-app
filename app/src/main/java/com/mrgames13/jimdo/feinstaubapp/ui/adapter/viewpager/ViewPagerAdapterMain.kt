@@ -59,11 +59,11 @@ import com.mrgames13.jimdo.feinstaubapp.ui.activity.CompareActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.MainActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.recyclerview.SensorAdapter
-import com.mrgames13.jimdo.feinstaubapp.ui.model.ClusterRenderer
-import com.mrgames13.jimdo.feinstaubapp.ui.model.MarkerItem
-import com.mrgames13.jimdo.feinstaubapp.ui.model.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.view.showSensorInfoWindow
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.ClusterRenderer
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.MarkerItem
+import com.mrgames13.jimdo.feinstaubapp.ui.viewmodel.SensorClusterItem
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
