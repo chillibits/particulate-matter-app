@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: M&R Games
- Exported at: Mon, 23 Dec 2019 17:11:13 +0000
+ Exported at: Sat, 28 Dec 2019 23:03:37 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <string name="cancel">Anulare</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s senzori</string>
     <string name="exit">Inchide</string>
     <string name="settings">Setari</string>
@@ -188,9 +188,9 @@
     <string name="zero_to_disable">Setati 0 pentru a dezactiva</string>
     <plurals name="measurements">
         <item quantity="one">1 măsurare</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="few">2 masuratori</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">mai multe masuratori</item>
     </plurals>
     <!-- Performance Settings -->
@@ -205,11 +205,16 @@
     <string name="pref_header_about">Despre aplicația Particulate Matter</string>
     <string name="pref_server_info_t">Informații despre server</string>
     <string name="pref_server_info_downloading_">Descărcarea informațiilor despre server …</string>
-    <string name="server_status_">Starea serverului</string>
-    <string name="client_name_">Numele clientului</string>
-    <string name="min_app_version_">Versiunea minimă a aplicației:</string>
-    <string name="latest_app_version_">Versiunea cea mai recentă a aplicației:</string>
-    <string name="server_owner_">Proprietarul serverului</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Starea serverului: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Numele clientului: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Versiunea minimă a aplicației: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Versiunea cea mai recentă a aplicației: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Proprietarul serverului: %s</string>
     <string name="server_status_online">Serverul este online</string>
     <string name="server_status_offline">Serverul este deconectat</string>
     <string name="server_status_maintenance">Serverul este in mentenanta</string>
@@ -241,9 +246,9 @@
     <string name="scan_qr_code_prompt">Vă rugăm să scanați codul qr.</string>
     <string name="share_qr_code">Partajează codul qr</string>
     <string name="nothing_found">Nimic gasit</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s secunde</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minute</string>
     <string name="pref_app_open_source_t">Aplicația Particulate Matter pe GitHub</string>
     <string name="pref_app_open_source_s">Faceți clic pentru a ne vizita pe GitHub</string>

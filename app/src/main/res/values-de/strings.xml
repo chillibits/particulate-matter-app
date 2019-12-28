@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: M&R Games
- Exported at: Mon, 23 Dec 2019 17:11:14 +0000
+ Exported at: Sat, 28 Dec 2019 23:03:38 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s Sensoren</string>
     <string name="exit">Beenden</string>
     <string name="settings">Einstellungen</string>
@@ -203,11 +203,16 @@
     <string name="pref_header_about">Über die Feinstaub-App</string>
     <string name="pref_server_info_t">Serverinfo</string>
     <string name="pref_server_info_downloading_">Serverinfo wird heruntergeladen …</string>
-    <string name="server_status_">Serverstatus:</string>
-    <string name="client_name_">Client-Name:</string>
-    <string name="min_app_version_">Minimalversion:</string>
-    <string name="latest_app_version_">Neueste Version:</string>
-    <string name="server_owner_">Serverinhaber:</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Serverstatus: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Client-Name: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Minimalversion: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Neueste Version: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Serverinhaber: %s</string>
     <string name="server_status_online">Server ist online</string>
     <string name="server_status_offline">Server ist offline</string>
     <string name="server_status_maintenance">Server wird gewartet</string>
@@ -240,9 +245,9 @@
     <string name="share_qr_code">QR-Code teilen</string>
     <!-- PlacesSearchDialog -->
     <string name="nothing_found">Nothing Found</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s Sekunden</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s Minuten</string>
     <string name="pref_app_open_source_t">Die Feinstaub-App auf GitHub</string>
     <string name="pref_app_open_source_s">Tippen, um uns auf GitHub zu besuchen</string>

@@ -219,11 +219,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         else -> ""
                     }
 
-                    val clientName = activity.getString(R.string.client_name_) + " " + result?.clientName
-                    val serverStatus = activity.getString(R.string.server_status_) + " " + status
-                    val minAppVersion = activity.getString(R.string.min_app_version_) + " " + result?.minAppVersionName
-                    val latestAppVersion = activity.getString(R.string.latest_app_version_) + " " + result?.latestAppVersionName
-                    val owner = activity.getString(R.string.server_owner_) + " " + result?.serverOwner
+                    val clientName = String.format(activity.getString(R.string.client_name), result?.clientName)
+                    val serverStatus = String.format(activity.getString(R.string.server_status), status)
+                    val minAppVersion = String.format(activity.getString(R.string.min_app_version), result?.minAppVersionName)
+                    val latestAppVersion = String.format(activity.getString(R.string.latest_app_version), result?.latestAppVersionName)
+                    val owner = String.format(activity.getString(R.string.server_owner), result?.serverOwner)
                     // Concatenate strings and display dialog
                     val info = SpannableString(clientName+ "\n" + serverStatus + "\n" + minAppVersion + "\n" + latestAppVersion + "\n" + owner)
                     addLinks(info, Linkify.WEB_URLS)

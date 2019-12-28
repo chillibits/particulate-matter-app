@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Mon, 23 Dec 2019 17:11:12 +0000
+ Exported at: Sat, 28 Dec 2019 23:03:36 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Да</string>
     <string name="no">Не</string>
     <string name="cancel">Отмени</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s сензори</string>
     <string name="exit">Изход</string>
     <string name="settings">Настройки</string>
@@ -188,7 +188,7 @@
     <string name="zero_to_disable">Сложи 0, за да изключиш</string>
     <plurals name="measurements">
         <item quantity="one">1 измерване</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s измервания</item>
     </plurals>
     <!-- Performance Settings -->
@@ -203,11 +203,16 @@
     <string name="pref_header_about">За приложението Финни частици</string>
     <string name="pref_server_info_t">Информация за сървъра</string>
     <string name="pref_server_info_downloading_">Сваля инфорамация за сървъра</string>
-    <string name="server_status_">Състояние на сървъра</string>
-    <string name="client_name_">Име на клиента</string>
-    <string name="min_app_version_">Минимална версия</string>
-    <string name="latest_app_version_">Най-новата версия</string>
-    <string name="server_owner_">Собственик на сървъра</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Състояние на сървъра: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Име на клиента: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Минимална версия: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Най-новата версия: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Собственик на сървъра: %s</string>
     <string name="server_status_online">Сървърът е онлайн</string>
     <string name="server_status_offline">Сървърат е офлайн</string>
     <string name="server_status_maintenance">Сървърът е в ремонт</string>
@@ -239,9 +244,9 @@
     <string name="scan_qr_code_prompt">Моля, сканирайте QR кода</string>
     <string name="share_qr_code">Сподели QR код</string>
     <string name="nothing_found">Нищо не е намерено</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s секунди</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s минути</string>
     <string name="pref_app_open_source_t">приложението за частици за материята на GitHub</string>
     <string name="pref_app_open_source_s">Кликнете, за да ни посетите в GitHub</string>
