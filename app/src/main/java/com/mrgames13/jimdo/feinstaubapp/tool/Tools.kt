@@ -89,7 +89,7 @@ object Tools {
                 // Get next non-zero record
                 var recordAfter = recordBefore
                 for (j in i + 1 until records.size) {
-                    if (!(records[j].temp == 0.0 && records[j].humidity == 0.0 || records[j].temp == 0.0 && records[j].pressure == 0.0 || records[j].humidity == 0.0 && records[j].pressure == 0.0)) {
+                    if (!(records[j].p1 == 0.0 && records[j].p2 == 0.0)) {
                         recordAfter = records[j]
                         break
                     }

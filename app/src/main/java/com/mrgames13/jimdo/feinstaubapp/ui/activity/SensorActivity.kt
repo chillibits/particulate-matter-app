@@ -303,7 +303,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         }
     }
 
-    //-----------------------------------Private Methoden-------------------------------------------
+    //-----------------------------------Private Methods-------------------------------------------
 
     private fun loadData() {
         // Set ProgressMenuItem
@@ -321,7 +321,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 // Load existing records from local database
                 records = su.loadRecords(sensor.chipID, from, to)
                 // Sort by time
-                resortData()
+                sortData()
                 from = records[records.size - 1].dateTime.time + 1000
             }
 
@@ -338,8 +338,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             }
 
             // Sort by time
-            resortData()
-            // Possibly execute error correction
+            sortData()
+            // Execute error correction
             if (su.getBoolean("enable_auto_correction", true)) {
                 records = Tools.measurementCorrection1(records)
                 records = Tools.measurementCorrection2(records)
@@ -501,7 +501,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         var custom_humidity = false
         var custom_pressure = false
 
-        fun resortData() {
+        fun sortData() {
             try {
                 records.sort()
             } catch (ignored: Exception) {}

@@ -1029,7 +1029,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_TIME_DESC
                 headingTimeArrow.setImageResource(R.drawable.arrow_drop_down_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
@@ -1047,7 +1047,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE1_ASC
                 headingP1Arrow.setImageResource(R.drawable.arrow_drop_up_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
@@ -1065,7 +1065,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_VALUE2_ASC
                 headingP2Arrow.setImageResource(R.drawable.arrow_drop_up_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
@@ -1083,7 +1083,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_TEMP_ASC
                 headingTempArrow.setImageResource(R.drawable.arrow_drop_up_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
@@ -1101,7 +1101,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_HUMIDITY_ASC
                 headingHumidityArrow.setImageResource(R.drawable.arrow_drop_up_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
@@ -1119,7 +1119,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 SensorActivity.sort_mode = SensorActivity.SORT_MODE_PRESSURE_ASC
                 headingPressureArrow.setImageResource(R.drawable.arrow_drop_up_grey)
             }
-            SensorActivity.resortData()
+            SensorActivity.sortData()
             data_view.adapter!!.notifyDataSetChanged()
         }
 
