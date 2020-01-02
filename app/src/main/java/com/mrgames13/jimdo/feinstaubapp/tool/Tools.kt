@@ -13,7 +13,6 @@ import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
-import kotlin.math.abs
 
 object Tools {
 
@@ -96,11 +95,11 @@ object Tools {
                 }
                 // Calculate average values
                 // PM10
-                var m = abs(recordBefore.p1 - recordAfter.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                var m = (recordAfter.p1 - recordBefore.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 var b = recordBefore.p1 - m * recordBefore.dateTime.time
                 val avgP1 = round(m * currentRecord.dateTime.time + b, 2)
                 // PM2.5
-                m = abs(recordBefore.p2 - recordAfter.p2) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                m = (recordAfter.p2 - recordBefore.p2) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 b = recordBefore.p2 - m * recordBefore.dateTime.time
                 val avgP2 = round(m * currentRecord.dateTime.time + b, 2)
 
@@ -120,17 +119,17 @@ object Tools {
                 }
                 // Calculate average values
                 // Temperature
-                var m = abs(recordBefore.temp - recordAfter.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                var m = (recordAfter.temp - recordBefore.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 var b = recordBefore.temp - m * recordBefore.dateTime.time
                 var avgTemp = round(m * currentRecord.dateTime.time + b, 2)
                 avgTemp = if(avgTemp.isNaN()) 0.0 else avgTemp
                 // Humidity
-                m = abs(recordBefore.humidity - recordAfter.humidity) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                m = (recordAfter.humidity - recordBefore.humidity) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 b = recordBefore.humidity - m * recordBefore.dateTime.time
                 var avgHumidity = round(m * currentRecord.dateTime.time + b, 2)
                 avgHumidity = if(avgHumidity.isNaN()) 0.0 else avgHumidity
                 // Pressure
-                m = abs(recordBefore.pressure - recordAfter.pressure) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
+                m = (recordAfter.pressure - recordBefore.pressure) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
                 b = recordBefore.pressure - m * recordBefore.dateTime.time
                 var avgPressure = round(m * currentRecord.dateTime.time + b, 2)
                 avgPressure = if(avgPressure.isNaN()) 0.0 else avgPressure
@@ -187,17 +186,7 @@ object Tools {
             }
 
             // Alter record according to results
-            val newRecord = DataRecord(
-                currentRecord.dateTime,
-                newP1,
-                newP2,
-                currentRecord.temp,
-                currentRecord.humidity,
-                currentRecord.pressure,
-                0.0,
-                0.0,
-                0.0
-            )
+            val newRecord = DataRecord(currentRecord.dateTime, newP1, newP2, currentRecord.temp, currentRecord.humidity, currentRecord.pressure, 0.0, 0.0, 0.0)
             records[i] = newRecord
         }*/
         return records
