@@ -20,8 +20,6 @@ class ServerMessagingUtils(private val context: Context) {
     private val cm: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private val wifiManager: WifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-    // Variables
-
     val isInternetAvailable: Boolean
         get() {
             val ni = cm.activeNetworkInfo

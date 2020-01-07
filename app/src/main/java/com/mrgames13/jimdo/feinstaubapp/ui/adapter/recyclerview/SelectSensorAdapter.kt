@@ -27,7 +27,7 @@ class SelectSensorAdapter(private var context: Context, private val su: StorageU
     private val selectedSensors = ArrayList<Sensor>()
     private var selectedSensorHolder: ViewHolder? = null
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         init {
             // Initialize UI components
             itemView.item_more.visibility = View.GONE
@@ -47,45 +47,47 @@ class SelectSensorAdapter(private var context: Context, private val su: StorageU
         // Fill in data
         val sensor = sensors[pos]
 
-        h.itemView.item_icon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
-        h.itemView.item_name.text = sensor.name
-        h.itemView.item_id.text = context.getString(R.string.chip_id) + " " + sensor.chipID
+        h.itemView.run {
+            item_icon.frontLayout.background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(sensor.color, BlendModeCompat.SRC_IN)
+            item_name.text = sensor.name
+            item_id.text = context.getString(R.string.chip_id) + " " + sensor.chipID
 
-        h.itemView.setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
-        h.itemView.setOnLongClickListener {
-            h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
-            true
-        }
-        h.itemView.item_icon.setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
-        h.itemView.item_icon.setOnLongClickListener {
-            h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
-            true
-        }
-        h.itemView.item_icon.setOnFlippingListener { _, checked ->
-            if (checked) {
-                if (selection_mode == MODE_SELECTION_SINGLE) {
-                    this@SelectSensorAdapter.h.postDelayed({
-                        selectedSensorHolder?.deselect()
-                        selectedSensorHolder = h
-                    }, 50)
-                    selectedSensor = sensor
-                } else if (selection_mode == MODE_SELECTION_MULTI) {
-                    selectedSensors.add(sensor)
-                }
-            } else {
-                if (selection_mode == MODE_SELECTION_SINGLE) {
-                    if (selectedSensor?.chipID == sensor.chipID) {
-                        selectedSensor = null
-                        selectedSensorHolder = null
-                    }
-                } else if (selection_mode == MODE_SELECTION_MULTI) {
-                    selectedSensors.remove(sensor)
-                }
+            setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
+            setOnLongClickListener {
+                h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
+                true
             }
-            h.itemView.setBackgroundColor(ContextCompat.getColor(context, if (checked) R.color.color_selection else R.color.transparent))
-        }
+            item_icon.setOnClickListener { h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped) }
+            item_icon.setOnLongClickListener {
+                h.itemView.item_icon.flip(!h.itemView.item_icon.isFlipped)
+                true
+            }
+            item_icon.setOnFlippingListener { _, checked ->
+                if (checked) {
+                    if (selection_mode == MODE_SELECTION_SINGLE) {
+                        this@SelectSensorAdapter.h.postDelayed({
+                            selectedSensorHolder?.deselect()
+                            selectedSensorHolder = h
+                        }, 50)
+                        selectedSensor = sensor
+                    } else if (selection_mode == MODE_SELECTION_MULTI) {
+                        selectedSensors.add(sensor)
+                    }
+                } else {
+                    if (selection_mode == MODE_SELECTION_SINGLE) {
+                        if (selectedSensor?.chipID == sensor.chipID) {
+                            selectedSensor = null
+                            selectedSensorHolder = null
+                        }
+                    } else if (selection_mode == MODE_SELECTION_MULTI) {
+                        selectedSensors.remove(sensor)
+                    }
+                }
+                h.itemView.setBackgroundColor(ContextCompat.getColor(context, if (checked) R.color.color_selection else R.color.transparent))
+            }
 
-        h.itemView.item_own_sensor.visibility = if (su.isSensorExisting(sensor.chipID)) View.VISIBLE else View.GONE
+            item_own_sensor.visibility = if (su.isSensorExisting(sensor.chipID)) View.VISIBLE else View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

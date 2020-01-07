@@ -15,6 +15,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 fun getNetworkClient(): HttpClient {
     return HttpClient {
@@ -27,7 +30,7 @@ fun getNetworkClient(): HttpClient {
 fun handlePossibleErrors(activity: Activity, status: HttpStatusCode): Boolean {
     if(status != HttpStatusCode.OK) {
         Log.e(Constants.TAG, "Something went wrong during the backend request: " + status.value + " - " + status.description)
-        activity.runOnUiThread {
+        CoroutineScope(Dispatchers.Main).launch {
             Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
         }
         return false

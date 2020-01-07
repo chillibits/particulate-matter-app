@@ -36,8 +36,7 @@ suspend fun loadSensorsNonSync(activity: Activity): List<ExternalSensor> {
     client.close()
     return if(handlePossibleErrors(activity, response.status))
         Json.parse(ExternalSensorCompressedList.serializer(), response.readText()).items.map { ExternalSensor(chipId = it.i, lat = it.l, lng = it.b) }
-    else
-        emptyList()
+    else emptyList()
 }
 
 suspend fun loadClusterAverage(activity: Activity, ids: ArrayList<String>): Double {
@@ -50,8 +49,7 @@ suspend fun loadClusterAverage(activity: Activity, ids: ArrayList<String>): Doub
     client.close()
     return if(handlePossibleErrors(activity, response.status))
         try { response.readText().toDouble() } catch (ignored: Exception) { 0.0 }
-    else
-        0.0
+    else 0.0
 }
 
 suspend fun isSensorExisting(activity: Activity, chipId: String): Boolean {
@@ -103,6 +101,5 @@ suspend fun loadSensorInfo(activity: Activity, chipId: String): ExternalSensor? 
     client.close()
     return if(handlePossibleErrors(activity, response.status))
         Json.parse(ExternalSensor.serializer(), response.readText())
-    else
-        null
+    else null
 }

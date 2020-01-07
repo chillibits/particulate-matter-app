@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 12:40:17 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s sensors</string>
     <string name="exit">Quit</string>
     <string name="settings">Settings</string>
@@ -89,12 +89,12 @@
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="public_sensor">Show sensor to other users and make it visible on the map</string>
     <string name="choose_location">Choose exact sensor location</string>
-    <string name="sensor_height">Height over ground/street (m):</string>
+    <string name="sensor_height">Height above ground/street (m):</string>
     <string name="latitude">Latitude</string>
     <string name="latitude_">Latitude:</string>
     <string name="longitude">Longitude</string>
     <string name="longitude_">Longitude:</string>
-    <string name="coordinates_info">The Coordinates get rounded due data protection reasons.</string>
+    <string name="coordinates_info">The coordinates get rounded due to data protection reasons.</string>
     <string name="gps_will_be_synchronized">If you have a GPS sensor connected to your sensor system, the position will update automatically on the map in realtime.</string>
     <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contacting us</a>.</string>
     <string name="unknown_location">Unknown location</string>
@@ -186,9 +186,9 @@
     <string name="pref_limit_pressure_t">Pressure limit (hPa)</string>
     <string name="pref_limit_disabled">Notification disabled</string>
     <string name="zero_to_disable">Set to 0 to disable</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 measurement</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s measurements</item>
     </plurals>
     <!-- Performance Settings -->
@@ -203,11 +203,16 @@
     <string name="pref_header_about">About the Particulate Matter App</string>
     <string name="pref_server_info_t">Server info</string>
     <string name="pref_server_info_downloading_">Downloading server info …</string>
-    <string name="server_status_">Server status</string>
-    <string name="client_name_">Client name</string>
-    <string name="min_app_version_">Minimal app version:</string>
-    <string name="latest_app_version_">Latest app version:</string>
-    <string name="server_owner_">Server owner</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Server status: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Client name: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Minimal app version: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Latest app version: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Server owner: %s</string>
     <string name="server_status_online">Server is online</string>
     <string name="server_status_offline">Server is offline</string>
     <string name="server_status_maintenance">Server gets maintained</string>
@@ -239,9 +244,9 @@
     <string name="scan_qr_code_prompt">Please scan the qr code.</string>
     <string name="share_qr_code">Share qr code</string>
     <string name="nothing_found">Nothing found</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s seconds</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
     <string name="pref_app_open_source_t">The Particulate Matter App on GitHub</string>
     <string name="pref_app_open_source_s">Click to visit us on GitHub</string>

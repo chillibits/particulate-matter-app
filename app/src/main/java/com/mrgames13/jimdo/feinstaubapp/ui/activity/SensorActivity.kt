@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -97,10 +98,10 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Get intent extras
         sensor = Sensor()
         if (intent.hasExtra("Name")) {
-            sensor.name = intent.getStringExtra("Name")
+            sensor.name = intent.getStringExtra("Name")!!
             supportActionBar!!.title = intent.getStringExtra("Name")
         }
-        if (intent.hasExtra("ID")) sensor.setId(intent.getStringExtra("ID")!!)
+        if (intent.hasExtra("ID")) sensor.chipID = intent.getStringExtra("ID")!!
         if (intent.hasExtra("Color")) sensor.color = intent.getIntExtra("Color", ContextCompat.getColor(this, R.color.colorPrimary))
 
         // Initialize ViewPager
@@ -112,13 +113,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 }
             }
         })
-        viewPagerAdapter =
-            ViewPagerAdapterSensor(
-                supportFragmentManager,
-                this@SensorActivity,
-                su,
-                su.getBoolean("ShowGPS_" + sensor.chipID)
-            )
+        viewPagerAdapter = ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout
@@ -138,10 +133,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Initialize calendar
         if (selected_day_timestamp == 0L || !::calendar.isInitialized) {
             calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+            calendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             current_day_timestamp = calendar.time.time
             selected_day_timestamp = current_day_timestamp
         }
@@ -158,10 +155,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         card_date_today.setOnClickListener {
             // Set date to the current day
             calendar.time = Date()
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+            calendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             selected_day_timestamp = calendar.time.time
             card_date_value.text = sdfDate.format(calendar.time)
 
@@ -179,10 +178,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
+            currentCalendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendar.before(currentCalendar)
             card_date_today.isEnabled = calendar.before(currentCalendar)
 
@@ -197,10 +198,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             card_date_value.text = sdfDate.format(calendar.time)
 
             val currentCalendar = Calendar.getInstance()
-            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
-            currentCalendar.set(Calendar.MINUTE, 0)
-            currentCalendar.set(Calendar.SECOND, 0)
-            currentCalendar.set(Calendar.MILLISECOND, 0)
+            currentCalendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendar.before(currentCalendar)
             card_date_today.isEnabled = calendar.before(currentCalendar)
 
@@ -232,13 +235,15 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         // Select date
         val datePickerDialog = DatePickerDialog(this@SensorActivity, DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val calendarNew = Calendar.getInstance()
-            calendarNew.set(Calendar.YEAR, year)
-            calendarNew.set(Calendar.MONTH, month)
-            calendarNew.set(Calendar.DAY_OF_MONTH, day)
-            calendarNew.set(Calendar.HOUR_OF_DAY, 0)
-            calendarNew.set(Calendar.MINUTE, 0)
-            calendarNew.set(Calendar.SECOND, 0)
-            calendarNew.set(Calendar.MILLISECOND, 0)
+            calendarNew.run {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, day)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             card_date_next.isEnabled = calendarNew.before(calendar)
             card_date_today.isEnabled = calendarNew.before(calendar)
 
@@ -298,7 +303,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         }
     }
 
-    //-----------------------------------Private Methoden-------------------------------------------
+    //-----------------------------------Private Methods-------------------------------------------
 
     private fun loadData() {
         // Set ProgressMenuItem
@@ -316,7 +321,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 // Load existing records from local database
                 records = su.loadRecords(sensor.chipID, from, to)
                 // Sort by time
-                resortData()
+                sortData()
                 from = records[records.size - 1].dateTime.time + 1000
             }
 
@@ -333,8 +338,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             }
 
             // Sort by time
-            resortData()
-            // Possibly execute error correction
+            sortData()
+            // Execute error correction
             if (su.getBoolean("enable_auto_correction", true)) {
                 records = Tools.measurementCorrection1(records)
                 records = Tools.measurementCorrection2(records)
@@ -359,7 +364,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.chipID)
             sendBroadcast(updateIntent)
 
-            runOnUiThread {
+            CoroutineScope(Dispatchers.Main).launch {
                 // Refresh ViewpagerAdapter
                 viewPagerAdapter.refreshFragments()
                 // Reset ProgressMenuItem
@@ -372,9 +377,8 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         if (!su.getBoolean("DontShowAgain_" + sensor.chipID) && smu.isInternetAvailable) {
             CoroutineScope(Dispatchers.IO).launch {
                 if(!isSensorDataExisting(this@SensorActivity, sensor.chipID)) {
-                    runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         AlertDialog.Builder(this@SensorActivity)
-                            .setCancelable(true)
                             .setTitle(R.string.app_name)
                             .setMessage(R.string.add_sensor_tick_not_set_message)
                             .setPositiveButton(R.string.ok, null)
@@ -387,10 +391,10 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     }
 
     private fun exportData() {
-        val v = layoutInflater.inflate(R.layout.dialog_share, null)
+        val v = LayoutInflater.from(this).inflate(R.layout.dialog_share, container, false)
         val d = AlertDialog.Builder(this)
-                .setView(v)
-                .show()
+            .setView(v)
+            .show()
 
         v.share_sensor.setOnClickListener {
             Handler().postDelayed({
@@ -435,9 +439,11 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     private fun shareSensor() {
         // Share sensor
         val i = Intent(Intent.ACTION_SEND)
-        i.type = "text/plain"
-        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor))
-        i.putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.chipID)
+        i.run {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor))
+            putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.chipID)
+        }
         startActivity(Intent.createChooser(i, getString(R.string.share_sensor)))
     }
 
@@ -495,7 +501,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         var custom_humidity = false
         var custom_pressure = false
 
-        fun resortData() {
+        fun sortData() {
             try {
                 records.sort()
             } catch (ignored: Exception) {}

@@ -35,15 +35,13 @@ class SettingsActivity : AppCompatActivity() {
 
         // Initialize SettingsFragment
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_fragment, SettingsFragment())
-                .commit()
+            .beginTransaction()
+            .replace(R.id.settings_fragment, SettingsFragment())
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            android.R.id.home -> finish()
-        }
+        if(item.itemId == android.R.id.home) finish()
         return super.onOptionsItemSelected(item)
     }
 }
