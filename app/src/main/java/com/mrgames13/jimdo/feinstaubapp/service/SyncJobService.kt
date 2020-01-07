@@ -8,9 +8,7 @@ import android.app.job.JobParameters
 import android.app.job.JobService
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.model.Sensor
@@ -27,7 +25,6 @@ import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class SyncJobService : JobService() {
 
     // Variables as objects
@@ -116,12 +113,10 @@ class SyncJobService : JobService() {
                     for (s in sensors) {
                         // Load existing records from the local database
                         records = su.loadRecords(s.chipID, from, to)
-                        // Sort by time
                         records!!.sort()
                         // Load records from server
                         val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
-                        if (recordsExternal != null) records!!.addAll(recordsExternal)
-                        // Sort by time
+                        recordsExternal?.let { records!!.addAll(recordsExternal) }
                         records!!.sort()
 
                         if (records!!.size > 0) {
@@ -219,48 +214,19 @@ class SyncJobService : JobService() {
         }
     }
 
-    private fun getP1Average(records: ArrayList<DataRecord>): Double {
-        var average = 0.0
-        for (r in records) average += r.p1
-        return average / records.size
-    }
+    private fun getP1Average(records: ArrayList<DataRecord>) = records.map { it.p1 }.average()
+    private fun getP2Average(records: ArrayList<DataRecord>) = records.map { it.p2 }.average()
+    private fun getTempAverage(records: ArrayList<DataRecord>) = records.map { it.temp }.average()
+    private fun getHumidityAverage(records: ArrayList<DataRecord>) = records.map { it.humidity }.average()
+    private fun getPressureAverage(records: ArrayList<DataRecord>) = records.map { it.pressure }.average()
 
-    private fun getP2Average(records: ArrayList<DataRecord>): Double {
-        var average = 0.0
-        for (r in records) average += r.p2
-        return average / records.size
-    }
-
-    private fun getTempAverage(records: ArrayList<DataRecord>): Double {
-        var average = 0.0
-        for (r in records) average += r.temp
-        return average / records.size
-    }
-
-    private fun getHumidityAverage(records: ArrayList<DataRecord>): Double {
-        var average = 0.0
-        for (r in records) average += r.humidity
-        return average / records.size
-    }
-
-    private fun getPressureAverage(records: ArrayList<DataRecord>): Double {
-        var average = 0.0
-        for (r in records) average += r.pressure
-        return average / records.size
-    }
-
-    private fun trimDataRecordsToSyncTime(chip_id: String, all_records: ArrayList<DataRecord>): ArrayList<DataRecord> {
+    private fun trimDataRecordsToSyncTime(chipId: String, allRecords: List<DataRecord>): ArrayList<DataRecord> {
         // Load last execution time
-        val lastRecord = su.getLong(chip_id + "_LastRecord", System.currentTimeMillis())
-
-        val records = ArrayList<DataRecord>()
-        for (r in all_records) {
-            if (r.dateTime.time > lastRecord) records.add(r)
-        }
+        val lastRecord = su.getLong("${chipId}_LastRecord", System.currentTimeMillis())
+        val records = allRecords.filter { it.dateTime.time > lastRecord }
 
         // Save execution time
-        if (all_records.size > 0) su.putLong(chip_id + "_LastRecord", all_records[all_records.size - 1].dateTime.time)
-
-        return records
+        if (allRecords.isNotEmpty()) su.putLong("${chipId}_LastRecord", allRecords[allRecords.size - 1].dateTime.time)
+        return ArrayList(records)
     }
 }

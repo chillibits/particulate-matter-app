@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 12:40:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="cancel">Annuler</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s capteurs</string>
     <string name="exit">Quitter</string>
     <string name="settings">Paramètres</string>
@@ -186,9 +186,9 @@
     <string name="pref_limit_pressure_t">Limite de la pression atmosphérique (hPa)</string>
     <string name="pref_limit_disabled">Notification désactivée</string>
     <string name="zero_to_disable">Mettre à 0 pour désactiver</string>
-    <plurals name="measurement">
-        <item quantity="one">1 mesure</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <plurals name="measurements">
+        <item quantity="one">%s mesure</item>
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s mesures</item>
     </plurals>
     <!-- Performance Settings -->
@@ -203,11 +203,16 @@
     <string name="pref_header_about">A propos de l\'application Matière Particulaire</string>
     <string name="pref_server_info_t">Informations sur le serveur</string>
     <string name="pref_server_info_downloading_">Téléchargement en cours des informations du serveur…</string>
-    <string name="server_status_">Statut de serveur</string>
-    <string name="client_name_">Nom du client</string>
-    <string name="min_app_version_">Version minimale</string>
-    <string name="latest_app_version_">Dernière version</string>
-    <string name="server_owner_">Propriétaire du serveur</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Statut de serveur: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Nom du client: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Version minimale: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Dernière version: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Propriétaire du serveur: %s</string>
     <string name="server_status_online">Le serveur est en ligne</string>
     <string name="server_status_offline">Le serveur est hors ligne</string>
     <string name="server_status_maintenance">Le serveur est en maintenance</string>
@@ -239,9 +244,9 @@
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
     <string name="nothing_found">rien n\'a été trouvé</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s secondes</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
     <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>

@@ -14,9 +14,5 @@ class TimeFormatter(private val first_timestamp: Long) : ValueFormatter() {
     // Variables as objects
     private val sdf: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-        val date = Date()
-        date.time = (value * 1000 + first_timestamp).toLong()
-        return sdf.format(date)
-    }
+    override fun getAxisLabel(value: Float, axis: AxisBase?): String = sdf.format(Date((value * 1000 + first_timestamp).toLong()))
 }

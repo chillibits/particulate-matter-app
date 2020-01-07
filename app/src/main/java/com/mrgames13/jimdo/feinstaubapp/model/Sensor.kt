@@ -21,10 +21,6 @@ class Sensor: Comparable<Any>, Serializable {
         this.color = color
     }
 
-    fun setId(id: String) {
-        this.chipID = id
-    }
-
     override operator fun compareTo(other: Any): Int {
         return name.compareTo((other as Sensor).name)
     }

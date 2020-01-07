@@ -16,10 +16,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // Display SplashScreen
         SplashScreenBuilder.getInstance(this)
-                .setVideo(R.raw.splash_animation)
-                .setVideoDark(R.raw.splash_animation_dark)
-                .setImage(R.drawable.app_icon)
-                .show()
+            .setVideo(R.raw.splash_animation)
+            .setVideoDark(R.raw.splash_animation_dark)
+            .setImage(R.drawable.app_icon)
+            .show()
         overridePendingTransition(0, 0)
     }
 

@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 13:40:19 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="cancel">Cancelar</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s sensores</string>
     <string name="exit">Cerrar</string>
     <string name="settings">Ajustes</string>
@@ -47,7 +47,7 @@
     <string name="edit_sensor">Editar sensor</string>
     <string name="complete_sensor">Sensor completo</string>
     <string name="unlink_sensor">Desenlazar sensor</string>
-    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
@@ -186,7 +186,7 @@
     <string name="pref_limit_pressure_t">Límite de presión (hPa)</string>
     <string name="pref_limit_disabled">Notificación deshabilitada</string>
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 medición</item>
         <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s medidas</item>
@@ -203,11 +203,16 @@
     <string name="pref_header_about">Acerca de la aplicación de materia particulada</string>
     <string name="pref_server_info_t">Información del servidor</string>
     <string name="pref_server_info_downloading_">Descargando información del servidor …</string>
-    <string name="server_status_">El estado del servidor</string>
-    <string name="client_name_">Nombre del cliente</string>
-    <string name="min_app_version_">Versión mínima</string>
-    <string name="latest_app_version_">La versión más nueva</string>
-    <string name="server_owner_">Propietario del servidor</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">El estado del servidor: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Nombre del cliente: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Versión mínima: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">La versión más nueva: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Propietario del servidor: %s</string>
     <string name="server_status_online">El servidor esta en línea</string>
     <string name="server_status_offline">El servidor esta desconectado</string>
     <string name="server_status_maintenance">El servidor se mantiene</string>
@@ -238,10 +243,11 @@
     <string name="please_select_at_least_one_sensor">Por favor seleccione al menos un sensor</string>
     <string name="scan_qr_code_prompt">Por favor escanee el código qr.</string>
     <string name="share_qr_code">Compartir código qr</string>
+    <!-- PlacesSearchDialog -->
     <string name="nothing_found">Nada encontrado</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s segundos</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutos</string>
     <string name="pref_app_open_source_t">La aplicación Particulate Matter en GitHub</string>
     <string name="pref_app_open_source_s">Haga clic para visitarnos en GitHub</string>

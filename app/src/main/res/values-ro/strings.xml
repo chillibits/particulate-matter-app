@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Feinstaub-App
+ Release: Working copy
+ Locale: ro, Romanian
+ Exported by: M&R Games
+ Exported at: Tue, 07 Jan 2020 16:11:38 +0000
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Aplicația Particulate Matter</string>
+    <string name="ok">OK</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="cancel">Anulare</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s senzori</string>
+    <string name="exit">Inchide</string>
+    <string name="settings">Setari</string>
+    <string name="no_data">Nu există date</string>
+    <string name="loading">Se încarcă …</string>
+    <string name="loading_data">Încărcare date …</string>
+    <string name="internet_is_not_available">Internet nu este disponibil</string>
+    <string name="activate_wlan">Activați WiFi</string>
+    <string name="please_wait_">Te rog asteapta …</string>
+    <string name="error_try_again">A aparut o eroare. Vă rugăm să încercați din nou</string>
+    <string name="offline_t">Server deconectat</string>
+    <string name="offline_m">Serverul este deconectat. În timp ce serverul este offline, nu puteți accesa datele dvs.</string>
+    <string name="maintenance_t">Mentenanta server</string>
+    <string name="maintenance_m">Serverul este in mentenanta. În timp ce serverul este offline, nu puteți accesa datele dvs.</string>
+    <string name="support_end_t">Asistența aplicației s-a încheiat</string>
+    <string name="support_end_m">Ne pare rău! Aplicația Particulate matter nu mai este acceptată. Acum puteți dezinstala aplicația.</string>
+    <string name="update_necessary_t">Actualizare disponibila!</string>
+    <string name="update_necessary_m">Trebuie să efectuați o actualizare pentru a menține aplicația funcțională.</string>
+    <string name="download_update">Descarca</string>
+    <string name="update_available">Actualizare disponibila</string>
+    <string name="download">Descarca</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label">Afisare particulate matter</string>
+    <string name="widget_app_data_cleared">Datele aplicației au fost șterse. Vă rugăm să selectați din nou senzorul</string>
+    <string name="widget_select_sensor">Selectati senzorul</string>
+    <string name="widget_no_data">Nu există favorite. Atingeți mai jos pentru a adăuga un favorit și selectați din nou widgetul.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">Atingeți din nou pentru a iesi</string>
+    <string name="compare_sensors">Compara date</string>
+    <string name="edit_sensor">Editare senzor</string>
+    <string name="complete_sensor">Completez senzor</string>
+    <string name="unlink_sensor">Deconectare senzor</string>
+    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'% s\'?</string>
+    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info">www.luftdaten.info</a>, îl puteți conecta aici</string>
+    <string name="rate_app">cotati aplicatia</string>
+    <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
+    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend">Recomandata</string>
+    <string name="recommend_app">Recomandă aplicația</string>
+    <string name="recommend_m">Recomandă aplicația Particulate Matter pentru prietenii tăi!</string>
+    <string name="rate">Rate</string>
+    <string name="add_own_sensor">Adăugați propriul senzor</string>
+    <string name="my_favourites">Favoritele mele</string>
+    <string name="all_sensors">Toti senzorii</string>
+    <string name="my_sensors">Senzorii mei</string>
+    <string name="no_favourites">Niciun favorit încă Vă rugăm să treceți la „Toți senzorii”, alegeți unul sau mai mulți senzori și selectați „Adăugați favorit”.</string>
+    <string name="show_measurements">Afișează măsurători</string>
+    <string name="add_favourite">Adăugați favorit</string>
+    <string name="favourite_added">Favorit adăugat</string>
+    <string name="properties">Proprietăți</string>
+    <string name="public_short_">Public:</string>
+    <string name="online_since_">Online din:</string>
+    <string name="height_short_">Inaltimea de montare:</string>
+    <string name="compare_instruction">Atingeți și țineți apăsat un senzor pentru a-l selecta. Selectați doi sau mai mulți senzori pentru a compara măsurătorile lor.</string>
+    <string name="search_for_sensors">Căutați senzori</string>
+    <string name="sensor_position_completion_m_short">Vă rugăm să completați datele senzorului pentru ca senzorul să apară pe hartă.</string>
+    <string name="web_version">Versiune web</string>
+    <string name="scan_prompt">Deschide https://pm.mrgames-server.de pe computer.</string>
+    <string name="successfully_connected">Conectat cu succes</string>
+    <string name="sync_disconnected">Deconectat</string>
+    <string name="search_places">Vă rugăm să introduceți un loc …</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Gata</string>
+    <string name="name_">Numele afisat:</string>
+    <string name="chip_id">Chip-ID:</string>
+    <string name="choose_color">Alege culoarea</string>
+    <string name="not_all_filled">Va rog completati toate campurile</string>
+    <string name="sensor_existing">Senzorul este deja conectat</string>
+    <string name="add_sensor_tick_not_set_message">NOTĂ: Această aplicație poate primi doar date de la senzor, dacă activați „Trimiteți către Feinstaub-App” în configurația senzorului dvs. După ce ați activat caseta de selectare, aceasta poate dura până la 10 minute până când primele date sunt trimise serverului nostru. Te rog fii rabdator.</string>
+    <string name="add_sensor_tick_not_set_message_required">NOTĂ: Această aplicație poate primi doar date de la senzor, dacă activați „Trimiteți către Feinstaub-App” în configurația senzorului dvs. Activați acest lucru pentru a continua. După ce ați activat caseta de selectare, aceasta poate dura până la 10 minute până când primele date sunt trimise serverului nostru. Te rog fii rabdator.</string>
+    <string name="do_not_show_again">Nu arata din nou</string>
+    <string name="public_sensor">Afișați senzorul altor utilizatori și faceți-l vizibil pe hartă</string>
+    <string name="choose_location">Alegeți locația exactă a senzorului</string>
+    <string name="sensor_height">Înălțime peste sol/stradă (m):</string>
+    <string name="latitude">Latitudine</string>
+    <string name="latitude_">Latitudine:</string>
+    <string name="longitude">Longitudine</string>
+    <string name="longitude_">Longitudine:</string>
+    <string name="coordinates_info">Coordonatele aproximative pentru protecție a datelor.</string>
+    <string name="gps_will_be_synchronized">Dacă aveți un senzor GPS conectat la sistemul dvs. de senzori, poziția se va actualiza automat pe hartă în timp real.</string>
+    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactându-ne</a>.</string>
+    <string name="unknown_location">Locație necunoscută</string>
+    <!-- SensorActivity -->
+    <string name="date">Data</string>
+    <string name="tab_diagram">Diagrama</string>
+    <string name="tab_data">Înregistrări de date</string>
+    <string name="refresh">Reîmprospăta</string>
+    <string name="no_data_date">Nu există date pentru această dată</string>
+    <string name="diagram_instruction">Atingeți grafic pentru a-l afișa pe ecran complet</string>
+    <string name="date_time">Timp</string>
+    <string name="temperature_short">Temp</string>
+    <string name="temperature">Temperatura</string>
+    <string name="humidity_short">Umiditate</string>
+    <string name="pressure_short">Presiune</string>
+    <string name="humidity">Umiditate</string>
+    <string name="pressure">Presiune</string>
+    <string name="no_diagram_selected">Nicio diagramă selectată</string>
+    <string name="from">din</string>
+    <string name="to">la</string>
+    <string name="current_values">Măsurători curente</string>
+    <string name="state_of_">Stare de la</string>
+    <string name="export_data">Export de date</string>
+    <string name="export_diagram">Export diagrama</string>
+    <string name="export_data_records">Export date inregistrate</string>
+    <string name="share_sensor">Share sensor</string>
+    <string name="median">Median</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normal</item>
+        <item name="map_type_1">Teren</item>
+        <item name="map_type_2">Satelit</item>
+        <item name="map_type_3">Hybrid</item>
+    </string-array>
+    <string name="traffic_show">Arata trafic</string>
+    <string name="traffic_hide">Ascunde trafic</string>
+    <!-- DiagramActivity
+        NotificationStrings -->
+    <string name="limit_exceeded">Limită depășită</string>
+    <string name="limit_exceeded_p1">Depășirea limitei PM10</string>
+    <string name="limit_exceeded_p2">Depășit limita PM2,5</string>
+    <string name="limit_exceeded_temp">Limita de temperatură depășită</string>
+    <string name="limit_exceeded_humidity">Limita de umiditate depășită</string>
+    <string name="limit_exceeded_pressure">Depășește limita de presiune</string>
+    <string name="sensor_breakdown">Defecțiune senzor</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Notificări de sistem</string>
+    <string name="nc_system_description">Notificări de sistem din aplicația Particulate Matter.</string>
+    <string name="nc_limit_name">Depășiri limită</string>
+    <string name="nc_limit_description">Afișați notificările în bara de stare, atunci când este depășită una dintre limita ajustată.</string>
+    <string name="nc_missing_measurements_name">Măsurători lipsă</string>
+    <string name="nc_missing_measurements_description">Afișează notificările în bara de stare, atunci când un senzor nu mai trimite măsurători și dacă apare suspiciunea de defecțiune a senzorului.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Caracteristici</string>
+    <string name="enable_daily_average">Afișează notificările în bara de stare, atunci când un senzor nu mai trimite măsurători și dacă apare suspiciunea de defecțiune a senzorului.</string>
+    <string name="enable_daily_median">Arată mediana zilnică</string>
+    <string name="enable_daily_average_median_s">Afișat sub înregistrările de date</string>
+    <string name="enable_nothing">Dezactivați media / mediana</string>
+    <string name="enable_auto_correction_t">Corecție automată a erorilor</string>
+    <string name="enable_auto_correction_s">Corecția automată a măsurătorilor defecte</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Sincronizare</string>
+    <string name="sync_cycle">Ciclul de sincronizare</string>
+    <string name="sync_cycle_t">Ciclul de sincronizare (sec)</string>
+    <string name="sync_cycle_background">Ciclul de sincronizare</string>
+    <string name="sync_cycle_background_t">Ciclul de sincronizare (min)</string>
+    <string name="reduce_data_consumption">Reduce consumul de date</string>
+    <string name="reduce_data_consumption_s">Descărcați doar datele necesare (pot provoca erori la trecerea timpului)</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Aspect</string>
+    <string name="app_restart_t">Repornire ceruta</string>
+    <string name="app_restart_m">Pentru a aplica modificările, este necesară o repornire a aplicației.</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Notificari</string>
+    <string name="pref_notification_averages">Notificarea pe media depășită</string>
+    <string name="pref_notification_averages_s_true">Notificare, când media zilnică depășește valoarea specificată</string>
+    <string name="pref_notification_averages_s_false">Notificare, când valoarea curentă depășește valoarea specificată</string>
+    <string name="pref_notification_breakdown">Notificare privind defecțiunea senzorului</string>
+    <string name="pref_notification_breakdown_s">Notificare pentru senzori proprii atunci când se suspendă mai multe măsurători</string>
+    <string name="pref_notification_breakdown_number">Numărul admis de măsurători lipsă</string>
+    <string name="pref_limit_p1">PM10 limită</string>
+    <string name="pref_limit_p1_t">PM10 limită (µg / m³)</string>
+    <string name="pref_limit_p2">PM2,5 limită</string>
+    <string name="pref_limit_p2_t">PM2,5 limită (µg / m³)</string>
+    <string name="pref_limit_temp">Limita de temperatură</string>
+    <string name="pref_limit_temp_t">Limită de temperatură (° C)</string>
+    <string name="pref_limit_humidity">Limita de umiditate</string>
+    <string name="pref_limit_humidity_t">Limita de umiditate (%)</string>
+    <string name="pref_limit_pressure">Limită de presiune</string>
+    <string name="pref_limit_pressure_t">Limită de presiune (hPa)</string>
+    <string name="pref_limit_disabled">Notificarea dezactivată</string>
+    <string name="zero_to_disable">Setati 0 pentru a dezactiva</string>
+    <plurals name="measurements">
+        <item quantity="one">1 măsurare</item>
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+        <item quantity="few">2 masuratori</item>
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+        <item quantity="other">mai multe masuratori</item>
+    </plurals>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Performanta</string>
+    <string name="pref_increase_diagram_performance">Creșteți performanța diagramei</string>
+    <string name="pref_increase_diagram_performance_s">Diagrama poate deveni inexactă</string>
+    <string name="pref_enable_marker_clustering">Activați gruparea markerilor</string>
+    <string name="pref_enable_marker_clustering_s">Senzorii de pe hartă vor fi inteligenți în grup</string>
+    <string name="clear_sensor_data_t">Ștergeți datele senzorului</string>
+    <string name="clear_sensor_data_m">Ștergeți datele din cache pentru a salva stocarea</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">Despre aplicația Particulate Matter</string>
+    <string name="pref_server_info_t">Informații despre server</string>
+    <string name="pref_server_info_downloading_">Descărcarea informațiilor despre server …</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Starea serverului: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Numele clientului: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Versiunea minimă a aplicației: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Versiunea cea mai recentă a aplicației: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Proprietarul serverului: %s</string>
+    <string name="server_status_online">Serverul este online</string>
+    <string name="server_status_offline">Serverul este deconectat</string>
+    <string name="server_status_maintenance">Serverul este in mentenanta</string>
+    <string name="server_status_support_ended">Asistența aplicației s-a încheiat</string>
+    <string name="server_status_online_short">Conectat</string>
+    <string name="server_status_offline_short">Deconectat</string>
+    <string name="server_status_maintenance_short">primeste mentenanta</string>
+    <string name="server_status_support_ended_short">Asistența s-a încheiat</string>
+    <string name="pref_open_source_t">Licențe open-source</string>
+    <string name="pref_open_source_m">Detalii despre licență pentru software-ul open-source</string>
+    <string name="pref_appversion">Versiunea aplicației</string>
+    <string name="pref_developers_t">Dezvoltatorii</string>
+    <string name="pref_more_apps_t">Mai multe aplicații de la noi</string>
+    <string name="pref_more_apps_m">Site-ul nostru PlayStore</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Apăsați pe Color pentru a aplica</string>
+    <string name="altitude">Inaltime</string>
+    <string name="show_gps_data">Afișați date GPS</string>
+    <string name="show_threshold_who">Afișați pragul OMS</string>
+    <string name="show_threshold_eu">Afișați pragul UE</string>
+    <string name="hide_thresholds">Ascundeți pragurile</string>
+    <string name="help">Ajutor</string>
+    <string name="zoom_in">Mareste</string>
+    <string name="scan_qr_code">Scanați codul qr</string>
+    <string name="show_qr_code">Afișează codul qr</string>
+    <string name="import_xml_file">Importați fișierul XML</string>
+    <string name="export_xml_file">Exportați fișierul XML</string>
+    <string name="please_select_at_least_one_sensor">Vă rugăm să selectați cel puțin un senzor</string>
+    <string name="scan_qr_code_prompt">Vă rugăm să scanați codul qr.</string>
+    <string name="share_qr_code">Partajează codul qr</string>
+    <string name="nothing_found">Nimic gasit</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="seconds">%s secunde</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="minutes">%s minute</string>
+    <string name="pref_app_open_source_t">Aplicația Particulate Matter pe GitHub</string>
+    <string name="pref_app_open_source_s">Faceți clic pentru a ne vizita pe GitHub</string>
+    <string name="firmware_version_">Versiunea softului:</string>
+    <string name="unknown_sensor">Senzor necunoscut</string>
+    <string name="default_map_type">Tip de hartă implicit</string>
+    <string name="enable_traffic_by_default">Activați traficul în mod implicit</string>
+</resources>

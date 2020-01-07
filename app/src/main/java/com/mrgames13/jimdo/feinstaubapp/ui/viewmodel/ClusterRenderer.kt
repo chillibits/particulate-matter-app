@@ -2,7 +2,7 @@
  * Copyright © 2019 Marc Auberer. All rights reserved.
  */
 
-package com.mrgames13.jimdo.feinstaubapp.ui.model
+package com.mrgames13.jimdo.feinstaubapp.ui.viewmodel
 
 import android.content.Context
 
@@ -15,6 +15,12 @@ import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 
 class ClusterRenderer(context: Context, map: GoogleMap, clusterManager: ClusterManager<SensorClusterItem>, private val su: StorageUtils) : DefaultClusterRenderer<SensorClusterItem>(context, map, clusterManager) {
     override fun onBeforeClusterItemRendered(item: SensorClusterItem, markerOptions: MarkerOptions) {
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(if (su.isFavouriteExisting(item.title)) BitmapDescriptorFactory.HUE_RED else if (su.isSensorExisting(item.title)) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_BLUE))
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(
+            when {
+                su.isFavouriteExisting(item.title) -> BitmapDescriptorFactory.HUE_RED
+                su.isSensorExisting(item.title) -> BitmapDescriptorFactory.HUE_GREEN
+                else -> BitmapDescriptorFactory.HUE_BLUE
+            }
+        ))
     }
 }

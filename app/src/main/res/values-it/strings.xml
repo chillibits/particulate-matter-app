@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 12:40:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="cancel">Annulla</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s sensori</string>
     <string name="exit">Esci</string>
     <string name="settings">Impostazioni</string>
@@ -186,9 +186,9 @@
     <string name="pref_limit_pressure_t">Limite pressione (hPa)</string>
     <string name="pref_limit_disabled">Notifiche disabilitate</string>
     <string name="zero_to_disable">Posizionare a 0 per disabilitare</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 rilevazione</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s misure</item>
     </plurals>
     <!-- Performance Settings -->
@@ -203,11 +203,16 @@
     <string name="pref_header_about">In merito all\'app. Particulate Matter</string>
     <string name="pref_server_info_t">Info sul server</string>
     <string name="pref_server_info_downloading_">Scaricamento informazioni server…</string>
-    <string name="server_status_">Situazione del server</string>
-    <string name="client_name_">Nome del client</string>
-    <string name="min_app_version_">Versione minima dell\'app:</string>
-    <string name="latest_app_version_">Versione più nuova dell\'app.</string>
-    <string name="server_owner_">Proprietario del server</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Situazione del server: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Nome del client: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Versione minima dell\'app: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Versione più nuova dell\'app: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Proprietario del server: %s</string>
     <string name="server_status_online">Il server è online</string>
     <string name="server_status_offline">Il server è offline</string>
     <string name="server_status_maintenance">Il server è in manutenzione</string>
@@ -239,9 +244,9 @@
     <string name="scan_qr_code_prompt">Prego scannerizzare il codice qr</string>
     <string name="share_qr_code">Condividere il codice qr</string>
     <string name="nothing_found">Non abbiamo trovato nulla</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s secondi</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuti</string>
     <string name="pref_app_open_source_t">L\'App Particulate Matter su GitHub</string>
     <string name="pref_app_open_source_s">Fai clic per visitarci su GitHub</string>

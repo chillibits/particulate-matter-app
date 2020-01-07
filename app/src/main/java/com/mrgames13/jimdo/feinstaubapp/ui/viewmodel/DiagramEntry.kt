@@ -2,7 +2,7 @@
  * Copyright © 2019 Marc Auberer. All rights reserved.
  */
 
-package com.mrgames13.jimdo.feinstaubapp.ui.model
+package com.mrgames13.jimdo.feinstaubapp.ui.viewmodel
 
 import com.github.mikephil.charting.data.Entry
 

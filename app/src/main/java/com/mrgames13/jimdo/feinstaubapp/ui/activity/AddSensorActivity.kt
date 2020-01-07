@@ -73,15 +73,13 @@ class AddSensorActivity : AppCompatActivity() {
 
         // Initialize Components
         sensor_color.setOnClickListener { selectNewColor() }
-
         choose_sensor_color.setOnClickListener { selectNewColor() }
+        chip_id_info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_id_info)))) }
 
         // Initialize randomizer and choose random color
         val random = Random()
         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
         sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
-
-        chip_id_info.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_id_info)))) }
 
         sensor_public.setOnCheckedChangeListener { _, b ->
             choose_location.isEnabled = b
@@ -93,12 +91,11 @@ class AddSensorActivity : AppCompatActivity() {
             val builder = PingPlacePicker.IntentBuilder()
             builder.setAndroidApiKey(getString(R.string.maps_api_key))
             builder.setMapsApiKey(getString(R.string.maps_api_key))
-            startActivityForResult(builder.build(this@AddSensorActivity), REQ_SELECT_PLACE)
+            startActivityForResult(builder.build(this), REQ_SELECT_PLACE)
         }
 
         coordinates_info.setOnClickListener {
-            AlertDialog.Builder(this@AddSensorActivity)
-                .setCancelable(true)
+            AlertDialog.Builder(this)
                 .setTitle(R.string.app_name)
                 .setMessage(R.string.coordinates_info)
                 .setPositiveButton(R.string.ok, null)
@@ -133,7 +130,6 @@ class AddSensorActivity : AppCompatActivity() {
             choose_location.requestFocus()
 
              AlertDialog.Builder(this)
-                .setCancelable(true)
                 .setTitle(R.string.complete_sensor)
                 .setMessage(R.string.sensor_position_completion_m_short)
                 .setPositiveButton(R.string.ok, null)
@@ -147,18 +143,16 @@ class AddSensorActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        if (id == android.R.id.home) {
-            finish()
-        } else if (id == R.id.action_done) {
-            addSensor(item)
+        when(item.itemId) {
+            android.R.id.home -> finish()
+            R.id.action_done -> addSensor(item)
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun selectNewColor() {
         // Show color selection dialog
-        val colorPicker = ColorPickerDialog(this@AddSensorActivity, currentColor)
+        val colorPicker = ColorPickerDialog(this, currentColor)
         colorPicker.alphaSliderVisible = false
         colorPicker.hexValueEnabled = true
         colorPicker.setTitle(getString(R.string.choose_color))
@@ -204,14 +198,14 @@ class AddSensorActivity : AppCompatActivity() {
                                     if (result) {
                                         // Save new sensor
                                         if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
-                                        su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, request_from_realtime_sync_service = false)
-                                        runOnUiThread {
+                                        su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, requestFromRealtimeSyncService = false)
+                                        CoroutineScope(Dispatchers.Main).launch {
                                             pd.dismiss()
                                             try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
                                             finish()
                                         }
                                     } else {
-                                        runOnUiThread {
+                                        CoroutineScope(Dispatchers.Main).launch {
                                             pd.dismiss()
                                             Toast.makeText(this@AddSensorActivity, getString(R.string.error_try_again), Toast.LENGTH_SHORT).show()
                                         }
@@ -219,8 +213,8 @@ class AddSensorActivity : AppCompatActivity() {
                                 } else {
                                     // Save new sensor
                                     if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
-                                    su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, request_from_realtime_sync_service = false)
-                                    runOnUiThread {
+                                    su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, requestFromRealtimeSyncService = false)
+                                    CoroutineScope(Dispatchers.Main).launch {
                                         try {
                                             MainActivity.own_instance?.refresh()
                                         } catch (ignored: Exception) {}
@@ -228,9 +222,8 @@ class AddSensorActivity : AppCompatActivity() {
                                     }
                                 }
                             } else {
-                                runOnUiThread {
+                                CoroutineScope(Dispatchers.Main).launch {
                                     AlertDialog.Builder(this@AddSensorActivity)
-                                        .setCancelable(true)
                                         .setTitle(R.string.app_name)
                                         .setMessage(R.string.add_sensor_tick_not_set_message_required)
                                         .setPositiveButton(R.string.ok, null)
@@ -253,9 +246,7 @@ class AddSensorActivity : AppCompatActivity() {
                 } else {
                     su.updateOwnSensor(Sensor(chipId, sensorName, currentColor), false)
                 }
-                try {
-                    MainActivity.own_instance?.refresh()
-                } catch (e: Exception) {}
+                try { MainActivity.own_instance?.refresh() } catch (e: Exception) {}
                 finish()
             } else if (mode == MODE_COMPLETE) {
                 su.removeOwnSensor(chipId, false)

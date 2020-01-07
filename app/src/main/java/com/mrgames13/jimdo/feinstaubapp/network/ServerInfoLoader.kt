@@ -5,6 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.network
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.view.View
@@ -57,7 +58,7 @@ fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
                 .setPositiveButton(activity.getString(R.string.download_update)) { _, _ ->
                     try {
                         activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${activity.packageName}")))
-                    } catch (e: android.content.ActivityNotFoundException) {
+                    } catch (e: ActivityNotFoundException) {
                         activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")))
                     }
                     activity.finish()
@@ -71,7 +72,7 @@ fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
                 .setAction(activity.getString(R.string.download)) {
                     try {
                         activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${activity.packageName}")))
-                    } catch (e: android.content.ActivityNotFoundException) {
+                    } catch (e: ActivityNotFoundException) {
                         activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")))
                     }
                 }

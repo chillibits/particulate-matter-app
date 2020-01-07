@@ -4,9 +4,7 @@
 
 package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
@@ -21,6 +19,7 @@ import android.text.InputType
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
+import android.text.util.Linkify.addLinks
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -36,7 +35,6 @@ import com.mrgames13.jimdo.feinstaubapp.model.ServerInfo
 import com.mrgames13.jimdo.feinstaubapp.network.ServerMessagingUtils
 import com.mrgames13.jimdo.feinstaubapp.network.loadServerInfo
 import com.mrgames13.jimdo.feinstaubapp.service.SyncJobService
-import com.mrgames13.jimdo.feinstaubapp.service.SyncService
 import com.mrgames13.jimdo.feinstaubapp.tool.Constants
 import com.mrgames13.jimdo.feinstaubapp.tool.StorageUtils
 import com.mrgames13.jimdo.feinstaubapp.ui.view.ProgressDialog
@@ -44,7 +42,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -56,9 +53,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.pref, rootKey)
         val activity = requireActivity()
 
-        // Initialiize StorageUtils
+        // Initialize StorageUtils
         val su = StorageUtils(activity)
 
+        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(activity)
 
         // SyncCycle
@@ -79,29 +77,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         syncCycleBackground?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue.toString().isNotEmpty() && Integer.parseInt(newValue.toString()) >= Constants.MIN_SYNC_CYCLE_BACKGROUND) {
-                // Restart Background service with new configuration
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    // Update JobScheduler
-                    val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
-                    val component = ComponentName(activity, SyncJobService::class.java)
-                    val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
-                            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                            .setPeriodic(backgroundSyncFrequency.toLong())
-                            .setPersisted(true)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
-                    val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                    Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
-                } else {
-                    // Update AlarmManager
-                    val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
-                    val am = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val startServiceIntent = Intent(activity, SyncService::class.java)
-                    val startServicePendingIntent = PendingIntent.getService(activity, Constants.REQ_ALARM_MANAGER_BACKGROUND_SYNC, startServiceIntent, 0)
-                    val calendar = Calendar.getInstance()
-                    calendar.timeInMillis = System.currentTimeMillis()
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, backgroundSyncFrequency.toLong(), startServicePendingIntent)
-                    activity.startService(startServiceIntent)
-                }
+                // Restart Background service with new configuration -> update JobScheduler
+                val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
+                val component = ComponentName(activity, SyncJobService::class.java)
+                val info = JobInfo.Builder(Constants.JOB_SYNC_ID, component)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPeriodic(backgroundSyncFrequency.toLong())
+                    .setPersisted(true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
+                val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
                 true
             } else {
                 false
@@ -181,7 +166,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         notificationBreakdownNumber?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
             //String.format(getString(if(preference.text.toString().toInt() == 1) R.string.measurement else R.string.measurements), preference.text)
-            resources.getQuantityString(R.plurals.measurement, preference.text.toInt(), preference.text)
+            resources.getQuantityString(R.plurals.measurements, preference.text.toInt(), preference.text)
         }
 
         // EnableMarkerClustering
@@ -195,20 +180,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val clearSensorData = findPreference<Preference>("clear_sensor_data")
         clearSensorData?.setOnPreferenceClickListener {
             AlertDialog.Builder(activity)
-                    .setCancelable(true)
-                    .setTitle(R.string.clear_sensor_data_t)
-                    .setMessage(R.string.clear_sensor_data_m)
-                    .setIcon(R.drawable.delete_red)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.yes) { _, _ ->
-                        val pd = ProgressDialog(activity).setMessage(R.string.please_wait_).show()
-                        CoroutineScope(Dispatchers.IO).launch {
-                            su.deleteAllDataDatabases()
-                            su.clearSensorDataMetadata()
-                            activity.runOnUiThread { pd.dismiss() }
-                        }
+                .setTitle(R.string.clear_sensor_data_t)
+                .setMessage(R.string.clear_sensor_data_m)
+                .setIcon(R.drawable.delete_red)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    val pd = ProgressDialog(activity).setMessage(R.string.please_wait_).show()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        su.deleteAllDataDatabases()
+                        su.clearSensorDataMetadata()
+                        CoroutineScope(Dispatchers.Main).launch { pd.dismiss() }
                     }
-                    .show()
+                }
+                .show()
             true
         }
 
@@ -221,9 +205,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (smu.isInternetAvailable) {
                 // Create ProgressDialog
                 val pd = ProgressDialog(requireContext())
-                        .setTitle(R.string.pref_server_info_t)
-                        .setMessage(R.string.pref_server_info_downloading_)
-                        .show()
+                    .setTitle(R.string.pref_server_info_t)
+                    .setMessage(R.string.pref_server_info_downloading_)
+                    .show()
                 CoroutineScope(Dispatchers.IO).launch {
                     val result = loadServerInfo(activity)
 
@@ -235,21 +219,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         else -> ""
                     }
 
-                    val clientName = activity.getString(R.string.client_name_) + " " + result?.clientName
-                    val serverStatus = activity.getString(R.string.server_status_) + " " + status
-                    val minAppVersion = activity.getString(R.string.min_app_version_) + " " + result?.minAppVersionName
-                    val latestAppVersion = activity.getString(R.string.latest_app_version_) + " " + result?.latestAppVersionName
-                    val owner = activity.getString(R.string.server_owner_) + " " + result?.serverOwner
+                    val clientName = String.format(activity.getString(R.string.client_name), result?.clientName)
+                    val serverStatus = String.format(activity.getString(R.string.server_status), status)
+                    val minAppVersion = String.format(activity.getString(R.string.min_app_version), result?.minAppVersionName)
+                    val latestAppVersion = String.format(activity.getString(R.string.latest_app_version), result?.latestAppVersionName)
+                    val owner = String.format(activity.getString(R.string.server_owner), result?.serverOwner)
                     // Concatenate strings and display dialog
                     val info = SpannableString(clientName+ "\n" + serverStatus + "\n" + minAppVersion + "\n" + latestAppVersion + "\n" + owner)
-                    Linkify.addLinks(info, Linkify.WEB_URLS)
-                    activity.runOnUiThread {
+                    addLinks(info, Linkify.WEB_URLS)
+                    CoroutineScope(Dispatchers.Main).launch {
                         pd.dismiss()
                         val d = AlertDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.pref_server_info_t))
-                                .setMessage(info)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                                .show()
+                            .setTitle(getString(R.string.pref_server_info_t))
+                            .setMessage(info)
+                            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                            .show()
                         (d.findViewById<View>(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
                     }
                 }
@@ -262,7 +246,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             CoroutineScope(Dispatchers.IO).launch {
                 val result = loadServerInfo(requireActivity())
                 try {
-                    requireActivity().runOnUiThread {
+                    CoroutineScope(Dispatchers.Main).launch {
                         val summary = when(result?.serverStatus) {
                             ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
                             ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)
@@ -279,13 +263,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val openSourceLicenses = findPreference<Preference>("open_source_licenses")
         openSourceLicenses?.setOnPreferenceClickListener {
             val s = SpannableString(getString(R.string.openSourceLicense))
-            Linkify.addLinks(s, Linkify.ALL)
+            addLinks(s, Linkify.ALL)
 
             val d = AlertDialog.Builder(activity)
-                    .setTitle(openSourceLicenses.title)
-                    .setMessage(HtmlCompat.fromHtml(s.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                    .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                    .show()
+                .setTitle(openSourceLicenses.title)
+                .setMessage(HtmlCompat.fromHtml(s.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                .show()
             (d.findViewById<View>(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
             false
         }

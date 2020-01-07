@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 12:40:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="cancel">Anuluj</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s czujników</string>
     <string name="exit">Wyjście</string>
     <string name="settings">Ustawienia</string>
@@ -186,10 +186,12 @@
     <string name="pref_limit_pressure_t">Limit ciśnienia (hPa)</string>
     <string name="pref_limit_disabled">Powiadomienia wyłączone</string>
     <string name="zero_to_disable">Ustaw na 0, aby wyłączyć</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 pomiar</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="few">%s pomiary</item>
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+        <item quantity="many">%s pomiarów</item>
     </plurals>
     <!-- Performance Settings -->
     <string name="pref_header_performance">Wydajność</string>
@@ -203,11 +205,16 @@
     <string name="pref_header_about">O Particulate Matter App</string>
     <string name="pref_server_info_t">Serwer info</string>
     <string name="pref_server_info_downloading_">Pobierz serwer info …</string>
-    <string name="server_status_">Status serwera</string>
-    <string name="client_name_">Nazwa klienta</string>
-    <string name="min_app_version_">Minimalna wersja apk</string>
-    <string name="latest_app_version_">Najnowsza wersja:</string>
-    <string name="server_owner_">Właściciel serwera</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Status serwera: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Nazwa klienta: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Minimalna wersja apk: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Najnowsza wersja: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Właściciel serwera: %s</string>
     <string name="server_status_online">Serwer jest online</string>
     <string name="server_status_offline">Serwer jest offline</string>
     <string name="server_status_maintenance">Serwer zostaje utrzymany</string>
@@ -239,9 +246,9 @@
     <string name="scan_qr_code_prompt">Proszę zeskanować kod QR</string>
     <string name="share_qr_code">Udostępnij kod QR</string>
     <string name="nothing_found">Nic nie znaleziono</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s sekundy</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuty</string>
     <string name="pref_app_open_source_t">Aplikacja Particulate Matter na GitHub.</string>
     <string name="pref_app_open_source_s">Kliknij i odwiedź na na GitHub`ie.</string>

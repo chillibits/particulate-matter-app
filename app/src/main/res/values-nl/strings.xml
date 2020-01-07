@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: M&R Games
- Exported at: Wed, 11 Dec 2019 23:29:56 +0100
+ Exported at: Mon, 06 Jan 2020 12:40:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -14,7 +14,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
     <string name="cancel">Annuleren</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="sensors">%s sensoren</string>
     <string name="exit">Afsluiten</string>
     <string name="settings">Instellingen</string>
@@ -94,7 +94,7 @@
     <string name="latitude_">Breedtegraad:</string>
     <string name="longitude">Lengtegraad</string>
     <string name="longitude_">Lengtegraad:</string>
-    <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.\u0020</string>
+    <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.</string>
     <string name="gps_will_be_synchronized">Als er een GPS ontvanger is aangesloten op je sensorsysteem, zal de positie automatisch gesynchroniseerd worden met de kaart.</string>
     <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contact met ons op te nemen</a>.</string>
     <string name="unknown_location">Onbekende locatie</string>
@@ -186,9 +186,9 @@
     <string name="pref_limit_pressure_t">Luchtdruk limiet (hPa)</string>
     <string name="pref_limit_disabled">Melding uitgeschakeld</string>
     <string name="zero_to_disable">Verander naar 0 om uit te schakelen</string>
-    <plurals name="measurement">
+    <plurals name="measurements">
         <item quantity="one">1 meting</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s metingen</item>
     </plurals>
     <!-- Performance Settings -->
@@ -203,11 +203,16 @@
     <string name="pref_header_about">Over de Fijnstof app</string>
     <string name="pref_server_info_t">Server info</string>
     <string name="pref_server_info_downloading_">Downloaden van de serverinfo …</string>
-    <string name="server_status_">Server status</string>
-    <string name="client_name_">Klantnaam</string>
-    <string name="min_app_version_">minimale versie</string>
-    <string name="latest_app_version_">Nieuwste versie</string>
-    <string name="server_owner_">Server eigenaar</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Server status: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Klantnaam: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">minimale versie: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Nieuwste versie: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Server eigenaar: %s</string>
     <string name="server_status_online">Server is online</string>
     <string name="server_status_offline">Server is offline</string>
     <string name="server_status_maintenance">Server wordt onderhouden</string>
@@ -239,9 +244,9 @@
     <string name="scan_qr_code_prompt">Gelieve de QR-code te scannen.</string>
     <string name="share_qr_code">Deel QR-code</string>
     <string name="nothing_found">Niets gevonden</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s seconden</string>
-    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minuten</string>
     <string name="pref_app_open_source_t">De fijnstof-app op GitHub</string>
     <string name="pref_app_open_source_s">Klik om ons te bezoeken op GitHub</string>
