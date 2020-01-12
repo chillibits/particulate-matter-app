@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 13:40:19 +0100
+ Exported at: Sun, 12 Jan 2020 22:24:43 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Sensoren durchsuchen</string>
     <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
     <string name="web_version">Web-Version</string>
-    <string name="scan_prompt">Öffnen Sie https://feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="scan_prompt">Öffnen Sie https://feinstaub.chillibits.com auf Ihrem Computer.</string>
     <string name="successfully_connected">Erfolgreich verbunden</string>
     <string name="sync_disconnected">Verbindung getrennt</string>
     <string name="search_places">Bitte geben Sie einen Ort ein …</string>

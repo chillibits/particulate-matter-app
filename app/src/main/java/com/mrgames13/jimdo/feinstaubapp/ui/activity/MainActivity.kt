@@ -333,7 +333,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         // Get data from intent
         val intent = intent
         val appLinkData = intent.data
-        if (appLinkData != null && (appLinkData.toString().startsWith("https://feinstaub.mrgames-server.de/s/") || appLinkData.toString().startsWith("https://pm.mrgames-server.de/s/"))) {
+        if (appLinkData != null && (appLinkData.toString().startsWith("https://feinstaub.chillibits.com/s/") || appLinkData.toString().startsWith("https://pm.chillibits.com/s/"))) {
             val chipId = appLinkData.toString().substring(appLinkData.toString().lastIndexOf("/") + 1)
             val random = Random()
             val color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))

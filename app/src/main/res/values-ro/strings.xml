@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: M&R Games
- Exported at: Tue, 07 Jan 2020 16:11:38 +0000
+ Exported at: Sun, 12 Jan 2020 21:24:43 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Căutați senzori</string>
     <string name="sensor_position_completion_m_short">Vă rugăm să completați datele senzorului pentru ca senzorul să apară pe hartă.</string>
     <string name="web_version">Versiune web</string>
-    <string name="scan_prompt">Deschide https://pm.mrgames-server.de pe computer.</string>
+    <string name="scan_prompt">Deschide https://pm.chillibits.com pe computer.</string>
     <string name="successfully_connected">Conectat cu succes</string>
     <string name="sync_disconnected">Deconectat</string>
     <string name="search_places">Vă rugăm să introduceți un loc …</string>

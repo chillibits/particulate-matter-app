@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 12:40:19 +0000
+ Exported at: Sun, 12 Jan 2020 21:24:43 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Искать датчики</string>
     <string name="sensor_position_completion_m_short">Пожалуйста, заполните данные о датчике, чтобы он появился на карте.</string>
     <string name="web_version">Веб-версия</string>
-    <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.mrgames-server.de</string>
+    <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.chillibits.com</string>
     <string name="successfully_connected">Успешно подключено</string>
     <string name="sync_disconnected">Отключено</string>
     <string name="search_places">Пожалуйста, выберите место</string>

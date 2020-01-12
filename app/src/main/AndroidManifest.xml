@@ -64,14 +64,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="feinstaub.mrgames-server.de"
+                    android:host="feinstaub.chillibits.com"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter>
@@ -81,7 +81,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="pm.mrgames-server.de"
+                    android:host="pm.chillibits.com"
                     android:scheme="https" />
             </intent-filter>
         </activity>
@@ -89,7 +89,7 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!-- DiagramActivity -->
         <activity
             android:name=".ui.activity.DiagramActivity"
@@ -109,9 +109,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="feinstaub.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:host="feinstaub.chillibits.com"
+                    android:scheme="https"
+                    android:pathPattern="/sensor" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -120,9 +120,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="pm.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:host="pm.chillibits.com"
+                    android:scheme="https"
+                    android:pathPattern="/sensor" />
             </intent-filter>
         </activity>
         <!-- AddSensorActivity -->
@@ -141,7 +141,7 @@
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation"/>
+            tools:replace="android:screenOrientation" />
         <!-- WidgetConfigurationActivity -->
         <activity
             android:name=".ui.activity.WidgetConfigurationActivity"

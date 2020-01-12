@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 12:40:18 +0000
+ Exported at: Sun, 12 Jan 2020 21:24:43 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Ricerca dei sensori</string>
     <string name="sensor_position_completion_m_short">Prego completare i dati del sensore affinchè appaia sulla mappa.</string>
     <string name="web_version">Versione web</string>
-    <string name="scan_prompt">Aprire https://pm.mrgames-server.de sul computer.</string>
+    <string name="scan_prompt">Aprire https://pm.chillibits.com sul computer.</string>
     <string name="successfully_connected">Connesso corretamente</string>
     <string name="sync_disconnected">Disconnesso</string>
     <string name="search_places">Prego inserire una località…</string>

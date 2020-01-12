@@ -442,7 +442,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         i.run {
             type = "text/plain"
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_sensor))
-            putExtra(Intent.EXTRA_TEXT, "https://pm.mrgames-server.de/s/" + sensor.chipID)
+            putExtra(Intent.EXTRA_TEXT, "https://pm.chillibits.com/s/" + sensor.chipID)
         }
         startActivity(Intent.createChooser(i, getString(R.string.share_sensor)))
     }

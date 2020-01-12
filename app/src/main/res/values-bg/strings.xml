@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: M&R Games
- Exported at: Tue, 07 Jan 2020 16:11:37 +0000
+ Exported at: Sun, 12 Jan 2020 21:24:42 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Търси сензори</string>
     <string name="sensor_position_completion_m_short">Моля, попълнете данните за сензора, за да се визуализира на картата.</string>
     <string name="web_version">Уеб версия</string>
-    <string name="scan_prompt">Отворете https://pm.mrgames-server.de на вашия компютър</string>
+    <string name="scan_prompt">Отворете https://pm.chillibits.com на вашия компютър</string>
     <string name="successfully_connected">Успешно свързване</string>
     <string name="sync_disconnected">Прекъсната връзка</string>
     <string name="search_places">Моля, въведете място…</string>
