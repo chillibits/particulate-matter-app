@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  ~ Copyright © Marc Auberer 2020. All rights reserved
   -->
 
 <resources>
@@ -19,7 +19,7 @@
             - <a href="https://github.com/MiguelCatalan/MaterialSearchView">MiguelCatalan/MaterialSearchView</a><br>
             - <a href="https://github.com/PhilJay/MPAndroidChart">PhilJay/MPAndroidChart</a><br>
             - <a href="https://github.com/rtchagas/pingplacepicker">rtchagas/pingplacepicker</a><br>
-            - <a href="https://github.com/mrgames13/splash-screen">mrgames13/splash-screen</a><br>
+            - <a href="https://github.com/chillibits/splash-screen">chillbits/splash-screen</a><br>
             - <a href="https://github.com/zxing/zxing">zxing/zxing</a><br>
             - <a href="https://github.com/journeyapps/zxing-android-embedded">journeyapps/zxing-android-embedded</a><br><br>
             Please look up the licenses of each library on GitHub.

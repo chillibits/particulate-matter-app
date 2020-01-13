@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: bg, Bulgarian
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 21:24:42 +0000
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 20:23:31 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
-    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Препоръчай</string>
     <string name="recommend_app">препоръчай приложението</string>
     <string name="recommend_m">Препоръчай приложението Финни частици на твоите приятели!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Географска дължина:</string>
     <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
     <string name="gps_will_be_synchronized">Ако имате GPS сензор, свързан към вашата сензорна система, позицията ще се актуализира автоматично на картата в реално време.</string>
-    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactin...</a></string>
+    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contactin...</a></string>
     <string name="unknown_location">Неизвестно местоположение</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: fr, French
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 21:24:42 +0000
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 20:23:32 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
     <string name="rate_m">Evaluez l\'application Matière Particulaire dans le Google Play Store avec 5 étoiles, si l\'application vous plaît! Vous pouvez écrire des suggestions d\'amélioration avec l\'évaluation.</string>
-    <string name="recommend_string">L\'application Matière Particulaire présente graphiquement, facilement et élegamment des données de particules fines. Télécharger depuis le Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">L\'application Matière Particulaire présente graphiquement, facilement et élegamment des données de particules fines. Télécharger depuis le Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Recommander</string>
     <string name="recommend_app">Recommander l\'application</string>
     <string name="recommend_m">Recommandez l\'application à vos amis!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">À cause de la protection des données, les coordonnées sont arrondies.</string>
     <string name="gps_will_be_synchronized">Si votre capteur dispose d\'une puce GPS, la position sera automatiquement synchronisée sur la carte.</string>
-    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactant</a></string>
+    <string name="edit_position_info">Pour des raisons de sécurité, vous pouvez changer la position du capteur uniquement en nous <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contactant</a></string>
     <string name="unknown_location">Position inconnue</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>

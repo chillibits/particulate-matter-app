@@ -27,7 +27,7 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 You can contribute to this project by doing following things:
 
 - If you want to contribute new features, please fork this repository to your own GitHub account. Then build your awesome feature and post a pull request back to this repo. We will check your changes and merge your contribution asap.
-- If you want to add a new translation language or improve an existing translation, please write an email to: [mrgames@outlook.de](mailto:mrgames@outlook.de&subject=Add%20translation)
+- If you want to add a new translation language or improve an existing translation, please write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Add%20translation)
 - If you want to submit a request for a new feature, please also write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Feature%20request)
 
 ## Used third party libraries

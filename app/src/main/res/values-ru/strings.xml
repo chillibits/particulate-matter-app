@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: ru, Russian
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 21:24:43 +0000
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 20:23:33 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
-    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Рекомендовать</string>
     <string name="recommend_app">порекомендуйте приложение</string>
     <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Долгота:</string>
     <string name="coordinates_info">Координаты округляются, чтобы защитить данные и приватность</string>
     <string name="gps_will_be_synchronized">Если к вашей станции подключён GPS приёмник, положение на карте будет обновляться автоматически.</string>
-    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">по эл. почте</a>.</string>
+    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">по эл. почте</a>.</string>
     <string name="unknown_location">Расположение неизвестно</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>

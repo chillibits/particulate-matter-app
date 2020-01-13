@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: de, German
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 22:24:43 +0100
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 21:23:33 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
-    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Weiterempfehlen</string>
     <string name="recommend_app">App weiterempfehlen</string>
     <string name="recommend_m">Empfehlen Sie die App Ihren Freunden!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Längengrad:</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
     <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
-    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de?subject=%C3%84nderung%20der%20Sensorposition">Kontakt</a> aufnehmen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:contact@chillibits.com?subject=%C3%84nderung%20der%20Sensorposition">Kontakt</a> aufnehmen.</string>
     <string name="unknown_location">Unbekannte Position</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>

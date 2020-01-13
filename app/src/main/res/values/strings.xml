@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: en, English
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 21:24:42 +0000
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 20:23:31 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>
     <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
-    <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Recommend</string>
     <string name="recommend_app">Recommend app</string>
     <string name="recommend_m">Recommend The Particulate Matter App to your friends!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitude:</string>
     <string name="coordinates_info">The coordinates get rounded due to data protection reasons.</string>
     <string name="gps_will_be_synchronized">If you have a GPS sensor connected to your sensor system, the position will update automatically on the map in realtime.</string>
-    <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contacting us</a>.</string>
+    <string name="edit_position_info">Due to security reasons, you can only change the sensor position by <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contacting us</a>.</string>
     <string name="unknown_location">Unknown location</string>
     <!-- SensorActivity -->
     <string name="date">Date</string>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: ro, Romanian
- Exported by: M&R Games
- Exported at: Sun, 12 Jan 2020 21:24:43 +0000
+ Exported by: ChilliBits
+ Exported at: Mon, 13 Jan 2020 20:23:32 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info">www.luftdaten.info</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
-    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Recomandata</string>
     <string name="recommend_app">Recomandă aplicația</string>
     <string name="recommend_m">Recomandă aplicația Particulate Matter pentru prietenii tăi!</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Coordonatele aproximative pentru protecție a datelor.</string>
     <string name="gps_will_be_synchronized">Dacă aveți un senzor GPS conectat la sistemul dvs. de senzori, poziția se va actualiza automat pe hartă în timp real.</string>
-    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactându-ne</a>.</string>
+    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contactându-ne</a>.</string>
     <string name="unknown_location">Locație necunoscută</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>

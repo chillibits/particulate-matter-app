@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:shortcutId="settings"
@@ -9,8 +13,8 @@
         android:shortcutDisabledMessage="@string/settings">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.mrgames13.jimdo.feinstaubapp"
-            android:targetClass="com.mrgames13.jimdo.feinstaubapp.ui.activity.SettingsActivityOld" />
+            android:targetPackage="com.chillibits.pmapp"
+            android:targetClass="com.chillibits.pmapp.ui.activity.SettingsActivity" />
         <categories android:name="android.shortcut.app" />
     </shortcut>
 </shortcuts>
