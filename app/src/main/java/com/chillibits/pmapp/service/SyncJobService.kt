@@ -9,7 +9,6 @@ import android.app.job.JobService
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.util.Log
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadDataRecords
 import com.chillibits.pmapp.tool.Constants
@@ -17,6 +16,7 @@ import com.chillibits.pmapp.tool.NotificationUtils
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.widget.WidgetProvider
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -24,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorDataExisting
 import com.chillibits.pmapp.network.loadDataRecords
@@ -35,6 +34,7 @@ import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.ui.adapter.viewpager.ViewPagerAdapterSensor
 import com.chillibits.pmapp.widget.WidgetProvider
 import com.google.android.material.tabs.TabLayout
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_main.view_pager
 import kotlinx.android.synthetic.main.activity_sensor.*
 import kotlinx.android.synthetic.main.activity_sensor.container

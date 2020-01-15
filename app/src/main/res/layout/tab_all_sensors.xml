@@ -51,7 +51,7 @@
         android:layout_alignParentEnd="true"
         android:background="@color/color_selection"
         app:srcCompat="@drawable/refresh_white"
-        android:tint="@color/colorPrimary"/>
+        android:tint="@color/button_color"/>
 
     <RelativeLayout
         android:id="@+id/sensor_container"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/sensor_white"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/button_color" />
 
         <TextView
             android:id="@+id/sensor_chip_id"

@@ -15,12 +15,12 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.service.SyncJobService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.adapter.recyclerview.SelectSensorAdapter
 import com.chillibits.pmapp.widget.WidgetProvider
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_widget_configuration.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
@@ -65,7 +65,11 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         sensors.sort()
         if (sensors.size > 0) {
             // Initialize RecyclerView
-            sensorViewAdapter = SelectSensorAdapter(this, su, sensors, SelectSensorAdapter.MODE_SELECTION_SINGLE)
+            sensorViewAdapter = SelectSensorAdapter(
+                su,
+                sensors,
+                SelectSensorAdapter.MODE_SELECTION_SINGLE
+            )
             sensor_view.run {
                 setItemViewCacheSize(100)
                 layoutManager = LinearLayoutManager(this@WidgetConfigurationActivity)

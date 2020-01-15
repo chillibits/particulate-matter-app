@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.TimeFormatter
@@ -36,6 +35,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.mrgames13.jimdo.feinstaubapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -109,12 +109,14 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             // Left y axis
             val left = chart.axisLeft
             left.valueFormatter = LargeValueFormatter()
+            left.textColor = ContextCompat.getColor(requireContext(), R.color.diagram_text_color)
             left.setDrawAxisLine(true)
             left.setDrawGridLines(false)
             left.spaceBottom = 0f
             left.setDrawLabels(SensorActivity.custom_p1 || SensorActivity.custom_p2)
             // Right y axis
             val right = chart.axisRight
+            right.textColor = ContextCompat.getColor(requireContext(), R.color.diagram_text_color)
             right.valueFormatter = LargeValueFormatter()
             right.setDrawAxisLine(true)
             right.setDrawGridLines(false)
@@ -122,6 +124,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             right.setDrawLabels(SensorActivity.custom_temp || SensorActivity.custom_humidity || SensorActivity.custom_pressure)
             // x axis
             val xAxis = chart.xAxis
+            xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.diagram_text_color)
             xAxis.granularity = 60f
             xAxis.isGranularityEnabled = true
             xAxis.position = XAxis.XAxisPosition.BOTTOM

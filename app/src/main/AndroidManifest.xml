@@ -5,7 +5,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chillibits.pmapp"
+    package="com.mrgames13.jimdo.feinstaubapp"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -50,7 +50,7 @@
             android:required="false" />
         <!-- SplashActivity -->
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,7 +60,7 @@
         </activity>
         <!-- MainActivity -->
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.chillibits.pmapp.ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
@@ -91,18 +91,18 @@
         </activity>
         <!-- SettingsActivity -->
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- DiagramActivity -->
         <activity
-            android:name=".ui.activity.DiagramActivity"
+            android:name="com.chillibits.pmapp.ui.activity.DiagramActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.Fullscreen"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
-            android:name=".ui.activity.SensorActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -131,13 +131,13 @@
         </activity>
         <!-- AddSensorActivity -->
         <activity
-            android:name=".ui.activity.AddSensorActivity"
+            android:name="com.chillibits.pmapp.ui.activity.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- CompareActivity -->
         <activity
-            android:name=".ui.activity.CompareActivity"
+            android:name="com.chillibits.pmapp.ui.activity.CompareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
@@ -148,7 +148,7 @@
             tools:replace="android:screenOrientation" />
         <!-- WidgetConfigurationActivity -->
         <activity
-            android:name=".ui.activity.WidgetConfigurationActivity"
+            android:name="com.chillibits.pmapp.ui.activity.WidgetConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -157,14 +157,14 @@
         </activity>
         <!-- SyncService -->
         <service
-            android:name=".service.SyncJobService"
+            android:name="com.chillibits.pmapp.service.SyncJobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <!-- WebRealtimeSyncService -->
-        <service android:name=".service.WebRealtimeSyncService" />
+        <service android:name="com.chillibits.pmapp.service.WebRealtimeSyncService" />
         <!-- BootCompletedReceiver -->
-        <receiver android:name=".tool.BootCompletedReceiver">
+        <receiver android:name="com.chillibits.pmapp.tool.BootCompletedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -184,7 +184,7 @@
         </provider>
         <!-- HomeScreen Widget -->
         <receiver
-            android:name=".widget.WidgetProvider"
+            android:name="com.chillibits.pmapp.widget.WidgetProvider"
             android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

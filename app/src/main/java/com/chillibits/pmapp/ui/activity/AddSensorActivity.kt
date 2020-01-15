@@ -18,7 +18,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.addSensorOnServer
 import com.chillibits.pmapp.network.isSensorDataExisting
@@ -26,6 +25,7 @@ import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.ui.view.ProgressDialog
 import com.google.android.libraries.places.api.model.Place
+import com.mrgames13.jimdo.feinstaubapp.R
 import com.rtchagas.pingplacepicker.PingPlacePicker
 import kotlinx.android.synthetic.main.activity_add_sensor.*
 import kotlinx.android.synthetic.main.toolbar.*

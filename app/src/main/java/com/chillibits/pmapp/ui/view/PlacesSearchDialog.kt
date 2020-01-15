@@ -15,7 +15,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.ui.adapter.recyclerview.PlaceAutocompleteAdapter
 import com.google.android.gms.common.api.ApiException
@@ -26,6 +25,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.place_search_dialog.*
 
 class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedCallback): AppCompatDialog(mContext), PlaceAutocompleteAdapter.PlaceSelectedListener {

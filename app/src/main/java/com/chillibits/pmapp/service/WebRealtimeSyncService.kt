@@ -12,11 +12,11 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.activity.MainActivity
 import com.google.firebase.database.*
+import com.mrgames13.jimdo.feinstaubapp.R
 import java.util.*
 
 class WebRealtimeSyncService : Service() {

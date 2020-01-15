@@ -30,13 +30,13 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadServerInfo
 import com.chillibits.pmapp.service.SyncJobService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.view.ProgressDialog
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

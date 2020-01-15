@@ -9,8 +9,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.ui.fragment.SettingsFragment
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.toolbar.*
 
 class SettingsActivity : AppCompatActivity() {

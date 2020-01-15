@@ -11,11 +11,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.chillibits.pmapp"
+        applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3402
-        versionName "3.4.2"
+        versionCode 3403
+        versionName "3.4.3"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }

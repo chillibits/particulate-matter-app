@@ -7,8 +7,8 @@ package com.chillibits.pmapp.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.chillibits.pmapp.R
 import com.chillibits.splashscreen.SplashScreenBuilder
+import com.mrgames13.jimdo.feinstaubapp.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

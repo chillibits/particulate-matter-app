@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorExisting
 import com.chillibits.pmapp.tool.StorageUtils
@@ -22,6 +21,7 @@ import com.chillibits.pmapp.ui.activity.AddSensorActivity
 import com.chillibits.pmapp.ui.activity.MainActivity
 import com.chillibits.pmapp.ui.activity.SensorActivity
 import com.chillibits.pmapp.ui.view.showSensorInfoWindow
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_sensor.view.*
 import kotlinx.android.synthetic.main.sensor_view_header.view.*
 import kotlinx.coroutines.CoroutineScope

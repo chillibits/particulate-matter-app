@@ -3,7 +3,7 @@
   -->
 
 <vector android:height="24dp"
-    app:tint="@color/colorPrimary"
+    app:tint="@color/button_color"
     android:viewportHeight="24.0"
     android:viewportWidth="24.0"
     android:width="24dp"

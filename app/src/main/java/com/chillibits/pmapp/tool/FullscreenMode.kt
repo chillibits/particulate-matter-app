@@ -9,7 +9,7 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.core.content.ContextCompat
-import com.chillibits.pmapp.R
+import com.mrgames13.jimdo.feinstaubapp.R
 
 object FullscreenMode {
     fun setFullscreenMode(window: Window, fullscreen: Boolean) {

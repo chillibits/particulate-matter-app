@@ -21,7 +21,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadDataRecords
 import com.chillibits.pmapp.tool.Constants
@@ -31,6 +30,7 @@ import com.chillibits.pmapp.ui.view.ProgressDialog
 import com.jjoe64.graphview.DefaultLabelFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_compare.*
 import kotlinx.android.synthetic.main.dialog_export_compare.*
 import kotlinx.android.synthetic.main.toolbar.*

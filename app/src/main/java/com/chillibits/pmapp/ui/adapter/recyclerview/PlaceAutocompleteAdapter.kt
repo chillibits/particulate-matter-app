@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
 import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.place_search_item.view.*
 
 class PlaceAutocompleteAdapter(private val results: ArrayList<AutocompletePrediction>, private val listener: PlaceSelectedListener) : RecyclerView.Adapter<PlaceAutocompleteAdapter.PlacesViewHolder>() {

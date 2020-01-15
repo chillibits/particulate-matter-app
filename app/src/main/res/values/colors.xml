@@ -14,6 +14,8 @@
     <color name="color_selection">@color/white_dark</color>
     <color name="dark_mode_indicator">#202020</color>
     <color name="current_values_color">@color/white</color>
+    <color name="tab_unchecked_color">@color/colorPrimaryDark</color>
+    <color name="diagram_text_color">@color/bg_dark</color>
 
     <!-- Button colors -->
     <color name="enabled">@color/colorPrimary</color>

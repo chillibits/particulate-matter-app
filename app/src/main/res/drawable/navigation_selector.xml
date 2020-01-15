@@ -4,5 +4,5 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="@color/white" android:state_checked="true" />
-    <item android:color="@color/colorPrimaryDark"/>
+    <item android:color="@color/tab_unchecked_color"/>
 </selector>

@@ -83,7 +83,7 @@
         android:padding="9dp"
         android:layout_marginEnd="5dp"
         app:srcCompat="@drawable/more_vert"
-        app:tint="@color/colorPrimary"
+        app:tint="@color/gray_light"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"/>

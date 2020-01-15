@@ -8,9 +8,9 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.chillibits.pmapp.BuildConfig
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.tool.Constants
+import com.mrgames13.jimdo.feinstaubapp.BuildConfig
+import com.mrgames13.jimdo.feinstaubapp.R
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer

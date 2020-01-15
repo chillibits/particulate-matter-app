@@ -13,7 +13,7 @@
         android:shortcutDisabledMessage="@string/settings">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.chillibits.pmapp"
+            android:targetPackage="com.mrgames13.jimdo.feinstaubapp"
             android:targetClass="com.chillibits.pmapp.ui.activity.SettingsActivity" />
         <categories android:name="android.shortcut.app" />
     </shortcut>

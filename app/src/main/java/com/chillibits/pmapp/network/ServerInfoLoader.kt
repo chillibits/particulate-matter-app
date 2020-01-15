@@ -10,9 +10,9 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.chillibits.pmapp.BuildConfig
-import com.chillibits.pmapp.R
 import com.google.android.material.snackbar.Snackbar
+import com.mrgames13.jimdo.feinstaubapp.BuildConfig
+import com.mrgames13.jimdo.feinstaubapp.R
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText

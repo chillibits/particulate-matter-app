@@ -34,7 +34,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.handleServerInfo
 import com.chillibits.pmapp.network.loadServerInfo
@@ -54,6 +53,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
 import kotlinx.android.synthetic.main.place_search_dialog.*

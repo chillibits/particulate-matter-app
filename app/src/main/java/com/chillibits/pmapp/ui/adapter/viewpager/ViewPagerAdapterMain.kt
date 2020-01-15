@@ -35,7 +35,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadClusterAverage
 import com.chillibits.pmapp.network.loadSensorsNonSync
@@ -62,6 +61,7 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope

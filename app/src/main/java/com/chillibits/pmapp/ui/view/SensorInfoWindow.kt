@@ -8,9 +8,9 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadSensorInfo
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_sensor_properties.view.*
 import kotlinx.coroutines.CoroutineScope

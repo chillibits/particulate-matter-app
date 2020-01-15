@@ -8,7 +8,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.chillibits.pmapp.R
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.dialog_loading.view.*
 
 class ProgressDialog(private val context: Context) {

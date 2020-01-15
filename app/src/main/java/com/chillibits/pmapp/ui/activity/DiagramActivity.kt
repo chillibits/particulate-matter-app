@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.TimeFormatter
 import com.chillibits.pmapp.tool.Tools
@@ -23,6 +22,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_diagram.*
 import java.util.*
 
@@ -74,11 +74,16 @@ class DiagramActivity : AppCompatActivity() {
             chart.keepScreenOn = true
             chart.isKeepPositionOnRotation = true
             chart.description = null
+            chart.legend.textColor = ContextCompat.getColor(this, R.color.diagram_text_color)
             // Left y axis
             val left = chart.axisLeft
+            left.textColor = ContextCompat.getColor(this, R.color.diagram_text_color)
             left.valueFormatter = LargeValueFormatter()
+            // Right y axis
+            chart.axisRight.textColor = ContextCompat.getColor(this, R.color.diagram_text_color)
             // x axis
             val xAxis = chart.xAxis
+            xAxis.textColor = ContextCompat.getColor(this, R.color.diagram_text_color)
             xAxis.isGranularityEnabled = true
             xAxis.granularity = 60f
             xAxis.position = XAxis.XAxisPosition.BOTTOM

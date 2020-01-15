@@ -4,7 +4,6 @@
 
 package com.chillibits.pmapp.ui.adapter.recyclerview
 
-import android.content.Context
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +12,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.tool.StorageUtils
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_sensor.view.*
 import java.util.*
 
-class SelectSensorAdapter(private var context: Context, private val su: StorageUtils, private val sensors: ArrayList<com.chillibits.pmapp.model.Sensor>, private val selection_mode: Int) : RecyclerView.Adapter<SelectSensorAdapter.ViewHolder>() {
+class SelectSensorAdapter(private val su: StorageUtils, private val sensors: ArrayList<Sensor>, private val selection_mode: Int) : RecyclerView.Adapter<SelectSensorAdapter.ViewHolder>() {
 
     // Variables as objects
     private val h: Handler = Handler()

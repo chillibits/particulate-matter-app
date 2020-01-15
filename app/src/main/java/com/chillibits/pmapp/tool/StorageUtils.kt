@@ -17,8 +17,8 @@ import android.util.Log
 import android.util.Xml
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.service.WebRealtimeSyncService
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.io.IOException
 import kotlinx.io.StringWriter
 import org.xmlpull.v1.XmlPullParser

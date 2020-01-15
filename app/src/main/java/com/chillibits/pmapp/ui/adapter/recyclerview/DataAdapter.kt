@@ -9,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.ui.activity.SensorActivity
+import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_data.view.*
 import java.text.SimpleDateFormat
 import java.util.*

@@ -11,8 +11,8 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.view.View
-import com.chillibits.pmapp.R
 import com.google.android.material.snackbar.Snackbar
+import com.mrgames13.jimdo.feinstaubapp.R
 
 class ServerMessagingUtils(private val context: Context) {
 

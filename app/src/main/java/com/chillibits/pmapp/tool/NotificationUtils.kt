@@ -13,8 +13,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.chillibits.pmapp.R
 import com.chillibits.pmapp.ui.activity.MainActivity
+import com.mrgames13.jimdo.feinstaubapp.R
 
 class NotificationUtils(private val context: Context) {
 

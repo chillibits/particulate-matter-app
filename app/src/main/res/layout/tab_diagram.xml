@@ -203,7 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/current_values"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/button_color"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/enable_who_eu"
