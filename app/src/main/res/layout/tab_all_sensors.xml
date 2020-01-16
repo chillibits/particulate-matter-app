@@ -50,6 +50,7 @@
         android:layout_margin="3dp"
         android:layout_alignParentEnd="true"
         android:background="@color/color_selection"
+        android:contentDescription="@string/refresh"
         app:srcCompat="@drawable/refresh_white"
         android:tint="@color/button_color"/>
 

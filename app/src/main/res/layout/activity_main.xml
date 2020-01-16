@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
-    tools:context=".ui.activity.MainActivity">
+    tools:context="com.chillibits.pmapp.ui.activity.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar_container"

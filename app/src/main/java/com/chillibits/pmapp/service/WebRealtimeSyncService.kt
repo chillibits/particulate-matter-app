@@ -39,8 +39,7 @@ class WebRealtimeSyncService : Service() {
         su = StorageUtils(applicationContext)
 
         // Initialize Firebase
-        val db = FirebaseDatabase.getInstance()
-        ref = db.getReference("sync/" + syncKey!!)
+        ref = FirebaseDatabase.getInstance().getReference("sync/" + syncKey!!)
 
         refresh(applicationContext)
 
@@ -103,19 +102,9 @@ class WebRealtimeSyncService : Service() {
                                 val color = sensor["color"].toString()
                                 if (!su.isFavouriteExisting(chipId) && !su.isSensorExisting(chipId)) {
                                     if (favored) {
-                                        su.addFavourite(
-                                            Sensor(
-                                                chipId,
-                                                name,
-                                                Color.parseColor(color)
-                                            ), true)
+                                        su.addFavourite(Sensor(chipId, name, Color.parseColor(color)), true)
                                     } else {
-                                        su.addOwnSensor(
-                                            Sensor(
-                                                chipId,
-                                                name,
-                                                Color.parseColor(color)
-                                            ), offline = true, requestFromRealtimeSyncService = true)
+                                        su.addOwnSensor(Sensor(chipId, name, Color.parseColor(color)), offline = true, requestFromRealtimeSyncService = true)
                                     }
                                 }
                             }

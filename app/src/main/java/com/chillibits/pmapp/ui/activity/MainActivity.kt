@@ -532,7 +532,11 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 if (syncKey.length == 25 && !syncKey.startsWith("http")) {
                     val i = Intent(this@MainActivity, WebRealtimeSyncService::class.java)
                     i.putExtra("sync_key", syncKey)
-                    startService(i)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(i)
+                    } else {
+                        startService(i)
+                    }
                     // Show toast
                     val t = Toast(this@MainActivity)
                     t.run {

@@ -4,10 +4,12 @@
 
 package com.chillibits.pmapp.service
 
+import android.app.Notification
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadDataRecords
@@ -22,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class SyncJobService : JobService() {
 
@@ -48,6 +51,16 @@ class SyncJobService : JobService() {
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
+        // Display foreground notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val builder: Notification.Builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("SmartTracker Running")
+                .setAutoCancel(true)
+            val notification: Notification = builder.build()
+            startForeground(10001, notification)
+        }
+
         doWork(false, params)
         return true
     }
@@ -197,14 +210,19 @@ class SyncJobService : JobService() {
                         }
                     }
 
-                    if (params != null) jobFinished(params, false)
+                    if (params != null) stopJob(params, false)
                 } catch (e: Exception) {
-                    if (params != null) jobFinished(params, true)
+                    if (params != null) stopJob(params, true)
                 }
             }
         } else {
-            if (params != null) jobFinished(params, false)
+            if (params != null) stopJob(params, false)
         }
+    }
+
+    private fun stopJob(params: JobParameters, reschedule: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) stopForeground(true)
+        jobFinished(params, reschedule)
     }
 
     private fun getP1Average(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.p1 }.average()

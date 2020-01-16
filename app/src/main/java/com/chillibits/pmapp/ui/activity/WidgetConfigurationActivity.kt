@@ -101,7 +101,11 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun finishConfiguration() {
         if(sensorViewAdapter.selectedSensor != null) {
-            startService(Intent(this, SyncJobService::class.java))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(Intent(this, SyncJobService::class.java))
+            } else {
+                startService(Intent(this, SyncJobService::class.java))
+            }
             su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 

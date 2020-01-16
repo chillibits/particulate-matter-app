@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.AddSensorActivity">
+    tools:context="com.chillibits.pmapp.ui.activity.AddSensorActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -87,6 +87,7 @@
             app:layout_constraintTop_toBottomOf="@+id/chip_id_value"
             app:layout_constraintStart_toStartOf="parent"
             android:elevation="5dp"
+            android:contentDescription="@string/choose_color"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"/>
@@ -178,6 +179,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/coordinates_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/coordinates_info"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_marginStart="10dp"/>
