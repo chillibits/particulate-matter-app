@@ -5,13 +5,16 @@
 package com.chillibits.pmapp.network
 
 import android.app.Activity
+import com.chillibits.pmapp.model.ExternalSensor
+import com.chillibits.pmapp.model.ExternalSensorCompressedList
+import com.chillibits.pmapp.model.ExternalSensorSyncPackage
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
 
-suspend fun loadSensorsSync(activity: Activity, lastRequest: String, hash: String): com.chillibits.pmapp.model.ExternalSensorSyncPackage? {
+suspend fun loadSensorsSync(activity: Activity, lastRequest: String, hash: String): ExternalSensorSyncPackage? {
     val client = getNetworkClient()
     val params = Parameters.build {
         append("command", "getall")
@@ -20,11 +23,11 @@ suspend fun loadSensorsSync(activity: Activity, lastRequest: String, hash: Strin
     }
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return Json.parse(com.chillibits.pmapp.model.ExternalSensorSyncPackage.serializer(), response.readText())
+    if(handlePossibleErrors(activity, response.status)) return Json.parse(ExternalSensorSyncPackage.serializer(), response.readText())
     return null
 }
 
-suspend fun loadSensorsNonSync(activity: Activity): List<com.chillibits.pmapp.model.ExternalSensor> {
+suspend fun loadSensorsNonSync(activity: Activity): List<ExternalSensor> {
     val client = getNetworkClient()
     val params = Parameters.build {
         append("command", "getallnonsync")
@@ -32,13 +35,7 @@ suspend fun loadSensorsNonSync(activity: Activity): List<com.chillibits.pmapp.mo
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
     return if(handlePossibleErrors(activity, response.status))
-        Json.parse(com.chillibits.pmapp.model.ExternalSensorCompressedList.serializer(), response.readText()).items.map {
-            com.chillibits.pmapp.model.ExternalSensor(
-                chipId = it.i,
-                lat = it.l,
-                lng = it.b
-            )
-        }
+        Json.parse(ExternalSensorCompressedList.serializer(), response.readText()).items.map { ExternalSensor(chipId = it.i, lat = it.l, lng = it.b) }
     else emptyList()
 }
 
@@ -94,7 +91,7 @@ suspend fun addSensorOnServer(activity: Activity, chipId: String, lat: String, l
     return false
 }
 
-suspend fun loadSensorInfo(activity: Activity, chipId: String): com.chillibits.pmapp.model.ExternalSensor? {
+suspend fun loadSensorInfo(activity: Activity, chipId: String): ExternalSensor? {
     val client = getNetworkClient()
     val params = Parameters.build {
         append("command", "getsensorinfo")
@@ -103,6 +100,6 @@ suspend fun loadSensorInfo(activity: Activity, chipId: String): com.chillibits.p
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
     return if(handlePossibleErrors(activity, response.status))
-        Json.parse(com.chillibits.pmapp.model.ExternalSensor.serializer(), response.readText())
+        Json.parse(ExternalSensor.serializer(), response.readText())
     else null
 }

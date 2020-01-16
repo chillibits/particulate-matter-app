@@ -10,6 +10,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import com.chillibits.pmapp.model.ServerInfo
 import com.google.android.material.snackbar.Snackbar
 import com.mrgames13.jimdo.feinstaubapp.BuildConfig
 import com.mrgames13.jimdo.feinstaubapp.R
@@ -19,35 +20,35 @@ import io.ktor.client.response.readText
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
 
-suspend fun loadServerInfo(activity: Activity): com.chillibits.pmapp.model.ServerInfo? {
+suspend fun loadServerInfo(activity: Activity): ServerInfo? {
     val client = getNetworkClient()
     val params = Parameters.build {
         append("command", "getserverinfo")
     }
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return Json.parse(com.chillibits.pmapp.model.ServerInfo.serializer(), response.readText())
+    if(handlePossibleErrors(activity, response.status)) return Json.parse(ServerInfo.serializer(), response.readText())
     return null
 }
 
-fun handleServerInfo(activity: Activity, view: View, serverInfo: com.chillibits.pmapp.model.ServerInfo) {
+fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
     var title = ""
     var message = ""
     when(serverInfo.serverStatus) {
-        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_OFFLINE -> {
+        ServerInfo.SERVER_STATUS_OFFLINE -> {
             title = activity.getString(R.string.offline_t)
             message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.offline_m) else serverInfo.userMessage
         }
-        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_MAINTENANCE -> {
+        ServerInfo.SERVER_STATUS_MAINTENANCE -> {
             title = activity.getString(R.string.maintenance_t)
             message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.maintenance_m) else serverInfo.userMessage
         }
-        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> {
+        ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> {
             title = activity.getString(R.string.support_end_t)
             message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.support_end_m) else serverInfo.userMessage
         }
     }
-    if(serverInfo.serverStatus == com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_ONLINE) {
+    if(serverInfo.serverStatus == ServerInfo.SERVER_STATUS_ONLINE) {
         // Check for app updates
         if (BuildConfig.VERSION_CODE < serverInfo.minAppVersion) {
             AlertDialog.Builder(activity)

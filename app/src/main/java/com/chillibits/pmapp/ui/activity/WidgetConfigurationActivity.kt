@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.service.SyncJobService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
@@ -32,7 +33,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     // Variables as objects
     private lateinit var sensorViewAdapter: SelectSensorAdapter
-    private lateinit var sensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+    private lateinit var sensors: ArrayList<Sensor>
 
     // Variables
     private var appWidgetId: Int = 0

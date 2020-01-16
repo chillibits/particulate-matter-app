@@ -17,6 +17,9 @@ import android.util.Log
 import android.util.Xml
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.chillibits.pmapp.model.DataRecord
+import com.chillibits.pmapp.model.ExternalSensor
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.service.WebRealtimeSyncService
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.io.IOException
@@ -33,20 +36,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     // Variables as objects
     private val prefs: SharedPreferences = context.getSharedPreferences("com.mrgames13.jimdo.feinstaubapp_preferences", Context.MODE_PRIVATE)
 
-    val allOwnSensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+    val allOwnSensors: ArrayList<Sensor>
         get() {
             return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_SENSORS", null)
-                val sensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+                val sensors = ArrayList<Sensor>()
                 while (cursor.moveToNext()) {
-                    sensors.add(
-                        com.chillibits.pmapp.model.Sensor(
-                            cursor.getString(0),
-                            cursor.getString(1),
-                            cursor.getInt(2)
-                        )
-                    )
+                    sensors.add(Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)))
                 }
                 cursor.close()
                 sensors.sort()
@@ -54,20 +51,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             } catch (ignored: Exception) { ArrayList() }
         }
 
-    val allFavourites: ArrayList<com.chillibits.pmapp.model.Sensor>
+    val allFavourites: ArrayList<Sensor>
         get() {
             return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_FAVOURITES", null)
-                val sensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+                val sensors = ArrayList<Sensor>()
                 while (cursor.moveToNext()) {
-                    sensors.add(
-                        com.chillibits.pmapp.model.Sensor(
-                            cursor.getString(0),
-                            cursor.getString(1),
-                            cursor.getInt(2)
-                        )
-                    )
+                    sensors.add(Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)))
                 }
                 cursor.close()
                 sensors.sort()
@@ -75,20 +66,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             } catch (ignored: Exception) { ArrayList() }
         }
 
-    val externalSensors: ArrayList<com.chillibits.pmapp.model.ExternalSensor>
+    val externalSensors: ArrayList<ExternalSensor>
         get() {
             return try {
                 val db = readableDatabase
                 val cursor = db.rawQuery("SELECT sensor_id, latitude, longitude FROM $TABLE_EXTERNAL_SENSORS", null)
-                val sensors = ArrayList<com.chillibits.pmapp.model.ExternalSensor>()
+                val sensors = ArrayList<ExternalSensor>()
                 while (cursor.moveToNext()) {
-                    sensors.add(
-                        com.chillibits.pmapp.model.ExternalSensor(
-                            chipId = cursor.getString(0),
-                            lat = cursor.getDouble(1),
-                            lng = cursor.getDouble(2)
-                        )
-                    )
+                    sensors.add(ExternalSensor(chipId = cursor.getString(0), lat = cursor.getDouble(1), lng = cursor.getDouble(2)))
                 }
                 cursor.close()
                 return sensors
@@ -167,7 +152,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //-----------------------------------------Own-sensors------------------------------------------
 
-    fun addOwnSensor(sensor: com.chillibits.pmapp.model.Sensor, offline: Boolean, requestFromRealtimeSyncService: Boolean) {
+    fun addOwnSensor(sensor: Sensor, offline: Boolean, requestFromRealtimeSyncService: Boolean) {
         val values = ContentValues()
         values.put("sensor_id", sensor.chipID)
         values.put("sensor_name", sensor.name)
@@ -178,7 +163,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    fun getSensor(chipId: String): com.chillibits.pmapp.model.Sensor? {
+    fun getSensor(chipId: String): Sensor? {
         val sensors = allOwnSensors + allFavourites
         return sensors.find { it.chipID == chipId }
     }
@@ -191,7 +176,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return count > 0
     }
 
-    fun updateOwnSensor(newSensor: com.chillibits.pmapp.model.Sensor, requestFromRealtimeSyncService: Boolean) {
+    fun updateOwnSensor(newSensor: Sensor, requestFromRealtimeSyncService: Boolean) {
         execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
@@ -208,7 +193,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //------------------------------------------Favourites------------------------------------------
 
-    fun addFavourite(sensor: com.chillibits.pmapp.model.Sensor, requestFromRealtimeSyncService: Boolean) {
+    fun addFavourite(sensor: Sensor, requestFromRealtimeSyncService: Boolean) {
         val values = ContentValues()
         values.put("sensor_id", sensor.chipID)
         values.put("sensor_name", sensor.name)
@@ -226,7 +211,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return count > 0
     }
 
-    fun updateFavourite(newSensor: com.chillibits.pmapp.model.Sensor, requestFromRealtimeSyncService: Boolean) {
+    fun updateFavourite(newSensor: Sensor, requestFromRealtimeSyncService: Boolean) {
         execSQL("UPDATE " + TABLE_FAVOURITES + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
@@ -241,7 +226,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //---------------------------------------Externe Sensoren---------------------------------------
 
-    fun addAllExternalSensors(sensors: ArrayList<com.chillibits.pmapp.model.ExternalSensor>) {
+    fun addAllExternalSensors(sensors: ArrayList<ExternalSensor>) {
         val db = writableDatabase
         db.beginTransaction()
         // Create table if it doesn't already exist
@@ -272,7 +257,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
     //------------------------------------------Messdaten-------------------------------------------
 
-    internal fun saveRecords(chipId: String, records: ArrayList<com.chillibits.pmapp.model.DataRecord>) {
+    internal fun saveRecords(chipId: String, records: ArrayList<DataRecord>) {
         val db = writableDatabase
         db.beginTransaction()
         // Create table if it doesn't already exist
@@ -299,27 +284,25 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         db.endTransaction()
     }
 
-    fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<com.chillibits.pmapp.model.DataRecord> {
+    fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {
         try {
             val db = readableDatabase
             val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_" + chipId + " WHERE time >= " + from / 1000 + " AND time < " + to / 1000, null)
-            val records = ArrayList<com.chillibits.pmapp.model.DataRecord>()
+            val records = ArrayList<DataRecord>()
             while (cursor.moveToNext()) {
                 val time = Date()
                 time.time = cursor.getLong(0) * 1000
-                records.add(
-                    com.chillibits.pmapp.model.DataRecord(
-                        time,
-                        cursor.getDouble(2),
-                        cursor.getDouble(1),
-                        cursor.getDouble(3),
-                        cursor.getDouble(4),
-                        cursor.getDouble(5),
-                        cursor.getDouble(6),
-                        cursor.getDouble(7),
-                        cursor.getDouble(8)
-                    )
-                )
+                records.add(DataRecord(
+                    time,
+                    cursor.getDouble(2),
+                    cursor.getDouble(1),
+                    cursor.getDouble(3),
+                    cursor.getDouble(4),
+                    cursor.getDouble(5),
+                    cursor.getDouble(6),
+                    cursor.getDouble(7),
+                    cursor.getDouble(8)
+                ))
             }
             cursor.close()
             return records
@@ -327,14 +310,14 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         return ArrayList()
     }
 
-    fun getLastRecord(chipId: String): com.chillibits.pmapp.model.DataRecord? {
+    fun getLastRecord(chipId: String): DataRecord? {
         try {
             val db = readableDatabase
             val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_$chipId ORDER BY time DESC LIMIT 1", null)
             cursor.moveToNext()
             val time = Date()
             time.time = cursor.getLong(0) * 1000
-            val record = com.chillibits.pmapp.model.DataRecord(
+            val record = DataRecord(
                 time,
                 cursor.getDouble(2),
                 cursor.getDouble(1),
@@ -366,7 +349,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         } catch (ignored: IOException) {}
     }
 
-    fun exportDataRecords(records: ArrayList<com.chillibits.pmapp.model.DataRecord>): Uri? {
+    fun exportDataRecords(records: ArrayList<DataRecord>): Uri? {
         try {
             val out = context.openFileOutput("export.csv", Context.MODE_PRIVATE)
             val sdfDatetime = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
@@ -411,8 +394,8 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             parser.setInput(inputStream, null)
             parser.nextTag()
 
-            val favourites = ArrayList<com.chillibits.pmapp.model.Sensor>()
-            val ownSensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+            val favourites = ArrayList<Sensor>()
+            val ownSensors = ArrayList<Sensor>()
             // Favourites
             parser.require(XmlPullParser.START_TAG, null, "sensor-configuration")
             parser.nextTag()
@@ -422,7 +405,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
                 parser.require(XmlPullParser.START_TAG, null, "sensor")
 
-                val s = com.chillibits.pmapp.model.Sensor()
+                val s = Sensor()
                 s.chipID = parser.getAttributeValue(null, "id")
                 s.name = parser.getAttributeValue(null, "name")
                 s.color = Integer.parseInt(parser.getAttributeValue(null, "color"))
@@ -440,7 +423,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
 
                 parser.require(XmlPullParser.START_TAG, null, "sensor")
 
-                val s = com.chillibits.pmapp.model.Sensor()
+                val s = Sensor()
                 s.chipID = parser.getAttributeValue(null, "id")
                 s.name = parser.getAttributeValue(null, "name")
                 s.color = Integer.parseInt(parser.getAttributeValue(null, "color"))

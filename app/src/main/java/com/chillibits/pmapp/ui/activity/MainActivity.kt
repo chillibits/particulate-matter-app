@@ -34,6 +34,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.handleServerInfo
 import com.chillibits.pmapp.network.loadServerInfo
@@ -564,12 +565,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                         val name = String(Base64.decode(config.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1], Base64.DEFAULT), StandardCharsets.UTF_8)
                         val color = Integer.parseInt(config.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[2])
                         if (!su.isSensorExisting(chipId)) {
-                            su.addFavourite(
-                                com.chillibits.pmapp.model.Sensor(
-                                    chipId,
-                                    name,
-                                    color
-                                ), false)
+                            su.addFavourite(Sensor(chipId, name, color), false)
                             Toast.makeText(this@MainActivity, getString(R.string.favourite_added), Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@MainActivity, getString(R.string.sensor_existing), Toast.LENGTH_SHORT).show()

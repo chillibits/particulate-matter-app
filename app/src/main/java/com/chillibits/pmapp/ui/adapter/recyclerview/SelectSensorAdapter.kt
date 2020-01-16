@@ -22,8 +22,8 @@ class SelectSensorAdapter(private val su: StorageUtils, private val sensors: Arr
 
     // Variables as objects
     private val h: Handler = Handler()
-    internal var selectedSensor: com.chillibits.pmapp.model.Sensor? = null
-    private val selectedSensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+    internal var selectedSensor: Sensor? = null
+    private val selectedSensors = ArrayList<Sensor>()
     private var selectedSensorHolder: ViewHolder? = null
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

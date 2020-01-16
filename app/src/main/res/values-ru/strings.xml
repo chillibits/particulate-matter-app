@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Wed, 15 Jan 2020 12:33:23 +0000
+ Exported at: Thu, 16 Jan 2020 14:06:45 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -260,4 +260,5 @@
     <string name="unknown_sensor">Неизвестный датчик</string>
     <string name="default_map_type">Тип карты по умолчанию</string>
     <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
+    <string name="sync_running"></string>
 </resources>

@@ -11,6 +11,8 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.chillibits.pmapp.model.DataRecord
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadDataRecords
 import com.chillibits.pmapp.tool.Constants
@@ -30,7 +32,7 @@ class SyncJobService : JobService() {
 
     // Variables as objects
     private var calendar: Calendar? = null
-    private var records: ArrayList<com.chillibits.pmapp.model.DataRecord>? = null
+    private var records: ArrayList<DataRecord>? = null
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -53,12 +55,12 @@ class SyncJobService : JobService() {
     override fun onStartJob(params: JobParameters): Boolean {
         // Display foreground notification
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val builder: Notification.Builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
+            val builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText("SmartTracker Running")
+                .setContentText(getString(R.string.sync_running))
                 .setAutoCancel(true)
-            val notification: Notification = builder.build()
-            startForeground(10001, notification)
+            startForeground(10001, builder.build())
         }
 
         doWork(false, params)
@@ -118,7 +120,7 @@ class SyncJobService : JobService() {
                     val from = selectedDayTimestamp
                     val to = selectedDayTimestamp + TimeUnit.DAYS.toMillis(1)
 
-                    val sensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+                    val sensors = ArrayList<Sensor>()
                     sensors.addAll(su.allFavourites)
                     sensors.addAll(su.allOwnSensors)
                     for (s in sensors) {
@@ -225,13 +227,13 @@ class SyncJobService : JobService() {
         jobFinished(params, reschedule)
     }
 
-    private fun getP1Average(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.p1 }.average()
-    private fun getP2Average(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.p2 }.average()
-    private fun getTempAverage(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.temp }.average()
-    private fun getHumidityAverage(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.humidity }.average()
-    private fun getPressureAverage(records: ArrayList<com.chillibits.pmapp.model.DataRecord>) = records.map { it.pressure }.average()
+    private fun getP1Average(records: ArrayList<DataRecord>) = records.map { it.p1 }.average()
+    private fun getP2Average(records: ArrayList<DataRecord>) = records.map { it.p2 }.average()
+    private fun getTempAverage(records: ArrayList<DataRecord>) = records.map { it.temp }.average()
+    private fun getHumidityAverage(records: ArrayList<DataRecord>) = records.map { it.humidity }.average()
+    private fun getPressureAverage(records: ArrayList<DataRecord>) = records.map { it.pressure }.average()
 
-    private fun trimDataRecordsToSyncTime(chipId: String, allRecords: List<com.chillibits.pmapp.model.DataRecord>): ArrayList<com.chillibits.pmapp.model.DataRecord> {
+    private fun trimDataRecordsToSyncTime(chipId: String, allRecords: List<DataRecord>): ArrayList<DataRecord> {
         // Load last execution time
         val lastRecord = su.getLong("${chipId}_LastRecord", System.currentTimeMillis())
         val records = allRecords.filter { it.dateTime.time > lastRecord }

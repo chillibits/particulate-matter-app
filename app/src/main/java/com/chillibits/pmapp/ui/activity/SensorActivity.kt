@@ -24,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.chillibits.pmapp.model.DataRecord
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorDataExisting
 import com.chillibits.pmapp.network.loadDataRecords
@@ -57,7 +59,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     private lateinit var calendar: Calendar
     private var progressMenuItem: MenuItem? = null
     private lateinit var service: ScheduledExecutorService
-    private lateinit var sensor: com.chillibits.pmapp.model.Sensor
+    private lateinit var sensor: Sensor
     private val sdfDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     // Utils packages
@@ -94,7 +96,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         nu = NotificationUtils(this)
 
         // Get intent extras
-        sensor = com.chillibits.pmapp.model.Sensor()
+        sensor = Sensor()
         if (intent.hasExtra("Name")) {
             sensor.name = intent.getStringExtra("Name")!!
             supportActionBar!!.title = intent.getStringExtra("Name")
@@ -487,7 +489,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         const val SORT_MODE_PRESSURE_ASC = 111
         const val SORT_MODE_PRESSURE_DESC = 112
         private const val REQ_WRITE_EXTERNAL_STORAGE = 1
-        var records = ArrayList<com.chillibits.pmapp.model.DataRecord>()
+        var records = ArrayList<DataRecord>()
 
         // Variables
         var selected_day_timestamp: Long = 0

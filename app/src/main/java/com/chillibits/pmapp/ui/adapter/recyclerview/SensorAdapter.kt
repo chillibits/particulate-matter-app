@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorExisting
 import com.chillibits.pmapp.tool.StorageUtils
@@ -30,10 +31,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SensorAdapter(private val activity: MainActivity, private val sensors: ArrayList<com.chillibits.pmapp.model.Sensor>, private val su: StorageUtils, private val smu: ServerMessagingUtils, private val mode: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SensorAdapter(private val activity: MainActivity, private val sensors: ArrayList<Sensor>, private val su: StorageUtils, private val smu: ServerMessagingUtils, private val mode: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // Variables as objects
-    val selectedSensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+    val selectedSensors = ArrayList<Sensor>()
     private val viewHolders = ArrayList<ViewHolder>()
 
     // Variables

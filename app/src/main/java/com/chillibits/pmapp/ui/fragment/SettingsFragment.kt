@@ -30,6 +30,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.chillibits.pmapp.model.ServerInfo
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadServerInfo
 import com.chillibits.pmapp.service.SyncJobService
@@ -211,10 +212,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val result = loadServerInfo(activity)
 
                     val status = when(result?.serverStatus) {
-                        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online_short)
-                        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline_short)
-                        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance_short)
-                        com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended_short)
+                        ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online_short)
+                        ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline_short)
+                        ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance_short)
+                        ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended_short)
                         else -> ""
                     }
 
@@ -247,10 +248,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 try {
                     CoroutineScope(Dispatchers.Main).launch {
                         val summary = when(result?.serverStatus) {
-                            com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
-                            com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)
-                            com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance)
-                            com.chillibits.pmapp.model.ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended)
+                            ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online)
+                            ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline)
+                            ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance)
+                            ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended)
                             else -> ""
                         }
                         serverInfo?.extras?.putString("summary", summary)

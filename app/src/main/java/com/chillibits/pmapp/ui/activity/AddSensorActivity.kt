@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.addSensorOnServer
 import com.chillibits.pmapp.network.isSensorDataExisting
@@ -197,12 +198,7 @@ class AddSensorActivity : AppCompatActivity() {
                                     if (result) {
                                         // Save new sensor
                                         if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
-                                        su.addOwnSensor(
-                                            com.chillibits.pmapp.model.Sensor(
-                                                chipId,
-                                                sensorName,
-                                                currentColor
-                                            ), offline = false, requestFromRealtimeSyncService = false)
+                                        su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, requestFromRealtimeSyncService = false)
                                         CoroutineScope(Dispatchers.Main).launch {
                                             pd.dismiss()
                                             try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
@@ -217,12 +213,7 @@ class AddSensorActivity : AppCompatActivity() {
                                 } else {
                                     // Save new sensor
                                     if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
-                                    su.addOwnSensor(
-                                        com.chillibits.pmapp.model.Sensor(
-                                            chipId,
-                                            sensorName,
-                                            currentColor
-                                        ), offline = true, requestFromRealtimeSyncService = false)
+                                    su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, requestFromRealtimeSyncService = false)
                                     CoroutineScope(Dispatchers.Main).launch {
                                         try {
                                             MainActivity.own_instance?.refresh()
@@ -251,19 +242,9 @@ class AddSensorActivity : AppCompatActivity() {
             } else if (mode == MODE_EDIT) {
                 // Update sensor
                 if (target == TARGET_FAVOURITE) {
-                    su.updateFavourite(
-                        com.chillibits.pmapp.model.Sensor(
-                            chipId,
-                            sensorName,
-                            currentColor
-                        ), false)
+                    su.updateFavourite(Sensor(chipId, sensorName, currentColor), false)
                 } else {
-                    su.updateOwnSensor(
-                        com.chillibits.pmapp.model.Sensor(
-                            chipId,
-                            sensorName,
-                            currentColor
-                        ), false)
+                    su.updateOwnSensor(Sensor(chipId, sensorName, currentColor), false)
                 }
                 try { MainActivity.own_instance?.refresh() } catch (e: Exception) {}
                 finish()

@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.chillibits.pmapp.model.DataRecord
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.TimeFormatter
 import com.chillibits.pmapp.tool.Tools
@@ -29,9 +31,9 @@ import java.util.*
 class DiagramActivity : AppCompatActivity() {
 
     // Variables as objects
-    private lateinit var records: ArrayList<com.chillibits.pmapp.model.DataRecord>
-    private lateinit var compareRecords: ArrayList<ArrayList<com.chillibits.pmapp.model.DataRecord>>
-    private lateinit var compareSensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+    private lateinit var records: ArrayList<DataRecord>
+    private lateinit var compareRecords: ArrayList<ArrayList<DataRecord>>
+    private lateinit var compareSensors: ArrayList<Sensor>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

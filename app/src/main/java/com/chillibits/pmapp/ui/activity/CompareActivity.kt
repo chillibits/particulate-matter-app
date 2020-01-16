@@ -21,6 +21,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.chillibits.pmapp.model.DataRecord
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadDataRecords
 import com.chillibits.pmapp.tool.Constants
@@ -98,7 +100,7 @@ class CompareActivity : AppCompatActivity() {
             finish()
             return
         }
-        sensors = intent.getSerializableExtra("Sensors") as ArrayList<com.chillibits.pmapp.model.Sensor>
+        sensors = intent.getSerializableExtra("Sensors") as ArrayList<Sensor>
 
         card_date_value.text = sdfDate.format(calendar.time)
         card_date_value.setOnClickListener {
@@ -520,8 +522,8 @@ class CompareActivity : AppCompatActivity() {
     companion object {
         // Constants
         private const val REQ_WRITE_EXTERNAL_STORAGE = 1
-        lateinit var sensors: ArrayList<com.chillibits.pmapp.model.Sensor>
-        var records = ArrayList<ArrayList<com.chillibits.pmapp.model.DataRecord>>()
+        lateinit var sensors: ArrayList<Sensor>
+        var records = ArrayList<ArrayList<DataRecord>>()
 
         // Utils packages
         private lateinit var su: StorageUtils

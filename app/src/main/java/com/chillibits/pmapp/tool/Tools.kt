@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
+import com.chillibits.pmapp.model.DataRecord
 import com.google.android.gms.maps.model.LatLng
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -51,11 +52,11 @@ object Tools {
         (it[it.size / 2] + it[(it.size - 1) / 2]) / 2
     }
 
-    fun fitArrayList(su: StorageUtils, records: ArrayList<com.chillibits.pmapp.model.DataRecord>): ArrayList<com.chillibits.pmapp.model.DataRecord> {
+    fun fitArrayList(su: StorageUtils, records: ArrayList<DataRecord>): ArrayList<DataRecord> {
         if (!su.getBoolean("increase_diagram_performance", Constants.DEFAULT_FIT_ARRAY_LIST_ENABLED)) return records
         val divider = records.size / Constants.DEFAULT_FIT_ARRAY_LIST_CONSTANT
         if (divider == 0) return records
-        val newRecords = ArrayList<com.chillibits.pmapp.model.DataRecord>()
+        val newRecords = ArrayList<DataRecord>()
         var i = 0
         while (i < records.size) {
             newRecords.add(records[i])
@@ -77,7 +78,7 @@ object Tools {
         return null
     }
 
-    fun measurementCorrection1(records: ArrayList<com.chillibits.pmapp.model.DataRecord>): ArrayList<com.chillibits.pmapp.model.DataRecord> {
+    fun measurementCorrection1(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
         for (i in 1 until records.size) {
             // Get current and previous record
             val currentRecord = records[i]
@@ -103,18 +104,7 @@ object Tools {
                 val avgP2 = round(m * currentRecord.dateTime.time + b, 2)
 
                 // Alter record according to results
-                val newRecord =
-                    com.chillibits.pmapp.model.DataRecord(
-                        currentRecord.dateTime,
-                        avgP1,
-                        avgP2,
-                        currentRecord.temp,
-                        currentRecord.humidity,
-                        currentRecord.pressure,
-                        0.0,
-                        0.0,
-                        0.0
-                    )
+                val newRecord = DataRecord(currentRecord.dateTime, avgP1, avgP2, currentRecord.temp, currentRecord.humidity, currentRecord.pressure, 0.0, 0.0, 0.0)
                 records[i] = newRecord
             }
             // Detect zero-values of temperature, humidity or pressure
@@ -144,25 +134,14 @@ object Tools {
                 var avgPressure = round(m * currentRecord.dateTime.time + b, 2)
                 avgPressure = if(avgPressure.isNaN()) 0.0 else avgPressure
                 // Alter record according to results
-                val newRecord =
-                    com.chillibits.pmapp.model.DataRecord(
-                        currentRecord.dateTime,
-                        currentRecord.p1,
-                        currentRecord.p2,
-                        avgTemp,
-                        avgHumidity,
-                        avgPressure,
-                        0.0,
-                        0.0,
-                        0.0
-                    )
+                val newRecord = DataRecord(currentRecord.dateTime, currentRecord.p1, currentRecord.p2, avgTemp, avgHumidity, avgPressure, 0.0, 0.0, 0.0)
                 records[i] = newRecord
             }
         }
         return records
     }
 
-    fun measurementCorrection2(records: ArrayList<com.chillibits.pmapp.model.DataRecord>): ArrayList<com.chillibits.pmapp.model.DataRecord> {
+    fun measurementCorrection2(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
         /*for (i in 2 until records.size) {
             // Get current and previous record
             val currentRecord = records[i]
@@ -213,12 +192,12 @@ object Tools {
         return records
     }
 
-    fun isMeasurementBreakdown(su: StorageUtils, records: ArrayList<com.chillibits.pmapp.model.DataRecord>): Boolean {
+    fun isMeasurementBreakdown(su: StorageUtils, records: ArrayList<DataRecord>): Boolean {
         val measurementInterval = if (records.size > 2) getMeasurementInterval(records) else 0
         return if (measurementInterval <= 0) false else System.currentTimeMillis() > records[records.size - 1].dateTime.time + measurementInterval * (Integer.parseInt(su.getString("notification_breakdown_number", Constants.DEFAULT_MISSING_MEASUREMENT_NUMBER.toString())) + 1)
     }
 
-    private fun getMeasurementInterval(records: ArrayList<com.chillibits.pmapp.model.DataRecord>): Long {
+    private fun getMeasurementInterval(records: ArrayList<DataRecord>): Long {
         val distances = ArrayList<Long>()
         for (i in 1 until records.size) distances.add(records[i].dateTime.time - records[i - 1].dateTime.time)
         distances.sort()
@@ -237,7 +216,7 @@ object Tools {
         return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
     }
 
-    fun findMaxMeasurement(records: ArrayList<com.chillibits.pmapp.model.DataRecord>?, mode: Int): Double {
+    fun findMaxMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
         return try {
             when(mode) {
                 1 -> records?.maxBy { it.p1 }!!.p1
@@ -250,7 +229,7 @@ object Tools {
         } catch (e: Exception) { 0.0 }
     }
 
-    fun findMinMeasurement(records: ArrayList<com.chillibits.pmapp.model.DataRecord>?, mode: Int): Double {
+    fun findMinMeasurement(records: ArrayList<DataRecord>?, mode: Int): Double {
         return try {
             when(mode) {
                 1 -> records?.minBy { it.p1 }!!.p1

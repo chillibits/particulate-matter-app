@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chillibits.pmapp.model.DataRecord
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.TimeFormatter
@@ -1255,7 +1256,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
         // Variables as objects
         private lateinit var activity: SensorActivity
         private lateinit var h: Handler
-        var records: ArrayList<com.chillibits.pmapp.model.DataRecord>? = ArrayList()
+        var records: ArrayList<DataRecord>? = ArrayList()
         private val df_time = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         private lateinit var listener: OnFragmentsLoadedListener
 

@@ -35,6 +35,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chillibits.pmapp.model.ExternalSensor
+import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.loadClusterAverage
 import com.chillibits.pmapp.network.loadSensorsNonSync
@@ -75,7 +77,7 @@ import kotlin.math.min
 
 class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su: StorageUtils, smu: ServerMessagingUtils) : FragmentPagerAdapter(manager) {
 
-    val selectedSensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+    val selectedSensors: ArrayList<Sensor>
         get() {
             val selectedSensors = FavoritesFragment.selectedSensors + OwnSensorsFragment.selectedSensors
             return ArrayList(selectedSensors.distinctBy { it.chipID })
@@ -148,7 +150,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private lateinit var contentView: View
             private lateinit var sensor_view: RecyclerView
             private lateinit var sensor_view_adapter: SensorAdapter
-            private lateinit var sensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+            private lateinit var sensors: ArrayList<Sensor>
 
             fun refresh() {
                 sensors = su.allFavourites
@@ -163,7 +165,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
 
-            val selectedSensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+            val selectedSensors: ArrayList<Sensor>
                 get() = sensor_view_adapter.selectedSensors
 
             fun deselectAllSensors() {
@@ -171,7 +173,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             }
 
             fun search(query: String) {
-                val searchValues: ArrayList<com.chillibits.pmapp.model.Sensor>?
+                val searchValues: ArrayList<Sensor>?
                 if (query.isEmpty()) {
                     searchValues = sensors
                 } else {
@@ -470,12 +472,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 // Save new sensor
                                 var nameString: String? = v.sensor_name_value.text.toString().trim()
                                 if (nameString!!.isEmpty()) nameString = marker.tag
-                                su.addFavourite(
-                                    com.chillibits.pmapp.model.Sensor(
-                                        marker.title,
-                                        nameString!!,
-                                        currentColor
-                                    ), false)
+                                su.addFavourite(Sensor(marker.title, nameString!!, currentColor), false)
                                 FavoritesFragment.refresh()
                                 refresh()
                                 selected_marker_position = null
@@ -546,18 +543,12 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 enterReveal(sensor_cluster_container)
 
                 val items = cluster.items
-                val sensors = ArrayList<com.chillibits.pmapp.model.Sensor>()
+                val sensors = ArrayList<Sensor>()
                 val ids = ArrayList<String>()
                 val rand = Random()
                 for (s in items) {
                     ids.add(s.title)
-                    sensors.add(
-                        com.chillibits.pmapp.model.Sensor(
-                            s.title,
-                            s.snippet,
-                            Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))
-                        )
-                    )
+                    sensors.add(Sensor(s.title, s.snippet, Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256))))
                 }
 
                 infoCompareSensors.setOnClickListener {
@@ -596,7 +587,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private lateinit var map_sensor_count: TextView
             private var map: GoogleMap? = null
             private lateinit var clusterManager: ClusterManager<SensorClusterItem>
-            private lateinit var sensors: ArrayList<com.chillibits.pmapp.model.ExternalSensor>
+            private lateinit var sensors: ArrayList<ExternalSensor>
             private var current_country: LatLng? = null
             private lateinit var pd: ProgressDialog
             // Sensor info window
@@ -641,11 +632,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 }
                                 // Add or edit sensors, that are in the update list
                                 su.addAllExternalSensors(ArrayList(syncPackage.update.map {
-                                    com.chillibits.pmapp.model.ExternalSensor(
-                                        chipId = it.i,
-                                        lat = it.l,
-                                        lng = it.b
-                                    )
+                                    ExternalSensor(chipId = it.i, lat = it.l, lng = it.b)
                                 }))
                                 // Save, reload sensors and redraw
                                 su.putLong("LastRequest", newLastRequest)
@@ -775,7 +762,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private lateinit var contentView: View
             private lateinit var sensor_view: RecyclerView
             private lateinit var sensor_view_adapter: SensorAdapter
-            private lateinit var sensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+            private lateinit var sensors: ArrayList<Sensor>
 
             fun refresh() {
                 sensors = su.allOwnSensors
@@ -785,7 +772,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
 
-            val selectedSensors: ArrayList<com.chillibits.pmapp.model.Sensor>
+            val selectedSensors: ArrayList<Sensor>
                 get() = sensor_view_adapter.selectedSensors
 
             fun deselectAllSensors() {
@@ -793,7 +780,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             }
 
             fun search(query: String) {
-                val searchValues: ArrayList<com.chillibits.pmapp.model.Sensor>?
+                val searchValues: ArrayList<Sensor>?
                 if (query.isEmpty()) {
                     searchValues = sensors
                 } else {
