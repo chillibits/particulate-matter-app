@@ -39,8 +39,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     val allOwnSensors: ArrayList<Sensor>
         get() {
             return try {
-                val db = readableDatabase
-                val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_SENSORS", null)
+                val cursor = readableDatabase.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_SENSORS", null)
                 val sensors = ArrayList<Sensor>()
                 while (cursor.moveToNext()) {
                     sensors.add(Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)))
@@ -54,8 +53,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     val allFavourites: ArrayList<Sensor>
         get() {
             return try {
-                val db = readableDatabase
-                val cursor = db.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_FAVOURITES", null)
+                val cursor = readableDatabase.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_FAVOURITES", null)
                 val sensors = ArrayList<Sensor>()
                 while (cursor.moveToNext()) {
                     sensors.add(Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)))
@@ -69,14 +67,13 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     val externalSensors: ArrayList<ExternalSensor>
         get() {
             return try {
-                val db = readableDatabase
-                val cursor = db.rawQuery("SELECT sensor_id, latitude, longitude FROM $TABLE_EXTERNAL_SENSORS", null)
+                val cursor = readableDatabase.rawQuery("SELECT sensor_id, latitude, longitude FROM $TABLE_EXTERNAL_SENSORS", null)
                 val sensors = ArrayList<ExternalSensor>()
                 while (cursor.moveToNext()) {
                     sensors.add(ExternalSensor(chipId = cursor.getString(0), lat = cursor.getDouble(1), lng = cursor.getDouble(2)))
                 }
                 cursor.close()
-                return sensors
+                sensors
             } catch (ignored: Exception) { ArrayList() }
         }
 
@@ -232,19 +229,20 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         // Create table if it doesn't already exist
         db.compileStatement("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);").execute()
         // Write records into db
-        val stmt = db.compileStatement("INSERT INTO $TABLE_EXTERNAL_SENSORS (sensor_id, latitude, longitude) VALUES (?, ?, ?);")
+        val stmt = db.compileStatement("REPLACE INTO $TABLE_EXTERNAL_SENSORS (sensor_id, latitude, longitude) VALUES (?, ?, ?);")
         sensors.forEach {
             try {
                 stmt.bindString(1, it.chipId)
                 stmt.bindDouble(2, it.lat)
                 stmt.bindDouble(3, it.lng)
                 stmt.execute()
-            } catch (ignored: SQLiteConstraintException) {} finally {
+            } catch (ignored: SQLiteConstraintException) {ignored.printStackTrace()} finally {
                 stmt.clearBindings()
             }
         }
         db.setTransactionSuccessful()
         db.endTransaction()
+        db.close()
     }
 
     fun clearExternalSensors() {
@@ -282,6 +280,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         }
         db.setTransactionSuccessful()
         db.endTransaction()
+        db.close()
     }
 
     fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {

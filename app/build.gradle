@@ -14,8 +14,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3403
-        versionName "3.4.3"
+        versionCode 3404
+        versionName "3.4.4"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.1.0'
     implementation 'com.google.maps.android:android-maps-utils:0.6.2'
     implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-database-ktx:19.2.0'
 
     // Ktor dependencies
     implementation "io.ktor:ktor-client-android:$ktor_version"

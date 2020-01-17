@@ -5,6 +5,7 @@
 package com.chillibits.pmapp.network
 
 import android.app.Activity
+import android.util.Log
 import com.chillibits.pmapp.model.ExternalSensor
 import com.chillibits.pmapp.model.ExternalSensorCompressedList
 import com.chillibits.pmapp.model.ExternalSensorSyncPackage
@@ -23,7 +24,11 @@ suspend fun loadSensorsSync(activity: Activity, lastRequest: String, hash: Strin
     }
     val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return Json.parse(ExternalSensorSyncPackage.serializer(), response.readText())
+    if(handlePossibleErrors(activity, response.status)) {
+        val result = response.readText()
+        Log.d("FA", "Result: $result")
+        return Json.parse(ExternalSensorSyncPackage.serializer(), result)
+    }
     return null
 }
 

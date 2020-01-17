@@ -74,6 +74,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su: StorageUtils, smu: ServerMessagingUtils) : FragmentPagerAdapter(manager) {
 
@@ -597,8 +598,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private lateinit var sensor_cluster_container: RelativeLayout
             private var selected_cluster_position: LatLng? = null
 
-            fun moveCamera(coords: LatLng) {
-                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 11f))
+            fun moveCamera(coordinates: LatLng) {
+                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 11f))
             }
 
             fun refresh() {
@@ -616,7 +617,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                             // Load old sensors from the local db
                             sensors = su.externalSensors
                             val chipSum = sensors.map { it.chipId.toLong() }.sum() / 10000.0
-                            val sensorHash = Tools.md5(Tools.round(chipSum, 0).toInt().toString())
+                            val sensorHash = Tools.md5(chipSum.roundToInt().toString())
                             // Load new sensors from server
                             val lastRequest = su.getLong("LastRequest", 0)
                             val lastRequestString = if (lastRequest.toString().length > 10) lastRequest.toString().substring(0, 10) else lastRequest.toString()
