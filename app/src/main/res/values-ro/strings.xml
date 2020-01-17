@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Thu, 16 Jan 2020 14:06:45 +0000
+ Exported at: Fri, 17 Jan 2020 15:25:09 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Deconectare senzor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'% s\'?</string>
-    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info">www.luftdaten.info</a>, îl puteți conecta aici</string>
+    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
     <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -261,4 +261,6 @@
     <string name="default_map_type">Tip de hartă implicit</string>
     <string name="enable_traffic_by_default">Activați traficul în mod implicit</string>
     <string name="sync_running"></string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
 </resources>

@@ -221,7 +221,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
-    //---------------------------------------Externe Sensoren---------------------------------------
+    //---------------------------------------External-Sensors---------------------------------------
 
     fun addAllExternalSensors(sensors: ArrayList<ExternalSensor>) {
         val db = writableDatabase
@@ -253,7 +253,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         execSQL("DELETE FROM $TABLE_EXTERNAL_SENSORS WHERE sensor_id = '$chip_id'")
     }
 
-    //------------------------------------------Messdaten-------------------------------------------
+    //---------------------------------------Measurement-data---------------------------------------
 
     internal fun saveRecords(chipId: String, records: ArrayList<DataRecord>) {
         val db = writableDatabase

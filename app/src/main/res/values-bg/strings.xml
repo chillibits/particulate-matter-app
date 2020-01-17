@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Thu, 16 Jan 2020 14:06:44 +0000
+ Exported at: Fri, 17 Jan 2020 15:25:08 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Премахни връзка със сензор</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
-    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
+    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info/en</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
     <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -259,4 +259,6 @@
     <string name="default_map_type">Тип карта по подразбиране</string>
     <string name="enable_traffic_by_default">Активирайте трафика по подразбиране</string>
     <string name="sync_running"></string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
 </resources>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Thu, 16 Jan 2020 14:06:45 +0000
+ Exported at: Fri, 17 Jan 2020 15:25:09 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Отключить датчик</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
-    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
+    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
     <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -261,4 +261,6 @@
     <string name="default_map_type">Тип карты по умолчанию</string>
     <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
     <string name="sync_running"></string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
 </resources>

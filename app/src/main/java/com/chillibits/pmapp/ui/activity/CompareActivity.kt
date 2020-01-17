@@ -42,6 +42,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class CompareActivity : AppCompatActivity() {
 
@@ -96,7 +97,7 @@ class CompareActivity : AppCompatActivity() {
         smu = ServerMessagingUtils(this)
 
         // Load sensors
-        if (!intent.hasExtra("Sensors")) {
+        if(!intent.hasExtra("Sensors")) {
             finish()
             return
         }
@@ -334,7 +335,7 @@ class CompareActivity : AppCompatActivity() {
 
     private fun loadData() {
         // Set ProgressMenuItem
-        if (progressMenuItem != null) progressMenuItem!!.setActionView(R.layout.menu_item_loading)
+        progressMenuItem?.setActionView(R.layout.menu_item_loading)
 
         val pd = ProgressDialog(this)
         pd.setDialogCancelable(false)
@@ -344,6 +345,7 @@ class CompareActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             // Clear ArrayList
             records.clear()
+
             // Clear diagrams
             diagram_p1.removeAllSeries()
             diagram_p2.removeAllSeries()
@@ -363,12 +365,18 @@ class CompareActivity : AppCompatActivity() {
                 val currentRecords = su.loadRecords(sensors[i].chipID, from, to)
                 // Sort by time
                 currentRecords.sort()
-                // If previous record was more than 30 secs ago
-                if ((if (currentRecords.size > 0) currentRecords[currentRecords.size - 1].dateTime.time else from) < System.currentTimeMillis() - 30000) {
+                // If previous record was more than 30 secs ago, reload data from server
+                if((if(currentRecords.size > 0) currentRecords[currentRecords.size - 1].dateTime.time else from) < System.currentTimeMillis() - 30000) {
                     // Check if internet is available
                     if (smu.isInternetAvailable) {
-                        // Internet is available
-                        currentRecords.addAll(loadDataRecords(this@CompareActivity, sensors[i].chipID, if (currentRecords.size > 0 && selected_day_timestamp == current_day_timestamp) currentRecords[currentRecords.size - 1].dateTime.time + 1000 else from, to)!!)
+                        currentRecords.addAll(
+                            loadDataRecords(
+                                this@CompareActivity,
+                                sensors[i].chipID,
+                                if (currentRecords.size > 0 && selected_day_timestamp == current_day_timestamp) currentRecords[currentRecords.size - 1].dateTime.time + 1000 else from,
+                                to
+                            )!!
+                        )
                     }
                 }
                 // Sort by time
@@ -380,7 +388,7 @@ class CompareActivity : AppCompatActivity() {
                     val currentLastTime = records[i][records[i].size - 1].dateTime.time
                     firstTime = if (currentFirstTime < firstTime) currentFirstTime else firstTime
                     lastTime = if (currentLastTime > lastTime) currentLastTime else lastTime
-                } catch (e: Exception) {}
+                } catch (ignored: Exception) {}
                 CoroutineScope(Dispatchers.Main).launch {
                     pd.setMessage("${i * 100 / sensors.size}%")
                 }
@@ -404,7 +412,7 @@ class CompareActivity : AppCompatActivity() {
                             try {
                                 val time = it.dateTime
                                 seriesP1.appendData(DataPoint(time.time.toDouble(), it.p1), false, 1000000)
-                            } catch (e: Exception) {}
+                            } catch (ignored: Exception) {}
                         }
 
                         val seriesP2 = LineGraphSeries<DataPoint>()
@@ -413,7 +421,7 @@ class CompareActivity : AppCompatActivity() {
                             try {
                                 val time = it.dateTime
                                 seriesP2.appendData(DataPoint(time.time.toDouble(), it.p2), false, 1000000)
-                            } catch (e: Exception) {}
+                            } catch (ignored: Exception) {}
                         }
 
                         val seriesTemp = LineGraphSeries<DataPoint>()
@@ -422,7 +430,7 @@ class CompareActivity : AppCompatActivity() {
                             try {
                                 val time = it.dateTime
                                 seriesTemp.appendData(DataPoint(time.time.toDouble(), it.temp), false, 1000000)
-                            } catch (e: Exception) {}
+                            } catch (ignored: Exception) {}
                         }
 
                         val seriesHumidity = LineGraphSeries<DataPoint>()
@@ -431,7 +439,7 @@ class CompareActivity : AppCompatActivity() {
                             try {
                                 val time = it.dateTime
                                 seriesHumidity.appendData(DataPoint(time.time.toDouble(), it.humidity), false, 1000000)
-                            } catch (e: Exception) {}
+                            } catch (ignored: Exception) {}
                         }
 
                         val seriesPressure = LineGraphSeries<DataPoint>()
@@ -440,7 +448,7 @@ class CompareActivity : AppCompatActivity() {
                             try {
                                 val time = it.dateTime
                                 seriesPressure.appendData(DataPoint(time.time.toDouble(), it.pressure), false, 1000000)
-                            } catch (e: Exception) {}
+                            } catch (ignored: Exception) {}
                         }
 
                         CoroutineScope(Dispatchers.Main).launch {
@@ -462,7 +470,6 @@ class CompareActivity : AppCompatActivity() {
                         scrollToEnd()
                         isScalable = false
                     }
-
                     diagram_p2.viewport.run {
                         isScalable = true
                         setMinX(firstTime.toDouble())
@@ -470,7 +477,6 @@ class CompareActivity : AppCompatActivity() {
                         scrollToEnd()
                         isScalable = false
                     }
-
                     diagram_temp.viewport.run {
                         isScalable = true
                         setMinX(firstTime.toDouble())
@@ -478,7 +484,6 @@ class CompareActivity : AppCompatActivity() {
                         scrollToEnd()
                         isScalable = false
                     }
-
                     diagram_humidity.viewport.run {
                         isScalable = true
                         setMinX(firstTime.toDouble())
@@ -486,7 +491,6 @@ class CompareActivity : AppCompatActivity() {
                         scrollToEnd()
                         isScalable = false
                     }
-
                     diagram_pressure.viewport.run {
                         isScalable = true
                         setMinX(firstTime.toDouble())
@@ -500,7 +504,7 @@ class CompareActivity : AppCompatActivity() {
                     // Reset ProgressMenuItem
                     if (progressMenuItem != null) progressMenuItem!!.actionView = null
                     pd.dismiss()
-                } catch (ignored: Exception) { }
+                } catch (ignored: Exception) {}
             }
         }
     }

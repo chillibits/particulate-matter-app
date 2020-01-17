@@ -173,42 +173,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         card_date_back.setOnClickListener {
             // Go to previous day
             calendar.add(Calendar.DATE, -1)
-
-            selected_day_timestamp = calendar.time.time
-            card_date_value.text = sdfDate.format(calendar.time)
-
-            val currentCalendar = Calendar.getInstance()
-            currentCalendar.run {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            card_date_next.isEnabled = calendar.before(currentCalendar)
-            card_date_today.isEnabled = calendar.before(currentCalendar)
-
-            // Load data for selected date
-            loadData()
+            zap()
         }
         card_date_next.setOnClickListener {
             // Go to next day
             calendar.add(Calendar.DATE, 1)
-
-            selected_day_timestamp = calendar.time.time
-            card_date_value.text = sdfDate.format(calendar.time)
-
-            val currentCalendar = Calendar.getInstance()
-            currentCalendar.run {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            card_date_next.isEnabled = calendar.before(currentCalendar)
-            card_date_today.isEnabled = calendar.before(currentCalendar)
-
-            // Load data for selected date
-            loadData()
+            zap()
         }
         card_date_next.isEnabled = false
         card_date_today.isEnabled = false
@@ -229,6 +199,24 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
 
         //Check if sensor is existing on the server
         checkSensorAvailability()
+    }
+
+    private fun zap() {
+        selected_day_timestamp = calendar.time.time
+        card_date_value.text = sdfDate.format(calendar.time)
+
+        val currentCalendar = Calendar.getInstance()
+        currentCalendar.run {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        card_date_next.isEnabled = calendar.before(currentCalendar)
+        card_date_today.isEnabled = calendar.before(currentCalendar)
+
+        // Load data for selected date
+        loadData()
     }
 
     private fun chooseDate(card_date_value: TextView) {

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Thu, 16 Jan 2020 14:06:44 +0000
+ Exported at: Fri, 17 Jan 2020 15:25:08 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Scollegare un sensore</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
-    <string name="no_sensors">Se hai un sensore da www.luftdaten.info, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
+    <string name="no_sensors">Se hai un sensore da <a href="https://www.luftdaten.info/it">www.luftdaten.info</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
     <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -259,4 +259,6 @@
     <string name="default_map_type">Tipo di mappa di default</string>
     <string name="enable_traffic_by_default">Abilitare il traffico dati di default</string>
     <string name="sync_running"></string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/#feinstaubsensor-konfiguration</string>
 </resources>

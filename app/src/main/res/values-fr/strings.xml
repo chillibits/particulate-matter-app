@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Thu, 16 Jan 2020 14:06:44 +0000
+ Exported at: Fri, 17 Jan 2020 15:25:08 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Supprimer le capteur</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
-    <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
+    <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info/fr">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
     <string name="rate_m">Evaluez l\'application Matière Particulaire dans le Google Play Store avec 5 étoiles, si l\'application vous plaît! Vous pouvez écrire des suggestions d\'amélioration avec l\'évaluation.</string>
     <string name="recommend_string">L\'application Matière Particulaire présente graphiquement, facilement et élegamment des données de particules fines. Télécharger depuis le Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -259,4 +259,6 @@
     <string name="default_map_type">Type de carte par défaut</string>
     <string name="enable_traffic_by_default">Activer le trafic par défaut</string>
     <string name="sync_running"></string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/fr/montage-detecteur-de-particules-fines/#feinstaubsensor-konfiguration</string>
 </resources>

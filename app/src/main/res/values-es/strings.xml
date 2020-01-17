@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Fri, 17 Jan 2020 12:50:29 +0100
+ Exported at: Fri, 17 Jan 2020 16:25:09 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Desenlazar sensor</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
-    <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
+    <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info/es">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
     <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -260,4 +260,6 @@
     <string name="default_map_type">Tipo de mapa predeterminado</string>
     <string name="enable_traffic_by_default">Habilitar tráfico por defecto</string>
     <string name="sync_running">Sincronización en ejecución …</string>
+    <!-- Please only paste url with the correct anchor -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
 </resources>
