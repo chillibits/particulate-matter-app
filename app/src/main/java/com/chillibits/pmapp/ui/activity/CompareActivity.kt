@@ -80,12 +80,14 @@ class CompareActivity : AppCompatActivity() {
         }
 
         // Initialize calendar
-        calendar = Calendar.getInstance()
-        if (selected_day_timestamp == 0L) {
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            calendar.set(Calendar.MILLISECOND, 0)
+        if (selected_day_timestamp == 0L || !::calendar.isInitialized) {
+            calendar = Calendar.getInstance()
+            calendar.run {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
             current_day_timestamp = calendar.time.time
             selected_day_timestamp = current_day_timestamp
         }
