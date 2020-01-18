@@ -99,7 +99,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         sensor = Sensor()
         if (intent.hasExtra("Name")) {
             sensor.name = intent.getStringExtra("Name")!!
-            supportActionBar!!.title = intent.getStringExtra("Name")
+            supportActionBar?.title = intent.getStringExtra("Name")
         }
         if (intent.hasExtra("ID")) sensor.chipID = intent.getStringExtra("ID")!!
         if (intent.hasExtra("Color")) sensor.color = intent.getIntExtra("Color", ContextCompat.getColor(this, R.color.colorPrimary))
@@ -113,7 +113,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
                 }
             }
         })
-        viewPagerAdapter = ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, su.getBoolean("ShowGPS_" + sensor.chipID))
+        viewPagerAdapter = ViewPagerAdapterSensor(supportFragmentManager, this@SensorActivity, su, sensor.chipID)
         view_pager.adapter = viewPagerAdapter
 
         // Setup TabLayout
@@ -195,6 +195,12 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
         }, period.toLong(), period.toLong(), TimeUnit.SECONDS)
 
         if (sensor.chipID != "no_id") loadData()
+
+        custom_p1 = su.getBoolean("Prop_${sensor.chipID}_Custom1", true)
+        custom_p2 = su.getBoolean("Prop_${sensor.chipID}_Custom2", true)
+        custom_temp = su.getBoolean("Prop_${sensor.chipID}_Custom3")
+        custom_humidity = su.getBoolean("Prop_${sensor.chipID}_Custom4")
+        custom_pressure = su.getBoolean("Prop_${sensor.chipID}_Custom5")
 
         //Check if sensor is existing on the server
         checkSensorAvailability()
@@ -435,7 +441,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
     }
 
     private fun exportDiagram() {
-        // Eyport Diagram
+        // Export Diagram
         viewPagerAdapter.exportDiagram()
     }
 

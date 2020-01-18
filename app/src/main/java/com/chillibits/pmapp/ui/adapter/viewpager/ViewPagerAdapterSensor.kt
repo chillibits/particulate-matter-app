@@ -45,7 +45,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity, su: StorageUtils, show_gps_data: Boolean) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity, su: StorageUtils, chipId: String) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     // Variables as objects
     private val tabTitles = ArrayList<String>()
@@ -63,7 +63,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
         tabTitles.add(Companion.activity.getString(R.string.tab_diagram))
         tabTitles.add(activity.getString(R.string.tab_data))
         df_time.timeZone = TimeZone.getDefault()
-        Companion.show_gps_data = show_gps_data
+        show_gps_data = su.getBoolean("ShowGPS_$chipId")
+        Companion.chipId = chipId
     }
 
     override fun getItem(pos: Int) = if (pos == 0) DiagramFragment() else DataFragment()
@@ -174,7 +175,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     return@OnCheckedChangeListener
                 }
                 SensorActivity.custom_p1 = value
-                //su.putBoolean("Prop_${}", value)
+                su.putBoolean("Prop_${chipId}_Custom1", value)
                 if (dataSets.size >= 5) {
                     av_p1.isVisible = custom_average.isChecked && value
                     med_p1.isVisible = custom_median.isChecked && value
@@ -202,6 +203,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     return@OnCheckedChangeListener
                 }
                 SensorActivity.custom_p2 = value
+                su.putBoolean("Prop_${chipId}_Custom2", value)
                 if (dataSets.size >= 5) {
                     av_p2.isVisible = custom_average.isChecked && value
                     med_p2.isVisible = custom_median.isChecked && value
@@ -229,6 +231,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     return@OnCheckedChangeListener
                 }
                 SensorActivity.custom_temp = value
+                su.putBoolean("Prop_${chipId}_Custom3", value)
                 if (dataSets.size >= 5) {
                     av_temp.isVisible = custom_average.isChecked && value
                     med_temp.isVisible = custom_median.isChecked && value
@@ -265,6 +268,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     return@OnCheckedChangeListener
                 }
                 SensorActivity.custom_humidity = value
+                su.putBoolean("Prop_${chipId}_Custom4", value)
                 if (dataSets.size >= 5) {
                     av_humidity.isVisible = custom_average.isChecked && value
                     med_humidity.isVisible = custom_median.isChecked && value
@@ -301,6 +305,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                     return@OnCheckedChangeListener
                 }
                 SensorActivity.custom_pressure = value
+                su.putBoolean("Prop_${chipId}_Custom5", value)
                 if (dataSets.size >= 5) {
                     av_pressure.isVisible = custom_average.isChecked && value
                     med_pressure.isVisible = custom_median.isChecked && value
@@ -1118,5 +1123,6 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
 
         // Variables
         private var show_gps_data: Boolean = false
+        private lateinit var chipId: String
     }
 }
