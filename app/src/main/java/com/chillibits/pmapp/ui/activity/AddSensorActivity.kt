@@ -12,7 +12,6 @@ import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -118,7 +117,14 @@ class AddSensorActivity : AppCompatActivity() {
             if (i.hasExtra("Target")) target = i.getIntExtra("Target", TARGET_OWN_SENSOR)
 
             edit_position_info.visibility = View.VISIBLE
-            edit_position_info_text.movementMethod = LinkMovementMethod.getInstance()
+            get_in_touch.setOnClickListener {
+                val mail = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contact_email), null))
+                mail.type = "application/octet-stream"
+                mail.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.contact_email)))
+                mail.putExtra(Intent.EXTRA_SUBJECT, "Change sensor position - chip id: ${i.getStringExtra("ID")}")
+                mail.putExtra(Intent.EXTRA_TEXT, "Please write in English or in German and provide the exact address or the gps coordinates of the new position.")
+                startActivity(Intent.createChooser(mail, getString(R.string.get_in_touch)))
+            }
         } else if (i.hasExtra("Mode") && i.getIntExtra("Mode", MODE_NEW) == MODE_COMPLETE) {
             mode = MODE_COMPLETE
             sensor_name_value.setText(i.getStringExtra("Name"))

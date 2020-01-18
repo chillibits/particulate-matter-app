@@ -247,7 +247,7 @@
             android:layout_marginTop="10dp"
             app:cardCornerRadius="5dp"
             android:elevation="5dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -260,12 +260,28 @@
                     app:srcCompat="@drawable/info_outline"
                     app:tint="@color/color_selection"/>
 
-                <TextView
-                    android:id="@+id/edit_position_info_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/edit_position_info"
-                    android:layout_marginStart="10dp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_position_info_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_position_info"
+                        android:layout_marginStart="10dp"/>
+
+                    <Button
+                        android:id="@+id/get_in_touch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/get_in_touch"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_outline_rounded_white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

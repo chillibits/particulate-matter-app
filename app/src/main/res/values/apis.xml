@@ -11,6 +11,7 @@
 
     <!-- Common URLs -->
     <string name="url_homepage" translatable="false">https://chillibits.com/</string>
+    <string name="contact_email" translatable="false">contact@chillibits.com</string>
     <string name="url_store_developer_site_market" translatable="false">market://dev?id=5593276126732355283</string>
     <string name="url_store_developer_site" translatable="false">https://play.google.com/store/apps/dev?id=5593276126732355283</string>
     <string name="github_url" translatable="false">https://github.com/chillibits/particulate-matter-app</string>

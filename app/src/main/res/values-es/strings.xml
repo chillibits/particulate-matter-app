@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Fri, 17 Jan 2020 16:25:09 +0100
+ Exported at: Sat, 18 Jan 2020 12:34:08 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -100,7 +100,7 @@
     <string name="longitude_">Longitud:</string>
     <string name="coordinates_info">Las coordenadas se redondearon por razones de protección de datos.</string>
     <string name="gps_will_be_synchronized">Si hay un sensor GPS conectado a su sistema de sensores, la posición se sincronizará automáticamente con el mapa.</string>
-    <string name="edit_position_info">Por razones de seguridad, solo puede cambiar la posición del sensor <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position"> contactándonos </a>.</string>
+    <string name="edit_position_info">Por razones de seguridad, solo puede cambiar la posición del sensor contactándonos.</string>
     <string name="unknown_location">Ubicación desconocida</string>
     <!-- SensorActivity -->
     <string name="date">Fecha</string>
@@ -262,4 +262,5 @@
     <string name="sync_running">Sincronización en ejecución …</string>
     <!-- Please only paste url with the correct anchor -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Contáctanos</string>
 </resources>
