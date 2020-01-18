@@ -54,6 +54,18 @@
         app:srcCompat="@drawable/refresh_white"
         android:tint="@color/button_color"/>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/map_sensor_highscore"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="3dp"
+        android:layout_below="@+id/map_sensor_refresh"
+        android:layout_alignParentEnd="true"
+        android:background="@color/color_selection"
+        android:contentDescription="@string/refresh"
+        app:srcCompat="@drawable/numbered_list"
+        android:tint="@color/button_color"/>
+
     <RelativeLayout
         android:id="@+id/sensor_container"
         android:layout_width="230dp"

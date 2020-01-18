@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 11:34:07 +0000
+ Exported at: Sat, 18 Jan 2020 13:07:54 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -100,7 +100,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di riservatezza dei dati.</string>
     <string name="gps_will_be_synchronized">Se un GPS è connesso al tuo sensore, la posizione sarà automaticamente sincronizzata con la mappa.</string>
-    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contattandoci</a>. </string>
+    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo contattandoci. </string>
     <string name="unknown_location">Posizione sconosciuta</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -262,4 +262,5 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch"></string>
+    <string name="sensor_highscore"></string>
 </resources>

@@ -37,10 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chillibits.pmapp.model.ExternalSensor
 import com.chillibits.pmapp.model.Sensor
-import com.chillibits.pmapp.network.ServerMessagingUtils
-import com.chillibits.pmapp.network.loadClusterAverage
-import com.chillibits.pmapp.network.loadSensorsNonSync
-import com.chillibits.pmapp.network.loadSensorsSync
+import com.chillibits.pmapp.network.*
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
@@ -65,6 +62,8 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
+import kotlinx.android.synthetic.main.dialog_highscore.view.*
+import kotlinx.android.synthetic.main.item_highscore.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -248,17 +247,44 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map?.isTrafficEnabled = trafficEnabled
             mapTraffic.setSelection(if(trafficEnabled) 1 else 0)
 
-            map_sensor_count = contentView.findViewById(R.id.map_sensor_count)
+            map_sensor_count = contentView.map_sensor_count
             map_sensor_count.setOnClickListener {
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse("https://h2801469.stratoserver.net/stats.php")
                 startActivity(i)
             }
 
-            mapSensorRefresh = contentView.findViewById(R.id.map_sensor_refresh)
+            mapSensorRefresh = contentView.map_sensor_refresh
             mapSensorRefresh.setOnClickListener {
                 pd = ProgressDialog(requireContext()).show()
                 loadAllSensorsNonSync()
+            }
+
+            contentView.map_sensor_highscore.setOnClickListener {
+                // Display highscore dialog
+                val highscoreView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_highscore, null, false)
+
+                val d = AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.sensor_highscore)
+                    .setView(highscoreView)
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    // Load sensor highscore
+                    val highscore = loadSensorHighscore(requireContext())
+                    CoroutineScope(Dispatchers.Main).launch {
+                        highscore.forEachIndexed { index, item ->
+                            val currentHighscore = LayoutInflater.from(requireContext()).inflate(R.layout.item_highscore, null, false)
+                            currentHighscore.highscore_number.text = "${index +1}."
+                            currentHighscore.highscore_text.text = item?.country + ", " + item?.city
+                            currentHighscore.highscore_sensor_count.text = item?.sensors.toString()
+                            highscoreView.highscore_container.addView(currentHighscore)
+                        }
+                        highscoreView.highscore_loading.visibility = View.GONE
+                        d.setView(highscoreView)
+                    }
+                }
             }
 
             map_fragment?.getMapAsync(this)

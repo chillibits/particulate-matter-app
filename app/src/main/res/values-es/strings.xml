@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 12:34:08 +0100
+ Exported at: Sat, 18 Jan 2020 14:07:55 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -263,4 +263,5 @@
     <!-- Please only paste url with the correct anchor -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Contáctanos</string>
+    <string name="sensor_highscore">Lista de registros</string>
 </resources>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 11:34:07 +0000
+ Exported at: Sat, 18 Jan 2020 13:07:54 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -100,7 +100,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Coordonatele aproximative pentru protecție a datelor.</string>
     <string name="gps_will_be_synchronized">Dacă aveți un senzor GPS conectat la sistemul dvs. de senzori, poziția se va actualiza automat pe hartă în timp real.</string>
-    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contactându-ne</a>.</string>
+    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar contactându-ne.</string>
     <string name="unknown_location">Locație necunoscută</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -264,4 +264,5 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch"></string>
+    <string name="sensor_highscore"></string>
 </resources>

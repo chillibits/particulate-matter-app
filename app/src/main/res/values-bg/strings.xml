@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 11:34:06 +0000
+ Exported at: Sat, 18 Jan 2020 13:07:53 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -100,7 +100,7 @@
     <string name="longitude_">Географска дължина:</string>
     <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
     <string name="gps_will_be_synchronized">Ако имате GPS сензор, свързан към вашата сензорна система, позицията ще се актуализира автоматично на картата в реално време.</string>
-    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:contact@chillibits.com?subject=Change%20sensor%20position">contactin...</a></string>
+    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез contactin.</string>
     <string name="unknown_location">Неизвестно местоположение</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>
@@ -262,4 +262,5 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch"></string>
+    <string name="sensor_highscore"></string>
 </resources>
