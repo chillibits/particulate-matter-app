@@ -1,8 +1,8 @@
-# Feinstaub-App
+# Particulate Matter App
 
 **Be informed about the particulate matter situation and the air quality!**
 
-The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/feinstaubsensor-bauen/) of [www.luftdaten.info](https://luftdaten.info/), you can link it within the app and publish its data to all app users. Even if you don't have access to an own pm sensor, you have the ability to lookup the patriculate matter values from every sensor, which is linked in the app.
+The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/en/construction-manual/) of [www.luftdaten.info](https://luftdaten.info/en), you can link it within the app and publish its data to all app users. Even if you don't have access to an own pm sensor, you have the ability to lookup the patriculate matter values from every sensor, which is linked in the app.
 
 ## Features
 
