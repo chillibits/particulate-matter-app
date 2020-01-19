@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
 <vector android:height="24dp"
     app:tint="@color/white"
     android:viewportHeight="24.0"

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: nl, Dutch
- Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 12:40:18 +0000
+ Exported by: ChilliBits
+ Exported at: Sun, 19 Jan 2020 00:18:45 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +49,10 @@
     <string name="unlink_sensor">Sensor ontkoppelen</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Weet je zeker dat je de sensor wilt ontkoppelen \'%s\'?</string>
-    <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
+    <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info/nl">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Fijnstof App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
-    <string name="recommend_string">De Fijnstof App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: \nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">De Fijnstof App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: \nhttps://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Aanbevolen</string>
     <string name="recommend_app">aanbevolen app</string>
     <string name="recommend_m">Beveel de Fijnstof app aan bij je vrienden!</string>
@@ -73,7 +73,7 @@
     <string name="search_for_sensors">Zoek naar sensoren</string>
     <string name="sensor_position_completion_m_short">Vul alle sensorgegevens in om de sensor te laten verschijnen op de kaart.\u0020</string>
     <string name="web_version">Web versie</string>
-    <string name="scan_prompt">Open https://pm.mrgames-server.de op je computer.</string>
+    <string name="scan_prompt">Open https://pm.chillibits.com op je computer.</string>
     <string name="successfully_connected">Succesvol verbonden</string>
     <string name="sync_disconnected">Verbinding verbroken</string>
     <string name="search_places">Voer aub een plaats in</string>
@@ -96,7 +96,7 @@
     <string name="longitude_">Lengtegraad:</string>
     <string name="coordinates_info">De coördinaten worden afgerond om privacy redenen.</string>
     <string name="gps_will_be_synchronized">Als er een GPS ontvanger is aangesloten op je sensorsysteem, zal de positie automatisch gesynchroniseerd worden met de kaart.</string>
-    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contact met ons op te nemen</a>.</string>
+    <string name="edit_position_info">Om veiligheidsredenen kun je alleen de sensorpositie veranderen door contact met ons op te nemen.</string>
     <string name="unknown_location">Onbekende locatie</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -254,4 +254,9 @@
     <string name="unknown_sensor">Onbekende sensor</string>
     <string name="default_map_type">Standaard map type</string>
     <string name="enable_traffic_by_default">Schakel verkeer standaard in</string>
+    <string name="sync_running">Synchronisatie actief …</string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/nl/sensor-bouwen/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Neem contact op</string>
+    <string name="sensor_highscore">Sensor hoge score</string>
 </resources>

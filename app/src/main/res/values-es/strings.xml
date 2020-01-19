@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: es, Spanish
- Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 13:40:19 +0100
+ Exported by: ChilliBits
+ Exported at: Sat, 18 Jan 2020 14:07:55 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +53,10 @@
     <string name="unlink_sensor">Desenlazar sensor</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
-    <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
+    <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info/es">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
-    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Recomendar</string>
     <string name="recommend_app">Recomendar la aplicación</string>
     <string name="recommend_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Buscar sensores</string>
     <string name="sensor_position_completion_m_short">Complete los datos del sensor para que aparezca en el mapa.</string>
     <string name="web_version">Version web</string>
-    <string name="scan_prompt">Abra https://pm.mrgames-server.de en su computadora.</string>
+    <string name="scan_prompt">Abra https://pm.chillibits.com en su computadora.</string>
     <string name="successfully_connected">Conectado exitosamente</string>
     <string name="sync_disconnected">Desconectado</string>
     <string name="search_places">Por favor ingrese un lugar …</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitud:</string>
     <string name="coordinates_info">Las coordenadas se redondearon por razones de protección de datos.</string>
     <string name="gps_will_be_synchronized">Si hay un sensor GPS conectado a su sistema de sensores, la posición se sincronizará automáticamente con el mapa.</string>
-    <string name="edit_position_info">Por razones de seguridad, solo puede cambiar la posición del sensor <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position"> contactándonos </a>.</string>
+    <string name="edit_position_info">Por razones de seguridad, solo puede cambiar la posición del sensor contactándonos.</string>
     <string name="unknown_location">Ubicación desconocida</string>
     <!-- SensorActivity -->
     <string name="date">Fecha</string>
@@ -255,4 +259,9 @@
     <string name="unknown_sensor">Sensor desconocido</string>
     <string name="default_map_type">Tipo de mapa predeterminado</string>
     <string name="enable_traffic_by_default">Habilitar tráfico por defecto</string>
+    <string name="sync_running">Sincronización en ejecución …</string>
+    <!-- Please only paste url with the correct anchor -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Contáctanos</string>
+    <string name="sensor_highscore">Lista de registros</string>
 </resources>

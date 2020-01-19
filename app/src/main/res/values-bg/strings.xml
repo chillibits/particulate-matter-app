@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: bg, Bulgarian
- Exported by: M&R Games
- Exported at: Tue, 07 Jan 2020 16:11:37 +0000
+ Exported by: ChilliBits
+ Exported at: Sun, 19 Jan 2020 00:18:45 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +53,10 @@
     <string name="unlink_sensor">Премахни връзка със сензор</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
-    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
+    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info/en</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
-    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Препоръчай</string>
     <string name="recommend_app">препоръчай приложението</string>
     <string name="recommend_m">Препоръчай приложението Финни частици на твоите приятели!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Търси сензори</string>
     <string name="sensor_position_completion_m_short">Моля, попълнете данните за сензора, за да се визуализира на картата.</string>
     <string name="web_version">Уеб версия</string>
-    <string name="scan_prompt">Отворете https://pm.mrgames-server.de на вашия компютър</string>
+    <string name="scan_prompt">Отворете https://pm.chillibits.com на вашия компютър</string>
     <string name="successfully_connected">Успешно свързване</string>
     <string name="sync_disconnected">Прекъсната връзка</string>
     <string name="search_places">Моля, въведете място…</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Географска дължина:</string>
     <string name="coordinates_info">Координатите са закръглени от съображения за сигурност.</string>
     <string name="gps_will_be_synchronized">Ако имате GPS сензор, свързан към вашата сензорна система, позицията ще се актуализира автоматично на картата в реално време.</string>
-    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactin...</a></string>
+    <string name="edit_position_info">Поради съображения за сигурност можете да променяте позицията на сензора само чрез contactin.</string>
     <string name="unknown_location">Неизвестно местоположение</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>
@@ -254,4 +258,9 @@
     <string name="unknown_sensor">Неизвестен сензор</string>
     <string name="default_map_type">Тип карта по подразбиране</string>
     <string name="enable_traffic_by_default">Активирайте трафика по подразбиране</string>
+    <string name="sync_running">Синхронизирането се изпълнява …</string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Свържете се с нас</string>
+    <string name="sensor_highscore">Сензорни резултати</string>
 </resources>

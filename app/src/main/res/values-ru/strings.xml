@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: ru, Russian
- Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 12:40:19 +0000
+ Exported by: ChilliBits
+ Exported at: Sun, 19 Jan 2020 00:18:46 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +53,10 @@
     <string name="unlink_sensor">Отключить датчик</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
-    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/">Luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
+    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
-    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Рекомендовать</string>
     <string name="recommend_app">порекомендуйте приложение</string>
     <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Искать датчики</string>
     <string name="sensor_position_completion_m_short">Пожалуйста, заполните данные о датчике, чтобы он появился на карте.</string>
     <string name="web_version">Веб-версия</string>
-    <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.mrgames-server.de</string>
+    <string name="scan_prompt">Откройте на компьютере ссылку\u0020\u0020https://pm.chillibits.com</string>
     <string name="successfully_connected">Успешно подключено</string>
     <string name="sync_disconnected">Отключено</string>
     <string name="search_places">Пожалуйста, выберите место</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Долгота:</string>
     <string name="coordinates_info">Координаты округляются, чтобы защитить данные и приватность</string>
     <string name="gps_will_be_synchronized">Если к вашей станции подключён GPS приёмник, положение на карте будет обновляться автоматически.</string>
-    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">по эл. почте</a>.</string>
+    <string name="edit_position_info">Из соображений безопасности, изменить положение датчика можно только обратившись к нам по эл. почте.</string>
     <string name="unknown_location">Расположение неизвестно</string>
     <!-- SensorActivity -->
     <string name="date">Дата</string>
@@ -256,4 +260,9 @@
     <string name="unknown_sensor">Неизвестный датчик</string>
     <string name="default_map_type">Тип карты по умолчанию</string>
     <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
+    <string name="sync_running">Синхронизация запущена …</string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Связаться с нами</string>
+    <string name="sensor_highscore">Датчик рекордов</string>
 </resources>

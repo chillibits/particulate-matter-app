@@ -11,7 +11,7 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 - Link your own sensor in the app
 - Visualize and analyze every sensor worldwide
 - Compare several (up to 15 in cluster mode) sensors in parallel
-- Have access to the [web version](https://pm.mrgames-server.de/) of the app (Also on GitHub: [https://github.com/mrgames13/feinstaub-app-web](https://github.com/mrgames13/feinstaub-app-web))
+- Have access to the [web version](https://pm.chillibits.com) of the app (Also on GitHub: [https://github.com/chillibits/particulate-matter-app-web](https://github.com/chillibits/particulate-matter-app-web))
 - Export graphs as well as data records
 - Export / backup your favorites and own sensors to a XML file
 - Push notification when a pm threshold exceeds
@@ -19,7 +19,7 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 - etc ...
 
 ## Screenshots (Android 10)
-<img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/1.png" width="256" title="Screenshot 1"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/2.png" width="256" title="Screenshot 2"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/3.png" width="256" title="Screenshot 3"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/4.png" width="256" title="Screenshot 4"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/5.png" width="256" title="Screenshot 5"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/6.png" width="256" title="Screenshot 6"><img src="https://github.com/mrgames13/feinstaub-app/raw/master/screenshots/7.png" width="768" title="Screenshot 7">
+<img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/1.png" width="256" title="Screenshot 1"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/2.png" width="256" title="Screenshot 2"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/3.png" width="256" title="Screenshot 3"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/4.png" width="256" title="Screenshot 4"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/5.png" width="256" title="Screenshot 5"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/6.png" width="256" title="Screenshot 6"><img src="https://github.com/chillibits/particulate-matter-app/raw/master/screenshots/7.png" width="768" title="Screenshot 7">
 
 
 ## Contribute to this project
@@ -27,8 +27,8 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 You can contribute to this project by doing following things:
 
 - If you want to contribute new features, please fork this repository to your own GitHub account. Then build your awesome feature and post a pull request back to this repo. We will check your changes and merge your contribution asap.
-- If you want to add a new translation language or improve an existing translation, please write an email to: [mrgames@outlook.de](mailto:mrgames@outlook.de&subject=Add%20translation)
-- If you want to submit a request for a new feature, please also write an email to: [mrgames@outlook.de](mailto:mrgames@outlook.de&subject=Feature%20request)
+- If you want to add a new translation language or improve an existing translation, please write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Add%20translation)
+- If you want to submit a request for a new feature, please also write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Feature%20request)
 
 ## Used third party libraries
 
@@ -46,6 +46,6 @@ Thanks to following people:
 - [android-gif-drawable](https://github.com/koral--/android-gif-drawable) by Karol Wrótniak
 - [FilePicker](https://github.com/TutorialsAndroid/FilePicker) by Akshay Sunil Masram
 
-Thanks to all contributers and translators!
+Thanks to all contributors and translators!
 
-© M&R Games 2017-2020 (Designed and developed by Marc Auberer from 2017 to 2020)
+© ChilliBits 2017-2020 (Designed and developed by Marc Auberer from 2017 to 2020)

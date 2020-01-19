@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © 2019 Marc Auberer. All rights reserved.
+  ~ Copyright © Marc Auberer 2020. All rights reserved
   -->
 
 <resources>
@@ -13,6 +13,8 @@
     <color name="color_selection">#3D3D3D</color>
     <color name="dark_mode_indicator">@color/colorPrimary</color>
     <color name="current_values_color">@color/color_selection</color>
+    <color name="tab_unchecked_color">@color/gray_light</color>
+    <color name="diagram_text_color">@color/gray_light</color>
 
     <!-- Button colors -->
     <color name="enabled">@color/gray_light</color>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -79,7 +83,7 @@
         android:padding="9dp"
         android:layout_marginEnd="5dp"
         app:srcCompat="@drawable/more_vert"
-        app:tint="@color/colorPrimary"
+        app:tint="@color/gray_light"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"/>

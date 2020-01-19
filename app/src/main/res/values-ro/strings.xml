@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: ro, Romanian
- Exported by: M&R Games
- Exported at: Tue, 07 Jan 2020 16:11:38 +0000
+ Exported by: ChilliBits
+ Exported at: Sun, 19 Jan 2020 00:18:46 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +53,10 @@
     <string name="unlink_sensor">Deconectare senzor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'% s\'?</string>
-    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info">www.luftdaten.info</a>, îl puteți conecta aici</string>
+    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
-    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Recomandata</string>
     <string name="recommend_app">Recomandă aplicația</string>
     <string name="recommend_m">Recomandă aplicația Particulate Matter pentru prietenii tăi!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Căutați senzori</string>
     <string name="sensor_position_completion_m_short">Vă rugăm să completați datele senzorului pentru ca senzorul să apară pe hartă.</string>
     <string name="web_version">Versiune web</string>
-    <string name="scan_prompt">Deschide https://pm.mrgames-server.de pe computer.</string>
+    <string name="scan_prompt">Deschide https://pm.chillibits.com pe computer.</string>
     <string name="successfully_connected">Conectat cu succes</string>
     <string name="sync_disconnected">Deconectat</string>
     <string name="search_places">Vă rugăm să introduceți un loc …</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Coordonatele aproximative pentru protecție a datelor.</string>
     <string name="gps_will_be_synchronized">Dacă aveți un senzor GPS conectat la sistemul dvs. de senzori, poziția se va actualiza automat pe hartă în timp real.</string>
-    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contactându-ne</a>.</string>
+    <string name="edit_position_info">Din motive de securitate, puteți schimba poziția senzorului doar contactându-ne.</string>
     <string name="unknown_location">Locație necunoscută</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -256,4 +260,9 @@
     <string name="unknown_sensor">Senzor necunoscut</string>
     <string name="default_map_type">Tip de hartă implicit</string>
     <string name="enable_traffic_by_default">Activați traficul în mod implicit</string>
+    <string name="sync_running">Sincronizarea rulează …</string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Contactează-ne</string>
+    <string name="sensor_highscore">Senzor scor</string>
 </resources>

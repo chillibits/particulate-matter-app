@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: de, German
- Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 13:40:19 +0100
+ Exported by: ChilliBits
+ Exported at: Sat, 18 Jan 2020 14:07:55 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -52,7 +56,7 @@
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
-    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Weiterempfehlen</string>
     <string name="recommend_app">App weiterempfehlen</string>
     <string name="recommend_m">Empfehlen Sie die App Ihren Freunden!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Sensoren durchsuchen</string>
     <string name="sensor_position_completion_m_short">Bitte vervollständigen Sie die Daten des Sensors, damit er auf der Karte erscheint.</string>
     <string name="web_version">Web-Version</string>
-    <string name="scan_prompt">Öffnen Sie https://feinstaub.mrgames-server.de auf Ihrem Computer.</string>
+    <string name="scan_prompt">Öffnen Sie https://feinstaub.chillibits.com auf Ihrem Computer.</string>
     <string name="successfully_connected">Erfolgreich verbunden</string>
     <string name="sync_disconnected">Verbindung getrennt</string>
     <string name="search_places">Bitte geben Sie einen Ort ein …</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Längengrad:</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
     <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
-    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns <a href="mailto:mrgames@outlook.de?subject=%C3%84nderung%20der%20Sensorposition">Kontakt</a> aufnehmen.</string>
+    <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns Kontakt aufnehmen.</string>
     <string name="unknown_location">Unbekannte Position</string>
     <!-- SensorActivity -->
     <string name="date">Datum</string>
@@ -255,4 +259,9 @@
     <string name="unknown_sensor">Unbekannter Sensor</string>
     <string name="default_map_type">Kartentyp beim Appstart</string>
     <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
+    <string name="sync_running">Synchronisation läuft …</string>
+    <!-- Please only paste url with the correct anchor -->
+    <string name="url_id_info">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Kontakt aufnehmen</string>
+    <string name="sensor_highscore">Sensor-Bestenliste</string>
 </resources>

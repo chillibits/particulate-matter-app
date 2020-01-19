@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mrgames13.jimdo.feinstaubapp"
@@ -29,7 +33,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="q">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -46,7 +51,7 @@
             android:required="false" />
         <!-- SplashActivity -->
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,7 +61,7 @@
         </activity>
         <!-- MainActivity -->
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.chillibits.pmapp.ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
@@ -64,14 +69,16 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="feinstaub.mrgames-server.de"
+                    android:host="feinstaub.chillibits.com"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter>
@@ -81,24 +88,24 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="pm.mrgames-server.de"
+                    android:host="pm.chillibits.com"
                     android:scheme="https" />
             </intent-filter>
         </activity>
         <!-- SettingsActivity -->
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!-- DiagramActivity -->
         <activity
-            android:name=".ui.activity.DiagramActivity"
+            android:name="com.chillibits.pmapp.ui.activity.DiagramActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.Fullscreen"
             android:windowSoftInputMode="adjustPan" />
         <!-- SensorActivity -->
         <activity
-            android:name=".ui.activity.SensorActivity"
+            android:name="com.chillibits.pmapp.ui.activity.SensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -109,9 +116,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="feinstaub.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:host="feinstaub.chillibits.com"
+                    android:scheme="https"
+                    android:pathPattern="/sensor" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -120,20 +127,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="pm.mrgames-server.de"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
+                    android:host="pm.chillibits.com"
+                    android:scheme="https"
+                    android:pathPattern="/sensor" />
             </intent-filter>
         </activity>
         <!-- AddSensorActivity -->
         <activity
-            android:name=".ui.activity.AddSensorActivity"
+            android:name="com.chillibits.pmapp.ui.activity.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <!-- CompareActivity -->
         <activity
-            android:name=".ui.activity.CompareActivity"
+            android:name="com.chillibits.pmapp.ui.activity.CompareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
@@ -141,10 +148,10 @@
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation"/>
+            tools:replace="android:screenOrientation" />
         <!-- WidgetConfigurationActivity -->
         <activity
-            android:name=".ui.activity.WidgetConfigurationActivity"
+            android:name="com.chillibits.pmapp.ui.activity.WidgetConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -153,15 +160,14 @@
         </activity>
         <!-- SyncService -->
         <service
-            android:name=".service.SyncJobService"
+            android:name="com.chillibits.pmapp.service.SyncJobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name=".service.SyncService" />
         <!-- WebRealtimeSyncService -->
-        <service android:name=".service.WebRealtimeSyncService" />
+        <service android:name="com.chillibits.pmapp.service.WebRealtimeSyncService" />
         <!-- BootCompletedReceiver -->
-        <receiver android:name=".tool.BootCompletedReceiver">
+        <receiver android:name="com.chillibits.pmapp.tool.BootCompletedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -172,7 +178,7 @@
         <!-- ContentProviderExport -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mrgames13.jimdo.feinstaubapp"
+            android:authorities="com.chillibits.pmapp"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -181,7 +187,7 @@
         </provider>
         <!-- HomeScreen Widget -->
         <receiver
-            android:name=".widget.WidgetProvider"
+            android:name="com.chillibits.pmapp.widget.WidgetProvider"
             android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -192,5 +198,4 @@
                 android:resource="@xml/widget_info" />
         </receiver>
     </application>
-
 </manifest>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
- Project: Feinstaub-App
+ Project: Particulate Matter App
  Release: Working copy
  Locale: it, Italian
- Exported by: M&R Games
- Exported at: Mon, 06 Jan 2020 12:40:18 +0000
+ Exported by: ChilliBits
+ Exported at: Sun, 19 Jan 2020 00:18:46 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -49,10 +53,10 @@
     <string name="unlink_sensor">Scollegare un sensore</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
-    <string name="no_sensors">Se hai un sensore da www.luftdaten.info, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
+    <string name="no_sensors">Se hai un sensore da <a href="https://www.luftdaten.info/it">www.luftdaten.info</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
-    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
     <string name="recommend">Consiglia</string>
     <string name="recommend_app">consiglia l\'app</string>
     <string name="recommend_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
@@ -73,7 +77,7 @@
     <string name="search_for_sensors">Ricerca dei sensori</string>
     <string name="sensor_position_completion_m_short">Prego completare i dati del sensore affinchè appaia sulla mappa.</string>
     <string name="web_version">Versione web</string>
-    <string name="scan_prompt">Aprire https://pm.mrgames-server.de sul computer.</string>
+    <string name="scan_prompt">Aprire https://pm.chillibits.com sul computer.</string>
     <string name="successfully_connected">Connesso corretamente</string>
     <string name="sync_disconnected">Disconnesso</string>
     <string name="search_places">Prego inserire una località…</string>
@@ -96,7 +100,7 @@
     <string name="longitude_">Longitudine:</string>
     <string name="coordinates_info">Le coordinate risultano approssimate per ragioni di riservatezza dei dati.</string>
     <string name="gps_will_be_synchronized">Se un GPS è connesso al tuo sensore, la posizione sarà automaticamente sincronizzata con la mappa.</string>
-    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">contattandoci</a>. </string>
+    <string name="edit_position_info">Per ragioni di sicurezza, è possibile modificare la posizione del sensore solo contattandoci. </string>
     <string name="unknown_location">Posizione sconosciuta</string>
     <!-- SensorActivity -->
     <string name="date">Data</string>
@@ -254,4 +258,9 @@
     <string name="unknown_sensor">Sensore sconosciuto</string>
     <string name="default_map_type">Tipo di mappa di default</string>
     <string name="enable_traffic_by_default">Abilitare il traffico dati di default</string>
+    <string name="sync_running">Sincronizzazione in esecuzione …</string>
+    <!-- Please only paste urls with correct anchors -->
+    <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Contattaci</string>
+    <string name="sensor_highscore">Punteggio del sensore</string>
 </resources>
