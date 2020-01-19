@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
-  -->
-
-<!--
  Loco xml export: Android string resources
  Project: Particulate Matter App
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 13:07:54 +0000
+ Exported at: Sun, 19 Jan 2020 00:18:46 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -260,9 +256,9 @@
     <string name="unknown_sensor">Senzor necunoscut</string>
     <string name="default_map_type">Tip de hartă implicit</string>
     <string name="enable_traffic_by_default">Activați traficul în mod implicit</string>
-    <string name="sync_running"></string>
+    <string name="sync_running">Sincronizarea rulează …</string>
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
-    <string name="get_in_touch"></string>
-    <string name="sensor_highscore"></string>
+    <string name="get_in_touch">Contactează-ne</string>
+    <string name="sensor_highscore">Senzor scor</string>
 </resources>
