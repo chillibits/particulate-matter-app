@@ -232,6 +232,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/color_selection"
                         android:text="@string/gps_will_be_synchronized"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
@@ -269,6 +270,7 @@
                         android:id="@+id/edit_position_info_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/color_selection"
                         android:text="@string/edit_position_info"
                         android:layout_marginStart="10dp"/>
 
@@ -277,7 +279,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/get_in_touch"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_selection"
                         android:background="@drawable/button_outline_rounded_white"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"/>
