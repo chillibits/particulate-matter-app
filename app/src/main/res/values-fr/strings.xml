@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Mon, 20 Jan 2020 20:12:55 +0000
+ Exported at: Mon, 20 Jan 2020 20:45:11 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -263,4 +263,5 @@
     <string name="url_id_info">https://luftdaten.info/fr/montage-detecteur-de-particules-fines/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Nous contacter</string>
     <string name="sensor_highscore">Meilleur score du capteur</string>
+    <string name="connected_to_web_version"></string>
 </resources>

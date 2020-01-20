@@ -69,7 +69,7 @@ class NotificationUtils(private val context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationManager = context.getSystemService(NotificationManager::class.java)
                 // System channel
-                var importance = NotificationManager.IMPORTANCE_DEFAULT
+                var importance = NotificationManager.IMPORTANCE_LOW
                 val channelSystem = NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance)
                 channelSystem.setShowBadge(false)
                 channelSystem.setSound(null, null)
