@@ -9,8 +9,8 @@ import com.chillibits.pmapp.model.DataRecord
 import com.chillibits.pmapp.model.DataRecordCompressedList
 import com.chillibits.pmapp.tool.StorageUtils
 import io.ktor.client.request.forms.submitForm
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.readText
+import io.ktor.client.statement.HttpStatement
+import io.ktor.client.statement.readText
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
@@ -27,7 +27,8 @@ suspend fun loadDataRecords(context: Context, chipId: String, from: Long, to: Lo
             append("minimize", "true")
             append("gps", "true")
         }
-        val response = client.submitForm<HttpResponse>(getBackendDataUrl(context), params, encodeInQuery = true)
+        val request = client.submitForm<HttpStatement>(getBackendDataUrl(context), params, encodeInQuery = true)
+        val response = request.execute()
         client.close()
         if(response.status == HttpStatusCode.OK) {
             val records = ArrayList(Json.parse(DataRecordCompressedList.serializer(), response.readText()).items.map {
