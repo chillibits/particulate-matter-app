@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 13:42:23 +0000
+ Exported at: Wed, 22 Jan 2020 14:10:33 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Не показвай отново</string>
     <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
     <string name="choose_location">Избере точното местоположение на сензора</string>
-    <string name="sensor_height">Височина над земята/улицата</string>
+    <string name="sensor_height">Височина над земята/улицата (m)</string>
     <string name="latitude">Географска ширина</string>
     <string name="latitude_">Географска ширина:</string>
     <string name="longitude">Географска дължина</string>

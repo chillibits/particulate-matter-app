@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 13:42:24 +0000
+ Exported at: Wed, 22 Jan 2020 14:10:34 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Более не показывать</string>
     <string name="public_sensor">Показывать датчик другим пользователям и на карте</string>
     <string name="choose_location">Выберите точное положение датчика</string>
-    <string name="sensor_height">Высота на поверхностью земли/дороги, в метрах:</string>
+    <string name="sensor_height">Высота на поверхностью земли/дороги, в метрах (m):</string>
     <string name="latitude">Широта</string>
     <string name="latitude_">Широта:</string>
     <string name="longitude">Долгота</string>
