@@ -118,8 +118,8 @@ class AddSensorActivity : AppCompatActivity() {
 
             edit_position_info.visibility = View.VISIBLE
             get_in_touch.setOnClickListener {
-                val mail = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contact_email), null))
-                mail.type = "application/octet-stream"
+                val mail = Intent(Intent.ACTION_SENDTO)
+                mail.data = Uri.parse("mailto:")
                 mail.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.contact_email)))
                 mail.putExtra(Intent.EXTRA_SUBJECT, "Change sensor position - chip id: ${i.getStringExtra("ID")}")
                 mail.putExtra(Intent.EXTRA_TEXT, "Please write in English or in German and provide the exact address or the gps coordinates of the new position.")
