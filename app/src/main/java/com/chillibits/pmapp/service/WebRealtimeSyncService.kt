@@ -4,15 +4,18 @@
 
 package com.chillibits.pmapp.service
 
+import android.app.Notification
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.chillibits.pmapp.model.Sensor
+import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.activity.MainActivity
 import com.google.firebase.database.*
@@ -41,6 +44,17 @@ class WebRealtimeSyncService : Service() {
         // Initialize Firebase
         ref = FirebaseDatabase.getInstance().getReference("sync/" + syncKey!!)
 
+        // Display foreground notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.connected_to_web_version))
+                .setAutoCancel(true)
+            startForeground(10001, builder.build())
+        }
+
+        // Start refreshing
         refresh(applicationContext)
 
         return START_NOT_STICKY

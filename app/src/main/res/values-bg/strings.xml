@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Particulate Matter App
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Sun, 19 Jan 2020 00:18:45 +0000
+ Exported at: Wed, 22 Jan 2020 15:02:22 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -89,7 +93,7 @@
     <string name="do_not_show_again">Не показвай отново</string>
     <string name="public_sensor">Покажи сензора на други потребители и го направи видим на картата</string>
     <string name="choose_location">Избере точното местоположение на сензора</string>
-    <string name="sensor_height">Височина над земята/улицата</string>
+    <string name="sensor_height">Височина над земята/улицата (m)</string>
     <string name="latitude">Географска ширина</string>
     <string name="latitude_">Географска ширина:</string>
     <string name="longitude">Географска дължина</string>
@@ -259,4 +263,5 @@
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Свържете се с нас</string>
     <string name="sensor_highscore">Сензорни резултати</string>
+    <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
 </resources>

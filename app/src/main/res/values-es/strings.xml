@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Particulate Matter App
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Sat, 18 Jan 2020 14:07:55 +0100
+ Exported at: Tue, 21 Jan 2020 15:21:28 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -260,4 +264,5 @@
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Contáctanos</string>
     <string name="sensor_highscore">Lista de registros</string>
+    <string name="connected_to_web_version">Conectado a pm.chillibits.com</string>
 </resources>

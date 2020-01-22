@@ -126,16 +126,16 @@ class SyncJobService : JobService() {
                     for (s in sensors) {
                         // Load existing records from the local database
                         records = su.loadRecords(s.chipID, from, to)
-                        records!!.sort()
+                        records?.sort()
                         // Load records from server
                         val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
-                        recordsExternal?.let { records!!.addAll(recordsExternal) }
-                        records!!.sort()
+                        recordsExternal?.let { records?.addAll(recordsExternal) }
+                        records?.sort()
 
                         if (records!!.size > 0) {
                             // Detect a breakdown
                             if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.chipID) && Tools.isMeasurementBreakdown(su, records!!)) {
-                                if (recordsExternal != null && !su.getBoolean("BD_" + s.chipID)) {
+                                if (recordsExternal != null && recordsExternal.size > 0 && !su.getBoolean("BD_" + s.chipID)) {
                                     nu.displayMissingMeasurementsNotification(s.chipID, s.name)
                                     su.putBoolean("BD_" + s.chipID, true)
                                 }

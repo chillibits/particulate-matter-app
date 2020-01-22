@@ -15,8 +15,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrgames13.jimdo.feinstaubapp.BuildConfig
 import com.mrgames13.jimdo.feinstaubapp.R
 import io.ktor.client.request.forms.submitForm
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.readText
+import io.ktor.client.statement.HttpStatement
+import io.ktor.client.statement.readText
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
 
@@ -25,7 +25,8 @@ suspend fun loadServerInfo(activity: Activity): ServerInfo? {
     val params = Parameters.build {
         append("command", "getserverinfo")
     }
-    val response = client.submitForm<HttpResponse>(getBackendMainUrl(activity), params, encodeInQuery = false)
+    val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
+    val response = request.execute()
     client.close()
     if(handlePossibleErrors(activity, response.status)) return Json.parse(ServerInfo.serializer(), response.readText())
     return null

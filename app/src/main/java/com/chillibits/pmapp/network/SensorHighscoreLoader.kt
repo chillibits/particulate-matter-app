@@ -8,8 +8,8 @@ import android.content.Context
 import com.chillibits.pmapp.model.HighScoreList
 import com.chillibits.pmapp.model.Highscore
 import io.ktor.client.request.forms.submitForm
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.readText
+import io.ktor.client.statement.HttpStatement
+import io.ktor.client.statement.readText
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
@@ -21,7 +21,8 @@ suspend fun loadSensorHighscore(context: Context): ArrayList<Highscore?> {
         val params = Parameters.build {
             append("command", "gethighscore")
         }
-        val response = client.submitForm<HttpResponse>(getBackendMainUrl(context), params, encodeInQuery = false)
+        val request = client.submitForm<HttpStatement>(getBackendMainUrl(context), params, encodeInQuery = false)
+        val response = request.execute()
         client.close()
         if(response.status == HttpStatusCode.OK) {
             return ArrayList(Json.parse(HighScoreList.serializer(), URLDecoder.decode(response.readText(), "UTF-8")).items.map {
