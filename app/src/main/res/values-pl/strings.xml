@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:20 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Dostępna aktualizacja</string>
     <string name="download">Pobieranie</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Wyświetl dla particulate matter</string>
+    <string name="widget_label_large">Wyświetl dla particulate matter</string>
     <string name="widget_app_data_cleared">Dane aplikacji zostały wyczyszczone. Wybierz sensor ponownie</string>
     <string name="widget_select_sensor">Wybierz sensor</string>
     <string name="widget_no_data">Nie ma jeszcze ulubionych. Stuknij poniżej, aby dodać ulubione i ponownie wybierz widget.</string>
@@ -266,4 +266,5 @@
     <string name="get_in_touch">Kontakt</string>
     <string name="sensor_highscore">Sensor z wysokim wynikiem</string>
     <string name="connected_to_web_version">Połączony z pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

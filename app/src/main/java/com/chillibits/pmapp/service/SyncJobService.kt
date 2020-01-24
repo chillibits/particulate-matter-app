@@ -19,7 +19,7 @@ import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.NotificationUtils
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
-import com.chillibits.pmapp.widget.WidgetProvider
+import com.chillibits.pmapp.widget.WidgetProviderLarge
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -205,7 +205,7 @@ class SyncJobService : JobService() {
                             }
 
                             // Refresh homescreen widget
-                            val updateIntent = Intent(applicationContext, WidgetProvider::class.java)
+                            val updateIntent = Intent(applicationContext, WidgetProviderLarge::class.java)
                             updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                             updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.chipID)
                             sendBroadcast(updateIntent)

@@ -34,7 +34,7 @@ import com.chillibits.pmapp.tool.NotificationUtils
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.ui.adapter.viewpager.ViewPagerAdapterSensor
-import com.chillibits.pmapp.widget.WidgetProvider
+import com.chillibits.pmapp.widget.WidgetProviderLarge
 import com.google.android.material.tabs.TabLayout
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_main.view_pager
@@ -352,7 +352,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // Push data records into adapter
             ViewPagerAdapterSensor.records = records
             // If there is a widget for this sensor, refresh it
-            val updateIntent = Intent(applicationContext, WidgetProvider::class.java)
+            val updateIntent = Intent(applicationContext, WidgetProviderLarge::class.java)
             updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.chipID)
             sendBroadcast(updateIntent)

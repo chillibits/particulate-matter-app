@@ -20,7 +20,7 @@ import com.chillibits.pmapp.service.SyncJobService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.adapter.recyclerview.SelectSensorAdapter
-import com.chillibits.pmapp.widget.WidgetProvider
+import com.chillibits.pmapp.widget.WidgetProviderLarge
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_widget_configuration.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -111,10 +111,10 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 
             val widgetManager = AppWidgetManager.getInstance(this)
-            val views = RemoteViews(packageName, R.layout.widget)
+            val views = RemoteViews(packageName, R.layout.widget_large)
             widgetManager.updateAppWidget(appWidgetId, views)
 
-            val update = Intent(applicationContext, WidgetProvider::class.java)
+            val update = Intent(applicationContext, WidgetProviderLarge::class.java)
             update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             update.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
             sendBroadcast(update)

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:20 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Mise à jour disponible</string>
     <string name="download">Téléchargement</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Affichage de matière particulaire</string>
+    <string name="widget_label_large">Affichage de matière particulaire</string>
     <string name="widget_app_data_cleared">Les données de l\'application ont été supprimées. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
     <string name="widget_select_sensor">Choisir le capteur</string>
     <string name="widget_no_data">Il n\'y a pas de favori. Tapez en dessous, pour ajouter un favori et sélectionnez le widget encore une fois.</string>
@@ -264,4 +264,5 @@
     <string name="get_in_touch">Nous contacter</string>
     <string name="sensor_highscore">Meilleur score du capteur</string>
     <string name="connected_to_web_version">Connecté à pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

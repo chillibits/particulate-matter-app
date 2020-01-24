@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Tue, 21 Jan 2020 15:21:28 +0100
+ Exported at: Fri, 24 Jan 2020 17:53:21 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Update verfügbar</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_label_large">Feinstaub-Anzeige</string>
     <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
     <string name="widget_select_sensor">Sensor wählen</string>
     <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
@@ -265,4 +265,5 @@
     <string name="get_in_touch">Kontakt aufnehmen</string>
     <string name="sensor_highscore">Sensor-Bestenliste</string>
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>
+    <string name="widget_label_small">QuickInfo-Kachel</string>
 </resources>

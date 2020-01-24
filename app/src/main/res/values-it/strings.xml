@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:20 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Aggiornamento disponibile</string>
     <string name="download">Scarica</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Schermata del particolato</string>
+    <string name="widget_label_large">Schermata del particolato</string>
     <string name="widget_app_data_cleared">I dati dell\'app sono stati azzerati. Prego selezionare nuovamente il sensore</string>
     <string name="widget_select_sensor">Seleziona il sensore</string>
     <string name="widget_no_data">Non ci sono ancora dei preferiti. Premere sotto per aggiungere un preferito e selezionare nuovamente il widget.</string>
@@ -264,4 +264,5 @@
     <string name="get_in_touch">Contattaci</string>
     <string name="sensor_highscore">Punteggio del sensore</string>
     <string name="connected_to_web_version">Connesso con pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

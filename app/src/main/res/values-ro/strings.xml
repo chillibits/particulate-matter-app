@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:23 +0000
+ Exported at: Fri, 24 Jan 2020 17:18:01 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Actualizare disponibila</string>
     <string name="download">Descarca</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Afisare particulate matter</string>
+    <string name="widget_label_large">Afisare particulate matter</string>
     <string name="widget_app_data_cleared">Datele aplicației au fost șterse. Vă rugăm să selectați din nou senzorul</string>
     <string name="widget_select_sensor">Selectati senzorul</string>
     <string name="widget_no_data">Nu există favorite. Atingeți mai jos pentru a adăuga un favorit și selectați din nou widgetul.</string>
@@ -266,4 +266,5 @@
     <string name="get_in_touch">Contactează-ne</string>
     <string name="sensor_highscore">Senzor scor</string>
     <string name="connected_to_web_version">Conectat la pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

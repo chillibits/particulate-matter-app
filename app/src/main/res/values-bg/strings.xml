@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Fri, 24 Jan 2020 17:18:00 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Има налична актуализация</string>
     <string name="download">Свали</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Дисплей за финните частици</string>
+    <string name="widget_label_large">Дисплей за финните частици</string>
     <string name="widget_app_data_cleared">Данните на приложението са премахнати. Моля, изберете сензора отново.</string>
     <string name="widget_select_sensor">Изберете сензор</string>
     <string name="widget_no_data">Все още няма любими елементи. Чукнете отдолу, за да добавите любим елемент и избере уиджета отново.</string>
@@ -264,4 +264,5 @@
     <string name="get_in_touch">Свържете се с нас</string>
     <string name="sensor_highscore">Сензорни резултати</string>
     <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

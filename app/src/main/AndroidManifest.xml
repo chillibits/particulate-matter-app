@@ -185,17 +185,28 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!-- HomeScreen Widget -->
+        <!-- HomeScreen Widgets -->
         <receiver
-            android:name="com.chillibits.pmapp.widget.WidgetProvider"
-            android:label="@string/widget_label">
+            android:name="com.chillibits.pmapp.widget.WidgetProviderLarge"
+            android:label="@string/widget_label_large">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info_large" />
+        </receiver>
+        <receiver
+            android:name="com.chillibits.pmapp.widget.WidgetProviderSmall"
+            android:label="@string/widget_label_small">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_small" />
         </receiver>
     </application>
 </manifest>

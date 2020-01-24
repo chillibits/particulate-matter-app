@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Tue, 21 Jan 2020 15:21:28 +0100
+ Exported at: Fri, 24 Jan 2020 17:53:21 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Actualización disponible</string>
     <string name="download">Descargar</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Pantalla para partículas</string>
+    <string name="widget_label_large">Pantalla para partículas</string>
     <string name="widget_app_data_cleared">Se borraron los datos de la aplicación. Por favor, seleccione el sensor de nuevo</string>
     <string name="widget_select_sensor">Seleccionar sensor</string>
     <string name="widget_no_data">No hay favoritos todavía. Toque abajo para agregar un favorito y seleccionar el widget nuevamente.</string>
@@ -265,4 +265,5 @@
     <string name="get_in_touch">Contáctanos</string>
     <string name="sensor_highscore">Lista de registros</string>
     <string name="connected_to_web_version">Conectado a pm.chillibits.com</string>
+    <string name="widget_label_small">mosaico de información rápida</string>
 </resources>

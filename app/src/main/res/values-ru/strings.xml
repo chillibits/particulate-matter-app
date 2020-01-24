@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:23 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:21 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Есть обновление</string>
     <string name="download">Скачать</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Отображение твёрдых частиц</string>
+    <string name="widget_label_large">Отображение твёрдых частиц</string>
     <string name="widget_app_data_cleared">Данные приложения очищены. Пожалуйста, снова выберите датчик</string>
     <string name="widget_select_sensor">Выберите датчик</string>
     <string name="widget_no_data">Пока нет закладок. Нажмите ниже, чтобы добавить датчик в закладки и выберите виджет ещё раз.</string>
@@ -266,4 +266,5 @@
     <string name="get_in_touch">Связаться с нами</string>
     <string name="sensor_highscore">Датчик рекордов</string>
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:20 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Update beschikbaar</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Weergave van fijnstof</string>
+    <string name="widget_label_large">Weergave van fijnstof</string>
     <string name="widget_app_data_cleared">De app-gegevens zijn gewist. Selecteer de sensor opnieuw</string>
     <string name="widget_select_sensor">Selecteer sensor</string>
     <string name="widget_no_data">Er zijn nog geen favorieten. Tik onderaan om een favoriet toe te voegen en selecteer de widget opnieuw.</string>
@@ -264,4 +264,5 @@
     <string name="get_in_touch">Neem contact op</string>
     <string name="sensor_highscore">Sensor hoge score</string>
     <string name="connected_to_web_version">Verbonden met pm.chillibits.com</string>
+    <string name="widget_label_small"></string>
 </resources>

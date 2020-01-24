@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:21 +0000
+ Exported at: Fri, 24 Jan 2020 16:53:19 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -41,7 +41,7 @@
     <string name="update_available">Update available</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Display for particulate matter</string>
+    <string name="widget_label_large">Display for particulate matter</string>
     <string name="widget_app_data_cleared">The app data was cleared. Please select the sensor again</string>
     <string name="widget_select_sensor">Select sensor</string>
     <string name="widget_no_data">There are no favourites yet. Tap below to add a favourite and select the widget again.</string>
@@ -264,4 +264,5 @@
     <string name="get_in_touch">Contact us</string>
     <string name="sensor_highscore">Sensor highscore</string>
     <string name="connected_to_web_version">Connected to pm.chillibits.com</string>
+    <string name="widget_label_small">Quick info tile</string>
 </resources>
