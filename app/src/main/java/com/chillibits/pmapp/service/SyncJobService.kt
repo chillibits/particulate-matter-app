@@ -30,10 +30,6 @@ import java.util.concurrent.TimeUnit
 
 class SyncJobService : JobService() {
 
-    // Variables as objects
-    private var calendar: Calendar? = null
-    private var records: ArrayList<DataRecord>? = null
-
     // Utils packages
     private lateinit var su: StorageUtils
     private lateinit var smu: ServerMessagingUtils
@@ -53,16 +49,7 @@ class SyncJobService : JobService() {
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
-        // Display foreground notification
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.sync_running))
-                .setAutoCancel(true)
-            startForeground(10001, builder.build())
-        }
-
+        // Do the work
         doWork(false, params)
         return true
     }
@@ -73,24 +60,28 @@ class SyncJobService : JobService() {
     }
 
     private fun doWork(fromForeground: Boolean, params: JobParameters?) {
-        // Initialize StorageUtils
+        // Display foreground notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val builder = Notification.Builder(this, Constants.CHANNEL_SYSTEM)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.sync_running))
+                .setAutoCancel(true)
+            startForeground(10001, builder.build())
+        }
+
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
-
-        // Initialize NotificationUtils
         nu = NotificationUtils(this)
 
         // Initialize calendar
-        if (selectedDayTimestamp == 0L || calendar == null) {
-            calendar = Calendar.getInstance()
-            calendar!!.set(Calendar.HOUR_OF_DAY, 0)
-            calendar!!.set(Calendar.MINUTE, 0)
-            calendar!!.set(Calendar.SECOND, 0)
-            calendar!!.set(Calendar.MILLISECOND, 0)
-            selectedDayTimestamp = calendar!!.time.time
-        }
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        selectedDayTimestamp = calendar.time.time
 
         // Check if internet is available
         if (smu.isInternetAvailable) {
@@ -125,16 +116,16 @@ class SyncJobService : JobService() {
                     sensors.addAll(su.allOwnSensors)
                     for (s in sensors) {
                         // Load existing records from the local database
-                        records = su.loadRecords(s.chipID, from, to)
-                        records?.sort()
+                        var records = su.loadRecords(s.chipID, from, to)
+                        records.sort()
                         // Load records from server
-                        val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records!!.size > 0) records!![records!!.size - 1].dateTime.time + 1000 else from, to)
-                        recordsExternal?.let { records?.addAll(recordsExternal) }
-                        records?.sort()
+                        val recordsExternal = loadDataRecords(applicationContext, s.chipID, if (records.size > 0) records[records.size - 1].dateTime.time + 1000 else from, to)
+                        recordsExternal?.let { records.addAll(recordsExternal) }
+                        records.sort()
 
-                        if (records!!.size > 0) {
+                        if (records.size > 0) {
                             // Detect a breakdown
-                            if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.chipID) && Tools.isMeasurementBreakdown(su, records!!)) {
+                            if (su.getBoolean("notification_breakdown", true) && su.isSensorExisting(s.chipID) && Tools.isMeasurementBreakdown(su, records)) {
                                 if (recordsExternal != null && recordsExternal.size > 0 && !su.getBoolean("BD_" + s.chipID)) {
                                     nu.displayMissingMeasurementsNotification(s.chipID, s.name)
                                     su.putBoolean("BD_" + s.chipID, true)
@@ -144,67 +135,69 @@ class SyncJobService : JobService() {
                                 su.removeKey("BD_" + s.chipID)
                             }
                             // Calculate average values
-                            val averageP1 = getP1Average(records!!)
-                            val averageP2 = getP2Average(records!!)
-                            val averageTemp = getTempAverage(records!!)
-                            val averageHumidity = getHumidityAverage(records!!)
-                            val averagePressure = getPressureAverage(records!!)
-                            records = trimDataRecordsToSyncTime(s.chipID, records!!)
-                            // Evaluate
-                            for (r in records!!) {
-                                if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p1_exceeded") && limitP1 > 0 && (if (su.getBoolean("notification_averages", true)) averageP1 > limitP1 else r.p1 > limitP1) && r.p1 > su.getDouble(selectedDayTimestamp.toString() + "_p1_max")) {
-                                    Log.i(Constants.TAG, "P1 limit exceeded")
-                                    // P1 notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p1), s.chipID, r.dateTime.time)
-                                    su.putDouble(selectedDayTimestamp.toString() + "_p1_max", r.p1)
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_p1_exceeded", true)
-                                    break
-                                } else if (limitP1 > 0 && r.p1 < limitP1) {
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_p1_exceeded", false)
-                                }
-                                if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p2_exceeded") && limitP2 > 0 && (if (su.getBoolean("notification_averages", true)) averageP2 > limitP2 else r.p2 > limitP2) && r.p2 > su.getDouble(selectedDayTimestamp.toString() + "_p2_max")) {
-                                    Log.i(Constants.TAG, "P2 limit exceeded")
-                                    // P2 notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p2), s.chipID, r.dateTime.time)
-                                    su.putDouble(selectedDayTimestamp.toString() + "_p2_max", r.p2)
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_p2_exceeded", true)
-                                    break
-                                } else if (limitP1 > 0 && r.p1 < limitP1) {
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_p2_exceeded", false)
-                                }
-                                if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_temp_exceeded") && limitTemp > 0 && (if (su.getBoolean("notification_averages", true)) averageTemp > limitTemp else r.temp > limitTemp) && r.temp > su.getDouble(selectedDayTimestamp.toString() + "_temp_max")) {
-                                    Log.i(Constants.TAG, "Temp limit exceeded")
-                                    // Temperature notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_temp), s.chipID, r.dateTime.time)
-                                    su.putDouble(selectedDayTimestamp.toString() + "_temp_max", r.temp)
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_temp_exceeded", true)
-                                    break
-                                } else if (limitP1 > 0 && r.p1 < limitP1) {
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_temp_exceeded", false)
-                                }
-                                if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded") && limitHumidity > 0 && (if (su.getBoolean("notification_averages", true)) averageHumidity > limitHumidity else r.humidity > limitHumidity) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_humidity_max")) {
-                                    Log.i(Constants.TAG, "Humidity limit exceeded")
-                                    // Humidity notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_humidity), s.chipID, r.dateTime.time)
-                                    su.putDouble(selectedDayTimestamp.toString() + "_humidity_max", r.humidity)
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded", true)
-                                    break
-                                } else if (limitP1 > 0 && r.p1 < limitP1) {
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded", false)
-                                }
-                                if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded") && limitPressure > 0 && (if (su.getBoolean("notification_averages", true)) averagePressure > limitPressure else r.pressure > limitPressure) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_pressure_max")) {
-                                    Log.i(Constants.TAG, "Pressure limit exceeded")
-                                    // Pressure notification
-                                    nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_pressure), s.chipID, r.dateTime.time)
-                                    su.putDouble(selectedDayTimestamp.toString() + "_pressure_max", r.temp)
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded", true)
-                                    break
-                                } else if (limitP1 > 0 && r.p1 < limitP1) {
-                                    su.putBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded", false)
+                            if(su.getBoolean("notification_threshold", true)) {
+                                val averageP1 = getP1Average(records)
+                                val averageP2 = getP2Average(records)
+                                val averageTemp = getTempAverage(records)
+                                val averageHumidity = getHumidityAverage(records)
+                                val averagePressure = getPressureAverage(records)
+                                records = trimDataRecordsToSyncTime(s.chipID, records)
+                                // Evaluate
+                                for (r in records) {
+                                    if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p1_exceeded") && limitP1 > 0 && (if (su.getBoolean("notification_averages", true)) averageP1 > limitP1 else r.p1 > limitP1) && r.p1 > su.getDouble(selectedDayTimestamp.toString() + "_p1_max")) {
+                                        Log.i(Constants.TAG, "P1 limit exceeded")
+                                        // P1 notification
+                                        nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p1), s.chipID, r.dateTime.time)
+                                        su.putDouble(selectedDayTimestamp.toString() + "_p1_max", r.p1)
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_p1_exceeded", true)
+                                        break
+                                    } else if (limitP1 > 0 && r.p1 < limitP1) {
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_p1_exceeded", false)
+                                    }
+                                    if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_p2_exceeded") && limitP2 > 0 && (if (su.getBoolean("notification_averages", true)) averageP2 > limitP2 else r.p2 > limitP2) && r.p2 > su.getDouble(selectedDayTimestamp.toString() + "_p2_max")) {
+                                        Log.i(Constants.TAG, "P2 limit exceeded")
+                                        // P2 notification
+                                        nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_p2), s.chipID, r.dateTime.time)
+                                        su.putDouble(selectedDayTimestamp.toString() + "_p2_max", r.p2)
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_p2_exceeded", true)
+                                        break
+                                    } else if (limitP1 > 0 && r.p1 < limitP1) {
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_p2_exceeded", false)
+                                    }
+                                    if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_temp_exceeded") && limitTemp > 0 && (if (su.getBoolean("notification_averages", true)) averageTemp > limitTemp else r.temp > limitTemp) && r.temp > su.getDouble(selectedDayTimestamp.toString() + "_temp_max")) {
+                                        Log.i(Constants.TAG, "Temp limit exceeded")
+                                        // Temperature notification
+                                        nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_temp), s.chipID, r.dateTime.time)
+                                        su.putDouble(selectedDayTimestamp.toString() + "_temp_max", r.temp)
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_temp_exceeded", true)
+                                        break
+                                    } else if (limitP1 > 0 && r.p1 < limitP1) {
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_temp_exceeded", false)
+                                    }
+                                    if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded") && limitHumidity > 0 && (if (su.getBoolean("notification_averages", true)) averageHumidity > limitHumidity else r.humidity > limitHumidity) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_humidity_max")) {
+                                        Log.i(Constants.TAG, "Humidity limit exceeded")
+                                        // Humidity notification
+                                        nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_humidity), s.chipID, r.dateTime.time)
+                                        su.putDouble(selectedDayTimestamp.toString() + "_humidity_max", r.humidity)
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded", true)
+                                        break
+                                    } else if (limitP1 > 0 && r.p1 < limitP1) {
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_humidity_exceeded", false)
+                                    }
+                                    if (!fromForeground && !su.getBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded") && limitPressure > 0 && (if (su.getBoolean("notification_averages", true)) averagePressure > limitPressure else r.pressure > limitPressure) && r.humidity > su.getDouble(selectedDayTimestamp.toString() + "_pressure_max")) {
+                                        Log.i(Constants.TAG, "Pressure limit exceeded")
+                                        // Pressure notification
+                                        nu.displayLimitExceededNotification(s.name + " - " + resources.getString(R.string.limit_exceeded_pressure), s.chipID, r.dateTime.time)
+                                        su.putDouble(selectedDayTimestamp.toString() + "_pressure_max", r.temp)
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded", true)
+                                        break
+                                    } else if (limitP1 > 0 && r.p1 < limitP1) {
+                                        su.putBoolean(selectedDayTimestamp.toString() + "_pressure_exceeded", false)
+                                    }
                                 }
                             }
 
-                            // Refresh homescreen widget
+                            // Refresh home screen widget
                             val updateIntent = Intent(applicationContext, WidgetProviderLarge::class.java)
                             updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                             updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.chipID)

@@ -5,7 +5,6 @@
 package com.chillibits.pmapp.network
 
 import android.app.Activity
-import android.util.Log
 import com.chillibits.pmapp.model.ExternalSensor
 import com.chillibits.pmapp.model.ExternalSensorCompressedList
 import com.chillibits.pmapp.model.ExternalSensorSyncPackage
@@ -25,12 +24,9 @@ suspend fun loadSensorsSync(activity: Activity, lastRequest: String, hash: Strin
     val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
     val response = request.execute()
     client.close()
-    if(handlePossibleErrors(activity, response.status)) {
-        val result = response.readText()
-        Log.d("FA", "Result: $result")
-        return Json.parse(ExternalSensorSyncPackage.serializer(), result)
-    }
-    return null
+    return if(handlePossibleErrors(activity, response.status))
+        Json.parse(ExternalSensorSyncPackage.serializer(), response.readText())
+    else null
 }
 
 suspend fun loadSensorsNonSync(activity: Activity): List<ExternalSensor> {
@@ -69,8 +65,9 @@ suspend fun isSensorExisting(activity: Activity, chipId: String): Boolean {
     val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
     val response = request.execute()
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return response.readText() == "1"
-    return false
+    return if(handlePossibleErrors(activity, response.status))
+        response.readText() == "1"
+    else false
 }
 
 suspend fun isSensorDataExisting(activity: Activity, chipId: String): Boolean {
@@ -82,8 +79,9 @@ suspend fun isSensorDataExisting(activity: Activity, chipId: String): Boolean {
     val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
     val response = request.execute()
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return response.readText() == "1"
-    return false
+    return if(handlePossibleErrors(activity, response.status))
+        response.readText() == "1"
+    else false
 }
 
 suspend fun addSensorOnServer(activity: Activity, chipId: String, lat: String, lng: String, alt: String): Boolean {
@@ -98,8 +96,9 @@ suspend fun addSensorOnServer(activity: Activity, chipId: String, lat: String, l
     val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
     val response = request.execute()
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return response.readText() == "1"
-    return false
+    return if(handlePossibleErrors(activity, response.status))
+        response.readText() == "1"
+    else false
 }
 
 suspend fun loadSensorInfo(activity: Activity, chipId: String): ExternalSensor? {

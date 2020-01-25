@@ -22,15 +22,14 @@ object Tools {
                 var bd = BigDecimal(value)
                 bd = bd.setScale(places, RoundingMode.HALF_UP)
                 bd.toDouble()
-            } else
-                value
+            } else value
         } catch (ignored: Exception) {
             value
         }
     }
 
     fun md5(s: String): String {
-        try {
+        return try {
             // Create hash
             val digest = java.security.MessageDigest.getInstance("MD5")
             digest.update(s.toByteArray())
@@ -43,9 +42,8 @@ object Tools {
                 while (h.length < 2) h = "0$h"
                 hexString.append(h)
             }
-            return hexString.toString()
-        } catch (ignored: NoSuchAlgorithmException) {}
-        return ""
+            hexString.toString()
+        } catch (ignored: NoSuchAlgorithmException) { "" }
     }
 
     fun calculateMedian(list: List<Double>) = list.sorted().let {
@@ -69,13 +67,12 @@ object Tools {
         val coder = Geocoder(context)
         val address: List<Address>?
 
-        try {
+        return try {
             address = coder.getFromLocationName(strAddress, 5)
             if (address == null) return null
             val location = address[0]
-            return LatLng(location.latitude, location.longitude)
-        } catch (ignored: Exception) {}
-        return null
+            LatLng(location.latitude, location.longitude)
+        } catch (ignored: Exception) { null }
     }
 
     fun measurementCorrection1(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
@@ -88,11 +85,12 @@ object Tools {
                 // Get next non-zero record
                 var recordAfter = recordBefore
                 for (j in i + 1 until records.size) {
-                    if (!(records[j].p1 == 0.0 && records[j].p2 == 0.0)) {
+                    if (records[j].p1 != 0.0 || records[j].p2 != 0.0) {
                         recordAfter = records[j]
                         break
                     }
                 }
+                if(recordAfter == recordBefore) continue
                 // Calculate average values
                 // PM10
                 var m = (recordAfter.p1 - recordBefore.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
@@ -117,6 +115,7 @@ object Tools {
                         break
                     }
                 }
+                if(recordAfter == recordBefore) continue
                 // Calculate average values
                 // Temperature
                 var m = (recordAfter.temp - recordBefore.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)

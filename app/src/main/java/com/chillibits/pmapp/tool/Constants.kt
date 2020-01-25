@@ -38,7 +38,7 @@ object Constants {
     const val REQ_ALARM_MANAGER_BACKGROUND_SYNC = 10001
 
     // JobScheduler ids
-    const val JOB_SYNC_ID = 10001
+    const val JOB_SYNC_ID = 10002
 
     // HomeScreen widget
     const val WIDGET_EXTRA_SENSOR_ID = "SensorID"

@@ -53,10 +53,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.pref, rootKey)
         val activity = requireActivity()
 
-        // Initialize StorageUtils
+        // Initialize util packages
         val su = StorageUtils(activity)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(activity)
 
         // SyncCycle
@@ -86,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     .setPersisted(true)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) info.setRequiresBatteryNotLow(true)
                 val scheduler = activity.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job scheduled successfully" else "Job schedule failed")
+                Log.i(Constants.TAG, if (scheduler.schedule(info.build()) == JobScheduler.RESULT_SUCCESS) "Job re-scheduled successfully" else "Job re-schedule failed")
                 true
             } else {
                 false

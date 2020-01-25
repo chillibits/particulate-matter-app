@@ -28,8 +28,9 @@ suspend fun loadServerInfo(activity: Activity): ServerInfo? {
     val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
     val response = request.execute()
     client.close()
-    if(handlePossibleErrors(activity, response.status)) return Json.parse(ServerInfo.serializer(), response.readText())
-    return null
+    return if(handlePossibleErrors(activity, response.status))
+        Json.parse(ServerInfo.serializer(), response.readText())
+    else null
 }
 
 fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {

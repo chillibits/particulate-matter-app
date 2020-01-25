@@ -12,18 +12,11 @@ import android.content.Intent
 import com.chillibits.pmapp.service.SyncJobService
 
 class BootCompletedReceiver : BroadcastReceiver() {
-
-    // Variables as objects
-    private lateinit var su: StorageUtils
-
-    // Variables
-    private var backgroundSyncFrequency: Int = 0
-
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "android.intent.action.BOOT_COMPLETED" || intent.action == "android.intent.action.QUICKBOOT_POWERON" || intent.action == "com.htc.intent.action.QUICKBOOT_POWERON") {
             // Initialize StorageUtils
-            su = StorageUtils(context)
-            backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
+            val su = StorageUtils(context)
+            val backgroundSyncFrequency = Integer.parseInt(su.getString("sync_cycle_background", Constants.DEFAULT_SYNC_CYCLE_BACKGROUND.toString())) * 1000 * 60
 
             // Setup AlarmManager
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

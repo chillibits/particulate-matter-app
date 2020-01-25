@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Fri, 24 Jan 2020 16:53:19 +0000
+ Exported at: Sat, 25 Jan 2020 19:16:55 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -265,4 +265,5 @@
     <string name="sensor_highscore">Sensor highscore</string>
     <string name="connected_to_web_version">Connected to pm.chillibits.com</string>
     <string name="widget_label_small">Quick info tile</string>
+    <string name="pref_enable_threshold_notifications">Enable threshold notifications</string>
 </resources>

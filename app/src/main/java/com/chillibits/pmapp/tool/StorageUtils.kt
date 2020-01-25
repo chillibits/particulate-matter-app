@@ -128,7 +128,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);")
             db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_FAVOURITES (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);")
         } catch (e: Exception) {
-            Log.e("ChatLet", "Database creation error: ", e)
+            Log.e(Constants.TAG, "Database creation error: ", e)
         }
     }
 
@@ -166,8 +166,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun isSensorExisting(chipId: String): Boolean {
-        val db = readableDatabase
-        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_SENSORS WHERE sensor_id = '$chipId'", null)
+        val cursor = readableDatabase.rawQuery("SELECT sensor_id FROM $TABLE_SENSORS WHERE sensor_id = '$chipId'", null)
         val count = cursor.count
         cursor.close()
         return count > 0
@@ -180,8 +179,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun removeOwnSensor(chipId: String, requestFromRealtimeSyncService: Boolean) {
-        val db = writableDatabase
-        db.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chipId))
+        writableDatabase.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chipId))
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
@@ -201,8 +199,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun isFavouriteExisting(chipId: String): Boolean {
-        val db = readableDatabase
-        val cursor = db.rawQuery("SELECT sensor_id FROM $TABLE_FAVOURITES WHERE sensor_id = '$chipId'", null)
+        val cursor = readableDatabase.rawQuery("SELECT sensor_id FROM $TABLE_FAVOURITES WHERE sensor_id = '$chipId'", null)
         val count = cursor.count
         cursor.close()
         return count > 0
@@ -215,8 +212,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun removeFavourite(chipId: String, requestFromRealtimeSyncService: Boolean) {
-        val db = writableDatabase
-        db.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chipId))
+        writableDatabase.delete(TABLE_FAVOURITES, "sensor_id = ?", arrayOf(chipId))
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
@@ -284,9 +280,8 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {
-        try {
-            val db = readableDatabase
-            val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_" + chipId + " WHERE time >= " + from / 1000 + " AND time < " + to / 1000, null)
+        return try {
+            val cursor = readableDatabase.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_" + chipId + " WHERE time >= " + from / 1000 + " AND time < " + to / 1000, null)
             val records = ArrayList<DataRecord>()
             while (cursor.moveToNext()) {
                 val time = Date()
@@ -304,13 +299,12 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
                 ))
             }
             cursor.close()
-            return records
-        } catch (ignored: Exception) {}
-        return ArrayList()
+            records
+        } catch (ignored: Exception) { ArrayList() }
     }
 
     fun getLastRecord(chipId: String): DataRecord? {
-        try {
+        return try {
             val db = readableDatabase
             val cursor = db.rawQuery("SELECT time, pm2_5, pm10, temp, humidity, pressure, gps_lat, gps_lng, gps_alt FROM data_$chipId ORDER BY time DESC LIMIT 1", null)
             cursor.moveToNext()
@@ -329,8 +323,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             )
             cursor.close()
             return record
-        } catch (ignored: Exception) {}
-        return null
+        } catch (ignored: Exception) { null }
     }
 
     fun shareImage(image: Bitmap, shareMessage: String) {
@@ -349,7 +342,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun exportDataRecords(records: ArrayList<DataRecord>): Uri? {
-        try {
+        return try {
             val out = context.openFileOutput("export.csv", Context.MODE_PRIVATE)
             val sdfDatetime = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
             out.write("Time;PM10;PM2.5;Temperature;Humidity;Pressure;Latitude;Longitude;Altitude\n".toByteArray())
@@ -367,13 +360,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
             }
             out.close()
             return FileProvider.getUriForFile(context, "com.chillibits.pmapp", context.getFileStreamPath("export.csv"))
-        } catch (ignored: Exception) {}
-        return null
+        } catch (ignored: Exception) { null }
     }
 
     fun deleteDataDatabase(chipId: String) {
-        val db = writableDatabase
-        db.execSQL("DROP TABLE IF EXISTS data_$chipId")
+        writableDatabase.execSQL("DROP TABLE IF EXISTS data_$chipId")
     }
 
     fun deleteAllDataDatabases() {
@@ -459,31 +450,34 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         val serializer = Xml.newSerializer()
         val writer = StringWriter()
         try {
-            serializer.setOutput(writer)
-            serializer.startDocument("UTF-8", true)
-            serializer.startTag("", "sensor-configuration")
-            // Favourites
-            serializer.startTag("", "favourites")
-            favourites.forEach {
-                serializer.startTag("", "sensor")
-                serializer.attribute("", "id", it.chipID)
-                serializer.attribute("", "name", it.name)
-                serializer.attribute("", "color", it.color.toString())
-                serializer.endTag("", "sensor")
+            // Serialize XML
+            serializer.run {
+                setOutput(writer)
+                startDocument("UTF-8", true)
+                startTag("", "sensor-configuration")
+                // Favourites
+                startTag("", "favourites")
+                favourites.forEach {
+                    startTag("", "sensor")
+                    attribute("", "id", it.chipID)
+                    attribute("", "name", it.name)
+                    attribute("", "color", it.color.toString())
+                    endTag("", "sensor")
+                }
+                endTag("", "favourites")
+                // Own sensors
+                startTag("", "own-sensors")
+                ownSensors.forEach {
+                    startTag("", "sensor")
+                    attribute("", "id", it.chipID)
+                    attribute("", "name", it.name)
+                    attribute("", "color", it.color.toString())
+                    endTag("", "sensor")
+                }
+                endTag("", "own-sensors")
+                endTag("", "sensor-configuration")
+                endDocument()
             }
-            serializer.endTag("", "favourites")
-            // Own sensors
-            serializer.startTag("", "own-sensors")
-            ownSensors.forEach {
-                serializer.startTag("", "sensor")
-                serializer.attribute("", "id", it.chipID)
-                serializer.attribute("", "name", it.name)
-                serializer.attribute("", "color", it.color.toString())
-                serializer.endTag("", "sensor")
-            }
-            serializer.endTag("", "own-sensors")
-            serializer.endTag("", "sensor-configuration")
-            serializer.endDocument()
             // Write to file
             val out = context.openFileOutput("sensor_config.xml", Context.MODE_PRIVATE)
             out.write(writer.toString().toByteArray())

@@ -33,9 +33,7 @@ data class ExternalSensorCompressedList (val items: List<ExternalSensorCompresse
             ExternalSensorCompressed.serializer().list.serialize(encoder, obj.items)
         }
 
-        override fun deserialize(decoder: Decoder): ExternalSensorCompressedList {
-            return ExternalSensorCompressedList(ExternalSensorCompressed.serializer().list.deserialize(decoder))
-        }
+        override fun deserialize(decoder: Decoder) = ExternalSensorCompressedList(ExternalSensorCompressed.serializer().list.deserialize(decoder))
     }
 }
 

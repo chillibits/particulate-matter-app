@@ -21,7 +21,5 @@ class Sensor: Comparable<Any>, Serializable {
         this.color = color
     }
 
-    override operator fun compareTo(other: Any): Int {
-        return name.compareTo((other as Sensor).name)
-    }
+    override operator fun compareTo(other: Any) = name.compareTo((other as Sensor).name)
 }
