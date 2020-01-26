@@ -80,7 +80,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
     val selectedSensors: ArrayList<Sensor>
         get() {
-            val selectedSensors = FavoritesFragment.selectedSensors + OwnSensorsFragment.selectedSensors
+            val selectedSensors = FavoritesFragment.getSelectedSensors() + OwnSensorsFragment.getSelectedSensors()
             return ArrayList(selectedSensors.distinctBy { it.chipID })
         }
 
@@ -92,9 +92,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
     }
 
     override fun getItem(pos: Int) = if (pos == 0) FavoritesFragment() else if(pos == 1) AllSensorsFragment() else OwnSensorsFragment()
-
     override fun getCount() = 3
-
     override fun getPageTitle(position: Int) = ""
 
     fun refresh() {
@@ -158,8 +156,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
 
-            val selectedSensors: ArrayList<Sensor>
-                get() = sensor_view_adapter.selectedSensors
+            fun getSelectedSensors() = sensor_view_adapter.selectedSensors
 
             fun deselectAllSensors() {
                 sensor_view_adapter.deselectAllSensors()
@@ -756,7 +753,6 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             contentView.sensor_view.setItemViewCacheSize(100)
             contentView.sensor_view.layoutManager = LinearLayoutManager(activity)
-
             contentView.no_data_text.movementMethod = LinkMovementMethod.getInstance()
 
             refresh()
@@ -767,20 +763,18 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         companion object {
             // Variables as objects
             private lateinit var contentView: View
-            private lateinit var sensor_view: RecyclerView
             private lateinit var sensor_view_adapter: SensorAdapter
             private lateinit var sensors: ArrayList<Sensor>
 
             fun refresh() {
                 sensors = su.allOwnSensors
                 sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_OWN_SENSORS)
-                sensor_view.adapter = sensor_view_adapter
-                sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
-                contentView.findViewById<View>(R.id.no_data).visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
+                contentView.sensor_view.adapter = sensor_view_adapter
+                contentView.sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
+                contentView.no_data.visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
             }
 
-            val selectedSensors: ArrayList<Sensor>
-                get() = sensor_view_adapter.selectedSensors
+            fun getSelectedSensors() = sensor_view_adapter.selectedSensors
 
             fun deselectAllSensors() {
                 sensor_view_adapter.deselectAllSensors()
@@ -797,7 +791,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     }
                 }
                 sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_OWN_SENSORS)
-                sensor_view.adapter = sensor_view_adapter
+                contentView.sensor_view.adapter = sensor_view_adapter
             }
         }
     }
