@@ -57,7 +57,5 @@ class DataAdapter : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
         for (h in holders) h.itemView.item_gps_container.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    override fun getItemCount(): Int {
-        return SensorActivity.records.size
-    }
+    override fun getItemCount() = SensorActivity.records.size
 }

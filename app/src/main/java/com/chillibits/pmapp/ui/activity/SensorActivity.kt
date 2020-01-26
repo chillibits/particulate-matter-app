@@ -86,13 +86,9 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             }
         }
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this@SensorActivity)
-
-        // Initialize NotificationUtils
         nu = NotificationUtils(this)
 
         // Get intent extras

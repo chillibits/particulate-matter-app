@@ -46,9 +46,9 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
 
     internal constructor(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    override fun getItemViewType(pos: Int): Int {
-        return if (shallShowHeader()) if (pos == 0) TYPE_HEADER else TYPE_ITEM else TYPE_ITEM
-    }
+    override fun getItemViewType(pos: Int) = if (shallShowHeader())
+        if (pos == 0) TYPE_HEADER else TYPE_ITEM
+    else TYPE_ITEM
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_HEADER) {
@@ -177,13 +177,8 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
         }
     }
 
-    override fun getItemCount(): Int {
-        return if (shallShowHeader()) sensors.size + 1 else sensors.size
-    }
-
-    private fun shallShowHeader(): Boolean {
-        return su.getBoolean("SensorViewHeader", true)
-    }
+    override fun getItemCount() = if (shallShowHeader()) sensors.size + 1 else sensors.size
+    private fun shallShowHeader() = su.getBoolean("SensorViewHeader", true)
 
     fun deselectAllSensors() {
         CoroutineScope(Dispatchers.Default).launch {

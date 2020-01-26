@@ -64,10 +64,8 @@ class AddSensorActivity : AppCompatActivity() {
             }
         }
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
 
         // Initialize Components

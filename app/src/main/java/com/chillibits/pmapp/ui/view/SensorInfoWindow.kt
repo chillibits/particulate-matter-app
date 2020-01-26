@@ -63,13 +63,15 @@ fun showSensorInfoWindow(activity: Activity, smu: ServerMessagingUtils, sensorId
     }
 }
 
-fun setInfoWindowValues(activity: Activity, v: View, public: Boolean = false, firmwareVersion: String = "-", creationDate: String = "-", lat: String = "-", lng: String = "-", alt: String = "-") {
+fun setInfoWindowValues(activity: Activity, view: View, public: Boolean = false, firmwareVersion: String = "-", creationDate: String = "-", lat: String = "-", lng: String = "-", alt: String = "-") {
     CoroutineScope(Dispatchers.Main).launch {
-        v.sensor_public_value.text = if(public) activity.getString(R.string.yes) else activity.getString(R.string.no)
-        v.sensor_firmware_version_value.text = firmwareVersion
-        v.sensor_creation_value.text = creationDate
-        v.sensor_lat_value.text = lat
-        v.sensor_lng_value.text = lng
-        v.sensor_alt_value.text = alt
+        view.run {
+            sensor_public_value.text = if(public) activity.getString(R.string.yes) else activity.getString(R.string.no)
+            sensor_firmware_version_value.text = firmwareVersion
+            sensor_creation_value.text = creationDate
+            sensor_lat_value.text = lat
+            sensor_lng_value.text = lng
+            sensor_alt_value.text = alt
+        }
     }
 }

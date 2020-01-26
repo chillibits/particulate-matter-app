@@ -95,10 +95,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         toolbar.title = getString(R.string.app_name)
         setSupportActionBar(toolbar)
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
 
         // Initialize components

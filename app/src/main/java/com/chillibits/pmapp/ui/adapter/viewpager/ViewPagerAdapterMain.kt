@@ -65,6 +65,7 @@ import kotlinx.android.synthetic.main.dialog_add_sensor.view.*
 import kotlinx.android.synthetic.main.dialog_highscore.view.*
 import kotlinx.android.synthetic.main.item_highscore.view.*
 import kotlinx.android.synthetic.main.tab_all_sensors.view.*
+import kotlinx.android.synthetic.main.tab_my_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,17 +91,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         Companion.smu = smu
     }
 
-    override fun getItem(pos: Int): Fragment {
-        return if (pos == 0) FavoritesFragment() else if(pos == 1) AllSensorsFragment() else OwnSensorsFragment()
-    }
+    override fun getItem(pos: Int) = if (pos == 0) FavoritesFragment() else if(pos == 1) AllSensorsFragment() else OwnSensorsFragment()
 
-    override fun getCount(): Int {
-        return 3
-    }
+    override fun getCount() = 3
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return ""
-    }
+    override fun getPageTitle(position: Int) = ""
 
     fun refresh() {
         FavoritesFragment.refresh()
@@ -126,9 +121,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         if (mode == SensorAdapter.MODE_OWN_SENSORS) OwnSensorsFragment.search(query)
     }
 
-    fun closeInfoWindow(): Boolean {
-        return AllSensorsFragment.closeInfoWindow()
-    }
+    fun closeInfoWindow() = AllSensorsFragment.closeInfoWindow()
 
     //-------------------------------------------Fragments------------------------------------------
 
@@ -451,13 +444,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
         private fun showInfoWindow(marker: MarkerItem) {
-            if(selected_cluster_position != null) exitReveal(
-                sensor_cluster_container
-            )
+            if(selected_cluster_position != null) exitReveal(sensor_cluster_container)
             if (selected_marker_position != null && selected_marker_position?.latitude == marker.position.latitude && selected_marker_position?.longitude == marker.position.longitude) {
-                exitReveal(
-                    sensor_container
-                )
+                exitReveal(sensor_container)
             } else {
                 sensorChipId.text = marker.title
                 sensorCoordinates.text = marker.snippet
@@ -544,13 +533,9 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
         private fun showClusterWindow(cluster: Cluster<*>) {
-            if (selected_marker_position != null) exitReveal(
-                sensor_container
-            )
+            if (selected_marker_position != null) exitReveal(sensor_container)
             if (selected_cluster_position?.latitude == cluster.position.latitude && selected_cluster_position?.longitude == cluster.position.longitude) {
-                exitReveal(
-                    sensor_cluster_container
-                )
+                exitReveal(sensor_cluster_container)
             } else {
                 infoSensorCount.text = String.format(getString(R.string.sensors), cluster.items.size)
                 infoAverageValue.setText(R.string.loading)
@@ -752,32 +737,27 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             }
 
             fun closeInfoWindow(): Boolean {
-                if(selected_marker_position != null) {
+                return if(selected_marker_position != null) {
                     exitReveal(sensor_container)
                     selected_marker_position = null
-                    return true
+                    true
                 } else if(selected_cluster_position != null) {
                     exitReveal(sensor_cluster_container)
                     selected_cluster_position = null
-                    return true
-                }
-                return false
+                    true
+                } else false
             }
         }
     }
 
     class OwnSensorsFragment : Fragment() {
-        private var noDataText: TextView? = null
-
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = LayoutInflater.from(parent?.context).inflate(R.layout.tab_my_sensors, parent, false)
 
-            sensor_view = contentView.findViewById(R.id.sensor_view)
-            sensor_view.setItemViewCacheSize(100)
-            sensor_view.layoutManager = LinearLayoutManager(activity)
+            contentView.sensor_view.setItemViewCacheSize(100)
+            contentView.sensor_view.layoutManager = LinearLayoutManager(activity)
 
-            noDataText = contentView.findViewById(R.id.no_data_text)
-            noDataText!!.movementMethod = LinkMovementMethod.getInstance()
+            contentView.no_data_text.movementMethod = LinkMovementMethod.getInstance()
 
             refresh()
 

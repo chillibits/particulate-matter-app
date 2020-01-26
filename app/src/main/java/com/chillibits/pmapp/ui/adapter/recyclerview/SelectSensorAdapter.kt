@@ -89,9 +89,7 @@ class SelectSensorAdapter(private val su: StorageUtils, private val sensors: Arr
         }
     }
 
-    override fun getItemCount(): Int {
-        return sensors.size
-    }
+    override fun getItemCount() = sensors.size
 
     companion object {
         // Constants

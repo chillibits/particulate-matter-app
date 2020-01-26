@@ -37,7 +37,5 @@ class PlaceAutocompleteAdapter(private val results: ArrayList<AutocompletePredic
         }
     }
 
-    override fun getItemCount(): Int {
-        return results.size
-    }
+    override fun getItemCount() = results.size
 }

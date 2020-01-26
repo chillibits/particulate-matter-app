@@ -19,9 +19,9 @@ class ProgressDialog(private val context: Context) {
 
     init {
         dialog = AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setView(rootView)
-                .create()
+            .setCancelable(false)
+            .setView(rootView)
+            .create()
     }
 
     fun setTitle(message: String): ProgressDialog {
@@ -58,7 +58,5 @@ class ProgressDialog(private val context: Context) {
         dialog.dismiss()
     }
 
-    fun isShowing(): Boolean {
-        return dialog.isShowing
-    }
+    fun isShowing() = dialog.isShowing
 }

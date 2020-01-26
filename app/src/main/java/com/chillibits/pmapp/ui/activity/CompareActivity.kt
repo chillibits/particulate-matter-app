@@ -92,9 +92,7 @@ class CompareActivity : AppCompatActivity() {
             selected_day_timestamp = current_day_timestamp
         }
 
-        // Initialize StorageUtils
-        su = StorageUtils(this)
-
+        // Initialize util packages
         // Initialize ServiceMessagingUtils
         smu = ServerMessagingUtils(this)
 

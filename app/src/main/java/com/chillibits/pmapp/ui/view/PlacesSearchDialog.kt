@@ -43,8 +43,6 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
     init {
         setContentView(R.layout.place_search_dialog)
         window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        //LatLngBounds(LatLng(-85.0, 180.0), LatLng(85.0, -180.0))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +61,6 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
 
     private fun initDialog(){
         val adapter = PlaceAutocompleteAdapter(results, this)
-
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
 
@@ -76,31 +73,31 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
                     loadingIndicator.visibility = View.VISIBLE
                     recyclerFrame.visibility = View.GONE
                     val predictionRequest = FindAutocompletePredictionsRequest.builder()
-                            .setQuery(query.toString())
-                            .setSessionToken(AutocompleteSessionToken.newInstance())
-                            .build()
+                        .setQuery(query.toString())
+                        .setSessionToken(AutocompleteSessionToken.newInstance())
+                        .build()
                     placesClient
-                            .findAutocompletePredictions(predictionRequest)
-                            .addOnSuccessListener {response ->
-                                if(response.autocompletePredictions.size > 0) {
-                                    noResultsLayout.visibility = View.GONE
+                        .findAutocompletePredictions(predictionRequest)
+                        .addOnSuccessListener {response ->
+                            if(response.autocompletePredictions.size > 0) {
+                                noResultsLayout.visibility = View.GONE
 
-                                    results.clear()
-                                    for(prediction in response.autocompletePredictions) results.add(prediction)
+                                results.clear()
+                                for(prediction in response.autocompletePredictions) results.add(prediction)
 
-                                    recyclerView.adapter = PlaceAutocompleteAdapter(results, this@PlacesSearchDialog)
-                                    recyclerFrame.visibility = View.VISIBLE
-                                } else {
-                                    noResultsLayout.visibility = View.VISIBLE
-                                    recyclerFrame.visibility = View.GONE
-                                }
-                                loadingIndicator.visibility = View.GONE
-                            }
-                            .addOnFailureListener {exception ->
-                                if(exception is ApiException) Log.e(Constants.TAG, "Place not found: " + exception.statusCode)
-                                loadingIndicator.visibility = View.GONE
+                                recyclerView.adapter = PlaceAutocompleteAdapter(results, this@PlacesSearchDialog)
                                 recyclerFrame.visibility = View.VISIBLE
+                            } else {
+                                noResultsLayout.visibility = View.VISIBLE
+                                recyclerFrame.visibility = View.GONE
                             }
+                            loadingIndicator.visibility = View.GONE
+                        }
+                        .addOnFailureListener {exception ->
+                            if(exception is ApiException) Log.e(Constants.TAG, "Place not found: " + exception.statusCode)
+                            loadingIndicator.visibility = View.GONE
+                            recyclerFrame.visibility = View.VISIBLE
+                        }
                 } else {
                     loadingIndicator.visibility = View.GONE
                     recyclerFrame.visibility = View.GONE
@@ -115,19 +112,19 @@ class PlacesSearchDialog(mContext: Context, private val listener: PlaceSelectedC
     override fun onPlaceSelected(placeId: String) {
         val placeFields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
         placesClient.fetchPlace(FetchPlaceRequest.newInstance(placeId, placeFields))
-                .addOnSuccessListener {response ->
-                    listener.onPlaceSelected(response.place)
-                    this.dismiss()
+            .addOnSuccessListener {response ->
+                listener.onPlaceSelected(response.place)
+                this.dismiss()
+            }
+            .addOnFailureListener {exception ->
+                if(exception is ApiException) {
+                    Log.e(Constants.TAG, "Not able to fetch place: " + exception.statusCode)
+                    Toast.makeText(context, R.string.error_try_again, Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener {exception ->
-                    if(exception is ApiException) {
-                        Log.e(Constants.TAG, "Not able to fetch place: " + exception.statusCode)
-                        Toast.makeText(context, R.string.error_try_again, Toast.LENGTH_SHORT).show()
-                    }
-                }
+            }
     }
 
-    private fun showKeyboard(){
+    private fun showKeyboard() {
         this.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 }
