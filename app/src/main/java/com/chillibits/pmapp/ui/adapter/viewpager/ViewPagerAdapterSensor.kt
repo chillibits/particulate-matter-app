@@ -823,8 +823,7 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
             data_view = contentView.findViewById(R.id.data)
             dataViewManager = LinearLayoutManager(context)
             data_view.layoutManager = dataViewManager
-            data_view.adapter =
-                data_view_adapter
+            data_view.adapter = data_view_adapter
             data_view.setHasFixedSize(true)
             if (records != null) {
                 contentView.findViewById<View>(R.id.loading).visibility = View.GONE
@@ -872,13 +871,8 @@ class ViewPagerAdapterSensor(manager: FragmentManager, activity: SensorActivity,
                 headingPressureArrow.setOnClickListener { pressureSortClicked() }
             }
 
-            showGPSData(
-                show_gps_data
-            )
-
-            listener.onDataFragmentLoaded(
-                record_counter
-            )
+            showGPSData(show_gps_data)
+            listener.onDataFragmentLoaded(record_counter)
 
             return contentView
         }
