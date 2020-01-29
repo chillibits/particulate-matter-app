@@ -107,13 +107,11 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         prefs.edit().putFloat(name, value.toFloat()).apply()
     }
 
-    fun getString(name: String) = prefs.getString(name, DEFAULT_STRING_VALUE).toString()
-    fun getBoolean(name: String) = prefs.getBoolean(name, DEFAULT_BOOLEAN_VALUE)
-    fun getDouble(name: String) = prefs.getFloat(name, DEFAULT_DOUBLE_VALUE.toFloat()).toDouble()
-    fun getString(name: String, default_value: String) = prefs.getString(name, default_value).toString()
-    fun getInt(name: String, default_value: Int) = prefs.getInt(name, default_value)
-    fun getBoolean(name: String, default_value: Boolean) = prefs.getBoolean(name, default_value)
-    fun getLong(name: String, default_value: Long) = prefs.getLong(name, default_value)
+    fun getString(name: String, default: String = DEFAULT_STRING_VALUE) = prefs.getString(name, default).toString()
+    fun getBoolean(name: String, default: Boolean = DEFAULT_BOOLEAN_VALUE) = prefs.getBoolean(name, default)
+    fun getDouble(name: String, default: Double = DEFAULT_DOUBLE_VALUE) = prefs.getFloat(name, default.toFloat()).toDouble()
+    fun getInt(name: String, default: Int) = prefs.getInt(name, default)
+    fun getLong(name: String, default: Long) = prefs.getLong(name, default)
 
     fun removeKey(name: String) {
         prefs.edit().remove(name).apply()
