@@ -671,6 +671,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     map?.clear()
                 }
                 for (sensor in sensors) {
+                    if(sensor.lat == 0.0 && sensor.lng == 0.0) continue
                     if (isMarkerClusteringEnabled) {
                         val m = MarkerItem(sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, LatLng(sensor.lat, sensor.lng))
                         clusterManager.addItem(SensorClusterItem(sensor.lat, sensor.lng, sensor.chipId, sensor.lat.toString() + ", " + sensor.lng, m))
