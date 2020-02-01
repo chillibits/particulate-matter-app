@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/p1"
@@ -36,6 +36,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/no_data"
-        android:visibility="gone"/>
+        android:text="@string/no_data"/>
 </RelativeLayout>
