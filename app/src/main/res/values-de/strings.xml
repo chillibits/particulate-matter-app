@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Wed, 29 Jan 2020 16:36:05 +0100
+ Exported at: Sun, 02 Feb 2020 16:54:23 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -188,7 +188,7 @@
     <string name="zero_to_disable">Zur Deaktivierung auf 0 setzen</string>
     <plurals name="measurements">
         <item quantity="one">1 Messung</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s Messungen</item>
     </plurals>
     <!-- Performance Settings -->
