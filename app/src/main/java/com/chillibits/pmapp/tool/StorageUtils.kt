@@ -236,7 +236,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         }
         db.setTransactionSuccessful()
         db.endTransaction()
-        db.close()
+        //db.close()
     }
 
     fun clearExternalSensors() {
@@ -274,7 +274,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         }
         db.setTransactionSuccessful()
         db.endTransaction()
-        db.close()
+        //db.close()
     }
 
     fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {

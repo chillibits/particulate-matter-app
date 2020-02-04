@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright © Marc Auberer 2020. All rights reserved
+  -->
+
+<!--
  Loco xml export: Android string resources
  Project: Particulate Matter App
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Sun, 02 Feb 2020 16:54:23 +0100
+ Exported at: Tue, 04 Feb 2020 15:45:06 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -37,7 +41,7 @@
     <string name="update_available">Frissítés érhető el</string>
     <string name="download">Letöltés</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label_large"></string>
+    <string name="widget_label_large">Szállópor kijelző\u0020</string>
     <string name="widget_app_data_cleared">Az adatok ki lettek törölve, kérjük válaszd ki újra a szenzort!</string>
     <string name="widget_select_sensor">Szenzor kiválasztása</string>
     <string name="widget_no_data">Még nincsenek kedvencek. Koppints lejjebb a kedvencek hozzáadásához majd válaszd ki a modult újra.</string>
@@ -255,12 +259,12 @@
     <string name="unknown_sensor">Ismeretlen szenzor</string>
     <string name="default_map_type">Alapból beállított térkép típus</string>
     <string name="enable_traffic_by_default">Mutassa a közúti forgalmat alapértelmezésben</string>
-    <string name="sync_running"></string>
+    <string name="sync_running">Szinkronizáció folyamatban</string>
     <!-- Please only paste url with the correct anchor -->
-    <string name="url_id_info"></string>
-    <string name="get_in_touch"></string>
-    <string name="sensor_highscore"></string>
-    <string name="connected_to_web_version"></string>
-    <string name="widget_label_small"></string>
-    <string name="pref_enable_threshold_notifications"></string>
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Elérhetőség</string>
+    <string name="sensor_highscore">Szenzor csúcsérték</string>
+    <string name="connected_to_web_version">Csatlakozva pm.chillibits.com-hoz</string>
+    <string name="widget_label_small">Gyors infó csempe</string>
+    <string name="pref_enable_threshold_notifications">Határérték értesítések engedélyezése</string>
 </resources>
