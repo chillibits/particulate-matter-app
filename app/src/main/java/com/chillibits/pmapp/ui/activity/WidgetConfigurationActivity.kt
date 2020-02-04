@@ -16,7 +16,7 @@ import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chillibits.pmapp.model.Sensor
-import com.chillibits.pmapp.service.SyncJobService
+import com.chillibits.pmapp.service.SyncService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.adapter.recyclerview.SelectSensorAdapter
@@ -103,9 +103,9 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun finishConfiguration() {
         if(sensorViewAdapter.selectedSensor != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(Intent(this, SyncJobService::class.java))
+                startForegroundService(Intent(this, SyncService::class.java))
             } else {
-                startService(Intent(this, SyncJobService::class.java))
+                startService(Intent(this, SyncService::class.java))
             }
             su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)

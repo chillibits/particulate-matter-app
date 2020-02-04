@@ -12,7 +12,7 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
-import com.chillibits.pmapp.service.SyncJobService
+import com.chillibits.pmapp.service.SyncService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
@@ -57,9 +57,9 @@ class WidgetProviderSmall : AppWidgetProvider() {
             val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_SMALL_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
             update(context, rv, widgetId)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(Intent(context, SyncJobService::class.java))
+                context.startForegroundService(Intent(context, SyncService::class.java))
             } else {
-                context.startService(Intent(context, SyncJobService::class.java))
+                context.startService(Intent(context, SyncService::class.java))
             }
         }
     }

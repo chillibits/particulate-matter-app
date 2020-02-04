@@ -158,12 +158,16 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <!-- SyncService -->
+        <!-- SyncJobService -->
         <service
             android:name="com.chillibits.pmapp.service.SyncJobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!-- SyncService -->
+        <service
+            android:name="com.chillibits.pmapp.service.SyncService"
+            android:enabled="true" />
         <!-- WebRealtimeSyncService -->
         <service android:name="com.chillibits.pmapp.service.WebRealtimeSyncService" />
         <!-- BootCompletedReceiver -->
@@ -185,7 +189,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!-- HomeScreen Widgets -->
+        <!-- HomeScreen Widget large -->
         <receiver
             android:name="com.chillibits.pmapp.widget.WidgetProviderLarge"
             android:label="@string/widget_label_large">
@@ -197,6 +201,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_large" />
         </receiver>
+        <!-- HomeScreen Widget small -->
         <receiver
             android:name="com.chillibits.pmapp.widget.WidgetProviderSmall"
             android:label="@string/widget_label_small">
