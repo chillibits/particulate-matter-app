@@ -53,6 +53,7 @@ class CompareActivity : AppCompatActivity() {
     private val sdfTime = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     // Util packages
+    private lateinit var su: StorageUtils
     private lateinit var smu: ServerMessagingUtils
     
     // Components
@@ -93,7 +94,7 @@ class CompareActivity : AppCompatActivity() {
         }
 
         // Initialize util packages
-        // Initialize ServiceMessagingUtils
+        su = StorageUtils(this)
         smu = ServerMessagingUtils(this)
 
         // Load sensors
