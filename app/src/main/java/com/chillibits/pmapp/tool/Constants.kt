@@ -41,7 +41,8 @@ object Constants {
     const val JOB_SYNC_ID = 10002
 
     // HomeScreen widget
-    const val WIDGET_EXTRA_SENSOR_ID = "SensorID"
-    const val WIDGET_EXTRA_WIDGET_ID = "WidgetID"
+    const val WIDGET_LARGE_EXTRA_SENSOR_ID = "WidgetLargeSensorID"
+    const val WIDGET_SMALL_EXTRA_SENSOR_ID = "WidgetSmallSensorID"
+    const val WIDGET_EXTRA_LARGE_WIDGET_ID = "LargeWidgetID"
     const val WIDGET_EXTRA_SMALL_WIDGET_ID = "SmallWidgetID"
 }

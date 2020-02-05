@@ -13,4 +13,4 @@
     android:initialLayout="@layout/widget_large"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen|keyguard"
-    android:configure="com.chillibits.pmapp.ui.activity.WidgetConfigurationActivity"/>
+    android:configure="com.chillibits.pmapp.ui.activity.WidgetLargeConfigurationActivity"/>

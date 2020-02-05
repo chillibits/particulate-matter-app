@@ -144,9 +144,18 @@
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="android:screenOrientation" />
-        <!-- WidgetConfigurationActivity -->
+        <!-- WidgetLargeConfigurationActivity -->
         <activity
-            android:name="com.chillibits.pmapp.ui.activity.WidgetConfigurationActivity"
+            android:name="com.chillibits.pmapp.ui.activity.WidgetLargeConfigurationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <!-- WidgetSmallConfigurationActivity -->
+        <activity
+            android:name="com.chillibits.pmapp.ui.activity.WidgetSmallConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

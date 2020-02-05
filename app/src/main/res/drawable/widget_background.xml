@@ -6,5 +6,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/colorBackground"/>
     <stroke android:color="@color/gray_light" android:width="2dp" />
-    <corners android:radius="20dp"/>
+    <corners android:radius="500dp"/>
 </shape>

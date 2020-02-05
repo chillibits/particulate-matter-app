@@ -350,7 +350,7 @@ class SensorActivity : AppCompatActivity(), ViewPagerAdapterSensor.OnFragmentsLo
             // If there is a widget for this sensor, refresh it
             val updateIntent = Intent(applicationContext, WidgetProviderLarge::class.java)
             updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensor.chipID)
+            updateIntent.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, sensor.chipID)
             sendBroadcast(updateIntent)
 
             CoroutineScope(Dispatchers.Main).launch {

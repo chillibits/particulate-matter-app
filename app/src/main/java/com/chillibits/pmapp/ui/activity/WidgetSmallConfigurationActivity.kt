@@ -20,13 +20,13 @@ import com.chillibits.pmapp.service.SyncService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.adapter.recyclerview.SelectSensorAdapter
-import com.chillibits.pmapp.widget.WidgetProviderLarge
+import com.chillibits.pmapp.widget.WidgetProviderSmall
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_widget_configuration.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
-class WidgetConfigurationActivity : AppCompatActivity() {
+class WidgetSmallConfigurationActivity : AppCompatActivity() {
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -73,13 +73,13 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             )
             sensor_view.run {
                 setItemViewCacheSize(100)
-                layoutManager = LinearLayoutManager(this@WidgetConfigurationActivity)
+                layoutManager = LinearLayoutManager(this@WidgetSmallConfigurationActivity)
                 adapter = sensorViewAdapter
             }
         } else {
             no_data.visibility = View.VISIBLE
             add_sensor.setOnClickListener {
-                startActivity(Intent(this@WidgetConfigurationActivity, MainActivity::class.java))
+                startActivity(Intent(this@WidgetSmallConfigurationActivity, MainActivity::class.java))
                 finish()
             }
         }
@@ -111,12 +111,12 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 
             val widgetManager = AppWidgetManager.getInstance(this)
-            val views = RemoteViews(packageName, R.layout.widget_large)
+            val views = RemoteViews(packageName, R.layout.widget_small)
             widgetManager.updateAppWidget(appWidgetId, views)
 
-            val update = Intent(applicationContext, WidgetProviderLarge::class.java)
+            val update = Intent(applicationContext, WidgetProviderSmall::class.java)
             update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            update.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
+            update.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
             sendBroadcast(update)
 
             val result = Intent()

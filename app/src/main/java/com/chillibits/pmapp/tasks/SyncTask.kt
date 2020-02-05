@@ -18,6 +18,7 @@ import com.chillibits.pmapp.tool.NotificationUtils
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
 import com.chillibits.pmapp.widget.WidgetProviderLarge
+import com.chillibits.pmapp.widget.WidgetProviderSmall
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -161,11 +162,16 @@ class SyncTask(val context: Context, val listener: OnTaskCompleteListener, val f
                                 }
                             }
 
-                            // Refresh home screen widget
-                            val updateIntent = Intent(context, WidgetProviderLarge::class.java)
-                            updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                            updateIntent.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, s.chipID)
-                            context.sendBroadcast(updateIntent)
+                            // Refresh home screen widgets
+                            val updateLargeIntent = Intent(context, WidgetProviderLarge::class.java)
+                            updateLargeIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                            updateLargeIntent.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, s.chipID)
+                            context.sendBroadcast(updateLargeIntent)
+
+                            val updateSmallIntent = Intent(context, WidgetProviderSmall::class.java)
+                            updateSmallIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                            updateSmallIntent.putExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID, s.chipID)
+                            context.sendBroadcast(updateSmallIntent)
                         }
                     }
                 } catch (e: Exception) {

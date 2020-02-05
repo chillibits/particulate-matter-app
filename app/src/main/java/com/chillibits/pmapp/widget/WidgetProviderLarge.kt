@@ -38,7 +38,7 @@ class WidgetProviderLarge : AppWidgetProvider() {
             // Refresh button
             val refresh = Intent(context, javaClass)
             refresh.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id)
+            refresh.putExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, widget_id)
             val refreshPi = PendingIntent.getBroadcast(context, 0, refresh, 0)
             rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPi)
             // Update data
@@ -52,9 +52,9 @@ class WidgetProviderLarge : AppWidgetProvider() {
 
         val rv = RemoteViews(context.packageName, R.layout.widget_large)
 
-        if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_SENSOR_ID)) {
+        if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID)) {
             // Get WidgetID
-            val widgetId = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
+            val widgetId = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
             if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 rv.setViewVisibility(R.id.widget_refreshing, View.GONE)
                 rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE)
@@ -62,8 +62,8 @@ class WidgetProviderLarge : AppWidgetProvider() {
                 initializeComponents(context, rv, widgetId)
                 updateData(context, rv, widgetId)
             }
-        } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_WIDGET_ID)) {
-            val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID)) {
+            val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
             rv.setViewVisibility(R.id.widget_refreshing, View.VISIBLE)
             rv.setViewVisibility(R.id.widget_refresh, View.INVISIBLE)
 
@@ -86,7 +86,7 @@ class WidgetProviderLarge : AppWidgetProvider() {
         // Refresh button
         val refresh = Intent(context, javaClass)
         refresh.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id)
+        refresh.putExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, widget_id)
         val refreshPi = PendingIntent.getBroadcast(context, 0, refresh, 0)
         rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPi)
     }

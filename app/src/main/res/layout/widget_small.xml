@@ -10,16 +10,38 @@
 
     <RelativeLayout
         android:id="@+id/data_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="40"
+            android:indeterminate="false"
+            android:progress="20"
+            android:progressDrawable="@drawable/progress_circle"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/p1"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:text="@string/loading"/>
 
         <TextView
             android:id="@+id/p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/p2"
             android:layout_centerHorizontal="true"
+            android:textSize="12sp"
             android:text="@string/loading" />
 
         <TextView
@@ -28,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/loading"
-            android:layout_below="@+id/p1"/>
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <TextView
