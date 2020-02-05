@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Tue, 04 Feb 2020 10:01:38 +0000
+ Exported at: Wed, 05 Feb 2020 20:55:26 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -268,4 +268,6 @@
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
     <string name="widget_label_small"></string>
     <string name="pref_enable_threshold_notifications"></string>
+    <string name="find_sensor_locally"></string>
+    <string name="searching_ip_address"></string>
 </resources>

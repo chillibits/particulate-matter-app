@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Tue, 04 Feb 2020 15:45:06 +0100
+ Exported at: Wed, 05 Feb 2020 21:55:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -267,4 +267,6 @@
     <string name="connected_to_web_version">Csatlakozva pm.chillibits.com-hoz</string>
     <string name="widget_label_small">Gyors infó csempe</string>
     <string name="pref_enable_threshold_notifications">Határérték értesítések engedélyezése</string>
+    <string name="find_sensor_locally"></string>
+    <string name="searching_ip_address"></string>
 </resources>

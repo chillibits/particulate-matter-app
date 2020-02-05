@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Tue, 04 Feb 2020 15:45:06 +0100
+ Exported at: Wed, 05 Feb 2020 21:55:27 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -37,7 +37,7 @@
     <string name="support_end_m">¡Lo sentimos! La aplicación de material particulado ya no es compatible. Ahora puede desinstalar la aplicación.</string>
     <string name="update_necessary_t">¡Actualización disponible!</string>
     <string name="update_necessary_m">Tienes que hacer una actualización para que la aplicación funcione.</string>
-    <string name="download_update">descargar</string>
+    <string name="download_update">Descargar</string>
     <string name="update_available">Actualización disponible</string>
     <string name="download">Descargar</string>
     <!-- HomeScreen Widget -->
@@ -265,6 +265,8 @@
     <string name="get_in_touch">Contáctanos</string>
     <string name="sensor_highscore">Lista de registros</string>
     <string name="connected_to_web_version">Conectado a pm.chillibits.com</string>
-    <string name="widget_label_small">mosaico de información rápida</string>
-    <string name="pref_enable_threshold_notifications">habilitar notificaciones de umbral</string>
+    <string name="widget_label_small">Mosaico de información rápida</string>
+    <string name="pref_enable_threshold_notifications">Habilitar notificaciones de umbral</string>
+    <string name="find_sensor_locally">Encontrar sensor en red</string>
+    <string name="searching_ip_address">Buscando dirección IP ...</string>
 </resources>

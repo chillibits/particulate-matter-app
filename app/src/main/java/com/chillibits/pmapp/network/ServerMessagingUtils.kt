@@ -26,6 +26,12 @@ class ServerMessagingUtils(private val context: Context) {
             return ni != null && ni.isConnectedOrConnecting
         }
 
+    val isWifi: Boolean
+        get() {
+            val ni = cm.activeNetworkInfo
+            return ni != null && ni.isConnectedOrConnecting && ni.type == ConnectivityManager.TYPE_WIFI
+        }
+
     fun checkConnection(v: View): Boolean {
         return if (isInternetAvailable) {
             true

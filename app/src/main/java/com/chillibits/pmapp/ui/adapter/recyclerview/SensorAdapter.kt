@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -17,10 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorExisting
+import com.chillibits.pmapp.tasks.SensorIPSearchTask
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.activity.AddSensorActivity
 import com.chillibits.pmapp.ui.activity.MainActivity
 import com.chillibits.pmapp.ui.activity.SensorActivity
+import com.chillibits.pmapp.ui.view.ProgressDialog
 import com.chillibits.pmapp.ui.view.showSensorInfoWindow
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_sensor.view.*
@@ -104,8 +107,16 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 item_more.setOnClickListener {
                     val popup = PopupMenu(activity, holder.itemView.item_more)
                     popup.inflate(R.menu.menu_sensor_more)
+                    if(mode == MODE_FAVOURITES) {
+                        popup.menu.getItem(0).isVisible = false
+                    } else if(!smu.isWifi) {
+                        popup.menu.getItem(0).isEnabled = false
+                    }
                     popup.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
+                            R.id.action_find_locally -> {
+                                findSensorLocally()
+                            }
                             R.id.action_sensor_edit -> {
                                 val i = Intent(activity, AddSensorActivity::class.java)
                                 i.run {
@@ -189,6 +200,24 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 }
             }
         }
+    }
+
+    private fun findSensorLocally() {
+        val pd = ProgressDialog(activity)
+        pd.setMessage(R.string.searching_ip_address)
+        pd.show()
+
+        val searchTask = SensorIPSearchTask(activity, object: SensorIPSearchTask.OnSearchEventListener{
+            override fun onSensorFound(ipAddress: String) {
+                pd.dismiss()
+            }
+
+            override fun onSearchFailed() {
+                pd.dismiss()
+                Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
+            }
+        })
+        searchTask.execute()
     }
 
     companion object {

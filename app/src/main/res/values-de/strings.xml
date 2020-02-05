@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Tue, 04 Feb 2020 18:51:34 +0100
+ Exported at: Wed, 05 Feb 2020 21:55:26 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -267,4 +267,6 @@
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>
     <string name="widget_label_small">QuickInfo-Kachel</string>
     <string name="pref_enable_threshold_notifications">Grenzwert-Benachrichtigungen aktivieren</string>
+    <string name="find_sensor_locally">Sensor im Netzwerk finden</string>
+    <string name="searching_ip_address">Suche IP-Adresse ...</string>
 </resources>
