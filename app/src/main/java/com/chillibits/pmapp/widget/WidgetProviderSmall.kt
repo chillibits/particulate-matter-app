@@ -29,7 +29,7 @@ class WidgetProviderSmall : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, app_widget_id)
         initialize(context)
 
-        val rv = RemoteViews(context.packageName, R.layout.widget_large)
+        val rv = RemoteViews(context.packageName, R.layout.widget_small)
 
         for (widget_id in app_widget_id) {
             // Refresh button

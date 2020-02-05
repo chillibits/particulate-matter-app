@@ -18,7 +18,6 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.telephony.TelephonyManager
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.util.TypedValue
@@ -312,7 +311,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             map?.uiSettings?.isRotateGesturesEnabled = false
             map?.uiSettings?.isZoomControlsEnabled = true
 
-            // relocate MyLocationButton
+            // Relocate MyLocationButton
             val locationButton = (map_fragment?.view!!.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2"))
             val rlp = locationButton.layoutParams as RelativeLayout.LayoutParams
             rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
@@ -356,16 +355,13 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 }
             }
 
-            // Zoom to current country
-            try {
-                val telManager = ViewPagerAdapterMain.activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                val iso = telManager.simCountryIso
-                current_country = Tools.getLocationFromAddress(ViewPagerAdapterMain.activity, iso)
-            } catch (ignored: Exception) {}
+            // Zoom to last known camera position
+            lastLocation = LatLng(su.getDouble("LastLat", 0.0), su.getDouble("LastLng", 0.0))
+            lastZoom = su.getDouble("LastZoom", 0.0).toFloat()
 
             map?.setOnCameraMoveListener {
+                val p = map!!.projection
                 if (selected_marker_position != null) {
-                    val p = map!!.projection
                     val screenPos = p.toScreenLocation(selected_marker_position)
                     val lp = RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT)
                     var x = max(0, screenPos.x - 275)
@@ -376,7 +372,6 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     sensor_container.layoutParams = lp
                 }
                 if (selected_cluster_position != null) {
-                    val p = map!!.projection
                     val screenPos = p.toScreenLocation(selected_cluster_position)
                     val lp = RelativeLayout.LayoutParams(550, ViewGroup.LayoutParams.WRAP_CONTENT)
                     var x = max(0, screenPos.x - 275)
@@ -386,6 +381,10 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     lp.setMargins(x, y, 0, 0)
                     sensor_cluster_container.layoutParams = lp
                 }
+                val bounds = p.visibleRegion.latLngBounds
+                su.putDouble("LastLat", bounds.center.latitude)
+                su.putDouble("LastLng", bounds.center.longitude)
+                su.putDouble("LastZoom", map!!.cameraPosition.zoom.toDouble())
             }
 
             map?.setOnMapClickListener {
@@ -416,9 +415,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     map?.setOnMyLocationChangeListener(null)
                 }
             } else if (isGPSEnabled(ViewPagerAdapterMain.activity)) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQ_LOCATION_PERMISSION
-                )
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), REQ_LOCATION_PERMISSION)
             }
         }
 
@@ -597,7 +594,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             private var map: GoogleMap? = null
             private lateinit var clusterManager: ClusterManager<SensorClusterItem>
             private lateinit var sensors: ArrayList<ExternalSensor>
-            private var current_country: LatLng? = null
+            private var lastLocation: LatLng? = null
+            private var lastZoom: Float? = null
             private lateinit var pd: ProgressDialog
             // Sensor info window
             private lateinit var sensor_container: RelativeLayout
@@ -685,7 +683,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         )
                     }
                 }
-                if(current_country != null) map?.moveCamera(CameraUpdateFactory.newLatLngZoom(current_country, 5f))
+                if(lastLocation != null && lastZoom != null) map?.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, lastZoom!!))
                 if (su.getBoolean("enable_marker_clustering", true)) clusterManager.cluster()
             }
 
