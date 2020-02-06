@@ -44,7 +44,6 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         android:layout_marginEnd="10dp"
         android:elevation="10dp"
-        android:visibility="gone"
         android:layout_marginBottom="10dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -66,7 +65,6 @@
         android:elevation="10dp"/>
 
     <!-- Selection Mode -->
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_compare"
         android:layout_width="wrap_content"

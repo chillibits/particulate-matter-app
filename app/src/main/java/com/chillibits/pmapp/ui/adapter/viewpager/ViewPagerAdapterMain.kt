@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.chillibits.pmapp.model.ExternalSensor
 import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.*
@@ -75,7 +76,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su: StorageUtils, smu: ServerMessagingUtils) : FragmentPagerAdapter(manager) {
+class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity, su: StorageUtils, smu: ServerMessagingUtils) : FragmentPagerAdapter(manager) {
 
     val selectedSensors: ArrayList<Sensor>
         get() {
@@ -84,7 +85,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         }
 
     init {
-        Companion.activity = activity
+        Companion.mainActivity = mainActivity
         random = Random()
         Companion.su = su
         Companion.smu = smu
@@ -146,7 +147,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 sensors = su.allFavourites
                 sensors.addAll(su.allOwnSensors)
 
-                sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_FAVOURITES)
+                sensor_view_adapter = SensorAdapter(mainActivity, sensors, su, smu, SensorAdapter.MODE_FAVOURITES)
                 sensor_view.run {
                     adapter = sensor_view_adapter
                     setHasFixedSize(true)
@@ -171,7 +172,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         if (s.name.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault())) || s.chipID.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))) searchValues.add(s)
                     }
                 }
-                sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_FAVOURITES)
+                sensor_view_adapter = SensorAdapter(mainActivity, searchValues, su, smu, SensorAdapter.MODE_FAVOURITES)
                 sensor_view.adapter = sensor_view_adapter
             }
         }
@@ -196,8 +197,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         private var currentColor: Int = 0
 
         private val isGPSPermissionGranted: Boolean
-            get() = ActivityCompat.checkSelfPermission(ViewPagerAdapterMain.activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                ViewPagerAdapterMain.activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            get() = ActivityCompat.checkSelfPermission(ViewPagerAdapterMain.mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                ViewPagerAdapterMain.mainActivity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = inflater.inflate(R.layout.tab_all_sensors, null) // Have to be like that. Otherwise the map onMapReady will not be called
@@ -206,7 +207,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             mapType = contentView.map_type
             val mapTypes = ArrayList<String>(resources.getStringArray(R.array.map_type).toList())
-            val adapterType = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTypes)
+            val adapterType = ArrayAdapter(ViewPagerAdapterMain.mainActivity, android.R.layout.simple_spinner_item, mapTypes)
             adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapType.adapter = adapterType
             mapType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -222,7 +223,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             mapTraffic = contentView.findViewById(R.id.map_traffic)
             val mapTrafficItems = ArrayList<String>(listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
-            val adapterTraffic = ArrayAdapter(ViewPagerAdapterMain.activity, android.R.layout.simple_spinner_item, mapTrafficItems)
+            val adapterTraffic = ArrayAdapter(ViewPagerAdapterMain.mainActivity, android.R.layout.simple_spinner_item, mapTrafficItems)
             adapterTraffic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = adapterTraffic
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -331,11 +332,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             enableOwnLocation()
 
-            map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.activity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
+            map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.mainActivity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
 
             // Initialize ClusterManager
-            clusterManager = ClusterManager(ViewPagerAdapterMain.activity, map)
-            clusterManager.renderer = ClusterRenderer(ViewPagerAdapterMain.activity, map!!, clusterManager, su)
+            clusterManager = ClusterManager(ViewPagerAdapterMain.mainActivity, map)
+            clusterManager.renderer = ClusterRenderer(ViewPagerAdapterMain.mainActivity, map!!, clusterManager, su)
             if (su.getBoolean("enable_marker_clustering", true)) {
                 map?.setOnMarkerClickListener(clusterManager)
                 clusterManager.setOnClusterItemClickListener { sensorClusterItem ->
@@ -391,7 +392,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 when {
                     selected_marker_position != null -> exitReveal(sensor_container)
                     selected_cluster_position != null -> exitReveal(sensor_cluster_container)
-                    else -> ViewPagerAdapterMain.activity.toggleToolbar()
+                    else -> ViewPagerAdapterMain.mainActivity.toggleToolbar()
                 }
             }
 
@@ -401,20 +402,20 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
             if (isGPSPermissionGranted) {
-                if (!isGPSEnabled(ViewPagerAdapterMain.activity)) startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                if (!isGPSEnabled(ViewPagerAdapterMain.mainActivity)) startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 enableOwnLocation()
             }
         }
 
         @SuppressLint("MissingPermission")
         private fun enableOwnLocation() {
-            if (isGPSPermissionGranted && isGPSEnabled(ViewPagerAdapterMain.activity)) {
+            if (isGPSPermissionGranted && isGPSEnabled(ViewPagerAdapterMain.mainActivity)) {
                 map?.isMyLocationEnabled = true
                 map?.setOnMyLocationChangeListener { location ->
                     moveCamera(LatLng(location.latitude, location.longitude))
                     map?.setOnMyLocationChangeListener(null)
                 }
-            } else if (isGPSEnabled(ViewPagerAdapterMain.activity)) {
+            } else if (isGPSEnabled(ViewPagerAdapterMain.mainActivity)) {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), REQ_LOCATION_PERMISSION)
             }
         }
@@ -458,7 +459,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     i.putExtra("Name", marker.tag)
                     i.putExtra("ID", marker.title)
                     i.putExtra("Color", currentColor)
-                    ViewPagerAdapterMain.activity.startActivity(i)
+                    ViewPagerAdapterMain.mainActivity.startActivity(i)
                 }
                 sensorLink.setOnClickListener {
                     if (!su.isFavouriteExisting(marker.title) && !su.isSensorExisting(marker.title)) {
@@ -475,7 +476,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         v.sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
                         v.choose_sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
 
-                        AlertDialog.Builder(ViewPagerAdapterMain.activity)
+                        AlertDialog.Builder(ViewPagerAdapterMain.mainActivity)
                             .setTitle(R.string.add_favourite)
                             .setView(v)
                             .setPositiveButton(R.string.done) { _, _ ->
@@ -514,7 +515,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     val geoCoder = Geocoder(activity, Locale.getDefault())
                     val addresses = geoCoder.getFromLocation(marker.position.latitude, marker.position.longitude, 1)
 
-                    var countryCityText = ViewPagerAdapterMain.activity.getString(R.string.unknown_location)
+                    var countryCityText = ViewPagerAdapterMain.mainActivity.getString(R.string.unknown_location)
                     if (addresses[0].countryName != null) countryCityText = addresses[0].countryName
                     if (addresses[0].locality != null) countryCityText += " - " + addresses[0].locality
                     sensorLocation.text = countryCityText
@@ -570,7 +571,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val result = loadClusterAverage(ViewPagerAdapterMain.activity, ids)
+                    val result = loadClusterAverage(ViewPagerAdapterMain.mainActivity, ids)
                     CoroutineScope(Dispatchers.Main).launch {
                         infoAverageValue.text = if(result == 0.0) getString(R.string.error_try_again) else "Ø $result µg/m³"
                     }
@@ -629,7 +630,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                             val lastRequestString = if (lastRequest.toString().length > 10) lastRequest.toString().substring(0, 10) else lastRequest.toString()
                             val newLastRequest = System.currentTimeMillis()
                             // Send request
-                            val syncPackage = loadSensorsSync(activity, lastRequestString, sensorHash)
+                            val syncPackage = loadSensorsSync(mainActivity, lastRequestString, sensorHash)
                             if (syncPackage != null) {
                                 // Remove sensors, that are not in the ids list
                                 if(syncPackage.ids.isNotEmpty()) {
@@ -646,7 +647,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                                 sensors = su.externalSensors
                                 CoroutineScope(Dispatchers.Main).launch { drawSensorsToMap() }
                             } else {
-                                CoroutineScope(Dispatchers.Main).launch { Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
+                                CoroutineScope(Dispatchers.Main).launch { Toast.makeText(mainActivity, R.string.error_try_again, Toast.LENGTH_SHORT).show() }
                             }
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
@@ -692,7 +693,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                     try {
                         // Load all sensors from server
                         val newLastRequest = System.currentTimeMillis()
-                        val result = ArrayList(loadSensorsNonSync(activity))
+                        val result = ArrayList(loadSensorsNonSync(mainActivity))
                         Log.i(Constants.TAG, "Loading time: " + (System.currentTimeMillis() - newLastRequest))
                         if (result.isNotEmpty()) {
                             su.clearExternalSensors()
@@ -754,6 +755,13 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
             contentView.sensor_view.layoutManager = LinearLayoutManager(activity)
             contentView.no_data_text.movementMethod = LinkMovementMethod.getInstance()
 
+            contentView.sensor_view.addOnScrollListener(object: OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    mainActivity.showFab(dy <= 0)
+                }
+            })
+
             refresh()
 
             return contentView
@@ -767,7 +775,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
 
             fun refresh() {
                 sensors = su.allOwnSensors
-                sensor_view_adapter = SensorAdapter(activity, sensors, su, smu, SensorAdapter.MODE_OWN_SENSORS)
+                sensor_view_adapter = SensorAdapter(mainActivity, sensors, su, smu, SensorAdapter.MODE_OWN_SENSORS)
                 contentView.sensor_view.adapter = sensor_view_adapter
                 contentView.sensor_view.visibility = if (sensors.size == 0) View.GONE else View.VISIBLE
                 contentView.no_data.visibility = if (sensors.size == 0) View.VISIBLE else View.GONE
@@ -789,7 +797,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
                         if (s.name.toLowerCase().contains(query.toLowerCase()) || s.chipID.toLowerCase().contains(query.toLowerCase())) searchValues.add(s)
                     }
                 }
-                sensor_view_adapter = SensorAdapter(activity, searchValues, su, smu, SensorAdapter.MODE_OWN_SENSORS)
+                sensor_view_adapter = SensorAdapter(mainActivity, searchValues, su, smu, SensorAdapter.MODE_OWN_SENSORS)
                 contentView.sensor_view.adapter = sensor_view_adapter
             }
         }
@@ -800,7 +808,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, activity: MainActivity, su:
         private const val REQ_LOCATION_PERMISSION = 10001
 
         // Variables as objects
-        private lateinit var activity: MainActivity
+        private lateinit var mainActivity: MainActivity
         private lateinit var random: Random
 
         // Utils packages

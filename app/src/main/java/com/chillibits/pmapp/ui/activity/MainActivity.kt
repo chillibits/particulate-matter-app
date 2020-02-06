@@ -106,51 +106,27 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         view_pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(pos: Int) {
                 if (search_view.isSearchOpen) search_view.closeSearch()
-                if (pos == 0) {
-                    if (fab.visibility == View.VISIBLE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_out)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationEnd(animation: Animation) {
-                                fab.visibility = View.GONE
-                            }
-                        })
-                        fab.startAnimation(a)
+
+                when(pos) {
+                    0 -> if (fab.isOrWillBeShown) fab.hide()
+                    1 -> {
+                        if (!fab.isOrWillBeShown) fab.show()
+                        if (selectedPage == 2) {
+                            fab.setImageResource(R.drawable.fab_anim_add_to_search)
+                            val drawable = fab.drawable
+                            if (drawable is Animatable) (drawable as Animatable).start()
+                        }
+                        selectedPage = 1
                     }
-                } else if (pos == 1) {
-                    if (fab.visibility == View.GONE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationStart(animation: Animation) {
-                                fab.visibility = View.VISIBLE
-                            }
-                        })
-                        fab.startAnimation(a)
+                    2 -> {
+                        if (!fab.isOrWillBeShown) fab.show()
+                        if (selectedPage == 1) {
+                            fab.setImageResource(R.drawable.fab_anim_search_to_add)
+                            val drawable = fab.drawable
+                            if (drawable is Animatable) (drawable as Animatable).start()
+                        }
+                        selectedPage = 2
                     }
-                    if (selectedPage == 2) {
-                        fab.setImageResource(R.drawable.fab_anim_add_to_search)
-                        val drawable = fab.drawable
-                        if (drawable is Animatable) (drawable as Animatable).start()
-                    }
-                    selectedPage = 1
-                } else if (pos == 2) {
-                    if (fab.visibility == View.GONE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationStart(animation: Animation) {
-                                fab.visibility = View.VISIBLE
-                            }
-                        })
-                        fab.startAnimation(a)
-                    }
-                    if (selectedPage == 1) {
-                        fab.setImageResource(R.drawable.fab_anim_search_to_add)
-                        val drawable = fab.drawable
-                        if (drawable is Animatable) (drawable as Animatable).start()
-                    }
-                    selectedPage = 2
                 }
 
                 if (prevMenuItem != null) {
@@ -165,10 +141,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         })
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            val id = item.itemId
-            if (id == R.id.action_my_favourites) view_pager.currentItem = 0
-            if (id == R.id.action_all_sensors) view_pager.currentItem = 1
-            if (id == R.id.action_my_sensors) view_pager.currentItem = 2
+            view_pager.currentItem = when(item.itemId) {
+                R.id.action_my_favourites -> 0
+                R.id.action_all_sensors -> 1
+                R.id.action_my_sensors -> 2
+                else -> 0
+            }
             true
         }
 
@@ -241,6 +219,11 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         restartApp(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(view_pager.currentItem > 0) fab.show()
     }
 
     override fun onDestroy() {
@@ -512,6 +495,14 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         }
     }
 
+    fun showFab(show: Boolean) {
+        if(show) {
+            fab.show()
+        } else {
+            fab.hide()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_ADD_OWN_SENSOR) {
@@ -620,15 +611,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             container.layoutParams = layoutParams
         }
         va.start()
-
-        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_out)
-        a.setAnimationListener(object : SimpleAnimationListener() {
-            @SuppressLint("RestrictedApi")
-            override fun onAnimationStart(animation: Animation) {
-                fab.visibility = View.GONE
-            }
-        })
-        fab.startAnimation(a)
+        fab.hide()
     }
 
     private fun showSystemBars() {
@@ -644,15 +627,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             container.layoutParams = layoutParams
         }
         va.start()
-
-        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-        a.setAnimationListener(object : SimpleAnimationListener() {
-            @SuppressLint("RestrictedApi")
-            override fun onAnimationStart(animation: Animation) {
-                fab.visibility = View.VISIBLE
-            }
-        })
-        fab.startAnimation(a)
+        fab.show()
         shownAgainOnce = true
     }
 
