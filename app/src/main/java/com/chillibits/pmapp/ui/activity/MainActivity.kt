@@ -108,9 +108,13 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                 if (search_view.isSearchOpen) search_view.closeSearch()
 
                 when(pos) {
-                    0 -> if (fab.isOrWillBeShown) fab.hide()
+                    0 -> {
+                        if(fab.isOrWillBeShown) fab.hide()
+                        if(fab_network.isOrWillBeShown) fab_network.hide()
+                    }
                     1 -> {
-                        if (!fab.isOrWillBeShown) fab.show()
+                        if(!fab.isOrWillBeShown) fab.show()
+                        if(fab_network.isOrWillBeShown) fab_network.hide()
                         if (selectedPage == 2) {
                             fab.setImageResource(R.drawable.fab_anim_add_to_search)
                             val drawable = fab.drawable
@@ -119,7 +123,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
                         selectedPage = 1
                     }
                     2 -> {
-                        if (!fab.isOrWillBeShown) fab.show()
+                        if(!fab.isOrWillBeShown) fab.show()
+                        if(!fab_network.isOrWillBeShown) fab_network.show()
                         if (selectedPage == 1) {
                             fab.setImageResource(R.drawable.fab_anim_search_to_add)
                             val drawable = fab.drawable
@@ -180,6 +185,13 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         sheet_fab.setFabAnimationEndListener { startActivityForResult(Intent(this@MainActivity, AddSensorActivity::class.java), REQ_ADD_OWN_SENSOR) }
         sheet_fab.setFab(fab)
 
+        fab_network.setOnClickListener {
+            sheet_fab_network.expandFab()
+        }
+
+        sheet_fab_network.setFabAnimationEndListener { startActivityForResult(Intent(this@MainActivity, LocalNetworkActivity::class.java), REQ_SCAN_LOCAL_NETWORK) }
+        sheet_fab_network.setFab(fab_network)
+
         fab_compare.setOnClickListener { sheet_fab_compare.expandFab() }
         sheet_fab_compare.setFabAnimationEndListener {
             // Launch CompareActivity
@@ -223,7 +235,10 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
     override fun onResume() {
         super.onResume()
-        if(view_pager.currentItem > 0) fab.show()
+        if(view_pager.currentItem > 0) {
+            fab.show()
+            if(view_pager.currentItem == 2) fab_network.show()
+        }
     }
 
     override fun onDestroy() {
@@ -496,10 +511,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     }
 
     fun showFab(show: Boolean) {
-        if(show) {
+        if(show && view_pager.currentItem > 0) {
             fab.show()
+            if(view_pager.currentItem == 2) fab_network.show()
         } else {
             fab.hide()
+            fab_network.hide()
         }
     }
 
@@ -509,6 +526,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             sheet_fab.contractFab()
         } else if (requestCode == REQ_COMPARE) {
             sheet_fab_compare.contractFab()
+        } else if (requestCode == REQ_SCAN_LOCAL_NETWORK) {
+            sheet_fab_network.contractFab()
         } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == Activity.RESULT_OK) {
             val matches = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             if (matches != null && matches.size > 0) {
@@ -642,6 +661,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         private const val REQ_COMPARE = 10003
         private const val REQ_SCAN_WEB = 10004
         private const val REQ_SCAN_SENSOR = 10005
+        private const val REQ_SCAN_LOCAL_NETWORK = 10006
 
         // Variables as objects
         var own_instance: MainActivity? = null

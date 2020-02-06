@@ -32,7 +32,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class SensorAdapter(private val activity: MainActivity, private val sensors: ArrayList<Sensor>, private val su: StorageUtils, private val smu: ServerMessagingUtils, private val mode: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -115,7 +114,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                     popup.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
                             R.id.action_find_locally -> {
-                                findSensorLocally()
+                                findSensorLocally(sensor.chipID.toInt())
                             }
                             R.id.action_sensor_edit -> {
                                 val i = Intent(activity, AddSensorActivity::class.java)
@@ -202,7 +201,7 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
         }
     }
 
-    private fun findSensorLocally() {
+    private fun findSensorLocally(chipId: Int) {
         val pd = ProgressDialog(activity)
         pd.setMessage(R.string.searching_ip_address)
         pd.show()
@@ -212,11 +211,13 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 pd.dismiss()
             }
 
+            override fun onSearchFinished(sensorList: ArrayList<Sensor>) {}
+
             override fun onSearchFailed() {
                 pd.dismiss()
                 Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
             }
-        })
+        }, chipId)
         searchTask.execute()
     }
 

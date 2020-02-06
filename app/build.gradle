@@ -64,7 +64,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.google.maps.android:android-maps-utils:0.6.2'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.TutorialsAndroid:FilePicker:v7.0.19'
+    implementation 'com.daandtu:android-web-scraper:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

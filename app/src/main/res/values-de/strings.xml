@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Thu, 06 Feb 2020 13:10:36 +0100
+ Exported at: Thu, 06 Feb 2020 17:20:22 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -268,5 +268,6 @@
     <string name="widget_label_small">QuickInfo-Kachel</string>
     <string name="pref_enable_threshold_notifications">Grenzwert-Benachrichtigungen aktivieren</string>
     <string name="find_sensor_locally">Sensor im Netzwerk finden</string>
-    <string name="searching_ip_address">Suche IP-Adresse ...</string>
+    <string name="searching_ip_address">Suche IP-Adresse …</string>
+    <string name="searching_for_sensors">Suche Sensoren …</string>
 </resources>

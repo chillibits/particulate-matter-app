@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Thu, 06 Feb 2020 12:10:35 +0000
+ Exported at: Thu, 06 Feb 2020 15:07:56 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -267,5 +267,6 @@
     <string name="widget_label_small">Quick info tile</string>
     <string name="pref_enable_threshold_notifications">Enable threshold notifications</string>
     <string name="find_sensor_locally">Find sensor in network</string>
-    <string name="searching_ip_address">Searching for IP address ...</string>
+    <string name="searching_ip_address">Searching for IP address …</string>
+    <string name="searching_for_sensors">Searching for sensors …</string>
 </resources>

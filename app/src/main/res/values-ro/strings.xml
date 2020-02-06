@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Thu, 06 Feb 2020 12:10:36 +0000
+ Exported at: Thu, 06 Feb 2020 15:07:58 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -270,4 +270,5 @@
     <string name="pref_enable_threshold_notifications"></string>
     <string name="find_sensor_locally"></string>
     <string name="searching_ip_address"></string>
+    <string name="searching_for_sensors"></string>
 </resources>
