@@ -5,16 +5,20 @@
 package com.chillibits.pmapp.ui.activity
 
 import android.app.Activity
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chillibits.pmapp.model.ScrapingResult
 import com.chillibits.pmapp.tasks.SensorIPSearchTask
 import com.chillibits.pmapp.tool.Constants
+import com.chillibits.pmapp.ui.adapter.recyclerview.ScrapeResultAdapter
 import com.mrgames13.jimdo.feinstaubapp.R
+import kotlinx.android.synthetic.main.activity_local_network.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class LocalNetworkActivity : AppCompatActivity() {
@@ -39,17 +43,12 @@ class LocalNetworkActivity : AppCompatActivity() {
             }
         }
 
-        searchTask = SensorIPSearchTask(this, object: SensorIPSearchTask.OnSearchEventListener {
-            override fun onSensorFound(sensor: ScrapingResult) {}
+        scraping_results.layoutManager = LinearLayoutManager(this@LocalNetworkActivity)
 
-            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
+        retry_button.setOnClickListener { refresh() }
+        refresh.setOnRefreshListener { refresh() }
 
-            }
-
-            override fun onSearchFailed() {
-
-            }
-        }, 0)
+        refresh()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -60,17 +59,46 @@ class LocalNetworkActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         // Start search process
         Log.i(Constants.TAG, "Started searching ...")
-        searchTask.execute()
+        if(searchTask.status != AsyncTask.Status.RUNNING) refresh()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         // Cancel search process
         Log.i(Constants.TAG, "Search cancelled.")
-        searchTask.cancel(true)
+        if(searchTask.status == AsyncTask.Status.RUNNING) searchTask.cancel(true)
+    }
+
+    private fun refresh() {
+        retry_container.visibility = View.GONE
+        refresh.isRefreshing = true
+        loading_container.visibility = View.VISIBLE
+
+        // Setup searching task
+        searchTask = SensorIPSearchTask(this, object: SensorIPSearchTask.OnSearchEventListener {
+            override fun onProgressUpdate(progress: Int) {
+                loading_text.text = getString(R.string.searching_ip_address) + " ($progress %)"
+            }
+
+            override fun onSensorFound(sensor: ScrapingResult?) {}
+
+            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
+                scraping_results.adapter = ScrapeResultAdapter(sensorList)
+                loading_container.visibility = View.GONE
+                refresh.isRefreshing = false
+            }
+
+            override fun onSearchFailed() {
+                scraping_results.adapter = ScrapeResultAdapter(ArrayList())
+                loading_container.visibility = View.GONE
+                retry_container.visibility = View.VISIBLE
+                refresh.isRefreshing = false
+            }
+        }, 0)
+        searchTask.execute()
     }
 }

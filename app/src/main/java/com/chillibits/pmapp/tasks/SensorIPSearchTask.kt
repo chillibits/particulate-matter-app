@@ -22,12 +22,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import java.net.ConnectException
 import java.net.InetAddress
+import kotlin.math.round
 
-class SensorIPSearchTask(val context: Context, private val listener: OnSearchEventListener, private val searchedChipId: Int): AsyncTask<Void, Void, Void?>() {
+class SensorIPSearchTask(val context: Context, private val listener: OnSearchEventListener, private val searchedChipId: Int): AsyncTask<Void, Int, Void?>() {
+
+    // Variables as objects
+    private val sensorList = ArrayList<ScrapingResult>()
+    private var sensor: ScrapingResult? = null
 
     // Interfaces
     interface OnSearchEventListener {
-        fun onSensorFound(sensor: ScrapingResult)
+        fun onProgressUpdate(progress: Int)
+        fun onSensorFound(sensor: ScrapingResult?)
         fun onSearchFinished(sensorList: ArrayList<ScrapingResult>)
         fun onSearchFailed()
     }
@@ -35,8 +41,6 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
     override fun doInBackground(vararg params: Void?): Void? {
         Log.i(TAG, "Starting search ...")
         try {
-            val sensorList = ArrayList<ScrapingResult>()
-
             // Loop over local network ip addresses
             val wm = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
             val connectionInfo = wm.connectionInfo
@@ -46,53 +50,58 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
             for (i in 1..254) {
                 val ipAddress = ipAddressPrefix + i.toString()
                 val name: InetAddress = InetAddress.getByName(ipAddress)
-                if (name.isReachable(100)) {
-                    Log.d(TAG, ipAddress)
+                if (name.isReachable(250)) {
                     // Test, if we can establish http connection to scrape the chip id
                     runBlocking(Dispatchers.IO) {
-                        val result = scrapeSensorConfigSite(ipAddress)
-                        if(result != null) {
-                            if(searchedChipId > 0) {
-                                // If we search for a single sensor, return it immediately
-                                listener.onSensorFound(result)
-                            } else {
-                                // If we search after a list of sensors, append to list
-                                sensorList.add(result)
-                            }
+                        sensor = scrapeSensorConfigSite(ipAddress)
+                        if(sensor != null && searchedChipId == 0) {
+                            Log.i(TAG, "Found sensor with ip: $ipAddress")
+                            sensorList.add(sensor!!)
                         }
                     }
                 }
+                publishProgress(i)
             }
-            listener.onSearchFinished(sensorList)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "Error occurred while searching ip address.")
         }
-
-        listener.onSearchFailed()
         return null
+    }
+
+    override fun onProgressUpdate(vararg values: Int?) {
+        super.onProgressUpdate(*values)
+        listener.onProgressUpdate(round(100.0 / 255.0 * values[0]!!).toInt())
+    }
+
+    override fun onPostExecute(result: Void?) {
+        super.onPostExecute(result)
+        when {
+            searchedChipId > 0 -> listener.onSensorFound(sensor)
+            sensorList.size > 0 -> listener.onSearchFinished(sensorList)
+            else -> listener.onSearchFailed()
+        }
     }
 
     private suspend fun scrapeSensorConfigSite(ipAddress: String): ScrapingResult? {
         try {
             val client = getNetworkClient()
-            val request = client.submitForm<HttpStatement>(
-                "http://$ipAddress/config",
-                Parameters.Empty,
-                encodeInQuery = true
-            )
+            val request = client.submitForm<HttpStatement>("http://$ipAddress/config", Parameters.Empty, encodeInQuery = true)
             val response = request.execute()
             client.close()
             if (response.status == HttpStatusCode.OK) {
                 val html = response.readText()
                 val chipID = html.substringAfter("ID: ").substringBefore("<br/>")
                 val macAddress = html.substringAfter("MAC: ").substringBefore("<br/>")
+                val firmwareVersion = html.substringAfter("Firmware: ").substringBefore("&nbsp;")
                 val name = html.substringAfter("id='fs_ssid' placeholder='Name' value='").substringBefore("'")
                 val sendToUsEnabled = html.substringAfter("name='send2fsapp' value='").substringBefore("'") == "1"
-                return ScrapingResult(chipID, name, macAddress, sendToUsEnabled)
+                return ScrapingResult(chipID, name, ipAddress, macAddress, firmwareVersion, sendToUsEnabled)
             }
         } catch (e1: MalformedInputException) {
+            e1.printStackTrace()
         } catch (e2: ConnectException) {
+            e2.printStackTrace()
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.chillibits.pmapp.model.ScrapingResult
 import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorExisting
@@ -206,12 +207,17 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
         pd.setMessage(R.string.searching_ip_address)
         pd.show()
 
-        val searchTask = SensorIPSearchTask(activity, object: SensorIPSearchTask.OnSearchEventListener{
-            override fun onSensorFound(ipAddress: String) {
-                pd.dismiss()
+        val searchTask = SensorIPSearchTask(activity, object: SensorIPSearchTask.OnSearchEventListener {
+            override fun onProgressUpdate(progress: Int) {
+                pd.setMessage(activity.getString(R.string.searching_ip_address) + " ($progress %)")
             }
 
-            override fun onSearchFinished(sensorList: ArrayList<Sensor>) {}
+            override fun onSensorFound(sensor: ScrapingResult?) {
+                pd.dismiss()
+
+            }
+
+            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {}
 
             override fun onSearchFailed() {
                 pd.dismiss()
