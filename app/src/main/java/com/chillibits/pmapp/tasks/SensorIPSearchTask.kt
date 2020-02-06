@@ -12,9 +12,7 @@ import android.text.format.Formatter
 import android.util.Log
 import com.chillibits.pmapp.tool.Constants.TAG
 import java.io.BufferedReader
-import java.io.File
 import java.io.FileReader
-import java.io.IOException
 import java.net.InetAddress
 
 class SensorIPSearchTask(val context: Context, val listener: OnSearchEventListener): AsyncTask<Void, Void, Void?>() {
@@ -43,6 +41,8 @@ class SensorIPSearchTask(val context: Context, val listener: OnSearchEventListen
                     Log.d(TAG, "$testIp : $macAddress")
                     // Found a device
                     foundAddress = testIp
+                    // Test, if we can establish http connection to scrape sensor id
+
                 }
             }
             listener.onSensorFound(foundAddress)
@@ -54,16 +54,14 @@ class SensorIPSearchTask(val context: Context, val listener: OnSearchEventListen
         return null
     }
 
-    private fun getMacAddress(ipAddress: String?): String? {
+    private fun getMacAddress(ipAddress: String): String {
         try {
-            val br = BufferedReader(FileReader(File("/proc/net/arp")))
-            var line: String
-            while (br.readLine().also { line = it } != null) {
-                if (line.contains(ipAddress!!)) return line
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
+            val br = BufferedReader(FileReader("/proc/net/arp"))
+            var line = ""
+
+        } catch(e: Exception){
+            Log.e("MyClass", "Exception reading the arp table.", e)
         }
-        return null
+        return ""
     }
 }
