@@ -30,6 +30,22 @@ You can contribute to this project by doing following things:
 - If you want to add a new translation language or improve an existing translation, please write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Add%20translation)
 - If you want to submit a request for a new feature, please also write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Feature%20request)
 
+## Our translators
+
+Our app is available in many different languages, thank to our translators:
+
+- English: *ChilliBits*
+- German: *ChilliBits*
+- Spanish: *ChilliBits*
+- French: *Jose Goffinet*
+- Italian: *Andrea Rossi*
+- Polish: *Melo Melo*
+- Russian: *Sergei Sokolov*
+- Bulgarian: *Sashu Night*
+- Dutch: *Jesse Swart*
+- Romanian: *Dan D*
+- Hungarian: *Artúr Szilágyi*
+
 ## Used third party libraries
 
 Thanks to following people:
