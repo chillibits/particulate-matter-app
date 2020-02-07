@@ -30,7 +30,7 @@ class LocalNetworkActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_local_network)
 
-        toolbar.title = getString(R.string.find_sensor_locally)
+        toolbar.title = getString(R.string.sensors_local_network)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -59,15 +59,15 @@ class LocalNetworkActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         // Start search process
         Log.i(Constants.TAG, "Started searching ...")
         if(searchTask.status != AsyncTask.Status.RUNNING) refresh()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         // Cancel search process
         Log.i(Constants.TAG, "Search cancelled.")
         if(searchTask.status == AsyncTask.Status.RUNNING) searchTask.cancel(true)
@@ -81,7 +81,7 @@ class LocalNetworkActivity : AppCompatActivity() {
         // Setup searching task
         searchTask = SensorIPSearchTask(this, object: SensorIPSearchTask.OnSearchEventListener {
             override fun onProgressUpdate(progress: Int) {
-                loading_text.text = getString(R.string.searching_ip_address) + " ($progress %)"
+                loading_text.text = getString(R.string.search_for_sensors) + " ($progress %)"
             }
 
             override fun onSensorFound(sensor: ScrapingResult?) {}

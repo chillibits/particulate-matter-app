@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Thu, 06 Feb 2020 21:26:52 +0100
+ Exported at: Fri, 07 Feb 2020 17:28:03 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -270,4 +270,5 @@
     <string name="find_sensor_locally">Encontrar sensor en red</string>
     <string name="searching_ip_address">Buscando dirección IP …</string>
     <string name="searching_for_sensors">Buscando sensores …</string>
+    <string name="sensors_local_network">Sensores en la red local.</string>
 </resources>

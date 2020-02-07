@@ -50,7 +50,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
             for (i in 1..254) {
                 val ipAddress = ipAddressPrefix + i.toString()
                 val name: InetAddress = InetAddress.getByName(ipAddress)
-                if (name.isReachable(250)) {
+                if (name.isReachable(150)) {
                     // Test, if we can establish http connection to scrape the chip id
                     runBlocking(Dispatchers.IO) {
                         sensor = scrapeSensorConfigSite(ipAddress)
@@ -93,15 +93,13 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                 val html = response.readText()
                 val chipID = html.substringAfter("ID: ").substringBefore("<br/>")
                 val macAddress = html.substringAfter("MAC: ").substringBefore("<br/>")
-                val firmwareVersion = html.substringAfter("Firmware: ").substringBefore("&nbsp;")
+                val firmwareVersion = html.substringAfter("Firmware: ").substringBefore("<br/>").replace("&nbsp;", "")
                 val name = html.substringAfter("id='fs_ssid' placeholder='Name' value='").substringBefore("'")
                 val sendToUsEnabled = html.substringAfter("name='send2fsapp' value='").substringBefore("'") == "1"
                 return ScrapingResult(chipID, name, ipAddress, macAddress, firmwareVersion, sendToUsEnabled)
             }
         } catch (e1: MalformedInputException) {
-            e1.printStackTrace()
         } catch (e2: ConnectException) {
-            e2.printStackTrace()
         } catch (e: Exception) {
             e.printStackTrace()
         }

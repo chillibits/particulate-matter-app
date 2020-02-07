@@ -87,7 +87,6 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.TutorialsAndroid:FilePicker:v7.0.19'
-    implementation 'com.daandtu:android-web-scraper:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
