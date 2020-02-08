@@ -52,11 +52,11 @@ class WidgetProviderSmall : AppWidgetProvider() {
 
         if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID)) {
             // Get WidgetID
-            val widgetId = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
+            val widgetId = su.getInt("Widget_Small_" + intent.getStringExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
             if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) updateData(context, rv, widgetId)
         } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID)) {
             val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_SMALL_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-            update(context, rv, widgetId)
+            AppWidgetManager.getInstance(context).updateAppWidget(widgetId, rv)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(Intent(context, SyncService::class.java))
             } else {
@@ -70,10 +70,10 @@ class WidgetProviderSmall : AppWidgetProvider() {
         su = StorageUtils(context)
     }
 
-    private fun updateData(context: Context, rv: RemoteViews, widget_id: Int) {
+    private fun updateData(context: Context, rv: RemoteViews, widgetId: Int) {
         try {
             // Load sensors
-            val sensor = su.getSensor(su.getString("Widget_$widget_id"))
+            val sensor = su.getSensor(su.getString("Widget_Small_$widgetId"))
             // Get last record from the db
             val lastRecord = su.getLastRecord(sensor!!.chipID)
             if (lastRecord != null) {
@@ -89,11 +89,7 @@ class WidgetProviderSmall : AppWidgetProvider() {
                 rv.setViewVisibility(R.id.data_container, View.GONE)
                 rv.setViewVisibility(R.id.no_data, View.VISIBLE)
             }
-            update(context, rv, widget_id)
+            AppWidgetManager.getInstance(context).updateAppWidget(widgetId, rv)
         } catch (ignored: Exception) {}
-    }
-
-    private fun update(context: Context, rv: RemoteViews, widget_id: Int) {
-        AppWidgetManager.getInstance(context).updateAppWidget(widget_id, rv)
     }
 }

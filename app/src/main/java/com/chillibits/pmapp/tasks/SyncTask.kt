@@ -161,18 +161,18 @@ class SyncTask(val context: Context, val listener: OnTaskCompleteListener, val f
                                     }
                                 }
                             }
-
-                            // Refresh home screen widgets
-                            val updateLargeIntent = Intent(context, WidgetProviderLarge::class.java)
-                            updateLargeIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                            updateLargeIntent.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, s.chipID)
-                            context.sendBroadcast(updateLargeIntent)
-
-                            val updateSmallIntent = Intent(context, WidgetProviderSmall::class.java)
-                            updateSmallIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                            updateSmallIntent.putExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID, s.chipID)
-                            context.sendBroadcast(updateSmallIntent)
                         }
+
+                        // Refresh home screen widgets
+                        val updateLargeIntent = Intent(context, WidgetProviderLarge::class.java)
+                        updateLargeIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                        updateLargeIntent.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, s.chipID)
+                        context.sendBroadcast(updateLargeIntent)
+
+                        val updateSmallIntent = Intent(context, WidgetProviderSmall::class.java)
+                        updateSmallIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                        updateSmallIntent.putExtra(Constants.WIDGET_SMALL_EXTRA_SENSOR_ID, s.chipID)
+                        context.sendBroadcast(updateSmallIntent)
                     }
                 } catch (e: Exception) {
                     syncSuccess = false

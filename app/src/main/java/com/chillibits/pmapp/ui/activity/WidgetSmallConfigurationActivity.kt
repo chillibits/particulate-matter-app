@@ -107,8 +107,8 @@ class WidgetSmallConfigurationActivity : AppCompatActivity() {
             } else {
                 startService(Intent(this, SyncService::class.java))
             }
-            su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
-            su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
+            su.putInt("Widget_Small_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
+            su.putString("Widget_Small_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 
             val widgetManager = AppWidgetManager.getInstance(this)
             val views = RemoteViews(packageName, R.layout.widget_small)
