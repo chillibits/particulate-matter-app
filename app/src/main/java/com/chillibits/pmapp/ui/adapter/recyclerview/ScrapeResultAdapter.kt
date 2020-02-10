@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chillibits.pmapp.model.ScrapingResult
 import com.chillibits.pmapp.tool.StorageUtils
+import com.chillibits.pmapp.ui.activity.AddSensorActivity
+import com.chillibits.pmapp.ui.activity.AddSensorActivity.Companion.MODE_COMPLETE
 import com.chillibits.pmapp.ui.activity.SensorActivity
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_scraping_result.view.*
@@ -66,8 +68,15 @@ class ScrapeResultAdapter(private val su: StorageUtils, private val scrapeResult
                 item_button_add.visibility = View.GONE
             } else {
                 item_button_add.setOnClickListener {
-
+                    val i = Intent(context, AddSensorActivity::class.java)
+                    i.run {
+                        putExtra("Mode", MODE_COMPLETE)
+                        putExtra("Name", scrapeResult.name)
+                        putExtra("ID", scrapeResult.chipID)
+                    }
+                    context.startActivity(i)
                 }
+                item_button_add.isEnabled = scrapeResult.sendToUsEnabled
             }
         }
     }

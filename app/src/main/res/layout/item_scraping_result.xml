@@ -107,7 +107,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
-        android:text="@string/add_own_sensor"
+        android:text="@string/add_to_own_sensors"
         android:background="@drawable/button_outline_rounded"
         android:textColor="@drawable/button_outline_text"/>
 

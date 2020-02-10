@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Mon, 10 Feb 2020 15:31:46 +0100
+ Exported at: Mon, 10 Feb 2020 19:33:31 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -271,8 +271,9 @@
     <string name="searching_ip_address">Buscando dirección IP …</string>
     <string name="searching_for_sensors">Buscando sensores …</string>
     <string name="sensors_local_network">Sensores en la red local.</string>
-    <string name="no_sensors_found_local"></string>
-    <string name="open_sensor_config"></string>
-    <string name="warning_dialog_text"></string>
-    <string name="only_with_wifi"></string>
+    <string name="no_sensors_found_local">No se encontraron sensores en la red local. A veces, un sensor está fuera de línea por un momento, así que si su sensor no está en la lista, intente nuevamente en un minuto.</string>
+    <string name="open_sensor_config">Abrir sitio de configuración (enlace externo)</string>
+    <string name="warning_dialog_text">Para poder vincular este sensor en la aplicación, es necesario habilitar la transmisión de datos a nuestro servidor. Para hacer esto, abra el sitio de configuración de este sensor, navegue a Configuración&gt; APIs y active la casilla de verificación \'Feinstaub-App\'.</string>
+    <string name="only_with_wifi">Solo disponible con conexión WiFi</string>
+    <string name="add_to_own_sensors">Añadir a los sensores propios</string>
 </resources>

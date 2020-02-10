@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Mon, 10 Feb 2020 14:31:45 +0000
+ Exported at: Mon, 10 Feb 2020 18:33:31 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -276,4 +276,5 @@
     <string name="open_sensor_config"></string>
     <string name="warning_dialog_text"></string>
     <string name="only_with_wifi"></string>
+    <string name="add_to_own_sensors"></string>
 </resources>
