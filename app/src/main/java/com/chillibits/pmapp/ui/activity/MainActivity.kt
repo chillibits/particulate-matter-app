@@ -55,6 +55,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.stephentuso.welcome.WelcomeHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     lateinit var pagerAdapter: ViewPagerAdapterMain
     private var prevMenuItem: MenuItem? = null
     private var searchItem: MenuItem? = null
+    private val welcomeScreen = WelcomeHelper(this, WelcomeActivity::class.java)
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -87,6 +89,9 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Start WelcomeActivity
+        //welcomeScreen.show(savedInstanceState)
 
         // Initialize own instance
         own_instance = this
@@ -186,7 +191,11 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         sheet_fab.setFab(fab)
 
         fab_network.setOnClickListener {
-            sheet_fab_network.expandFab()
+            if(smu.isInternetAvailable && smu.isWifi) {
+                sheet_fab_network.expandFab()
+            } else {
+                Toast.makeText(this, R.string.only_with_wifi, Toast.LENGTH_SHORT).show()
+            }
         }
 
         sheet_fab_network.setFabAnimationEndListener { startActivityForResult(Intent(this@MainActivity, LocalNetworkActivity::class.java), REQ_SCAN_LOCAL_NETWORK) }
@@ -227,6 +236,11 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         initializeApp()
     }
+
+    /*override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        welcomeScreen.onSaveInstanceState(outState)
+    }*/
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

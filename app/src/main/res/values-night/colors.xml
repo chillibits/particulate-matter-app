@@ -15,6 +15,7 @@
     <color name="current_values_color">@color/color_selection</color>
     <color name="tab_unchecked_color">@color/gray_light</color>
     <color name="diagram_text_color">@color/gray_light</color>
+    <color name="button_bar_color">@color/colorPrimary</color>
 
     <!-- Button colors -->
     <color name="enabled">@color/gray_light</color>

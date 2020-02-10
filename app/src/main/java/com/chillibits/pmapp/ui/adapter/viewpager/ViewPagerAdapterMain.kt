@@ -462,7 +462,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                     ViewPagerAdapterMain.mainActivity.startActivity(i)
                 }
                 sensorLink.setOnClickListener {
-                    if (!su.isFavouriteExisting(marker.title) && !su.isSensorExisting(marker.title)) {
+                    if (!su.isSensorLinked(marker.title)) {
                         val v = layoutInflater.inflate(R.layout.dialog_add_sensor, null)
 
                         v.sensor_name_value.hint = marker.tag

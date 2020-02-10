@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Fri, 07 Feb 2020 17:28:03 +0100
+ Exported at: Mon, 10 Feb 2020 15:31:46 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -271,4 +271,8 @@
     <string name="searching_ip_address">Buscando dirección IP …</string>
     <string name="searching_for_sensors">Buscando sensores …</string>
     <string name="sensors_local_network">Sensores en la red local.</string>
+    <string name="no_sensors_found_local"></string>
+    <string name="open_sensor_config"></string>
+    <string name="warning_dialog_text"></string>
+    <string name="only_with_wifi"></string>
 </resources>

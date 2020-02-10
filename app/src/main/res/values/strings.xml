@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Fri, 07 Feb 2020 16:28:02 +0000
+ Exported at: Mon, 10 Feb 2020 14:31:44 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -270,4 +270,8 @@
     <string name="searching_ip_address">Searching for IP address …</string>
     <string name="searching_for_sensors">Searching for sensors …</string>
     <string name="sensors_local_network">Sensors on the local network</string>
+    <string name="no_sensors_found_local">No sensors found in the local network. Sometimes a sensor is offline for a moment, so if your sensor isn\'t listed, please try it again in a minute.</string>
+    <string name="open_sensor_config">Open configuration site (external link)</string>
+    <string name="warning_dialog_text">To be able to link this sensor in the app, it is required to enable the data transmission to our server. To do this, open the sensor configuration site, navigate to Configuration &gt; APIs and enable the \'Feinstaub-App\' checkbox.</string>
+    <string name="only_with_wifi">Only available with a WiFi connection</string>
 </resources>

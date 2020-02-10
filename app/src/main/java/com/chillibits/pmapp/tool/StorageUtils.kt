@@ -39,7 +39,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     val allOwnSensors: ArrayList<Sensor>
         get() {
             return try {
-                val cursor = readableDatabase.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_SENSORS", null)
+                val cursor = readableDatabase.rawQuery("SELECT sensor_id, sensor_name, sensor_color FROM $TABLE_OWN_SENSORS", null)
                 val sensors = ArrayList<Sensor>()
                 while (cursor.moveToNext()) {
                     sensors.add(Sensor(cursor.getString(0), cursor.getString(1), cursor.getInt(2)))
@@ -122,9 +122,9 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     override fun onCreate(db: SQLiteDatabase) {
         try {
             // Create tables
-            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_SENSORS (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);")
-            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);")
+            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_OWN_SENSORS (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);")
             db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_FAVOURITES (sensor_id text PRIMARY KEY, sensor_name text, sensor_color integer);")
+            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_EXTERNAL_SENSORS (sensor_id text PRIMARY KEY, latitude double, longitude double);")
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Database creation error: ", e)
         }
@@ -145,6 +145,10 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         writableDatabase.execSQL(command)
     }
 
+    //-------------------------------------------General--------------------------------------------
+
+    fun isSensorLinked(chipId: String) = isFavouriteExisting(chipId) || isSensorExisting(chipId)
+
     //-----------------------------------------Own-sensors------------------------------------------
 
     fun addOwnSensor(sensor: Sensor, offline: Boolean, requestFromRealtimeSyncService: Boolean) {
@@ -152,7 +156,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         values.put("sensor_id", sensor.chipID)
         values.put("sensor_name", sensor.name)
         values.put("sensor_color", sensor.color)
-        addRecord(TABLE_SENSORS, values)
+        addRecord(TABLE_OWN_SENSORS, values)
         putBoolean(sensor.chipID + "_offline", offline)
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
@@ -164,20 +168,20 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
     }
 
     fun isSensorExisting(chipId: String): Boolean {
-        val cursor = readableDatabase.rawQuery("SELECT sensor_id FROM $TABLE_SENSORS WHERE sensor_id = '$chipId'", null)
+        val cursor = readableDatabase.rawQuery("SELECT sensor_id FROM $TABLE_OWN_SENSORS WHERE sensor_id = '$chipId'", null)
         val count = cursor.count
         cursor.close()
         return count > 0
     }
 
     fun updateOwnSensor(newSensor: Sensor, requestFromRealtimeSyncService: Boolean) {
-        execSQL("UPDATE " + TABLE_SENSORS + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
+        execSQL("UPDATE " + TABLE_OWN_SENSORS + " SET sensor_name = '" + newSensor.name + "', sensor_color = '" + newSensor.color + "' WHERE sensor_id = '" + newSensor.chipID + "';")
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
 
     fun removeOwnSensor(chipId: String, requestFromRealtimeSyncService: Boolean) {
-        writableDatabase.delete(TABLE_SENSORS, "sensor_id = ?", arrayOf(chipId))
+        writableDatabase.delete(TABLE_OWN_SENSORS, "sensor_id = ?", arrayOf(chipId))
         // Refresh, if a web client is connected
         if (!requestFromRealtimeSyncService) WebRealtimeSyncService.own_instance?.refresh(context)
     }
@@ -236,7 +240,6 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         }
         db.setTransactionSuccessful()
         db.endTransaction()
-        //db.close()
     }
 
     fun clearExternalSensors() {
@@ -274,7 +277,6 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         }
         db.setTransactionSuccessful()
         db.endTransaction()
-        //db.close()
     }
 
     fun loadRecords(chipId: String, from: Long, to: Long): ArrayList<DataRecord> {
@@ -494,7 +496,7 @@ class StorageUtils(private val context: Context) : SQLiteOpenHelper(context, "da
         private const val DEFAULT_STRING_VALUE = ""
         private const val DEFAULT_BOOLEAN_VALUE = false
         private const val DEFAULT_DOUBLE_VALUE = 0.0
-        private const val TABLE_SENSORS = "Sensors"
+        private const val TABLE_OWN_SENSORS = "Sensors"
         private const val TABLE_EXTERNAL_SENSORS = "ExternalSensors"
         private const val TABLE_FAVOURITES = "Favourites"
     }

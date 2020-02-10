@@ -32,9 +32,9 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="q">
 
         <meta-data
@@ -93,18 +93,20 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <!-- WelcomeActivity -->
+        <activity
+            android:name="com.chillibits.pmapp.ui.activity.WelcomeActivity"
+            android:theme="@style/WelcomeScreenTheme"/>
         <!-- SettingsActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- DiagramActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- DiagramActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.DiagramActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.Fullscreen"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- SensorActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- SensorActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.SensorActivity"
             android:screenOrientation="portrait"
@@ -132,31 +134,26 @@
                     android:pathPattern="/sensor"
                     android:scheme="https" />
             </intent-filter>
-        </activity>
-        <!-- LocalNetworkActivity -->
+        </activity> <!-- LocalNetworkActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.LocalNetworkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-        <!-- AddSensorActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- AddSensorActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- CompareActivity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- CompareActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.CompareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- QR-Code Scanner -->
+            android:windowSoftInputMode="adjustPan" /> <!-- QR-Code Scanner -->
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation" />
-        <!-- WidgetLargeConfigurationActivity -->
+            tools:replace="android:screenOrientation" /> <!-- WidgetLargeConfigurationActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.WidgetLargeConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -164,8 +161,7 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
-        </activity>
-        <!-- WidgetSmallConfigurationActivity -->
+        </activity> <!-- WidgetSmallConfigurationActivity -->
         <activity
             android:name="com.chillibits.pmapp.ui.activity.WidgetSmallConfigurationActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -173,18 +169,15 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
-        </activity>
-        <!-- SyncJobService -->
+        </activity> <!-- SyncJobService -->
         <service
             android:name="com.chillibits.pmapp.service.SyncJobService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!-- SyncService -->
+            android:permission="android.permission.BIND_JOB_SERVICE" /> <!-- SyncService -->
         <service
             android:name="com.chillibits.pmapp.service.SyncService"
-            android:enabled="true" />
-        <!-- WebRealtimeSyncService -->
+            android:enabled="true" /> <!-- WebRealtimeSyncService -->
         <service android:name="com.chillibits.pmapp.service.WebRealtimeSyncService" /> <!-- BootCompletedReceiver -->
         <receiver android:name="com.chillibits.pmapp.tool.BootCompletedReceiver">
             <intent-filter>
@@ -193,8 +186,7 @@
                 <!-- For HTC devices -->
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
-        </receiver>
-        <!-- ContentProviderExport -->
+        </receiver> <!-- ContentProviderExport -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.chillibits.pmapp"
@@ -203,8 +195,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-        <!-- HomeScreen Widget large -->
+        </provider> <!-- HomeScreen Widget large -->
         <receiver
             android:name="com.chillibits.pmapp.widget.WidgetProviderLarge"
             android:label="@string/widget_label_large">
@@ -215,8 +206,7 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_large" />
-        </receiver>
-        <!-- HomeScreen Widget small -->
+        </receiver> <!-- HomeScreen Widget small -->
         <receiver
             android:name="com.chillibits.pmapp.widget.WidgetProviderSmall"
             android:label="@string/widget_label_small">
