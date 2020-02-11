@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Tue, 11 Feb 2020 18:46:59 +0000
+ Exported at: Tue, 11 Feb 2020 19:08:10 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -266,15 +266,15 @@
     <string name="get_in_touch">Contactează-ne</string>
     <string name="sensor_highscore">Senzor scor</string>
     <string name="connected_to_web_version">Conectat la pm.chillibits.com</string>
-    <string name="widget_label_small"></string>
-    <string name="pref_enable_threshold_notifications"></string>
-    <string name="find_sensor_locally"></string>
-    <string name="searching_ip_address"></string>
-    <string name="searching_for_sensors"></string>
-    <string name="sensors_local_network"></string>
-    <string name="no_sensors_found_local"></string>
-    <string name="open_sensor_config"></string>
-    <string name="warning_dialog_text"></string>
-    <string name="only_with_wifi"></string>
-    <string name="add_to_own_sensors"></string>
+    <string name="widget_label_small">Placă de informații rapide</string>
+    <string name="pref_enable_threshold_notifications">Activați notificările de prag</string>
+    <string name="find_sensor_locally">Găsiți senzorul în rețea</string>
+    <string name="searching_ip_address">Căutarea adresei IP ...</string>
+    <string name="searching_for_sensors">Căutarea senzorilor ...</string>
+    <string name="sensors_local_network">Senzori din rețeaua locală</string>
+    <string name="no_sensors_found_local">Nu s-au găsit senzori în rețeaua locală. Uneori, un senzor este deconectat pentru o clipă, așa că dacă senzorul dvs. nu este listat, încercați-l din nou într-un minut.</string>
+    <string name="open_sensor_config">Deschideți site-ul de configurare (link extern)</string>
+    <string name="warning_dialog_text">Pentru a putea conecta acest senzor în aplicație, este necesar să activăm transmisia de date către serverul nostru. Pentru a face acest lucru, deschideți site-ul de configurare al senzorului, navigați la Configurare&gt; API-uri și activați caseta de selectare \'Feinstaub-App\'.</string>
+    <string name="only_with_wifi">Disponibil numai cu conexiune WiFi</string>
+    <string name="add_to_own_sensors">Adăugați la senzori proprii</string>
 </resources>

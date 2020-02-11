@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Tue, 11 Feb 2020 18:46:58 +0000
+ Exported at: Tue, 11 Feb 2020 19:08:09 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -264,15 +264,15 @@
     <string name="get_in_touch">Свържете се с нас</string>
     <string name="sensor_highscore">Сензорни резултати</string>
     <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
-    <string name="widget_label_small"></string>
-    <string name="pref_enable_threshold_notifications"></string>
-    <string name="find_sensor_locally"></string>
-    <string name="searching_ip_address"></string>
-    <string name="searching_for_sensors"></string>
-    <string name="sensors_local_network"></string>
-    <string name="no_sensors_found_local"></string>
-    <string name="open_sensor_config"></string>
-    <string name="warning_dialog_text"></string>
-    <string name="only_with_wifi"></string>
-    <string name="add_to_own_sensors"></string>
+    <string name="widget_label_small">Бърза информация за плочки</string>
+    <string name="pref_enable_threshold_notifications">Активиране на праговите известия</string>
+    <string name="find_sensor_locally">Намери сензор в мрежата</string>
+    <string name="searching_ip_address">Търсене на IP адрес ...</string>
+    <string name="searching_for_sensors">Търсене на сензори ...</string>
+    <string name="sensors_local_network">Сензори в локалната мрежа</string>
+    <string name="no_sensors_found_local">В локалната мрежа не са открити сензори. Понякога сензорът е офлайн за момент, така че ако сензорът ви не е в списъка, моля, опитайте го отново след минута.</string>
+    <string name="open_sensor_config">Отваряне на сайта за конфигурация (външна връзка)</string>
+    <string name="warning_dialog_text">За да можете да свържете този сензор в приложението, е необходимо да активирате предаването на данни към нашия сървър. За целта отворете сайта за конфигуриране на сензора, отворете Конфигурация&gt; API и активирайте квадратчето за отметка „Feinstaub-App“.</string>
+    <string name="only_with_wifi">Предлага се само с WiFi връзка</string>
+    <string name="add_to_own_sensors">Добавете към собствени сензори</string>
 </resources>

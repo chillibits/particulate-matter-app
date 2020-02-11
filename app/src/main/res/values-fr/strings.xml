@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Tue, 11 Feb 2020 18:46:58 +0000
+ Exported at: Tue, 11 Feb 2020 19:08:09 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -264,14 +264,14 @@
     <string name="get_in_touch">Nous contacter</string>
     <string name="sensor_highscore">Meilleur score du capteur</string>
     <string name="connected_to_web_version">Connecté à pm.chillibits.com</string>
-    <string name="widget_label_small"></string>
+    <string name="widget_label_small">Tuile info rapide</string>
     <string name="pref_enable_threshold_notifications">Autoriser les notifications de limites</string>
     <string name="find_sensor_locally">Trouver capteur sur le réseau</string>
     <string name="searching_ip_address">Recherche de l\'adresse IP</string>
     <string name="searching_for_sensors">Recherche de capteurs</string>
     <string name="sensors_local_network">Capteurs sur le réseau local</string>
     <string name="no_sensors_found_local">Pas de capteurs sur le réseau local</string>
-    <string name="open_sensor_config"></string>
+    <string name="open_sensor_config">Site de configuration ouvert (lien externe)</string>
     <string name="warning_dialog_text">Pour lier ce capteur à l\'App il est requis d\'autoriser la transmission de données vers notre site</string>
     <string name="only_with_wifi">Seulement valable avec connexion Wifi</string>
     <string name="add_to_own_sensors">Ajouter à vos capteurs</string>
