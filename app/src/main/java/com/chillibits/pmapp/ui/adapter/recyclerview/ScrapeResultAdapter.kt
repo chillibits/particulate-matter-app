@@ -16,11 +16,12 @@ import com.chillibits.pmapp.model.ScrapingResult
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.activity.AddSensorActivity
 import com.chillibits.pmapp.ui.activity.AddSensorActivity.Companion.MODE_COMPLETE
+import com.chillibits.pmapp.ui.activity.LocalNetworkActivity
 import com.chillibits.pmapp.ui.activity.SensorActivity
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_scraping_result.view.*
 
-class ScrapeResultAdapter(private val su: StorageUtils, private val scrapeResults: List<ScrapingResult>) : RecyclerView.Adapter<ScrapeResultAdapter.ViewHolder>() {
+class ScrapeResultAdapter(private val activity: LocalNetworkActivity, private val su: StorageUtils, private val scrapeResults: List<ScrapingResult>) : RecyclerView.Adapter<ScrapeResultAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -53,8 +54,7 @@ class ScrapeResultAdapter(private val su: StorageUtils, private val scrapeResult
                 i.data = Uri.parse("http://${scrapeResult.ipAddress}")
                 context.startActivity(i)
             }
-            val alreadyLinked = su.isSensorLinked(scrapeResult.chipID)
-            if(alreadyLinked) {
+            if(su.isSensorLinked(scrapeResult.chipID)) {
                 item_button_show_data.setOnClickListener {
                     val i = Intent(context, SensorActivity::class.java)
                     i.run {
@@ -74,7 +74,7 @@ class ScrapeResultAdapter(private val su: StorageUtils, private val scrapeResult
                         putExtra("Name", scrapeResult.name)
                         putExtra("ID", scrapeResult.chipID)
                     }
-                    context.startActivity(i)
+                    activity.startActivityForResult(i, activity.REQ_ADD_OWN_SENSOR)
                 }
                 item_button_add.isEnabled = scrapeResult.sendToUsEnabled
             }

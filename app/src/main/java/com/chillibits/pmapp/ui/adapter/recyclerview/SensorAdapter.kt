@@ -44,7 +44,6 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
     private var clickStart: Long = 0
 
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView)
-
     private inner class HeaderViewHolder
 
     internal constructor(itemView: View): RecyclerView.ViewHolder(itemView)

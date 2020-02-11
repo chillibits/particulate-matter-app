@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Mon, 10 Feb 2020 18:33:31 +0000
+ Exported at: Tue, 11 Feb 2020 18:46:59 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -266,15 +266,15 @@
     <string name="get_in_touch">Kontakt</string>
     <string name="sensor_highscore">Sensor z wysokim wynikiem</string>
     <string name="connected_to_web_version">Połączony z pm.chillibits.com</string>
-    <string name="widget_label_small"></string>
-    <string name="pref_enable_threshold_notifications"></string>
-    <string name="find_sensor_locally"></string>
-    <string name="searching_ip_address"></string>
-    <string name="searching_for_sensors"></string>
-    <string name="sensors_local_network"></string>
-    <string name="no_sensors_found_local"></string>
-    <string name="open_sensor_config"></string>
-    <string name="warning_dialog_text"></string>
-    <string name="only_with_wifi"></string>
-    <string name="add_to_own_sensors"></string>
+    <string name="widget_label_small">Krótkie info</string>
+    <string name="pref_enable_threshold_notifications">Włącz powiadomienia progowe</string>
+    <string name="find_sensor_locally">Szukaj sensora w sieci</string>
+    <string name="searching_ip_address">Szukam adresu IP ...</string>
+    <string name="searching_for_sensors">Wyszukiwanie sensorów ...</string>
+    <string name="sensors_local_network">Sensory w sieci lokalnej</string>
+    <string name="no_sensors_found_local">Nie znaleziono sensorów w sieci lokalnej, czasami sensory są chwilowo niedostępne, jeżeli nadal jest niedostępny spróbuj go dodać ponownie.</string>
+    <string name="open_sensor_config">Otwórz stronę konfiguracyjną (link zewnętrzny)</string>
+    <string name="warning_dialog_text">Aby móc połączyć sensor w aplikacji, konieczne jest włączenie transmisji danych do naszego serwera.</string>
+    <string name="only_with_wifi">Tylko dostępne podczas połączenia WIFI.</string>
+    <string name="add_to_own_sensors">Dodaj do własnych sensorów</string>
 </resources>

@@ -203,9 +203,11 @@ class AddSensorActivity : AppCompatActivity() {
                                         // Save new sensor
                                         if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
                                         su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, requestFromRealtimeSyncService = false)
+
                                         CoroutineScope(Dispatchers.Main).launch {
                                             pd.dismiss()
                                             try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
+                                            setResult(Activity.RESULT_OK)
                                             finish()
                                         }
                                     } else {
@@ -219,9 +221,9 @@ class AddSensorActivity : AppCompatActivity() {
                                     if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
                                     su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, requestFromRealtimeSyncService = false)
                                     CoroutineScope(Dispatchers.Main).launch {
-                                        try {
-                                            MainActivity.own_instance?.refresh()
-                                        } catch (ignored: Exception) {}
+                                        pd.dismiss()
+                                        try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
+                                        setResult(Activity.RESULT_OK)
                                         finish()
                                     }
                                 }

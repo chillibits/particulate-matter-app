@@ -5,6 +5,7 @@
 package com.chillibits.pmapp.ui.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -26,6 +27,9 @@ import kotlinx.android.synthetic.main.activity_local_network.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class LocalNetworkActivity : AppCompatActivity() {
+
+    // Constants
+    val REQ_ADD_OWN_SENSOR = 10001
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -85,7 +89,7 @@ class LocalNetworkActivity : AppCompatActivity() {
 
     private fun search() {
         if(smu.isInternetAvailable && smu.isWifi) {
-            scraping_results.adapter = ScrapeResultAdapter(su, emptyList())
+            scraping_results.adapter = ScrapeResultAdapter(this, su, emptyList())
             retry_container.visibility = View.GONE
             loading_text.text = getString(R.string.searching_for_sensors)
             loading_container.visibility = View.VISIBLE
@@ -101,7 +105,7 @@ class LocalNetworkActivity : AppCompatActivity() {
                 override fun onSensorFound(sensor: ScrapingResult?) {}
 
                 override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
-                    scraping_results.adapter = ScrapeResultAdapter(su, sensorList)
+                    scraping_results.adapter = ScrapeResultAdapter(this@LocalNetworkActivity, su, sensorList)
                     loading_container.visibility = View.GONE
                     refresh.isRefreshing = false
                     reload.isEnabled = true
@@ -120,5 +124,11 @@ class LocalNetworkActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, R.string.only_with_wifi, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d(Constants.TAG, "Test")
+        if(requestCode == REQ_ADD_OWN_SENSOR && resultCode == Activity.RESULT_OK) search()
     }
 }
