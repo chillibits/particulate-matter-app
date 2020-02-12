@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -350,7 +351,8 @@
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="Ø" />
+                        android:text="Ø"
+                        tools:ignore="HardcodedText" />
 
                     <View
                         android:layout_width="0dp"
@@ -466,7 +468,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
 
                         <View
                             android:layout_width="0dp"
@@ -484,7 +487,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
 
                         <View
                             android:layout_width="0dp"
@@ -502,7 +506,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -640,7 +645,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
 
                         <View
                             android:layout_width="0dp"
@@ -658,7 +664,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
 
                         <View
                             android:layout_width="0dp"
@@ -676,7 +683,8 @@
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:text="-"/>
+                            android:text="-"
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

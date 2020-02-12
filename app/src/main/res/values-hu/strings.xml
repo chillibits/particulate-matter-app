@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Tue, 11 Feb 2020 16:30:59 +0100
+ Exported at: Wed, 12 Feb 2020 19:00:35 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Betöltés …</string>
     <string name="loading_data">Adatok betöltése …</string>
     <string name="internet_is_not_available">Nincs internetkapcsolat</string>
-    <string name="activate_wlan">WiFi engedélyezése</string>
+    <string name="enable_wifi">WiFi engedélyezése</string>
     <string name="please_wait_">Kérjük várjon …</string>
     <string name="error_try_again">Hiba történt. Próbálja meg újra.</string>
     <string name="offline_t">A szerver nem elérhető.</string>

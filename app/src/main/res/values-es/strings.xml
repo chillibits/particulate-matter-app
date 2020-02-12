@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Tue, 11 Feb 2020 16:30:59 +0100
+ Exported at: Wed, 12 Feb 2020 19:00:35 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Cargando …</string>
     <string name="loading_data">Cargando datos …</string>
     <string name="internet_is_not_available">Internet no disponible</string>
-    <string name="activate_wlan">Activar WiFi</string>
+    <string name="enable_wifi">Activar WiFi</string>
     <string name="please_wait_">Por favor espera …</string>
     <string name="error_try_again">Ocurrió un error. Inténtalo de nuevo</string>
     <string name="offline_t">Servidor fuera de línea</string>

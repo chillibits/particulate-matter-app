@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.adapter.viewpager
@@ -197,8 +197,8 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
         private var currentColor: Int = 0
 
         private val isGPSPermissionGranted: Boolean
-            get() = ActivityCompat.checkSelfPermission(ViewPagerAdapterMain.mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                ViewPagerAdapterMain.mainActivity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            get() = ActivityCompat.checkSelfPermission(mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                mainActivity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
         override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
             contentView = inflater.inflate(R.layout.tab_all_sensors, null) // Have to be like that. Otherwise the map onMapReady will not be called
@@ -207,7 +207,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
 
             mapType = contentView.map_type
             val mapTypes = ArrayList<String>(resources.getStringArray(R.array.map_type).toList())
-            val adapterType = ArrayAdapter(ViewPagerAdapterMain.mainActivity, android.R.layout.simple_spinner_item, mapTypes)
+            val adapterType = ArrayAdapter(mainActivity, android.R.layout.simple_spinner_item, mapTypes)
             adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapType.adapter = adapterType
             mapType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -223,7 +223,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
 
             mapTraffic = contentView.findViewById(R.id.map_traffic)
             val mapTrafficItems = ArrayList<String>(listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
-            val adapterTraffic = ArrayAdapter(ViewPagerAdapterMain.mainActivity, android.R.layout.simple_spinner_item, mapTrafficItems)
+            val adapterTraffic = ArrayAdapter(mainActivity, android.R.layout.simple_spinner_item, mapTrafficItems)
             adapterTraffic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = adapterTraffic
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -332,11 +332,11 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
 
             enableOwnLocation()
 
-            map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(ViewPagerAdapterMain.mainActivity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
+            map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(mainActivity, if (ContextCompat.getColor(requireContext(), R.color.colorPrimary) == ContextCompat.getColor(requireContext(), R.color.dark_mode_indicator)) R.raw.map_style_dark else R.raw.map_style_silver))
 
             // Initialize ClusterManager
-            clusterManager = ClusterManager(ViewPagerAdapterMain.mainActivity, map)
-            clusterManager.renderer = ClusterRenderer(ViewPagerAdapterMain.mainActivity, map!!, clusterManager, su)
+            clusterManager = ClusterManager(mainActivity, map)
+            clusterManager.renderer = ClusterRenderer(mainActivity, map!!, clusterManager, su)
             if (su.getBoolean("enable_marker_clustering", true)) {
                 map?.setOnMarkerClickListener(clusterManager)
                 clusterManager.setOnClusterItemClickListener { sensorClusterItem ->
@@ -392,7 +392,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                 when {
                     selected_marker_position != null -> exitReveal(sensor_container)
                     selected_cluster_position != null -> exitReveal(sensor_cluster_container)
-                    else -> ViewPagerAdapterMain.mainActivity.toggleToolbar()
+                    else -> mainActivity.toggleToolbar()
                 }
             }
 
@@ -402,20 +402,20 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
             if (isGPSPermissionGranted) {
-                if (!isGPSEnabled(ViewPagerAdapterMain.mainActivity)) startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                if (!isGPSEnabled(mainActivity)) startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 enableOwnLocation()
             }
         }
 
         @SuppressLint("MissingPermission")
         private fun enableOwnLocation() {
-            if (isGPSPermissionGranted && isGPSEnabled(ViewPagerAdapterMain.mainActivity)) {
+            if (isGPSPermissionGranted && isGPSEnabled(mainActivity)) {
                 map?.isMyLocationEnabled = true
                 map?.setOnMyLocationChangeListener { location ->
                     moveCamera(LatLng(location.latitude, location.longitude))
                     map?.setOnMyLocationChangeListener(null)
                 }
-            } else if (isGPSEnabled(ViewPagerAdapterMain.mainActivity)) {
+            } else if (isGPSEnabled(mainActivity)) {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), REQ_LOCATION_PERMISSION)
             }
         }
@@ -459,7 +459,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                     i.putExtra("Name", marker.tag)
                     i.putExtra("ID", marker.title)
                     i.putExtra("Color", currentColor)
-                    ViewPagerAdapterMain.mainActivity.startActivity(i)
+                    mainActivity.startActivity(i)
                 }
                 sensorLink.setOnClickListener {
                     if (!su.isSensorLinked(marker.title)) {
@@ -468,7 +468,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                         v.sensor_name_value.hint = marker.tag
                         v.sensor_chip_id_value.setText(marker.title)
 
-                        // Initialize randomizer and generate random color
+                        // Initialize random seed and generate random color
                         random = Random()
                         currentColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
                         v.sensor_color.setColorFilter(currentColor, PorterDuff.Mode.SRC)
@@ -476,7 +476,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                         v.sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
                         v.choose_sensor_color.setOnClickListener { chooseColor(v.sensor_color) }
 
-                        AlertDialog.Builder(ViewPagerAdapterMain.mainActivity)
+                        AlertDialog.Builder(mainActivity)
                             .setTitle(R.string.add_favourite)
                             .setView(v)
                             .setPositiveButton(R.string.done) { _, _ ->
@@ -515,7 +515,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                     val geoCoder = Geocoder(activity, Locale.getDefault())
                     val addresses = geoCoder.getFromLocation(marker.position.latitude, marker.position.longitude, 1)
 
-                    var countryCityText = ViewPagerAdapterMain.mainActivity.getString(R.string.unknown_location)
+                    var countryCityText = mainActivity.getString(R.string.unknown_location)
                     if (addresses[0].countryName != null) countryCityText = addresses[0].countryName
                     if (addresses[0].locality != null) countryCityText += " - " + addresses[0].locality
                     sensorLocation.text = countryCityText
@@ -571,7 +571,7 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val result = loadClusterAverage(ViewPagerAdapterMain.mainActivity, ids)
+                    val result = loadClusterAverage(mainActivity, ids)
                     CoroutineScope(Dispatchers.Main).launch {
                         infoAverageValue.text = if(result == 0.0) getString(R.string.error_try_again) else "Ø $result µg/m³"
                     }
@@ -734,15 +734,19 @@ class ViewPagerAdapterMain(manager: FragmentManager, mainActivity: MainActivity,
             }
 
             fun closeInfoWindow(): Boolean {
-                return if(selected_marker_position != null) {
-                    exitReveal(sensor_container)
-                    selected_marker_position = null
-                    true
-                } else if(selected_cluster_position != null) {
-                    exitReveal(sensor_cluster_container)
-                    selected_cluster_position = null
-                    true
-                } else false
+                return when {
+                    selected_marker_position != null -> {
+                        exitReveal(sensor_container)
+                        selected_marker_position = null
+                        true
+                    }
+                    selected_cluster_position != null -> {
+                        exitReveal(sensor_cluster_container)
+                        selected_cluster_position = null
+                        true
+                    }
+                    else -> false
+                }
             }
         }
     }

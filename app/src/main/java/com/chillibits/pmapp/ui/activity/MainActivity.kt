@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -55,7 +55,6 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.stephentuso.welcome.WelcomeHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_import_export.view.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
@@ -73,7 +72,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     lateinit var pagerAdapter: ViewPagerAdapterMain
     private var prevMenuItem: MenuItem? = null
     private var searchItem: MenuItem? = null
-    private val welcomeScreen = WelcomeHelper(this, WelcomeActivity::class.java)
+    //private val welcomeScreen = WelcomeHelper(this, WelcomeActivity::class.java)
 
     // Utils packages
     private lateinit var su: StorageUtils

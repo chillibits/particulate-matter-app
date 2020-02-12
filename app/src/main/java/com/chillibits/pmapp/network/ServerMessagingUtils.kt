@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.network
@@ -37,7 +37,7 @@ class ServerMessagingUtils(private val context: Context) {
             true
         } else {
             Snackbar.make(v, context.resources.getString(R.string.internet_is_not_available), Snackbar.LENGTH_LONG)
-                .setAction(R.string.activate_wlan) {
+                .setAction(R.string.enable_wifi) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         context.startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
                     } else {

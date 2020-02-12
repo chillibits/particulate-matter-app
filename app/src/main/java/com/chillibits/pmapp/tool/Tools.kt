@@ -1,15 +1,12 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.tool
 
 import android.content.Context
 import android.content.res.Resources
-import android.location.Address
-import android.location.Geocoder
 import com.chillibits.pmapp.model.DataRecord
-import com.google.android.gms.maps.model.LatLng
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
@@ -61,18 +58,6 @@ object Tools {
             i += divider + 1
         }
         return newRecords
-    }
-
-    fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
-        val coder = Geocoder(context)
-        val address: List<Address>?
-
-        return try {
-            address = coder.getFromLocationName(strAddress, 5)
-            if (address == null) return null
-            val location = address[0]
-            LatLng(location.latitude, location.longitude)
-        } catch (ignored: Exception) { null }
     }
 
     fun measurementCorrection1(records: ArrayList<DataRecord>): ArrayList<DataRecord> {

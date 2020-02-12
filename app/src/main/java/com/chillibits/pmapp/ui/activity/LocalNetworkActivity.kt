@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -27,9 +27,6 @@ import kotlinx.android.synthetic.main.activity_local_network.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class LocalNetworkActivity : AppCompatActivity() {
-
-    // Constants
-    val REQ_ADD_OWN_SENSOR = 10001
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -130,5 +127,10 @@ class LocalNetworkActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(Constants.TAG, "Test")
         if(requestCode == REQ_ADD_OWN_SENSOR && resultCode == Activity.RESULT_OK) search()
+    }
+
+    companion object {
+        // Constants
+        const val REQ_ADD_OWN_SENSOR = 10001
     }
 }

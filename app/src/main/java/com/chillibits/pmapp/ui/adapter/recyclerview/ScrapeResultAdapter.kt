@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.adapter.recyclerview
@@ -74,7 +74,7 @@ class ScrapeResultAdapter(private val activity: LocalNetworkActivity, private va
                         putExtra("Name", scrapeResult.name)
                         putExtra("ID", scrapeResult.chipID)
                     }
-                    activity.startActivityForResult(i, activity.REQ_ADD_OWN_SENSOR)
+                    activity.startActivityForResult(i, LocalNetworkActivity.REQ_ADD_OWN_SENSOR)
                 }
                 item_button_add.isEnabled = scrapeResult.sendToUsEnabled
             }

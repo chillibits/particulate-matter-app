@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.tasks
@@ -25,7 +25,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class SyncTask(val context: Context, val listener: OnTaskCompleteListener, val fromForeground: Boolean) : AsyncTask<Int, Int, Boolean>() {
+class SyncTask(val context: Context, private val listener: OnTaskCompleteListener, private val fromForeground: Boolean) : AsyncTask<Int, Int, Boolean>() {
 
     // Variables as objects
     private val su = StorageUtils(context)
