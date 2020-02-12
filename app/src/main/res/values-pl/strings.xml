@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:34 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Ładowanie …</string>
     <string name="loading_data">Ładowanie danych …</string>
     <string name="internet_is_not_available">Internet niedostępny</string>
-    <string name="activate_wlan">Aktywuj WiFi</string>
+    <string name="enable_wifi">Aktywuj WiFi</string>
     <string name="please_wait_">Proszę czekać …</string>
     <string name="error_try_again">Wystąpił błąd. Spróbuj ponownie</string>
     <string name="offline_t">Serwer offline</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Dostępna aktualizacja</string>
     <string name="download">Pobieranie</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Wyświetl dla particulate matter</string>
+    <string name="widget_label_large">Wyświetl dla particulate matter</string>
     <string name="widget_app_data_cleared">Dane aplikacji zostały wyczyszczone. Wybierz sensor ponownie</string>
     <string name="widget_select_sensor">Wybierz sensor</string>
     <string name="widget_no_data">Nie ma jeszcze ulubionych. Stuknij poniżej, aby dodać ulubione i ponownie wybierz widget.</string>
@@ -266,4 +266,15 @@
     <string name="get_in_touch">Kontakt</string>
     <string name="sensor_highscore">Sensor z wysokim wynikiem</string>
     <string name="connected_to_web_version">Połączony z pm.chillibits.com</string>
+    <string name="widget_label_small">Krótkie info</string>
+    <string name="pref_enable_threshold_notifications">Włącz powiadomienia progowe</string>
+    <string name="find_sensor_locally">Szukaj sensora w sieci</string>
+    <string name="searching_ip_address">Szukam adresu IP ...</string>
+    <string name="searching_for_sensors">Wyszukiwanie sensorów ...</string>
+    <string name="sensors_local_network">Sensory w sieci lokalnej</string>
+    <string name="no_sensors_found_local">Nie znaleziono sensorów w sieci lokalnej, czasami sensory są chwilowo niedostępne, jeżeli nadal jest niedostępny spróbuj go dodać ponownie.</string>
+    <string name="open_sensor_config">Otwórz stronę konfiguracyjną (link zewnętrzny)</string>
+    <string name="warning_dialog_text">Aby móc połączyć sensor w aplikacji, konieczne jest włączenie transmisji danych do naszego serwera.</string>
+    <string name="only_with_wifi">Tylko dostępne podczas połączenia WIFI.</string>
+    <string name="add_to_own_sensors">Dodaj do własnych sensorów</string>
 </resources>

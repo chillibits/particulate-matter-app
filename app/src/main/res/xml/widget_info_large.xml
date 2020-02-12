@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <appwidget-provider
@@ -10,7 +10,7 @@
     android:minResizeHeight="110dp"
     android:minResizeWidth="250dp"
     android:resizeMode="horizontal|vertical"
-    android:initialLayout="@layout/widget"
+    android:initialLayout="@layout/widget_large"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen|keyguard"
-    android:configure="com.chillibits.pmapp.ui.activity.WidgetConfigurationActivity"/>
+    android:configure="com.chillibits.pmapp.ui.activity.WidgetLargeConfigurationActivity"/>

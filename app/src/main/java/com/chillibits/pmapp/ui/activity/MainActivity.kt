@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     lateinit var pagerAdapter: ViewPagerAdapterMain
     private var prevMenuItem: MenuItem? = null
     private var searchItem: MenuItem? = null
+    //private val welcomeScreen = WelcomeHelper(this, WelcomeActivity::class.java)
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -88,6 +89,9 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Start WelcomeActivity
+        //welcomeScreen.show(savedInstanceState)
+
         // Initialize own instance
         own_instance = this
 
@@ -95,10 +99,8 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         toolbar.title = getString(R.string.app_name)
         setSupportActionBar(toolbar)
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
 
         // Initialize components
@@ -108,51 +110,32 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         view_pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(pos: Int) {
                 if (search_view.isSearchOpen) search_view.closeSearch()
-                if (pos == 0) {
-                    if (fab.visibility == View.VISIBLE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_out)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationEnd(animation: Animation) {
-                                fab.visibility = View.GONE
-                            }
-                        })
-                        fab.startAnimation(a)
+
+                when(pos) {
+                    0 -> {
+                        if(fab.isOrWillBeShown) fab.hide()
+                        if(fab_network.isOrWillBeShown) fab_network.hide()
                     }
-                } else if (pos == 1) {
-                    if (fab.visibility == View.GONE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationStart(animation: Animation) {
-                                fab.visibility = View.VISIBLE
-                            }
-                        })
-                        fab.startAnimation(a)
+                    1 -> {
+                        if(!fab.isOrWillBeShown) fab.show()
+                        if(fab_network.isOrWillBeShown) fab_network.hide()
+                        if (selectedPage == 2) {
+                            fab.setImageResource(R.drawable.fab_anim_add_to_search)
+                            val drawable = fab.drawable
+                            if (drawable is Animatable) (drawable as Animatable).start()
+                        }
+                        selectedPage = 1
                     }
-                    if (selectedPage == 2) {
-                        fab.setImageResource(R.drawable.fab_anim_add_to_search)
-                        val drawable = fab.drawable
-                        if (drawable is Animatable) (drawable as Animatable).start()
+                    2 -> {
+                        if(!fab.isOrWillBeShown) fab.show()
+                        if(!fab_network.isOrWillBeShown) fab_network.show()
+                        if (selectedPage == 1) {
+                            fab.setImageResource(R.drawable.fab_anim_search_to_add)
+                            val drawable = fab.drawable
+                            if (drawable is Animatable) (drawable as Animatable).start()
+                        }
+                        selectedPage = 2
                     }
-                    selectedPage = 1
-                } else if (pos == 2) {
-                    if (fab.visibility == View.GONE) {
-                        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-                        a.setAnimationListener(object : SimpleAnimationListener() {
-                            @SuppressLint("RestrictedApi")
-                            override fun onAnimationStart(animation: Animation) {
-                                fab.visibility = View.VISIBLE
-                            }
-                        })
-                        fab.startAnimation(a)
-                    }
-                    if (selectedPage == 1) {
-                        fab.setImageResource(R.drawable.fab_anim_search_to_add)
-                        val drawable = fab.drawable
-                        if (drawable is Animatable) (drawable as Animatable).start()
-                    }
-                    selectedPage = 2
                 }
 
                 if (prevMenuItem != null) {
@@ -167,10 +150,12 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         })
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            val id = item.itemId
-            if (id == R.id.action_my_favourites) view_pager.currentItem = 0
-            if (id == R.id.action_all_sensors) view_pager.currentItem = 1
-            if (id == R.id.action_my_sensors) view_pager.currentItem = 2
+            view_pager.currentItem = when(item.itemId) {
+                R.id.action_my_favourites -> 0
+                R.id.action_all_sensors -> 1
+                R.id.action_my_sensors -> 2
+                else -> 0
+            }
             true
         }
 
@@ -203,6 +188,17 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         sheet_fab.setFabAnimationEndListener { startActivityForResult(Intent(this@MainActivity, AddSensorActivity::class.java), REQ_ADD_OWN_SENSOR) }
         sheet_fab.setFab(fab)
+
+        fab_network.setOnClickListener {
+            if(smu.isInternetAvailable && smu.isWifi) {
+                sheet_fab_network.expandFab()
+            } else {
+                Toast.makeText(this, R.string.only_with_wifi, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        sheet_fab_network.setFabAnimationEndListener { startActivityForResult(Intent(this@MainActivity, LocalNetworkActivity::class.java), REQ_SCAN_LOCAL_NETWORK) }
+        sheet_fab_network.setFab(fab_network)
 
         fab_compare.setOnClickListener { sheet_fab_compare.expandFab() }
         sheet_fab_compare.setFabAnimationEndListener {
@@ -240,9 +236,22 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         initializeApp()
     }
 
+    /*override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        welcomeScreen.onSaveInstanceState(outState)
+    }*/
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         restartApp(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(view_pager.currentItem > 0) {
+            fab.show()
+            if(view_pager.currentItem == 2) fab_network.show()
+        }
     }
 
     override fun onDestroy() {
@@ -514,12 +523,24 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         }
     }
 
+    fun showFab(show: Boolean) {
+        if(show && view_pager.currentItem > 0) {
+            fab.show()
+            if(view_pager.currentItem == 2) fab_network.show()
+        } else {
+            fab.hide()
+            fab_network.hide()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_ADD_OWN_SENSOR) {
             sheet_fab.contractFab()
         } else if (requestCode == REQ_COMPARE) {
             sheet_fab_compare.contractFab()
+        } else if (requestCode == REQ_SCAN_LOCAL_NETWORK) {
+            sheet_fab_network.contractFab()
         } else if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == Activity.RESULT_OK) {
             val matches = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             if (matches != null && matches.size > 0) {
@@ -622,15 +643,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             container.layoutParams = layoutParams
         }
         va.start()
-
-        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_out)
-        a.setAnimationListener(object : SimpleAnimationListener() {
-            @SuppressLint("RestrictedApi")
-            override fun onAnimationStart(animation: Animation) {
-                fab.visibility = View.GONE
-            }
-        })
-        fab.startAnimation(a)
+        fab.hide()
     }
 
     private fun showSystemBars() {
@@ -646,15 +659,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
             container.layoutParams = layoutParams
         }
         va.start()
-
-        val a = AnimationUtils.loadAnimation(this@MainActivity, R.anim.scale_in)
-        a.setAnimationListener(object : SimpleAnimationListener() {
-            @SuppressLint("RestrictedApi")
-            override fun onAnimationStart(animation: Animation) {
-                fab.visibility = View.VISIBLE
-            }
-        })
-        fab.startAnimation(a)
+        fab.show()
         shownAgainOnce = true
     }
 
@@ -669,6 +674,7 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
         private const val REQ_COMPARE = 10003
         private const val REQ_SCAN_WEB = 10004
         private const val REQ_SCAN_SENSOR = 10005
+        private const val REQ_SCAN_LOCAL_NETWORK = 10006
 
         // Variables as objects
         var own_instance: MainActivity? = null

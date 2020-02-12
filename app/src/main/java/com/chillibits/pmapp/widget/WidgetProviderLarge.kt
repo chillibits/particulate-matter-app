@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.widget
@@ -12,7 +12,7 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
-import com.chillibits.pmapp.service.SyncJobService
+import com.chillibits.pmapp.service.SyncService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.tool.Tools
@@ -20,7 +20,7 @@ import com.mrgames13.jimdo.feinstaubapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WidgetProvider : AppWidgetProvider() {
+class WidgetProviderLarge : AppWidgetProvider() {
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -32,13 +32,13 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, app_widget_id)
         initialize(context)
 
-        val rv = RemoteViews(context.packageName, R.layout.widget)
+        val rv = RemoteViews(context.packageName, R.layout.widget_large)
 
         for (widget_id in app_widget_id) {
             // Refresh button
             val refresh = Intent(context, javaClass)
             refresh.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id)
+            refresh.putExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, widget_id)
             val refreshPi = PendingIntent.getBroadcast(context, 0, refresh, 0)
             rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPi)
             // Update data
@@ -50,11 +50,11 @@ class WidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         initialize(context)
 
-        val rv = RemoteViews(context.packageName, R.layout.widget)
+        val rv = RemoteViews(context.packageName, R.layout.widget_large)
 
-        if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_SENSOR_ID)) {
+        if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID)) {
             // Get WidgetID
-            val widgetId = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
+            val widgetId = su.getInt("Widget_" + intent.getStringExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID)!!, AppWidgetManager.INVALID_APPWIDGET_ID)
             if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 rv.setViewVisibility(R.id.widget_refreshing, View.GONE)
                 rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE)
@@ -62,8 +62,8 @@ class WidgetProvider : AppWidgetProvider() {
                 initializeComponents(context, rv, widgetId)
                 updateData(context, rv, widgetId)
             }
-        } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_WIDGET_ID)) {
-            val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE && intent.hasExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID)) {
+            val widgetId = intent.getIntExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
             rv.setViewVisibility(R.id.widget_refreshing, View.VISIBLE)
             rv.setViewVisibility(R.id.widget_refresh, View.INVISIBLE)
 
@@ -71,9 +71,9 @@ class WidgetProvider : AppWidgetProvider() {
 
             update(context, rv, widgetId)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(Intent(context, SyncJobService::class.java))
+                context.startForegroundService(Intent(context, SyncService::class.java))
             } else {
-                context.startService(Intent(context, SyncJobService::class.java))
+                context.startService(Intent(context, SyncService::class.java))
             }
         }
     }
@@ -86,7 +86,7 @@ class WidgetProvider : AppWidgetProvider() {
         // Refresh button
         val refresh = Intent(context, javaClass)
         refresh.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        refresh.putExtra(Constants.WIDGET_EXTRA_WIDGET_ID, widget_id)
+        refresh.putExtra(Constants.WIDGET_EXTRA_LARGE_WIDGET_ID, widget_id)
         val refreshPi = PendingIntent.getBroadcast(context, 0, refresh, 0)
         rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPi)
     }

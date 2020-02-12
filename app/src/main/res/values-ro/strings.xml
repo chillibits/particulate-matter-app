@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:23 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:34 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Se încarcă …</string>
     <string name="loading_data">Încărcare date …</string>
     <string name="internet_is_not_available">Internet nu este disponibil</string>
-    <string name="activate_wlan">Activați WiFi</string>
+    <string name="enable_wifi">Activați WiFi</string>
     <string name="please_wait_">Te rog asteapta …</string>
     <string name="error_try_again">A aparut o eroare. Vă rugăm să încercați din nou</string>
     <string name="offline_t">Server deconectat</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Actualizare disponibila</string>
     <string name="download">Descarca</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Afisare particulate matter</string>
+    <string name="widget_label_large">Afisare particulate matter</string>
     <string name="widget_app_data_cleared">Datele aplicației au fost șterse. Vă rugăm să selectați din nou senzorul</string>
     <string name="widget_select_sensor">Selectati senzorul</string>
     <string name="widget_no_data">Nu există favorite. Atingeți mai jos pentru a adăuga un favorit și selectați din nou widgetul.</string>
@@ -52,7 +52,7 @@
     <string name="complete_sensor">Completez senzor</string>
     <string name="unlink_sensor">Deconectare senzor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
-    <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'% s\'?</string>
+    <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'%s\'?</string>
     <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
@@ -266,4 +266,15 @@
     <string name="get_in_touch">Contactează-ne</string>
     <string name="sensor_highscore">Senzor scor</string>
     <string name="connected_to_web_version">Conectat la pm.chillibits.com</string>
+    <string name="widget_label_small">Placă de informații rapide</string>
+    <string name="pref_enable_threshold_notifications">Activați notificările de prag</string>
+    <string name="find_sensor_locally">Găsiți senzorul în rețea</string>
+    <string name="searching_ip_address">Căutarea adresei IP ...</string>
+    <string name="searching_for_sensors">Căutarea senzorilor ...</string>
+    <string name="sensors_local_network">Senzori din rețeaua locală</string>
+    <string name="no_sensors_found_local">Nu s-au găsit senzori în rețeaua locală. Uneori, un senzor este deconectat pentru o clipă, așa că dacă senzorul dvs. nu este listat, încercați-l din nou într-un minut.</string>
+    <string name="open_sensor_config">Deschideți site-ul de configurare (link extern)</string>
+    <string name="warning_dialog_text">Pentru a putea conecta acest senzor în aplicație, este necesar să activăm transmisia de date către serverul nostru. Pentru a face acest lucru, deschideți site-ul de configurare al senzorului, navigați la Configurare&gt; API-uri și activați caseta de selectare \'Feinstaub-App\'.</string>
+    <string name="only_with_wifi">Disponibil numai cu conexiune WiFi</string>
+    <string name="add_to_own_sensors">Adăugați la senzori proprii</string>
 </resources>

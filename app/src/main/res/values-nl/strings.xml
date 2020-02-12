@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:33 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Laden …</string>
     <string name="loading_data">Gegevens laden</string>
     <string name="internet_is_not_available">Internet niet beschikbaar</string>
-    <string name="activate_wlan">WIFI Activeren</string>
+    <string name="enable_wifi">WIFI Activeren</string>
     <string name="please_wait_">Wacht AUB</string>
     <string name="error_try_again">Er is een fout opgetreden. Probeer opnieuw</string>
     <string name="offline_t">Server offline</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Update beschikbaar</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Weergave van fijnstof</string>
+    <string name="widget_label_large">Weergave van fijnstof</string>
     <string name="widget_app_data_cleared">De app-gegevens zijn gewist. Selecteer de sensor opnieuw</string>
     <string name="widget_select_sensor">Selecteer sensor</string>
     <string name="widget_no_data">Er zijn nog geen favorieten. Tik onderaan om een favoriet toe te voegen en selecteer de widget opnieuw.</string>
@@ -264,4 +264,15 @@
     <string name="get_in_touch">Neem contact op</string>
     <string name="sensor_highscore">Sensor hoge score</string>
     <string name="connected_to_web_version">Verbonden met pm.chillibits.com</string>
+    <string name="widget_label_small">Snelle info tegel</string>
+    <string name="pref_enable_threshold_notifications">Schakel grenswaarde notificaties in</string>
+    <string name="find_sensor_locally">Vind sensor in het netwerk</string>
+    <string name="searching_ip_address">Zoeken naar IP adres ...</string>
+    <string name="searching_for_sensors">Zoeken naar sensoren</string>
+    <string name="sensors_local_network">Sensoren op het lokale netwerk</string>
+    <string name="no_sensors_found_local">Geen sensoren gevonden in het lokale netwerk. Soms is een sensor tijdelijk offline, als je sensor niet in de lijst staat, probeer het dan nog een keer</string>
+    <string name="open_sensor_config">Open configuratie site (externe link)</string>
+    <string name="warning_dialog_text">Om de sensor met de app te verbinden is het noodzakelijk om de data naar onze server te versturen. Om dit te activeren ga naar de sensor configuratie, kies Configuratie &gt; APIs en vink de \'Fijnstof-App\' aan.</string>
+    <string name="only_with_wifi">Alleen beschikbaar met een WiFi verbinding</string>
+    <string name="add_to_own_sensors">Voeg aan eigen sensoren toe</string>
 </resources>

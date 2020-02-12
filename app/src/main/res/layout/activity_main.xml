@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,19 +34,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/fab_anim_search_to_add"
-        android:layout_alignParentEnd="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        android:layout_marginEnd="10dp"
-        android:elevation="10dp"
-        android:visibility="gone"
-        android:layout_marginBottom="10dp" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -58,6 +45,20 @@
         app:itemTextColor="@drawable/navigation_selector"
         app:menu="@menu/bottom_navigation_main"/>
 
+    <!-- Add / search fab -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/fab_anim_search_to_add"
+        android:layout_alignParentEnd="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:layout_marginEnd="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="10dp" />
+
     <com.github.fabtransitionactivity.SheetLayout
         android:id="@+id/sheet_fab"
         android:layout_width="match_parent"
@@ -65,8 +66,32 @@
         app:ft_color="@color/colorPrimary"
         android:elevation="10dp"/>
 
-    <!-- Selection Mode -->
+    <!-- Local network fab -->
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        app:backgroundTint="@color/gray_light"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/format_list"
+        android:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="10dp"
+        android:visibility="gone"/>
+
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/sheet_fab_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ft_color="@color/colorPrimary"
+        android:elevation="10dp"/>
+
+    <!-- Compare fab -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_compare"
         android:layout_width="wrap_content"

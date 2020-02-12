@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.adapter.recyclerview
@@ -89,9 +89,7 @@ class SelectSensorAdapter(private val su: StorageUtils, private val sensors: Arr
         }
     }
 
-    override fun getItemCount(): Int {
-        return sensors.size
-    }
+    override fun getItemCount() = sensors.size
 
     companion object {
         // Constants

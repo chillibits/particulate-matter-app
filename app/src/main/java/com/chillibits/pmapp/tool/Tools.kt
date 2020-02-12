@@ -1,15 +1,12 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.tool
 
 import android.content.Context
 import android.content.res.Resources
-import android.location.Address
-import android.location.Geocoder
 import com.chillibits.pmapp.model.DataRecord
-import com.google.android.gms.maps.model.LatLng
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.NoSuchAlgorithmException
@@ -22,15 +19,14 @@ object Tools {
                 var bd = BigDecimal(value)
                 bd = bd.setScale(places, RoundingMode.HALF_UP)
                 bd.toDouble()
-            } else
-                value
+            } else value
         } catch (ignored: Exception) {
             value
         }
     }
 
     fun md5(s: String): String {
-        try {
+        return try {
             // Create hash
             val digest = java.security.MessageDigest.getInstance("MD5")
             digest.update(s.toByteArray())
@@ -43,9 +39,8 @@ object Tools {
                 while (h.length < 2) h = "0$h"
                 hexString.append(h)
             }
-            return hexString.toString()
-        } catch (ignored: NoSuchAlgorithmException) {}
-        return ""
+            hexString.toString()
+        } catch (ignored: NoSuchAlgorithmException) { "" }
     }
 
     fun calculateMedian(list: List<Double>) = list.sorted().let {
@@ -65,19 +60,6 @@ object Tools {
         return newRecords
     }
 
-    fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
-        val coder = Geocoder(context)
-        val address: List<Address>?
-
-        try {
-            address = coder.getFromLocationName(strAddress, 5)
-            if (address == null) return null
-            val location = address[0]
-            return LatLng(location.latitude, location.longitude)
-        } catch (ignored: Exception) {}
-        return null
-    }
-
     fun measurementCorrection1(records: ArrayList<DataRecord>): ArrayList<DataRecord> {
         for (i in 1 until records.size) {
             // Get current and previous record
@@ -88,11 +70,12 @@ object Tools {
                 // Get next non-zero record
                 var recordAfter = recordBefore
                 for (j in i + 1 until records.size) {
-                    if (!(records[j].p1 == 0.0 && records[j].p2 == 0.0)) {
+                    if (records[j].p1 != 0.0 || records[j].p2 != 0.0) {
                         recordAfter = records[j]
                         break
                     }
                 }
+                if(recordAfter == recordBefore) continue
                 // Calculate average values
                 // PM10
                 var m = (recordAfter.p1 - recordBefore.p1) / (recordAfter.dateTime.time - recordBefore.dateTime.time)
@@ -117,6 +100,7 @@ object Tools {
                         break
                     }
                 }
+                if(recordAfter == recordBefore) continue
                 // Calculate average values
                 // Temperature
                 var m = (recordAfter.temp - recordBefore.temp) / (recordAfter.dateTime.time - recordBefore.dateTime.time)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:23 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:34 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Загрузка…</string>
     <string name="loading_data">Загрузка данных …</string>
     <string name="internet_is_not_available">Интернет не доступен</string>
-    <string name="activate_wlan">Включить WiFi</string>
+    <string name="enable_wifi">Включить WiFi</string>
     <string name="please_wait_">Пожалуйста, подождите …</string>
     <string name="error_try_again">Произошла ошибка. Пожалуйста, попробуйте ещё раз</string>
     <string name="offline_t">Сервер недоступен</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Есть обновление</string>
     <string name="download">Скачать</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Отображение твёрдых частиц</string>
+    <string name="widget_label_large">Отображение твёрдых частиц</string>
     <string name="widget_app_data_cleared">Данные приложения очищены. Пожалуйста, снова выберите датчик</string>
     <string name="widget_select_sensor">Выберите датчик</string>
     <string name="widget_no_data">Пока нет закладок. Нажмите ниже, чтобы добавить датчик в закладки и выберите виджет ещё раз.</string>
@@ -260,10 +260,21 @@
     <string name="unknown_sensor">Неизвестный датчик</string>
     <string name="default_map_type">Тип карты по умолчанию</string>
     <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
-    <string name="sync_running">Синхронизация запущена …</string>
+    <string name="sync_running">Идёт синхронизация …</string>
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Связаться с нами</string>
-    <string name="sensor_highscore">Датчик рекордов</string>
+    <string name="sensor_highscore">Пиковые значения датчика</string>
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
+    <string name="widget_label_small">Обзорная схема</string>
+    <string name="pref_enable_threshold_notifications">Включить уведомления о превышении пороговых значений</string>
+    <string name="find_sensor_locally">Найти датчик в сети</string>
+    <string name="searching_ip_address">Ищем IP адрес ...</string>
+    <string name="searching_for_sensors">Ищем датчики ...</string>
+    <string name="sensors_local_network">Датчики в локальной сети</string>
+    <string name="no_sensors_found_local">Не найдено датчиков в локальной сети. Иногда датчик может ненадолго отключаться от сети. Поэтому если вашего датчика нет в списке, попробуйте через минуту ещё раз.</string>
+    <string name="open_sensor_config">Открыть страницу настроек (внешняя ссылка)</string>
+    <string name="warning_dialog_text">Чтобы подключить этот датчик в приложении, надо включить передачу данных на наш сервер. Для этого откройте страницу настроек датчика, зайдите в Configuration -&gt; APIs и включите галочку «Feinstaub-App»</string>
+    <string name="only_with_wifi">Требует подключения по WiFi</string>
+    <string name="add_to_own_sensors">Добавить к Моим датчикам</string>
 </resources>

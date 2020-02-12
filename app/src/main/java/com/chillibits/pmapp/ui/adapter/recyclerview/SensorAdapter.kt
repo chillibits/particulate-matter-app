@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.adapter.recyclerview
@@ -9,18 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.chillibits.pmapp.model.ScrapingResult
 import com.chillibits.pmapp.model.Sensor
 import com.chillibits.pmapp.network.ServerMessagingUtils
 import com.chillibits.pmapp.network.isSensorExisting
+import com.chillibits.pmapp.tasks.SensorIPSearchTask
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.activity.AddSensorActivity
 import com.chillibits.pmapp.ui.activity.MainActivity
 import com.chillibits.pmapp.ui.activity.SensorActivity
+import com.chillibits.pmapp.ui.view.ProgressDialog
 import com.chillibits.pmapp.ui.view.showSensorInfoWindow
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.item_sensor.view.*
@@ -29,7 +33,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class SensorAdapter(private val activity: MainActivity, private val sensors: ArrayList<Sensor>, private val su: StorageUtils, private val smu: ServerMessagingUtils, private val mode: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -41,14 +44,13 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
     private var clickStart: Long = 0
 
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView)
-
     private inner class HeaderViewHolder
 
     internal constructor(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    override fun getItemViewType(pos: Int): Int {
-        return if (shallShowHeader()) if (pos == 0) TYPE_HEADER else TYPE_ITEM else TYPE_ITEM
-    }
+    override fun getItemViewType(pos: Int) = if (shallShowHeader())
+        if (pos == 0) TYPE_HEADER else TYPE_ITEM
+    else TYPE_ITEM
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_HEADER) {
@@ -104,8 +106,16 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 item_more.setOnClickListener {
                     val popup = PopupMenu(activity, holder.itemView.item_more)
                     popup.inflate(R.menu.menu_sensor_more)
+                    if(mode == MODE_FAVOURITES) {
+                        popup.menu.getItem(0).isVisible = false
+                    } else if(!smu.isWifi) {
+                        popup.menu.getItem(0).isEnabled = false
+                    }
                     popup.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
+                            R.id.action_find_locally -> {
+                                findSensorLocally(sensor.chipID.toInt())
+                            }
                             R.id.action_sensor_edit -> {
                                 val i = Intent(activity, AddSensorActivity::class.java)
                                 i.run {
@@ -177,13 +187,8 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
         }
     }
 
-    override fun getItemCount(): Int {
-        return if (shallShowHeader()) sensors.size + 1 else sensors.size
-    }
-
-    private fun shallShowHeader(): Boolean {
-        return su.getBoolean("SensorViewHeader", true)
-    }
+    override fun getItemCount() = if (shallShowHeader()) sensors.size + 1 else sensors.size
+    private fun shallShowHeader() = su.getBoolean("SensorViewHeader", true)
 
     fun deselectAllSensors() {
         CoroutineScope(Dispatchers.Default).launch {
@@ -194,6 +199,31 @@ class SensorAdapter(private val activity: MainActivity, private val sensors: Arr
                 }
             }
         }
+    }
+
+    private fun findSensorLocally(chipId: Int) {
+        val pd = ProgressDialog(activity)
+        pd.setMessage(R.string.searching_ip_address)
+        pd.show()
+
+        val searchTask = SensorIPSearchTask(activity, object: SensorIPSearchTask.OnSearchEventListener {
+            override fun onProgressUpdate(progress: Int) {
+                pd.setMessage(activity.getString(R.string.searching_ip_address) + " ($progress %)")
+            }
+
+            override fun onSensorFound(sensor: ScrapingResult?) {
+                pd.dismiss()
+
+            }
+
+            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {}
+
+            override fun onSearchFailed() {
+                pd.dismiss()
+                Toast.makeText(activity, R.string.error_try_again, Toast.LENGTH_SHORT).show()
+            }
+        }, chipId)
+        searchTask.execute()
     }
 
     companion object {

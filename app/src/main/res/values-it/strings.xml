@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:34 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Caricamento …</string>
     <string name="loading_data">Caricamento dati …</string>
     <string name="internet_is_not_available">Connessione Internet non disponibile</string>
-    <string name="activate_wlan">Attivare il WiFi</string>
+    <string name="enable_wifi">Attivare il WiFi</string>
     <string name="please_wait_">Attendere prego …</string>
     <string name="error_try_again">Si è veriificato un errore. Per favore riprovare</string>
     <string name="offline_t">Server fuori servizio</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Aggiornamento disponibile</string>
     <string name="download">Scarica</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Schermata del particolato</string>
+    <string name="widget_label_large">Schermata del particolato</string>
     <string name="widget_app_data_cleared">I dati dell\'app sono stati azzerati. Prego selezionare nuovamente il sensore</string>
     <string name="widget_select_sensor">Seleziona il sensore</string>
     <string name="widget_no_data">Non ci sono ancora dei preferiti. Premere sotto per aggiungere un preferito e selezionare nuovamente il widget.</string>
@@ -262,6 +262,17 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/</string>
     <string name="get_in_touch">Contattaci</string>
-    <string name="sensor_highscore">Punteggio del sensore</string>
+    <string name="sensor_highscore">Punteggio massimo del sensore</string>
     <string name="connected_to_web_version">Connesso con pm.chillibits.com</string>
+    <string name="widget_label_small">Riquadro informazioni rapide</string>
+    <string name="pref_enable_threshold_notifications">Abilitare notifica di soglia</string>
+    <string name="find_sensor_locally">Trovato sensore nella rete</string>
+    <string name="searching_ip_address">Ricerva indirizzo IP...</string>
+    <string name="searching_for_sensors">Ricerca sensori...</string>
+    <string name="sensors_local_network">Sensori presenti nella rete locale\u0020</string>
+    <string name="no_sensors_found_local">Non sono stati trovati sensori nella rete locale. In certi casi il sensore è fuori servizio per un breve periodo, se il tuo sensore non è in elenco per favore prova nuovamente tra un minuto.</string>
+    <string name="open_sensor_config">Aprire il pannello di configurazione (link esterno)</string>
+    <string name="warning_dialog_text">Per poter collegare questo sensore all\'app, è necessario abilitare l\'invio dei dati al nostro server. Per fare ciò, apri il pannello di configurazione del sensore, spostati in Configurazione &gt; APIs e abilita la voce \'Feinstaub-App\'</string>
+    <string name="only_with_wifi">Disponibile solo con connessione WiFi</string>
+    <string name="add_to_own_sensors">Aggiungere ai propri sensori</string>
 </resources>

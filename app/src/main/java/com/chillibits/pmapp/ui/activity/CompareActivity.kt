@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -53,6 +53,7 @@ class CompareActivity : AppCompatActivity() {
     private val sdfTime = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     // Util packages
+    private lateinit var su: StorageUtils
     private lateinit var smu: ServerMessagingUtils
     
     // Components
@@ -92,10 +93,8 @@ class CompareActivity : AppCompatActivity() {
             selected_day_timestamp = current_day_timestamp
         }
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServiceMessagingUtils
         smu = ServerMessagingUtils(this)
 
         // Load sensors
@@ -530,9 +529,6 @@ class CompareActivity : AppCompatActivity() {
         private const val REQ_WRITE_EXTERNAL_STORAGE = 1
         lateinit var sensors: ArrayList<Sensor>
         var records = ArrayList<ArrayList<DataRecord>>()
-
-        // Utils packages
-        private lateinit var su: StorageUtils
 
         // Variables
         var selected_day_timestamp: Long = 0

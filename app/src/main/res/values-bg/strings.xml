@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:22 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:33 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Зарежда…</string>
     <string name="loading_data">Зареждане на данните…</string>
     <string name="internet_is_not_available">Няма интернет</string>
-    <string name="activate_wlan">Активирай WiFi</string>
+    <string name="enable_wifi">Активирай WiFi</string>
     <string name="please_wait_">Моля, изчакайте…</string>
     <string name="error_try_again">Възникна грешка. Моля, опитайте отново.</string>
     <string name="offline_t">Сървърът е офлайн</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Има налична актуализация</string>
     <string name="download">Свали</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Дисплей за финните частици</string>
+    <string name="widget_label_large">Дисплей за финните частици</string>
     <string name="widget_app_data_cleared">Данните на приложението са премахнати. Моля, изберете сензора отново.</string>
     <string name="widget_select_sensor">Изберете сензор</string>
     <string name="widget_no_data">Все още няма любими елементи. Чукнете отдолу, за да добавите любим елемент и избере уиджета отново.</string>
@@ -264,4 +264,15 @@
     <string name="get_in_touch">Свържете се с нас</string>
     <string name="sensor_highscore">Сензорни резултати</string>
     <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
+    <string name="widget_label_small">Бърза информация за плочки</string>
+    <string name="pref_enable_threshold_notifications">Активиране на праговите известия</string>
+    <string name="find_sensor_locally">Намери сензор в мрежата</string>
+    <string name="searching_ip_address">Търсене на IP адрес ...</string>
+    <string name="searching_for_sensors">Търсене на сензори ...</string>
+    <string name="sensors_local_network">Сензори в локалната мрежа</string>
+    <string name="no_sensors_found_local">В локалната мрежа не са открити сензори. Понякога сензорът е офлайн за момент, така че ако сензорът ви не е в списъка, моля, опитайте го отново след минута.</string>
+    <string name="open_sensor_config">Отваряне на сайта за конфигурация (външна връзка)</string>
+    <string name="warning_dialog_text">За да можете да свържете този сензор в приложението, е необходимо да активирате предаването на данни към нашия сървър. За целта отворете сайта за конфигуриране на сензора, отворете Конфигурация&gt; API и активирайте квадратчето за отметка „Feinstaub-App“.</string>
+    <string name="only_with_wifi">Предлага се само с WiFi връзка</string>
+    <string name="add_to_own_sensors">Добавете към собствени сензори</string>
 </resources>

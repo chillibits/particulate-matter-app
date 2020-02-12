@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -234,6 +234,7 @@
         android:src="@drawable/refresh_white"
         android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
+        android:contentDescription="@string/refresh"
         android:layout_alignParentEnd="true"/>
 
     <ProgressBar

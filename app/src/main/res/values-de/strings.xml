@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Tue, 21 Jan 2020 15:21:28 +0100
+ Exported at: Wed, 12 Feb 2020 19:00:34 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Laden …</string>
     <string name="loading_data">Daten werden geladen …</string>
     <string name="internet_is_not_available">Internet nicht verfügbar</string>
-    <string name="activate_wlan">Wlan aktivieren</string>
+    <string name="enable_wifi">Wlan aktivieren</string>
     <string name="please_wait_">Bitte warten …</string>
     <string name="error_try_again">Es ist ein Fehler aufgetreten. Bitte erneut versuchen</string>
     <string name="offline_t">Server offline</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Update verfügbar</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Feinstaub-Anzeige</string>
+    <string name="widget_label_large">Feinstaub-Anzeige</string>
     <string name="widget_app_data_cleared">Die App-Daten wurden gelöscht. Bitte wählen Sie den Sensor erneut.</string>
     <string name="widget_select_sensor">Sensor wählen</string>
     <string name="widget_no_data">Keine Favoriten vorhanden. Tippen Sie unten, um einen Favoriten hinzuzufügen und platzieren Sie das Widget erneut.</string>
@@ -192,7 +192,7 @@
     <string name="zero_to_disable">Zur Deaktivierung auf 0 setzen</string>
     <plurals name="measurements">
         <item quantity="one">1 Messung</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s Messungen</item>
     </plurals>
     <!-- Performance Settings -->
@@ -265,4 +265,15 @@
     <string name="get_in_touch">Kontakt aufnehmen</string>
     <string name="sensor_highscore">Sensor-Bestenliste</string>
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>
+    <string name="widget_label_small">QuickInfo-Kachel</string>
+    <string name="pref_enable_threshold_notifications">Grenzwert-Benachrichtigungen aktivieren</string>
+    <string name="find_sensor_locally">Sensor im Netzwerk finden</string>
+    <string name="searching_ip_address">Suche IP-Adresse …</string>
+    <string name="searching_for_sensors">Suche Sensoren …</string>
+    <string name="sensors_local_network">Sensoren im lokalen Netzwerk</string>
+    <string name="no_sensors_found_local">Keine Sensoren im lokalen Netzwerk gefunden. Manchmal kommt es vor, dass ein Sensor für einen Moment nicht erreichbar ist. Sollte, dies der Fall sein, versuchen Sie es in einigen Sekunden erneut.</string>
+    <string name="open_sensor_config">Konfigurationsseite öffnen (externer Link)</string>
+    <string name="warning_dialog_text">Um diesen Sensor in der App verknüpfen zu können, ist es notwendig die Übermittlung der Daten auf unseren Server zu aktivieren. Um dies zu tun, öffnen Sie die Konfigurationsseite des Sensors, navigieren Sie zu Konfiguration &gt; APIs und aktivieren Sie das Optionsfeld \'Feinstaub-App\'. Nach dem Speichern und einer kurzen Wartezeit sollte der Sensor zur Verknüpfung verfügbar sein.</string>
+    <string name="only_with_wifi">Nur über WLAN verfügbar</string>
+    <string name="add_to_own_sensors">Zu eigenen Sensoren hinzufügen</string>
 </resources>

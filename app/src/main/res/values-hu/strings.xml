@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<!--
+ Loco xml export: Android string resources
+ Project: Particulate Matter App
+ Release: Working copy
+ Locale: hu, Hungarian
+ Exported by: ChilliBits
+ Exported at: Wed, 12 Feb 2020 19:00:35 +0100
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Common Strings -->
+    <string name="app_name">Szállópor App</string>
+    <string name="ok">OK</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <string name="cancel">Mégse</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="sensors">%s szenzor</string>
+    <string name="exit">Kilépés</string>
+    <string name="settings">Beállítások</string>
+    <string name="no_data">Nincs adat</string>
+    <string name="loading">Betöltés …</string>
+    <string name="loading_data">Adatok betöltése …</string>
+    <string name="internet_is_not_available">Nincs internetkapcsolat</string>
+    <string name="enable_wifi">WiFi engedélyezése</string>
+    <string name="please_wait_">Kérjük várjon …</string>
+    <string name="error_try_again">Hiba történt. Próbálja meg újra.</string>
+    <string name="offline_t">A szerver nem elérhető.</string>
+    <string name="offline_m">A szerver nem elérhető. Amíg a szerver nem elérhető, nem lehet hozzáférni az adatokhoz.</string>
+    <string name="maintenance_t">Szerver karbantartás</string>
+    <string name="maintenance_m">A szerver karbantartás alatt áll. Amíg a szerver nem elérhető, nem lehet hozzáférni az adatokhoz.</string>
+    <string name="support_end_t">Az alkalmazás támogatása véget ért</string>
+    <string name="support_end_m">Sajnáljuk, szálló por alkalmazás fejlesztése véget ért, most már törölheti az eszközéről.</string>
+    <string name="update_necessary_t">Frissítés érhető el!</string>
+    <string name="update_necessary_m">Frissítened kell az applikációt ahhoz hogy működjön.</string>
+    <string name="download_update">Letöltés</string>
+    <string name="update_available">Frissítés érhető el</string>
+    <string name="download">Letöltés</string>
+    <!-- HomeScreen Widget -->
+    <string name="widget_label_large">Szállópor kijelző\u0020</string>
+    <string name="widget_app_data_cleared">Az adatok ki lettek törölve, kérjük válaszd ki újra a szenzort!</string>
+    <string name="widget_select_sensor">Szenzor kiválasztása</string>
+    <string name="widget_no_data">Még nincsenek kedvencek. Koppints lejjebb a kedvencek hozzáadásához majd válaszd ki a modult újra.</string>
+    <!-- MainActivity -->
+    <string name="tap_again_to_exit_app">A kliépéshez koppints újra</string>
+    <string name="compare_sensors">Szenzorok összehasonlítása</string>
+    <string name="edit_sensor">Szenzor szerkesztése</string>
+    <string name="complete_sensor">Szenzor kész</string>
+    <string name="unlink_sensor">Szenzor leválasztása</string>
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <string name="really_unlink_sensor">Biztos hogy le akarod választani \'%s\' szenzort?</string>
+    <string name="no_sensors">Ha a <a href="https://www.luftdaten.info">www.luftdaten.info</a> oldalon van regisztrálva szenzorod, itt tudod hozzáadni. Koppints a szenzor hozzáadásához.</string>
+    <string name="rate_app">app értékelése</string>
+    <string name="rate_m">Értékeld a Szállópor App-ot 5 csillggal Google Play áruházban, ha tetszik az alkalmazás!</string>
+    <string name="recommend_string">Szállópor App: szálló por méréis adataok egyszerű és elegáns megjelenítése. Töltsd le a Play Áruházból: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="recommend">Ajánlom</string>
+    <string name="recommend_app">App ajánlása</string>
+    <string name="recommend_m">Ajánld a Szállópor App-ot a barátaidnak!</string>
+    <string name="rate">Értékelés</string>
+    <string name="add_own_sensor">Saját szenzor hozzáadása</string>
+    <string name="my_favourites">Kedvencek</string>
+    <string name="all_sensors">Minden szenzor</string>
+    <string name="my_sensors">Saját szenzorok</string>
+    <string name="no_favourites">Még nincsenek kedvencek, kérjük válts \'Minden szenzor\' fülre, jelölj ki egy vagy több szenzort és válaszd a \'Hozzáadás kedvencekhez\' menüpontot.</string>
+    <string name="show_measurements">Mérés mutatása</string>
+    <string name="add_favourite">Hozzáadás kedvencekhez</string>
+    <string name="favourite_added">Hozzáadtuk a kedvencekhez</string>
+    <string name="properties">Tulajdonságok</string>
+    <string name="public_short_">Nyilvános:</string>
+    <string name="online_since_">Csatlakozás időpontja:</string>
+    <string name="height_short_">Magasság a földtől:</string>
+    <string name="compare_instruction">Szenzor kijelöléséhez érintsd meg és tartsd lenyomva. Két vagy több szenzor kijelölésével össze lehet hasonlítani a mérési adataikat.</string>
+    <string name="search_for_sensors">Szenzor keresése</string>
+    <string name="sensor_position_completion_m_short">Kérjük töltsd ki a szenzor adatait, hogy megjelenjen a térképen.</string>
+    <string name="web_version">Webes verzió</string>
+    <string name="scan_prompt">Nyisd meg a https://pm.mrgames-server.de oldalt a számítógépen.</string>
+    <string name="successfully_connected">Sikeres kapcsolódás</string>
+    <string name="sync_disconnected">Kapcsolat bontva</string>
+    <string name="search_places">Kérjük adj meg egy helyet …</string>
+    <!-- AddSensorActivity -->
+    <string name="done">Kész</string>
+    <string name="name_">Megjelenített név:</string>
+    <string name="chip_id">Chip-ID:</string>
+    <string name="choose_color">Színválasztás</string>
+    <string name="not_all_filled">Kérjük tölsd ki az összes mezőt</string>
+    <string name="sensor_existing">Ez a szenzor már hozzá lett adva</string>
+    <string name="add_sensor_tick_not_set_message">FIGYELEM: az app csak akkor tud adatokat fogadni egy szenzortól, ha a szenzor konfigurásiós oldalán kipipálod a \'Send to Feinstaub-App\' mellett. Kérjük légy türelmes, mert ezután akár 10 perc is eltelhet mire a szerverre beérkeznek az adatok.</string>
+    <string name="add_sensor_tick_not_set_message_required">FIGYELEM: az app csak akkor tud adatokat fogadni egy szenzortól, ha a szenzor konfigurásiós oldalán kipipálod a \'Send to Feinstaub-App\' mellett. Kérjük légy türelmes, mert ezután akár 10 perc is eltelhet mire a szerverre beérkeznek az adatok.</string>
+    <string name="do_not_show_again">Ne mutasd mégegyszer</string>
+    <string name="public_sensor">Szenzor láthatóve tétele mások számára és a térképen</string>
+    <string name="choose_location">Pontos hely kiválasztása</string>
+    <string name="sensor_height">Földfelszíntől való magasság (méter):</string>
+    <string name="latitude">Szélesség</string>
+    <string name="latitude_">Szélesség:</string>
+    <string name="longitude">Hosszúság</string>
+    <string name="longitude_">Hosszúság:</string>
+    <string name="coordinates_info">A koordinátákat adatvédelmi okokból kerekítjük.</string>
+    <string name="gps_will_be_synchronized">Ha szenzorodhoz van GPS kötve, akkor a földrajzi helye valós időben magától frissül a térképen.</string>
+    <string name="edit_position_info">Biztonsági okokból a szenzor pozícióját csak <a href="mailto:mrgames@outlook.de?subject=Change%20sensor%20position">emailben elküldve</a> módosítjuk.</string>
+    <string name="unknown_location">Ismeretlen hely</string>
+    <!-- SensorActivity -->
+    <string name="date">Dátum</string>
+    <string name="tab_diagram">Diagram</string>
+    <string name="tab_data">Rögzített adatok</string>
+    <string name="refresh">Frissítés</string>
+    <string name="no_data_date">Erre a dátumra nincs adat</string>
+    <string name="diagram_instruction">Koppints a diagramra a teljes kijelzős megjelenítéshez.</string>
+    <string name="date_time">Idő</string>
+    <string name="temperature_short">Hőm.</string>
+    <string name="temperature">Hőmérséklet</string>
+    <string name="humidity_short">Páratart.</string>
+    <string name="pressure_short">Légnyomás</string>
+    <string name="humidity">Páratartalom</string>
+    <string name="pressure">Légnyomás</string>
+    <string name="no_diagram_selected">Nincs kijelölve diagram</string>
+    <string name="from">Ettől</string>
+    <string name="to">Eddig</string>
+    <string name="current_values">Jelenlegi adatok</string>
+    <string name="state_of_">Legutóbbi állapot:</string>
+    <string name="export_data">Adatok mentése</string>
+    <string name="export_diagram">Diagram mentése</string>
+    <string name="export_data_records">Rögzített adatok mentése</string>
+    <string name="share_sensor">Szenzor megosztása</string>
+    <string name="median">Medián</string>
+    <string-array name="map_type">
+        <item name="map_type_0">Normál</item>
+        <item name="map_type_1">Terep</item>
+        <item name="map_type_2">Műhold</item>
+        <item name="map_type_3">Hibrid</item>
+    </string-array>
+    <string name="traffic_show">Forgalom mutatása</string>
+    <string name="traffic_hide">Forgalom elrejtése</string>
+    <!-- DiagramActivity
+        NotificationStrings -->
+    <string name="limit_exceeded">Határérték túllépés</string>
+    <string name="limit_exceeded_p1">PM10 határérték túllépés</string>
+    <string name="limit_exceeded_p2">PM2,5 határérték túllépés</string>
+    <string name="limit_exceeded_temp">Hőmérséklet határérték túllépés</string>
+    <string name="limit_exceeded_humidity">Páratartalom határérték túllépés</string>
+    <string name="limit_exceeded_pressure">Légnyomás határérték túllépés</string>
+    <string name="sensor_breakdown">Szenzor meghibásodás</string>
+    <!-- NotificationChannels -->
+    <string name="nc_system_name">Rendszerértesítések</string>
+    <string name="nc_system_description">A Szállópor App rendszerértesítései.</string>
+    <string name="nc_limit_name">Határérték túllépés</string>
+    <string name="nc_limit_description">Értesítés megjelenítése az állapotsorban a beállított határértékek túllépése esetén.</string>
+    <string name="nc_missing_measurements_name">Hiányzó mérési adatok</string>
+    <string name="nc_missing_measurements_description">Értesítés megjelenítése az állapotsorban, ha egy szenzor nem küld adatokat vagy meghibásodott.</string>
+    <!-- Feature Settings -->
+    <string name="pref_header_features">Jellemzők</string>
+    <string name="enable_daily_average">Napi átlag megjelenítése</string>
+    <string name="enable_daily_median">Napi medián\u0020\u0020megjelenítése</string>
+    <string name="enable_daily_average_median_s">Megjelenítés a rögzített adatok alatt</string>
+    <string name="enable_nothing">Átlag / medián elrejtése</string>
+    <string name="enable_auto_correction_t">Automatikus hibakorrekció</string>
+    <string name="enable_auto_correction_s">Hibás mérési adatok automatikus korrekciója</string>
+    <!-- Sync Settings -->
+    <string name="pref_header_sync">Szinkronizáció</string>
+    <string name="sync_cycle">Szinkronizáció gyakoriság</string>
+    <string name="sync_cycle_t">Szinkronizáció gyakoriság (másodperc)</string>
+    <string name="sync_cycle_background">Szinkronizáció gyakoriság background</string>
+    <string name="sync_cycle_background_t">Szinkronizáció gyakoriság a háttérben (perc)</string>
+    <string name="reduce_data_consumption">Csökkentett adatforgalom</string>
+    <string name="reduce_data_consumption_s">Csak a legfontosabb adatok letöltése</string>
+    <!-- Apperance Settings -->
+    <string name="pref_header_appearance">Megjelenés</string>
+    <string name="app_restart_t">Restart needed</string>
+    <string name="app_restart_m">To apply the changes, a app restart is needed.</string>
+    <!-- Notification Settings -->
+    <string name="pref_header_notifications">Értesítések</string>
+    <string name="pref_notification_averages">Értesítés határértékek túllépésekor</string>
+    <string name="pref_notification_averages_s_true">Értesítsen, ha a napi átlag túllépi a beállított határértéket</string>
+    <string name="pref_notification_averages_s_false">Értesítsen, ha a pillanatnyi adat túllépi a beállított határértéket</string>
+    <string name="pref_notification_breakdown">Értesítsen, ha elromlik a szenzor</string>
+    <string name="pref_notification_breakdown_s">Értesítsen, ha a saját szenzor mérései leállnak</string>
+    <string name="pref_notification_breakdown_number">Maximum ennyi mérés kimaradása esetén értesítsen</string>
+    <string name="pref_limit_p1">PM10 határérték</string>
+    <string name="pref_limit_p1_t">PM10 határérték (µg/m³)</string>
+    <string name="pref_limit_p2">PM2,5 határérték</string>
+    <string name="pref_limit_p2_t">PM2,5 határérték (µg/m³)</string>
+    <string name="pref_limit_temp">Hőmérséklet határérték</string>
+    <string name="pref_limit_temp_t">Hőmérséklet határérték (°C)</string>
+    <string name="pref_limit_humidity">Páratartalom határérték</string>
+    <string name="pref_limit_humidity_t">Páratartalom határérték (%)</string>
+    <string name="pref_limit_pressure">Légnyomás határérték</string>
+    <string name="pref_limit_pressure_t">Légnyomás határérték (hPa)</string>
+    <string name="pref_limit_disabled">Értesítések kikapcsolása</string>
+    <string name="zero_to_disable">Állítsd nullára a kikapcsoláshoz</string>
+    <plurals name="measurements">
+        <item quantity="one">1 mérés</item>
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+        <item quantity="other">%s mérés</item>
+    </plurals>
+    <!-- Performance Settings -->
+    <string name="pref_header_performance">Megjelenítés</string>
+    <string name="pref_increase_diagram_performance">Diagram megjelenés javítása</string>
+    <string name="pref_increase_diagram_performance_s">A diagram pontatlanná válhat</string>
+    <string name="pref_enable_marker_clustering">Jelölők csoportosítása</string>
+    <string name="pref_enable_marker_clustering_s">A szenzor jelölők automatikus csoportosítása a térképen</string>
+    <string name="clear_sensor_data_t">Szenzor adatok törlése</string>
+    <string name="clear_sensor_data_m">Tárhely felszabadítása (tárolt adatok törlése)</string>
+    <!-- About Settings -->
+    <string name="pref_header_about">A Szállópor App névjegye</string>
+    <string name="pref_server_info_t">Szerver infó</string>
+    <string name="pref_server_info_downloading_">Szerver infó letöltése …</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_status">Szerver állapota: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="client_name">Kliens név: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="min_app_version">Minimum app verzió: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="latest_app_version">Legfrissebb app verzió: %s</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="server_owner">Szerver tulajdonos: %s</string>
+    <string name="server_status_online">A szerver elérhető</string>
+    <string name="server_status_offline">A szerver nem elérhető</string>
+    <string name="server_status_maintenance">A szerver karbantartás alatt</string>
+    <string name="server_status_support_ended">App támogatás véget ért</string>
+    <string name="server_status_online_short">Kapcsolódva</string>
+    <string name="server_status_offline_short">Nem elérhető</string>
+    <string name="server_status_maintenance_short">Karbantartás alatt</string>
+    <string name="server_status_support_ended_short">Support ended</string>
+    <string name="pref_open_source_t">Nyílt forrású licenszek</string>
+    <string name="pref_open_source_m">Nyílt forrású szoftverlicenszek részletei</string>
+    <string name="pref_appversion">App verzió</string>
+    <string name="pref_developers_t">A fejlesztők</string>
+    <string name="pref_more_apps_t">Egyéb applikációink</string>
+    <string name="pref_more_apps_m">Oldalunk a Play áruházban</string>
+    <!-- ColorPickerDialog -->
+    <string name="press_color_to_apply">Kpooints a szín kiválasztásához</string>
+    <string name="altitude">Magasság</string>
+    <string name="show_gps_data">GPS adatok mutatása</string>
+    <string name="show_threshold_who">WHO határértékek mutatása</string>
+    <string name="show_threshold_eu">EU határértékek mutatása</string>
+    <string name="hide_thresholds">Határértékek elrejtése</string>
+    <string name="help">Segítség</string>
+    <string name="zoom_in">Ráközelít</string>
+    <string name="scan_qr_code">QR kód beolvasása</string>
+    <string name="show_qr_code">Display qr code</string>
+    <string name="import_xml_file">XML fájl importálása</string>
+    <string name="export_xml_file">XML fájl exportálása</string>
+    <string name="please_select_at_least_one_sensor">Válassz ki legalább egy szenzort</string>
+    <string name="scan_qr_code_prompt">Olvasd be a QR kódot!</string>
+    <string name="share_qr_code">QR kód megosztása</string>
+    <!-- PlacesSearchDialog -->
+    <string name="nothing_found">Nincs találat</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="seconds">%s másodperc</string>
+    <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
+    <string name="minutes">%s perc</string>
+    <string name="pref_app_open_source_t">A Szállópor App GitHub-on</string>
+    <string name="pref_app_open_source_s">A GitHub oldalunk meglátogatásához kattints ide</string>
+    <string name="firmware_version_">Firmware verzió:</string>
+    <string name="unknown_sensor">Ismeretlen szenzor</string>
+    <string name="default_map_type">Alapból beállított térkép típus</string>
+    <string name="enable_traffic_by_default">Mutassa a közúti forgalmat alapértelmezésben</string>
+    <string name="sync_running">Szinkronizáció folyamatban</string>
+    <!-- Please only paste url with the correct anchor -->
+    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="get_in_touch">Elérhetőség</string>
+    <string name="sensor_highscore">Szenzor csúcsérték</string>
+    <string name="connected_to_web_version">Csatlakozva pm.chillibits.com-hoz</string>
+    <string name="widget_label_small">Gyors infó csempe</string>
+    <string name="pref_enable_threshold_notifications">Határérték értesítések engedélyezése</string>
+    <string name="find_sensor_locally">Szenzor keresése a hálózaton</string>
+    <string name="searching_ip_address">IP cím keresése ...</string>
+    <string name="searching_for_sensors">Szenzorok keresése ...</string>
+    <string name="sensors_local_network">Szenzorok a helyi hálózaton</string>
+    <string name="no_sensors_found_local">A helyi hálózaton nem található szenzor. Előfordul, hogy a szenzor pár másodpercig nem kapcsolódik, ezért ha nincs a szenzor a listában, akkor érdemes újra próbálkozni egy-két perc múlva.</string>
+    <string name="open_sensor_config">Configurációs oldal megnyitása (külső hivatkozás)</string>
+    <string name="warning_dialog_text">Ahhoz, hogy ez a szenzor megjelenjen az applikációban, engedélyezni kell az adatok továbbítását a szerverünkre. Ehhez meg kell nyitni a szenzor konfigurációs beállításait, és a Konfiguráció &gt; API alpontban ki kell pipálni a \"Feinstaub-App\" négyzet mellett.</string>
+    <string name="only_with_wifi">Csak WiFi kapcsolattal elérhető</string>
+    <string name="add_to_own_sensors">Hozzáadás saját szenzorokhoz</string>
+</resources>

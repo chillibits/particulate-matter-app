@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.adapter.recyclerview
@@ -37,7 +37,5 @@ class PlaceAutocompleteAdapter(private val results: ArrayList<AutocompletePredic
         }
     }
 
-    override fun getItemCount(): Int {
-        return results.size
-    }
+    override fun getItemCount() = results.size
 }

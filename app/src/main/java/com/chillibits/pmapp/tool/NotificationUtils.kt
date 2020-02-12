@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.tool
@@ -35,19 +35,21 @@ class NotificationUtils(private val context: Context) {
 
     private fun displayNotification(channel_id: String, title: String, message: String, id: Int = (Math.random()* Integer.MAX_VALUE).toInt(), i: Intent?, vibration: LongArray, time: Long) {
         // Setup notification
-        val n = buildNotification(channel_id, title, message)
-        n.setAutoCancel(true)
-        n.setSmallIcon(R.drawable.notification_icon)
-        n.setWhen(time)
-        i?.let { n.setContentIntent(PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)) }
-        // Get id
-        n.priority = NotificationCompat.PRIORITY_HIGH
-        n.setLights(ContextCompat.getColor(context, R.color.colorPrimary), LIGHT_SHORT, LIGHT_SHORT)
-        n.setVibrate(vibration)
-        nm.notify(id, n.build())
+        val notification = buildNotification(channel_id, title, message)
+        notification.run {
+            setAutoCancel(true)
+            setSmallIcon(R.drawable.notification_icon)
+            setWhen(time)
+            i?.let { setContentIntent(PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)) }
+            // Get id
+            priority = NotificationCompat.PRIORITY_HIGH
+            setLights(ContextCompat.getColor(context, R.color.colorPrimary), LIGHT_SHORT, LIGHT_SHORT)
+            setVibrate(vibration)
+            nm.notify(id, build())
+        }
     }
 
-    fun buildNotification(channel_id: String, title: String, message: String): NotificationCompat.Builder {
+    private fun buildNotification(channel_id: String, title: String, message: String): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, channel_id)
             .setContentTitle(title)
             .setContentText(message)
@@ -67,14 +69,14 @@ class NotificationUtils(private val context: Context) {
 
         fun createNotificationChannels(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationManager = context.getSystemService(NotificationManager::class.java)
+                val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
                 // System channel
                 var importance = NotificationManager.IMPORTANCE_LOW
                 val channelSystem = NotificationChannel(Constants.CHANNEL_SYSTEM, context.getString(R.string.nc_system_name), importance)
                 channelSystem.setShowBadge(false)
                 channelSystem.setSound(null, null)
                 channelSystem.description = context.getString(R.string.nc_system_description)
-                notificationManager!!.createNotificationChannel(channelSystem)
+                notificationManager.createNotificationChannel(channelSystem)
                 // Limit channel
                 importance = NotificationManager.IMPORTANCE_HIGH
                 val channelLimit = NotificationChannel(Constants.CHANNEL_LIMIT, context.getString(R.string.nc_limit_name), importance)

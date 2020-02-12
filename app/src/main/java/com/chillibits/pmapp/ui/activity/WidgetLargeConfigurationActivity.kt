@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -16,17 +16,17 @@ import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chillibits.pmapp.model.Sensor
-import com.chillibits.pmapp.service.SyncJobService
+import com.chillibits.pmapp.service.SyncService
 import com.chillibits.pmapp.tool.Constants
 import com.chillibits.pmapp.tool.StorageUtils
 import com.chillibits.pmapp.ui.adapter.recyclerview.SelectSensorAdapter
-import com.chillibits.pmapp.widget.WidgetProvider
+import com.chillibits.pmapp.widget.WidgetProviderLarge
 import com.mrgames13.jimdo.feinstaubapp.R
 import kotlinx.android.synthetic.main.activity_widget_configuration.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
-class WidgetConfigurationActivity : AppCompatActivity() {
+class WidgetLargeConfigurationActivity : AppCompatActivity() {
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -73,13 +73,13 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             )
             sensor_view.run {
                 setItemViewCacheSize(100)
-                layoutManager = LinearLayoutManager(this@WidgetConfigurationActivity)
+                layoutManager = LinearLayoutManager(this@WidgetLargeConfigurationActivity)
                 adapter = sensorViewAdapter
             }
         } else {
             no_data.visibility = View.VISIBLE
             add_sensor.setOnClickListener {
-                startActivity(Intent(this@WidgetConfigurationActivity, MainActivity::class.java))
+                startActivity(Intent(this@WidgetLargeConfigurationActivity, MainActivity::class.java))
                 finish()
             }
         }
@@ -103,20 +103,20 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun finishConfiguration() {
         if(sensorViewAdapter.selectedSensor != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(Intent(this, SyncJobService::class.java))
+                startForegroundService(Intent(this, SyncService::class.java))
             } else {
-                startService(Intent(this, SyncJobService::class.java))
+                startService(Intent(this, SyncService::class.java))
             }
             su.putInt("Widget_" + sensorViewAdapter.selectedSensor!!.chipID, appWidgetId)
             su.putString("Widget_$appWidgetId", sensorViewAdapter.selectedSensor!!.chipID)
 
             val widgetManager = AppWidgetManager.getInstance(this)
-            val views = RemoteViews(packageName, R.layout.widget)
+            val views = RemoteViews(packageName, R.layout.widget_large)
             widgetManager.updateAppWidget(appWidgetId, views)
 
-            val update = Intent(applicationContext, WidgetProvider::class.java)
+            val update = Intent(applicationContext, WidgetProviderLarge::class.java)
             update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            update.putExtra(Constants.WIDGET_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
+            update.putExtra(Constants.WIDGET_LARGE_EXTRA_SENSOR_ID, sensorViewAdapter.selectedSensor!!.chipID)
             sendBroadcast(update)
 
             val result = Intent()

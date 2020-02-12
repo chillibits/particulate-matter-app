@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <resources>
@@ -16,6 +16,7 @@
     <color name="current_values_color">@color/white</color>
     <color name="tab_unchecked_color">@color/colorPrimaryDark</color>
     <color name="diagram_text_color">@color/bg_dark</color>
+    <color name="button_bar_color">@color/bg_dark</color>
 
     <!-- Button colors -->
     <color name="enabled">@color/colorPrimary</color>

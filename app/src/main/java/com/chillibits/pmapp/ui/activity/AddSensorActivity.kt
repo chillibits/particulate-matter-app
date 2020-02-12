@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.activity
@@ -64,10 +64,8 @@ class AddSensorActivity : AppCompatActivity() {
             }
         }
 
-        // Initialize StorageUtils
+        // Initialize util packages
         su = StorageUtils(this)
-
-        // Initialize ServerMessagingUtils
         smu = ServerMessagingUtils(this)
 
         // Initialize Components
@@ -205,9 +203,11 @@ class AddSensorActivity : AppCompatActivity() {
                                         // Save new sensor
                                         if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
                                         su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = false, requestFromRealtimeSyncService = false)
+
                                         CoroutineScope(Dispatchers.Main).launch {
                                             pd.dismiss()
                                             try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
+                                            setResult(Activity.RESULT_OK)
                                             finish()
                                         }
                                     } else {
@@ -221,14 +221,15 @@ class AddSensorActivity : AppCompatActivity() {
                                     if (su.isFavouriteExisting(chipId)) su.removeFavourite(chipId, false)
                                     su.addOwnSensor(Sensor(chipId, sensorName, currentColor), offline = true, requestFromRealtimeSyncService = false)
                                     CoroutineScope(Dispatchers.Main).launch {
-                                        try {
-                                            MainActivity.own_instance?.refresh()
-                                        } catch (ignored: Exception) {}
+                                        pd.dismiss()
+                                        try { MainActivity.own_instance?.refresh() } catch (ignored: Exception) {}
+                                        setResult(Activity.RESULT_OK)
                                         finish()
                                     }
                                 }
                             } else {
                                 CoroutineScope(Dispatchers.Main).launch {
+                                    pd.dismiss()
                                     AlertDialog.Builder(this@AddSensorActivity)
                                         .setTitle(R.string.app_name)
                                         .setMessage(R.string.add_sensor_tick_not_set_message_required)

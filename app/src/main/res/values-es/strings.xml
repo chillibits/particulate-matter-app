@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Tue, 21 Jan 2020 15:21:28 +0100
+ Exported at: Wed, 12 Feb 2020 19:00:35 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Cargando …</string>
     <string name="loading_data">Cargando datos …</string>
     <string name="internet_is_not_available">Internet no disponible</string>
-    <string name="activate_wlan">Activar WiFi</string>
+    <string name="enable_wifi">Activar WiFi</string>
     <string name="please_wait_">Por favor espera …</string>
     <string name="error_try_again">Ocurrió un error. Inténtalo de nuevo</string>
     <string name="offline_t">Servidor fuera de línea</string>
@@ -37,11 +37,11 @@
     <string name="support_end_m">¡Lo sentimos! La aplicación de material particulado ya no es compatible. Ahora puede desinstalar la aplicación.</string>
     <string name="update_necessary_t">¡Actualización disponible!</string>
     <string name="update_necessary_m">Tienes que hacer una actualización para que la aplicación funcione.</string>
-    <string name="download_update">descargar</string>
+    <string name="download_update">Descargar</string>
     <string name="update_available">Actualización disponible</string>
     <string name="download">Descargar</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Pantalla para partículas</string>
+    <string name="widget_label_large">Pantalla para partículas</string>
     <string name="widget_app_data_cleared">Se borraron los datos de la aplicación. Por favor, seleccione el sensor de nuevo</string>
     <string name="widget_select_sensor">Seleccionar sensor</string>
     <string name="widget_no_data">No hay favoritos todavía. Toque abajo para agregar un favorito y seleccionar el widget nuevamente.</string>
@@ -192,7 +192,7 @@
     <string name="zero_to_disable">Se establece en 0 para deshabilitar</string>
     <plurals name="measurements">
         <item quantity="one">1 medición</item>
-        <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+        <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
         <item quantity="other">%s medidas</item>
     </plurals>
     <!-- Performance Settings -->
@@ -265,4 +265,15 @@
     <string name="get_in_touch">Contáctanos</string>
     <string name="sensor_highscore">Lista de registros</string>
     <string name="connected_to_web_version">Conectado a pm.chillibits.com</string>
+    <string name="widget_label_small">Mosaico de información rápida</string>
+    <string name="pref_enable_threshold_notifications">Habilitar notificaciones de umbral</string>
+    <string name="find_sensor_locally">Encontrar sensor en red</string>
+    <string name="searching_ip_address">Buscando dirección IP …</string>
+    <string name="searching_for_sensors">Buscando sensores …</string>
+    <string name="sensors_local_network">Sensores en la red local.</string>
+    <string name="no_sensors_found_local">No se encontraron sensores en la red local. A veces, un sensor está fuera de línea por un momento, así que si su sensor no está en la lista, intente nuevamente en un minuto.</string>
+    <string name="open_sensor_config">Abrir sitio de configuración (enlace externo)</string>
+    <string name="warning_dialog_text">Para poder vincular este sensor en la aplicación, es necesario habilitar la transmisión de datos a nuestro servidor. Para hacer esto, abra el sitio de configuración de este sensor, navegue a Configuración&gt; APIs y active la casilla de verificación \'Feinstaub-App\'.</string>
+    <string name="only_with_wifi">Solo disponible con conexión WiFi</string>
+    <string name="add_to_own_sensors">Añadir a los sensores propios</string>
 </resources>

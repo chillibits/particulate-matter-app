@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Wed, 22 Jan 2020 15:02:21 +0000
+ Exported at: Wed, 12 Feb 2020 18:00:33 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -26,7 +26,7 @@
     <string name="loading">Loading …</string>
     <string name="loading_data">Loading data …</string>
     <string name="internet_is_not_available">Internet not available</string>
-    <string name="activate_wlan">Enable WiFi</string>
+    <string name="enable_wifi">Enable WiFi</string>
     <string name="please_wait_">Please wait …</string>
     <string name="error_try_again">An error occurred. Please try again</string>
     <string name="offline_t">Server offline</string>
@@ -41,7 +41,7 @@
     <string name="update_available">Update available</string>
     <string name="download">Download</string>
     <!-- HomeScreen Widget -->
-    <string name="widget_label">Display for particulate matter</string>
+    <string name="widget_label_large">Display for particulate matter</string>
     <string name="widget_app_data_cleared">The app data was cleared. Please select the sensor again</string>
     <string name="widget_select_sensor">Select sensor</string>
     <string name="widget_no_data">There are no favourites yet. Tap below to add a favourite and select the widget again.</string>
@@ -264,4 +264,15 @@
     <string name="get_in_touch">Contact us</string>
     <string name="sensor_highscore">Sensor highscore</string>
     <string name="connected_to_web_version">Connected to pm.chillibits.com</string>
+    <string name="widget_label_small">Quick info tile</string>
+    <string name="pref_enable_threshold_notifications">Enable threshold notifications</string>
+    <string name="find_sensor_locally">Find sensor in network</string>
+    <string name="searching_ip_address">Searching for IP address …</string>
+    <string name="searching_for_sensors">Searching for sensors …</string>
+    <string name="sensors_local_network">Sensors on the local network</string>
+    <string name="no_sensors_found_local">No sensors found in the local network. Sometimes a sensor is offline for a moment, so if your sensor isn\'t listed, please try it again in a minute.</string>
+    <string name="open_sensor_config">Open configuration site (external link)</string>
+    <string name="warning_dialog_text">To be able to link this sensor in the app, it is required to enable the data transmission to our server. To do this, open the sensor configuration site, navigate to Configuration &gt; APIs and enable the \'Feinstaub-App\' checkbox.</string>
+    <string name="only_with_wifi">Only available with a WiFi connection</string>
+    <string name="add_to_own_sensors">Add to own sensors</string>
 </resources>

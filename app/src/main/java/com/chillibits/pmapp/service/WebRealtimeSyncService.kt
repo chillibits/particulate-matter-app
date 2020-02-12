@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
 package com.chillibits.pmapp.service
@@ -114,7 +114,7 @@ class WebRealtimeSyncService : Service() {
                                 val name = sensor["name"].toString()
                                 val favored = sensor["fav"]!!.toString().toBoolean()
                                 val color = sensor["color"].toString()
-                                if (!su.isFavouriteExisting(chipId) && !su.isSensorExisting(chipId)) {
+                                if (!su.isSensorLinked(chipId)) {
                                     if (favored) {
                                         su.addFavourite(Sensor(chipId, name, Color.parseColor(color)), true)
                                     } else {
