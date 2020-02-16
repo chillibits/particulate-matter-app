@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:33 +0000
+ Exported at: Sat, 15 Feb 2020 23:49:42 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -275,4 +275,5 @@
     <string name="warning_dialog_text">To be able to link this sensor in the app, it is required to enable the data transmission to our server. To do this, open the sensor configuration site, navigate to Configuration &gt; APIs and enable the \'Feinstaub-App\' checkbox.</string>
     <string name="only_with_wifi">Only available with a WiFi connection</string>
     <string name="add_to_own_sensors">Add to own sensors</string>
+    <string name="local_network">Local network</string>
 </resources>

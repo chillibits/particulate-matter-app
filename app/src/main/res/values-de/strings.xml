@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 19:00:34 +0100
+ Exported at: Sun, 16 Feb 2020 15:33:54 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -276,4 +276,5 @@
     <string name="warning_dialog_text">Um diesen Sensor in der App verknüpfen zu können, ist es notwendig die Übermittlung der Daten auf unseren Server zu aktivieren. Um dies zu tun, öffnen Sie die Konfigurationsseite des Sensors, navigieren Sie zu Konfiguration &gt; APIs und aktivieren Sie das Optionsfeld \'Feinstaub-App\'. Nach dem Speichern und einer kurzen Wartezeit sollte der Sensor zur Verknüpfung verfügbar sein.</string>
     <string name="only_with_wifi">Nur über WLAN verfügbar</string>
     <string name="add_to_own_sensors">Zu eigenen Sensoren hinzufügen</string>
+    <string name="local_network">Lokales Netzwerk</string>
 </resources>

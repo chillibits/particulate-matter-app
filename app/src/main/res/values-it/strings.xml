@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Sat, 15 Feb 2020 23:49:42 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -275,4 +275,5 @@
     <string name="warning_dialog_text">Per poter collegare questo sensore all\'app, è necessario abilitare l\'invio dei dati al nostro server. Per fare ciò, apri il pannello di configurazione del sensore, spostati in Configurazione &gt; APIs e abilita la voce \'Feinstaub-App\'</string>
     <string name="only_with_wifi">Disponibile solo con connessione WiFi</string>
     <string name="add_to_own_sensors">Aggiungere ai propri sensori</string>
+    <string name="local_network"></string>
 </resources>

@@ -4,10 +4,10 @@
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/bg_dark" />
+    <item android:drawable="@color/blackLight" />
     <item android:gravity="center">
         <shape android:shape="oval">
-            <solid android:color="@color/white_dark"/>
+            <solid android:color="@color/whiteDark"/>
             <size android:height="230dp" android:width="230dp"/>
         </shape>
     </item>

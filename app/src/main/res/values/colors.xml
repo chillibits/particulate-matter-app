@@ -4,40 +4,18 @@
   -->
 
 <resources>
-    <!-- DayMode -->
+    <!-- Main colors -->
     <color name="colorPrimary">#00cab7</color>
     <color name="colorPrimaryDark">#00a798</color>
-    <color name="colorPrimaryTransparent">#8000CAB7</color>
-    <color name="colorAccent">#0B9509</color>
-    <color name="ic_launcher_background">#00E1FF</color>
-    <color name="bg_dark">#363636</color>
-    <color name="color_selection">@color/white_dark</color>
-    <color name="dark_mode_indicator">#202020</color>
-    <color name="current_values_color">@color/white</color>
-    <color name="tab_unchecked_color">@color/colorPrimaryDark</color>
-    <color name="diagram_text_color">@color/bg_dark</color>
-    <color name="button_bar_color">@color/bg_dark</color>
+    <color name="colorAccent">#0b9509</color>
+    <color name="iconLauncherBackground">#00E1FF</color>
 
-    <!-- Button colors -->
-    <color name="enabled">@color/colorPrimary</color>
-    <color name="disabled">@color/gray_light</color>
-    <color name="button_color">@color/colorPrimary</color>
-    <color name="button_color_transparent">@color/colorPrimaryTransparent</color>
+    <!-- Common colors -->
+    <color name="whiteDark">#f1f1f1</color>
+    <color name="white">#fff</color>
+    <color name="blackLight">#363636</color>
 
-    <!-- Common Colors -->
-    <color name="white">#FFF</color>
-    <color name="white_dark">#f1f1f1</color>
-    <color name="gray_light">#BBB</color>
-    <color name="gray_transparent">#c8bbbbbb</color>
-    <color name="transparent">#00000000</color>
-    <color name="warning">#FF9800</color>
-    <color name="error">#E20000</color>
-
-    <!-- Series Colors -->
-    <color name="series1">#129726</color>
-    <color name="series2">#00dcdc</color>
-    <color name="series3">#f29500</color>
-    <color name="series4">#df004e</color>
-    <color name="series5">#8310ff</color>
-
+    <!-- Component colors -->
+    <color name="colorToolbar">@color/colorPrimary</color>
+    <color name="colorBubbleTabBar">@color/white</color>
 </resources>

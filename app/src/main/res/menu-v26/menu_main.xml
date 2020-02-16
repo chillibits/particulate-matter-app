@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/star_white"
+        android:title="@string/my_favourites"
+        android:iconTint="@color/colorBubbleTabBar"/>
+
+    <item
+        android:id="@+id/all_sensors"
+        android:icon="@drawable/map_white"
+        android:title="@string/all_sensors"
+        android:iconTint="@color/colorBubbleTabBar"
+        android:checked="true"/>
+
+    <item
+        android:id="@+id/my_sensors"
+        android:icon="@drawable/developer_board_white"
+        android:title="@string/my_sensors"
+        android:iconTint="@color/colorBubbleTabBar"/>
+
+    <item
+        android:id="@+id/local_network"
+        android:icon="@drawable/network_check_white"
+        android:title="@string/local_network"
+        android:iconTint="@color/colorBubbleTabBar"/>
+</menu>

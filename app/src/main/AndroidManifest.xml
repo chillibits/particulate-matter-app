@@ -3,221 +3,32 @@
   ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mrgames13.jimdo.feinstaubapp"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mrgames13.jimdo.feintaubapp"
     android:installLocation="auto">
 
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
-
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
 
     <application
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_content"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="q">
+        android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_api_key" />
-        <meta-data
-            android:name="android.app.shortcuts"
-            android:resource="@xml/shortcuts" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!-- SplashActivity -->
         <activity
-            android:name="com.chillibits.pmapp.ui.activity.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- MainActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.MainActivity"
-            android:configChanges="uiMode"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-            <intent-filter
-                android:autoVerify="true"
-                tools:targetApi="m">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="feinstaub.chillibits.com"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="pm.chillibits.com"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
-        <!-- WelcomeActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.WelcomeActivity"
-            android:theme="@style/WelcomeScreenTheme"/>
-        <!-- SettingsActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" /> <!-- DiagramActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.DiagramActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.Fullscreen"
-            android:windowSoftInputMode="adjustPan" /> <!-- SensorActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.SensorActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="feinstaub.chillibits.com"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="pm.chillibits.com"
-                    android:pathPattern="/sensor"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity> <!-- LocalNetworkActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.LocalNetworkActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" /> <!-- AddSensorActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.AddSensorActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" /> <!-- CompareActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.CompareActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" /> <!-- QR-Code Scanner -->
-        <activity
-            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation" /> <!-- WidgetLargeConfigurationActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.WidgetLargeConfigurationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity> <!-- WidgetSmallConfigurationActivity -->
-        <activity
-            android:name="com.chillibits.pmapp.ui.activity.WidgetSmallConfigurationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity> <!-- SyncJobService -->
-        <service
-            android:name="com.chillibits.pmapp.service.SyncJobService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" /> <!-- SyncService -->
-        <service
-            android:name="com.chillibits.pmapp.service.SyncService"
-            android:enabled="true" /> <!-- WebRealtimeSyncService -->
-        <service android:name="com.chillibits.pmapp.service.WebRealtimeSyncService" /> <!-- BootCompletedReceiver -->
-        <receiver android:name="com.chillibits.pmapp.tool.BootCompletedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <!-- For HTC devices -->
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver> <!-- ContentProviderExport -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.chillibits.pmapp"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider> <!-- HomeScreen Widget large -->
-        <receiver
-            android:name="com.chillibits.pmapp.widget.WidgetProviderLarge"
-            android:label="@string/widget_label_large">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_large" />
-        </receiver> <!-- HomeScreen Widget small -->
-        <receiver
-            android:name="com.chillibits.pmapp.widget.WidgetProviderSmall"
-            android:label="@string/widget_label_small">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_small" />
-        </receiver>
     </application>
-
 </manifest>

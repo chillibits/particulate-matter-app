@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Sat, 15 Feb 2020 23:49:43 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -277,4 +277,5 @@
     <string name="warning_dialog_text">Pentru a putea conecta acest senzor în aplicație, este necesar să activăm transmisia de date către serverul nostru. Pentru a face acest lucru, deschideți site-ul de configurare al senzorului, navigați la Configurare&gt; API-uri și activați caseta de selectare \'Feinstaub-App\'.</string>
     <string name="only_with_wifi">Disponibil numai cu conexiune WiFi</string>
     <string name="add_to_own_sensors">Adăugați la senzori proprii</string>
+    <string name="local_network"></string>
 </resources>

@@ -4,23 +4,15 @@
   -->
 
 <resources>
-    <!-- NightMode -->
+    <!-- Main colors -->
     <color name="colorPrimary">#272727</color>
     <color name="colorPrimaryDark">#000</color>
-    <color name="colorPrimaryTransparent">#80141414</color>
-    <color name="colorAccent">#0B9509</color>
-    <color name="bg_dark">#303030</color>
-    <color name="color_selection">#3D3D3D</color>
-    <color name="dark_mode_indicator">@color/colorPrimary</color>
-    <color name="current_values_color">@color/color_selection</color>
-    <color name="tab_unchecked_color">@color/gray_light</color>
-    <color name="diagram_text_color">@color/gray_light</color>
-    <color name="button_bar_color">@color/colorPrimary</color>
+    <color name="colorAccent">#0b9509</color>
 
-    <!-- Button colors -->
-    <color name="enabled">@color/gray_light</color>
-    <color name="disabled">@color/colorPrimaryTransparent</color>
-    <color name="button_color">#BBBBBB</color>
-    <color name="button_color_transparent">#80BBBBBB</color>
+    <!-- Common colors -->
+    <color name="blackLight">#303030</color>
 
+    <!-- Component colors -->
+    <color name="colorToolbar">@color/colorPrimary</color>
+    <color name="iconLauncherBackground">@color/blackLight</color>
 </resources>

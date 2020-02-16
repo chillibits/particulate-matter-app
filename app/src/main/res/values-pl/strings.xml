@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Sat, 15 Feb 2020 23:49:43 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -277,4 +277,5 @@
     <string name="warning_dialog_text">Aby móc połączyć sensor w aplikacji, konieczne jest włączenie transmisji danych do naszego serwera.</string>
     <string name="only_with_wifi">Tylko dostępne podczas połączenia WIFI.</string>
     <string name="add_to_own_sensors">Dodaj do własnych sensorów</string>
+    <string name="local_network"></string>
 </resources>
