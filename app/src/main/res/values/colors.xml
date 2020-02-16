@@ -7,6 +7,7 @@
     <!-- Main colors -->
     <color name="colorPrimary">#00cab7</color>
     <color name="colorPrimaryDark">#00a798</color>
+    <color name="colorPrimaryTransparent">#8000CAB7</color>
     <color name="colorAccent">#0b9509</color>
     <color name="iconLauncherBackground">#00E1FF</color>
 
@@ -14,8 +15,20 @@
     <color name="whiteDark">#f1f1f1</color>
     <color name="white">#fff</color>
     <color name="blackLight">#363636</color>
+    <color name="blackLightDark">#3D3D3D</color>
+    <color name="grayLight">#BBB</color>
+    <color name="grayTransparent">#c8bbbbbb</color>
+    <color name="orange">#FF9800</color>
+    <color name="red">#E20000</color>
+
+    <!-- Button colors -->
+    <color name="colorButton">@color/colorPrimary</color>
+    <color name="colorButtonTransparent">@color/colorPrimaryTransparent</color>
+    <color name="colorButtonDisabled">@color/colorPrimary</color>
+    <color name="colorButtonGray">@color/grayTransparent</color>
 
     <!-- Component colors -->
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="colorBubbleTabBar">@color/white</color>
+    <color name="colorMapControls">@color/whiteDark</color>
 </resources>

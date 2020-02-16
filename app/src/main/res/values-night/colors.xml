@@ -7,12 +7,20 @@
     <!-- Main colors -->
     <color name="colorPrimary">#272727</color>
     <color name="colorPrimaryDark">#000</color>
+    <color name="colorPrimaryTransparent">#80141414</color>
     <color name="colorAccent">#0b9509</color>
 
     <!-- Common colors -->
     <color name="blackLight">#303030</color>
 
+    <!-- Button colors -->
+    <color name="colorButton">@color/grayLight</color>
+    <color name="colorButtonTransparent">@color/grayTransparent</color>
+    <color name="colorButtonDisabled">@color/colorPrimaryTransparent</color>
+    <color name="colorButtonGray">@color/blackLightDark</color>
+
     <!-- Component colors -->
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="iconLauncherBackground">@color/blackLight</color>
+    <color name="colorMapControls">@color/blackLightDark</color>
 </resources>
