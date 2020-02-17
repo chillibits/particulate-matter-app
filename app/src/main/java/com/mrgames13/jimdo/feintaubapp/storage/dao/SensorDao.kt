@@ -13,10 +13,10 @@ interface SensorDao {
     @Query("SELECT * FROM sensor")
     fun getAll(): List<Sensor>
 
-    @Query("SELECT * FROM sensor WHERE own_sensor = 0")
+    @Query("SELECT * FROM sensor WHERE sensor_type = 0")
     fun getFavorites(): List<Sensor>
 
-    @Query("SELECT * FROM sensor WHERE own_sensor = 1")
+    @Query("SELECT * FROM sensor WHERE sensor_type = 1")
     fun getOwnSensors(): List<Sensor>
 
     @Query("SELECT * FROM sensor WHERE chip_id = :chipId LIMIT 1")

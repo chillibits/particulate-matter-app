@@ -47,4 +47,24 @@
         app:bubbletab_title_size="16sp"
         app:bubbletab_vertical_padding="13dp"
         app:bubbletab_horizontal_padding="20dp"/>
+
+    <!-- Add / search fab -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/fab_anim_search_to_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tabBar"
+        android:layout_marginEnd="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/fabSheetAdd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ft_color="@color/colorPrimary"
+        android:elevation="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
