@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    android:background="@color/activityBackground"
+    tools:context=".ui.activity.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbarContainer"
@@ -59,6 +60,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tabBar"
         android:layout_marginEnd="10dp"
         android:elevation="10dp"
+        android:enabled="false"
         android:layout_marginBottom="10dp" />
 
     <com.github.fabtransitionactivity.SheetLayout

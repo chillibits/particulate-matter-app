@@ -20,7 +20,8 @@
     <color name="colorButtonGray">@color/blackLightDark</color>
 
     <!-- Component colors -->
+    <color name="activityBackground">@color/blackLightDark</color>
     <color name="colorToolbar">@color/colorPrimary</color>
-    <color name="iconLauncherBackground">@color/blackLight</color>
     <color name="colorMapControls">@color/blackLightDark</color>
+    <color name="colorTextMapControls">@color/colorButton</color>
 </resources>

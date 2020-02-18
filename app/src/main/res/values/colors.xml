@@ -28,7 +28,9 @@
     <color name="colorButtonGray">@color/grayTransparent</color>
 
     <!-- Component colors -->
+    <color name="activityBackground">@color/whiteDark</color>
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="colorBubbleTabBar">@color/white</color>
     <color name="colorMapControls">@color/whiteDark</color>
+    <color name="colorTextMapControls">@color/colorPrimary</color>
 </resources>

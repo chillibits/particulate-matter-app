@@ -2,9 +2,10 @@
  * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
-package com.mrgames13.jimdo.feintaubapp
+package com.mrgames13.jimdo.feintaubapp.ui.activity
 
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.fxn.OnBubbleClickListener
+import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showImportExportDialog
 import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showRatingDialog
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
+
+    // Variables
+    private var previousPage = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,19 +60,12 @@ class MainActivity : AppCompatActivity() {
 
                 // perform actions, depending on selected page
                 when(pos) {
-                    0 -> {
-
-                    }
-                    1 -> {
-
-                    }
-                    2 -> {
-
-                    }
-                    3 -> {
-
-                    }
+                    0 -> switchToFavoritesPage()
+                    1 -> switchToAllSensorsPage()
+                    2 -> switchToOwnSensorsPage()
+                    3 -> switchToLocalNetworkPage()
                 }
+                previousPage = pos
             }
         })
 
@@ -105,6 +103,34 @@ class MainActivity : AppCompatActivity() {
             R.id.action_quit -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun switchToFavoritesPage() {
+        // Hide the fab
+        if(fabAddSearch.isOrWillBeShown) fabAddSearch.hide()
+    }
+
+    private fun switchToAllSensorsPage() {
+        // Show and animate the fab
+        if(!fabAddSearch.isOrWillBeShown) fabAddSearch.show()
+        if(previousPage == 0 || previousPage == 2) {
+            fabAddSearch.setImageResource(R.drawable.fab_anim_add_to_search)
+            if (fabAddSearch.drawable is Animatable) (fabAddSearch.drawable as Animatable).start()
+        }
+    }
+
+    private fun switchToOwnSensorsPage() {
+        // Show and animate the fab
+        if(!fabAddSearch.isOrWillBeShown) fabAddSearch.show()
+        if(previousPage != 2) {
+            fabAddSearch.setImageResource(R.drawable.fab_anim_search_to_add)
+            if (fabAddSearch.drawable is Animatable) (fabAddSearch.drawable as Animatable).start()
+        }
+    }
+
+    private fun switchToLocalNetworkPage() {
+        // Same actions, so we can execute this method
+        switchToAllSensorsPage()
     }
 
     private fun openQRScanner() {
