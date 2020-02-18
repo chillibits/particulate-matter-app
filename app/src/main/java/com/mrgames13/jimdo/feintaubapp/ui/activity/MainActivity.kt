@@ -15,6 +15,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.fxn.OnBubbleClickListener
+import com.google.zxing.integration.android.IntentIntegrator
 import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showImportExportDialog
@@ -25,11 +26,19 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
 
+    // Request codes
+    private val REQ_SCAN_WEB = 1001
+
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
 
     // Variables
     private var previousPage = 1
+
+    companion object {
+        // Constants
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +143,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openQRScanner() {
-
+        IntentIntegrator(this).run {
+            setRequestCode(REQ_SCAN_WEB)
+            setOrientationLocked(true)
+            setBeepEnabled(false)
+            setPrompt(getString(R.string.scan_prompt))
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            initiateScan()
+        }
     }
 
     private fun openFAQPage() {

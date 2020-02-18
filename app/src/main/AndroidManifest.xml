@@ -5,11 +5,14 @@
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mrgames13.jimdo.feintaubapp"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -37,5 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="android:screenOrientation" />
     </application>
 </manifest>

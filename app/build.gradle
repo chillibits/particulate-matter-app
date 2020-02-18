@@ -63,6 +63,10 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.google.maps.android:android-maps-utils:0.6.2'
 
+    // ZXing dependencies
+    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.0.2'
+
     // Testing dependencies
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
