@@ -20,6 +20,7 @@
     <color name="grayTransparent">#c8bbbbbb</color>
     <color name="orange">#FF9800</color>
     <color name="red">#E20000</color>
+    <color name="green">#4CAF50</color>
 
     <!-- Button colors -->
     <color name="colorButton">@color/colorPrimary</color>

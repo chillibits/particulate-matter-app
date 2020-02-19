@@ -4,14 +4,17 @@
 
 package com.mrgames13.jimdo.feintaubapp.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.fxn.OnBubbleClickListener
@@ -26,9 +29,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
 
-    // Request codes
-    private val REQ_SCAN_WEB = 1001
-
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         // Constants
-
+        const val REQ_SCAN_WEB = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +114,15 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when(requestCode) {
+                REQ_SCAN_WEB -> initializeWebConnection(resultCode, data)
+            }
+        } else outputErrorMessage()
+    }
+
     private fun switchToFavoritesPage() {
         // Hide the fab
         if(fabAddSearch.isOrWillBeShown) fabAddSearch.hide()
@@ -157,5 +166,30 @@ class MainActivity : AppCompatActivity() {
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(getString(R.string.faq_url))
         startActivity(i)
+    }
+
+    private fun initializeWebConnection(resultCode: Int, data: Intent?) {
+        try{
+            // Extract SyncKey out of QR-Code
+            val syncKey = IntentIntegrator.parseActivityResult(resultCode, data).contents
+            // Check key for validity
+            if(syncKey.length == 25 && !syncKey.startsWith("http")) {
+                // Start WebSyncService
+
+                // Display message, that the connection is established
+                Toast(this).run {
+                    setGravity(Gravity.CENTER, 0, 0)
+                    duration = Toast.LENGTH_LONG
+                    view = layoutInflater.inflate(R.layout.sync_success, null)
+                    show()
+                }
+            }
+        } catch (e: Exception) {
+            outputErrorMessage()
+        }
+    }
+
+    private fun outputErrorMessage() {
+        Toast.makeText(this, R.string.error_try_again, Toast.LENGTH_SHORT).show()
     }
 }

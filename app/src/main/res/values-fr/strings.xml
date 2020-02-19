@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Tue, 18 Feb 2020 19:47:19 +0000
+ Exported at: Wed, 19 Feb 2020 19:35:00 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -252,7 +252,7 @@
     <string name="seconds">%s secondes</string>
     <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
-    <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
+    <string name="pref_app_open_source_t">L\'app Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
     <string name="firmware_version_">Version du firmware:</string>
     <string name="unknown_sensor">Capteur inconnu</string>
