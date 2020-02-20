@@ -10,7 +10,7 @@ import com.chillibits.pmapp.storage.dao.ExternalSensorDao
 import com.chillibits.pmapp.storage.dao.SensorDao
 import com.mrgames13.jimdo.feintaubapp.model.Sensor
 
-@Database(entities = arrayOf(Sensor::class), version = 1) // Increase version whenever the structure of the local db changes
+@Database(entities = arrayOf(Sensor::class), exportSchema = false, version = 1) // Increase version whenever the structure of the local db changes
 abstract class AppDatabase : RoomDatabase() {
     abstract fun sensorDao(): SensorDao
     abstract fun externalSensorDao(): ExternalSensorDao

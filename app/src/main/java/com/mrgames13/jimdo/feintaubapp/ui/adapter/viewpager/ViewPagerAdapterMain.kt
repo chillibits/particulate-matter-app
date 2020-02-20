@@ -12,12 +12,15 @@ import com.mrgames13.jimdo.feintaubapp.ui.fragment.FavoritesFragment
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.LocalNetworkFragment
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.OwnSensorsFragment
 
-class ViewPagerAdapterMain(manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapterMain(
+    manager: FragmentManager,
+    private val listener: AllSensorsFragment.OnAdapterEventListener
+) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(pos: Int): Fragment {
         return when(pos) {
             0 -> FavoritesFragment()
-            1 -> AllSensorsFragment()
+            1 -> AllSensorsFragment(listener)
             2 -> OwnSensorsFragment()
             else -> LocalNetworkFragment()
         }
