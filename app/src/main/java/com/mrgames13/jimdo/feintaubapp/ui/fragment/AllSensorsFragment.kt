@@ -6,7 +6,6 @@ package com.mrgames13.jimdo.feintaubapp.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
@@ -24,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.shared.getPrefs
+import com.mrgames13.jimdo.feintaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feintaubapp.shared.outputErrorMessage
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +40,12 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
     // Variables
 
     // Interfaces
-    interface OnAdapterEventListener
+    interface OnAdapterEventListener {
+
+    }
+
+    // Constructor has to be implemented, otherwise the app crashes, when switching to dark theme and back
+    constructor() : this(object: OnAdapterEventListener {})
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
@@ -136,8 +141,7 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
             }
 
             // Apply map style
-            val nightModeFlags = requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-            val themeResId = if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES) R.raw.map_style_dark else R.raw.map_style_silver
+            val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
         } else {
             context?.outputErrorMessage()

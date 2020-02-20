@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
+    android:paddingEnd="?android:attr/expandableListPreferredItemIndicatorRight">
+
+    <TextView
+        android:id="@+id/primaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingTop="3dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text="@string/loading"
+        android:textAlignment="viewStart"
+        android:gravity="start"/>
+
+    <TextView
+        android:id="@+id/secondaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/primaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text="@string/loading"
+        android:textAlignment="viewStart"
+        android:gravity="start"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,23 +15,28 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.chillibits.pmapp.storage.AppDatabase
 import com.fxn.OnBubbleClickListener
+import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.shared.*
 import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
-import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showImportExportDialog
-import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showRatingDialog
-import com.mrgames13.jimdo.feintaubapp.ui.dialogs.showRecommendationDialog
+import com.mrgames13.jimdo.feintaubapp.ui.dialog.PlacesSearchDialog
+import com.mrgames13.jimdo.feintaubapp.ui.dialog.showImportExportDialog
+import com.mrgames13.jimdo.feintaubapp.ui.dialog.showRatingDialog
+import com.mrgames13.jimdo.feintaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.AllSensorsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener {
+class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener,
+    PlacesSearchDialog.PlaceSelectedCallback {
 
     // Variables as objects
     private lateinit var db: AppDatabase
@@ -111,11 +116,13 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         // Initialize SearchView
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("not implemented")
+
+                return true
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("not implemented")
+
+                return true
             }
         })
     }
@@ -235,7 +242,15 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openPlacesSearch() {
-        TODO("not implemented")
+        PlacesSearchDialog(this@MainActivity, this@MainActivity).run {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            if (isNightModeEnabled()) {
+                (searchEditText.parent as View).setBackgroundColor(ContextCompat.getColor(context, R.color.blackLight))
+                recyclerFrame.setBackgroundColor(ContextCompat.getColor(context, R.color.blackLight))
+            }
+            show()
+        }
     }
 
     private fun openAddSensorActivity() {
@@ -320,5 +335,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
         fabAddSearch.show()
         exitedFullscreenOnce = true
+    }
+
+    override fun onPlaceSelected(place: Place) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
