@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AddSensorActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/lblSensorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_"
+            android:textSize="17sp"
+            android:labelFor="@+id/sensorName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/sensorName"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+            android:id="@+id/sensorName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lblSensorName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences" />
+
+        <TextView
+            android:id="@+id/lblChipId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_id"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="@+id/chipId"
+            app:layout_constraintBottom_toBottomOf="@+id/chipId"
+            app:layout_constraintStart_toStartOf="parent"
+            android:labelFor="@+id/chipId"/>
+
+        <EditText
+            android:id="@+id/chipId"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/sensorName"
+            app:layout_constraintTop_toBottomOf="@+id/sensorName"
+            android:importantForAutofill="no"
+            android:inputType="number" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chipIdInfo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintStart_toEndOf="@+id/chipId"
+            app:layout_constraintTop_toTopOf="@+id/chipId"
+            app:layout_constraintBottom_toBottomOf="@+id/chipId"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/info_outline_black"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/colorButton"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sensorColorPreview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipId"
+            app:srcCompat="@drawable/simple_circle"
+            android:elevation="10dp"
+            android:contentDescription="@string/choose_color"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <Button
+            android:id="@+id/selectSensorColor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/sensorColorPreview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipId"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/button_outline_rounded"
+            android:text="@string/choose_color"
+            android:textColor="@drawable/button_outline_text"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

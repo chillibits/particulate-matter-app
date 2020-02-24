@@ -27,7 +27,7 @@ object Constants {
     const val DEFAULT_TEMP_LIMIT = 0
     const val DEFAULT_HUMIDITY_LIMIT = 0
     const val DEFAULT_PRESSURE_LIMIT = 0
-    const val DEFAULT_MISSING_MEASUREMENT_NUMBER = 5
+    const val DEFAULT_MISSING_MEASUREMENT_NUMBER0 = 5
 
     // Notification channels
     const val CHANNEL_SYSTEM = "System"
@@ -49,4 +49,7 @@ object Constants {
 
     // Local db constants
     const val DB_NAME = "pmapp-main"
+
+    // Network constants
+    const val CLIENT_TYPE = 1
 }
