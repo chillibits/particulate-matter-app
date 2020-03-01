@@ -24,6 +24,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feintaubapp.R
+import com.mrgames13.jimdo.feintaubapp.model.ScrapingResult
 import com.mrgames13.jimdo.feintaubapp.shared.*
 import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feintaubapp.ui.dialog.PlacesSearchDialog
@@ -31,6 +32,7 @@ import com.mrgames13.jimdo.feintaubapp.ui.dialog.showImportExportDialog
 import com.mrgames13.jimdo.feintaubapp.ui.dialog.showRatingDialog
 import com.mrgames13.jimdo.feintaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.AllSensorsFragment
+import com.mrgames13.jimdo.feintaubapp.ui.task.SensorIPSearchTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     // Variables as objects
     private lateinit var db: AppDatabase
     private var searchMenuItem: MenuItem? = null
+    private lateinit var searchTask: SensorIPSearchTask
 
     // Variables
     private var selectedPage = 1
@@ -258,7 +261,23 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun startLocalNetworkSearch() {
-        TODO("not implemented")
+        // Setup searching task
+        searchTask = SensorIPSearchTask(this, object: SensorIPSearchTask.OnSearchEventListener {
+            override fun onProgressUpdate(progress: Int) {
+
+            }
+
+            override fun onSensorFound(sensor: ScrapingResult?) {}
+
+            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
+
+            }
+
+            override fun onSearchFailed() {
+
+            }
+        }, 0)
+        searchTask.execute()
     }
 
     private fun toggleFullscreen() {

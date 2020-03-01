@@ -50,6 +50,6 @@ object Constants {
     // Local db constants
     const val DB_NAME = "pmapp-main"
 
-    // Network constants
-    const val CLIENT_TYPE = 1
+    // NetworkScan constants
+    const val JOB_COUNT = 5
 }
