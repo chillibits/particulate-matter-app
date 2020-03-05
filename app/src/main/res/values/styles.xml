@@ -29,7 +29,6 @@
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
-        <item name="android:statusBarColor">@color/whiteDark</item>
     </style>
 
     <style name="Theme.AppCompat.DayNight.NoActionBar.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
