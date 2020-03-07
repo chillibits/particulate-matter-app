@@ -6,18 +6,19 @@ package com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.AllSensorsFragment
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.FavoritesFragment
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.LocalNetworkFragment
 import com.mrgames13.jimdo.feintaubapp.ui.fragment.OwnSensorsFragment
 
 class ViewPagerAdapterMain(
-    manager: FragmentManager,
+    fm: FragmentManager,
+    l: Lifecycle,
     private val listener: AllSensorsFragment.OnAdapterEventListener
-) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-    override fun getItem(pos: Int): Fragment {
+) : FragmentStateAdapter(fm, l) {
+    override fun createFragment(pos: Int): Fragment {
         return when(pos) {
             0 -> FavoritesFragment()
             1 -> AllSensorsFragment(listener)
@@ -26,5 +27,5 @@ class ViewPagerAdapterMain(
         }
     }
 
-    override fun getCount() = 4
+    override fun getItemCount() = 4
 }

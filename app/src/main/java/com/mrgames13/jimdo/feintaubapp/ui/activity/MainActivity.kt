@@ -17,7 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.room.Room
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.chillibits.pmapp.storage.AppDatabase
 import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
@@ -73,10 +73,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
 
         // Initialize ViewPager
-        viewPager.offscreenPageLimit = 4
-        viewPager.adapter = ViewPagerAdapterMain(supportFragmentManager, this)
+        viewPager.offscreenPageLimit = 3
+        viewPager.adapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
         viewPager.currentItem = 1 // Start on the map
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        viewPager.setPageTransformer(ZoomOutPageTransformer())
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(pos: Int) {
                 // Close searchView
                 if(searchView.isSearchOpen) searchView.closeSearch()
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                     3 -> switchToLocalNetworkPage()
                 }
                 selectedPage = pos
+                tabBar.setSelected(pos)
             }
         })
 
@@ -105,7 +107,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 }
             }
         })
-        tabBar.setupBubbleTabBar(viewPager)
 
         // Initialize AddSearchFab
         fabAddSearch.setOnClickListener {

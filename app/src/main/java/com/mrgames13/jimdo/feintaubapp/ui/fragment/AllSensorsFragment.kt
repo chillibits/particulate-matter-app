@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,10 +24,8 @@ import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feintaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feintaubapp.shared.outputErrorMessage
+import com.mrgames13.jimdo.feintaubapp.ui.dialog.showRankingDialog
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragment(), OnMapReadyCallback {
@@ -96,7 +93,7 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
 
             // Initialize ranking button
             mapRanking.setOnClickListener {
-                displayRankingDialog()
+                context?.showRankingDialog()
             }
 
             // Initialize map
@@ -145,20 +142,6 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
         } else {
             context?.outputErrorMessage()
-        }
-    }
-
-    private fun displayRankingDialog() {
-        val rankingView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_ranking, null, false)
-
-        val d = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.sensor_highscore)
-            .setView(rankingView)
-            .setPositiveButton(R.string.ok, null)
-            .show()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            TODO("not implemented")
         }
     }
 }
