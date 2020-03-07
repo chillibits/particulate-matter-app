@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener,
     PlacesSearchDialog.PlaceSelectedCallback {
 
@@ -74,9 +75,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
         // Initialize ViewPager
         viewPager.offscreenPageLimit = 3
+        viewPager.isUserInputEnabled = false
         viewPager.adapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
         viewPager.currentItem = 1 // Start on the map
-        viewPager.setPageTransformer(ZoomOutPageTransformer())
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(pos: Int) {
                 // Close searchView

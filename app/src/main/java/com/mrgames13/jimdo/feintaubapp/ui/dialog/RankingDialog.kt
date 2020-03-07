@@ -22,6 +22,6 @@ fun Context.showRankingDialog() {
         .show()
 
     CoroutineScope(Dispatchers.IO).launch {
-        TODO("not implemented")
+
     }
 }

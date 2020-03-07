@@ -34,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbarContainer"
-        app:layout_constraintBottom_toTopOf="@+id/tabBar"/>
+        app:layout_constraintBottom_toTopOf="@+id/tabBar"
+        android:nestedScrollingEnabled="true" />
 
     <com.fxn.BubbleTabBar
         android:id="@+id/tabBar"
