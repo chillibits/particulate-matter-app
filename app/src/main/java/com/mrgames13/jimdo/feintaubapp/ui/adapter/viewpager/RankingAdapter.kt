@@ -12,17 +12,10 @@ import com.mrgames13.jimdo.feintaubapp.ui.fragment.RankingFragment
 
 class RankingAdapter(
     fm: FragmentManager,
-    l: Lifecycle,
-    private val listener: OnRankingLoadingEventListener
+    l: Lifecycle
 ) : FragmentStateAdapter(fm, l) {
-
-    // Interfaces
-    interface OnRankingLoadingEventListener {
-        fun onPageLoaded()
-    }
-
     override fun createFragment(pos: Int): Fragment {
-        return RankingFragment(pos, listener)
+        return RankingFragment(pos)
     }
 
     override fun getItemCount() = 2

@@ -14,17 +14,13 @@ import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.network.RANKING_CITY
 import com.mrgames13.jimdo.feintaubapp.network.RANKING_COUNTRY
 import com.mrgames13.jimdo.feintaubapp.network.loadRanking
-import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.RankingAdapter
 import kotlinx.android.synthetic.main.fragment_ranking.view.*
 import kotlinx.android.synthetic.main.item_ranking.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RankingFragment(
-    private val mode: Int,
-    private val listener: RankingAdapter.OnRankingLoadingEventListener
-) : Fragment() {
+class RankingFragment(private val mode: Int) : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_ranking, container, false).run {
             loadData(this)
@@ -45,7 +41,6 @@ class RankingFragment(
                     rv.rankingContainer.addView(rank)
                 }
                 rv.rankingLoading.visibility = GONE
-                listener.onPageLoaded()
             }
         }
     }
