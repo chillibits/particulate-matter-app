@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Sat, 07 Mar 2020 20:16:21 +0100
+ Exported at: Sun, 08 Mar 2020 02:15:23 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -277,4 +277,6 @@
     <string name="only_with_wifi">Csak WiFi kapcsolattal elérhető</string>
     <string name="add_to_own_sensors">Hozzáadás saját szenzorokhoz</string>
     <string name="local_network"></string>
+    <string name="cities"></string>
+    <string name="countries"></string>
 </resources>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Sat, 07 Mar 2020 19:16:20 +0000
+ Exported at: Sun, 08 Mar 2020 01:15:22 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -276,4 +276,6 @@
     <string name="only_with_wifi">Seulement valable avec connexion Wifi</string>
     <string name="add_to_own_sensors">Ajouter à vos capteurs</string>
     <string name="local_network"></string>
+    <string name="cities"></string>
+    <string name="countries"></string>
 </resources>

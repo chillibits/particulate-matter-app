@@ -34,4 +34,5 @@
     <color name="colorBubbleTabBar">@color/white</color>
     <color name="colorMapControls">@color/whiteDark</color>
     <color name="colorTextMapControls">@color/colorPrimary</color>
+    <color name="colorTextRanking">@color/colorPrimary</color>
 </resources>

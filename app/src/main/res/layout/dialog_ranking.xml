@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/rankingTabLayout"
@@ -15,28 +15,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ProgressBar
-        android:id="@+id/rankingLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rankingTabLayout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <ScrollView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/rankingViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/rankingTabLayout">
-
-        <LinearLayout
-            android:id="@+id/rankingContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
-            android:orientation="vertical" />
-    </ScrollView>
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@+id/rankingTabLayout"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Sat, 07 Mar 2020 19:16:21 +0000
+ Exported at: Sun, 08 Mar 2020 01:15:23 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -278,4 +278,6 @@
     <string name="only_with_wifi">Требует подключения по WiFi</string>
     <string name="add_to_own_sensors">Добавить к Моим датчикам</string>
     <string name="local_network">Локальная сеть</string>
+    <string name="cities"></string>
+    <string name="countries"></string>
 </resources>

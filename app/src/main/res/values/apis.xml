@@ -5,9 +5,7 @@
 
 <resources>
     <!-- API Endpoints -->
-    <string name="host" translatable="false">h2801469.stratoserver.net</string>
-    <string name="path_main" translatable="false">/backend_android_v%s.php</string>
-    <string name="path_data" translatable="false">/get.php</string>
+    <string name="api_root" translatable="false">https://api.pm.chillibits.com:8444</string>
 
     <!-- Common URLs -->
     <string name="url_homepage" translatable="false">https://chillibits.com/</string>

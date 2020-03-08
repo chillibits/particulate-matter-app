@@ -11,6 +11,7 @@ import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         viewPager.offscreenPageLimit = 3
         viewPager.isUserInputEnabled = false
         viewPager.adapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
-        viewPager.currentItem = 1 // Start on the map
+        viewPager.setCurrentItem(1, false) // Start on the map
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(pos: Int) {
                 // Close searchView
@@ -164,7 +165,19 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            TODO("not implemented")
+            if(isFullscreen) {
+                toggleFullscreen()
+            } else if(searchView.isSearchOpen) {
+                searchView.closeSearch()
+            } else if(!pressedOnce) {
+                pressedOnce = true
+                Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({ pressedOnce = false }, 2500)
+            } else {
+                pressedOnce = false
+                onBackPressed()
+            }
+            return true
         }
         return super.onKeyDown(keyCode, event)
     }

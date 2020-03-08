@@ -93,7 +93,7 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
 
             // Initialize ranking button
             mapRanking.setOnClickListener {
-                context?.showRankingDialog()
+                showRankingDialog(context, requireFragmentManager(), lifecycle)
             }
 
             // Initialize map
