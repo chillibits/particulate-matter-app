@@ -2,17 +2,18 @@
 
 **Be informed about the particulate matter situation and the air quality!**
 
-The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/en/construction-manual/) of [www.luftdaten.info](https://luftdaten.info/en), you can link it within the app and publish its data to all app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
+The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/en/construction-manual/) of [www.luftdaten.info](https://luftdaten.info/en), you can link it within the app and publish its data to all our app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
 
 ## Features
 
 - Map of the world with all registered sensors in our network
 - Favorize sensors and save them in the category 'My favorites'
-- Link your own sensor in the app
-- Visualize and analyze every sensor worldwide
+- Link your own sensors with the app
+- Search for sensors on your local network
+- Visualize and analyze every sensor worldwide and its measurements
 - Compare several (up to 15 in cluster mode) sensors in parallel
 - Have access to the [web version](https://pm.chillibits.com) of the app (Also on GitHub: [https://github.com/chillibits/particulate-matter-app-web](https://github.com/chillibits/particulate-matter-app-web))
-- Export graphs as well as data records
+- Export graphs / data records as csv file
 - Export / backup your favorites and own sensors to a XML file
 - Push notification when a pm threshold exceeds
 - Push notification on a sensor breakdown
@@ -27,8 +28,8 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 You can contribute to this project by doing following things:
 
 - If you want to contribute new features, please fork this repository to your own GitHub account. Then build your awesome feature and post a pull request back to this repo. We will check your changes and merge your contribution asap.
-- If you want to add a new translation language or improve an existing translation, please write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Add%20translation)
-- If you want to submit a request for a new feature, please [open an issue](https://github.com/ChilliBits/particulate-matter-app/issues/new?labels=feature%20request&template=feature_request.md) on GitHub write an email to: [contact@chillibits.com](mailto:contact@chillibits.com&subject=Feature%20request)
+- If you want to add a new translation language or improve an existing translation, please send an email to: [translation@chillibits.com](mailto:translation@chillibits.com&subject=PM-App%20-%20Add%20translation)
+- If you want to submit a request for a new feature, please [open an issue](https://github.com/ChilliBits/particulate-matter-app/issues/new?labels=feature%20request&template=feature_request.md) on GitHub send an email to: [features@chillibits.com](mailto:features@chillibits.com&subject=PM-App%20-%20Feature%20request)
 
 ## Our translators
 
@@ -62,6 +63,6 @@ Thanks to following people:
 - [android-gif-drawable](https://github.com/koral--/android-gif-drawable) by Karol Wrótniak
 - [FilePicker](https://github.com/TutorialsAndroid/FilePicker) by Akshay Sunil Masram
 
-Thanks to all contributors and translators!
+Thank you to all contributors and translators!
 
 © ChilliBits 2017-2020 (Designed and developed by Marc Auberer)
