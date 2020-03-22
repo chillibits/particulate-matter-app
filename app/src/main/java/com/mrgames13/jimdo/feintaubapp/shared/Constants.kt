@@ -5,7 +5,6 @@
 package com.mrgames13.jimdo.feintaubapp.shared
 
 object Constants {
-
     // Logging tag
     const val TAG = "FA"
 
@@ -40,6 +39,7 @@ object Constants {
     // Request codes
     const val REQ_ALARM_MANAGER_BACKGROUND_SYNC = 1002
     const val REQ_SCAN_WEB = 1003
+    const val REQ_ADD_SENSOR = 1004
 
     // HomeScreen widget
     const val WIDGET_LARGE_EXTRA_SENSOR_ID = "WidgetLargeSensorID"

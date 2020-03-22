@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Sun, 08 Mar 2020 20:28:16 +0000
+ Exported at: Sun, 22 Mar 2020 23:03:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -278,4 +278,6 @@
     <string name="local_network"></string>
     <string name="cities"></string>
     <string name="countries"></string>
+    <string name="indoor_sensor"></string>
+    <string name="available_soon"></string>
 </resources>

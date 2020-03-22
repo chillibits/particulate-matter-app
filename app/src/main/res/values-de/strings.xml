@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sun, 08 Mar 2020 16:58:59 +0100
+ Exported at: Mon, 23 Mar 2020 00:03:19 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -279,4 +279,6 @@
     <string name="local_network">Lokales Netzwerk</string>
     <string name="cities">Städte</string>
     <string name="countries">Länder</string>
+    <string name="indoor_sensor">Indoor-Sensor</string>
+    <string name="available_soon">Diese Funktion is bald verfügbar</string>
 </resources>

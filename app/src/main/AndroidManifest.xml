@@ -6,6 +6,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mrgames13.jimdo.feintaubapp"
+    tools:ignore="LockedOrientationActivity"
     android:installLocation="auto">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
@@ -49,5 +50,4 @@
             android:screenOrientation="fullSensor"
             tools:replace="android:screenOrientation" />
     </application>
-
 </manifest>

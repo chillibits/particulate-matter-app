@@ -6,7 +6,7 @@ package com.chillibits.pmapp.storage.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.mrgames13.jimdo.feintaubapp.model.Sensor
+import com.mrgames13.jimdo.feintaubapp.model.db.Sensor
 
 @Dao
 interface SensorDao {

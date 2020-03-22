@@ -8,10 +8,18 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.room.Room
+import com.chillibits.pmapp.storage.AppDatabase
 import com.mrgames13.jimdo.feintaubapp.R
+
+// --------------------------------------- Context Extensions --------------------------------------
 
 fun Context.getPrefs(): SharedPreferences {
     return getSharedPreferences("com.mrgames13.jimdo.feinstaubapp_preferences", Context.MODE_PRIVATE)
+}
+
+fun Context.getDatabase(): AppDatabase {
+    return Room.databaseBuilder(applicationContext, AppDatabase::class.java, Constants.DB_NAME).build()
 }
 
 fun Context.outputErrorMessage() {
@@ -19,3 +27,7 @@ fun Context.outputErrorMessage() {
 }
 
 fun Context.isNightModeEnabled() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+fun Context.availableSoon() {
+    Toast.makeText(this, getString(R.string.available_soon), Toast.LENGTH_SHORT).show()
+}

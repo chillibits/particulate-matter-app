@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feintaubapp.network
 import android.content.Context
 import android.util.Log
 import com.mrgames13.jimdo.feintaubapp.R
-import com.mrgames13.jimdo.feintaubapp.model.RankingItem
+import com.mrgames13.jimdo.feintaubapp.model.io.RankingItem
 import com.mrgames13.jimdo.feintaubapp.shared.Constants.TAG
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpStatement
@@ -27,7 +27,11 @@ suspend fun loadRanking(context: Context, mode: Int): ArrayList<RankingItem> {
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + subRes).execute()
         if(response.status == HttpStatusCode.OK) {
             return ArrayList(Json.parse(RankingItem.serializer().list, URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())).map {
-                RankingItem(it.country, it.city, it.count)
+                RankingItem(
+                    it.country,
+                    it.city,
+                    it.count
+                )
             })
         } else {
             Log.e(TAG, response.status.toString())

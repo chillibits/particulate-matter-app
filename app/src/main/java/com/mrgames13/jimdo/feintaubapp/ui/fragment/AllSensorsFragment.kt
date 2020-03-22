@@ -21,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.mrgames13.jimdo.feintaubapp.R
+import com.mrgames13.jimdo.feintaubapp.shared.availableSoon
 import com.mrgames13.jimdo.feintaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feintaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feintaubapp.shared.outputErrorMessage
@@ -88,7 +89,7 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
 
             // Initialize refresh button
             mapRefresh.setOnClickListener {
-                TODO("not implemented")
+                context.availableSoon()
             }
 
             // Initialize ranking button

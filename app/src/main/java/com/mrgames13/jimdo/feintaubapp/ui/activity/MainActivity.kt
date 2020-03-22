@@ -17,15 +17,13 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2
-import com.chillibits.pmapp.storage.AppDatabase
 import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feintaubapp.R
-import com.mrgames13.jimdo.feintaubapp.model.ScrapingResult
+import com.mrgames13.jimdo.feintaubapp.model.io.ScrapingResult
 import com.mrgames13.jimdo.feintaubapp.shared.*
 import com.mrgames13.jimdo.feintaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feintaubapp.ui.dialog.PlacesSearchDialog
@@ -38,12 +36,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-
-class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener,
-    PlacesSearchDialog.PlaceSelectedCallback {
+class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback {
 
     // Variables as objects
-    private lateinit var db: AppDatabase
     private var searchMenuItem: MenuItem? = null
     private lateinit var searchTask: SensorIPSearchTask
 
@@ -57,11 +52,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize local db
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, Constants.DB_NAME).build()
-
         // Initialize toolbar
-        toolbar.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
 
         // Apply window insets
@@ -145,7 +136,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             R.id.action_search -> item.expandActionView()
             R.id.action_import_export -> showImportExportDialog()
             R.id.action_rate -> showRatingDialog()
-            R.id.action_settings -> TODO("not implemented")
+            R.id.action_settings -> availableSoon()
             R.id.action_recommend -> showRecommendationDialog()
             R.id.action_web -> openQRScanner()
             R.id.action_help -> openFAQPage()
@@ -159,6 +150,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         if (resultCode == Activity.RESULT_OK) {
             when(requestCode) {
                 Constants.REQ_SCAN_WEB -> initializeWebConnection(resultCode, data)
+                Constants.REQ_ADD_SENSOR -> refresh()
             }
         } else outputErrorMessage()
     }
@@ -220,6 +212,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         searchMenuItem?.isVisible = true
     }
 
+    private fun refresh() {
+        // Refresh all pages
+
+    }
+
     private fun openQRScanner() {
         IntentIntegrator(this).run {
             setRequestCode(Constants.REQ_SCAN_WEB)
@@ -233,7 +230,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun openFAQPage() {
         Intent(Intent.ACTION_VIEW).run {
-            data = Uri.parse(getString(R.string.faq_url))
+            data = Uri.parse(getString(R.string.url_faq))
             startActivity(this)
         }
     }
@@ -245,7 +242,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             // Check key for validity
             if(syncKey.length == 25 && !syncKey.startsWith("http")) {
                 // Start WebSyncService
-                TODO("not implemented")
+                availableSoon()
                 // Display message, that the connection is established
                 Toast(this).run {
                     setGravity(Gravity.CENTER, 0, 0)
@@ -272,7 +269,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openAddSensorActivity() {
-        TODO("not implemented")
+        startActivityForResult(Intent(this, AddSensorActivity::class.java), Constants.REQ_ADD_SENSOR)
     }
 
     private fun startLocalNetworkSearch() {
@@ -372,6 +369,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     override fun onPlaceSelected(place: Place) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        availableSoon()
     }
 }

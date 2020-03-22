@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Sun, 08 Mar 2020 20:28:18 +0000
+ Exported at: Sun, 22 Mar 2020 23:03:19 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -280,4 +280,6 @@
     <string name="local_network">Локальная сеть</string>
     <string name="cities">Города</string>
     <string name="countries">Страны</string>
+    <string name="indoor_sensor"></string>
+    <string name="available_soon"></string>
 </resources>
