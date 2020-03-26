@@ -12,14 +12,19 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feintaubapp.R
@@ -152,7 +157,12 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 Constants.REQ_SCAN_WEB -> initializeWebConnection(resultCode, data)
                 Constants.REQ_ADD_SENSOR -> refresh()
             }
-        } else outputErrorMessage()
+        } else {
+            when(requestCode) {
+                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(fabAddSearch)
+                else -> outputErrorMessage()
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -269,7 +279,8 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openAddSensorActivity() {
-        startActivityForResult(Intent(this, AddSensorActivity::class.java), Constants.REQ_ADD_SENSOR)
+        val intent = Intent(this, AddSensorActivity::class.java)
+        openActivityWithRevealAnimation(fabAddSearch, intent, Constants.REQ_ADD_SENSOR)
     }
 
     private fun startLocalNetworkSearch() {
@@ -366,6 +377,38 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
         fabAddSearch.show()
         exitedFullscreenOnce = true
+    }
+
+    private fun openActivityWithRevealAnimation(fab: FloatingActionButton, intent: Intent, requestCode: Int) {
+        val fabLoc = IntArray(2)
+        fab.getLocationOnScreen(fabLoc)
+        val screenMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(screenMetrics)
+        ViewAnimationUtils.createCircularReveal(revealSheet, fabLoc[0] + fab.width / 2, fabLoc[1] + fab.width / 2, fab.width/ 2f, screenMetrics.heightPixels.toFloat()).run {
+            duration = 400
+            interpolator = AccelerateDecelerateInterpolator()
+            doOnEnd {
+                ActivityCompat.startActivityForResult(this@MainActivity, intent, requestCode, null)
+                overridePendingTransition(R.anim.activity_transition_slide_up, R.anim.activity_transition_fade_out)
+            }
+            start()
+        }
+        revealSheet.visibility = View.VISIBLE
+    }
+
+    private fun closeActivityWithRevealAnimation(fab: FloatingActionButton) {
+        val fabLoc = IntArray(2)
+        fab.getLocationOnScreen(fabLoc)
+        val screenMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(screenMetrics)
+        ViewAnimationUtils.createCircularReveal(revealSheet, fabLoc[0] + fab.width / 2, fabLoc[1] + fab.width / 2, screenMetrics.heightPixels.toFloat(), fab.width/ 2f).run {
+            duration = 400
+            interpolator = AccelerateDecelerateInterpolator()
+            doOnEnd {
+                revealSheet.visibility = View.GONE
+            }
+            start()
+        }
     }
 
     override fun onPlaceSelected(place: Place) {

@@ -46,13 +46,11 @@
         app:bubbletab_menuResource="@menu/menu_main"
         app:bubbletab_disabled_icon_color="@color/colorPrimaryDark"
         android:padding="6dp"
-        android:elevation="16dp"
+        android:elevation="9dp"
         app:bubbletab_icon_size="22dp"
         app:bubbletab_title_size="16sp"
         app:bubbletab_vertical_padding="13dp"
         app:bubbletab_horizontal_padding="20dp"/>
-
-    <!-- Add / search fab -->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddSearch"
@@ -65,10 +63,11 @@
         android:elevation="10dp"
         android:layout_marginBottom="10dp" />
 
-    <com.github.fabtransitionactivity.SheetLayout
-        android:id="@+id/fabSheetAdd"
+    <View
+        android:id="@+id/revealSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ft_color="@color/colorPrimary"
-        android:elevation="10dp"/>
+        android:background="@color/colorPrimary"
+        android:elevation="9dp"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

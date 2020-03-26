@@ -44,6 +44,7 @@
                 app:layout_constraintStart_toEndOf="@+id/lblSensorName"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
+                android:maxLength="30"
                 android:importantForAutofill="no"
                 android:inputType="textCapSentences" />
 
@@ -53,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/chip_id"
                 android:textSize="17sp"
+                android:maxLength="12"
                 app:layout_constraintTop_toTopOf="@+id/chipId"
                 app:layout_constraintBottom_toBottomOf="@+id/chipId"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,6 +130,7 @@
                 android:id="@+id/sensorPositionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/indoor"
                 android:background="@drawable/position_container_background">
 

@@ -84,7 +84,6 @@ dependencies {
     // External dependencies
     implementation 'com.fxn769:bubbletabbar:1.0.3'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
     // Local dependencies
