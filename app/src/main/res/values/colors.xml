@@ -25,14 +25,15 @@
     <!-- Button colors -->
     <color name="colorButton">@color/colorPrimary</color>
     <color name="colorButtonTransparent">@color/colorPrimaryTransparent</color>
-    <color name="colorButtonDisabled">@color/colorPrimary</color>
+    <color name="colorButtonDisabled">@color/grayLight</color>
     <color name="colorButtonGray">@color/grayTransparent</color>
 
     <!-- Component colors -->
-    <color name="activityBackground">@color/whiteDark</color>
+    <color name="activityBackground">#FAFAFA</color>
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="colorBubbleTabBar">@color/white</color>
     <color name="colorMapControls">@color/whiteDark</color>
     <color name="colorTextMapControls">@color/colorPrimary</color>
     <color name="colorTextRanking">@color/colorPrimary</color>
+    <color name="colorAddressPreview">@color/blackLight</color>
 </resources>

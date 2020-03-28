@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Fri, 27 Mar 2020 23:51:25 +0000
+ Exported at: Sat, 28 Mar 2020 22:33:32 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -282,7 +282,8 @@
     <string name="countries">Страны</string>
     <string name="indoor_sensor">Датчик в помещении</string>
     <string name="available_soon">Эта функция скоро будет доступна</string>
-    <string name="remember_selection"></string>
-    <string name="pick_with_color_converter"></string>
-    <string name="open_color_picker"></string>
+    <string name="remember_selection">Запомнить выбор</string>
+    <string name="pick_with_color_converter">Выбрать конвертером цветов</string>
+    <string name="open_color_picker">Открыть палитру</string>
+    <string name="publish_exact_position"></string>
 </resources>

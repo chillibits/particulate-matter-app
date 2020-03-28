@@ -89,6 +89,8 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.dhaval2404:colorpicker:1.0'
+    implementation 'com.github.rtchagas:pingplacepicker:2.0.5'
+    implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
 
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])

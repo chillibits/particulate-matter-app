@@ -16,12 +16,13 @@
     <!-- Button colors -->
     <color name="colorButton">@color/grayLight</color>
     <color name="colorButtonTransparent">@color/grayTransparent</color>
-    <color name="colorButtonDisabled">@color/colorPrimaryTransparent</color>
+    <color name="colorButtonDisabled">@color/grayLight</color>
     <color name="colorButtonGray">@color/blackLightDark</color>
 
     <!-- Component colors -->
-    <color name="activityBackground">@color/blackLightDark</color>
+    <color name="activityBackground">@color/blackLight</color>
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="colorMapControls">@color/blackLightDark</color>
     <color name="colorTextMapControls">@color/colorButton</color>
+    <color name="colorAddressPreview">@color/grayLight</color>
 </resources>

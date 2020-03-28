@@ -24,9 +24,9 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 ## Contribute to this project
 You can contribute to this project by doing following things:
 
-- If you want to contribute new features, please fork this repository to your own GitHub account. Then build your awesome feature and post a pull request back to this repo. We will check your changes and merge your contribution asap.
-- If you want to add a new translation language or improve an existing translation, please send an email to: [translation@chillibits.com](mailto:translation@chillibits.com&subject=PM-App%20-%20Add%20translation)
-- If you want to submit a request for a new feature, please [open an issue](https://github.com/ChilliBits/particulate-matter-app/issues/new?labels=feature%20request&template=feature_request.md) on GitHub send an email to: [features@chillibits.com](mailto:features@chillibits.com&subject=PM-App%20-%20Feature%20request)
+-   If you want to contribute new features, please fork this repository to your own GitHub account. Then build your awesome feature and post a pull request back to this repo. We will check your changes and merge your contribution asap.
+-   If you want to add a new translation language or improve an existing translation, please send an email to: [translation@chillibits.com](mailto:translation@chillibits.com&subject=PM-App%20-%20Add%20translation)
+-   If you want to submit a request for a new feature, please [open an issue](https://github.com/ChilliBits/particulate-matter-app/issues/new?labels=feature%20request&template=feature_request.md) on GitHub send an email to: [features@chillibits.com](mailto:features@chillibits.com&subject=PM-App%20-%20Feature%20request)
 
 ## Our translators
 Our app is available in many different languages, thank to our translators:

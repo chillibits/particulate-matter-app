@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sat, 28 Mar 2020 00:51:25 +0100
+ Exported at: Sat, 28 Mar 2020 23:33:32 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Nicht mehr anzeigen</string>
     <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
-    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="sensor_height">Höhe über Grund/Straße (cm):</string>
     <string name="latitude">Breitengrad</string>
     <string name="latitude_">Breitengrad:</string>
     <string name="longitude">Längengrad</string>
@@ -284,4 +284,5 @@
     <string name="remember_selection">Auswahl merken</string>
     <string name="pick_with_color_converter">Mit Color Converter wählen</string>
     <string name="open_color_picker">Farbwähler öffnen</string>
+    <string name="publish_exact_position">Genaue Position veröffentlichen</string>
 </resources>
