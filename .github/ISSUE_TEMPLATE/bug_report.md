@@ -24,9 +24,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Device/version info (please complete the following information):**
- - Device: [e.g. Pixel 3a]
- - OS version: [e.g. Android 8.1]
- - App version [e.g. 3.4.5]
+-   Device: ... (e.g. Pixel 3a)
+-   OS version: ... (e.g. Android 8.1)
+-   App version ... (e.g. 3.4.5)
 
 **Additional context**
 Add any other context about the problem here.
