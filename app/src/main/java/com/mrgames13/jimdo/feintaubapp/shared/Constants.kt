@@ -52,4 +52,7 @@ object Constants {
 
     // NetworkScan constants
     const val JOB_COUNT = 5
+
+    // SharedPreferences keys
+    const val PREFS_CHOOSE_COLOR_REMEMBER = "ChooseColorRemember"
 }

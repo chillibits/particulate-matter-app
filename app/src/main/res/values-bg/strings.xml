@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Thu, 26 Mar 2020 13:27:36 +0000
+ Exported at: Fri, 27 Mar 2020 23:51:24 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -280,4 +280,7 @@
     <string name="countries"></string>
     <string name="indoor_sensor"></string>
     <string name="available_soon"></string>
+    <string name="remember_selection"></string>
+    <string name="pick_with_color_converter"></string>
+    <string name="open_color_picker"></string>
 </resources>

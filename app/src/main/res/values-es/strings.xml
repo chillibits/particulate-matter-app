@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Thu, 26 Mar 2020 21:21:03 +0100
+ Exported at: Sat, 28 Mar 2020 00:52:52 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -281,4 +281,7 @@
     <string name="countries">Países</string>
     <string name="indoor_sensor">Sensor interior</string>
     <string name="available_soon">Esta característica estará disponible pronto</string>
+    <string name="remember_selection">Recordar selección</string>
+    <string name="pick_with_color_converter">Elija con Color Converter</string>
+    <string name="open_color_picker">Selector de color abierto</string>
 </resources>

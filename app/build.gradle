@@ -30,6 +30,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    dataBinding {
+        enabled true
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -85,6 +88,7 @@ dependencies {
     implementation 'com.fxn769:bubbletabbar:1.0.3'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    implementation 'com.github.dhaval2404:colorpicker:1.0'
 
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])

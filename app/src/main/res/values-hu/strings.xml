@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Thu, 26 Mar 2020 21:21:03 +0100
+ Exported at: Sat, 28 Mar 2020 00:51:26 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -281,4 +281,7 @@
     <string name="countries"></string>
     <string name="indoor_sensor"></string>
     <string name="available_soon"></string>
+    <string name="remember_selection"></string>
+    <string name="pick_with_color_converter"></string>
+    <string name="open_color_picker"></string>
 </resources>
