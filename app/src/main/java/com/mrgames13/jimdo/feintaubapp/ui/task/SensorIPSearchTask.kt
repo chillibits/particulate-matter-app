@@ -70,7 +70,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
     }
 
     override fun onProgressUpdate(vararg values: Int?) {
-        super.onProgressUpdate(*values)
+        // super.onProgressUpdate(*values) // check if we need this
         listener.onProgressUpdate(round(100.0 / 255.0 * values[0]!!).toInt())
     }
 
@@ -91,7 +91,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
         val currentIpSuffix = nextHostPart++
         val ipAddress = ipAddressPrefix + currentIpSuffix.toString()
         if (InetAddress.getByName(ipAddress).isReachable(networkInterface, 200, 100)) {
-            // Test, if we can establish http connection to scrape the chip id
+            // Test, if we can establish a connection to scrape the chip id
             sensor = scrapeSensorConfigSite(ipAddress)
             if(sensor != null && searchedChipId == 0) {
                 Log.i(TAG, "Found sensor with ip: $ipAddress")
@@ -126,14 +126,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                     .substringAfter("id='send2fsapp'")
                     .substringBefore("/>")
                     .contains("checked='checked'")
-                return ScrapingResult(
-                    chipID,
-                    name,
-                    ipAddress,
-                    macAddress,
-                    firmwareVersion,
-                    sendToUsEnabled
-                )
+                return ScrapingResult(chipID, name, ipAddress, macAddress, firmwareVersion, sendToUsEnabled)
             }
         } catch (e1: MalformedInputException) {
         } catch (e2: ConnectException) {

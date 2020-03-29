@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Sat, 28 Mar 2020 22:33:31 +0000
+ Exported at: Sat, 28 Mar 2020 23:52:19 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -262,7 +262,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/</string>
     <string name="get_in_touch">Contattaci</string>
-    <string name="sensor_highscore">Punteggio massimo del sensore</string>
+    <string name="sensor_ranking">Punteggio massimo del sensore</string>
     <string name="connected_to_web_version">Connesso con pm.chillibits.com</string>
     <string name="widget_label_small">Riquadro informazioni rapide</string>
     <string name="pref_enable_threshold_notifications">Abilitare notifica di soglia</string>

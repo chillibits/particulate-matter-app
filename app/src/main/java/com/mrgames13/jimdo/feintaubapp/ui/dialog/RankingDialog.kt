@@ -23,7 +23,6 @@ fun showRankingDialog(context: Context, fm: FragmentManager, lifecycle: Lifecycl
     }).attach()
 
     AlertDialog.Builder(context)
-        .setTitle(R.string.sensor_highscore)
         .setView(view)
         .setPositiveButton(R.string.ok, null)
         .show()

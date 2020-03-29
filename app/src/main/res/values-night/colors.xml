@@ -24,5 +24,5 @@
     <color name="colorToolbar">@color/colorPrimary</color>
     <color name="colorMapControls">@color/blackLightDark</color>
     <color name="colorTextMapControls">@color/colorButton</color>
-    <color name="colorAddressPreview">@color/grayLight</color>
+    <color name="colorAddressPreview">@color/colorPrimaryTransparent</color>
 </resources>

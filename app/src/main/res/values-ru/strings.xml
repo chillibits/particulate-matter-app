@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Sat, 28 Mar 2020 22:33:32 +0000
+ Exported at: Sat, 28 Mar 2020 23:52:20 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -264,7 +264,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Связаться с нами</string>
-    <string name="sensor_highscore">Пиковые значения датчика</string>
+    <string name="sensor_ranking">Пиковые значения датчика</string>
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
     <string name="widget_label_small">Обзорная схема</string>
     <string name="pref_enable_threshold_notifications">Включить уведомления о превышении пороговых значений</string>

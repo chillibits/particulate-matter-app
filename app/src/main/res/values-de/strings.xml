@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sat, 28 Mar 2020 23:33:32 +0100
+ Exported at: Sun, 29 Mar 2020 00:52:20 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -263,7 +263,7 @@
     <!-- Please only paste url with the correct anchor -->
     <string name="url_id_info">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Kontakt aufnehmen</string>
-    <string name="sensor_highscore">Sensor-Bestenliste</string>
+    <string name="sensor_ranking">Sensor-Bestenliste</string>
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>
     <string name="widget_label_small">QuickInfo-Kachel</string>
     <string name="pref_enable_threshold_notifications">Grenzwert-Benachrichtigungen aktivieren</string>

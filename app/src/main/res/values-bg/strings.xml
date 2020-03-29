@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Sat, 28 Mar 2020 22:33:30 +0000
+ Exported at: Sat, 28 Mar 2020 23:52:18 +0000
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -262,7 +262,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Свържете се с нас</string>
-    <string name="sensor_highscore">Сензорни резултати</string>
+    <string name="sensor_ranking">Сензорни резултати</string>
     <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
     <string name="widget_label_small">Бърза информация за плочки</string>
     <string name="pref_enable_threshold_notifications">Активиране на праговите известия</string>
