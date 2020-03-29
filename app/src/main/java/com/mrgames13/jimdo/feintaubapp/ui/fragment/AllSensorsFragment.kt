@@ -16,9 +16,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.shared.availableSoon
@@ -144,5 +146,9 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
         } else {
             context?.outputErrorMessage()
         }
+    }
+
+    fun applyPlaceSearch(coordinates: LatLng) {
+        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 11f))
     }
 }

@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
     private lateinit var searchTask: SensorIPSearchTask
+    private lateinit var viewpagerAdapter: ViewPagerAdapterMain
 
     // Variables
     private var selectedPage = 1
@@ -68,26 +69,29 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
 
         // Initialize ViewPager
-        viewPager.offscreenPageLimit = 3
-        viewPager.isUserInputEnabled = false
-        viewPager.adapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
-        viewPager.setCurrentItem(1, false) // Start on the map
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(pos: Int) {
-                // Close searchView
-                if(searchView.isSearchOpen) searchView.closeSearch()
+        viewpagerAdapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
+        viewPager.run {
+            offscreenPageLimit = 3
+            isUserInputEnabled = false
+            adapter = viewpagerAdapter
+            setCurrentItem(1, false) // Start on the map
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(pos: Int) {
+                    // Close searchView
+                    if(searchView.isSearchOpen) searchView.closeSearch()
 
-                // perform actions, depending on selected page
-                when(pos) {
-                    0 -> switchToFavoritesPage()
-                    1 -> switchToAllSensorsPage()
-                    2 -> switchToOwnSensorsPage()
-                    3 -> switchToLocalNetworkPage()
+                    // perform actions, depending on selected page
+                    when(pos) {
+                        0 -> switchToFavoritesPage()
+                        1 -> switchToAllSensorsPage()
+                        2 -> switchToOwnSensorsPage()
+                        3 -> switchToLocalNetworkPage()
+                    }
+                    selectedPage = pos
+                    tabBar.setSelected(pos)
                 }
-                selectedPage = pos
-                tabBar.setSelected(pos)
-            }
-        })
+            })
+        }
 
         // Initialize BubbleTabBar
         tabBar.addBubbleListener(object : OnBubbleClickListener {
@@ -377,6 +381,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     override fun onPlaceSelected(place: Place) {
-        availableSoon()
+        place.latLng?.let { viewpagerAdapter.allSensorsFragment.applyPlaceSearch(it) }
     }
 }

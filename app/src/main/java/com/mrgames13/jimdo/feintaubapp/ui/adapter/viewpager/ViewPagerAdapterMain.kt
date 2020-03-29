@@ -18,12 +18,29 @@ class ViewPagerAdapterMain(
     l: Lifecycle,
     private val listener: AllSensorsFragment.OnAdapterEventListener
 ) : FragmentStateAdapter(fm, l) {
+    lateinit var favoritesFragment: FavoritesFragment
+    lateinit var allSensorsFragment: AllSensorsFragment
+    lateinit var ownSensorsFragment: OwnSensorsFragment
+    lateinit var localNetworkFragment: LocalNetworkFragment
+
     override fun createFragment(pos: Int): Fragment {
         return when(pos) {
-            0 -> FavoritesFragment()
-            1 -> AllSensorsFragment(listener)
-            2 -> OwnSensorsFragment()
-            else -> LocalNetworkFragment()
+            0 -> {
+                favoritesFragment = FavoritesFragment()
+                favoritesFragment
+            }
+            1 -> {
+                allSensorsFragment = AllSensorsFragment(listener)
+                allSensorsFragment
+            }
+            2 -> {
+                ownSensorsFragment = OwnSensorsFragment()
+                ownSensorsFragment
+            }
+            else -> {
+                localNetworkFragment = LocalNetworkFragment()
+                localNetworkFragment
+            }
         }
     }
 
