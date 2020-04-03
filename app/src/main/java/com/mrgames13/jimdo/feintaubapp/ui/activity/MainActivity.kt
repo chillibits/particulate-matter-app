@@ -22,6 +22,7 @@ import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mrgames13.jimdo.feintaubapp.R
 import com.mrgames13.jimdo.feintaubapp.model.io.ScrapingResult
 import com.mrgames13.jimdo.feintaubapp.shared.*
@@ -37,6 +38,7 @@ import com.mrgames13.jimdo.feintaubapp.ui.task.SensorIPSearchTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
+
 
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback {
 
@@ -142,7 +144,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             R.id.action_search -> item.expandActionView()
             R.id.action_import_export -> showImportExportDialog()
             R.id.action_rate -> showRatingDialog()
-            R.id.action_settings -> availableSoon()
+            R.id.action_settings -> {
+                availableSoon()
+                LibsBuilder().start(this)
+                return true
+            }
             R.id.action_recommend -> showRecommendationDialog()
             R.id.action_web -> openQRScanner()
             R.id.action_help -> openFAQPage()

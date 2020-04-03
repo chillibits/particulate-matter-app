@@ -4,11 +4,15 @@
 
 package com.mrgames13.jimdo.feintaubapp.model.io
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class RankingItem (
+    @SerialName("co")
     val country: String,
-    val city: String,
+    @SerialName("ci")
+    val city: String = "",
+    @SerialName("ct")
     val count: Int
 )

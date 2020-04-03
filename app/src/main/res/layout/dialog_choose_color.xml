@@ -60,13 +60,25 @@
             android:text="@string/open_color_picker"/>
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/rememberSelection"
+    <LinearLayout
+        android:id="@+id/rememberSelectionContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/remember_selection"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"/>
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="15dp">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/rememberSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="@string/remember_selection"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"/>
+    </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 00:15:47 +0100
+ Exported at: Fri, 03 Apr 2020 22:11:41 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -286,4 +286,6 @@
     <string name="pick_with_color_converter">Выбрать конвертером цветов</string>
     <string name="open_color_picker">Открыть палитру</string>
     <string name="publish_exact_position"></string>
+    <string name="app_description"></string>
+    <string name="app_description_large"></string>
 </resources>

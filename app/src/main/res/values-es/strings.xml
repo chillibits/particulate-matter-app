@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 01:15:47 +0200
+ Exported at: Fri, 03 Apr 2020 23:11:41 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -285,4 +285,6 @@
     <string name="pick_with_color_converter">Elija con Color Converter</string>
     <string name="open_color_picker">Selector de color abierto</string>
     <string name="publish_exact_position"></string>
+    <string name="app_description">¡Infórmese sobre la situación de las partículas!</string>
+    <string name="app_description_large">La aplicación \"Materia Particulada\" es una aplicación para monitorear uno o varios sensores en una red de sensores de materia particulada. Se puede agregar y monitorear cualquier cantidad de sensores. La comparación de los datos del sensor también es posible.\n\n¿Quieres ayudarnos a traducir la aplicación? Por favor envíe un correo electrónico a contact@chillibits.com.\n\nSi desea apoyar el proyecto financieramente, por favor visite https://github.com/sponsors/marcauberer\n\nPara preguntas, por favor visite: https://chillibits.com/pmapp/en/faq\n\nInformación: la aplicación no puede medir partículas con un dispositivo Android. Recomendamos un sensor de https://luftdaten.info/es.\n\nLa aplicación es OpenSource: https://github.com/chillibits/particulate-matter-app</string>
 </resources>

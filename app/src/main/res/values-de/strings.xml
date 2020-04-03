@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 01:15:47 +0200
+ Exported at: Fri, 03 Apr 2020 23:11:41 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -285,4 +285,6 @@
     <string name="pick_with_color_converter">Mit Color Converter wählen</string>
     <string name="open_color_picker">Farbwähler öffnen</string>
     <string name="publish_exact_position">Genaue Position veröffentlichen</string>
+    <string name="app_description">Sei informiert über die Feinstaub-Situation und Luftqualität!</string>
+    <string name="app_description_large">Die Feinstaub-App ist eine Anwendung zur Überwachung von einem oder mehreren Sensoren in einem Feinstaub-Netzwerk. Auf der Karte können Sie alle Sensoren weltweit sehen, die in dem Netzwerk registriert sind. Es können beliebig viele Sensoren hinzugefügt bzw. überwacht werden. Auch ein Vergleich der Sensordaten ist möglich.\n\nSie wollen uns helfen die App zu übersetzen? Bitte senden Sie eine E-Mail an contact@chillibits.com\n\nWenn Sie das Projekt finanziell unterstützen wollen, besuchen Sie bitte https://github.com/sponsors/marcauberer\n\nSie wollen unsere Web-App nutzen? Bitte besuchen Sie https://feinstaub.chillibits.com\n\nBei Fragen besuchen Sie bitte die FAQ-Seite: https://chillibits.com/pmapp/de/faq\n\nInfo: Die App ist nicht dazu da, Feinstaub mit dem Android-Gerät zu messen. Wir empfehlen den Feinstaubsensor von https://luftdaten.info/.\n\nDie App ist OpenSource: https://github.com/chillibits/particulate-matter-app</string>
 </resources>

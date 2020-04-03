@@ -4,6 +4,13 @@
 
 package com.mrgames13.jimdo.feintaubapp.network
 
-suspend fun loadSensors() {
+import com.mrgames13.jimdo.feintaubapp.model.db.Sensor
 
+suspend fun loadSensors() : List<Sensor> {
+    try {
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return emptyList()
 }

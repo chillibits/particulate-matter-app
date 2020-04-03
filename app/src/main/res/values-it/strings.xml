@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 00:15:46 +0100
+ Exported at: Fri, 03 Apr 2020 22:11:40 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -284,4 +284,6 @@
     <string name="pick_with_color_converter"></string>
     <string name="open_color_picker"></string>
     <string name="publish_exact_position"></string>
+    <string name="app_description"></string>
+    <string name="app_description_large"></string>
 </resources>

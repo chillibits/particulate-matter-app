@@ -21,17 +21,13 @@ import java.nio.charset.StandardCharsets
 const val RANKING_CITY = 1
 const val RANKING_COUNTRY = 2
 
-suspend fun loadRanking(context: Context, mode: Int): ArrayList<RankingItem> {
+suspend fun loadRanking(context: Context, mode: Int): List<RankingItem> {
     try {
         val subRes = if (mode == RANKING_CITY) "/ranking/city" else "/ranking/country"
-        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + subRes).execute()
+        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + subRes + "?compressed").execute()
         if(response.status == HttpStatusCode.OK) {
             return ArrayList(Json.parse(RankingItem.serializer().list, URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())).map {
-                RankingItem(
-                    it.country,
-                    it.city,
-                    it.count
-                )
+                RankingItem(it.country, it.city, it.count)
             })
         } else {
             Log.e(TAG, response.status.toString())
@@ -39,5 +35,5 @@ suspend fun loadRanking(context: Context, mode: Int): ArrayList<RankingItem> {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    return ArrayList()
+    return emptyList()
 }

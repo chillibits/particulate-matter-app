@@ -26,7 +26,9 @@ data class ExternalSensorSyncPackage (
 )
 
 @Serializable
-data class ExternalSensorCompressedList (val items: List<ExternalSensorCompressed> = emptyList()) {
+data class ExternalSensorCompressedList (
+    val items: List<ExternalSensorCompressed> = emptyList()
+) {
     @Serializer(ExternalSensorCompressedList::class)
     companion object : KSerializer<ExternalSensorCompressedList> {
         override val descriptor: SerialDescriptor = StringDescriptor.withName("ExternalSensorCompressedList")

@@ -38,4 +38,8 @@ fun showChooseColorDialog(context: Context, listener: OnChooseColorDialogSelecti
         listener.onSelectOption(OPEN_COLOR_PICKER)
         dialog.dismiss()
     }
+
+    dialogView.rememberSelectionContainer.setOnClickListener {
+        dialogView.rememberSelection.toggle()
+    }
 }
