@@ -88,6 +88,8 @@ dependencies {
     implementation 'com.github.dhaval2404:colorpicker:1.1'
     implementation 'com.github.rtchagas:pingplacepicker:2.0.5'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
+    implementation 'com.mikepenz:fastadapter:5.0.0'
+    implementation 'eu.davidea:flipview:1.2.0'
 
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])

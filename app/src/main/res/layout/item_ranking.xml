@@ -4,9 +4,12 @@
   -->
 
 <LinearLayout
+    android:id="@+id/itemContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="30dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
     android:weightSum="20">
 
     <TextView
