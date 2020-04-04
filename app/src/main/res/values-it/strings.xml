@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 22:11:40 +0100
+ Exported at: Sat, 04 Apr 2020 20:42:07 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Se hai un sensore da <a href="https://www.luftdaten.info/it">www.luftdaten.info</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
-    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Consiglia</string>
     <string name="recommend_app">consiglia l\'app</string>
     <string name="recommend_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>

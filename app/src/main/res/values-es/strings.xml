@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 23:11:41 +0200
+ Exported at: Sat, 04 Apr 2020 21:42:08 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info/es">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
     <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
-    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recomendar</string>
     <string name="recommend_app">Recomendar la aplicación</string>
     <string name="recommend_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>

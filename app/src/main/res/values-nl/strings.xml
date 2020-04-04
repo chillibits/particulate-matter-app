@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 22:11:40 +0100
+ Exported at: Sat, 04 Apr 2020 20:42:07 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Als je een sensor hebt van <a href="https://www.luftdaten.info/nl">www.luftdaten.info</a>, kun je hem hier koppelen. Klik beneden om een sensor te koppelen.</string>
     <string name="rate_app">beoordeel de app</string>
     <string name="rate_m">Beoordeel de Fijnstof App in de Google PlayStore met 5 sterren, als je de app leuk vindt!</string>
-    <string name="recommend_string">De Fijnstof App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: \nhttps://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">De Fijnstof App: Toon fijnstof metingen makkelijk en overzichtelijk. Download uit de Playstore: \nhttps://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Aanbevolen</string>
     <string name="recommend_app">aanbevolen app</string>
     <string name="recommend_m">Beveel de Fijnstof app aan bij je vrienden!</string>

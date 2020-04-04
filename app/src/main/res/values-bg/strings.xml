@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 22:11:39 +0100
+ Exported at: Sat, 04 Apr 2020 20:42:07 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info/en</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
-    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Препоръчай</string>
     <string name="recommend_app">препоръчай приложението</string>
     <string name="recommend_m">Препоръчай приложението Финни частици на твоите приятели!</string>

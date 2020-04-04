@@ -9,8 +9,8 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.room.Room
-import com.chillibits.pmapp.storage.AppDatabase
 import com.mrgames13.jimdo.feintaubapp.R
+import com.mrgames13.jimdo.feintaubapp.storage.AppDatabase
 
 // --------------------------------------- Context Extensions --------------------------------------
 

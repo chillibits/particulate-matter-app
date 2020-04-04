@@ -36,4 +36,5 @@
     <color name="colorTextMapControls">@color/colorPrimary</color>
     <color name="colorTextRanking">@color/colorPrimary</color>
     <color name="colorAddressPreview">@color/blackLight</color>
+    <color name="googlePlayHeaderColor">#01875F</color>
 </resources>

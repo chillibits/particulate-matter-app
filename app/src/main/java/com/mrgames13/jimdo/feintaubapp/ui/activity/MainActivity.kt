@@ -39,7 +39,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback {
 
     // Variables as objects
@@ -146,7 +145,15 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             R.id.action_rate -> showRatingDialog()
             R.id.action_settings -> {
                 availableSoon()
-                LibsBuilder().start(this)
+                LibsBuilder()
+                    .withActivityTitle(getString(R.string.pref_open_source_t))
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutDescription(getString(R.string.app_description))
+                    .withAboutVersionShownCode(false)
+                    .withEdgeToEdge(true)
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .start(this)
                 return true
             }
             R.id.action_recommend -> showRecommendationDialog()

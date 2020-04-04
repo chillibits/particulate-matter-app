@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 22:11:41 +0100
+ Exported at: Sat, 04 Apr 2020 20:42:08 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
-    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Рекомендовать</string>
     <string name="recommend_app">порекомендуйте приложение</string>
     <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>

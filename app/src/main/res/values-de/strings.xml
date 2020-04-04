@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Fri, 03 Apr 2020 23:11:41 +0200
+ Exported at: Sat, 04 Apr 2020 21:42:08 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">Wollen Sie den Sensor \'%s\' wirklich entfernen?</string>
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
-    <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
-    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="rate_m">Wenn Ihnen unsere App gefällt, bewerten Sie sie auf Google Play mit 5 Sternen!</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download von Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Weiterempfehlen</string>
     <string name="recommend_app">App weiterempfehlen</string>
     <string name="recommend_m">Empfehlen Sie die App Ihren Freunden!</string>

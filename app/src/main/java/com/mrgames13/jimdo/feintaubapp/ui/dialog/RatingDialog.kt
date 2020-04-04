@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import androidx.core.content.ContextCompat
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.github.javiersantos.materialstyleddialogs.enums.Style
 import com.mikepenz.iconics.IconicsDrawable
@@ -18,13 +19,12 @@ import com.mrgames13.jimdo.feintaubapp.R
 fun Context.showRatingDialog() {
     MaterialStyledDialog.Builder(this)
         .setStyle(Style.HEADER_WITH_ICON)
+        .setHeaderColorInt(ContextCompat.getColor(this, R.color.googlePlayHeaderColor))
         .setIcon(IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_google_play).apply {
             colorInt = Color.WHITE
         })
         .setTitle(R.string.rate)
         .setDescription(R.string.rate_m)
-        .withIconAnimation(true)
-        .withDialogAnimation(true)
         .setPositiveText(R.string.rate)
         .setNegativeText(R.string.cancel)
         .onPositive { _, _ ->
