@@ -5,7 +5,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.mrgames13.jimdo.feintaubapp"
+    package="com.mrgames13.jimdo.feinstaubapp"
     tools:ignore="LockedOrientationActivity"
     android:installLocation="auto">
 
@@ -29,7 +29,7 @@
             android:value="@string/maps_api_key" />
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.mrgames13.jimdo.feinstaubapp.ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
             android:windowSoftInputMode="adjustPan">
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.AddSensorActivity"
+            android:name="com.mrgames13.jimdo.feinstaubapp.ui.activity.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>

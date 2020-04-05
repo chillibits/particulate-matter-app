@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sat, 04 Apr 2020 21:42:08 +0200
+ Exported at: Sun, 05 Apr 2020 14:48:39 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -99,7 +99,7 @@
     <string name="longitude">Längengrad</string>
     <string name="longitude_">Längengrad:</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
-    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die Position in Echtzeit auf die Karte übertragen.</string>
     <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns Kontakt aufnehmen.</string>
     <string name="unknown_location">Unbekannte Position</string>
     <!-- SensorActivity -->
