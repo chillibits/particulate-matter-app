@@ -4,6 +4,8 @@
 
 The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/en/construction-manual/) of [www.luftdaten.info](https://luftdaten.info/en), you can link it within the app and publish its data to all our app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
 
+Download now on [Google Play](https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp)!
+
 ## Features
 -   Map of the world with all registered sensors in our network
 -   Favorize sensors and save them in the category 'My favorites'

@@ -107,6 +107,12 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
                         onPlaceSelected(it)
                     }
                 }
+                Constants.REQ_COLOR_CONVERTER -> {
+                    if(data != null && data.hasExtra(Constants.EXTRA_COLOR_CONVERTER)) {
+                        selectedColor = data.getIntExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
+                        sensorColorPreview.setColorFilter(selectedColor)
+                    }
+                }
             }
         } else outputErrorMessage()
     }
@@ -174,7 +180,8 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
             WITH_COLOR_CONVERTER -> {
                 Intent(Intent.ACTION_VIEW).run {
                     data = Uri.parse(getString(R.string.color_converter_instant_url))
-                    startActivity(this)
+                    putExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
+                    startActivityForResult(this, Constants.REQ_COLOR_CONVERTER)
                 }
             }
             else -> {

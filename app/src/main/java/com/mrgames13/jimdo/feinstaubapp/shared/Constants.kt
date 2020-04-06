@@ -41,6 +41,10 @@ object Constants {
     const val REQ_SCAN_WEB = 1003
     const val REQ_ADD_SENSOR = 1004
     const val REQ_PLACE_PICKER = 1005
+    const val REQ_COLOR_CONVERTER = 1006
+
+    // Intent extras
+    const val EXTRA_COLOR_CONVERTER = "ChooseColor" // Link to Color Converter
 
     // HomeScreen widget
     const val WIDGET_LARGE_EXTRA_SENSOR_ID = "WidgetLargeSensorID"
