@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Mon, 06 Apr 2020 23:36:26 +0100
+ Exported at: Tue, 07 Apr 2020 22:54:55 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -286,4 +286,11 @@
     <string name="publish_exact_position"></string>
     <string name="app_description"></string>
     <string name="app_description_large"></string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
 </resources>

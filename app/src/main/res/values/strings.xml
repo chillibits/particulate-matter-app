@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Mon, 06 Apr 2020 23:36:25 +0100
+ Exported at: Tue, 07 Apr 2020 22:54:55 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -286,4 +286,11 @@
     <string name="publish_exact_position">Publish exact position</string>
     <string name="app_description">Be informed about the particulate matter situation and the air quality!</string>
     <string name="app_description_large">The Particulate Matter App is an application for monitoring of one or several sensors in a network of particulate matter sensors. On the map you can see all sensors worldwide, which are registered in the network. Any number of sensors can be added and monitored. Comparing sensor data is possible too.\n\nDo you want to help us translating the app? Please send an email to contact@chillibits.com.\n\nIf you want to support the project financially, please visit https://github.com/sponsors/marcauberer\n\nIf you want to use our web app, please visit https://pm.chillibits.com\n\nFor questions, please visit: https://chillibits.com/pmapp/en/faq\n\nInfo: The app isn\'t able to measure dust with an Android device. We recommend a smog sensor from https://luftdaten.info/en.\n\nThe app is OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="no_account_yet_sign_up">No account yet?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
 </resources>

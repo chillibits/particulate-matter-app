@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Mon, 06 Apr 2020 23:36:26 +0100
+ Exported at: Tue, 07 Apr 2020 22:54:56 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -286,4 +286,11 @@
     <string name="publish_exact_position"></string>
     <string name="app_description">Soyez informé de la situation des particules!</string>
     <string name="app_description_large">L\'App Matière Particulaire est une application permettant de surveiller un ou plusieurs capteurs dans un réseau de Matière Particulaire. Sur la carte, vous pouvez voir tous les capteurs enregistrés dans le réseau dans le monde entier. N\'importe quel nombre de capteurs peut être ajouté ou surveillé. Une comparaison des données du capteur est possible. Deux valeurs de poussière fine sont affichées: PM10 et PM2.5.\n\nVoulez-vous nous aider à traduire l\'application? S\'il vous plaît envoyez un email à contact@chillibits.com.\n\nSi vous souhaitez soutenir financièrement le projet, veuillez consulter le site https://github.com/sponsors/marcauberer\n\nSi vous avez des questions, visitez la page FAQ: https://chillibits.com/pmapp/en/faq\n\nInfo: L\'application n\'est pas là pour mesurer les particules avec l\'appareil Android. Nous recommandons le capteur de particules disponible à l\'adresse https://luftdaten.info/fr.\n\nL\'application est OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
 </resources>

@@ -94,7 +94,7 @@ dependencies {
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
     implementation 'com.mikepenz:iconics-core:5.0.1'
-    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.6-kotlin@aar'
+    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.4@aar'
     implementation "com.mikepenz:aboutlibraries-core:$about_libs_version"
     implementation "com.mikepenz:aboutlibraries:$about_libs_version@aar"
 

@@ -28,12 +28,8 @@ import com.mrgames13.jimdo.feinstaubapp.model.io.ScrapingResult
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feinstaubapp.ui.closeActivityWithRevealAnimation
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.PlacesSearchDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.*
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
-import com.mrgames13.jimdo.feinstaubapp.ui.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.task.SensorIPSearchTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
@@ -293,8 +289,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openAddSensorActivity() {
-        val intent = Intent(this, AddSensorActivity::class.java)
-        openActivityWithRevealAnimation(this, fabAddSearch, revealSheet, intent, Constants.REQ_ADD_SENSOR)
+        showSignInDialog()
+        //val intent = Intent(this, AddSensorActivity::class.java)
+        //openActivityWithRevealAnimation(this, fabAddSearch, revealSheet, intent, Constants.REQ_ADD_SENSOR)
     }
 
     private fun startLocalNetworkSearch() {

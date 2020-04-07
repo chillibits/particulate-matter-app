@@ -11,14 +11,15 @@ import androidx.core.content.ContextCompat
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.github.javiersantos.materialstyleddialogs.enums.Style
 import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.materialdesigniconic.MaterialDesignIconic
 import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import com.mrgames13.jimdo.feinstaubapp.R
 
 fun Context.showRecommendationDialog() {
     MaterialStyledDialog.Builder(this)
         .setStyle(Style.HEADER_WITH_ICON)
         .setHeaderColorInt(ContextCompat.getColor(this, R.color.colorPrimary))
+        .withIconAnimation(false)
         .setIcon(IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_share).apply {
             colorInt = Color.WHITE
         })
