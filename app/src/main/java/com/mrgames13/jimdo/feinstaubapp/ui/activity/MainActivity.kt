@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
@@ -31,6 +32,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.closeActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.*
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.task.SensorIPSearchTask
+import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private var searchMenuItem: MenuItem? = null
     private lateinit var searchTask: SensorIPSearchTask
     private lateinit var viewpagerAdapter: ViewPagerAdapterMain
+    private lateinit var viewModel: MainViewModel
 
     // Variables
     private var selectedPage = 1
@@ -65,8 +68,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         }
 
+        // Initialize ViewModel
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
+
         // Initialize ViewPager
-        viewpagerAdapter = ViewPagerAdapterMain(supportFragmentManager, lifecycle, this)
+        viewpagerAdapter = ViewPagerAdapterMain(application, supportFragmentManager, lifecycle, this)
         viewPager.run {
             offscreenPageLimit = 3
             isUserInputEnabled = false

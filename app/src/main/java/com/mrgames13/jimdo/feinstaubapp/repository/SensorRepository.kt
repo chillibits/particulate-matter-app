@@ -18,7 +18,7 @@ class SensorRepository(application: Application) {
 
     // Variables as objects
     private val context = application
-    private val sensorDao = application.getDatabase().sensorDao()
+    private val sensorDao = context.getDatabase().sensorDao()
     val sensors: LiveData<List<Sensor>>
 
     init {

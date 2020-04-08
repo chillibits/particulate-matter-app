@@ -5,8 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
+import android.app.Application
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -16,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,14 +28,19 @@ import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feinstaubapp.shared.outputErrorMessage
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
+import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 
 
-class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragment(), OnMapReadyCallback {
+class AllSensorsFragment(
+    private val application: Application,
+    private val listener: OnAdapterEventListener
+) : Fragment(), OnMapReadyCallback {
 
     // Variables as objects
     private lateinit var mapFragment: SupportMapFragment
     private var map: GoogleMap? = null
+    private lateinit var viewModel: MainViewModel
 
     // Variables
 
@@ -45,9 +50,12 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
     }
 
     // Constructor has to be implemented, otherwise the app crashes, when switching to dark theme and back
-    constructor() : this(object: OnAdapterEventListener {})
+    constructor() : this(Application(), object: OnAdapterEventListener {})
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Initialize ViewModel
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
+
         inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
             // Initialize Spinners
             val mapTypeAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, resources.getStringArray(R.array.map_type))
@@ -68,7 +76,7 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
             }
             mapType.setSelection(context.getPrefs().getString("default_map_type", 0.toString()).toString().toInt())
 
-            val mapTrafficAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
+            val mapTrafficAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
             mapTrafficAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = mapTrafficAdapter
             mapTraffic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -82,12 +90,12 @@ class AllSensorsFragment(private val listener: OnAdapterEventListener) : Fragmen
             mapTraffic.setSelection(if(context.getPrefs().getBoolean("default_traffic", false)) 1 else 0)
 
             // Initialize sensor number display
-            mapSensorCount.setOnClickListener {
+            /*mapSensorCount.setOnClickListener {
                 Intent(Intent.ACTION_VIEW).run {
                     data = Uri.parse("https://h2801469.stratoserver.net/stats.php")
                     startActivity(this)
                 }
-            }
+            }*/
 
             // Initialize refresh button
             mapRefresh.setOnClickListener {

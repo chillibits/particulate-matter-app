@@ -11,6 +11,9 @@ android:
   licenses:
     - '.+'
 
+before_install:
+  - chmod +x gradlew
+
 before_script:
   - echo yes | android update sdk --no-ui --all --filter platform-tools,tools
   - echo yes | android update sdk --no-ui --all --filter build-tools-29.0.3

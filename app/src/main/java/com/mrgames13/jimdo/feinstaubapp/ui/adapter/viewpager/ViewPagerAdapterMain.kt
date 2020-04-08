@@ -4,6 +4,7 @@
 
 package com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager
 
+import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -14,6 +15,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.OwnSensorsFragment
 
 class ViewPagerAdapterMain(
+    private val application: Application,
     fm: FragmentManager,
     l: Lifecycle,
     private val listener: AllSensorsFragment.OnAdapterEventListener
@@ -30,7 +32,7 @@ class ViewPagerAdapterMain(
                 favoritesFragment
             }
             1 -> {
-                allSensorsFragment = AllSensorsFragment(listener)
+                allSensorsFragment = AllSensorsFragment(application, listener)
                 allSensorsFragment
             }
             2 -> {

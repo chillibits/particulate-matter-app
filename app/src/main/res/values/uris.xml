@@ -16,5 +16,6 @@
     <string name="url_faq" translatable="false">https://chillibits.com/pmapp?p=faq</string>
     <string name="url_chip_id_info" translatable="false">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="color_converter_instant_url" translatable="false">https://chillibits.com/instant/colorconverter</string>
+    <string name="stats_page" translatable="false">https://h2801469.stratoserver.net/stats.php</string>
 
 </resources>

@@ -1,4 +1,5 @@
 # Particulate Matter App
+[![Build Status](https://travis-ci.org/ChilliBits/particulate-matter-app.svg?branch=master)](https://travis-ci.org/ChilliBits/particulate-matter-app)
 
 **Be informed about the particulate matter situation and the air quality!**
 
