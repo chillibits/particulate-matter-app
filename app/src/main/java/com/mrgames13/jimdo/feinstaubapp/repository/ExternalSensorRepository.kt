@@ -5,8 +5,6 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadExternalSensors
 import com.mrgames13.jimdo.feinstaubapp.shared.getDatabase
@@ -16,11 +14,7 @@ class ExternalSensorRepository(application: Application) {
     // Variables as objects
     private val context = application
     private val externalSensorDao = context.getDatabase().externalSensorDao()
-    private val externalSensors: LiveData<List<ExternalSensor>>
-
-    init {
-        externalSensors = externalSensorDao.getAll()
-    }
+    val externalSensors = externalSensorDao.getAll()
 
     suspend fun manuallyRefreshExternalSensors() {
         if(isInternetAvailable) {

@@ -15,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.shared.availableSoon
 import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
@@ -31,10 +33,10 @@ import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 
-
 class AllSensorsFragment(
     private val application: Application,
-    private val listener: OnAdapterEventListener
+    private val listener: OnAdapterEventListener,
+    private val externalSensors: LiveData<List<ExternalSensor>>?
 ) : Fragment(), OnMapReadyCallback {
 
     // Variables as objects
@@ -49,8 +51,8 @@ class AllSensorsFragment(
 
     }
 
-    // Constructor has to be implemented, otherwise the app crashes, when switching to dark theme and back
-    constructor() : this(Application(), object: OnAdapterEventListener {})
+    // Default constructor has to be implemented, otherwise the app crashes on configuration change
+    constructor() : this(Application(), object: OnAdapterEventListener {}, null)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Initialize ViewModel

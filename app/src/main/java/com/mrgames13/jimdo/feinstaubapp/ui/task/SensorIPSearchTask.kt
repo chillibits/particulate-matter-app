@@ -8,7 +8,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.util.Log
-import com.mrgames13.jimdo.feinstaubapp.model.io.ScrapingResult
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
 import com.mrgames13.jimdo.feinstaubapp.network.networkClient
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.JOB_COUNT
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG
@@ -126,7 +126,15 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                     .substringAfter("id='send2fsapp'")
                     .substringBefore("/>")
                     .contains("checked='checked'")
-                return ScrapingResult(chipID, name, ipAddress, macAddress, firmwareVersion, sendToUsEnabled)
+                return ScrapingResult(
+                    0,
+                    chipID,
+                    name,
+                    ipAddress,
+                    macAddress,
+                    firmwareVersion,
+                    sendToUsEnabled
+                )
             }
         } catch (e1: MalformedInputException) {
         } catch (e2: ConnectException) {

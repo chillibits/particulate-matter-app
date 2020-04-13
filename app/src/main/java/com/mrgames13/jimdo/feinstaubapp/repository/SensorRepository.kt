@@ -5,7 +5,6 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensors
@@ -19,11 +18,10 @@ class SensorRepository(application: Application) {
     // Variables as objects
     private val context = application
     private val sensorDao = context.getDatabase().sensorDao()
-    val sensors: LiveData<List<Sensor>>
+    val sensors = sensorDao.getAll()
 
     init {
-        sensors = sensorDao.getAll()
-        tryToRefreshFromServer()
+        manuallyRefreshSensors()
     }
 
     suspend fun insert(sensor: Sensor) {
@@ -34,14 +32,13 @@ class SensorRepository(application: Application) {
         sensorDao.insert(sensors)
     }
 
-    fun tryToRefreshFromServer(): Boolean {
-        return if(isInternetAvailable) {
+    fun manuallyRefreshSensors() {
+        if(isInternetAvailable) {
             // Internet is available -> Download data
             CoroutineScope(Dispatchers.IO).launch {
                 val sensors = loadSensors()
                 insert(sensors)
             }
-            true
-        } else false
+        }
     }
 }

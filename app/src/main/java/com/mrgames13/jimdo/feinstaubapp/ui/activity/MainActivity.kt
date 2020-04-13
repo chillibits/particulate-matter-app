@@ -25,12 +25,16 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.io.ScrapingResult
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
 import com.mrgames13.jimdo.feinstaubapp.ui.closeActivityWithRevealAnimation
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.*
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.PlacesSearchDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
+import com.mrgames13.jimdo.feinstaubapp.ui.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -72,7 +76,14 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
         // Initialize ViewPager
-        viewpagerAdapter = ViewPagerAdapterMain(application, supportFragmentManager, lifecycle, this)
+        viewpagerAdapter = ViewPagerAdapterMain(
+            application,
+            this,
+            viewModel.sensors,
+            viewModel.externalSensors,
+            supportFragmentManager,
+            lifecycle
+        )
         viewPager.run {
             offscreenPageLimit = 3
             isUserInputEnabled = false
@@ -171,7 +182,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         if (resultCode == Activity.RESULT_OK) {
             when(requestCode) {
                 Constants.REQ_SCAN_WEB -> initializeWebConnection(resultCode, data)
-                Constants.REQ_ADD_SENSOR -> refresh()
             }
         } else {
             when(requestCode) {
@@ -238,11 +248,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         searchMenuItem?.isVisible = true
     }
 
-    private fun refresh() {
-        // Refresh all pages
-
-    }
-
     private fun openQRScanner() {
         IntentIntegrator(this).run {
             setRequestCode(Constants.REQ_SCAN_WEB)
@@ -295,9 +300,8 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openAddSensorActivity() {
-        showSignInDialog()
-        //val intent = Intent(this, AddSensorActivity::class.java)
-        //openActivityWithRevealAnimation(this, fabAddSearch, revealSheet, intent, Constants.REQ_ADD_SENSOR)
+        val intent = Intent(this, AddSensorActivity::class.java)
+        openActivityWithRevealAnimation(this, fabAddSearch, revealSheet, intent, Constants.REQ_ADD_SENSOR)
     }
 
     private fun startLocalNetworkSearch() {

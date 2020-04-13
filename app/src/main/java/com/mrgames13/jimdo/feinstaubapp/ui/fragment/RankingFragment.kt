@@ -28,6 +28,9 @@ class RankingFragment(private val mode: Int) : Fragment() {
     // Variables as objects
     private lateinit var adapter: ItemAdapter<RankingItem>
 
+    // Default constructor has to be implemented, otherwise the app crashes on configuration change
+    constructor() : this(0)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_ranking, container, false).run {
             // Initialize recycler view

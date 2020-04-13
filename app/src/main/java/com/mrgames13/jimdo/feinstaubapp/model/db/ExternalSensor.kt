@@ -45,6 +45,6 @@ data class ExternalSensorCompressedList (
 @Serializable
 data class ExternalSensorCompressed (
     val i: String,
-    val l: Double,
-    val b: Double
+    val la: Double,
+    val lo: Double
 )
