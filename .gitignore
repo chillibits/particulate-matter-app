@@ -85,3 +85,4 @@ lint/tmp/
 
 # costom gitignore entries
 keystore.xml
+secrets.tar
