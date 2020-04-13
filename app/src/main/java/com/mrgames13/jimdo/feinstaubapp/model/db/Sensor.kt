@@ -7,14 +7,17 @@ package com.mrgames13.jimdo.feinstaubapp.model.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "sensor")
+@Serializable
 data class Sensor(
     @PrimaryKey
-    @ColumnInfo(name = "chip_id") val chipId: Int,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "color") val color: Int,
-    @ColumnInfo(name = "sensor_type") val sensorType: Int
+    @SerialName("chip_id") @ColumnInfo(name = "chip_id") val chipId: Int,
+    @SerialName("name") @ColumnInfo(name = "name") val name: String,
+    @SerialName("color") @ColumnInfo(name = "color") val color: Int,
+    @SerialName("sensor_type") @ColumnInfo(name = "sensor_type") val sensorType: Int
 ): Comparable<Sensor> {
     override fun compareTo(other: Sensor) = name.compareTo(other.name)
 }

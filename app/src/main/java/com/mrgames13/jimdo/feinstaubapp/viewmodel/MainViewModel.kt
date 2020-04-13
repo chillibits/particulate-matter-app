@@ -18,7 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val sensors = sensorRepository.sensors
     val externalSensors = externalSensorRepository.externalSensors
 
-    fun manuallyRefreshSensors() {
+    suspend fun manuallyRefreshSensors() {
         sensorRepository.manuallyRefreshSensors()
     }
 

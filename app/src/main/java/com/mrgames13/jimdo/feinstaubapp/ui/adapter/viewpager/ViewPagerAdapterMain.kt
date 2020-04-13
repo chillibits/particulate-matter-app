@@ -8,10 +8,7 @@ import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
-import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.FavoritesFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
@@ -20,8 +17,6 @@ import com.mrgames13.jimdo.feinstaubapp.ui.fragment.OwnSensorsFragment
 class ViewPagerAdapterMain(
     private val application: Application,
     private val listener: AllSensorsFragment.OnAdapterEventListener,
-    private val sensors: LiveData<List<Sensor>>,
-    private val externalSensors: LiveData<List<ExternalSensor>>,
     fm: FragmentManager,
     l: Lifecycle
 ) : FragmentStateAdapter(fm, l) {
@@ -33,15 +28,15 @@ class ViewPagerAdapterMain(
     override fun createFragment(pos: Int): Fragment {
         return when(pos) {
             0 -> {
-                favoritesFragment = FavoritesFragment(sensors)
+                favoritesFragment = FavoritesFragment()
                 favoritesFragment
             }
             1 -> {
-                allSensorsFragment = AllSensorsFragment(application, listener, externalSensors)
+                allSensorsFragment = AllSensorsFragment(application, listener)
                 allSensorsFragment
             }
             2 -> {
-                ownSensorsFragment = OwnSensorsFragment(sensors)
+                ownSensorsFragment = OwnSensorsFragment()
                 ownSensorsFragment
             }
             else -> {

@@ -76,14 +76,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
         // Initialize ViewPager
-        viewpagerAdapter = ViewPagerAdapterMain(
-            application,
-            this,
-            viewModel.sensors,
-            viewModel.externalSensors,
-            supportFragmentManager,
-            lifecycle
-        )
+        viewpagerAdapter = ViewPagerAdapterMain(application, this, supportFragmentManager, lifecycle)
         viewPager.run {
             offscreenPageLimit = 3
             isUserInputEnabled = false

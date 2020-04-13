@@ -15,7 +15,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,19 +23,21 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
-import com.mrgames13.jimdo.feinstaubapp.shared.availableSoon
 import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feinstaubapp.shared.outputErrorMessage
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AllSensorsFragment(
     private val application: Application,
-    private val listener: OnAdapterEventListener,
-    private val externalSensors: LiveData<List<ExternalSensor>>?
+    private val listener: OnAdapterEventListener
 ) : Fragment(), OnMapReadyCallback {
 
     // Variables as objects
@@ -52,7 +53,7 @@ class AllSensorsFragment(
     }
 
     // Default constructor has to be implemented, otherwise the app crashes on configuration change
-    constructor() : this(Application(), object: OnAdapterEventListener {}, null)
+    constructor() : this(Application(), object: OnAdapterEventListener {})
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Initialize ViewModel
@@ -101,7 +102,7 @@ class AllSensorsFragment(
 
             // Initialize refresh button
             mapRefresh.setOnClickListener {
-                context.availableSoon()
+                refresh()
             }
 
             // Initialize ranking button
@@ -155,6 +156,19 @@ class AllSensorsFragment(
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
         } else {
             context?.outputErrorMessage()
+        }
+    }
+
+    private fun refresh() {
+        val progressDialog = ProgressDialog(requireContext())
+            .setDialogCancelable(false)
+            .setMessage(R.string.loading_data)
+            .show()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.manuallyRefreshExternalSensors()
+            withContext(Dispatchers.Main) {
+                progressDialog.dismiss()
+            }
         }
     }
 
