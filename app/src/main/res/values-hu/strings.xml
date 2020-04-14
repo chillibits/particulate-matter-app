@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Mon, 13 Apr 2020 23:51:37 +0200
+ Exported at: Tue, 14 Apr 2020 23:28:18 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Napi medián\u0020\u0020megjelenítése</string>
     <string name="enable_daily_average_median_s">Megjelenítés a rögzített adatok alatt</string>
     <string name="enable_nothing">Átlag / medián elrejtése</string>
-    <string name="enable_auto_correction_t">Automatikus hibakorrekció</string>
-    <string name="enable_auto_correction_s">Hibás mérési adatok automatikus korrekciója</string>
+    <string name="manage_auto_correction_t">Automatikus hibakorrekció</string>
+    <string name="manage_auto_correction_s">Hibás mérési adatok automatikus korrekciója</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Szinkronizáció</string>
     <string name="sync_cycle">Szinkronizáció gyakoriság</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">App verzió</string>
     <string name="pref_developers_t">A fejlesztők</string>
     <string name="pref_more_apps_t">Egyéb applikációink</string>
-    <string name="pref_more_apps_m">Oldalunk a Play áruházban</string>
+    <string name="pref_more_apps_s">Oldalunk a Play áruházban</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Kpooints a szín kiválasztásához</string>
     <string name="altitude">Magasság</string>

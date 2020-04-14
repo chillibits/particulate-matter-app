@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Mon, 13 Apr 2020 22:51:35 +0100
+ Exported at: Tue, 14 Apr 2020 22:28:17 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Toon dagelijkse mediaan</string>
     <string name="enable_daily_average_median_s">Wordt weergegeven onder de gegevensbestanden</string>
     <string name="enable_nothing">\nSchakel gemiddelde / mediaan uit</string>
-    <string name="enable_auto_correction_t">\nAutomatische foutcorrectie</string>
-    <string name="enable_auto_correction_s">Automatische correctie van foute metingen</string>
+    <string name="manage_auto_correction_t">\nAutomatische foutcorrectie</string>
+    <string name="manage_auto_correction_s">Automatische correctie van foute metingen</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisatie</string>
     <string name="sync_cycle">Synchronisatiecyclus</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">App versie</string>
     <string name="pref_developers_t">De ontwikkelaars</string>
     <string name="pref_more_apps_t">Meer apps van ons</string>
-    <string name="pref_more_apps_m">Onze PlayStore pagina</string>
+    <string name="pref_more_apps_s">Onze PlayStore pagina</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Druk op de kleur om toe te passen</string>
     <string name="altitude">Hoogte</string>

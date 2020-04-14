@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Mon, 13 Apr 2020 23:51:37 +0200
+ Exported at: Tue, 14 Apr 2020 23:28:18 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Mostrar mediana diaria</string>
     <string name="enable_daily_average_median_s">Se muestra debajo de los registros de datos</string>
     <string name="enable_nothing">Desactivar media / mediana</string>
-    <string name="enable_auto_correction_t">Corrección automática de errores</string>
-    <string name="enable_auto_correction_s">Corrección automática de mediciones defectuosas.</string>
+    <string name="manage_auto_correction_t">Corrección automática de errores</string>
+    <string name="manage_auto_correction_s">Corrección automática de mediciones defectuosas.</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Sincronización</string>
     <string name="sync_cycle">Ciclo de sincronizacion</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">Version de aplicacion</string>
     <string name="pref_developers_t">Los desarrolladores</string>
     <string name="pref_more_apps_t">Más aplicaciones de nosotros</string>
-    <string name="pref_more_apps_m">Nuestro sitio PlayStore</string>
+    <string name="pref_more_apps_s">Nuestro sitio PlayStore</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Presione sobre el color para aplicar</string>
     <string name="altitude">Altura</string>

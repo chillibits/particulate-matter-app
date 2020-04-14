@@ -27,11 +27,34 @@ object Constants {
     const val DEFAULT_HUMIDITY_LIMIT = 0
     const val DEFAULT_PRESSURE_LIMIT = 0
     const val DEFAULT_MISSING_MEASUREMENT_NUMBER0 = 5
+    const val DEFAULT_MAP_ZOOM = 11f
 
     // Notification channels
     const val CHANNEL_SYSTEM = "System"
     const val CHANNEL_LIMIT = "Limit"
     const val CHANNEL_MISSING_MEASUREMENTS = "Missing Measurements"
+
+    // SharedPreferences
+    const val SHARED_PREFS_NAME = "com.mrgames13.jimdo.feinstaubapp_preferences"
+    const val PREF_ENABLE_DAILY_AVERAGE = "enableDailyAverage"
+    const val PREF_ENABLE_DAILY_MEDIAN = "enableDailyMedian"
+    const val PREF_MANAGE_AUTO_CORRECTION = "manageAutoCorrection"
+    const val PREF_SYNC_CYCLE = "syncCycle"
+    const val PREF_SYNC_CYCLE_BACKGROUND = "syncCycleBackground"
+    const val PREF_REDUCE_DATA_CONSUMPTION = "reduceDataConsumption"
+    const val PREF_DEFAULT_MAP_TYPE = "defaultMapType"
+    const val PREF_DEFAULT_TRAFFIC = "defaultTraffic"
+    const val PREF_NOTIFICATION_THRESHOLD = "notificationThreshold"
+    const val PREF_NOTIFICATION_AVERAGES = "notificationAverages"
+    const val PREF_NOTIFICATION_BREAKDOWN = "notificationBreakdown"
+    const val PREF_ENABLE_MARKER_CLUSTERING = "enableMarkerClustering"
+    const val PREF_INCREASE_DIAGRAM_PERFORMANCE = "increaseDiagramPerformance"
+    const val PREF_CLEAR_SENSOR_DATA = "clearSensorData"
+    const val PREF_OPEN_SOURCE_LICENSES = "openSourceLicenses"
+    const val PREF_OPEN_SOURCE = "openSource"
+    const val PREF_APP_VERSION = "appVersion"
+    const val PREF_DEVELOPERS = "developers"
+    const val PREF_MORE_APPS = "moreApps"
 
     // JobScheduler ids
     const val JOB_SYNC_ID = 1001
@@ -43,6 +66,9 @@ object Constants {
     const val REQ_PLACE_PICKER = 1005
     const val REQ_COLOR_CONVERTER = 1006
 
+    // Permission request codes
+    const val PERMISSION_LOCATION = 10001
+
     // Intent extras
     const val EXTRA_COLOR_CONVERTER = "ChooseColor" // Link to Color Converter
 
@@ -53,7 +79,7 @@ object Constants {
     const val WIDGET_EXTRA_SMALL_WIDGET_ID = "SmallWidgetID"
 
     // Local db constants
-    const val DB_NAME = "pmapp-main"
+    const val DB_NAME = "pmapp-main.db"
 
     // NetworkScan constants
     const val JOB_COUNT = 5

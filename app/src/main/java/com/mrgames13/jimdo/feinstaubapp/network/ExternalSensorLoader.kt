@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets
 
 suspend fun loadExternalSensors(context: Context, fullRefresh: Boolean): List<ExternalSensor> {
     try {
-        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "sensor?compressed").execute()
+        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/sensor?compressed").execute()
         if(response.status == HttpStatusCode.OK) {
             return ArrayList(Json.parse(ExternalSensor.serializer().list, URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())))
         } else {

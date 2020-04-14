@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Mon, 13 Apr 2020 22:51:36 +0100
+ Exported at: Tue, 14 Apr 2020 22:28:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Arată mediana zilnică</string>
     <string name="enable_daily_average_median_s">Afișat sub înregistrările de date</string>
     <string name="enable_nothing">Dezactivați media / mediana</string>
-    <string name="enable_auto_correction_t">Corecție automată a erorilor</string>
-    <string name="enable_auto_correction_s">Corecția automată a măsurătorilor defecte</string>
+    <string name="manage_auto_correction_t">Corecție automată a erorilor</string>
+    <string name="manage_auto_correction_s">Corecția automată a măsurătorilor defecte</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Sincronizare</string>
     <string name="sync_cycle">Ciclul de sincronizare</string>
@@ -232,7 +232,7 @@
     <string name="pref_appversion">Versiunea aplicației</string>
     <string name="pref_developers_t">Dezvoltatorii</string>
     <string name="pref_more_apps_t">Mai multe aplicații de la noi</string>
-    <string name="pref_more_apps_m">Site-ul nostru PlayStore</string>
+    <string name="pref_more_apps_s">Site-ul nostru PlayStore</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Apăsați pe Color pentru a aplica</string>
     <string name="altitude">Inaltime</string>

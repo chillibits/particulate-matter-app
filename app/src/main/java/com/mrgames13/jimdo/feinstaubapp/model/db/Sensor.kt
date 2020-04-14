@@ -17,7 +17,8 @@ data class Sensor(
     @SerialName("chip_id") @ColumnInfo(name = "chip_id") val chipId: Int,
     @SerialName("name") @ColumnInfo(name = "name") val name: String,
     @SerialName("color") @ColumnInfo(name = "color") val color: Int,
-    @SerialName("sensor_type") @ColumnInfo(name = "sensor_type") val sensorType: Int
+    @SerialName("owner") @ColumnInfo(name = "owner") val isOwner: Boolean,
+    @SerialName("published") @ColumnInfo(name= "published") val isPublished: Boolean
 ): Comparable<Sensor> {
     override fun compareTo(other: Sensor) = name.compareTo(other.name)
 }

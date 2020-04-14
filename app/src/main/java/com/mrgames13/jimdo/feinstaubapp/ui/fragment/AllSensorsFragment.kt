@@ -4,9 +4,13 @@
 
 package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,21 +18,32 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.maps.android.clustering.Cluster
+import com.google.maps.android.clustering.ClusterItem
+import com.google.maps.android.clustering.ClusterManager
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
-import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
-import com.mrgames13.jimdo.feinstaubapp.shared.outputErrorMessage
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
+import com.mrgames13.jimdo.feinstaubapp.network.isLocationEnabled
+import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterItem
+import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.fragment_all_sensors.*
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,14 +53,17 @@ import kotlinx.coroutines.withContext
 class AllSensorsFragment(
     private val application: Application,
     private val listener: OnAdapterEventListener
-) : Fragment(), OnMapReadyCallback {
+) : Fragment(), OnMapReadyCallback, Observer<List<ExternalSensor>> {
 
     // Variables as objects
     private lateinit var mapFragment: SupportMapFragment
     private var map: GoogleMap? = null
     private lateinit var viewModel: MainViewModel
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var clusterManager: ClusterManager<SensorClusterItem>
 
     // Variables
+
 
     // Interfaces
     interface OnAdapterEventListener {
@@ -101,9 +119,7 @@ class AllSensorsFragment(
             }*/
 
             // Initialize refresh button
-            mapRefresh.setOnClickListener {
-                refresh()
-            }
+            mapRefresh.setOnClickListener { refresh() }
 
             // Initialize ranking button
             mapRanking.setOnClickListener {
@@ -118,7 +134,6 @@ class AllSensorsFragment(
         }
     }
 
-    @SuppressLint("ResourceType")
     override fun onMapReady(map: GoogleMap?) {
         if(map != null) {
             this.map = map
@@ -126,36 +141,39 @@ class AllSensorsFragment(
             map.uiSettings.isRotateGesturesEnabled = false
             map.uiSettings.isZoomControlsEnabled = true
 
-            // Relocate MyLocationButton
-            val locationButton = (mapFragment.view?.findViewById<View>("1".toInt())?.parent as View).findViewById<View>("2".toInt())
-            val rlp = locationButton.layoutParams as RelativeLayout.LayoutParams
-            rlp.run {
-                addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
-                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                setMargins(0, 0, 27, 430)
-            }
+            // Relocate controls
+            relocationOwnLocationControls()
+            relocateZoomControls()
 
-            // Relocate zoom button
-            val zoomControls = mapFragment.view?.findViewById<View>(0x1)
-            if (zoomControls != null && zoomControls.layoutParams is RelativeLayout.LayoutParams) {
-                val params = zoomControls.layoutParams as RelativeLayout.LayoutParams
-                params.run {
-                    addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-                    addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-                    setMargins(
-                        params.leftMargin,
-                        params.topMargin,
-                        params.rightMargin,
-                        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70f, resources.displayMetrics).toInt()
-                    )
-                }
-            }
+            // Enable own location
+            enableOwnLocationControls()
+
+            // Initialize cluster manager
+            initializeClusterManager()
+
+            // Register observer for live data
+            viewModel.externalSensors.observe(viewLifecycleOwner, this)
 
             // Apply map style
             val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
+
+            // Draw sensors onto the map
+
         } else {
             context?.outputErrorMessage()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == Constants.PERMISSION_LOCATION) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                enableOwnLocationControls()
         }
     }
 
@@ -166,13 +184,119 @@ class AllSensorsFragment(
             .show()
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.manuallyRefreshExternalSensors()
-            withContext(Dispatchers.Main) {
-                progressDialog.dismiss()
-            }
+            withContext(Dispatchers.Main) { progressDialog.dismiss() }
         }
     }
 
     fun applyPlaceSearch(coordinates: LatLng) {
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 11f))
+    }
+
+    private fun enableOwnLocationControls() {
+        // Check for permission
+        val isLocationPermissionGranted =
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        if(requireContext().isLocationEnabled()) {
+            if(isLocationPermissionGranted) {
+                // Show button and register callback
+                map?.isMyLocationEnabled = true
+                map?.uiSettings?.isMyLocationButtonEnabled = true
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+                fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                    OnSuccessListener<Location> { location ->
+                        if (location != null) {
+                            moveCamera(LatLng(location.latitude, location.longitude))
+                            map?.setOnMyLocationChangeListener(null)
+                        }
+                    }
+                }
+            } else {
+                // Ask for permission
+                requestPermissions(arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ), Constants.PERMISSION_LOCATION)
+            }
+        }
+    }
+
+    private fun initializeClusterManager() {
+        if(requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
+            // Marker clustering is enabled
+            clusterManager = ClusterManager(context, map)
+            clusterManager.renderer = SensorClusterRenderer(requireContext(), map!!, clusterManager, viewModel.sensors)
+            map?.setOnMarkerClickListener(clusterManager)
+            clusterManager.setOnClusterItemClickListener { item ->
+                showMarkerInfoWindow(item)
+                true
+            }
+            clusterManager.setOnClusterClickListener {cluster ->
+                showClusterInfoWindow(cluster)
+                true
+            }
+        } else {
+
+        }
+    }
+
+    private fun showMarkerInfoWindow(item: ClusterItem) {
+
+    }
+
+    private fun showClusterInfoWindow(cluster: Cluster<SensorClusterItem>) {
+
+    }
+
+    private fun drawSensors(sensors: List<ExternalSensor>?) {
+        sensors?.let {
+
+        }
+    }
+
+    private fun moveCamera(latLng: LatLng) {
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM)
+        map?.animateCamera(cameraUpdate)
+    }
+
+    @SuppressLint("ResourceType")
+    private fun relocationOwnLocationControls() {
+        val locationButton = (mapFragment.view?.findViewById<View>(0x1)?.parent as View).findViewById<View>(0x2)
+        if(locationButton != null && locationButton.layoutParams is RelativeLayout.LayoutParams) {
+            val params = locationButton.layoutParams as RelativeLayout.LayoutParams
+            params.run {
+                addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+                setMargins(0, 0, 27, 430)
+            }
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private fun relocateZoomControls() {
+        val zoomControls = mapFragment.view?.findViewById<View>(0x1)
+        if (zoomControls != null && zoomControls.layoutParams is RelativeLayout.LayoutParams) {
+            val params = zoomControls.layoutParams as RelativeLayout.LayoutParams
+            params.run {
+                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+                addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+                setMargins(
+                    params.leftMargin,
+                    params.topMargin,
+                    params.rightMargin,
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        70f,
+                        resources.displayMetrics
+                    ).toInt()
+                )
+            }
+        }
+    }
+
+    override fun onChanged(sensors: List<ExternalSensor>?) {
+        Log.i(Constants.TAG, "Refreshing external sensors ...")
+        mapSensorCount.text = (sensors?.size ?: 0).toString()
+        drawSensors(sensors)
     }
 }

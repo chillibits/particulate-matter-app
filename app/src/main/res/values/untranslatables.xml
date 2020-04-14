@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<resources>
+    <string name="chillibits" translatable="false">ChilliBits</string>
+    <string name="ip_mac" translatable="false">IP: %1$s • MAC: %2$s</string>
+
+</resources>

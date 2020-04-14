@@ -23,19 +23,18 @@ import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
 import com.mrgames13.jimdo.feinstaubapp.shared.*
+import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
-import com.mrgames13.jimdo.feinstaubapp.ui.closeActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.PlacesSearchDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
-import com.mrgames13.jimdo.feinstaubapp.ui.openActivityWithRevealAnimation
-import com.mrgames13.jimdo.feinstaubapp.ui.task.SensorIPSearchTask
+import com.mrgames13.jimdo.feinstaubapp.ui.view.closeActivityWithRevealAnimation
+import com.mrgames13.jimdo.feinstaubapp.ui.view.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
@@ -137,6 +136,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.unregisterNetworkCallback()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_activity_main, menu)
         searchMenuItem = menu?.findItem(R.id.action_search)
@@ -149,19 +153,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             R.id.action_search -> item.expandActionView()
             R.id.action_import_export -> showImportExportDialog()
             R.id.action_rate -> showRatingDialog()
-            R.id.action_settings -> {
-                availableSoon()
-                LibsBuilder()
-                    .withActivityTitle(getString(R.string.pref_open_source_t))
-                    .withAboutAppName(getString(R.string.app_name))
-                    .withAboutDescription(getString(R.string.app_description))
-                    .withAboutVersionShownCode(false)
-                    .withEdgeToEdge(true)
-                    .withLicenseDialog(true)
-                    .withLicenseShown(true)
-                    .start(this)
-                return true
-            }
+            R.id.action_settings -> openSettingsActivity()
             R.id.action_recommend -> showRecommendationDialog()
             R.id.action_web -> openQRScanner()
             R.id.action_help -> openFAQPage()
@@ -178,7 +170,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         } else {
             when(requestCode) {
-                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(this, fabAddSearch, revealSheet)
+                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(
+                    this,
+                    fabAddSearch,
+                    revealSheet
+                )
                 else -> outputErrorMessage()
             }
         }
@@ -259,6 +255,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
     }
 
+    private fun openSettingsActivity() {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
     private fun initializeWebConnection(resultCode: Int, data: Intent?) {
         try{
             // Extract SyncKey out of QR-Code
@@ -294,26 +294,37 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun openAddSensorActivity() {
         val intent = Intent(this, AddSensorActivity::class.java)
-        openActivityWithRevealAnimation(this, fabAddSearch, revealSheet, intent, Constants.REQ_ADD_SENSOR)
+        openActivityWithRevealAnimation(
+            this,
+            fabAddSearch,
+            revealSheet,
+            intent,
+            Constants.REQ_ADD_SENSOR
+        )
     }
 
     private fun startLocalNetworkSearch() {
         // Setup searching task
-        searchTask = SensorIPSearchTask(this, object: SensorIPSearchTask.OnSearchEventListener {
-            override fun onProgressUpdate(progress: Int) {
+        searchTask = SensorIPSearchTask(
+            this,
+            object :
+                SensorIPSearchTask.OnSearchEventListener {
+                override fun onProgressUpdate(progress: Int) {
 
-            }
+                }
 
-            override fun onSensorFound(sensor: ScrapingResult?) {}
+                override fun onSensorFound(sensor: ScrapingResult?) {}
 
-            override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
+                override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
 
-            }
+                }
 
-            override fun onSearchFailed() {
+                override fun onSearchFailed() {
 
-            }
-        }, 0)
+                }
+            },
+            0
+        )
         searchTask.execute()
     }
 

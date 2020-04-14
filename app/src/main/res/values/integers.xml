@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<resources>
+    <string-array name="map_type_values">
+        <item name="map_type_value_0">0</item>
+        <item name="map_type_value_1">1</item>
+        <item name="map_type_value_2">2</item>
+        <item name="map_type_value_3">3</item>
+    </string-array>
+</resources>
