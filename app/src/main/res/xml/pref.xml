@@ -56,24 +56,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/pref_header_appearance"
-        app:key="appearance_settings">
-
-        <ListPreference
-            app:key="defaultMapType"
-            app:defaultValue="0"
-            android:title="@string/default_map_type"
-            android:entries="@array/map_type"
-            android:entryValues="@array/map_type_values"
-            app:useSimpleSummaryProvider="true"/>
-
-        <SwitchPreferenceCompat
-            app:key="defaultTraffic"
-            android:title="@string/enable_traffic_by_default"
-            app:defaultValue="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         app:title="@string/pref_header_notifications"
         app:key="notification_settings" >
 

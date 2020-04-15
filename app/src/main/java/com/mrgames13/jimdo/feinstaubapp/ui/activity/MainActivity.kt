@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             if(isFullscreen) {
-                toggleFullscreen()
+                onToggleFullscreen()
             } else if(searchView.isSearchOpen) {
                 searchView.closeSearch()
             } else if(!pressedOnce) {
@@ -255,9 +255,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
     }
 
-    private fun openSettingsActivity() {
-        startActivity(Intent(this, SettingsActivity::class.java))
-    }
+    private fun openSettingsActivity() = startActivity(Intent(this, SettingsActivity::class.java))
 
     private fun initializeWebConnection(resultCode: Int, data: Intent?) {
         try{
@@ -328,7 +326,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         searchTask.execute()
     }
 
-    private fun toggleFullscreen() {
+    override fun onToggleFullscreen() {
         isFullscreen = !isFullscreen
         // Show/hide toolbar, tabBar, etc.
         if(isFullscreen) enterFullscreen() else exitFullscreen()
@@ -337,11 +335,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun enterFullscreen() {
-        val statusBarHeight =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                0
-            else
-                getStatusBarHeight(this)
+        val statusBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) 0 else getStatusBarHeight(this)
         val navigationBarHeight =
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> 0
@@ -356,11 +350,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             .translationY((-toolbar.measuredHeight).toFloat())
             .setDuration(500L)
             .start()
-        val possibleOffset =
-            if (exitedFullscreenOnce)
-                0
-            else
-                statusBarHeight
+        val possibleOffset = if (exitedFullscreenOnce) 0 else statusBarHeight
         val layoutParams = container.layoutParams as FrameLayout.LayoutParams
         val to = container.measuredHeight + tabBar.measuredHeight + toolbar.measuredHeight + possibleOffset + navigationBarHeight
         ValueAnimator.ofInt(container.measuredHeight, to).run {

@@ -10,6 +10,9 @@ import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository
 import com.mrgames13.jimdo.feinstaubapp.repository.SensorRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,6 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         context.registerNetworkCallback()
+        CoroutineScope(Dispatchers.IO).launch { manuallyRefreshExternalSensors() }
     }
 
     suspend fun manuallyRefreshSensors() {

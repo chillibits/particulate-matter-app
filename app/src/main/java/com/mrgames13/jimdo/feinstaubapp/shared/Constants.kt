@@ -42,8 +42,6 @@ object Constants {
     const val PREF_SYNC_CYCLE = "syncCycle"
     const val PREF_SYNC_CYCLE_BACKGROUND = "syncCycleBackground"
     const val PREF_REDUCE_DATA_CONSUMPTION = "reduceDataConsumption"
-    const val PREF_DEFAULT_MAP_TYPE = "defaultMapType"
-    const val PREF_DEFAULT_TRAFFIC = "defaultTraffic"
     const val PREF_NOTIFICATION_THRESHOLD = "notificationThreshold"
     const val PREF_NOTIFICATION_AVERAGES = "notificationAverages"
     const val PREF_NOTIFICATION_BREAKDOWN = "notificationBreakdown"
@@ -55,6 +53,8 @@ object Constants {
     const val PREF_APP_VERSION = "appVersion"
     const val PREF_DEVELOPERS = "developers"
     const val PREF_MORE_APPS = "moreApps"
+    const val RECENT_MAP_TYPE = "recentMapType"
+    const val RECENT_TRAFFIC = "recentTraffic"
 
     // JobScheduler ids
     const val JOB_SYNC_ID = 1001

@@ -34,7 +34,6 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.maps.android.clustering.Cluster
-import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
@@ -63,18 +62,18 @@ class AllSensorsFragment(
     private var map: GoogleMap? = null
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var clusterManager: ClusterManager<SensorClusterItem>
-
-    // Variables
+    private var clusterManager: ClusterManager<SensorClusterItem>? = null
 
 
     // Interfaces
     interface OnAdapterEventListener {
-
+        fun onToggleFullscreen()
     }
 
     // Default constructor has to be implemented, otherwise the app crashes on configuration change
-    constructor() : this(Application(), object: OnAdapterEventListener {})
+    constructor() : this(Application(), object: OnAdapterEventListener {
+        override fun onToggleFullscreen() {}
+    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Initialize ViewModel
@@ -94,11 +93,12 @@ class AllSensorsFragment(
                         2 -> map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
                         3 -> map?.mapType = GoogleMap.MAP_TYPE_HYBRID
                     }
+                    context.getPrefs().edit().putInt(Constants.RECENT_MAP_TYPE, pos).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            mapType.setSelection(context.getPrefs().getString("default_map_type", 0.toString()).toString().toInt())
+            mapType.setSelection(context.getPrefs().getInt(Constants.RECENT_MAP_TYPE, 0))
 
             val mapTrafficAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
             mapTrafficAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -107,11 +107,12 @@ class AllSensorsFragment(
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                     // Enable/disable traffic on the map
                     map?.isTrafficEnabled = pos != 0
+                    context.getPrefs().edit().putInt(Constants.RECENT_TRAFFIC, pos).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            mapTraffic.setSelection(if(context.getPrefs().getBoolean("default_traffic", false)) 1 else 0)
+            mapTraffic.setSelection(context.getPrefs().getInt(Constants.RECENT_TRAFFIC, 0))
 
             // Initialize sensor number display
             /*mapSensorCount.setOnClickListener {
@@ -137,6 +138,16 @@ class AllSensorsFragment(
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(map != null) {
+            if((clusterManager == null && requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) ||
+                    clusterManager != null && !requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
+                drawSensors(viewModel.externalSensors.value)
+            }
+        }
+    }
+
     override fun onMapReady(map: GoogleMap?) {
         if(map != null) {
             this.map = map
@@ -151,14 +162,15 @@ class AllSensorsFragment(
             // Enable own location
             enableOwnLocationControls()
 
+            // Add onClickListener for map
+            map.setOnMapClickListener { handleMapClick() }
+
             // Register observer for live data
             viewModel.externalSensors.observe(viewLifecycleOwner, this)
 
             // Apply map style
             val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
-
-            refresh(true)
         } else {
             context?.outputErrorMessage()
         }
@@ -210,10 +222,7 @@ class AllSensorsFragment(
                 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
                 fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                     OnSuccessListener<Location> { location ->
-                        if (location != null) {
-                            moveCamera(LatLng(location.latitude, location.longitude))
-                            map?.setOnMyLocationChangeListener(null)
-                        }
+                        if (location != null) moveCamera(LatLng(location.latitude, location.longitude))
                     }
                 }
             } else {
@@ -230,21 +239,29 @@ class AllSensorsFragment(
         if(requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
             // Marker clustering is enabled
             clusterManager = ClusterManager(context, map)
-            clusterManager.renderer = SensorClusterRenderer(requireContext(), map!!, clusterManager, viewModel.sensors)
-            clusterManager.setOnClusterItemClickListener { item ->
-                showMarkerInfoWindow(item)
+            clusterManager?.renderer = SensorClusterRenderer(requireContext(), map!!, clusterManager, viewModel.sensors)
+            clusterManager?.setOnClusterItemClickListener { item ->
+                showMarkerInfoWindow(item.marker)
                 true
             }
-            clusterManager.setOnClusterClickListener {cluster ->
+            clusterManager?.setOnClusterClickListener {cluster ->
                 showClusterInfoWindow(cluster)
                 true
             }
             map?.setOnMarkerClickListener(clusterManager)
             map?.setOnCameraIdleListener(clusterManager)
+        } else {
+            clusterManager = null
+            map?.setOnMarkerClickListener {marker ->
+                val m = MarkerItem(marker.title, marker.snippet, marker.position)
+                showMarkerInfoWindow(m)
+                true
+            }
+            map?.setOnCameraIdleListener(null)
         }
     }
 
-    private fun showMarkerInfoWindow(item: ClusterItem) {
+    private fun showMarkerInfoWindow(item: MarkerItem) {
 
     }
 
@@ -256,19 +273,21 @@ class AllSensorsFragment(
         sensors?.let {
             if(requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
                 // Initialize cluster manager if necessary
-                if(!this::clusterManager.isInitialized) initializeClusterManager()
-                clusterManager.clearItems()
+                if(clusterManager == null) initializeClusterManager()
+                clusterManager?.clearItems()
                 map?.clear()
                 sensors.forEach {
                     if(it.latitude != 0.0 || it.longitude != 0.0)  {
                         val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
                         val position = LatLng(it.latitude, it.longitude)
                         val markerItem = MarkerItem(it.chipId.toString(), snippet, position)
-                        clusterManager.addItem(SensorClusterItem(markerItem, it))
+                        clusterManager?.addItem(SensorClusterItem(markerItem, it))
                     }
                 }
-                clusterManager.cluster()
+                clusterManager?.cluster()
             } else {
+                // Switch to markers if necessary
+                if(clusterManager != null) initializeClusterManager()
                 map?.clear()
                 sensors.forEach {
                     if(it.latitude != 0.0 || it.longitude != 0.0) {
@@ -291,6 +310,13 @@ class AllSensorsFragment(
                     }
                 }
             }
+        }
+    }
+
+    private fun handleMapClick() {
+        when {
+
+            else -> listener.onToggleFullscreen()
         }
     }
 

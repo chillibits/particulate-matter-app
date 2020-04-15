@@ -64,8 +64,6 @@ class SettingsActivity : AppCompatActivity() {
             .remove(Constants.PREF_SYNC_CYCLE)
             .remove(Constants.PREF_SYNC_CYCLE_BACKGROUND)
             .remove(Constants.PREF_REDUCE_DATA_CONSUMPTION)
-            .remove(Constants.PREF_DEFAULT_MAP_TYPE)
-            .remove(Constants.PREF_DEFAULT_TRAFFIC)
             .remove(Constants.PREF_NOTIFICATION_THRESHOLD)
             .remove(Constants.PREF_NOTIFICATION_AVERAGES)
             .remove(Constants.PREF_NOTIFICATION_BREAKDOWN)

@@ -9,7 +9,7 @@ import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 
 class SensorClusterItem (
-    private val marker: MarkerItem,
+    val marker: MarkerItem,
     val externalSensor: ExternalSensor
 ): ClusterItem {
     override fun getPosition() = marker.position

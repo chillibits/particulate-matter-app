@@ -16,7 +16,7 @@ import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
 class SensorClusterRenderer(
     context: Context,
     map: GoogleMap,
-    clusterManager: ClusterManager<SensorClusterItem>,
+    clusterManager: ClusterManager<SensorClusterItem>?,
     private val sensors: LiveData<List<Sensor>>
 ) : DefaultClusterRenderer<SensorClusterItem>(context, map, clusterManager) {
     override fun onBeforeClusterItemRendered(item: SensorClusterItem, markerOptions: MarkerOptions) {
