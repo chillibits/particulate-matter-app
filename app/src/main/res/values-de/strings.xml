@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Tue, 14 Apr 2020 23:28:18 +0200
+ Exported at: Wed, 15 Apr 2020 15:21:00 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
     <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
-    <string name="manage_auto_correction_t">Algorithmen zur Fehlerkorrektur verwalten</string>
-    <string name="manage_auto_correction_s">Automatische Korrektur von Messfehlern</string>
+    <string name="manage_auto_correction_t">Algorithmen zur Fehlerkorrektur</string>
+    <string name="manage_auto_correction_s">Automatische Korrektur von Messfehlern verwalten</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
     <string name="sync_cycle">Synchronisationszyklus</string>
@@ -294,4 +294,9 @@
     <string name="no_account_yet_sign_up">Noch keinen Account?</string>
     <string name="confirm_password">Passwort bestätigen</string>
     <string name="passwords_do_not_match">Passwörter stimmen nicht überein</string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1">Algorithmus 1</item>
+        <item name="error_correction_algorith_2">Algorithmus 2</item>
+    </string-array>
+    <string name="reset_settings">Einstellungen zurücksetzen</string>
 </resources>

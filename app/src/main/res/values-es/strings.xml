@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Tue, 14 Apr 2020 23:28:18 +0200
+ Exported at: Wed, 15 Apr 2020 15:27:58 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -294,4 +294,9 @@
     <string name="no_account_yet_sign_up">¿No hay cuenta todavía?</string>
     <string name="confirm_password">Confirmar la contraseña</string>
     <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorith_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
 </resources>

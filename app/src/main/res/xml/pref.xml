@@ -21,10 +21,13 @@
             app:title="@string/enable_daily_median"
             app:summary="@string/enable_daily_average_median_s"/>
 
-        <Preference
-            app:key="manageAutoCorrection"
-            app:title="@string/manage_auto_correction_t"
-            app:summary="@string/manage_auto_correction_s"/>
+        <MultiSelectListPreference
+            android:key="manageAutoCorrection"
+            android:title="@string/manage_auto_correction_t"
+            android:summary="@string/manage_auto_correction_s"
+            app:entries="@array/error_correction_algorithms"
+            android:entryValues="@array/error_correction_algorithm_values"
+            app:defaultValue="@array/error_correction_algorithm_default_values"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -85,7 +88,7 @@
             app:title="@string/pref_notification_averages"
             app:summaryOn="@string/pref_notification_averages_s_true"
             app:summaryOff="@string/pref_notification_averages_s_false"
-            app:dependency="notification_threshold"/>
+            app:dependency="notificationThreshold"/>
 
         <SwitchPreferenceCompat
             app:key="notificationBreakdown"

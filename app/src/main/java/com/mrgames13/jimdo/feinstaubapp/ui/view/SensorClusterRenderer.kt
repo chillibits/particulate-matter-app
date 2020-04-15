@@ -26,7 +26,7 @@ class SensorClusterRenderer(
                 when {
                     sensor != null && !sensor.isOwner -> BitmapDescriptorFactory.HUE_RED
                     sensor != null && sensor.isOwner -> BitmapDescriptorFactory.HUE_GREEN
-                    !item.externalSensor.active -> BitmapDescriptorFactory.HUE_AZURE
+                    !item.externalSensor.active -> BitmapDescriptorFactory.HUE_ORANGE
                     else -> BitmapDescriptorFactory.HUE_BLUE
                 }
             )

@@ -28,8 +28,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterItem
@@ -40,6 +42,7 @@ import com.mrgames13.jimdo.feinstaubapp.network.isLocationEnabled
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterRenderer
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
@@ -119,7 +122,7 @@ class AllSensorsFragment(
             }*/
 
             // Initialize refresh button
-            mapRefresh.setOnClickListener { refresh() }
+            mapRefresh.setOnClickListener { refresh(false) }
 
             // Initialize ranking button
             mapRanking.setOnClickListener {
@@ -148,9 +151,6 @@ class AllSensorsFragment(
             // Enable own location
             enableOwnLocationControls()
 
-            // Initialize cluster manager
-            initializeClusterManager()
-
             // Register observer for live data
             viewModel.externalSensors.observe(viewLifecycleOwner, this)
 
@@ -158,8 +158,7 @@ class AllSensorsFragment(
             val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
 
-            // Draw sensors onto the map
-
+            refresh(true)
         } else {
             context?.outputErrorMessage()
         }
@@ -177,14 +176,20 @@ class AllSensorsFragment(
         }
     }
 
-    private fun refresh() {
-        val progressDialog = ProgressDialog(requireContext())
-            .setDialogCancelable(false)
-            .setMessage(R.string.loading_data)
-            .show()
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.manuallyRefreshExternalSensors()
-            withContext(Dispatchers.Main) { progressDialog.dismiss() }
+    private fun refresh(silent: Boolean) {
+        if(silent) {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.manuallyRefreshExternalSensors()
+            }
+        } else {
+            val progressDialog = ProgressDialog(requireContext())
+                .setDialogCancelable(false)
+                .setMessage(R.string.loading_data)
+                .show()
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.manuallyRefreshExternalSensors()
+                withContext(Dispatchers.Main) { progressDialog.dismiss() }
+            }
         }
     }
 
@@ -226,7 +231,6 @@ class AllSensorsFragment(
             // Marker clustering is enabled
             clusterManager = ClusterManager(context, map)
             clusterManager.renderer = SensorClusterRenderer(requireContext(), map!!, clusterManager, viewModel.sensors)
-            map?.setOnMarkerClickListener(clusterManager)
             clusterManager.setOnClusterItemClickListener { item ->
                 showMarkerInfoWindow(item)
                 true
@@ -235,8 +239,8 @@ class AllSensorsFragment(
                 showClusterInfoWindow(cluster)
                 true
             }
-        } else {
-
+            map?.setOnMarkerClickListener(clusterManager)
+            map?.setOnCameraIdleListener(clusterManager)
         }
     }
 
@@ -250,7 +254,43 @@ class AllSensorsFragment(
 
     private fun drawSensors(sensors: List<ExternalSensor>?) {
         sensors?.let {
-
+            if(requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
+                // Initialize cluster manager if necessary
+                if(!this::clusterManager.isInitialized) initializeClusterManager()
+                clusterManager.clearItems()
+                map?.clear()
+                sensors.forEach {
+                    if(it.latitude != 0.0 || it.longitude != 0.0)  {
+                        val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
+                        val position = LatLng(it.latitude, it.longitude)
+                        val markerItem = MarkerItem(it.chipId.toString(), snippet, position)
+                        clusterManager.addItem(SensorClusterItem(markerItem, it))
+                    }
+                }
+                clusterManager.cluster()
+            } else {
+                map?.clear()
+                sensors.forEach {
+                    if(it.latitude != 0.0 || it.longitude != 0.0) {
+                        val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
+                        val position = LatLng(it.latitude, it.longitude)
+                        val markerOptions = MarkerOptions()
+                            .position(position)
+                            .title(it.chipId.toString())
+                            .snippet(snippet)
+                        val sensor = viewModel.sensors.value?.find { s -> s.chipId == it.chipId }
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(
+                            when {
+                                sensor != null && !sensor.isOwner -> BitmapDescriptorFactory.HUE_RED
+                                sensor != null && sensor.isOwner -> BitmapDescriptorFactory.HUE_GREEN
+                                !it.active -> BitmapDescriptorFactory.HUE_ORANGE
+                                else -> BitmapDescriptorFactory.HUE_BLUE
+                            }
+                        ))
+                        map?.addMarker(markerOptions)
+                    }
+                }
+            }
         }
     }
 

@@ -15,14 +15,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.openGooglePlayAppSite
 import com.mrgames13.jimdo.feinstaubapp.shared.openGooglePlayDeveloperSite
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showClearSensorDataDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRestartAppDialog
 import kotlinx.serialization.UnstableDefault
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -50,13 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         syncCycleBackground?.setOnPreferenceChangeListener { _, newValue ->
             rescheduleSyncService(newValue, activity)
-        }
-
-        // EnableMarkerClustering
-        val enableMarkerClustering = findPreference<SwitchPreferenceCompat>(Constants.PREF_ENABLE_MARKER_CLUSTERING)
-        enableMarkerClustering?.setOnPreferenceChangeListener { _, _ ->
-            context?.showRestartAppDialog()
-            true
         }
 
         // ClearSensorData
