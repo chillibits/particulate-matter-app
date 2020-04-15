@@ -55,6 +55,9 @@ object Constants {
     const val PREF_MORE_APPS = "moreApps"
     const val RECENT_MAP_TYPE = "recentMapType"
     const val RECENT_TRAFFIC = "recentTraffic"
+    const val RECENT_CAMERA_LAT = "recentCameraLat"
+    const val RECENT_CAMERA_LNG = "recentCameraLng"
+    const val RECENT_CAMERA_ZOOM = "recentCameraZoom"
 
     // JobScheduler ids
     const val JOB_SYNC_ID = 1001

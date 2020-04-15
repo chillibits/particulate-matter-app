@@ -164,6 +164,7 @@ class AllSensorsFragment(
 
             // Add onClickListener for map
             map.setOnMapClickListener { handleMapClick() }
+            map.setOnCameraMoveListener { onCameraMove() }
 
             // Register observer for live data
             viewModel.externalSensors.observe(viewLifecycleOwner, this)
@@ -171,6 +172,15 @@ class AllSensorsFragment(
             // Apply map style
             val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
+
+            // Set the viewport to the recent state
+            val prefs = requireContext().getPrefs()
+            val latLng = LatLng(
+                prefs.getFloat(Constants.RECENT_CAMERA_LAT, 0f).toDouble(),
+                prefs.getFloat(Constants.RECENT_CAMERA_LNG, 0f).toDouble()
+            )
+            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, prefs.getFloat(Constants.RECENT_CAMERA_ZOOM, 0f))
+            map.moveCamera(cameraUpdate)
         } else {
             context?.outputErrorMessage()
         }
@@ -222,7 +232,7 @@ class AllSensorsFragment(
                 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
                 fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                     OnSuccessListener<Location> { location ->
-                        if (location != null) moveCamera(LatLng(location.latitude, location.longitude))
+                        if (location != null) moveCameraToPlace(LatLng(location.latitude, location.longitude))
                     }
                 }
             } else {
@@ -320,7 +330,21 @@ class AllSensorsFragment(
         }
     }
 
-    private fun moveCamera(latLng: LatLng) {
+    private fun onCameraMove() {
+        map?.let {
+            val p = it.projection
+
+            // Save viewport to be able to restore it on the next app launch
+            val latLng = p.visibleRegion.latLngBounds
+            requireContext().getPrefs().edit()
+                .putFloat(Constants.RECENT_CAMERA_LAT, latLng.center.latitude.toFloat())
+                .putFloat(Constants.RECENT_CAMERA_LNG, latLng.center.longitude.toFloat())
+                .putFloat(Constants.RECENT_CAMERA_ZOOM, it.cameraPosition.zoom)
+                .apply()
+        }
+    }
+
+    private fun moveCameraToPlace(latLng: LatLng) {
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM)
         map?.animateCamera(cameraUpdate)
     }
