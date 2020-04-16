@@ -7,8 +7,10 @@ package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -51,6 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.ibrahimsn.library.LiveSharedPreferences
 
 class AllSensorsFragment(
     private val application: Application,
@@ -115,12 +118,12 @@ class AllSensorsFragment(
             mapTraffic.setSelection(context.getPrefs().getInt(Constants.RECENT_TRAFFIC, 0))
 
             // Initialize sensor number display
-            /*mapSensorCount.setOnClickListener {
+            mapSensorCount.setOnClickListener {
                 Intent(Intent.ACTION_VIEW).run {
-                    data = Uri.parse("https://h2801469.stratoserver.net/stats.php")
+                    data = Uri.parse(getString(R.string.url_stats_page))
                     startActivity(this)
                 }
-            }*/
+            }
 
             // Initialize refresh button
             mapRefresh.setOnClickListener { refresh(false) }
@@ -138,13 +141,16 @@ class AllSensorsFragment(
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(map != null) {
-            if((clusterManager == null && requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) ||
-                    clusterManager != null && !requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
-                drawSensors(viewModel.externalSensors.value)
-            }
+    override fun onStop() {
+        super.onStop()
+        map?.let {
+            // Save viewport to be able to restore it on the next app launch
+            val latLng = it.projection.visibleRegion.latLngBounds
+            requireContext().getPrefs().edit()
+                .putFloat(Constants.RECENT_CAMERA_LAT, latLng.center.latitude.toFloat())
+                .putFloat(Constants.RECENT_CAMERA_LNG, latLng.center.longitude.toFloat())
+                .putFloat(Constants.RECENT_CAMERA_ZOOM, it.cameraPosition.zoom)
+                .apply()
         }
     }
 
@@ -168,6 +174,19 @@ class AllSensorsFragment(
 
             // Register observer for live data
             viewModel.externalSensors.observe(viewLifecycleOwner, this)
+
+            // Register observer for preferences keys
+            val liveSharedPreferences = LiveSharedPreferences(requireContext().getPrefs())
+            liveSharedPreferences.getBoolean(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)
+                .observe(viewLifecycleOwner, Observer {
+                    Log.d(Constants.TAG, "Updated marker clustering: $it")
+                    drawSensors(viewModel.externalSensors.value)
+                })
+            liveSharedPreferences.getBoolean(Constants.PREF_SHOW_INACTIVE_SENSORS, false)
+                .observe(viewLifecycleOwner, Observer {
+                    Log.d(Constants.TAG, "Updated inactive sensors: $it")
+                    viewModel.updateExternalSensorFilter()
+                })
 
             // Apply map style
             val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
@@ -334,13 +353,7 @@ class AllSensorsFragment(
         map?.let {
             val p = it.projection
 
-            // Save viewport to be able to restore it on the next app launch
-            val latLng = p.visibleRegion.latLngBounds
-            requireContext().getPrefs().edit()
-                .putFloat(Constants.RECENT_CAMERA_LAT, latLng.center.latitude.toFloat())
-                .putFloat(Constants.RECENT_CAMERA_LNG, latLng.center.longitude.toFloat())
-                .putFloat(Constants.RECENT_CAMERA_ZOOM, it.cameraPosition.zoom)
-                .apply()
+
         }
     }
 

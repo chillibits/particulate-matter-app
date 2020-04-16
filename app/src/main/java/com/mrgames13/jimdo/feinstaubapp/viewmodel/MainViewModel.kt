@@ -28,15 +28,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         CoroutineScope(Dispatchers.IO).launch { manuallyRefreshExternalSensors() }
     }
 
-    suspend fun manuallyRefreshSensors() {
-        sensorRepository.manuallyRefreshSensors()
-    }
-
-    suspend fun manuallyRefreshExternalSensors() {
-        externalSensorRepository.manuallyRefreshExternalSensors()
-    }
-
-    fun unregisterNetworkCallback() {
-        context.unregisterNetworkCallback()
-    }
+    suspend fun manuallyRefreshSensors() = sensorRepository.manuallyRefreshSensors()
+    suspend fun manuallyRefreshExternalSensors() = externalSensorRepository.manuallyRefreshExternalSensors()
+    fun updateExternalSensorFilter() = externalSensorRepository.updateFilter()
+    fun unregisterNetworkCallback() = context.unregisterNetworkCallback()
 }

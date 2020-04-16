@@ -179,7 +179,7 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
         when(selectedOption) {
             WITH_COLOR_CONVERTER -> {
                 Intent(Intent.ACTION_VIEW).run {
-                    data = Uri.parse(getString(R.string.color_converter_instant_url))
+                    data = Uri.parse(getString(R.string.url_instant_color_converter))
                     putExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
                     startActivityForResult(this, Constants.REQ_COLOR_CONVERTER)
                 }

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Wed, 15 Apr 2020 15:21:00 +0200
+ Exported at: Wed, 15 Apr 2020 23:42:02 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -299,4 +299,6 @@
         <item name="error_correction_algorith_2">Algorithmus 2</item>
     </string-array>
     <string name="reset_settings">Einstellungen zurücksetzen</string>
+    <string name="show_inactive_sensors_t">Inaktive Sensoren auf der Karte anzeigen</string>
+    <string name="show_inactive_sensors_s">Inaktive Sensoren werden orange markiert</string>
 </resources>

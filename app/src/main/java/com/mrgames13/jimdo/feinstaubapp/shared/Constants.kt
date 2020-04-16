@@ -39,6 +39,7 @@ object Constants {
     const val PREF_ENABLE_DAILY_AVERAGE = "enableDailyAverage"
     const val PREF_ENABLE_DAILY_MEDIAN = "enableDailyMedian"
     const val PREF_MANAGE_AUTO_CORRECTION = "manageAutoCorrection"
+    const val PREF_SHOW_INACTIVE_SENSORS = "showInactiveSensors"
     const val PREF_SYNC_CYCLE = "syncCycle"
     const val PREF_SYNC_CYCLE_BACKGROUND = "syncCycleBackground"
     const val PREF_REDUCE_DATA_CONSUMPTION = "reduceDataConsumption"

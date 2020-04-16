@@ -7,6 +7,8 @@ The Particulate Matter App is an app for visualizing and collecting particulate 
 
 Download now on [Google Play](https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp)!
 
+**!!!Attention!!! - The development is done in the beta respectively the dev branch. Please only open prs against this branches**
+
 ## Features
 -   Map of the world with all registered sensors in our network
 -   Favorize sensors and save them in the category 'My favorites'

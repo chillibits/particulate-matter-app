@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Wed, 15 Apr 2020 14:21:00 +0100
+ Exported at: Wed, 15 Apr 2020 22:42:01 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -298,4 +298,6 @@
         <item name="error_correction_algorithm_2"></item>
     </string-array>
     <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
 </resources>
