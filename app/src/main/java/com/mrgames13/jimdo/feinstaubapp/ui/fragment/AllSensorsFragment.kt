@@ -24,23 +24,28 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.ktx.MapsExperimentalFeature
+import com.google.maps.android.ktx.addMarker
+import com.google.maps.android.ktx.awaitMap
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
 import com.mrgames13.jimdo.feinstaubapp.network.isLocationEnabled
-import com.mrgames13.jimdo.feinstaubapp.shared.*
+import com.mrgames13.jimdo.feinstaubapp.shared.Constants
+import com.mrgames13.jimdo.feinstaubapp.shared.getPreferenceValue
+import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
+import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
@@ -58,7 +63,7 @@ import me.ibrahimsn.library.LiveSharedPreferences
 class AllSensorsFragment(
     private val application: Application,
     private val listener: OnAdapterEventListener
-) : Fragment(), OnMapReadyCallback, Observer<List<ExternalSensor>> {
+) : Fragment(), Observer<List<ExternalSensor>> {
 
     // Variables as objects
     private lateinit var mapFragment: SupportMapFragment
@@ -66,7 +71,6 @@ class AllSensorsFragment(
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var clusterManager: ClusterManager<SensorClusterItem>? = null
-
 
     // Interfaces
     interface OnAdapterEventListener {
@@ -78,6 +82,7 @@ class AllSensorsFragment(
         override fun onToggleFullscreen() {}
     })
 
+    @MapsExperimentalFeature
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Initialize ViewModel
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
@@ -135,7 +140,10 @@ class AllSensorsFragment(
 
             // Initialize map
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-            mapFragment.getMapAsync(this@AllSensorsFragment)
+            lifecycle.coroutineScope.launchWhenCreated {
+                map = mapFragment.awaitMap()
+                onMapReady()
+            }
 
             return this
         }
@@ -154,55 +162,50 @@ class AllSensorsFragment(
         }
     }
 
-    override fun onMapReady(map: GoogleMap?) {
-        if(map != null) {
-            this.map = map
-            // Initialize map ui
-            map.uiSettings.isRotateGesturesEnabled = false
-            map.uiSettings.isZoomControlsEnabled = true
+    private fun onMapReady() {
+        // Initialize map ui
+        map?.uiSettings?.isRotateGesturesEnabled = false
+        map?.uiSettings?.isZoomControlsEnabled = true
 
-            // Relocate controls
-            relocationOwnLocationControls()
-            relocateZoomControls()
+        // Relocate controls
+        relocationOwnLocationControls()
+        relocateZoomControls()
 
-            // Enable own location
-            enableOwnLocationControls()
+        // Enable own location
+        enableOwnLocationControls()
 
-            // Add onClickListener for map
-            map.setOnMapClickListener { handleMapClick() }
-            map.setOnCameraMoveListener { onCameraMove() }
+        // Add onClickListener for map
+        map?.setOnMapClickListener { handleMapClick() }
+        map?.setOnCameraMoveListener { onCameraMove() }
 
-            // Register observer for live data
-            viewModel.externalSensors.observe(viewLifecycleOwner, this)
+        // Register observer for live data
+        viewModel.externalSensors.observe(viewLifecycleOwner, this)
 
-            // Register observer for preferences keys
-            val liveSharedPreferences = LiveSharedPreferences(requireContext().getPrefs())
-            liveSharedPreferences.getBoolean(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)
-                .observe(viewLifecycleOwner, Observer {
-                    Log.d(Constants.TAG, "Updated marker clustering: $it")
-                    drawSensors(viewModel.externalSensors.value)
-                })
-            liveSharedPreferences.getBoolean(Constants.PREF_SHOW_INACTIVE_SENSORS, false)
-                .observe(viewLifecycleOwner, Observer {
-                    Log.d(Constants.TAG, "Updated inactive sensors: $it")
-                    viewModel.updateExternalSensorFilter()
-                })
+        // Register observer for preferences keys
+        val liveSharedPreferences = LiveSharedPreferences(requireContext().getPrefs())
+        liveSharedPreferences.getBoolean(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)
+            .observe(viewLifecycleOwner, Observer {
+                Log.d(Constants.TAG, "Updated marker clustering: $it")
+                drawSensors(viewModel.externalSensors.value)
+            })
+        liveSharedPreferences.getBoolean(Constants.PREF_SHOW_INACTIVE_SENSORS, false)
+            .observe(viewLifecycleOwner, Observer {
+                Log.d(Constants.TAG, "Updated inactive sensors: $it")
+                viewModel.updateExternalSensorFilter()
+            })
 
-            // Apply map style
-            val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
+        // Apply map style
+        val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
+        map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
 
-            // Set the viewport to the recent state
-            val prefs = requireContext().getPrefs()
-            val latLng = LatLng(
-                prefs.getFloat(Constants.RECENT_CAMERA_LAT, 0f).toDouble(),
-                prefs.getFloat(Constants.RECENT_CAMERA_LNG, 0f).toDouble()
-            )
-            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, prefs.getFloat(Constants.RECENT_CAMERA_ZOOM, 0f))
-            map.moveCamera(cameraUpdate)
-        } else {
-            context?.outputErrorMessage()
-        }
+        // Set the viewport to the recent state
+        val prefs = requireContext().getPrefs()
+        val latLng = LatLng(
+            prefs.getFloat(Constants.RECENT_CAMERA_LAT, 0f).toDouble(),
+            prefs.getFloat(Constants.RECENT_CAMERA_LNG, 0f).toDouble()
+        )
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, prefs.getFloat(Constants.RECENT_CAMERA_ZOOM, 0f))
+        map?.moveCamera(cameraUpdate)
     }
 
     override fun onRequestPermissionsResult(
@@ -321,21 +324,22 @@ class AllSensorsFragment(
                 sensors.forEach {
                     if(it.latitude != 0.0 || it.longitude != 0.0) {
                         val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
-                        val position = LatLng(it.latitude, it.longitude)
-                        val markerOptions = MarkerOptions()
-                            .position(position)
-                            .title(it.chipId.toString())
-                            .snippet(snippet)
+                        val latLng = LatLng(it.latitude, it.longitude)
                         val sensor = viewModel.sensors.value?.find { s -> s.chipId == it.chipId }
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(
+                        val markerIcon = BitmapDescriptorFactory.defaultMarker(
                             when {
                                 sensor != null && !sensor.isOwner -> BitmapDescriptorFactory.HUE_RED
                                 sensor != null && sensor.isOwner -> BitmapDescriptorFactory.HUE_GREEN
                                 !it.active -> BitmapDescriptorFactory.HUE_ORANGE
                                 else -> BitmapDescriptorFactory.HUE_BLUE
                             }
-                        ))
-                        map?.addMarker(markerOptions)
+                        )
+                        map?.addMarker {
+                            position(latLng)
+                            title(it.chipId.toString())
+                            snippet(snippet)
+                            icon(markerIcon)
+                        }
                     }
                 }
             }
