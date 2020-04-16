@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Wed, 15 Apr 2020 22:42:00 +0100
+ Exported at: Thu, 16 Apr 2020 21:59:11 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -300,4 +300,5 @@
     <string name="reset_settings">Reset settings</string>
     <string name="show_inactive_sensors_t">Show inactive sensors on the map</string>
     <string name="show_inactive_sensors_s">Inactive sensors are highlighted in orange</string>
+    <string name="local_network_start">We can search for sensors on your local network for you! Tap below to start the search process.</string>
 </resources>

@@ -50,6 +50,5 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="@string/no_favourites"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

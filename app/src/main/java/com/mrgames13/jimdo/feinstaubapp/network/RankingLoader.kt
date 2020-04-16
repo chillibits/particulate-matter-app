@@ -13,8 +13,8 @@ import io.ktor.client.request.get
 import io.ktor.client.statement.HttpStatement
 import io.ktor.client.statement.readText
 import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.list
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
