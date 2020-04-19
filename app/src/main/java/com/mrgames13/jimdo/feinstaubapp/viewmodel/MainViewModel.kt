@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository
+import com.mrgames13.jimdo.feinstaubapp.repository.ScrapingResultRepository
 import com.mrgames13.jimdo.feinstaubapp.repository.SensorRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +21,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val context = application
     private val sensorRepository = SensorRepository(application)
     private val externalSensorRepository = ExternalSensorRepository(application)
+    private val scrapingResultRepository = ScrapingResultRepository(application)
     val sensors = sensorRepository.sensors
     val externalSensors = externalSensorRepository.externalSensors
+    val scrapingResults = scrapingResultRepository.scrapingResults
 
     init {
         context.registerNetworkCallback()

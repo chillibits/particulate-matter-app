@@ -29,6 +29,9 @@ object Constants {
     const val DEFAULT_MISSING_MEASUREMENT_NUMBER0 = 5
     const val DEFAULT_MAP_ZOOM = 11f
 
+    // Constants, relevant for backend requests
+    const val GLOBAL_CHIP_ID = 0
+
     // Notification channels
     const val CHANNEL_SYSTEM = "System"
     const val CHANNEL_LIMIT = "Limit"

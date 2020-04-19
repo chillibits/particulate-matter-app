@@ -21,6 +21,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +52,8 @@ import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterRenderer
+import com.mrgames13.jimdo.feinstaubapp.ui.view.exitReveal
+import com.mrgames13.jimdo.feinstaubapp.ui.view.showMarkerInfoWindow
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.*
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
@@ -88,7 +91,14 @@ class AllSensorsFragment(
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
         inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
-            // Initialize Spinners
+            // Initialize map
+            mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+            lifecycle.coroutineScope.launchWhenCreated {
+                map = mapFragment.awaitMap()
+                onMapReady()
+            }
+
+            // Initialize map type spinner
             val mapTypeAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, resources.getStringArray(R.array.map_type))
             mapTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapType.adapter = mapTypeAdapter
@@ -108,6 +118,7 @@ class AllSensorsFragment(
             }
             mapType.setSelection(context.getPrefs().getInt(Constants.RECENT_MAP_TYPE, 0))
 
+            // Initialize traffic spinner
             val mapTrafficAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, listOf(getString(R.string.traffic_hide), getString(R.string.traffic_show)))
             mapTrafficAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mapTraffic.adapter = mapTrafficAdapter
@@ -136,13 +147,6 @@ class AllSensorsFragment(
             // Initialize ranking button
             mapRanking.setOnClickListener {
                 showRankingDialog(context, requireFragmentManager(), lifecycle)
-            }
-
-            // Initialize map
-            mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-            lifecycle.coroutineScope.launchWhenCreated {
-                map = mapFragment.awaitMap()
-                onMapReady()
             }
 
             return this
@@ -176,7 +180,7 @@ class AllSensorsFragment(
 
         // Add onClickListener for map
         map?.setOnMapClickListener { handleMapClick() }
-        map?.setOnCameraMoveListener { onCameraMove() }
+        //map?.setOnCameraMoveListener { onCameraMove() }
 
         // Register observer for live data
         viewModel.externalSensors.observe(viewLifecycleOwner, this)
@@ -185,12 +189,10 @@ class AllSensorsFragment(
         val liveSharedPreferences = LiveSharedPreferences(requireContext().getPrefs())
         liveSharedPreferences.getBoolean(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)
             .observe(viewLifecycleOwner, Observer {
-                Log.d(Constants.TAG, "Updated marker clustering: $it")
                 drawSensors(viewModel.externalSensors.value)
             })
         liveSharedPreferences.getBoolean(Constants.PREF_SHOW_INACTIVE_SENSORS, false)
             .observe(viewLifecycleOwner, Observer {
-                Log.d(Constants.TAG, "Updated inactive sensors: $it")
                 viewModel.updateExternalSensorFilter()
             })
 
@@ -294,11 +296,15 @@ class AllSensorsFragment(
     }
 
     private fun showMarkerInfoWindow(item: MarkerItem) {
-
+        view?.let { view ->
+            map?.let { context?.showMarkerInfoWindow(it, view, item) }
+        }
     }
 
     private fun showClusterInfoWindow(cluster: Cluster<SensorClusterItem>) {
-
+        view?.let { view ->
+            map?.let { /*context?.showClusterInfoWindow(it, view, cluster)*/ }
+        }
     }
 
     private fun drawSensors(sensors: List<ExternalSensor>?) {
@@ -313,6 +319,7 @@ class AllSensorsFragment(
                         val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
                         val position = LatLng(it.latitude, it.longitude)
                         val markerItem = MarkerItem(it.chipId.toString(), snippet, position)
+                        markerItem.externalSensor = it
                         clusterManager?.addItem(SensorClusterItem(markerItem, it))
                     }
                 }
@@ -348,7 +355,10 @@ class AllSensorsFragment(
 
     private fun handleMapClick() {
         when {
-
+            markerWindow1.isVisible -> exitReveal(markerWindow1)
+            markerWindow2.isVisible -> exitReveal(markerWindow2)
+            clusterWindow1.isVisible -> exitReveal(clusterWindow1)
+            clusterWindow2.isVisible -> exitReveal(clusterWindow2)
             else -> listener.onToggleFullscreen()
         }
     }

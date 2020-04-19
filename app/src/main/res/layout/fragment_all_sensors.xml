@@ -3,10 +3,12 @@
   ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/map"
@@ -86,4 +88,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="3dp"
         android:elevation="10dp"/>
+
+    <include
+        android:id="@+id/markerWindow1"
+        layout="@layout/info_window_marker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/markerWindow2"
+        layout="@layout/info_window_marker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/clusterWindow1"
+        layout="@layout/info_window_cluster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/clusterWindow2"
+        layout="@layout/info_window_cluster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

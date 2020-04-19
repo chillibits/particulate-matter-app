@@ -9,10 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RankingItem (
-    @SerialName("co")
-    val country: String,
-    @SerialName("ci")
-    val city: String = "",
-    @SerialName("ct")
-    val count: Int
+    @SerialName("co") val country: String,
+    @SerialName("ci") val city: String = "",
+    @SerialName("ct") val count: Int
 )

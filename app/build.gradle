@@ -98,7 +98,7 @@ dependencies {
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.6-kotlin@aar' // Test at runtime before upgrading
     implementation "com.mikepenz:aboutlibraries-core:$about_libs_version"
     implementation "com.mikepenz:aboutlibraries:$about_libs_version@aar"
-    implementation 'com.github.ibrahimsn98:live-preferences:1.8'
+    implementation 'com.github.ibrahimsn98:live-preferences:1.9'
 
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])
