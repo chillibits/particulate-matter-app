@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Sensor(
     @PrimaryKey
-    @SerialName("chip_id") @ColumnInfo(name = "chip_id") val chipId: Int,
+    @SerialName("chip_id") @ColumnInfo(name = "chip_id") val chipId: Long,
     @SerialName("name") @ColumnInfo(name = "name") val name: String,
     @SerialName("color") @ColumnInfo(name = "color") val color: Int,
     @SerialName("owner") @ColumnInfo(name = "owner") val isOwner: Boolean,

@@ -4,23 +4,25 @@
 
 package com.mrgames13.jimdo.feinstaubapp.ui.view
 
-import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.google.android.gms.maps.GoogleMap
-import com.mrgames13.jimdo.feinstaubapp.shared.Constants
-import com.mrgames13.jimdo.feinstaubapp.shared.convertDpToPx
+import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.network.loadSingleSensor
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.android.synthetic.main.info_window_marker.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 
-fun Context.showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
+fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
     // Collapse other windows
     if(view.clusterWindow1.isVisible) exitReveal(view.clusterWindow1)
-    if(view.clusterWindow1.isVisible) exitReveal(view.clusterWindow2)
+    if(view.clusterWindow2.isVisible) exitReveal(view.clusterWindow2)
     val window = if(view.markerWindow1.isInvisible) {
         if(view.markerWindow2.isVisible) exitReveal(view.markerWindow2)
         // Expand new window
@@ -34,7 +36,6 @@ fun Context.showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem)
     val externalSensor = marker.externalSensor
     window.chipId.text = externalSensor?.chipId.toString()
     window.coordinates.text = marker.snippet
-    window.countryCity.text = externalSensor?.chipId.toString()
     window.properties.setOnClickListener {
 
     }
@@ -58,19 +59,25 @@ fun Context.showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem)
 
     // Show it
     enterReveal(window)
+
+    // Load sensor info
+    externalSensor?.let {
+        CoroutineScope(Dispatchers.IO).launch {
+            loadSingleSensor(view.context, it.chipId)?.let {
+                withContext(Dispatchers.Main) {
+                    window.countryCity.text = String.format(view.context.getString(R.string.country_city), it.country, it.city)
+                }
+            }
+        }
+    }
 }
 
 private fun updateWindowPosition(map: GoogleMap, view: View, marker: MarkerItem, window: View) = window.run {
-    val width = context.convertDpToPx(210.0).toInt()
-    measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
     val screenPos = map.projection.toScreenLocation(marker.position)
-    val xNew = max(0, screenPos.x - width / 2)
+    val xNew = max(0, screenPos.x - measuredWidth / 2)
     val yNew = max(0, screenPos.y - measuredHeight - 140)
-    Log.d(Constants.TAG, xNew.toString())
-    Log.d(Constants.TAG, yNew.toString())
-    left = if (xNew + width > view.width) view.width - width else xNew
+    left = if (xNew + width > view.width) view.width - measuredWidth else xNew
     top = if (yNew + measuredHeight > view.height) view.height - measuredHeight else yNew
     bottom = top + measuredHeight
-    right = left + width
+    right = left + measuredWidth
 }

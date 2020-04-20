@@ -21,6 +21,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -50,10 +51,7 @@ import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
-import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterItem
-import com.mrgames13.jimdo.feinstaubapp.ui.view.SensorClusterRenderer
-import com.mrgames13.jimdo.feinstaubapp.ui.view.exitReveal
-import com.mrgames13.jimdo.feinstaubapp.ui.view.showMarkerInfoWindow
+import com.mrgames13.jimdo.feinstaubapp.ui.view.*
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.*
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
@@ -180,7 +178,6 @@ class AllSensorsFragment(
 
         // Add onClickListener for map
         map?.setOnMapClickListener { handleMapClick() }
-        //map?.setOnCameraMoveListener { onCameraMove() }
 
         // Register observer for live data
         viewModel.externalSensors.observe(viewLifecycleOwner, this)
@@ -199,6 +196,9 @@ class AllSensorsFragment(
         // Apply map style
         val themeResId = if(requireContext().isNightModeEnabled()) R.raw.map_style_dark else R.raw.map_style_silver
         map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, themeResId))
+
+        // Initialize cluster manager
+        initializeClusterManager()
 
         // Set the viewport to the recent state
         val prefs = requireContext().getPrefs()
@@ -288,6 +288,9 @@ class AllSensorsFragment(
             clusterManager = null
             map?.setOnMarkerClickListener {marker ->
                 val m = MarkerItem(marker.title, marker.snippet, marker.position)
+                viewModel.externalSensors.value?.forEach {
+                    if(it.chipId == marker.title.toLong()) m.externalSensor = it
+                }
                 showMarkerInfoWindow(m)
                 true
             }
@@ -297,26 +300,32 @@ class AllSensorsFragment(
 
     private fun showMarkerInfoWindow(item: MarkerItem) {
         view?.let { view ->
-            map?.let { context?.showMarkerInfoWindow(it, view, item) }
+            map?.let { showMarkerInfoWindow(it, view, item) }
         }
     }
 
     private fun showClusterInfoWindow(cluster: Cluster<SensorClusterItem>) {
         view?.let { view ->
-            map?.let { /*context?.showClusterInfoWindow(it, view, cluster)*/ }
+            map?.let { showClusterInfoWindow(it, view, cluster) }
         }
     }
 
     private fun drawSensors(sensors: List<ExternalSensor>?) {
         sensors?.let {
+            // Close all open windows
+            markerWindow1.isInvisible = true
+            markerWindow2.isInvisible = true
+            clusterWindow1.isInvisible = true
+            clusterWindow2.isInvisible = true
+
             if(requireContext().getPreferenceValue(Constants.PREF_ENABLE_MARKER_CLUSTERING, true)) {
-                // Initialize cluster manager if necessary
+                // Re-initialize cluster manager if necessary
                 if(clusterManager == null) initializeClusterManager()
                 clusterManager?.clearItems()
                 map?.clear()
                 sensors.forEach {
                     if(it.latitude != 0.0 || it.longitude != 0.0)  {
-                        val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
+                        val snippet = String.format(getString(R.string.country_city), it.latitude, it.longitude)
                         val position = LatLng(it.latitude, it.longitude)
                         val markerItem = MarkerItem(it.chipId.toString(), snippet, position)
                         markerItem.externalSensor = it
@@ -325,12 +334,14 @@ class AllSensorsFragment(
                 }
                 clusterManager?.cluster()
             } else {
-                // Switch to markers if necessary
+                // Re-initialize cluster manager if necessary
                 if(clusterManager != null) initializeClusterManager()
+                // Clear map
                 map?.clear()
+                // Fill map with new sensors
                 sensors.forEach {
                     if(it.latitude != 0.0 || it.longitude != 0.0) {
-                        val snippet = String.format(getString(R.string.marker_snippet), it.latitude, it.longitude)
+                        val snippet = String.format(getString(R.string.country_city), it.latitude, it.longitude)
                         val latLng = LatLng(it.latitude, it.longitude)
                         val sensor = viewModel.sensors.value?.find { s -> s.chipId == it.chipId }
                         val markerIcon = BitmapDescriptorFactory.defaultMarker(
@@ -360,14 +371,6 @@ class AllSensorsFragment(
             clusterWindow1.isVisible -> exitReveal(clusterWindow1)
             clusterWindow2.isVisible -> exitReveal(clusterWindow2)
             else -> listener.onToggleFullscreen()
-        }
-    }
-
-    private fun onCameraMove() {
-        map?.let {
-            val p = it.projection
-
-
         }
     }
 

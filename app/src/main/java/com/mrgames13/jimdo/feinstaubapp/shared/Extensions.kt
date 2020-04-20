@@ -46,5 +46,3 @@ fun Context.openGooglePlayAppSite() {
 fun Context.openGooglePlayDeveloperSite() {
     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_store_developer_site))))
 }
-
-fun Context.convertDpToPx(dp: Double) = dp * resources.displayMetrics.density

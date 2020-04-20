@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "external-sensor")
 data class ExternalSensor(
     @PrimaryKey
-    @SerialName("i") @ColumnInfo(name = "chip_id") val chipId: Int,
+    @SerialName("i") @ColumnInfo(name = "chip_id") val chipId: Long,
     @SerialName("la") @ColumnInfo(name = "lat") val latitude: Double,
     @SerialName("lo") @ColumnInfo(name = "lng") val longitude: Double,
     @SerialName("a") @ColumnInfo(name = "active") val active: Boolean

@@ -56,8 +56,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/properties"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:srcCompat="@drawable/info_outline_black"
         android:tint="@color/colorButton"
         app:layout_constraintTop_toTopOf="parent"
@@ -65,19 +65,21 @@
         app:layout_constraintBottom_toTopOf="@+id/stats"
         android:clickable="true"
         android:focusable="true"
+        android:padding="2dp"
         android:background="?selectableItemBackgroundBorderless"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/stats"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:padding="2dp"
         android:tint="@color/colorButton"
         app:layout_constraintBottom_toBottomOf="@+id/countryCity"
         app:layout_constraintEnd_toEndOf="parent"

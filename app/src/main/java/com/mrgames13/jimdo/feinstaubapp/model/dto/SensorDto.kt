@@ -8,14 +8,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SensorDto(
-    private val chipId: Long,
-    private val firmwareVersion: String,
-    private val notes: String,
-    private val gpsLatitude: Double,
-    private val gpsLongitude: Double,
-    private val gpsAltitude: Int,
-    private val country: String,
-    private val city: String,
-    private val indoor: Boolean,
-    private val published: Boolean
+    val chipId: Long,
+    val firmwareVersion: String,
+    val notes: String,
+    val gpsLatitude: Double,
+    val gpsLongitude: Double,
+    val gpsAltitude: Int,
+    val country: String,
+    val city: String,
+    val indoor: Boolean,
+    val published: Boolean
 )

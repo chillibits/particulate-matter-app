@@ -7,15 +7,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
-    android:layout_width="250dp"
+    android:layout_width="210dp"
     android:layout_height="wrap_content"
     android:background="@drawable/info_window_background"
     android:padding="3dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/clusterIcon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         app:srcCompat="@drawable/widgets_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@+id/clusterIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
