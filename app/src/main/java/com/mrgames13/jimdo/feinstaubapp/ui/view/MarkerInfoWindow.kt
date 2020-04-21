@@ -36,6 +36,7 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
     val externalSensor = marker.externalSensor
     window.chipId.text = externalSensor?.chipId.toString()
     window.coordinates.text = marker.snippet
+    window.countryCity.text = view.context.getString(R.string.loading)
     window.properties.setOnClickListener {
 
     }
