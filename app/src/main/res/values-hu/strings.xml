@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Tue, 21 Apr 2020 19:07:40 +0200
+ Exported at: Wed, 22 Apr 2020 16:58:07 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -260,7 +260,7 @@
     <string name="default_map_type">Alapból beállított térkép típus</string>
     <string name="enable_traffic_by_default">Mutassa a közúti forgalmat alapértelmezésben</string>
     <string name="sync_running">Szinkronizáció folyamatban</string>
-    <!-- Please only paste url with the correct anchor -->
+    <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Elérhetőség</string>
     <string name="sensor_ranking">Szenzor csúcsérték</string>
@@ -302,4 +302,14 @@
     <string name="show_inactive_sensors_t"></string>
     <string name="show_inactive_sensors_s"></string>
     <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
 </resources>

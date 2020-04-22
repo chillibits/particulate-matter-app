@@ -19,7 +19,8 @@ import java.nio.charset.StandardCharsets
 
 suspend fun loadStats(context: Context, chipId: Long): StatsItem? {
     try {
-        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/stats").execute()
+        val path = "/stats" + (if(chipId > 0) "/$chipId" else "")
+        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + path).execute()
         if(response.status == HttpStatusCode.OK) {
             return Json.parse(StatsItem.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
         } else {

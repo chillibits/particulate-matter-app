@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Tue, 21 Apr 2020 18:07:38 +0100
+ Exported at: Wed, 22 Apr 2020 16:58:06 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -39,7 +39,7 @@
     <string name="update_necessary_m">Pour que l\'application Matière Particulaire puisse fonctionner correctement, vous devez effectuer une mise à jour.</string>
     <string name="download_update">Télécharger</string>
     <string name="update_available">Mise à jour disponible</string>
-    <string name="download">Téléchargement</string>
+    <string name="download">Télécharger</string>
     <!-- HomeScreen Widget -->
     <string name="widget_label_large">Affichage de matière particulaire</string>
     <string name="widget_app_data_cleared">Les données de l\'application ont été supprimées. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
@@ -51,7 +51,7 @@
     <string name="edit_sensor">Modifier le capteur</string>
     <string name="complete_sensor">Compléter le capteur</string>
     <string name="unlink_sensor">Supprimer le capteur</string>
-    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info/fr">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
@@ -114,8 +114,8 @@
     <string name="temperature">Température</string>
     <string name="humidity_short">Humidité</string>
     <string name="pressure_short">Pression</string>
-    <string name="humidity">Humidité relative</string>
-    <string name="pressure">Pression atmosphérique</string>
+    <string name="humidity">Humidité</string>
+    <string name="pressure">Pression</string>
     <string name="no_diagram_selected">Aucun graphique selectionné</string>
     <string name="from">de</string>
     <string name="to">à</string>
@@ -220,7 +220,7 @@
     <string name="server_status_online">Le serveur est en ligne</string>
     <string name="server_status_offline">Le serveur est hors ligne</string>
     <string name="server_status_maintenance">Le serveur est en maintenance</string>
-    <string name="server_status_support_ended">L\'application n\'est plus supportée</string>
+    <string name="server_status_support_ended">Fin du support de l\'application</string>
     <string name="server_status_online_short">En ligne</string>
     <string name="server_status_offline_short">Hors ligne</string>
     <string name="server_status_maintenance_short">En maintenance</string>
@@ -247,6 +247,7 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
+    <!-- PlacesSearchDialog -->
     <string name="nothing_found">rien n\'a été trouvé</string>
     <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s secondes</string>
@@ -295,10 +296,20 @@
     <string name="passwords_do_not_match"></string>
     <string-array name="error_correction_algorithms">
         <item name="error_correction_algorithm_1"></item>
-        <item name="error_correction_algorithm_2"></item>
+        <item name="error_correction_algorith_2"></item>
     </string-array>
     <string name="reset_settings"></string>
     <string name="show_inactive_sensors_t"></string>
     <string name="show_inactive_sensors_s"></string>
     <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
 </resources>

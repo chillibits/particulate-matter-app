@@ -10,6 +10,8 @@ import androidx.core.view.isVisible
 import com.google.android.gms.maps.GoogleMap
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.network.loadSingleSensor
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorPropertiesDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorStatsDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.android.synthetic.main.info_window_marker.view.*
@@ -37,11 +39,9 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
     window.chipId.text = externalSensor?.chipId.toString()
     window.coordinates.text = marker.snippet
     window.countryCity.text = view.context.getString(R.string.loading)
-    window.properties.setOnClickListener {
-
-    }
+    window.properties.setOnClickListener(null)
     window.stats.setOnClickListener {
-
+        externalSensor?.chipId?.let { view.context.showSensorStatsDialog(it) }
     }
     window.showMeasurements.setOnClickListener {
         exitReveal(window)
@@ -64,9 +64,12 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
     // Load sensor info
     externalSensor?.let {
         CoroutineScope(Dispatchers.IO).launch {
-            loadSingleSensor(view.context, it.chipId)?.let {
+            loadSingleSensor(view.context, it.chipId)?.let {sensor ->
                 withContext(Dispatchers.Main) {
-                    window.countryCity.text = String.format(view.context.getString(R.string.country_city), it.country, it.city)
+                    window.countryCity.text = String.format(view.context.getString(R.string.country_city), sensor.country, sensor.city)
+                    window.properties.setOnClickListener {
+                        view.context.showSensorPropertiesDialog(sensor, 0)
+                    }
                 }
             }
         }

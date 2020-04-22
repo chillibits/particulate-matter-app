@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Tue, 21 Apr 2020 18:07:38 +0100
+ Exported at: Wed, 22 Apr 2020 16:01:04 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -301,4 +301,14 @@
     <string name="show_inactive_sensors_t">Show inactive sensors on the map</string>
     <string name="show_inactive_sensors_s">Inactive sensors are highlighted in orange</string>
     <string name="local_network_start">We can search for sensors on your local network for you! Tap below to start the search process.</string>
+    <string name="indoor_">Indoor:</string>
+    <string name="sensor_stats">Sensor stats</string>
+    <string name="server_requests_today_">Server requests today:</string>
+    <string name="server_requests_yesterday_">Server requests yesterday:</string>
+    <string name="data_records_today_">Data records today:</string>
+    <string name="data_records_yesterday_">Data records yesterday:</string>
+    <string name="data_records_this_month_">Data records this month:</string>
+    <string name="data_records_prev_month_">Data records previous month:</string>
+    <string name="data_records_total_">Data records total:</string>
+    <string name="server_requests_total_">Server requests total:</string>
 </resources>

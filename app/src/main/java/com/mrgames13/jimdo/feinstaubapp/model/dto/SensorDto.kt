@@ -7,9 +7,10 @@ package com.mrgames13.jimdo.feinstaubapp.model.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SensorDto(
+data class SensorDto (
     val chipId: Long,
     val firmwareVersion: String,
+    val creationTimestamp: Long,
     val notes: String,
     val gpsLatitude: Double,
     val gpsLongitude: Double,

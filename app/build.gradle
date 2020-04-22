@@ -137,7 +137,7 @@ task downloadTranslations {
     // French
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-fr/strings.xml")
-        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey1}").withInputStream { i ->
+        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey2}").withInputStream { i ->
             f.withOutputStream { it << i }
         }
     }
