@@ -7,10 +7,8 @@ package com.mrgames13.jimdo.feinstaubapp.ui.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -50,6 +48,7 @@ import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
 import com.mrgames13.jimdo.feinstaubapp.shared.isNightModeEnabled
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.ProgressDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRankingDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorStatsDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 import com.mrgames13.jimdo.feinstaubapp.ui.view.*
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
@@ -132,12 +131,7 @@ class AllSensorsFragment(
             mapTraffic.setSelection(context.getPrefs().getInt(Constants.RECENT_TRAFFIC, 0))
 
             // Initialize sensor number display
-            mapSensorCount.setOnClickListener {
-                Intent(Intent.ACTION_VIEW).run {
-                    data = Uri.parse(getString(R.string.url_stats_page))
-                    startActivity(this)
-                }
-            }
+            mapSensorCount.setOnClickListener { context.showSensorStatsDialog(0) }
 
             // Initialize refresh button
             mapRefresh.setOnClickListener { refresh(false) }

@@ -5,6 +5,8 @@
 package com.mrgames13.jimdo.feinstaubapp.ui.dialog
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.mrgames13.jimdo.feinstaubapp.R
@@ -19,11 +21,23 @@ import java.text.NumberFormat
 fun Context.showSensorStatsDialog(chipId: Long) {
     val view = LayoutInflater.from(this).inflate(R.layout.dialog_sensor_stats,null)
 
-    AlertDialog.Builder(this)
+    val dialogBuilder = AlertDialog.Builder(this)
         .setTitle(R.string.sensor_stats)
         .setView(view)
         .setPositiveButton(R.string.ok, null)
-        .show()
+
+    if(chipId == 0L) {
+        dialogBuilder.setTitle(R.string.stats)
+        if(chipId == 0L) dialogBuilder.setNeutralButton(R.string.more_info) { _, _ ->
+            Intent(Intent.ACTION_VIEW).run {
+                data = Uri.parse(getString(R.string.url_stats_page))
+                startActivity(this)
+            }
+        }
+    } else {
+        dialogBuilder.setTitle(R.string.sensor_stats)
+    }
+    dialogBuilder.show()
 
     CoroutineScope(Dispatchers.IO).launch {
         loadStats(this@showSensorStatsDialog, chipId)?.let {

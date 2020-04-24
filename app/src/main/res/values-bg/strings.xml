@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: bg, Bulgarian
  Exported by: ChilliBits
- Exported at: Wed, 22 Apr 2020 16:01:04 +0100
+ Exported at: Fri, 24 Apr 2020 16:15:22 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -311,4 +311,6 @@
     <string name="data_records_prev_month_"></string>
     <string name="data_records_total_"></string>
     <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
 </resources>

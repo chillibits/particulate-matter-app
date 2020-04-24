@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Wed, 22 Apr 2020 16:58:06 +0200
+ Exported at: Fri, 24 Apr 2020 17:15:22 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -312,4 +312,6 @@
     <string name="data_records_prev_month_"></string>
     <string name="data_records_total_"></string>
     <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
 </resources>

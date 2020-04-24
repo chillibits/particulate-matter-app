@@ -10,7 +10,8 @@
     android:layout_width="210dp"
     android:layout_height="wrap_content"
     android:background="@drawable/info_window_background"
-    android:padding="3dp">
+    android:padding="3dp"
+    android:layout_marginBottom="3dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/clusterIcon"
@@ -69,6 +70,8 @@
         app:layout_constraintTop_toBottomOf="@+id/clusterIcon"
         android:text="@string/compare_sensors"
         android:background="@drawable/button_outline"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:textColor="@drawable/button_outline_text"/>
 
     <Button
@@ -76,6 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         app:layout_constraintTop_toBottomOf="@+id/compareSensors"
         android:text="@string/zoom_in"
         android:background="@drawable/button_outline"

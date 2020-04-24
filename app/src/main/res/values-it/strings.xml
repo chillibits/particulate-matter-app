@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Wed, 22 Apr 2020 16:01:05 +0100
+ Exported at: Fri, 24 Apr 2020 16:15:22 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
     <string name="no_sensors">Se hai un sensore da <a href="https://www.luftdaten.info/it">www.luftdaten.info</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
-    <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
-    <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
+    <string name="rate_m">Se ti piace la nostra app, per favore impiega un minuto e valuta l\'App Particulate Matter in Google PlayStore con 5 stelle.</string>
+    <string name="recommend_string">L\'app Particulate Matter: mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Consiglia</string>
     <string name="recommend_app">consiglia l\'app</string>
     <string name="recommend_m">Consiglia l\'app Particulate Matter ai tuoi amici!</string>
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Non mostare più</string>
     <string name="public_sensor">Mostra il sensore agli altri utenti e rendilo visibile sulla mappa.</string>
     <string name="choose_location">Seleziona l\'esatta posizione del sensore</string>
-    <string name="sensor_height">Altezza da terra/strada (m.):</string>
+    <string name="sensor_height">Altezza da terra/strada (cm.):</string>
     <string name="latitude">Latitudine</string>
     <string name="latitude_">Latitudine:</string>
     <string name="longitude">Longitudine</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Mostra mediana giornaliera</string>
     <string name="enable_daily_average_median_s">Mostra sotto i dati</string>
     <string name="enable_nothing">Mostra media/mediana</string>
-    <string name="manage_auto_correction_t">Correzione automatica dell\'errore</string>
-    <string name="manage_auto_correction_s">Correzione automatica di misurazione erronea</string>
+    <string name="manage_auto_correction_t">Algoritmo di correzione automatica dell\'errore</string>
+    <string name="manage_auto_correction_s">Gestisci la correzione automatica delle misurazioni erronee</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Sincronizzazione</string>
     <string name="sync_cycle">Ciclo di sincronizzazione</string>
@@ -262,7 +262,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/</string>
     <string name="get_in_touch">Contattaci</string>
-    <string name="sensor_ranking">Punteggio massimo del sensore</string>
+    <string name="sensor_ranking">Classifica del sensore</string>
     <string name="connected_to_web_version">Connesso con pm.chillibits.com</string>
     <string name="widget_label_small">Riquadro informazioni rapide</string>
     <string name="pref_enable_threshold_notifications">Abilitare notifica di soglia</string>
@@ -275,40 +275,42 @@
     <string name="warning_dialog_text">Per poter collegare questo sensore all\'app, è necessario abilitare l\'invio dei dati al nostro server. Per fare ciò, apri il pannello di configurazione del sensore, spostati in Configurazione &gt; APIs e abilita la voce \'Feinstaub-App\'</string>
     <string name="only_with_wifi">Disponibile solo con connessione WiFi</string>
     <string name="add_to_own_sensors">Aggiungere ai propri sensori</string>
-    <string name="local_network"></string>
-    <string name="cities"></string>
-    <string name="countries"></string>
-    <string name="indoor_sensor"></string>
-    <string name="available_soon"></string>
-    <string name="remember_selection"></string>
-    <string name="pick_with_color_converter"></string>
-    <string name="open_color_picker"></string>
-    <string name="publish_exact_position"></string>
-    <string name="app_description"></string>
-    <string name="app_description_large"></string>
-    <string name="sign_in"></string>
-    <string name="sign_up"></string>
-    <string name="email"></string>
-    <string name="password"></string>
-    <string name="no_account_yet_sign_up"></string>
-    <string name="confirm_password"></string>
-    <string name="passwords_do_not_match"></string>
+    <string name="local_network">Rete locale</string>
+    <string name="cities">Città</string>
+    <string name="countries">Nazioni</string>
+    <string name="indoor_sensor">Sensore interno</string>
+    <string name="available_soon">Questa caratteristica sarà disponibile a breve</string>
+    <string name="remember_selection">Ricorda la selezione</string>
+    <string name="pick_with_color_converter">Cattura con il convertitore di colori</string>
+    <string name="open_color_picker">Aprire il cattura colore</string>
+    <string name="publish_exact_position">Pubblicare la posizione esatta</string>
+    <string name="app_description">Resta informato sul livello di particolato e la qualità dell\'aria!</string>
+    <string name="app_description_large">L\'app Particulate Matter è un\'applicazione per monitorare uno o più sensori</string>
+    <string name="sign_in">Registrati</string>
+    <string name="sign_up">Iscriviti</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="no_account_yet_sign_up">Ancora senza account?</string>
+    <string name="confirm_password">Conferma la password</string>
+    <string name="passwords_do_not_match">Password non esatta</string>
     <string-array name="error_correction_algorithms">
-        <item name="error_correction_algorithm_1"></item>
-        <item name="error_correction_algorithm_2"></item>
+        <item name="error_correction_algorithm_1">Algoritmo 1...</item>
+        <item name="error_correction_algorithm_2">Algoritmo 2...</item>
     </string-array>
-    <string name="reset_settings"></string>
-    <string name="show_inactive_sensors_t"></string>
-    <string name="show_inactive_sensors_s"></string>
-    <string name="local_network_start"></string>
-    <string name="indoor_"></string>
-    <string name="sensor_stats"></string>
-    <string name="server_requests_today_"></string>
-    <string name="server_requests_yesterday_"></string>
-    <string name="data_records_today_"></string>
-    <string name="data_records_yesterday_"></string>
-    <string name="data_records_this_month_"></string>
-    <string name="data_records_prev_month_"></string>
-    <string name="data_records_total_"></string>
-    <string name="server_requests_total_"></string>
+    <string name="reset_settings">Reset delle impostazioni</string>
+    <string name="show_inactive_sensors_t">Mostra i sensori inattivi sulla mappa</string>
+    <string name="show_inactive_sensors_s">I sensori inattivi sono evidenziati in arancione</string>
+    <string name="local_network_start">Possiamo cercare i sensori per te nella tua rete locale! Premi sotto per iniziare...</string>
+    <string name="indoor_">Interno:</string>
+    <string name="sensor_stats">Statistiche sensore:</string>
+    <string name="server_requests_today_">Richieste al server di oggi:</string>
+    <string name="server_requests_yesterday_">Richieste al server di ieri:</string>
+    <string name="data_records_today_">Dati di oggi:</string>
+    <string name="data_records_yesterday_">Dati di ieri:</string>
+    <string name="data_records_this_month_">Dati di questo mese:</string>
+    <string name="data_records_prev_month_">Dati mese precedente:</string>
+    <string name="data_records_total_">Totale dei dati:</string>
+    <string name="server_requests_total_">Totale delle richieste al server:</string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
 </resources>

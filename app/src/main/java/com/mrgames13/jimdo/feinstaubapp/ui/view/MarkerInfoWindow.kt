@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import com.google.android.gms.maps.GoogleMap
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.network.loadSingleSensor
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showAddFavoriteDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorPropertiesDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorStatsDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
@@ -48,9 +49,7 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
         // Open sensor activity
 
     }
-    window.addFavourite.setOnClickListener {
-
-    }
+    window.addFavourite.setOnClickListener(null)
 
     // Set move listener for map
     map.setOnCameraMoveListener { updateWindowPosition(map, view, marker, window) }
@@ -69,6 +68,9 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
                     window.countryCity.text = String.format(view.context.getString(R.string.country_city), sensor.country, sensor.city)
                     window.properties.setOnClickListener {
                         view.context.showSensorPropertiesDialog(sensor, 0)
+                    }
+                    window.addFavourite.setOnClickListener {
+                        view.context.showAddFavoriteDialog(sensor)
                     }
                 }
             }
