@@ -19,7 +19,6 @@ fun Context.showClearSensorDataDialog() {
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.yes) { _, _ ->
             ProgressDialog(this).run {
-                setMessage(R.string.please_wait_)
                 show()
                 CoroutineScope(Dispatchers.IO).launch {
                     clearSensorData()

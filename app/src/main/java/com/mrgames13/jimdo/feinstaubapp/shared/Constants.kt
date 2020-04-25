@@ -93,4 +93,16 @@ object Constants {
 
     // SharedPreferences keys
     const val PREFS_CHOOSE_COLOR_REMEMBER = "ChooseColorRemember"
+
+    // User constants
+    const val ROLE_USER = 1
+    const val ROLE_OPERATOR = 2
+    const val ROLE_ADMIN = 3
+    const val STATUS_ACTIVE = 1
+    const val STATUS_EMAIL_CONFIRMATION_PENDING = 2
+    const val STATUS_SUSPENDED = 3
+    const val STATUS_LOCKED = 4
+
+    // API constants
+    const val API_AUTH_USERNAME = "pmapp"
 }

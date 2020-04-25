@@ -6,7 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
 import androidx.lifecycle.MediatorLiveData
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadExternalSensors
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
@@ -19,10 +19,10 @@ class ExternalSensorRepository(application: Application) {
     private val context = application
     private val externalSensorDao = context.getDatabase().externalSensorDao()
     private val externalSensorsRaw = externalSensorDao.getAll()
-    val externalSensors = MediatorLiveData<List<ExternalSensor>>()
+    val externalSensors = MediatorLiveData<List<ExternalSensorDbo>>()
 
     init {
-        externalSensors.addSource(externalSensorsRaw) {result: List<ExternalSensor>? ->
+        externalSensors.addSource(externalSensorsRaw) {result: List<ExternalSensorDbo>? ->
             result?.let { externalSensors.value = filterExternalSensors(it) }
         }
     }
@@ -36,11 +36,12 @@ class ExternalSensorRepository(application: Application) {
     suspend fun manuallyRefreshExternalSensors() {
         if(isInternetAvailable) {
             val sensors = loadExternalSensors(context, true)
-            externalSensorDao.insert(sensors)
+            val sensorsDbo = sensors.map { ExternalSensorDbo(it.chipId, it.latitude, it.longitude, it.active) }
+            externalSensorDao.insert(sensorsDbo)
         }
     }
 
-    private fun filterExternalSensors(sensorsUnfiltered: List<ExternalSensor>): List<ExternalSensor> {
+    private fun filterExternalSensors(sensorsUnfiltered: List<ExternalSensorDbo>): List<ExternalSensorDbo> {
         if(context.getPreferenceValue(Constants.PREF_SHOW_INACTIVE_SENSORS, false))
             return sensorsUnfiltered
         return sensorsUnfiltered.filter { it.active }

@@ -8,7 +8,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.util.Log
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.networkClient
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.JOB_COUNT
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG
@@ -28,8 +28,8 @@ import kotlin.math.round
 class SensorIPSearchTask(val context: Context, private val listener: OnSearchEventListener, private val searchedChipId: Int): AsyncTask<Void, Int, Void?>() {
 
     // Variables as objects
-    private val sensorList = ArrayList<ScrapingResult>()
-    private var sensor: ScrapingResult? = null
+    private val sensorList = ArrayList<ScrapingResultDbo>()
+    private var sensor: ScrapingResultDbo? = null
 
     // Variables
     private var nextHostPart = 1
@@ -37,8 +37,8 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
     // Interfaces
     interface OnSearchEventListener {
         fun onProgressUpdate(progress: Int)
-        fun onSensorFound(sensor: ScrapingResult?)
-        fun onSearchFinished(sensorList: ArrayList<ScrapingResult>)
+        fun onSensorFound(sensor: ScrapingResultDbo?)
+        fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>)
         fun onSearchFailed()
     }
 
@@ -101,7 +101,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
         publishProgress(nextHostPart)
     }
 
-    private suspend fun scrapeSensorConfigSite(ipAddress: String): ScrapingResult? {
+    private suspend fun scrapeSensorConfigSite(ipAddress: String): ScrapingResultDbo? {
         try {
             val response = networkClient
                 .submitForm<HttpStatement>("http://$ipAddress/config", Parameters.Empty, encodeInQuery = true)
@@ -126,7 +126,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                     .substringAfter("id='send2fsapp'")
                     .substringBefore("/>")
                     .contains("checked='checked'")
-                return ScrapingResult(
+                return ScrapingResultDbo(
                     0,
                     chipID,
                     name,

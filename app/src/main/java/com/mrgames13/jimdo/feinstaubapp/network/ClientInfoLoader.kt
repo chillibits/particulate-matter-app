@@ -5,9 +5,9 @@
 package com.mrgames13.jimdo.feinstaubapp.network
 
 import android.content.Context
-import com.mrgames13.jimdo.feinstaubapp.model.db.ClientInfo
+import com.mrgames13.jimdo.feinstaubapp.model.db.ClientInfoDbo
 
-suspend fun loadClientInfo(context: Context): ClientInfo? {
+suspend fun loadClientInfo(context: Context): ClientInfoDbo? {
     try {
 
     } catch (e: Exception) {

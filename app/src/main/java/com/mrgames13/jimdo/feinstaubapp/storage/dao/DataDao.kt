@@ -9,13 +9,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mrgames13.jimdo.feinstaubapp.model.db.DataRecord
+import com.mrgames13.jimdo.feinstaubapp.model.db.DataRecordDbo
 
 @Dao
 interface DataDao {
     @Query("SELECT * FROM `data-record`")
-    fun getAll(): LiveData<List<DataRecord>>
+    fun getAll(): LiveData<List<DataRecordDbo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(records: List<DataRecord>)
+    fun insert(records: List<DataRecordDbo>)
 }

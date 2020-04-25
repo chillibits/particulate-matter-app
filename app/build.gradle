@@ -77,6 +77,7 @@ dependencies {
     // Ktor dependencies
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+    implementation "io.ktor:ktor-client-auth-jvm:$ktor_version"
     implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
 
     // Testing dependencies
@@ -101,6 +102,9 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$about_libs_version@aar"
     implementation 'com.github.ibrahimsn98:live-preferences:1.9'
 
+    // Debug dependencies
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
@@ -108,7 +112,7 @@ dependencies {
 // Task for downloading all translation files
 task downloadTranslations {
     group 'pre-build tasks'
-    description 'Downloads all translation files when building the app.'
+    description 'Downloads all translation files.'
 
     ext.apiKey1 = '7qUo-LUKd4VIHSwRYB5005T7QQbaFCGw'
     ext.apiKey2 = 'mg24uL96-mSwhchnk4LnJAzeyBtOsYy3'

@@ -10,7 +10,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import androidx.core.location.LocationManagerCompat
+import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import io.ktor.client.HttpClient
+import io.ktor.client.features.auth.Auth
+import io.ktor.client.features.auth.providers.basic
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 
@@ -21,6 +25,21 @@ val networkClient = HttpClient {
         serializer = KotlinxSerializer()
     }
 }
+
+fun getNetworkClientWithAuth(context: Context): HttpClient {
+    return HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer()
+        }
+        install(Auth) {
+            basic {
+                username = Constants.API_AUTH_USERNAME
+                password = context.getString(R.string.api_client_key)
+            }
+        }
+    }
+}
+
 
 private val networkInfo = object : ConnectivityManager.NetworkCallback() {
     override fun onAvailable(network: Network) {

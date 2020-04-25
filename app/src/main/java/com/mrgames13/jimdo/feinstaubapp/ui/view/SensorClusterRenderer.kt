@@ -11,13 +11,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
-import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
 
 class SensorClusterRenderer(
     context: Context,
     map: GoogleMap,
     clusterManager: ClusterManager<SensorClusterItem>?,
-    private val sensors: LiveData<List<Sensor>>
+    private val sensors: LiveData<List<SensorDbo>>
 ) : DefaultClusterRenderer<SensorClusterItem>(context, map, clusterManager) {
     override fun onBeforeClusterItemRendered(item: SensorClusterItem, markerOptions: MarkerOptions) {
         val sensor = sensors.value?.find { s -> s.chipId == item.externalSensor.chipId }

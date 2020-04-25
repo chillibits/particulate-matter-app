@@ -9,13 +9,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
 
 @Dao
 interface ScrapingResultDao {
     @Query("SELECT * FROM `scraping-result`")
-    fun getAll(): LiveData<List<ScrapingResult>>
+    fun getAll(): LiveData<List<ScrapingResultDbo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(sensors: List<ScrapingResult>)
+    fun insert(sensors: List<ScrapingResultDbo>)
 }

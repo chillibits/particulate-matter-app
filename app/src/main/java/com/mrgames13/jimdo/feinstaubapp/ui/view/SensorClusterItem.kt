@@ -5,12 +5,12 @@
 package com.mrgames13.jimdo.feinstaubapp.ui.view
 
 import com.google.maps.android.clustering.ClusterItem
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
 
 class SensorClusterItem (
     val marker: MarkerItem,
-    val externalSensor: ExternalSensor
+    val externalSensor: ExternalSensorDbo
 ): ClusterItem {
     override fun getPosition() = marker.position
     override fun getTitle() = marker.title

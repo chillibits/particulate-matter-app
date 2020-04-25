@@ -9,12 +9,12 @@ import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
 import kotlinx.android.synthetic.main.item_sensor.view.*
 
 open class SensorItem(
     private val context: Context,
-    private val sensor: Sensor
+    private val sensor: SensorDbo
 ) : AbstractItem<SensorItem.ViewHolder>() {
 
     override val type = R.id.itemContainer

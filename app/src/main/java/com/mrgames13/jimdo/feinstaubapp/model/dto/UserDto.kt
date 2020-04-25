@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.model.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserDto(
+data class UserDto (
     private val id: Int,
     private val firstName: String,
     private val lastName: String,

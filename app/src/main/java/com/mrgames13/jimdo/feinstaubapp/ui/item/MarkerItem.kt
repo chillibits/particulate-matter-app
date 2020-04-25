@@ -5,8 +5,8 @@
 package com.mrgames13.jimdo.feinstaubapp.ui.item
 
 import com.google.android.gms.maps.model.LatLng
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
 
 class MarkerItem(val title: String, val snippet: String, val position: LatLng) {
-    var externalSensor: ExternalSensor? = null
+    var externalSensor: ExternalSensorDbo? = null
 }

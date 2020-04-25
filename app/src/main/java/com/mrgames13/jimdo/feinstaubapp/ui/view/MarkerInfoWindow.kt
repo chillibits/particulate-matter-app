@@ -7,9 +7,12 @@ package com.mrgames13.jimdo.feinstaubapp.ui.view
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.GoogleMap
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.model.db.UserDbo
 import com.mrgames13.jimdo.feinstaubapp.network.loadSingleSensor
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.SignInDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showAddFavoriteDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorPropertiesDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorStatsDialog
@@ -22,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 
-fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
+fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem, fragmentManager: FragmentManager, user: UserDbo?) {
     // Collapse other windows
     if(view.clusterWindow1.isVisible) exitReveal(view.clusterWindow1)
     if(view.clusterWindow2.isVisible) exitReveal(view.clusterWindow2)
@@ -70,7 +73,21 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem) {
                         view.context.showSensorPropertiesDialog(sensor, 0)
                     }
                     window.addFavourite.setOnClickListener {
-                        view.context.showAddFavoriteDialog(sensor)
+                        user?.let {
+                            view.context.showAddFavoriteDialog(sensor, it, fragmentManager)
+                        } ?: run {
+                            val signInDialog = SignInDialog(view.context)
+                                .withSkipOption()
+                                .setOnSignInListener(object: SignInDialog.OnSignInListener {
+                                    override fun onSignedIn() {
+                                        exitReveal(window)
+                                    }
+
+                                    override fun onSkipOrCancelled() {}
+                                })
+                                .show()
+                        }
+                        exitReveal(window)
                     }
                 }
             }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.ui.item.SensorItem
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -26,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FavoritesFragment : Fragment(), Observer<List<Sensor>> {
+class FavoritesFragment : Fragment(), Observer<List<SensorDbo>> {
 
     // Variables as objects
     private lateinit var rootView: View
@@ -76,7 +76,7 @@ class FavoritesFragment : Fragment(), Observer<List<Sensor>> {
         }
     }
 
-    override fun onChanged(sensors: List<Sensor>?) {
+    override fun onChanged(sensors: List<SensorDbo>?) {
         // Hide no data container
         noData.visibility = if(sensors?.size == 0) View.VISIBLE else View.GONE
         // Add new data to the recycler view

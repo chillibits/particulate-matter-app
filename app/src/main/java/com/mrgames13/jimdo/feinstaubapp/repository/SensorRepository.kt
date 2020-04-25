@@ -5,7 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
-import com.mrgames13.jimdo.feinstaubapp.model.db.Sensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensors
 import com.mrgames13.jimdo.feinstaubapp.shared.getDatabase
@@ -17,11 +17,11 @@ class SensorRepository(application: Application) {
     private val sensorDao = context.getDatabase().sensorDao()
     val sensors = sensorDao.getAll()
 
-    suspend fun insert(sensor: Sensor) {
+    suspend fun insert(sensor: SensorDbo) {
         sensorDao.insert(listOf(sensor))
     }
 
-    suspend fun insert(sensors: List<Sensor>) {
+    suspend fun insert(sensors: List<SensorDbo>) {
         sensorDao.insert(sensors)
     }
 

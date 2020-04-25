@@ -40,7 +40,7 @@ import com.google.maps.android.ktx.MapsExperimentalFeature
 import com.google.maps.android.ktx.addMarker
 import com.google.maps.android.ktx.awaitMap
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensor
+import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isLocationEnabled
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.getPreferenceValue
@@ -63,7 +63,7 @@ import me.ibrahimsn.library.LiveSharedPreferences
 class AllSensorsFragment(
     private val application: Application,
     private val listener: OnAdapterEventListener
-) : Fragment(), Observer<List<ExternalSensor>> {
+) : Fragment(), Observer<List<ExternalSensorDbo>> {
 
     // Variables as objects
     private lateinit var mapFragment: SupportMapFragment
@@ -294,7 +294,7 @@ class AllSensorsFragment(
 
     private fun showMarkerInfoWindow(item: MarkerItem) {
         view?.let { view ->
-            map?.let { showMarkerInfoWindow(it, view, item) }
+            map?.let { showMarkerInfoWindow(it, view, item, childFragmentManager, viewModel.users.value?.get(0)) }
         }
     }
 
@@ -304,7 +304,7 @@ class AllSensorsFragment(
         }
     }
 
-    private fun drawSensors(sensors: List<ExternalSensor>?) {
+    private fun drawSensors(sensors: List<ExternalSensorDbo>?) {
         sensors?.let {
             // Close all open windows
             markerWindow1.isInvisible = true
@@ -408,7 +408,7 @@ class AllSensorsFragment(
         }
     }
 
-    override fun onChanged(sensors: List<ExternalSensor>?) {
+    override fun onChanged(sensors: List<ExternalSensorDbo>?) {
         Log.i(Constants.TAG, "Refreshing external sensors ...")
         mapSensorCount.text = (sensors?.size ?: 0).toString()
         drawSensors(sensors)

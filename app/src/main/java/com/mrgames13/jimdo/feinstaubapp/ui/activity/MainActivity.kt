@@ -24,7 +24,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResult
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
@@ -39,6 +39,7 @@ import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
+
 
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback {
 
@@ -311,9 +312,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
                 }
 
-                override fun onSensorFound(sensor: ScrapingResult?) {}
+                override fun onSensorFound(sensor: ScrapingResultDbo?) {}
 
-                override fun onSearchFinished(sensorList: ArrayList<ScrapingResult>) {
+                override fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>) {
 
                 }
 
