@@ -9,11 +9,11 @@
  Release: Working copy
  Locale: it, Italian
  Exported by: ChilliBits
- Exported at: Sat, 25 Apr 2020 20:44:33 +0100
+ Exported at: Sun, 26 Apr 2020 23:01:00 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
-    <string name="app_name">L\'app Particulate Matter</string>
+    <string name="app_name">App Particulate Matter</string>
     <string name="ok">OK</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
@@ -311,7 +311,7 @@
     <string name="data_records_prev_month_">Dati mese precedente:</string>
     <string name="data_records_total_">Totale dei dati:</string>
     <string name="server_requests_total_">Totale delle richieste al server:</string>
-    <string name="more_info"></string>
-    <string name="stats"></string>
-    <string name="skip"></string>
+    <string name="more_info">Maggiori informazioni</string>
+    <string name="stats">Statistiche</string>
+    <string name="skip">Salta</string>
 </resources>
