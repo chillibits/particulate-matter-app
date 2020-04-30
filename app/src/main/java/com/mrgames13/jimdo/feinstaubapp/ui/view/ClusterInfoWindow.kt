@@ -11,11 +11,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.maps.android.clustering.Cluster
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.network.loadAverageOfMultipleChipIds
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.android.synthetic.main.info_window_cluster.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 
 fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClusterItem>) {
@@ -33,6 +35,8 @@ fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClu
     }
     // Fill views with information
     window.sensorCount.text = String.format(view.context.getString(R.string.sensors), cluster.size)
+    window.averageP1.text = view.context.getString(R.string.loading)
+    window.averageP2.text = view.context.getString(R.string.loading)
 
     window.compareSensors.setOnClickListener {
         exitReveal(window)
@@ -56,7 +60,13 @@ fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClu
 
     // Load cluster data
     CoroutineScope(Dispatchers.IO).launch {
-
+        val chipIds = cluster.items.map { item -> item.title.toLong() }
+        loadAverageOfMultipleChipIds(view.context, chipIds).let {
+            withContext(Dispatchers.Main) {
+                window.averageP1.text = String.format(view.context.getString(R.string.average_p1), it.sensorDataValues.singleOrNull { it.type == "SDS_P1" }?.value)
+                window.averageP2.text = String.format(view.context.getString(R.string.average_p2), it.sensorDataValues.singleOrNull { it.type == "SDS_P2" }?.value)
+            }
+        }
     }
 }
 

@@ -79,10 +79,7 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem, fragmen
                             val signInDialog = SignInDialog(view.context)
                                 .withSkipOption()
                                 .setOnSignInListener(object: SignInDialog.OnSignInListener {
-                                    override fun onSignedIn() {
-                                        exitReveal(window)
-                                    }
-
+                                    override fun onSignedIn() { exitReveal(window) }
                                     override fun onSkipOrCancelled() {}
                                 })
                                 .show()

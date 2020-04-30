@@ -35,7 +35,7 @@ class ExternalSensorRepository(application: Application) {
 
     suspend fun manuallyRefreshExternalSensors() {
         if(isInternetAvailable) {
-            val sensors = loadExternalSensors(context, true)
+            val sensors = loadExternalSensors(context)
             val sensorsDbo = sensors.map { ExternalSensorDbo(it.chipId, it.latitude, it.longitude, it.active) }
             externalSensorDao.insert(sensorsDbo)
         }

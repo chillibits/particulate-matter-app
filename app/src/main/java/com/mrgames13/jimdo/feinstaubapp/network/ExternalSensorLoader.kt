@@ -18,7 +18,7 @@ import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
-suspend fun loadExternalSensors(context: Context, fullRefresh: Boolean): List<ExternalSensor> {
+suspend fun loadExternalSensors(context: Context): List<ExternalSensor> {
     try {
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/sensor?compressed").execute()
         if(response.status == HttpStatusCode.OK) {
