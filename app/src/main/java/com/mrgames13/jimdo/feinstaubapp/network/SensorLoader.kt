@@ -38,7 +38,7 @@ suspend fun loadSingleSensor(context: Context, chipId: Long): SensorDto? {
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/sensor/" + chipId.toString()).execute()
         if(response.status == HttpStatusCode.OK) {
             return Json.parse(SensorDto.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
-        } else {
+        }else {
             Log.e(Constants.TAG, response.status.toString())
         }
     } catch (e: Exception) {

@@ -171,11 +171,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         } else {
             when(requestCode) {
-                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(
-                    this,
-                    fabAddSearch,
-                    revealSheet
-                )
+                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(this, fabAddSearch, revealSheet)
                 else -> outputErrorMessage()
             }
         }

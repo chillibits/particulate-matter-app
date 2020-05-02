@@ -57,6 +57,7 @@ class FavoritesFragment : Fragment(), Observer<List<SensorDbo>> {
             // Observer live data
             viewModel.sensors.observe(viewLifecycleOwner, this@FavoritesFragment)
 
+            this@FavoritesFragment.rootView = this
             this
         }
     }

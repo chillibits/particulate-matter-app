@@ -12,12 +12,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.maps.android.clustering.Cluster
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.network.loadAverageOfMultipleChipIds
+import com.mrgames13.jimdo.feinstaubapp.shared.round
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.android.synthetic.main.info_window_cluster.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.NumberFormat
 import kotlin.math.max
 
 fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClusterItem>) {
@@ -63,8 +65,14 @@ fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClu
         val chipIds = cluster.items.map { item -> item.title.toLong() }
         loadAverageOfMultipleChipIds(view.context, chipIds).let {
             withContext(Dispatchers.Main) {
-                window.averageP1.text = String.format(view.context.getString(R.string.average_p1), it.sensorDataValues.singleOrNull { it.type == "SDS_P1" }?.value)
-                window.averageP2.text = String.format(view.context.getString(R.string.average_p2), it.sensorDataValues.singleOrNull { it.type == "SDS_P2" }?.value)
+                window.averageP1.text = String.format(
+                    view.context.getString(R.string.average_p1),
+                    NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P1" }?.value?.round(2))
+                )
+                window.averageP2.text = String.format(
+                    view.context.getString(R.string.average_p2),
+                    NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P2" }?.value?.round(2))
+                )
             }
         }
     }

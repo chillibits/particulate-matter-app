@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.room.Room
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.storage.AppDatabase
+import kotlin.math.round
 
 // --------------------------------------- Context Extensions --------------------------------------
 
@@ -43,6 +44,13 @@ fun Context.openGooglePlayAppSite() {
     }
 }
 
-fun Context.openGooglePlayDeveloperSite() {
-    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_store_developer_site))))
+fun Context.openGooglePlayDeveloperSite()
+        = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_store_developer_site))))
+
+// ---------------------------------------- Double Extensions --------------------------------------
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return round(this * multiplier) / multiplier
 }
