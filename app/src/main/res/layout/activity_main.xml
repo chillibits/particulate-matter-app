@@ -52,16 +52,27 @@
         app:bubbletab_vertical_padding="13dp"
         app:bubbletab_horizontal_padding="20dp"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddSearch"
+    <com.github.jorgecastilloprz.FABProgressCircle
+        android:id="@+id/fabAddSearchProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/fab_anim_search_to_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tabBar"
+        app:arcColor="@color/colorPrimary"
         android:layout_marginEnd="10dp"
-        android:elevation="10dp"
-        android:layout_marginBottom="10dp" />
+        app:finalIcon="@drawable/done_white"
+        android:layout_marginBottom="10dp"
+        app:reusable="true">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fab_anim_search_to_add"
+            app:elevation="2dp"
+            android:layout_margin="3dp" />
+    </com.github.jorgecastilloprz.FABProgressCircle>
 
     <View
         android:id="@+id/revealSheet"

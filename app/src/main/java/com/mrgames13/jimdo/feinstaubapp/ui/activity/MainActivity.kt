@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -37,6 +38,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.view.closeActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.view.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_local_network.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -302,16 +304,16 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         // Setup searching task
         searchTask = SensorIPSearchTask(
             this,
-            object :
-                SensorIPSearchTask.OnSearchEventListener {
+            object : SensorIPSearchTask.OnSearchEventListener {
                 override fun onProgressUpdate(progress: Int) {
-
+                    viewpagerAdapter.localNetworkFragment.updateSearchProgress(progress)
                 }
 
                 override fun onSensorFound(sensor: ScrapingResultDbo?) {}
 
                 override fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>) {
-
+                    Log.d(Constants.TAG, "Sensor count: " + sensorList.size)
+                    finishLocalNetworkSearch(sensorList.size > 0)
                 }
 
                 override fun onSearchFailed() {
@@ -321,6 +323,16 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             0
         )
         searchTask.execute()
+        // Show searching screen
+        viewpagerAdapter.localNetworkFragment.showSearchingScreen()
+        fabAddSearch.isEnabled = false
+        fabAddSearchProgress.show()
+    }
+
+    private fun finishLocalNetworkSearch(success: Boolean) {
+        fabAddSearch.isEnabled = true
+        fabAddSearchProgress.beginFinalAnimation()
+        noData.visibility = if(success) View.GONE else View.VISIBLE
     }
 
     override fun onToggleFullscreen() {

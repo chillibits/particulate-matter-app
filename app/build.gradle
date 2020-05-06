@@ -102,6 +102,7 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$about_libs_version@aar"
     implementation 'com.github.ibrahimsn98:live-preferences:1.9'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
+    implementation 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 
     // Debug dependencies
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'

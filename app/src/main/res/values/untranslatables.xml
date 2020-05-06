@@ -10,5 +10,6 @@
     <string name="altitude_unit" translatable="false">%s cm</string>
     <string name="average_p1" translatable="false">Ø PM10: %s µg/m³</string>
     <string name="average_p2" translatable="false">Ø PM2.5: %s µg/m³</string>
+    <string name="loading_percent" translatable="false">(%s \%%)</string>
 
 </resources>

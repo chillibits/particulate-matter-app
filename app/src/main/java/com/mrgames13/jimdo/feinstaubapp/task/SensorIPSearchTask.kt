@@ -106,7 +106,6 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
             val response = networkClient
                 .submitForm<HttpStatement>("http://$ipAddress/config", Parameters.Empty, encodeInQuery = true)
                 .execute()
-            networkClient.close()
             if (response.status == HttpStatusCode.OK) {
                 val html = response.readText()
                 val chipID = html
