@@ -5,6 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.getDatabase
 
 class ScrapingResultRepository(application: Application) {
@@ -14,5 +15,7 @@ class ScrapingResultRepository(application: Application) {
     private val scrapingResultDao = context.getDatabase().scrapingResultDao()
     val scrapingResults = scrapingResultDao.getAll()
 
-
+    fun addScrapingResult(sr: ScrapingResultDbo) {
+        scrapingResultDao.insert(listOf(sr))
+    }
 }

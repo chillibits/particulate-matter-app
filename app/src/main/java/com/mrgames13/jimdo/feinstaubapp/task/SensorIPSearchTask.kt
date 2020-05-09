@@ -62,6 +62,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
             runBlocking {
                 jobs.forEach { it.join() }
             }
+            Log.i(TAG, "Search finished.")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "Error occurred while searching ip address.")
@@ -108,11 +109,20 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                 .execute()
             if (response.status == HttpStatusCode.OK) {
                 val html = response.readText()
+
+                // Get chip id
                 val chipID = html
                     .substringAfter("ID: ")
                     .substringBefore("<br/>")
+
+                // Check if the chip id is valid
+                val chipIdLong: Long
+                try { chipIdLong = chipID.toLong() } catch (e: Exception) { return null }
+
+                // Get other data
                 val macAddress = html
-                    .substringAfter("MAC: ").substringBefore("<br/>")
+                    .substringAfter("MAC: ")
+                    .substringBefore("<br/>")
                 val firmwareVersion = html
                     .substring(html.indexOf("<br/>", html.indexOf("<br/>") +1) +4)
                     .substringAfter(": ")
@@ -127,7 +137,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                     .contains("checked='checked'")
                 return ScrapingResultDbo(
                     0,
-                    chipID,
+                    chipIdLong,
                     name,
                     ipAddress,
                     macAddress,

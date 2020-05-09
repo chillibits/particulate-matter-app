@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -34,16 +33,17 @@ import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
+import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.view.closeActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.view.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_local_network.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
-class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback {
+class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
+    LocalNetworkFragment.LocalSearchListener {
 
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
         // Initialize ViewPager
-        viewpagerAdapter = ViewPagerAdapterMain(application, this, supportFragmentManager, lifecycle)
+        viewpagerAdapter = ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
         viewPager.run {
             offscreenPageLimit = 3
             isUserInputEnabled = false
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         })
 
         // Initialize AddSearchFab
-        fabAddSearch.setOnClickListener {
+        fabAddSearch.fab.setOnClickListener {
             when(selectedPage) {
                 1 -> openPlacesSearch()
                 2 -> openAddSensorActivity()
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         } else {
             when(requestCode) {
-                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(this, fabAddSearch, revealSheet)
+                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(this, fabAddSearch.fab, revealSheet)
                 else -> outputErrorMessage()
             }
         }
@@ -200,17 +200,17 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun switchToFavoritesPage() { // page index 0
         // Hide the fab
-        if(fabAddSearch.isOrWillBeShown) fabAddSearch.hide()
+        if(fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.hide()
         // Show search item
         searchMenuItem?.isVisible = true
     }
 
     private fun switchToAllSensorsPage() { // page index 1
         // Show and animate the fab
-        if(!fabAddSearch.isOrWillBeShown) fabAddSearch.show()
+        if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
         if(selectedPage == 0 || selectedPage == 2) {
-            fabAddSearch.setImageResource(R.drawable.fab_anim_add_to_search)
-            if (fabAddSearch.drawable is Animatable) (fabAddSearch.drawable as Animatable).start()
+            fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
+            if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
         // Hide search item
         searchMenuItem?.isVisible = false
@@ -218,19 +218,19 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun switchToOwnSensorsPage() { // page index 2
         // Show and animate the fab
-        if(!fabAddSearch.isOrWillBeShown) fabAddSearch.show()
-        fabAddSearch.setImageResource(R.drawable.fab_anim_search_to_add)
-        if (fabAddSearch.drawable is Animatable) (fabAddSearch.drawable as Animatable).start()
+        if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
+        fabAddSearch.fab.setImageResource(R.drawable.fab_anim_search_to_add)
+        if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         // Show search item
         searchMenuItem?.isVisible = true
     }
 
     private fun switchToLocalNetworkPage() { // page index 3
         // Show and animate the fab
-        if(!fabAddSearch.isOrWillBeShown) fabAddSearch.show()
+        if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
         if(selectedPage == 0 || selectedPage == 2) {
-            fabAddSearch.setImageResource(R.drawable.fab_anim_add_to_search)
-            if (fabAddSearch.drawable is Animatable) (fabAddSearch.drawable as Animatable).start()
+            fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
+            if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
         // Show search item
         searchMenuItem?.isVisible = true
@@ -293,7 +293,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         val intent = Intent(this, AddSensorActivity::class.java)
         openActivityWithRevealAnimation(
             this,
-            fabAddSearch,
+            fabAddSearch.fab,
             revealSheet,
             intent,
             Constants.REQ_ADD_SENSOR
@@ -307,32 +307,35 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             object : SensorIPSearchTask.OnSearchEventListener {
                 override fun onProgressUpdate(progress: Int) {
                     viewpagerAdapter.localNetworkFragment.updateSearchProgress(progress)
+                    fabAddSearch.setCurrentProgress(if(progress < 100) progress else 0, false)
                 }
 
-                override fun onSensorFound(sensor: ScrapingResultDbo?) {}
-
-                override fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>) {
-                    Log.d(Constants.TAG, "Sensor count: " + sensorList.size)
-                    finishLocalNetworkSearch(sensorList.size > 0)
+                override fun onSensorFound(sensor: ScrapingResultDbo?) {
+                    if(sensor != null) viewModel.addScrapingResult(sensor)
                 }
-
-                override fun onSearchFailed() {
-
-                }
+                override fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>) { finishLocalNetworkSearch() }
+                override fun onSearchFailed() { finishLocalNetworkSearch() }
             },
             0
         )
         searchTask.execute()
         // Show searching screen
         viewpagerAdapter.localNetworkFragment.showSearchingScreen()
-        fabAddSearch.isEnabled = false
-        fabAddSearchProgress.show()
+        fabAddSearch.fab.isEnabled = false
     }
 
-    private fun finishLocalNetworkSearch(success: Boolean) {
-        fabAddSearch.isEnabled = true
-        fabAddSearchProgress.beginFinalAnimation()
-        noData.visibility = if(success) View.GONE else View.VISIBLE
+    private fun finishLocalNetworkSearch() {
+        fabAddSearch.fab.isEnabled = true
+        fabAddSearch.setIcon(getDrawable(R.drawable.done_white))
+        viewpagerAdapter.localNetworkFragment.hideSearchingScreen()
+
+        Handler().postDelayed({
+            try {
+                fabAddSearch.setIcon(getDrawable(R.drawable.search_white))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }, 1500)
     }
 
     override fun onToggleFullscreen() {
@@ -370,7 +373,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
             start()
         }
-        fabAddSearch.hide()
+        fabAddSearch.fab.hide()
     }
 
     private fun exitFullscreen() {
@@ -399,11 +402,13 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
             start()
         }
-        fabAddSearch.show()
+        fabAddSearch.fab.show()
         exitedFullscreenOnce = true
     }
 
     override fun onPlaceSelected(place: Place) {
         place.latLng?.let { viewpagerAdapter.allSensorsFragment.applyPlaceSearch(it) }
     }
+
+    override fun onRefreshLocalSensors() = startLocalNetworkSearch()
 }

@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 data class ScrapingResultDbo(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "chip_id") val chipID: String,
+    @ColumnInfo(name = "chip_id") val chipID: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "ip_address") val ipAddress: String,
     @ColumnInfo(name = "mac_address") val macAddress: String,

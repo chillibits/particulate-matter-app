@@ -78,6 +78,12 @@ object Constants {
 
     // Intent extras
     const val EXTRA_COLOR_CONVERTER = "ChooseColor" // Link to Color Converter
+    const val EXTRA_ADD_SENSOR_MODE = "Mode"
+    const val EXTRA_ADD_SENSOR_NAME = "Name"
+    const val EXTRA_ADD_SENSOR_ID = "Id"
+    const val EXTRA_SENSOR_DATA_NAME = "Name"
+    const val EXTRA_SENSOR_DATA_ID = "Id"
+    const val EXTRA_SENSOR_DATA_COLOR = "Color"
 
     // HomeScreen widget
     const val WIDGET_LARGE_EXTRA_SENSOR_ID = "WidgetLargeSensorID"
@@ -105,4 +111,7 @@ object Constants {
 
     // API constants
     const val API_AUTH_USERNAME = "pmapp"
+
+    // Creation modes
+    const val CREATION_MODE_COMPLETE = 1
 }

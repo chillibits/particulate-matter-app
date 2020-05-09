@@ -42,9 +42,6 @@ class OwnSensorsFragment : Fragment(), Observer<List<SensorDbo>> {
             MainViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_own_sensors, container, false).run {
-            // Set to link
-            inflater.inflate(R.layout.fragment_own_sensors, container, false)
-
             // Initialize recycler view
             ownSensorsAdapter = ItemAdapter()
             ownSensors.run {

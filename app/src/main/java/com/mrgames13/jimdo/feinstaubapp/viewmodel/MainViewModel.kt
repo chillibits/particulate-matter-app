@@ -6,6 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository
@@ -38,4 +39,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun manuallyRefreshExternalSensors() = externalSensorRepository.manuallyRefreshExternalSensors()
     fun updateExternalSensorFilter() = externalSensorRepository.updateFilter()
     fun unregisterNetworkCallback() = context.unregisterNetworkCallback()
+    fun addScrapingResult(sr: ScrapingResultDbo) = scrapingResultRepository.addScrapingResult(sr)
 }

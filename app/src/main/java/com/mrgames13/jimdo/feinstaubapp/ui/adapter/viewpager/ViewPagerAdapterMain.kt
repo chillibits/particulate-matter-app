@@ -16,7 +16,8 @@ import com.mrgames13.jimdo.feinstaubapp.ui.fragment.OwnSensorsFragment
 
 class ViewPagerAdapterMain(
     private val application: Application,
-    private val listener: AllSensorsFragment.OnAdapterEventListener,
+    private val onAdapterEventListener: AllSensorsFragment.OnAdapterEventListener,
+    private val onLocalSearchListener: LocalNetworkFragment.LocalSearchListener,
     fm: FragmentManager,
     l: Lifecycle
 ) : FragmentStateAdapter(fm, l) {
@@ -32,7 +33,7 @@ class ViewPagerAdapterMain(
                 favoritesFragment
             }
             1 -> {
-                allSensorsFragment = AllSensorsFragment(application, listener)
+                allSensorsFragment = AllSensorsFragment(application, onAdapterEventListener)
                 allSensorsFragment
             }
             2 -> {
@@ -40,7 +41,7 @@ class ViewPagerAdapterMain(
                 ownSensorsFragment
             }
             else -> {
-                localNetworkFragment = LocalNetworkFragment()
+                localNetworkFragment = LocalNetworkFragment(application, onLocalSearchListener)
                 localNetworkFragment
             }
         }
