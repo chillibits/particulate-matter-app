@@ -11,7 +11,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "scraping-result")
 data class ScrapingResultDbo(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "chip_id") val chipID: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "ip_address") val ipAddress: String,

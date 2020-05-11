@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemContainer"
     android:layout_width="match_parent"
-    android:layout_height="195dp">
+    android:layout_height="185dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/itemIcon"

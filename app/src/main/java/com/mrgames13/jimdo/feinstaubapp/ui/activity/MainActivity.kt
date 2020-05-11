@@ -12,11 +12,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.OnBubbleClickListener
@@ -43,7 +45,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
-    LocalNetworkFragment.LocalSearchListener {
+    LocalNetworkFragment.LocalSearchListener, Observer<List<ScrapingResultDbo>> {
 
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
@@ -52,7 +54,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private lateinit var viewModel: MainViewModel
 
     // Variables
-    private var selectedPage = 1
     private var pressedOnce = false
     private var isFullscreen = false
     private var exitedFullscreenOnce = false
@@ -80,10 +81,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         // Initialize ViewPager
         viewpagerAdapter = ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
         viewPager.run {
-            offscreenPageLimit = 3
+            offscreenPageLimit = viewpagerAdapter.itemCount
             isUserInputEnabled = false
             adapter = viewpagerAdapter
-            setCurrentItem(1, false) // Start on the map
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(pos: Int) {
                     // Close searchView
@@ -96,10 +96,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                         2 -> switchToOwnSensorsPage()
                         3 -> switchToLocalNetworkPage()
                     }
-                    selectedPage = pos
+                    viewModel.selectedPage = pos
                     tabBar.setSelected(pos)
                 }
             })
+            setCurrentItem(viewModel.selectedPage, false) // Start on the map
         }
 
         // Initialize BubbleTabBar
@@ -111,14 +112,14 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                     R.id.item_all_sensors -> 1
                     R.id.item_own_sensors -> 2
                     R.id.item_local_network -> 3
-                    else -> 1
+                    else -> viewModel.selectedPage
                 }
             }
         })
 
         // Initialize AddSearchFab
         fabAddSearch.fab.setOnClickListener {
-            when(selectedPage) {
+            when(viewModel.selectedPage) {
                 1 -> openPlacesSearch()
                 2 -> openAddSensorActivity()
                 3 -> startLocalNetworkSearch()
@@ -137,6 +138,14 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 return true
             }
         })
+
+
+
+
+
+
+
+        viewModel.scrapingResults.observe(this, this)
     }
 
     override fun onDestroy() {
@@ -208,7 +217,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private fun switchToAllSensorsPage() { // page index 1
         // Show and animate the fab
         if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
-        if(selectedPage == 0 || selectedPage == 2) {
+        if(viewModel.selectedPage == 0 || viewModel.selectedPage == 2) {
             fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
             if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
@@ -228,7 +237,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private fun switchToLocalNetworkPage() { // page index 3
         // Show and animate the fab
         if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
-        if(selectedPage == 0 || selectedPage == 2) {
+        if(viewModel.selectedPage == 0 || viewModel.selectedPage == 2) {
             fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
             if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
@@ -310,11 +319,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                     fabAddSearch.setCurrentProgress(if(progress < 100) progress else 0, false)
                 }
 
-                override fun onSensorFound(sensor: ScrapingResultDbo?) {
-                    if(sensor != null) viewModel.addScrapingResult(sensor)
+                override fun onSensorFound(result: ScrapingResultDbo?) {
+                    if(result != null) viewModel.addScrapingResult(result)
                 }
-                override fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>) { finishLocalNetworkSearch() }
-                override fun onSearchFailed() { finishLocalNetworkSearch() }
+
+                override fun onSearchFinished(results: ArrayList<ScrapingResultDbo>) { finishLocalNetworkSearch() }
             },
             0
         )
@@ -411,4 +420,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     override fun onRefreshLocalSensors() = startLocalNetworkSearch()
+    override fun onChanged(t: List<ScrapingResultDbo>?) {
+        Log.d(Constants.TAG, "Test1")
+    }
 }

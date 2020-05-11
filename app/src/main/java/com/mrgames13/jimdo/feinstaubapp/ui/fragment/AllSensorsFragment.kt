@@ -87,7 +87,7 @@ class AllSensorsFragment(
         // Initialize ViewModel
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
-        inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
+        return inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
             // Initialize map
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
             lifecycle.coroutineScope.launchWhenCreated {
@@ -137,11 +137,9 @@ class AllSensorsFragment(
             mapRefresh.setOnClickListener { refresh(false) }
 
             // Initialize ranking button
-            mapRanking.setOnClickListener {
-                showRankingDialog(context, requireFragmentManager(), lifecycle)
-            }
+            mapRanking.setOnClickListener { showRankingDialog(context, requireFragmentManager(), lifecycle) }
 
-            return this
+            this
         }
     }
 
@@ -233,9 +231,8 @@ class AllSensorsFragment(
         }
     }
 
-    fun applyPlaceSearch(coordinates: LatLng) {
+    fun applyPlaceSearch(coordinates: LatLng) =
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 11f))
-    }
 
     private fun enableOwnLocationControls() {
         // Check for permission
@@ -368,10 +365,8 @@ class AllSensorsFragment(
         }
     }
 
-    private fun moveCameraToPlace(latLng: LatLng) {
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM)
-        map?.animateCamera(cameraUpdate)
-    }
+    private fun moveCameraToPlace(latLng: LatLng) =
+        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM))
 
     @SuppressLint("ResourceType")
     private fun relocationOwnLocationControls() {

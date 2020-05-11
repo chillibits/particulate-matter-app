@@ -30,6 +30,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val scrapingResults = scrapingResultRepository.scrapingResults
     val users = userRepository.users
 
+    // Variables
+    var selectedPage = 1
+
     init {
         context.registerNetworkCallback()
         CoroutineScope(Dispatchers.IO).launch { manuallyRefreshExternalSensors() }

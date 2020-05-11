@@ -39,7 +39,8 @@ class ScrapingResultItem(
                 // Set contents
                 itemName.text = sr.name
                 itemIpMac.text = String.format(context.getString(R.string.ip_mac), sr.ipAddress, sr.macAddress)
-                itemVersion.text = String.format(context.getString(R.string.firmware_version_), sr.firmwareVersion)
+                val firmwareVersion = context.getString(R.string.firmware_version_) + " " + sr.firmwareVersion
+                itemVersion.text = firmwareVersion
                 itemWarning.visibility = if(sr.sendToUsEnabled) View.GONE else View.VISIBLE
                 // Set click listeners
                 itemWarning.setOnClickListener { showWarningDialog(context) }

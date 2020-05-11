@@ -39,7 +39,6 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
         fun onProgressUpdate(progress: Int)
         fun onSensorFound(sensor: ScrapingResultDbo?)
         fun onSearchFinished(sensorList: ArrayList<ScrapingResultDbo>)
-        fun onSearchFailed()
     }
 
     override fun doInBackground(vararg params: Void?): Void? {
@@ -77,11 +76,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
 
     override fun onPostExecute(result: Void?) {
         super.onPostExecute(result)
-        when {
-            searchedChipId > 0 -> listener.onSensorFound(sensor)
-            sensorList.size > 0 -> listener.onSearchFinished(sensorList)
-            else -> listener.onSearchFailed()
-        }
+        listener.onSearchFinished(sensorList)
     }
 
     private suspend fun scanNetwork(networkInterface: NetworkInterface, ipAddressPrefix: String) {
@@ -97,6 +92,7 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
             if(sensor != null && searchedChipId == 0) {
                 Log.i(TAG, "Found sensor with ip: $ipAddress")
                 sensorList.add(sensor!!)
+                listener.onSensorFound(sensor)
             }
         }
         publishProgress(nextHostPart)
@@ -136,7 +132,6 @@ class SensorIPSearchTask(val context: Context, private val listener: OnSearchEve
                     .substringBefore("/>")
                     .contains("checked='checked'")
                 return ScrapingResultDbo(
-                    0,
                     chipIdLong,
                     name,
                     ipAddress,

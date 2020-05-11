@@ -15,7 +15,5 @@ class ScrapingResultRepository(application: Application) {
     private val scrapingResultDao = context.getDatabase().scrapingResultDao()
     val scrapingResults = scrapingResultDao.getAll()
 
-    fun addScrapingResult(sr: ScrapingResultDbo) {
-        scrapingResultDao.insert(listOf(sr))
-    }
+    fun addScrapingResult(sr: ScrapingResultDbo) = scrapingResultDao.insert(listOf(sr))
 }

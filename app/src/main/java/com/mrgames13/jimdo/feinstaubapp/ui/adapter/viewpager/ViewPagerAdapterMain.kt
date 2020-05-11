@@ -15,35 +15,23 @@ import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.OwnSensorsFragment
 
 class ViewPagerAdapterMain(
-    private val application: Application,
-    private val onAdapterEventListener: AllSensorsFragment.OnAdapterEventListener,
-    private val onLocalSearchListener: LocalNetworkFragment.LocalSearchListener,
+    application: Application,
+    onAdapterEventListener: AllSensorsFragment.OnAdapterEventListener,
+    onLocalSearchListener: LocalNetworkFragment.LocalSearchListener,
     fm: FragmentManager,
     l: Lifecycle
 ) : FragmentStateAdapter(fm, l) {
-    private lateinit var favoritesFragment: FavoritesFragment
-    lateinit var allSensorsFragment: AllSensorsFragment
-    lateinit var ownSensorsFragment: OwnSensorsFragment
-    lateinit var localNetworkFragment: LocalNetworkFragment
+    private val favoritesFragment = FavoritesFragment()
+    val allSensorsFragment = AllSensorsFragment(application, onAdapterEventListener)
+    private val ownSensorsFragment = OwnSensorsFragment()
+    val localNetworkFragment = LocalNetworkFragment(application, onLocalSearchListener)
 
     override fun createFragment(pos: Int): Fragment {
         return when(pos) {
-            0 -> {
-                favoritesFragment = FavoritesFragment()
-                favoritesFragment
-            }
-            1 -> {
-                allSensorsFragment = AllSensorsFragment(application, onAdapterEventListener)
-                allSensorsFragment
-            }
-            2 -> {
-                ownSensorsFragment = OwnSensorsFragment()
-                ownSensorsFragment
-            }
-            else -> {
-                localNetworkFragment = LocalNetworkFragment(application, onLocalSearchListener)
-                localNetworkFragment
-            }
+            0 -> favoritesFragment
+            1 -> allSensorsFragment
+            2 -> ownSensorsFragment
+            else -> localNetworkFragment
         }
     }
 
