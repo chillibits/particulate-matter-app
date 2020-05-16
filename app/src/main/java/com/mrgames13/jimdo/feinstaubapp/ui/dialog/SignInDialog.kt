@@ -42,8 +42,8 @@ class SignInDialog(
             .setCustomView(view)
             .setNegativeText(R.string.cancel)
             .setPositiveText(R.string.sign_in)
-            .onNegative { _, _ -> listener?.onSkipOrCancelled() }
-            .onPositive {_, _ ->
+            .onNegative { listener?.onSkipOrCancelled() }
+            .onPositive {
                 val email = view.email.text.toString().trim()
                 val password = view.password.toString().trim()
                 val user = User(0, email, password, "", "", emptyList(), Constants.ROLE_USER, Constants.STATUS_ACTIVE, 0, 0)

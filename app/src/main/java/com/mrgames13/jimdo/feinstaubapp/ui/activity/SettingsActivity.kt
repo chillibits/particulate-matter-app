@@ -75,7 +75,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun inflateSettingsFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.settings_fragment, SettingsFragment())
+            .replace(R.id.settingsFragment, SettingsFragment())
             .commit()
     }
 }

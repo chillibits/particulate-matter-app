@@ -55,7 +55,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta5'
     implementation 'com.google.android.material:material:1.2.0-alpha06'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -66,8 +66,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Maps dependencies
-    implementation 'com.google.maps.android:maps-ktx:1.4.0'
-    implementation 'com.google.maps.android:maps-utils-ktx:1.4.0'
+    implementation 'com.google.maps.android:maps-ktx:1.5.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:1.5.0'
     implementation 'com.google.android.libraries.places:places:2.2.0'
 
     // ZXing dependencies
@@ -92,10 +92,11 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.dhaval2404:colorpicker:1.1'
     implementation 'com.github.rtchagas:pingplacepicker:2.0.6'
-    implementation 'com.mikepenz:fastadapter:5.0.0'
+    implementation 'com.mikepenz:fastadapter:5.0.2'
     implementation 'eu.davidea:flipview:1.2.0'
-    implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
-    implementation 'com.mikepenz:iconics-core:5.0.2'
+    implementation 'com.github.javiersantos:MaterialStyledDialogs:3.0.1'
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.mikepenz:iconics-core:5.0.3'
     // Test at runtime before upgrading
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.6-kotlin@aar'
     implementation "com.mikepenz:aboutlibraries-core:$about_libs_version"

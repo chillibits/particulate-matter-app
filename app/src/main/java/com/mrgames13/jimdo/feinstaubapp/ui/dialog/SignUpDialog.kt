@@ -7,8 +7,6 @@ package com.mrgames13.jimdo.feinstaubapp.ui.dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.io.User
@@ -45,8 +43,8 @@ class SignUpDialog(
             .setCustomView(view)
             .setNegativeText(R.string.cancel)
             .setPositiveText(R.string.sign_up)
-            .onNegative { dialog, _ -> dialog.dismiss() }
-            .onPositive {dialog, _ ->
+            .onNegative { dialog?.dismiss() }
+            .onPositive {
                 val email = view.email.text.toString().trim()
                 val password = view.password.text.toString().trim()
                 val confirmPassword = view.confirmPassword.text.toString().trim()
@@ -63,15 +61,15 @@ class SignUpDialog(
         dialog = dialogBuilder.show()
     }
 
-    private fun createAccount(dialog: MaterialDialog, email: String, password: String, confirmPassword: String) {
+    private fun createAccount(dialog: MaterialStyledDialog?, email: String, password: String, confirmPassword: String) {
         // Check if form is filled correctly
         if(email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
             if(password == confirmPassword) {
-                val buttonPos = dialog.getActionButton(DialogAction.POSITIVE)
-                val buttonNeg = dialog.getActionButton(DialogAction.NEGATIVE)
-                buttonPos.text = context.getString(R.string.loading)
-                buttonPos.isEnabled = false
-                buttonNeg.isEnabled = false
+                val buttonPos = dialog?.positiveButton()
+                val buttonNeg = dialog?.negativeButton()
+                buttonPos?.text = context.getString(R.string.loading)
+                buttonPos?.isEnabled = false
+                buttonNeg?.isEnabled = false
                 // Create account on server
                 CoroutineScope(Dispatchers.IO).launch {
                     val user = createUser(context, email, hashSha1(password))
@@ -79,11 +77,11 @@ class SignUpDialog(
                         if(user != null) {
                             // Sign in
                             listener?.onSignedUp(user)
-                            dialog.dismiss()
+                            dialog?.dismiss()
                         } else {
-                            buttonNeg.isEnabled = true
-                            buttonPos.isEnabled = true
-                            buttonPos.text = context.getString(R.string.sign_up)
+                            buttonNeg?.isEnabled = true
+                            buttonPos?.isEnabled = true
+                            buttonPos?.text = context.getString(R.string.sign_up)
                         }
                     }
                 }

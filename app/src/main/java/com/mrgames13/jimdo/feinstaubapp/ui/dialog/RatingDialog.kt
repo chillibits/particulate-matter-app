@@ -27,6 +27,6 @@ fun Context.showRatingDialog() {
         .setDescription(R.string.rate_m)
         .setPositiveText(R.string.rate)
         .setNegativeText(R.string.cancel)
-        .onPositive { _, _ -> openGooglePlayAppSite() }
+        .onPositive { openGooglePlayAppSite() }
         .show()
 }

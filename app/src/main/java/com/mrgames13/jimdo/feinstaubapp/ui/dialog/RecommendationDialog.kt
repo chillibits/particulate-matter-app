@@ -27,7 +27,7 @@ fun Context.showRecommendationDialog() {
         .setDescription(R.string.recommend_m)
         .setPositiveText(R.string.recommend)
         .setNegativeText(R.string.cancel)
-        .onPositive { _, _ ->
+        .onPositive {
             Intent(Intent.ACTION_SEND).run {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.recommend_string))
                 type = "text/plain"

@@ -57,7 +57,9 @@ fun Context.showAddFavoriteDialog(sensor: SensorDto, user: UserDbo, fragmentMana
         .setCustomView(view)
         .setPositiveText(R.string.add_favourite)
         .setNegativeText(R.string.cancel)
-        .onPositive { _, _ -> addSensorToFavorites(sensor, user, view.sensor_name_value.text.toString().trim(), selectedColor) }
+        .onPositive {
+            addSensorToFavorites(sensor, user, view.sensor_name_value.text.toString().trim(), selectedColor)
+        }
         .show()
 
     view.sensor_name_value.selectAll()
