@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.0.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.20'
     implementation 'com.github.TutorialsAndroid:FilePicker:v7.0.19'
     implementation 'com.stephentuso:welcome:1.4.1'
 }
