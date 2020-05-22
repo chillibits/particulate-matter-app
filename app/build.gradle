@@ -67,7 +67,7 @@ dependencies {
 
     // Maps dependencies
     implementation 'com.google.maps.android:maps-ktx:1.5.0'
-    implementation 'com.google.maps.android:maps-utils-ktx:1.5.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:1.6.0'
     implementation 'com.google.android.libraries.places:places:2.2.0'
 
     // ZXing dependencies
