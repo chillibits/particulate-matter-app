@@ -11,7 +11,6 @@ data class SensorDto (
     val chipId: Long,
     val firmwareVersion: String,
     val creationTimestamp: Long,
-    val notes: String,
     val gpsLatitude: Double,
     val gpsLongitude: Double,
     val gpsAltitude: Int,
