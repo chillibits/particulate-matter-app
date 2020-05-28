@@ -84,7 +84,7 @@ dependencies {
     // Testing dependencies
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc01'
 
     // External dependencies
     implementation 'com.fxn769:bubbletabbar:1.0.5'
