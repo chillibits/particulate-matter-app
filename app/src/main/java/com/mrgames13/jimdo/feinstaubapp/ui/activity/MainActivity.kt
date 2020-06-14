@@ -12,13 +12,11 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.OnBubbleClickListener
@@ -43,9 +41,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
-    LocalNetworkFragment.LocalSearchListener, Observer<List<ScrapingResultDbo>> {
+    LocalNetworkFragment.LocalSearchListener {
 
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
@@ -138,14 +135,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 return true
             }
         })
-
-
-
-
-
-
-
-        viewModel.scrapingResults.observe(this, this)
     }
 
     override fun onDestroy() {
@@ -257,10 +246,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun openFAQPage() {
-        Intent(Intent.ACTION_VIEW).run {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(getString(R.string.url_faq))
-            startActivity(this)
-        }
+        })
     }
 
     private fun openSettingsActivity() = startActivity(Intent(this, SettingsActivity::class.java))
@@ -420,7 +408,4 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     override fun onRefreshLocalSensors() = startLocalNetworkSearch()
-    override fun onChanged(t: List<ScrapingResultDbo>?) {
-        Log.d(Constants.TAG, "Test1")
-    }
 }

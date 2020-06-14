@@ -83,10 +83,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val developers = findPreference<Preference>(Constants.PREF_DEVELOPERS)
         developers?.setOnPreferenceClickListener {
-            Intent(Intent.ACTION_VIEW).run {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.url_homepage))
-                startActivity(this)
-            }
+            })
             false
         }
 
@@ -97,9 +96,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun rescheduleSyncService(newValue: Any, activity: FragmentActivity): Boolean {
-        return newValue.toString().isNotEmpty() && Integer.parseInt(newValue.toString()) >= Constants.MIN_SYNC_CYCLE_BACKGROUND
-    }
+    private fun rescheduleSyncService(newValue: Any, activity: FragmentActivity)
+            = newValue.toString().isNotEmpty() && Integer.parseInt(newValue.toString()) >= Constants.MIN_SYNC_CYCLE_BACKGROUND
 
     private fun openLicensesDialog() {
         LibsBuilder()
@@ -114,15 +112,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun openGitHubPage() {
-        Intent(Intent.ACTION_VIEW).run {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(getString(R.string.url_github))
-            startActivity(this)
-        }
+        })
     }
 
     private fun applyEditTextAttributes(editText: EditText, length: Int) {
-        editText.inputType = InputType.TYPE_CLASS_NUMBER
-        editText.filters += InputFilter.LengthFilter(length)
-        editText.selectAll()
+        editText.run {
+            inputType = InputType.TYPE_CLASS_NUMBER
+            filters += InputFilter.LengthFilter(length)
+            selectAll()
+        }
     }
 }

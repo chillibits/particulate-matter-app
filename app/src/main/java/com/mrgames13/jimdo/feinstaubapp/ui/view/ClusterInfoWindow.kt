@@ -65,14 +65,19 @@ fun showClusterInfoWindow(map: GoogleMap, view: View, cluster: Cluster<SensorClu
         val chipIds = cluster.items.map { item -> item.title.toLong() }
         loadAverageOfMultipleChipIds(view.context, chipIds).let {
             withContext(Dispatchers.Main) {
-                window.averageP1.text = String.format(
-                    view.context.getString(R.string.average_p1),
-                    NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P1" }?.value?.round(2))
-                )
-                window.averageP2.text = String.format(
-                    view.context.getString(R.string.average_p2),
-                    NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P2" }?.value?.round(2))
-                )
+                if(it == null) {
+                    window.averageP1.text = view.context.getString(R.string.error)
+                    window.averageP2.text = view.context.getString(R.string.error)
+                } else {
+                    window.averageP1.text = String.format(
+                        view.context.getString(R.string.average_p1),
+                        NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P1" }?.value?.round(2))
+                    )
+                    window.averageP2.text = String.format(
+                        view.context.getString(R.string.average_p2),
+                        NumberFormat.getInstance().format(it.sensorDataValues.singleOrNull { it.type == "SDS_P2" }?.value?.round(2))
+                    )
+                }
             }
         }
     }

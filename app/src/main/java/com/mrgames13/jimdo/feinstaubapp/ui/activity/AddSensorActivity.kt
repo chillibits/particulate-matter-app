@@ -122,10 +122,9 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
     }
 
     private fun openChipIdInfoSite() {
-        Intent(Intent.ACTION_VIEW).run {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(getString(R.string.url_chip_id_info))
-            startActivity(this)
-        }
+        })
     }
 
     private fun createRandomColor() {
@@ -178,11 +177,10 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
     override fun onSelectOption(selectedOption: Int) {
         when(selectedOption) {
             WITH_COLOR_CONVERTER -> {
-                Intent(Intent.ACTION_VIEW).run {
+                startActivityForResult(Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(getString(R.string.url_instant_color_converter))
                     putExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
-                    startActivityForResult(this, Constants.REQ_COLOR_CONVERTER)
-                }
+                }, Constants.REQ_COLOR_CONVERTER)
             }
             else -> {
                 MaterialColorPickerDialog.Builder(this)

@@ -29,10 +29,9 @@ fun Context.showSensorStatsDialog(chipId: Long) {
     if(chipId == 0L) {
         dialogBuilder.setTitle(R.string.stats)
         if(chipId == 0L) dialogBuilder.setNeutralButton(R.string.more_info) { _, _ ->
-            Intent(Intent.ACTION_VIEW).run {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.url_stats_page))
-                startActivity(this)
-            }
+            })
         }
     } else {
         dialogBuilder.setTitle(R.string.sensor_stats)

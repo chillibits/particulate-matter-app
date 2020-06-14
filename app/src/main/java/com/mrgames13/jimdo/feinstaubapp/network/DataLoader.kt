@@ -17,11 +17,11 @@ import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
-suspend fun loadAverageOfMultipleChipIds(context: Context, chipIds: List<Long>): DataRecord {
+suspend fun loadAverageOfMultipleChipIds(context: Context, chipIds: List<Long>): DataRecord? {
     try {
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/data/average?chipIds=" + chipIds.joinToString(",")).execute()
         if(response.status == HttpStatusCode.OK) {
-            Log.d(Constants.TAG, response.readText())
+            //Log.d(Constants.TAG, response.readText())
             return Json.parse(DataRecord.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
         } else {
             Log.e(Constants.TAG, response.status.toString())
@@ -29,5 +29,5 @@ suspend fun loadAverageOfMultipleChipIds(context: Context, chipIds: List<Long>):
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    return DataRecord(System.currentTimeMillis(), emptyList())
+    return null
 }

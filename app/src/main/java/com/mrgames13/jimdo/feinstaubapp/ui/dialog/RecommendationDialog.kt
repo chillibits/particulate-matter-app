@@ -28,11 +28,10 @@ fun Context.showRecommendationDialog() {
         .setPositiveText(R.string.recommend)
         .setNegativeText(R.string.cancel)
         .onPositive {
-            Intent(Intent.ACTION_SEND).run {
+            startActivity(Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.recommend_string))
                 type = "text/plain"
-                startActivity(this)
-            }
+            })
         }
         .show()
 }

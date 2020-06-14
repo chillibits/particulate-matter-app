@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Thu, 28 May 2020 20:20:29 +0100
+ Exported at: Mon, 15 Jun 2020 00:03:57 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -314,4 +314,5 @@
     <string name="more_info">More info</string>
     <string name="stats">Statistics</string>
     <string name="skip">Skip</string>
+    <string name="error">Error</string>
 </resources>

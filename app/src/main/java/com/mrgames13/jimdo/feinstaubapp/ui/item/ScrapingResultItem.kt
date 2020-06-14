@@ -45,9 +45,8 @@ class ScrapingResultItem(
                 // Set click listeners
                 itemWarning.setOnClickListener { showWarningDialog(context) }
                 itemButtonOpenConfig.setOnClickListener {
-                    context.startActivity(Intent(Intent.ACTION_VIEW).run {
+                    context.startActivity(Intent(Intent.ACTION_VIEW).apply {
                         data = Uri.parse("http://${sr.ipAddress}")
-                        this
                     })
                 }
 
@@ -80,20 +79,18 @@ class ScrapingResultItem(
         }
 
         private fun openDataActivity(context: Context, sr: ScrapingResultDbo) {
-            context.startActivity(Intent(context, SensorActivity::class.java).run {
+            context.startActivity(Intent(context, SensorActivity::class.java).apply {
                 putExtra(Constants.EXTRA_SENSOR_DATA_NAME, sr.name)
                 putExtra(Constants.EXTRA_SENSOR_DATA_ID, sr.chipID)
                 putExtra(Constants.EXTRA_SENSOR_DATA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
-                this
             })
         }
 
         private fun openAddSensorActivity(context: Context, sr: ScrapingResultDbo) {
-            context.startActivity(Intent(context, AddSensorActivity::class.java).run {
+            context.startActivity(Intent(context, AddSensorActivity::class.java).apply {
                 putExtra(Constants.EXTRA_ADD_SENSOR_MODE, Constants.CREATION_MODE_COMPLETE)
                 putExtra(Constants.EXTRA_ADD_SENSOR_NAME, sr.name)
                 putExtra(Constants.EXTRA_ADD_SENSOR_ID, sr.chipID)
-                this
             })
         }
     }
