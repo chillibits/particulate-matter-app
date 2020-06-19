@@ -106,7 +106,7 @@ dependencies {
     implementation 'com.github.marcauberer:ProgressFloatingActionButton:1.1.0'
 
     // Debug dependencies
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
     // Local dependencies
     // implementation fileTree(dir: 'libs', include: ['*.jar'])
