@@ -47,7 +47,7 @@ class LocalNetworkFragment(
         // Initialize ViewModel
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
-        return inflater.inflate(R.layout.fragment_local_network, container, false).run {
+        return inflater.inflate(R.layout.fragment_local_network, container, false).apply {
             // Initialize recycler view
             scrapingResultItemAdapter = ItemAdapter()
             scrapingResults.run {
@@ -65,14 +65,11 @@ class LocalNetworkFragment(
 
             // Observe live data
             viewModel.scrapingResults.observe(viewLifecycleOwner, this@LocalNetworkFragment)
-
-            this
         }
     }
 
     fun updateSearchProgress(progress: Int) {
-        val progressString = getString(R.string.searching_for_sensors) + " " +
-                String.format(getString(R.string.loading_percent), progress)
+        val progressString = getString(R.string.searching_for_sensors) + " " + String.format(getString(R.string.loading_percent), progress)
         view?.loadingText?.text = progressString
     }
 
