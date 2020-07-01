@@ -171,7 +171,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         } else {
             when(requestCode) {
-                Constants.REQ_ADD_SENSOR -> closeActivityWithRevealAnimation(this, fabAddSearch.fab, revealSheet)
+                Constants.REQ_ADD_SENSOR -> try {
+                    closeActivityWithRevealAnimation(this, fabAddSearch.fab, revealSheet)
+                } catch (e: IllegalStateException) {}
                 else -> outputErrorMessage()
             }
         }

@@ -37,6 +37,9 @@ android {
     packagingOptions {
         pickFirst 'META-INF/*'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 repositories {

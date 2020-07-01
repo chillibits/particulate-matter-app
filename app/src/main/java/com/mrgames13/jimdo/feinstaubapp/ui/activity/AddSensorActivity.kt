@@ -7,7 +7,6 @@ package com.mrgames13.jimdo.feinstaubapp.ui.activity
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
@@ -17,10 +16,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.databinding.ActivityAddSensorBinding
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.availableSoon
 import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
@@ -28,23 +29,25 @@ import com.mrgames13.jimdo.feinstaubapp.shared.outputErrorMessage
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.OnChooseColorDialogSelectionListener
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.WITH_COLOR_CONVERTER
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showChooseColorDialog
+import com.mrgames13.jimdo.feinstaubapp.viewmodel.AddSensorViewModel
 import com.rtchagas.pingplacepicker.PingPlacePicker
 import kotlinx.android.synthetic.main.activity_add_sensor.*
 import kotlinx.android.synthetic.main.toolbar.*
 import top.defaults.drawabletoolbox.DrawableBuilder
-import kotlin.random.Random
 
 class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListener {
 
     // Variables as objects
-    private var selectedPlace: LatLng? = null
-
-    // Variables
-    private var selectedColor = Color.BLACK
+    private lateinit var binding: ActivityAddSensorBinding
+    private lateinit var viewModel: AddSensorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_sensor)
+        // Initialize data binding and view model
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_sensor)
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory
+            .getInstance(application)).get(AddSensorViewModel::class.java)
+        binding.viewModel = viewModel
 
         // Initialize toolbar
         toolbar.setTitle(R.string.add_own_sensor)
@@ -60,15 +63,7 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
             }
         }
 
-        // Info icon
-        chipIdInfo.setOnClickListener { openChipIdInfoSite() }
-
-        // Select color buttons
-        selectSensorColor.setOnClickListener { chooseColor() }
-        sensorColorPreview.setOnClickListener { chooseColor() }
-
-        // Randomize initial color
-        createRandomColor()
+        sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!, PorterDuff.Mode.SRC)
 
         // Initialize pick sensor position button
         selectSensorPosition.setOnClickListener { openPlacePicker() }
@@ -103,43 +98,18 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
                 Constants.REQ_PLACE_PICKER -> {
                     val place = PingPlacePicker.getPlace(data!!)
                     place?.let {
-                        selectedPlace = it.latLng
+                        viewModel.selectedPlace.value = it.latLng
                         onPlaceSelected(it)
                     }
                 }
                 Constants.REQ_COLOR_CONVERTER -> {
                     if(data != null && data.hasExtra(Constants.EXTRA_COLOR_CONVERTER)) {
-                        selectedColor = data.getIntExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
-                        sensorColorPreview.setColorFilter(selectedColor)
+                        viewModel.selectedColor.value = data.getIntExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value!!)
+                        sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!)
                     }
                 }
             }
         } else outputErrorMessage()
-    }
-
-    private fun addSensor() {
-        availableSoon()
-    }
-
-    private fun openChipIdInfoSite() {
-        startActivity(Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(getString(R.string.url_chip_id_info))
-        })
-    }
-
-    private fun createRandomColor() {
-        val random = Random(System.currentTimeMillis())
-        selectedColor = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
-        sensorColorPreview.setColorFilter(selectedColor, PorterDuff.Mode.SRC)
-    }
-
-    private fun chooseColor() {
-        getPrefs().getInt(Constants.PREFS_CHOOSE_COLOR_REMEMBER, 0).let {
-            when(it) {
-                0 -> showChooseColorDialog(this, this)
-                else -> onSelectOption(it)
-            }
-        }
     }
 
     private fun openPlacePicker() {
@@ -174,19 +144,38 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
         }
     }
 
+    fun openChipIdInfoSite(view: View) {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(getString(R.string.url_chip_id_info))
+        })
+    }
+
+    fun chooseColor(view: View) {
+        getPrefs().getInt(Constants.PREFS_CHOOSE_COLOR_REMEMBER, 0).let {
+            when(it) {
+                0 -> showChooseColorDialog(this, this)
+                else -> onSelectOption(it)
+            }
+        }
+    }
+
+    private fun addSensor() {
+        availableSoon()
+    }
+
     override fun onSelectOption(selectedOption: Int) {
         when(selectedOption) {
             WITH_COLOR_CONVERTER -> {
                 startActivityForResult(Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(getString(R.string.url_instant_color_converter))
-                    putExtra(Constants.EXTRA_COLOR_CONVERTER, selectedColor)
+                    putExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value!!)
                 }, Constants.REQ_COLOR_CONVERTER)
             }
             else -> {
                 MaterialColorPickerDialog.Builder(this)
                     .setTitle(R.string.choose_color)
                     .setColorListener { color, _ ->
-                        selectedColor = color
+                        viewModel.selectedColor.value = color
                         sensorColorPreview.setColorFilter(color, PorterDuff.Mode.SRC)
                     }
                     .showBottomSheet(supportFragmentManager)
