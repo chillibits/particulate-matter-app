@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.ui.item.ScrapingResultItem
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel

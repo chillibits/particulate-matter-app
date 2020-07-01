@@ -40,7 +40,7 @@ import com.google.maps.android.ktx.MapsExperimentalFeature
 import com.google.maps.android.ktx.addMarker
 import com.google.maps.android.ktx.awaitMap
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.ExternalSensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isLocationEnabled
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.getPreferenceValue

@@ -8,7 +8,7 @@ import android.content.Context
 import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.dto.UserDto
-import com.mrgames13.jimdo.feinstaubapp.model.io.User
+import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import io.ktor.client.request.get
 import io.ktor.client.request.post

@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.shared
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mrgames13.jimdo.feinstaubapp.model.db.DataRecordDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.DataRecordDbo
 
 class Converters {
     @TypeConverter

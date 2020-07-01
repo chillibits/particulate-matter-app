@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.ui.item.SensorItem
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_favorites.*

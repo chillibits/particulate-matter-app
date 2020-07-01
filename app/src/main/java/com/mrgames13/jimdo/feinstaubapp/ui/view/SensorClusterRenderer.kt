@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
 
 class SensorClusterRenderer(
     context: Context,

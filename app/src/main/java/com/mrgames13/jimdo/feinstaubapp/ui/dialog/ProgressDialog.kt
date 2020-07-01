@@ -20,7 +20,6 @@ class ProgressDialog(private val context: Context) {
     init {
         dialog = AlertDialog.Builder(context)
             .setCancelable(false)
-            .setMessage(R.string.please_wait_)
             .setView(rootView)
             .create()
     }

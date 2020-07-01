@@ -6,7 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
 import androidx.lifecycle.MediatorLiveData
-import com.mrgames13.jimdo.feinstaubapp.model.db.ExternalSensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.ExternalSensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadExternalSensors
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants

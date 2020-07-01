@@ -9,7 +9,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mrgames13.jimdo.feinstaubapp.model.db.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.UserDbo
 
 @Dao
 interface UserDao {

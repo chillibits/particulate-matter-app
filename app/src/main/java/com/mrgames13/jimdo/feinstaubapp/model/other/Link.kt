@@ -2,10 +2,10 @@
  * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
-package com.mrgames13.jimdo.feinstaubapp.model.io
+package com.mrgames13.jimdo.feinstaubapp.model.other
 
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
-import com.mrgames13.jimdo.feinstaubapp.model.db.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.UserDbo
 
 data class Link (
     val id: Int,

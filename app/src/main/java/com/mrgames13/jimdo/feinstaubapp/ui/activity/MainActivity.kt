@@ -24,7 +24,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain

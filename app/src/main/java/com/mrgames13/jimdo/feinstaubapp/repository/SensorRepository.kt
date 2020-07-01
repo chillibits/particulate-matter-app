@@ -5,7 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.network.isInternetAvailable
 import com.mrgames13.jimdo.feinstaubapp.network.loadSensors
 import com.mrgames13.jimdo.feinstaubapp.shared.getDatabase

@@ -9,7 +9,7 @@ import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
 import kotlinx.android.synthetic.main.item_sensor.view.*
 
 open class SensorItem(

@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.io.User
+import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.network.createUser
 import com.mrgames13.jimdo.feinstaubapp.shared.hashSha1
 import kotlinx.android.synthetic.main.dialog_sign_up.view.*

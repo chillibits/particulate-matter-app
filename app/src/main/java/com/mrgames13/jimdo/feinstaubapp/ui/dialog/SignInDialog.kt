@@ -9,7 +9,7 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.io.User
+import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import kotlinx.android.synthetic.main.dialog_sign_in.view.*
 import kotlinx.coroutines.CoroutineScope

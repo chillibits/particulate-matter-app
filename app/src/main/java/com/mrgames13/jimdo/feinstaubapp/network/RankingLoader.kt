@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.network
 import android.content.Context
 import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.io.RankingItem
+import com.mrgames13.jimdo.feinstaubapp.model.other.RankingItem
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpStatement

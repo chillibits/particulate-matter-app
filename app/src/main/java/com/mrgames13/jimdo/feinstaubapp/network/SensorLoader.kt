@@ -7,9 +7,9 @@ package com.mrgames13.jimdo.feinstaubapp.network
 import android.content.Context
 import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.db.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.model.dto.SensorDto
-import com.mrgames13.jimdo.feinstaubapp.model.io.Link
+import com.mrgames13.jimdo.feinstaubapp.model.other.Link
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpStatement

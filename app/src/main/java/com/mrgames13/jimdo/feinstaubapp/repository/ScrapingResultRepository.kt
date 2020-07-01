@@ -5,7 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.repository
 
 import android.app.Application
-import com.mrgames13.jimdo.feinstaubapp.model.db.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.getDatabase
 
 class ScrapingResultRepository(application: Application) {

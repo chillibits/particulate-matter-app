@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.network
 import android.content.Context
 import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.io.DataRecord
+import com.mrgames13.jimdo.feinstaubapp.model.other.DataRecord
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpStatement

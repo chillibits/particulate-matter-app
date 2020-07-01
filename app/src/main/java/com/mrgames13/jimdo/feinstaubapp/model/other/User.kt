@@ -2,7 +2,7 @@
  * Copyright © Marc Auberer 2017 - 2020. All rights reserved
  */
 
-package com.mrgames13.jimdo.feinstaubapp.model.io
+package com.mrgames13.jimdo.feinstaubapp.model.other
 
 import com.mrgames13.jimdo.feinstaubapp.model.dto.LinkDto
 import kotlinx.serialization.SerialName
