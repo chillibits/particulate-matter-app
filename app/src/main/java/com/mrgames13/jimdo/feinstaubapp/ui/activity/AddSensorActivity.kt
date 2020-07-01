@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
-import com.google.android.libraries.places.api.model.Place
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.databinding.ActivityAddSensorBinding
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
@@ -48,6 +47,7 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory
             .getInstance(application)).get(AddSensorViewModel::class.java)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         // Initialize toolbar
         toolbar.setTitle(R.string.add_own_sensor)
@@ -63,19 +63,10 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
             }
         }
 
-        sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!, PorterDuff.Mode.SRC)
+        binding.sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!, PorterDuff.Mode.SRC)
 
-        // Initialize pick sensor position button
-        selectSensorPosition.setOnClickListener { openPlacePicker() }
-
-        // Initialize publish switch
-        publishSensor.setOnCheckedChangeListener { _, isChecked ->
-            selectSensorPosition.isEnabled = isChecked
-            addressPreview.isEnabled = isChecked
-            lblHeight.isEnabled = isChecked
-            height.isEnabled = isChecked
-            publishExactPosition.isEnabled = isChecked
-        }
+        // Expand address preview if address field is already set
+        if(!viewModel.address.value.isNullOrBlank()) expandAddressPreview()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,26 +84,27 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
+        if(resultCode == Activity.RESULT_OK && data != null) {
             when(requestCode) {
                 Constants.REQ_PLACE_PICKER -> {
-                    val place = PingPlacePicker.getPlace(data!!)
-                    place?.let {
-                        viewModel.selectedPlace.value = it.latLng
-                        onPlaceSelected(it)
+                    PingPlacePicker.getPlace(data)?.let {
+                        viewModel.selectedPlace.postValue(it.latLng)
+                        viewModel.address.postValue(it.address)
+                        expandAddressPreview()
                     }
                 }
                 Constants.REQ_COLOR_CONVERTER -> {
-                    if(data != null && data.hasExtra(Constants.EXTRA_COLOR_CONVERTER)) {
-                        viewModel.selectedColor.value = data.getIntExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value!!)
-                        sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!)
+                    if(data.hasExtra(Constants.EXTRA_COLOR_CONVERTER)) {
+                        val color = data.getIntExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value!!)
+                        viewModel.selectedColor.postValue(color)
+                        sensorColorPreview.setColorFilter(color)
                     }
                 }
             }
         } else outputErrorMessage()
     }
 
-    private fun openPlacePicker() {
+    fun openPlacePicker(view: View) {
         val intent = PingPlacePicker.IntentBuilder()
             .setAndroidApiKey(getString(R.string.maps_api_key))
             .setMapsApiKey(getString(R.string.maps_api_key))
@@ -120,8 +112,7 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
         startActivityForResult(intent, Constants.REQ_PLACE_PICKER)
     }
 
-    private fun onPlaceSelected(place: Place) {
-        addressPreview.text = place.address
+    private fun expandAddressPreview() {
         // Initialize sensorPositionContainerBackground
         sensorPositionContainer.background = DrawableBuilder()
             .rectangle()
@@ -168,14 +159,14 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
             WITH_COLOR_CONVERTER -> {
                 startActivityForResult(Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(getString(R.string.url_instant_color_converter))
-                    putExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value!!)
+                    putExtra(Constants.EXTRA_COLOR_CONVERTER, viewModel.selectedColor.value)
                 }, Constants.REQ_COLOR_CONVERTER)
             }
             else -> {
                 MaterialColorPickerDialog.Builder(this)
                     .setTitle(R.string.choose_color)
                     .setColorListener { color, _ ->
-                        viewModel.selectedColor.value = color
+                        viewModel.selectedColor.postValue(color)
                         sensorColorPreview.setColorFilter(color, PorterDuff.Mode.SRC)
                     }
                     .showBottomSheet(supportFragmentManager)

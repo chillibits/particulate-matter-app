@@ -50,8 +50,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/lblSensorName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="@{viewModel.name}"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.setName(text)}"
+                    android:text="@={viewModel.name}"
                     android:layout_marginStart="10dp"
                     android:maxLength="30"
                     android:importantForAutofill="no"
@@ -74,8 +73,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@+id/sensorName"
                     app:layout_constraintTop_toBottomOf="@+id/sensorName"
-                    android:text="@{viewModel.chipId == 0 ? `` : viewModel.chipId.toString()}"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.setChipId(text)}"
+                    android:text="@={viewModel.chipId}"
                     android:importantForAutofill="no"
                     android:maxLength="12"
                     android:inputType="number" />
@@ -127,8 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/selectSensorColor"
-                    android:onCheckedChanged="@{(switch, checked) -> viewModel.setIndoor(checked)}"
-                    android:checked="@{viewModel.indoorSensor}"
+                    android:checked="@={viewModel.indoorSensor}"
                     android:layout_marginTop="15dp"
                     android:text="@string/indoor_sensor" />
 
@@ -137,8 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/indoor"
-                    android:onCheckedChanged="@{(switch, checked) -> viewModel.setShowSensorOnMap(checked)}"
-                    android:checked="@{viewModel.showSensorOnMap}"
+                    android:checked="@={viewModel.showSensorOnMap}"
                     android:layout_marginTop="10dp"
                     android:text="@string/public_sensor" />
 
@@ -155,7 +151,9 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         android:background="@drawable/button_outline_rounded_background_white"
+                        android:onClick="openPlacePicker"
                         android:text="@string/choose_location"
+                        android:enabled="@{viewModel.showSensorOnMap}"
                         android:textColor="@drawable/button_outline_text" />
 
                     <TextView
@@ -165,7 +163,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="@string/loading"
+                        android:text="@{viewModel.address}"
                         android:textColor="@color/white"
                         android:layout_marginBottom="1dp"
                         android:textSize="12sp" />
@@ -188,11 +186,11 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/sensorPositionContainer"
                     app:layout_constraintStart_toEndOf="@+id/lblHeight"
-                    android:text="@{viewModel.heightAboveGround == 0 ? `` : viewModel.heightAboveGround.toString()}"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.setHeightAboveGround(text)}"
+                    android:text="@={viewModel.heightAboveGround}"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:importantForAutofill="no"
+                    android:enabled="@{viewModel.showSensorOnMap}"
                     android:inputType="number"
                     android:maxLength="5" />
 
@@ -201,8 +199,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/height"
-                    android:onCheckedChanged="@{(switch, checked) -> viewModel.setPublishExactPosition(checked)}"
-                    android:checked="@{viewModel.publishExactPosition}"
+                    android:checked="@={viewModel.publishExactPosition}"
+                    android:enabled="@{viewModel.showSensorOnMap}"
                     android:layout_marginTop="10dp"
                     android:text="@string/publish_exact_position" />
 

@@ -18,12 +18,12 @@ class AddSensorViewModel(application: Application) : AndroidViewModel(applicatio
 
     // Variables
     var name = MutableLiveData("")
-    var chipId = MutableLiveData(0)
+    var chipId = MutableLiveData("")
     var selectedColor = MutableLiveData(Color.BLACK)
     var indoorSensor = MutableLiveData(false)
     var showSensorOnMap = MutableLiveData(true)
     var address = MutableLiveData("")
-    var heightAboveGround = MutableLiveData(0)
+    var heightAboveGround = MutableLiveData("")
     var publishExactPosition = MutableLiveData(false)
 
     init {
@@ -32,14 +32,6 @@ class AddSensorViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun createRandomColor() {
         val random = Random(System.currentTimeMillis())
-        selectedColor.value = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
+        selectedColor.postValue(Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)))
     }
-
-    fun setName(value: CharSequence) { name.value = value.toString() }
-    fun setChipId(value: CharSequence) { chipId.value = value.toString().toInt() }
-    fun setIndoor(value: Boolean) { indoorSensor.value = value }
-    fun setShowSensorOnMap(value: Boolean) { showSensorOnMap.value = value }
-    fun setAddress(value: CharSequence) { address.value = value.toString() }
-    fun setHeightAboveGround(value: CharSequence) { heightAboveGround.value = value.toString().toInt() }
-    fun setPublishExactPosition(value: Boolean) { publishExactPosition.value = value }
 }
