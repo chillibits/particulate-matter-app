@@ -6,6 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
@@ -31,7 +32,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val users = userRepository.users
 
     // Variables
-    var selectedPage = 1
+    var selectedPage = MutableLiveData(1)
 
     init {
         context.registerNetworkCallback()

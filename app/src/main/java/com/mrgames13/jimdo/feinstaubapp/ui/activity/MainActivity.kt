@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.OnBubbleClickListener
@@ -24,6 +25,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.databinding.ActivityMainBinding
 import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private var searchMenuItem: MenuItem? = null
     private lateinit var searchTask: SensorIPSearchTask
     private lateinit var viewpagerAdapter: ViewPagerAdapterMain
+    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
     // Variables
@@ -57,10 +60,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Initialize toolbar
-        setSupportActionBar(toolbar)
+        // Initialize data binding and view model
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         // Apply window insets
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -72,8 +76,8 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             }
         }
 
-        // Initialize ViewModel
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
+        // Initialize toolbar
+        setSupportActionBar(toolbar)
 
         // Initialize ViewPager
         viewpagerAdapter = ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
@@ -93,11 +97,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                         2 -> switchToOwnSensorsPage()
                         3 -> switchToLocalNetworkPage()
                     }
-                    viewModel.selectedPage = pos
+                    viewModel.selectedPage.postValue(pos)
                     tabBar.setSelected(pos)
                 }
             })
-            setCurrentItem(viewModel.selectedPage, false) // Start on the map
+            setCurrentItem(viewModel.selectedPage.value!!, false) // Start on the map
         }
 
         // Initialize BubbleTabBar
@@ -109,14 +113,14 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                     R.id.item_all_sensors -> 1
                     R.id.item_own_sensors -> 2
                     R.id.item_local_network -> 3
-                    else -> viewModel.selectedPage
+                    else -> viewModel.selectedPage.value!!
                 }
             }
         })
 
         // Initialize AddSearchFab
         fabAddSearch.fab.setOnClickListener {
-            when(viewModel.selectedPage) {
+            when(viewModel.selectedPage.value) {
                 1 -> openPlacesSearch()
                 2 -> openAddSensorActivity()
                 3 -> startLocalNetworkSearch()
@@ -208,7 +212,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private fun switchToAllSensorsPage() { // page index 1
         // Show and animate the fab
         if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
-        if(viewModel.selectedPage == 0 || viewModel.selectedPage == 2) {
+        if(viewModel.selectedPage.value == 0 || viewModel.selectedPage.value == 2) {
             fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
             if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
@@ -228,7 +232,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private fun switchToLocalNetworkPage() { // page index 3
         // Show and animate the fab
         if(!fabAddSearch.fab.isOrWillBeShown) fabAddSearch.fab.show()
-        if(viewModel.selectedPage == 0 || viewModel.selectedPage == 2) {
+        if(viewModel.selectedPage.value == 0 || viewModel.selectedPage.value == 2) {
             fabAddSearch.fab.setImageResource(R.drawable.fab_anim_add_to_search)
             if (fabAddSearch.fab.drawable is Animatable) (fabAddSearch.fab.drawable as Animatable).start()
         }
