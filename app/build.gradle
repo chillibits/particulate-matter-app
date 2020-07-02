@@ -26,8 +26,8 @@ android {
             resValue "string", "maps_api_key", "\"$mapsKey\""
             def apiKey = System.getenv("PMAPP_API_KEY")
             resValue "string", "api_client_key", "\"$apiKey\""
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -48,7 +48,7 @@ android {
         jvmTarget = "1.8"
     }
     packagingOptions {
-        pickFirst 'META-INF/*'
+        exclude 'META-INF/**'
     }
     dataBinding {
         enabled = true
