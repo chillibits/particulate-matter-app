@@ -24,7 +24,6 @@ import com.mrgames13.jimdo.feinstaubapp.databinding.ActivityAddSensorBinding
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.availableSoon
 import com.mrgames13.jimdo.feinstaubapp.shared.getPrefs
-import com.mrgames13.jimdo.feinstaubapp.shared.outputErrorMessage
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.OnChooseColorDialogSelectionListener
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.WITH_COLOR_CONVERTER
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showChooseColorDialog
@@ -101,7 +100,7 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
                     }
                 }
             }
-        } else outputErrorMessage()
+        }
     }
 
     fun openPlacePicker(view: View) {

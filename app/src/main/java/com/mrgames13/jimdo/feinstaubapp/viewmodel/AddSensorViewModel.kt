@@ -19,19 +19,15 @@ class AddSensorViewModel(application: Application) : AndroidViewModel(applicatio
     // Variables
     var name = MutableLiveData("")
     var chipId = MutableLiveData("")
-    var selectedColor = MutableLiveData(Color.BLACK)
+    var selectedColor = MutableLiveData(createRandomColor())
     var indoorSensor = MutableLiveData(false)
     var showSensorOnMap = MutableLiveData(true)
     var address = MutableLiveData("")
     var heightAboveGround = MutableLiveData("")
     var publishExactPosition = MutableLiveData(false)
 
-    init {
-        createRandomColor()
-    }
-
-    private fun createRandomColor() {
+    private fun createRandomColor(): Int {
         val random = Random(System.currentTimeMillis())
-        selectedColor.postValue(Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)))
+        return Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255))
     }
 }

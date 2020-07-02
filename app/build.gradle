@@ -26,8 +26,8 @@ android {
             resValue "string", "maps_api_key", "\"$mapsKey\""
             def apiKey = System.getenv("PMAPP_API_KEY")
             resValue "string", "api_client_key", "\"$apiKey\""
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -82,8 +82,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Maps dependencies
-    implementation 'com.google.maps.android:maps-ktx:1.7.0'
-    implementation 'com.google.maps.android:maps-utils-ktx:1.7.0'
+    implementation 'com.google.maps.android:maps-ktx:1.8.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:1.8.0'
     implementation 'com.google.android.libraries.places:places:2.3.0'
 
     // ZXing dependencies

@@ -169,16 +169,14 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when(requestCode) {
-                Constants.REQ_SCAN_WEB -> initializeWebConnection(resultCode, data)
-            }
-        } else {
-            when(requestCode) {
-                Constants.REQ_ADD_SENSOR -> try {
+        when (requestCode) {
+            Constants.REQ_ADD_SENSOR -> {
+                try {
                     closeActivityWithRevealAnimation(this, fabAddSearch.fab, revealSheet)
                 } catch (e: IllegalStateException) {}
-                else -> outputErrorMessage()
+            }
+            Constants.REQ_SCAN_WEB -> {
+                if(resultCode == Activity.RESULT_OK) initializeWebConnection(resultCode, data)
             }
         }
     }
