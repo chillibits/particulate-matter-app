@@ -87,7 +87,7 @@ class AllSensorsFragment(
         // Initialize ViewModel
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
 
-        return inflater.inflate(R.layout.fragment_all_sensors, container, false).run {
+        return inflater.inflate(R.layout.fragment_all_sensors, container, false).apply {
             // Initialize map
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
             lifecycle.coroutineScope.launchWhenCreated {
@@ -138,8 +138,6 @@ class AllSensorsFragment(
 
             // Initialize ranking button
             mapRanking.setOnClickListener { showRankingDialog(context, requireFragmentManager(), lifecycle) }
-
-            this
         }
     }
 
