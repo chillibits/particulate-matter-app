@@ -21,7 +21,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            def mapsKey = System.getenv("PMAPP_MAPS_KEY")
+            resValue "string", "maps_api_key", "\"$mapsKey\""
+            def apiKey = System.getenv("PMAPP_API_KEY")
+            resValue "string", "api_client_key", "\"$apiKey\""
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
+            def mapsKey = System.getenv("PMAPP_MAPS_KEY")
+            resValue "string", "maps_api_key", "\"$mapsKey\""
+            def apiKey = System.getenv("PMAPP_API_KEY")
+            resValue "string", "api_client_key", "\"$apiKey\""
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
