@@ -108,7 +108,7 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.github.dhaval2404:colorpicker:1.2'
     implementation 'com.github.rtchagas:pingplacepicker:2.0.6'
-    implementation 'com.mikepenz:fastadapter:5.1.0'
+    implementation 'com.mikepenz:fastadapter:5.2.0'
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:3.0.1'
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
