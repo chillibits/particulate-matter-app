@@ -1,9 +1,11 @@
 # Particulate Matter App
 [![Build Status](https://travis-ci.org/ChilliBits/particulate-matter-app.svg?branch=master)](https://travis-ci.org/ChilliBits/particulate-matter-app)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/546c5e0356af45e099826b097ebfbc0e)](https://app.codacy.com/gh/ChilliBits/particulate-matter-app?utm_source=github.com&utm_medium=referral&utm_content=ChilliBits/particulate-matter-app&utm_campaign=Badge_Grade_Dashboard)
+
 **Be informed about the particulate matter situation and the air quality!**
 
-The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://luftdaten.info/en/construction-manual/) of [www.luftdaten.info](https://luftdaten.info/en), you can link it within the app and publish its data to all our app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
+The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://sensor.community/en/sensors/airrohr/) of [sensor.community](https://sensor.community), you can link it within the app and publish its data to all app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
 
 Download now on [Google Play](https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp)!
 
