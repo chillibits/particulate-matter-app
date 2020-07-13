@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.chillibits.simplesettings.core.SimpleSettings
+import com.chillibits.simplesettings.core.SimpleSettingsConfig
 import com.fxn.OnBubbleClickListener
 import com.google.android.libraries.places.api.model.Place
 import com.google.zxing.integration.android.IntentIntegrator
@@ -255,7 +257,12 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         })
     }
 
-    private fun openSettingsActivity() = startActivity(Intent(this, SettingsActivity::class.java))
+    private fun openSettingsActivity() {
+        val config = SimpleSettingsConfig().apply {
+            showResetOption = true
+        }
+        SimpleSettings(this, config).show(R.xml.pref)
+    }
 
     private fun initializeWebConnection(resultCode: Int, data: Intent?) {
         try{
