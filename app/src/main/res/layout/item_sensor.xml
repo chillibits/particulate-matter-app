@@ -3,87 +3,55 @@
   ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/itemContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:background="?selectableItemBackground"
-    android:padding="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <eu.davidea.flipview.FlipView
-        android:id="@+id/item_icon"
+        android:id="@+id/itemIcon"
         android:layout_width="55dp"
         android:layout_height="55dp"
         app:frontImage="@drawable/sensor_white"
-        app:frontImagePadding="0dp"
         app:rearImage="@drawable/done_white"
-        app:rearImageAnimationDelay="0"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/item_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/itemName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/item_icon"
+        app:layout_constraintStart_toEndOf="@+id/itemIcon"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="10dp"
         android:textStyle="bold"
         android:textSize="19sp"
-        android:layout_marginTop="3dp"
-        android:text="@string/loading"/>
+        android:layout_marginTop="3dp"/>
 
     <TextView
-        android:id="@+id/item_id"
-        android:layout_width="wrap_content"
+        android:id="@+id/itemDetails"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray_light"
-        app:layout_constraintStart_toEndOf="@+id/item_icon"
-        app:layout_constraintTop_toBottomOf="@+id/item_name"
-        android:layout_marginStart="10dp"
-        android:text="@string/loading"/>
+        android:textColor="@color/grayLight"
+        app:layout_constraintStart_toEndOf="@+id/itemIcon"
+        app:layout_constraintTop_toBottomOf="@+id/itemName"
+        android:layout_marginStart="10dp"/>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/item_own_sensor"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@drawable/sensor_white"
-        app:tint="@color/colorAccent"
-        app:layout_constraintStart_toEndOf="@+id/item_name"
-        app:layout_constraintTop_toTopOf="@+id/item_name"
-        app:layout_constraintBottom_toBottomOf="@+id/item_name"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="5dp"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/item_warning"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="5dp"
-        app:srcCompat="@drawable/warning"
+        android:id="@+id/itemOptions"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_more"
-        android:background="?selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/item_more"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/more_vert_black"
+        android:tint="@color/grayLight"
         android:padding="9dp"
         android:layout_marginEnd="5dp"
-        app:srcCompat="@drawable/more_vert"
-        app:tint="@color/gray_light"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"/>

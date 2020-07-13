@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="24dp"
+    android:paddingEnd="15dp"
+    android:paddingTop="10dp"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stats_server_requests_today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/server_requests_today_"/>
+
+        <TextView
+            android:id="@+id/stats_server_requests_yesterday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/server_requests_yesterday_"/>
+
+        <TextView
+            android:id="@+id/stats_server_requests_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/server_requests_total_"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/data_records_today_"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_yesterday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="1"
+            android:layout_marginTop="5dp"
+            android:text="@string/data_records_yesterday_"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_this_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/data_records_this_month_"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_prev_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/data_records_prev_month_"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorButton"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/data_records_total_"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stats_server_requests_today_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_server_requests_yesterday_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_server_requests_total_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_today_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_yesterday_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_this_month_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_prev_month_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/stats_data_records_total_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:text="@string/loading"/>
+    </LinearLayout>
+</LinearLayout>

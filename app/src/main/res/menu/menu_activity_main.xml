@@ -3,25 +3,30 @@
   ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="AlwaysShowAction">
 
     <item
         android:id="@+id/action_search"
         android:title="@string/search_for_sensors"
         android:icon="@drawable/search_white"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/action_rate"
-        android:title="@string/rate_app"
-        android:icon="@drawable/star_border"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:visible="false"/>
 
     <item
         android:id="@+id/action_import_export"
         android:title="@string/export_data"
-        android:icon="@drawable/import_export"
+        android:icon="@drawable/import_export_white"
+        app:showAsAction="always"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/action_rate"
+        android:title="@string/rate_app"
+        android:icon="@drawable/star_border_white"
         app:showAsAction="always"/>
 
     <item
@@ -30,7 +35,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_recommend"
         android:title="@string/recommend_app"
         app:showAsAction="never"/>
 
@@ -45,7 +50,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_exit"
+        android:id="@+id/action_quit"
         android:title="@string/exit"
         android:orderInCategory="400"
         app:showAsAction="never"/>

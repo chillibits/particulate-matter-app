@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Mon, 13 Jul 2020 10:24:03 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
-    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Рекомендовать</string>
     <string name="recommend_app">порекомендуйте приложение</string>
     <string name="recommend_m">Порекомендуйте приложение Particulate Matter своим друзьям!</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Медиана за день</string>
     <string name="enable_daily_average_median_s">Внизу таблицы с данными</string>
     <string name="enable_nothing">Скрыть среднее и медиану</string>
-    <string name="enable_auto_correction_t">Авто исправление ошибок</string>
-    <string name="enable_auto_correction_s">Единичные некорректные измерения будут скорректированы автоматически</string>
+    <string name="manage_auto_correction_t">Авто исправление ошибок</string>
+    <string name="manage_auto_correction_s">Единичные некорректные измерения будут скорректированы автоматически</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Синхронизация</string>
     <string name="sync_cycle">Период обновления данных</string>
@@ -232,7 +232,7 @@
     <string name="pref_appversion">Версия приложения</string>
     <string name="pref_developers_t">Разработчики</string>
     <string name="pref_more_apps_t">Больше наших приложений</string>
-    <string name="pref_more_apps_m">Наш сайт Play Store</string>
+    <string name="pref_more_apps_s">Наш сайт Play Store</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Нажмите на цвет, чтобы выбрать\n</string>
     <string name="altitude">Высота</string>
@@ -264,7 +264,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Связаться с нами</string>
-    <string name="sensor_highscore">Пиковые значения датчика</string>
+    <string name="sensor_ranking">Пиковые значения датчика</string>
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
     <string name="widget_label_small">Обзорная схема</string>
     <string name="pref_enable_threshold_notifications">Включить уведомления о превышении пороговых значений</string>
@@ -277,4 +277,44 @@
     <string name="warning_dialog_text">Чтобы подключить этот датчик в приложении, надо включить передачу данных на наш сервер. Для этого откройте страницу настроек датчика, зайдите в Configuration -&gt; APIs и включите галочку «Feinstaub-App»</string>
     <string name="only_with_wifi">Требует подключения по WiFi</string>
     <string name="add_to_own_sensors">Добавить к Моим датчикам</string>
+    <string name="local_network">Локальная сеть</string>
+    <string name="cities">Города</string>
+    <string name="countries">Страны</string>
+    <string name="indoor_sensor">Датчик в помещении</string>
+    <string name="available_soon">Эта функция скоро будет доступна</string>
+    <string name="remember_selection">Запомнить выбор</string>
+    <string name="pick_with_color_converter">Выбрать конвертером цветов</string>
+    <string name="open_color_picker">Открыть палитру</string>
+    <string name="publish_exact_position"></string>
+    <string name="app_description"></string>
+    <string name="app_description_large"></string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorithm_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
+    <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

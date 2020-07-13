@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:foreground="?selectableItemBackgroundBorderless"
     android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
     android:paddingEnd="?android:attr/expandableListPreferredItemIndicatorRight">
 

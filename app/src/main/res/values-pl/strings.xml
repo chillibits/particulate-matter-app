@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Mon, 13 Jul 2020 10:24:03 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info/pl">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
-    <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
-    <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="rate_m">Jeśli podoba Ci się nasza aplikacja, oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek!</string>
+    <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Polecam</string>
     <string name="recommend_app">Polecam aplikację</string>
     <string name="recommend_m">Polecam Particulate Matter znajomym !</string>
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Nie pokazuj ponownie</string>
     <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
     <string name="choose_location">Wybierz dokładną lokalizację sensora</string>
-    <string name="sensor_height">Wysokość nad ziemią / ulicą (m):</string>
+    <string name="sensor_height">Wysokość nad ziemią / ulicą (cm):</string>
     <string name="latitude">Szerokość</string>
     <string name="latitude_">Szerokość:</string>
     <string name="longitude">Długość</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Pokaż dzienną medianę</string>
     <string name="enable_daily_average_median_s">Wyświetlaj poniżej rekordy danych</string>
     <string name="enable_nothing">Wyłącz średnią / medianę</string>
-    <string name="enable_auto_correction_t">Automatyczna korekcja błędów</string>
-    <string name="enable_auto_correction_s">Automatyczna korekcja dla wadliwych pomiarów</string>
+    <string name="manage_auto_correction_t">Automatyczna korekcja błędów</string>
+    <string name="manage_auto_correction_s">Zarządzaj automatyczną korekcja dla wadliwych pomiarów</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronizacja</string>
     <string name="sync_cycle">Cykl synchronizacji</string>
@@ -232,7 +232,7 @@
     <string name="pref_appversion">Wersja aplikacji</string>
     <string name="pref_developers_t">Deweloper</string>
     <string name="pref_more_apps_t">Więcej aplikacji od nas</string>
-    <string name="pref_more_apps_m">Nasza strona PlayStore</string>
+    <string name="pref_more_apps_s">Nasza strona PlayStore</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Wybierz kolor, aby zastosować</string>
     <string name="altitude">Wysokość</string>
@@ -264,7 +264,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Kontakt</string>
-    <string name="sensor_highscore">Sensor z wysokim wynikiem</string>
+    <string name="sensor_ranking">Ranking sensora</string>
     <string name="connected_to_web_version">Połączony z pm.chillibits.com</string>
     <string name="widget_label_small">Krótkie info</string>
     <string name="pref_enable_threshold_notifications">Włącz powiadomienia progowe</string>
@@ -277,4 +277,44 @@
     <string name="warning_dialog_text">Aby móc połączyć sensor w aplikacji, konieczne jest włączenie transmisji danych do naszego serwera.</string>
     <string name="only_with_wifi">Tylko dostępne podczas połączenia WIFI.</string>
     <string name="add_to_own_sensors">Dodaj do własnych sensorów</string>
+    <string name="local_network">Sieć lokalna</string>
+    <string name="cities">Miasto</string>
+    <string name="countries">Kraj</string>
+    <string name="indoor_sensor">Sensor wewnętrzny</string>
+    <string name="available_soon">Ta funkcjonalność dostępna już wkrótce.</string>
+    <string name="remember_selection">Zapamiętaj wybór</string>
+    <string name="pick_with_color_converter">Wybierz za pomocą konwertera kolorów</string>
+    <string name="open_color_picker">Otwórz narzędzie wyboru kolorów</string>
+    <string name="publish_exact_position">Publikuj dokładną pozycję</string>
+    <string name="app_description">Bądź informowany o jakości powietrza!</string>
+    <string name="app_description_large">Aplikacja Particulate Matter App to aplikacja do monitorowania jednego lub kilku sensorów w sieci.</string>
+    <string name="sign_in">Zaloguj się</string>
+    <string name="sign_up">Wyloguj się</string>
+    <string name="email">E-mail</string>
+    <string name="password">Hasło</string>
+    <string name="no_account_yet_sign_up">Nie masz jeszcze konta?</string>
+    <string name="confirm_password">Potwierdź hasło</string>
+    <string name="passwords_do_not_match">Hasło nie pasuje</string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1">Algorytm 1</item>
+        <item name="error_correction_algorithm_2">Algorytm 2</item>
+    </string-array>
+    <string name="reset_settings">Reset ustawień</string>
+    <string name="show_inactive_sensors_t">Pokaż nieaktywne sensory na mapie</string>
+    <string name="show_inactive_sensors_s">Nieaktywne sensory podświetlane są na pomarańczowo</string>
+    <string name="local_network_start">Możemy wyszukać sensory w twojej sieci lokalnej, kliknij aby rozpocząć proces wyszukiwania.</string>
+    <string name="indoor_">Wewnętrzny:</string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

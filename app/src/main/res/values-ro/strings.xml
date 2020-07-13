@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ro, Romanian
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:34 +0000
+ Exported at: Mon, 13 Jul 2020 10:24:03 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -56,7 +56,7 @@
     <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
-    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recomandata</string>
     <string name="recommend_app">Recomandă aplicația</string>
     <string name="recommend_m">Recomandă aplicația Particulate Matter pentru prietenii tăi!</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Arată mediana zilnică</string>
     <string name="enable_daily_average_median_s">Afișat sub înregistrările de date</string>
     <string name="enable_nothing">Dezactivați media / mediana</string>
-    <string name="enable_auto_correction_t">Corecție automată a erorilor</string>
-    <string name="enable_auto_correction_s">Corecția automată a măsurătorilor defecte</string>
+    <string name="manage_auto_correction_t">Corecție automată a erorilor</string>
+    <string name="manage_auto_correction_s">Corecția automată a măsurătorilor defecte</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Sincronizare</string>
     <string name="sync_cycle">Ciclul de sincronizare</string>
@@ -232,7 +232,7 @@
     <string name="pref_appversion">Versiunea aplicației</string>
     <string name="pref_developers_t">Dezvoltatorii</string>
     <string name="pref_more_apps_t">Mai multe aplicații de la noi</string>
-    <string name="pref_more_apps_m">Site-ul nostru PlayStore</string>
+    <string name="pref_more_apps_s">Site-ul nostru PlayStore</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Apăsați pe Color pentru a aplica</string>
     <string name="altitude">Inaltime</string>
@@ -264,7 +264,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Contactează-ne</string>
-    <string name="sensor_highscore">Senzor scor</string>
+    <string name="sensor_ranking">Senzor scor</string>
     <string name="connected_to_web_version">Conectat la pm.chillibits.com</string>
     <string name="widget_label_small">Placă de informații rapide</string>
     <string name="pref_enable_threshold_notifications">Activați notificările de prag</string>
@@ -277,4 +277,44 @@
     <string name="warning_dialog_text">Pentru a putea conecta acest senzor în aplicație, este necesar să activăm transmisia de date către serverul nostru. Pentru a face acest lucru, deschideți site-ul de configurare al senzorului, navigați la Configurare&gt; API-uri și activați caseta de selectare \'Feinstaub-App\'.</string>
     <string name="only_with_wifi">Disponibil numai cu conexiune WiFi</string>
     <string name="add_to_own_sensors">Adăugați la senzori proprii</string>
+    <string name="local_network"></string>
+    <string name="cities"></string>
+    <string name="countries"></string>
+    <string name="indoor_sensor"></string>
+    <string name="available_soon"></string>
+    <string name="remember_selection"></string>
+    <string name="pick_with_color_converter"></string>
+    <string name="open_color_picker"></string>
+    <string name="publish_exact_position"></string>
+    <string name="app_description"></string>
+    <string name="app_description_large"></string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorithm_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
+    <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

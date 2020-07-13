@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/withColorConverter"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:background="?selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            app:srcCompat="@drawable/color_converter_logo"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:text="@string/pick_with_color_converter"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/openColorPicker"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:background="?selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:tint="@color/grayLight"
+            app:srcCompat="@drawable/colorize_black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:text="@string/open_color_picker"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rememberSelectionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="15dp">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/rememberSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="@string/remember_selection"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"/>
+    </LinearLayout>
+</LinearLayout>

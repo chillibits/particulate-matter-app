@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/mapType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/map_control_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:elevation="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/mapTraffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/mapType"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/map_control_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:padding="2dp"
+        android:elevation="10dp"/>
+
+    <TextView
+        android:id="@+id/mapSensorCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/mapTraffic"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="@string/loading"
+        android:textColor="@color/colorTextMapControls"
+        android:background="@drawable/map_control_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="6dp"
+        android:elevation="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/mapRefresh"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/refresh_white"
+        android:tint="@color/colorTextMapControls"
+        android:background="@drawable/map_control_background"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="3dp"
+        android:elevation="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/mapRanking"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/format_list_numbered_white"
+        android:tint="@color/colorTextMapControls"
+        android:background="@drawable/map_control_background"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@+id/mapRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="3dp"
+        android:elevation="10dp"/>
+
+    <include
+        android:id="@+id/markerWindow1"
+        layout="@layout/info_window_marker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/markerWindow2"
+        layout="@layout/info_window_marker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/clusterWindow1"
+        layout="@layout/info_window_cluster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/clusterWindow2"
+        layout="@layout/info_window_cluster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/windowContainer"
+    android:layout_width="210dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/info_window_background"
+    android:paddingTop="3dp"
+    android:paddingStart="3dp"
+    android:paddingEnd="3dp"
+    android:paddingBottom="6dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/sensorIcon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:srcCompat="@drawable/sensor_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:tint="@color/colorButton"/>
+
+    <TextView
+        android:id="@+id/chipId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toEndOf="@+id/sensorIcon"
+        app:layout_constraintEnd_toStartOf="@+id/properties"
+        app:layout_constraintTop_toTopOf="parent"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/loading"/>
+
+    <TextView
+        android:id="@+id/coordinates"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/chipId"
+        app:layout_constraintStart_toStartOf="@+id/chipId"
+        app:layout_constraintEnd_toStartOf="@+id/properties"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:text="@string/loading"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/properties"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/info_outline_black"
+        android:tint="@color/colorButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/stats"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="2dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/stats"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="2dp"
+        android:tint="@color/colorButton"
+        app:layout_constraintBottom_toBottomOf="@+id/countryCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/properties"
+        app:srcCompat="@drawable/show_chart_black" />
+
+    <TextView
+        android:id="@+id/countryCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/sensorIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stats"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:text="@string/loading"/>
+
+    <Button
+        android:id="@+id/showMeasurements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/countryCity"
+        android:text="@string/show_measurements"
+        android:background="@drawable/button_outline"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@drawable/button_outline_text"/>
+
+    <Button
+        android:id="@+id/addFavourite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_favourite"
+        app:layout_constraintTop_toBottomOf="@+id/showMeasurements"
+        android:background="@drawable/button_outline"
+        android:textColor="@drawable/button_outline_text"
+        android:layout_margin="3dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

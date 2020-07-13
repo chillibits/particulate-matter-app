@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 19:00:34 +0100
+ Exported at: Mon, 13 Jul 2020 11:24:03 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">Wollen Sie den Sensor \'%s\' wirklich entfernen?</string>
     <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
-    <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
-    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="rate_m">Wenn Ihnen unsere App gefällt, bewerten Sie sie auf Google Play mit 5 Sternen!</string>
+    <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download von Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Weiterempfehlen</string>
     <string name="recommend_app">App weiterempfehlen</string>
     <string name="recommend_m">Empfehlen Sie die App Ihren Freunden!</string>
@@ -93,13 +93,13 @@
     <string name="do_not_show_again">Nicht mehr anzeigen</string>
     <string name="public_sensor">Sensor für andere Nutzer freigeben und auf der Karte sichtbar machen</string>
     <string name="choose_location">Genaue Sensor-Position auswählen</string>
-    <string name="sensor_height">Höhe über Grund/Straße (m):</string>
+    <string name="sensor_height">Höhe über Grund/Straße (cm):</string>
     <string name="latitude">Breitengrad</string>
     <string name="latitude_">Breitengrad:</string>
     <string name="longitude">Längengrad</string>
     <string name="longitude_">Längengrad:</string>
     <string name="coordinates_info">Aus Datenschutzgründen werden die Koordinaten gerundet.</string>
-    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die zuletzt gesendete Position automatisch auf die Karte übertragen.</string>
+    <string name="gps_will_be_synchronized">Wenn an Ihrem Sensor-System ein GPS-Sensor angeschlossen ist, wird die Position in Echtzeit auf die Karte übertragen.</string>
     <string name="edit_position_info">Die Position Ihres Sensors können Sie aus Sicherheitsgründen nur ändern, wenn Sie mit uns Kontakt aufnehmen.</string>
     <string name="unknown_location">Unbekannte Position</string>
     <!-- SensorActivity -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Tagesmedian anzeigen</string>
     <string name="enable_daily_average_median_s">Wird unter den Datensätzen angezeigt</string>
     <string name="enable_nothing">Mittelwert / Median deaktivieren</string>
-    <string name="enable_auto_correction_t">Automatische Fehlerkorrektur</string>
-    <string name="enable_auto_correction_s">Automatische Korrektur von Messfehlern</string>
+    <string name="manage_auto_correction_t">Algorithmen zur Fehlerkorrektur</string>
+    <string name="manage_auto_correction_s">Automatische Korrektur von Messfehlern verwalten</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
     <string name="sync_cycle">Synchronisationszyklus</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">App-Version</string>
     <string name="pref_developers_t">Die Entwickler</string>
     <string name="pref_more_apps_t">Mehr Apps von uns</string>
-    <string name="pref_more_apps_m">Unsere PlayStore-Seite</string>
+    <string name="pref_more_apps_s">Unsere PlayStore-Seite</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Zum Bestätigen auf Farbe tippen</string>
     <string name="altitude">Höhe</string>
@@ -260,10 +260,10 @@
     <string name="default_map_type">Kartentyp beim Appstart</string>
     <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
     <string name="sync_running">Synchronisation läuft …</string>
-    <!-- Please only paste url with the correct anchor -->
+    <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Kontakt aufnehmen</string>
-    <string name="sensor_highscore">Sensor-Bestenliste</string>
+    <string name="sensor_ranking">Sensor-Bestenliste</string>
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>
     <string name="widget_label_small">QuickInfo-Kachel</string>
     <string name="pref_enable_threshold_notifications">Grenzwert-Benachrichtigungen aktivieren</string>
@@ -276,4 +276,44 @@
     <string name="warning_dialog_text">Um diesen Sensor in der App verknüpfen zu können, ist es notwendig die Übermittlung der Daten auf unseren Server zu aktivieren. Um dies zu tun, öffnen Sie die Konfigurationsseite des Sensors, navigieren Sie zu Konfiguration &gt; APIs und aktivieren Sie das Optionsfeld \'Feinstaub-App\'. Nach dem Speichern und einer kurzen Wartezeit sollte der Sensor zur Verknüpfung verfügbar sein.</string>
     <string name="only_with_wifi">Nur über WLAN verfügbar</string>
     <string name="add_to_own_sensors">Zu eigenen Sensoren hinzufügen</string>
+    <string name="local_network">Lokales Netzwerk</string>
+    <string name="cities">Städte</string>
+    <string name="countries">Länder</string>
+    <string name="indoor_sensor">Indoor-Sensor</string>
+    <string name="available_soon">Diese Funktion is bald verfügbar</string>
+    <string name="remember_selection">Auswahl merken</string>
+    <string name="pick_with_color_converter">Mit Color Converter wählen</string>
+    <string name="open_color_picker">Farbwähler öffnen</string>
+    <string name="publish_exact_position">Genaue Position veröffentlichen</string>
+    <string name="app_description">Sei informiert über die Feinstaub-Situation und Luftqualität!</string>
+    <string name="app_description_large">Die Feinstaub-App ist eine Anwendung zur Überwachung von einem oder mehreren Sensoren in einem Feinstaub-Netzwerk. Auf der Karte können Sie alle Sensoren weltweit sehen, die in dem Netzwerk registriert sind. Es können beliebig viele Sensoren hinzugefügt bzw. überwacht werden. Auch ein Vergleich der Sensordaten ist möglich.\n\nSie wollen uns helfen die App zu übersetzen? Bitte senden Sie eine E-Mail an contact@chillibits.com\n\nWenn Sie das Projekt finanziell unterstützen wollen, besuchen Sie bitte https://github.com/sponsors/marcauberer\n\nSie wollen unsere Web-App nutzen? Bitte besuchen Sie https://feinstaub.chillibits.com\n\nBei Fragen besuchen Sie bitte die FAQ-Seite: https://chillibits.com/pmapp/de/faq\n\nInfo: Die App ist nicht dazu da, Feinstaub mit dem Android-Gerät zu messen. Wir empfehlen den Feinstaubsensor von https://luftdaten.info/.\n\nDie App ist OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in">Anmelden</string>
+    <string name="sign_up">Registrieren</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="no_account_yet_sign_up">Noch keinen Account?</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="passwords_do_not_match">Passwörter stimmen nicht überein</string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1">Algorithmus 1</item>
+        <item name="error_correction_algorith_2">Algorithmus 2</item>
+    </string-array>
+    <string name="reset_settings">Einstellungen zurücksetzen</string>
+    <string name="show_inactive_sensors_t">Inaktive Sensoren auf der Karte anzeigen</string>
+    <string name="show_inactive_sensors_s">Inaktive Sensoren werden orange markiert</string>
+    <string name="local_network_start">Wir können für Sie nach Sensoren im lokalen Netzwerk suchen! Tippen Sie unten um den Suchlauf zu starten.</string>
+    <string name="indoor_">Indoor:</string>
+    <string name="sensor_stats">Sensor-Statistiken</string>
+    <string name="server_requests_today_">Serveranfragen heute:</string>
+    <string name="server_requests_yesterday_">Serveranfragen gestern:</string>
+    <string name="data_records_today_">Datensätze heute:</string>
+    <string name="data_records_yesterday_">Datensätze gestern:</string>
+    <string name="data_records_this_month_">Datensätze dieser Monat:</string>
+    <string name="data_records_prev_month_">Datensätze letzter Monat:</string>
+    <string name="data_records_total_">Datensätze insgesamt:</string>
+    <string name="server_requests_total_">Serveranfragen insgesamt:</string>
+    <string name="more_info">Mehr Info</string>
+    <string name="stats">Statistiken</string>
+    <string name="skip">Überspringen</string>
+    <string name="error">Fehler</string>
 </resources>

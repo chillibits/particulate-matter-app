@@ -3,33 +3,6 @@
   ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu>
 
-    <item
-        android:id="@+id/action_export"
-        android:title="@string/export_data"
-        android:orderInCategory="100"
-        app:showAsAction="always"
-        android:icon="@drawable/forward"/>
-
-    <item
-        android:id="@+id/action_refresh"
-        android:title="@string/refresh"
-        android:orderInCategory="200"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/refresh_white"/>
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/settings"
-        android:orderInCategory="300"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_show_gps"
-        android:title="@string/show_gps_data"
-        android:orderInCategory="400"
-        android:checkable="true"
-        app:showAsAction="never"/>
 </menu>

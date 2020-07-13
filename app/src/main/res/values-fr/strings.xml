@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: fr, French
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:33 +0000
+ Exported at: Mon, 13 Jul 2020 11:24:02 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -39,7 +39,7 @@
     <string name="update_necessary_m">Pour que l\'application Matière Particulaire puisse fonctionner correctement, vous devez effectuer une mise à jour.</string>
     <string name="download_update">Télécharger</string>
     <string name="update_available">Mise à jour disponible</string>
-    <string name="download">Téléchargement</string>
+    <string name="download">Télécharger</string>
     <!-- HomeScreen Widget -->
     <string name="widget_label_large">Affichage de matière particulaire</string>
     <string name="widget_app_data_cleared">Les données de l\'application ont été supprimées. Choisissez le capteur encore une fois, s\'il vous plaît.</string>
@@ -51,12 +51,12 @@
     <string name="edit_sensor">Modifier le capteur</string>
     <string name="complete_sensor">Compléter le capteur</string>
     <string name="unlink_sensor">Supprimer le capteur</string>
-    <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
+    <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Voulez-vous vraiment supprimer le capteur \'%s\'?</string>
     <string name="no_sensors">Si vous possédez un capteur de <a href="https://www.luftdaten.info/fr">www.luftdaten.info</a>, vous pouvez le lier ici. Tapez en dessous pour lier le capteur.</string>
     <string name="rate_app">Évaluer l\'application</string>
     <string name="rate_m">Evaluez l\'application Matière Particulaire dans le Google Play Store avec 5 étoiles, si l\'application vous plaît! Vous pouvez écrire des suggestions d\'amélioration avec l\'évaluation.</string>
-    <string name="recommend_string">L\'application Matière Particulaire présente graphiquement, facilement et élegamment des données de particules fines. Télécharger depuis le Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="recommend_string">L\'application Matière Particulaire présente graphiquement, facilement et élegamment des données de particules fines. Télécharger depuis le Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recommander</string>
     <string name="recommend_app">Recommander l\'application</string>
     <string name="recommend_m">Recommandez l\'application à vos amis!</string>
@@ -114,8 +114,8 @@
     <string name="temperature">Température</string>
     <string name="humidity_short">Humidité</string>
     <string name="pressure_short">Pression</string>
-    <string name="humidity">Humidité relative</string>
-    <string name="pressure">Pression atmosphérique</string>
+    <string name="humidity">Humidité</string>
+    <string name="pressure">Pression</string>
     <string name="no_diagram_selected">Aucun graphique selectionné</string>
     <string name="from">de</string>
     <string name="to">à</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Montrer la médiane quotidienne</string>
     <string name="enable_daily_average_median_s">Affiché sous les enregistrements</string>
     <string name="enable_nothing">Désactiver la valeur moyenne / la médiane</string>
-    <string name="enable_auto_correction_t">Correction d\'erreur automatique</string>
-    <string name="enable_auto_correction_s">Correction automatique des erreurs de mesure</string>
+    <string name="manage_auto_correction_t">Correction d\'erreur automatique</string>
+    <string name="manage_auto_correction_s">Correction automatique des erreurs de mesure</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronisation</string>
     <string name="sync_cycle">Cycle de synchronisation</string>
@@ -220,7 +220,7 @@
     <string name="server_status_online">Le serveur est en ligne</string>
     <string name="server_status_offline">Le serveur est hors ligne</string>
     <string name="server_status_maintenance">Le serveur est en maintenance</string>
-    <string name="server_status_support_ended">L\'application n\'est plus supportée</string>
+    <string name="server_status_support_ended">Fin du support de l\'application</string>
     <string name="server_status_online_short">En ligne</string>
     <string name="server_status_offline_short">Hors ligne</string>
     <string name="server_status_maintenance_short">En maintenance</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">Version de l\'application</string>
     <string name="pref_developers_t">Les développeurs</string>
     <string name="pref_more_apps_t">Plus sur nos applications</string>
-    <string name="pref_more_apps_m">Notre page Play Store</string>
+    <string name="pref_more_apps_s">Notre page Play Store</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Pour confirmer, tapez sur une couleur</string>
     <string name="altitude">Hauteur</string>
@@ -247,12 +247,13 @@
     <string name="please_select_at_least_one_sensor">Sélectionnez au moins un capteur</string>
     <string name="scan_qr_code_prompt">Scanner le QR code, s\'il vous plaît.</string>
     <string name="share_qr_code">Partager le QR code</string>
+    <!-- PlacesSearchDialog -->
     <string name="nothing_found">rien n\'a été trouvé</string>
     <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="seconds">%s secondes</string>
     <!-- %s is a placeholder. Please make sure that %s is included also in your translation -->
     <string name="minutes">%s minutes</string>
-    <string name="pref_app_open_source_t">L\'application Particulate Matter sur GitHub</string>
+    <string name="pref_app_open_source_t">L\'app Particulate Matter sur GitHub</string>
     <string name="pref_app_open_source_s">Cliquez pour nous rendre visite sur GitHub</string>
     <string name="firmware_version_">Version du firmware:</string>
     <string name="unknown_sensor">Capteur inconnu</string>
@@ -262,7 +263,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/fr/montage-detecteur-de-particules-fines/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Nous contacter</string>
-    <string name="sensor_highscore">Meilleur score du capteur</string>
+    <string name="sensor_ranking">Meilleur score du capteur</string>
     <string name="connected_to_web_version">Connecté à pm.chillibits.com</string>
     <string name="widget_label_small">Tuile info rapide</string>
     <string name="pref_enable_threshold_notifications">Autoriser les notifications de limites</string>
@@ -275,4 +276,44 @@
     <string name="warning_dialog_text">Pour lier ce capteur à l\'App il est requis d\'autoriser la transmission de données vers notre site</string>
     <string name="only_with_wifi">Seulement valable avec connexion Wifi</string>
     <string name="add_to_own_sensors">Ajouter à vos capteurs</string>
+    <string name="local_network"></string>
+    <string name="cities"></string>
+    <string name="countries"></string>
+    <string name="indoor_sensor"></string>
+    <string name="available_soon"></string>
+    <string name="remember_selection"></string>
+    <string name="pick_with_color_converter"></string>
+    <string name="open_color_picker"></string>
+    <string name="publish_exact_position"></string>
+    <string name="app_description">Soyez informé de la situation des particules!</string>
+    <string name="app_description_large">L\'App Matière Particulaire est une application permettant de surveiller un ou plusieurs capteurs dans un réseau de Matière Particulaire. Sur la carte, vous pouvez voir tous les capteurs enregistrés dans le réseau dans le monde entier. N\'importe quel nombre de capteurs peut être ajouté ou surveillé. Une comparaison des données du capteur est possible. Deux valeurs de poussière fine sont affichées: PM10 et PM2.5.\n\nVoulez-vous nous aider à traduire l\'application? S\'il vous plaît envoyez un email à contact@chillibits.com.\n\nSi vous souhaitez soutenir financièrement le projet, veuillez consulter le site https://github.com/sponsors/marcauberer\n\nSi vous avez des questions, visitez la page FAQ: https://chillibits.com/pmapp/en/faq\n\nInfo: L\'application n\'est pas là pour mesurer les particules avec l\'appareil Android. Nous recommandons le capteur de particules disponible à l\'adresse https://luftdaten.info/fr.\n\nL\'application est OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorith_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
+    <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

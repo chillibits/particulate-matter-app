@@ -4,7 +4,7 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/color_selection" />
+    <solid android:color="@color/activityBackground" />
     <corners android:radius="5dp"/>
     <stroke
         android:color="@color/colorPrimary"

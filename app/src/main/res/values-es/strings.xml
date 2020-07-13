@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 19:00:35 +0100
+ Exported at: Mon, 13 Jul 2020 11:24:03 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info/es">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
     <string name="rate_app">calificar aplicacion</string>
-    <string name="rate_m">Califique la aplicación de materia de partículas en Google PlayStore con 5 estrellas, si está disfrutando de la aplicación.</string>
-    <string name="recommend_string">La aplicación de materia particulada: muestra las mediciones de materia particulada de forma fácil y elegante. Descargar desde PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="rate_m">Si estás disfrutando de nuestra aplicación, por favor pasa un minuto y califica la aplicación de partículas con 5 estrellas en Google Play!</string>
+    <string name="recommend_string">La aplicación de partículas de materia: mostrar las mediciones de partículas de materia fácil y elegante. Descargar de Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recomendar</string>
     <string name="recommend_app">Recomendar la aplicación</string>
     <string name="recommend_m">¡Recomienda la aplicación Particulate Matter a tus amigos!</string>
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">No mostrar de nuevo</string>
     <string name="public_sensor">Mostrar el sensor a otros usuarios y hacerlo visible en el mapa.</string>
     <string name="choose_location">Elija la ubicación exacta del sensor</string>
-    <string name="sensor_height">Altura sobre suelo / calle (m):</string>
+    <string name="sensor_height">Altura sobre suelo / calle (cm):</string>
     <string name="latitude">Latitud</string>
     <string name="latitude_">Latitud:</string>
     <string name="longitude">Longitud</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Mostrar mediana diaria</string>
     <string name="enable_daily_average_median_s">Se muestra debajo de los registros de datos</string>
     <string name="enable_nothing">Desactivar media / mediana</string>
-    <string name="enable_auto_correction_t">Corrección automática de errores</string>
-    <string name="enable_auto_correction_s">Corrección automática de mediciones defectuosas.</string>
+    <string name="manage_auto_correction_t">Corrección automática de errores</string>
+    <string name="manage_auto_correction_s">Corrección automática de mediciones defectuosas.</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Sincronización</string>
     <string name="sync_cycle">Ciclo de sincronizacion</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">Version de aplicacion</string>
     <string name="pref_developers_t">Los desarrolladores</string>
     <string name="pref_more_apps_t">Más aplicaciones de nosotros</string>
-    <string name="pref_more_apps_m">Nuestro sitio PlayStore</string>
+    <string name="pref_more_apps_s">Nuestro sitio PlayStore</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Presione sobre el color para aplicar</string>
     <string name="altitude">Altura</string>
@@ -260,10 +260,10 @@
     <string name="default_map_type">Tipo de mapa predeterminado</string>
     <string name="enable_traffic_by_default">Habilitar tráfico por defecto</string>
     <string name="sync_running">Sincronización en ejecución …</string>
-    <!-- Please only paste url with the correct anchor -->
+    <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Contáctanos</string>
-    <string name="sensor_highscore">Lista de registros</string>
+    <string name="sensor_ranking">Lista de registros</string>
     <string name="connected_to_web_version">Conectado a pm.chillibits.com</string>
     <string name="widget_label_small">Mosaico de información rápida</string>
     <string name="pref_enable_threshold_notifications">Habilitar notificaciones de umbral</string>
@@ -276,4 +276,44 @@
     <string name="warning_dialog_text">Para poder vincular este sensor en la aplicación, es necesario habilitar la transmisión de datos a nuestro servidor. Para hacer esto, abra el sitio de configuración de este sensor, navegue a Configuración&gt; APIs y active la casilla de verificación \'Feinstaub-App\'.</string>
     <string name="only_with_wifi">Solo disponible con conexión WiFi</string>
     <string name="add_to_own_sensors">Añadir a los sensores propios</string>
+    <string name="local_network">Red local</string>
+    <string name="cities">Ciudades</string>
+    <string name="countries">Países</string>
+    <string name="indoor_sensor">Sensor interior</string>
+    <string name="available_soon">Esta característica estará disponible pronto</string>
+    <string name="remember_selection">Recordar selección</string>
+    <string name="pick_with_color_converter">Elija con Color Converter</string>
+    <string name="open_color_picker">Selector de color abierto</string>
+    <string name="publish_exact_position">Publicar la posición exacta</string>
+    <string name="app_description">¡Infórmese sobre la situación de las partículas!</string>
+    <string name="app_description_large">La aplicación \"Materia Particulada\" es una aplicación para monitorear uno o varios sensores en una red de sensores de materia particulada. Se puede agregar y monitorear cualquier cantidad de sensores. La comparación de los datos del sensor también es posible.\n\n¿Quieres ayudarnos a traducir la aplicación? Por favor envíe un correo electrónico a contact@chillibits.com.\n\nSi desea apoyar el proyecto financieramente, por favor visite https://github.com/sponsors/marcauberer\n\nPara preguntas, por favor visite: https://chillibits.com/pmapp/en/faq\n\nInformación: la aplicación no puede medir partículas con un dispositivo Android. Recomendamos un sensor de https://luftdaten.info/es.\n\nLa aplicación es OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in">Ingresa en</string>
+    <string name="sign_up">Inscríbete</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="no_account_yet_sign_up">¿No hay cuenta todavía?</string>
+    <string name="confirm_password">Confirmar la contraseña</string>
+    <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorith_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
+    <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

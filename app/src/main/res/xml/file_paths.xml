@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
-  -->
-
-<paths>
-  <files-path path="/" name="allfiles" />
-  <files-path path="tmp/" name="tmp" />
-</paths>

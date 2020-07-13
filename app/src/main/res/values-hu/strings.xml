@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: hu, Hungarian
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 19:00:35 +0100
+ Exported at: Mon, 13 Jul 2020 11:24:04 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Napi medián\u0020\u0020megjelenítése</string>
     <string name="enable_daily_average_median_s">Megjelenítés a rögzített adatok alatt</string>
     <string name="enable_nothing">Átlag / medián elrejtése</string>
-    <string name="enable_auto_correction_t">Automatikus hibakorrekció</string>
-    <string name="enable_auto_correction_s">Hibás mérési adatok automatikus korrekciója</string>
+    <string name="manage_auto_correction_t">Automatikus hibakorrekció</string>
+    <string name="manage_auto_correction_s">Hibás mérési adatok automatikus korrekciója</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Szinkronizáció</string>
     <string name="sync_cycle">Szinkronizáció gyakoriság</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">App verzió</string>
     <string name="pref_developers_t">A fejlesztők</string>
     <string name="pref_more_apps_t">Egyéb applikációink</string>
-    <string name="pref_more_apps_m">Oldalunk a Play áruházban</string>
+    <string name="pref_more_apps_s">Oldalunk a Play áruházban</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Kpooints a szín kiválasztásához</string>
     <string name="altitude">Magasság</string>
@@ -260,10 +260,10 @@
     <string name="default_map_type">Alapból beállított térkép típus</string>
     <string name="enable_traffic_by_default">Mutassa a közúti forgalmat alapértelmezésben</string>
     <string name="sync_running">Szinkronizáció folyamatban</string>
-    <!-- Please only paste url with the correct anchor -->
+    <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Elérhetőség</string>
-    <string name="sensor_highscore">Szenzor csúcsérték</string>
+    <string name="sensor_ranking">Szenzor csúcsérték</string>
     <string name="connected_to_web_version">Csatlakozva pm.chillibits.com-hoz</string>
     <string name="widget_label_small">Gyors infó csempe</string>
     <string name="pref_enable_threshold_notifications">Határérték értesítések engedélyezése</string>
@@ -276,4 +276,44 @@
     <string name="warning_dialog_text">Ahhoz, hogy ez a szenzor megjelenjen az applikációban, engedélyezni kell az adatok továbbítását a szerverünkre. Ehhez meg kell nyitni a szenzor konfigurációs beállításait, és a Konfiguráció &gt; API alpontban ki kell pipálni a \"Feinstaub-App\" négyzet mellett.</string>
     <string name="only_with_wifi">Csak WiFi kapcsolattal elérhető</string>
     <string name="add_to_own_sensors">Hozzáadás saját szenzorokhoz</string>
+    <string name="local_network"></string>
+    <string name="cities"></string>
+    <string name="countries"></string>
+    <string name="indoor_sensor"></string>
+    <string name="available_soon"></string>
+    <string name="remember_selection"></string>
+    <string name="pick_with_color_converter"></string>
+    <string name="open_color_picker"></string>
+    <string name="publish_exact_position"></string>
+    <string name="app_description"></string>
+    <string name="app_description_large"></string>
+    <string name="sign_in"></string>
+    <string name="sign_up"></string>
+    <string name="email"></string>
+    <string name="password"></string>
+    <string name="no_account_yet_sign_up"></string>
+    <string name="confirm_password"></string>
+    <string name="passwords_do_not_match"></string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1"></item>
+        <item name="error_correction_algorith_2"></item>
+    </string-array>
+    <string name="reset_settings"></string>
+    <string name="show_inactive_sensors_t"></string>
+    <string name="show_inactive_sensors_s"></string>
+    <string name="local_network_start"></string>
+    <string name="indoor_"></string>
+    <string name="sensor_stats"></string>
+    <string name="server_requests_today_"></string>
+    <string name="server_requests_yesterday_"></string>
+    <string name="data_records_today_"></string>
+    <string name="data_records_yesterday_"></string>
+    <string name="data_records_this_month_"></string>
+    <string name="data_records_prev_month_"></string>
+    <string name="data_records_total_"></string>
+    <string name="server_requests_total_"></string>
+    <string name="more_info"></string>
+    <string name="stats"></string>
+    <string name="skip"></string>
+    <string name="error"></string>
 </resources>

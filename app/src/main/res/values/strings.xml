@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Wed, 12 Feb 2020 18:00:33 +0000
+ Exported at: Mon, 13 Jul 2020 04:53:11 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,8 +55,8 @@
     <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
     <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>
-    <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
-    <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
+    <string name="rate_m">If you\'re enjoying our app, please spend a minute and rate the Particulate Matter App with 5 stars on Google Play!</string>
+    <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recommend</string>
     <string name="recommend_app">Recommend app</string>
     <string name="recommend_m">Recommend The Particulate Matter App to your friends!</string>
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="public_sensor">Show sensor to other users and make it visible on the map</string>
     <string name="choose_location">Choose exact sensor location</string>
-    <string name="sensor_height">Height above ground/street (m):</string>
+    <string name="sensor_height">Height above ground/street (cm):</string>
     <string name="latitude">Latitude</string>
     <string name="latitude_">Latitude:</string>
     <string name="longitude">Longitude</string>
@@ -156,8 +156,8 @@
     <string name="enable_daily_median">Show daily median</string>
     <string name="enable_daily_average_median_s">Displayed below the data records</string>
     <string name="enable_nothing">Disable average / median</string>
-    <string name="enable_auto_correction_t">Auto error correction</string>
-    <string name="enable_auto_correction_s">Automatic correction of defective measurements</string>
+    <string name="manage_auto_correction_t">Error correction algorithms</string>
+    <string name="manage_auto_correction_s">Manage automatic correction of defective measurements</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronization</string>
     <string name="sync_cycle">Synchronization cycle</string>
@@ -230,7 +230,7 @@
     <string name="pref_appversion">App version</string>
     <string name="pref_developers_t">The developers</string>
     <string name="pref_more_apps_t">More apps from us</string>
-    <string name="pref_more_apps_m">Our PlayStore site</string>
+    <string name="pref_more_apps_s">Our PlayStore site</string>
     <!-- ColorPickerDialog -->
     <string name="press_color_to_apply">Press on Color to apply</string>
     <string name="altitude">Height</string>
@@ -262,7 +262,7 @@
     <!-- Please only paste urls with correct anchors -->
     <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
     <string name="get_in_touch">Contact us</string>
-    <string name="sensor_highscore">Sensor highscore</string>
+    <string name="sensor_ranking">Sensor ranking</string>
     <string name="connected_to_web_version">Connected to pm.chillibits.com</string>
     <string name="widget_label_small">Quick info tile</string>
     <string name="pref_enable_threshold_notifications">Enable threshold notifications</string>
@@ -275,4 +275,44 @@
     <string name="warning_dialog_text">To be able to link this sensor in the app, it is required to enable the data transmission to our server. To do this, open the sensor configuration site, navigate to Configuration &gt; APIs and enable the \'Feinstaub-App\' checkbox.</string>
     <string name="only_with_wifi">Only available with a WiFi connection</string>
     <string name="add_to_own_sensors">Add to own sensors</string>
+    <string name="local_network">Local network</string>
+    <string name="cities">Cities</string>
+    <string name="countries">Countries</string>
+    <string name="indoor_sensor">Indoor sensor</string>
+    <string name="available_soon">This feature is available soon</string>
+    <string name="remember_selection">Remember selection</string>
+    <string name="pick_with_color_converter">Pick with Color Converter</string>
+    <string name="open_color_picker">Open color picker</string>
+    <string name="publish_exact_position">Publish exact position</string>
+    <string name="app_description">Be informed about the particulate matter situation and the air quality!</string>
+    <string name="app_description_large">The Particulate Matter App is an application for monitoring of one or several sensors in a network of particulate matter sensors. On the map you can see all sensors worldwide, which are registered in the network. Any number of sensors can be added and monitored. Comparing sensor data is possible too.\n\nDo you want to help us translating the app? Please send an email to contact@chillibits.com.\n\nIf you want to support the project financially, please visit https://github.com/sponsors/marcauberer\n\nIf you want to use our web app, please visit https://pm.chillibits.com\n\nFor questions, please visit: https://chillibits.com/pmapp/en/faq\n\nInfo: The app isn\'t able to measure dust with an Android device. We recommend a smog sensor from https://luftdaten.info/en.\n\nThe app is OpenSource: https://github.com/chillibits/particulate-matter-app</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="no_account_yet_sign_up">No account yet?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string-array name="error_correction_algorithms">
+        <item name="error_correction_algorithm_1">Algorithm 1</item>
+        <item name="error_correction_algorithm_2">Algorithm 2</item>
+    </string-array>
+    <string name="reset_settings">Reset settings</string>
+    <string name="show_inactive_sensors_t">Show inactive sensors on the map</string>
+    <string name="show_inactive_sensors_s">Inactive sensors are highlighted in orange</string>
+    <string name="local_network_start">We can search for sensors on your local network for you! Tap below to start the search process.</string>
+    <string name="indoor_">Indoor:</string>
+    <string name="sensor_stats">Sensor statistics</string>
+    <string name="server_requests_today_">Server requests today:</string>
+    <string name="server_requests_yesterday_">Server requests yesterday:</string>
+    <string name="data_records_today_">Data records today:</string>
+    <string name="data_records_yesterday_">Data records yesterday:</string>
+    <string name="data_records_this_month_">Data records this month:</string>
+    <string name="data_records_prev_month_">Data records previous month:</string>
+    <string name="data_records_total_">Data records total:</string>
+    <string name="server_requests_total_">Server requests total:</string>
+    <string name="more_info">More info</string>
+    <string name="stats">Statistics</string>
+    <string name="skip">Skip</string>
+    <string name="error">Error</string>
 </resources>

@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:windowBackground">@color/blackLight</item>
     </style>
 
     <style name="toolbarStyle" parent="Theme.AppCompat.DayNight">

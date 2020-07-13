@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/white_background"
+        android:background="@drawable/dialog_background"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
@@ -33,7 +33,7 @@
             android:paddingTop="8dp">
 
             <EditText
-                android:id="@+id/search_edit_text"
+                android:id="@+id/searchEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/location_off"/>
+                app:srcCompat="@drawable/location_off_black"/>
 
             <TextView
                 android:layout_width="wrap_content"
