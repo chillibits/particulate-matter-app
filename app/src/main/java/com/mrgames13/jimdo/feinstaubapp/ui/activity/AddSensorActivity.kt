@@ -54,18 +54,25 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Apply window insets
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            window.decorView.setOnApplyWindowInsetsListener { _, insets ->
-                toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
-                insets
-            }
-        }
+        applyWindowInsets()
 
         binding.sensorColorPreview.setColorFilter(viewModel.selectedColor.value!!, PorterDuff.Mode.SRC)
 
         // Expand address preview if address field is already set
         if(!viewModel.address.value.isNullOrBlank()) expandAddressPreview()
+    }
+
+    private fun applyWindowInsets() = window.apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            setDecorFitsSystemWindows(false)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            decorView.setOnApplyWindowInsetsListener { _, insets ->
+                toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
+                insets
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
