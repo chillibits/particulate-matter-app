@@ -32,6 +32,7 @@
             android:tint="@color/grayLight"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="showPage"
             android:layout_margin="17dp"
             android:padding="5dp"
             android:background="?selectableItemBackgroundBorderless" />
@@ -47,6 +48,7 @@
             android:tint="@color/grayLight"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="showPage"
             android:layout_margin="17dp"
             android:padding="5dp"
             android:background="?selectableItemBackgroundBorderless" />
@@ -62,6 +64,7 @@
             android:tint="@color/grayLight"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="showPage"
             android:layout_margin="17dp"
             android:padding="5dp"
             android:background="?selectableItemBackgroundBorderless" />

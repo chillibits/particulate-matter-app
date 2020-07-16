@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Thu, 16 Jul 2020 03:51:33 +0100
+ Exported at: Thu, 16 Jul 2020 06:17:38 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Odepnij sensor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
-    <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info/pl">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
+    <string name="no_sensors">Jeśli masz czujnik z <a href="https://sensor.community/pl">www.sensor.community</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Jeśli podoba Ci się nasza aplikacja, oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek!</string>
     <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>

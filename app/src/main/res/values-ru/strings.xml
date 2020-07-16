@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: ru, Russian
  Exported by: ChilliBits
- Exported at: Thu, 16 Jul 2020 03:51:33 +0100
+ Exported at: Thu, 16 Jul 2020 06:17:38 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Отключить датчик</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
-    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
+    <string name="no_sensors">Вы можете подключить датчик с <a href="https://sensor.community/ru">www.sensor.community</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
     <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>

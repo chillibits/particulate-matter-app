@@ -19,7 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/fragment_favorites" />
+        <fragment
+            android:id="@+id/mainLeftFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.mrgames13.jimdo.feinstaubapp.ui.fragment.FavoritesFragment"/>
 
         <com.dmallcott.progressfloatingactionbutton.ProgressFloatingActionButton
             android:id="@+id/fabAddSearch"
@@ -27,7 +31,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="-10dp"
             app:pFabProgressIcon="@drawable/fab_anim_search_to_add"
             app:pFabFinalIcon="@drawable/done_white"
             app:pFabStartingProgress="0"

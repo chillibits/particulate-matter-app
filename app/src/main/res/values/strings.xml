@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Thu, 16 Jul 2020 03:51:32 +0100
+ Exported at: Thu, 16 Jul 2020 06:17:37 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Unlink sensor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
-    <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
+    <string name="no_sensors">If you have a sensor from <a href="https://sensor.community/en">www.sensor.community</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>
     <string name="rate_m">If you\'re enjoying our app, please spend a minute and rate the Particulate Matter App with 5 stars on Google Play!</string>
     <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>

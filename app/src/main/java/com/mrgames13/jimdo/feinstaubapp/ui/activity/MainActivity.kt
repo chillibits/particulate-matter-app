@@ -37,7 +37,9 @@ import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
+import com.mrgames13.jimdo.feinstaubapp.ui.fragment.FavoritesFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
+import com.mrgames13.jimdo.feinstaubapp.ui.fragment.OwnSensorsFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.view.closeActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.ui.view.openActivityWithRevealAnimation
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         // Initialize AddSearchFab
         fabAddSearch.fab.setOnClickListener {
             when (viewModel.selectedPage.value) {
-                1 -> openPlacesSearch()
+                1 -> openPlacesSearch(container)
                 2 -> openAddSensorActivity()
                 3 -> startLocalNetworkSearch()
             }
@@ -319,7 +321,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
     }
 
-    private fun openPlacesSearch() {
+    fun openPlacesSearch(view: View) {
         PlacesSearchDialog(this@MainActivity, this@MainActivity).run {
             window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -328,6 +330,26 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 recyclerFrame.setBackgroundColor(ContextCompat.getColor(context, R.color.blackLight))
             }
             show()
+        }
+    }
+
+    fun showPage(view: View) {
+        when(view.id) {
+            R.id.menuItemFavorites -> {
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, FavoritesFragment()).commit()
+                switchToFavoritesPage()
+                viewModel.selectedPage.postValue(0)
+            }
+            R.id.menuItemOwnSensors -> {
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, OwnSensorsFragment()).commit()
+                switchToOwnSensorsPage()
+                viewModel.selectedPage.postValue(2)
+            }
+            R.id.menuItemLocalNetwork -> {
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, LocalNetworkFragment()).commit()
+                switchToLocalNetworkPage()
+                viewModel.selectedPage.postValue(3)
+            }
         }
     }
 
@@ -449,7 +471,12 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     override fun onPlaceSelected(place: Place) {
-        place.latLng?.let { viewpagerAdapter.allSensorsFragment.applyPlaceSearch(it) }
+        place.latLng?.let {
+            if(isTablet) {
+
+            } else
+                viewpagerAdapter.allSensorsFragment.applyPlaceSearch(it)
+        }
     }
 
     override fun onRefreshLocalSensors() = startLocalNetworkSearch()
