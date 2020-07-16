@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<resources>
+    <dimen name="default_margin">6dp</dimen>
+    <dimen name="w600dp_sidebar_width">0dp</dimen>
+    <bool name="isTablet">false</bool>
+</resources>

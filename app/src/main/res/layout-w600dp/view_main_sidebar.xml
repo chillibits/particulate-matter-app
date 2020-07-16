@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/w600dp_sidebar_width"
+        android:background="@color/whiteDark"
+        android:layout_height="match_parent">
+
+        <!-- Top menu icons -->
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuItemFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/star_white"
+            android:tint="@color/grayLight"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="17dp"
+            android:padding="5dp"
+            android:background="?selectableItemBackgroundBorderless" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuItemOwnSensors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/menuItemFavorites"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/sensor_white"
+            android:tint="@color/grayLight"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="17dp"
+            android:padding="5dp"
+            android:background="?selectableItemBackgroundBorderless" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuItemLocalNetwork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/menuItemOwnSensors"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/network_check_white"
+            android:tint="@color/grayLight"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="17dp"
+            android:padding="5dp"
+            android:background="?selectableItemBackgroundBorderless" />
+
+        <!-- Bottom menu icons -->
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuItemImportExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/menuItemSettings"
+            android:layout_marginBottom="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/import_export_white"
+            android:tint="@color/grayLight"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="17dp"
+            android:padding="5dp"
+            android:background="?selectableItemBackgroundBorderless" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuItemSettings"
+            android:onClick="openSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/settings_white"
+            android:tint="@color/grayLight"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="17dp"
+            android:padding="5dp"
+            android:background="?selectableItemBackgroundBorderless" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

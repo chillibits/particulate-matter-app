@@ -48,6 +48,9 @@ import kotlinx.android.synthetic.main.toolbar.*
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
     LocalNetworkFragment.LocalSearchListener {
 
+    // Constants
+    private var isTablet = false
+
     // Variables as objects
     private var searchMenuItem: MenuItem? = null
     private lateinit var searchTask: SensorIPSearchTask
@@ -62,6 +65,8 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isTablet = resources.getBoolean(R.bool.isTablet)
+
         // Initialize data binding and view model
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
@@ -74,8 +79,18 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         // Initialize toolbar
         setSupportActionBar(toolbar)
 
+        // Initialize components, depending on screen size
+        if(isTablet) {
+            initializeTabletComponents()
+        } else {
+            initializePhoneComponents()
+        }
+    }
+
+    private fun initializePhoneComponents() {
         // Initialize ViewPager
-        viewpagerAdapter = ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
+        viewpagerAdapter =
+            ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
         viewPager.run {
             offscreenPageLimit = viewpagerAdapter.itemCount
             isUserInputEnabled = false
@@ -83,10 +98,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(pos: Int) {
                     // Close searchView
-                    if(searchView.isSearchOpen) searchView.closeSearch()
+                    if (searchView.isSearchOpen) searchView.closeSearch()
 
                     // perform actions, depending on selected page
-                    when(pos) {
+                    when (pos) {
                         0 -> switchToFavoritesPage()
                         1 -> switchToAllSensorsPage()
                         2 -> switchToOwnSensorsPage()
@@ -103,7 +118,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         tabBar.addBubbleListener(object : OnBubbleClickListener {
             override fun onBubbleClick(id: Int) {
                 // Tell viewPager which page to show
-                viewPager.currentItem = when(id) {
+                viewPager.currentItem = when (id) {
                     R.id.item_favorites -> 0
                     R.id.item_all_sensors -> 1
                     R.id.item_own_sensors -> 2
@@ -115,7 +130,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
         // Initialize AddSearchFab
         fabAddSearch.fab.setOnClickListener {
-            when(viewModel.selectedPage.value) {
+            when (viewModel.selectedPage.value) {
                 1 -> openPlacesSearch()
                 2 -> openAddSensorActivity()
                 3 -> startLocalNetworkSearch()
@@ -136,15 +151,25 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         })
     }
 
+    private fun initializeTabletComponents() {
+
+    }
+
     private fun applyWindowInsets() = window.apply {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             setDecorFitsSystemWindows(false)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             decorView.setOnApplyWindowInsetsListener { _, insets ->
                 toolbar.setPadding(0, insets.systemWindowInsetTop, 0, 0)
-                tabBar.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                if(isTablet) {
+                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                    viewContainer.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                } else {
+                    decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    tabBar.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+                }
                 insets
             }
         }
@@ -157,8 +182,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_activity_main, menu)
-        searchMenuItem = menu?.findItem(R.id.action_search)
-        searchView.setMenuItem(searchMenuItem)
+        if(!isTablet) {
+            searchMenuItem = menu?.findItem(R.id.action_search)
+            searchView.setMenuItem(searchMenuItem)
+        }
         return true
     }
 
@@ -167,7 +194,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             R.id.action_search -> item.expandActionView()
             R.id.action_import_export -> showImportExportDialog()
             R.id.action_rate -> showRatingDialog()
-            R.id.action_settings -> openSettingsActivity()
+            R.id.action_settings -> openSettings(container)
             R.id.action_recommend -> showRecommendationDialog()
             R.id.action_web -> openQRScanner()
             R.id.action_help -> openFAQPage()
@@ -194,7 +221,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             if(isFullscreen) {
                 onToggleFullscreen()
-            } else if(searchView.isSearchOpen) {
+            } else if(!isTablet && searchView.isSearchOpen) {
                 searchView.closeSearch()
             } else if(!pressedOnce) {
                 pressedOnce = true
@@ -264,7 +291,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         })
     }
 
-    private fun openSettingsActivity() {
+    fun openSettings(view: View) {
         val config = SimpleSettingsConfig().apply {
             showResetOption = true
         }

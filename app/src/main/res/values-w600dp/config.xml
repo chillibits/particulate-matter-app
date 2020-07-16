@@ -5,4 +5,6 @@
 
 <resources>
     <dimen name="default_margin">6dp</dimen>
+    <dimen name="w600dp_sidebar_width">70dp</dimen>
+    <bool name="isTablet">true</bool>
 </resources>
