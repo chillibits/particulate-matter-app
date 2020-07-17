@@ -373,8 +373,8 @@ class AllSensorsFragment(
             val params = locationButton.layoutParams as RelativeLayout.LayoutParams
             params.run {
                 addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
-                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                setMargins(0, 0, 27, 430)
+                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+                setMargins(0, 0, 27, if(resources.getBoolean(R.bool.isTablet)) 230 else 430)
             }
         }
     }
