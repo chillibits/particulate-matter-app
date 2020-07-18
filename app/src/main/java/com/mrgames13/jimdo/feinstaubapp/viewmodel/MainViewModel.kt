@@ -44,4 +44,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun updateExternalSensorFilter() = externalSensorRepository.updateFilter()
     fun unregisterNetworkCallback() = context.unregisterNetworkCallback()
     fun addScrapingResult(sr: ScrapingResultDbo) = scrapingResultRepository.addScrapingResult(sr)
+
+    override fun onCleared() {
+        super.onCleared()
+        context.unregisterNetworkCallback()
+    }
 }

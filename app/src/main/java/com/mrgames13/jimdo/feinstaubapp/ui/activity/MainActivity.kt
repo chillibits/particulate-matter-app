@@ -179,11 +179,6 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.unregisterNetworkCallback()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_activity_main, menu)
         if(!isTablet) {
