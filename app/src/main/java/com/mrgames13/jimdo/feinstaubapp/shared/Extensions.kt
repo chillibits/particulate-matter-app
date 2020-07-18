@@ -9,12 +9,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.net.Uri
 import android.widget.Toast
 import androidx.room.Room
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.storage.AppDatabase
 import kotlin.math.round
+
+// ---------------------------------------- Public Functions ---------------------------------------
+
+fun dpToPx(dp: Int) = (dp * Resources.getSystem().displayMetrics.density).toInt()
 
 // --------------------------------------- Context Extensions --------------------------------------
 

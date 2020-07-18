@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -46,6 +47,7 @@ import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.place_search_dialog.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.view_main_sidebar.*
 
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
     LocalNetworkFragment.LocalSearchListener {
@@ -339,18 +341,34 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, FavoritesFragment()).commit()
                 switchToFavoritesPage()
                 viewModel.selectedPage.postValue(0)
+                moveShifter(0)
             }
             R.id.menuItemOwnSensors -> {
                 supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, OwnSensorsFragment()).commit()
                 switchToOwnSensorsPage()
                 viewModel.selectedPage.postValue(2)
+                moveShifter(1)
             }
             R.id.menuItemLocalNetwork -> {
                 supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, LocalNetworkFragment()).commit()
                 switchToLocalNetworkPage()
                 viewModel.selectedPage.postValue(3)
+                moveShifter(2)
             }
         }
+    }
+
+    private fun moveShifter(pos: Int) {
+        val itemHeight = menuItemFavorites.measuredHeight
+        ValueAnimator.ofInt(shifter.marginTop, dpToPx(10) + pos * (itemHeight + dpToPx(17))).apply {
+            duration = 300
+            addUpdateListener { valueAnimator ->
+                println(valueAnimator.animatedValue)
+                val params = shifter.layoutParams as ViewGroup.MarginLayoutParams
+                params.topMargin = valueAnimator.animatedValue as Int
+                shifter.layoutParams = params
+            }
+        }.start()
     }
 
     private fun openAddSensorActivity() {

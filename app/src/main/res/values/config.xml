@@ -6,5 +6,6 @@
 <resources>
     <dimen name="default_margin">6dp</dimen>
     <dimen name="w600dp_sidebar_width">0dp</dimen>
+    <dimen name="w600dp_shifter_height">0dp</dimen>
     <bool name="isTablet">false</bool>
 </resources>

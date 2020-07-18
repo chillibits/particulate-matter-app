@@ -374,7 +374,16 @@ class AllSensorsFragment(
             params.run {
                 addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
                 addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-                setMargins(0, 0, 27, if(resources.getBoolean(R.bool.isTablet)) 230 else 430)
+                setMargins(
+                    0,
+                    0,
+                    params.leftMargin,
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        155f,
+                        resources.displayMetrics
+                    ).toInt()
+                )
             }
         }
     }

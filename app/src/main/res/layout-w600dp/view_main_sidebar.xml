@@ -20,6 +20,18 @@
         android:background="@color/whiteDark"
         android:layout_height="match_parent">
 
+        <!-- Shifter -->
+
+        <View
+            android:id="@+id/shifter"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/w600dp_shifter_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/menuItemFavorites"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shifter"/>
+
         <!-- Top menu icons -->
 
         <androidx.appcompat.widget.AppCompatImageView
