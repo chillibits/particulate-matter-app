@@ -35,6 +35,6 @@
             app:pFabFinalIcon="@drawable/done_white"
             app:pFabStartingProgress="0"
             app:pFabStepSize="1"
-            app:pFabTotalProgress="100" />
+            app:pFabTotalProgress="100"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
+    // Fragments for tablets
+    lateinit var fragmentFavorites: FavoritesFragment
+    lateinit var fragmentOwnSensors: OwnSensorsFragment
+    lateinit var fragmentLocalNetwork: LocalNetworkFragment
+
     // Variables
     private var pressedOnce = false
     private var isFullscreen = false
@@ -84,11 +89,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         setSupportActionBar(toolbar)
 
         // Initialize components, depending on screen size
-        if(isTablet) {
-            initializeTabletComponents()
-        } else {
-            initializePhoneComponents()
-        }
+        if(isTablet) initializeTabletComponents() else initializePhoneComponents()
     }
 
     private fun initializePhoneComponents() {
@@ -156,7 +157,25 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     }
 
     private fun initializeTabletComponents() {
+        // Initialize AddSearchFab
+        fabAddSearch.fab.setOnClickListener {
+            when (viewModel.selectedPage.value) {
+                2 -> openAddSensorActivity()
+                3 -> startLocalNetworkSearch()
+            }
+        }
 
+        // Initialize all fragments
+        fragmentFavorites = FavoritesFragment()
+        fragmentOwnSensors = OwnSensorsFragment()
+        fragmentLocalNetwork = LocalNetworkFragment(application, this)
+
+        // Apply page from ViewModel
+        when (viewModel.selectedPage.value) {
+            0, 1 -> showPage(menuItemFavorites)
+            2 -> showPage(menuItemOwnSensors)
+            3 -> showPage(menuItemLocalNetwork)
+        }
     }
 
     private fun applyWindowInsets() = window.apply {
@@ -333,19 +352,19 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     fun showPage(view: View) {
         when(view.id) {
             R.id.menuItemFavorites -> {
-                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, FavoritesFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, fragmentFavorites).commit()
                 switchToFavoritesPage()
                 viewModel.selectedPage.postValue(0)
                 moveShifter(0)
             }
             R.id.menuItemOwnSensors -> {
-                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, OwnSensorsFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, fragmentOwnSensors).commit()
                 switchToOwnSensorsPage()
                 viewModel.selectedPage.postValue(2)
                 moveShifter(1)
             }
             R.id.menuItemLocalNetwork -> {
-                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, LocalNetworkFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.mainLeftFragment, fragmentLocalNetwork).commit()
                 switchToLocalNetworkPage()
                 viewModel.selectedPage.postValue(3)
                 moveShifter(2)
@@ -397,14 +416,20 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         )
         searchTask.execute()
         // Show searching screen
-        viewpagerAdapter.localNetworkFragment.showSearchingScreen()
+        if(isTablet)
+
+        else
+            viewpagerAdapter.localNetworkFragment.showSearchingScreen()
         fabAddSearch.fab.isEnabled = false
     }
 
     private fun finishLocalNetworkSearch() {
         fabAddSearch.fab.isEnabled = true
         fabAddSearch.setIcon(getDrawable(R.drawable.done_white))
-        viewpagerAdapter.localNetworkFragment.hideSearchingScreen()
+        if(isTablet)
+
+        else
+            viewpagerAdapter.localNetworkFragment.hideSearchingScreen()
 
         Handler().postDelayed({
             try {
