@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Sat, 01 Aug 2020 15:44:57 +0100
+ Exported at: Sat, 01 Aug 2020 16:38:07 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -316,4 +316,5 @@
     <string name="skip">Skip</string>
     <string name="error">Error</string>
     <string name="connection_to_server_failed">Connection failed. Seems like the server is currently offline. Please try again later.</string>
+    <string name="error_server_not_reachable">Error. Server not reachable.</string>
 </resources>
