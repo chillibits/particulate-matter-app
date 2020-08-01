@@ -80,7 +80,7 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem, fragmen
                                 .withSkipOption()
                                 .setOnSignInListener(object: SignInDialog.OnSignInListener {
                                     override fun onSignedIn() { exitReveal(window) }
-                                    override fun onSkipOrCancelled() {}
+                                    override fun onSkipOrCancelled() { view.context.showAddFavoriteDialog(sensor, null, fragmentManager) }
                                 })
                                 .show()
                         }

@@ -10,7 +10,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.1"
     defaultConfig {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 21
@@ -97,7 +97,7 @@ dependencies {
     implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
 
     // SimpleSettings dependencies
-    implementation 'com.chillibits:simplesettings:1.0.0-alpha04'
+    implementation 'com.chillibits:simplesettings:1.0.0-alpha06'
 
     // Testing dependencies
     testImplementation 'junit:junit:4.13'

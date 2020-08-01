@@ -5,5 +5,5 @@
 
 <full-backup-content>
     <include domain="sharedpref" path="com.mrgames13.jimdo.feinstaubapp_preferences.xml"/>
-    <include domain="database" path="database.db"/>
+    <include domain="database" path="pmapp-main.db"/>
 </full-backup-content>

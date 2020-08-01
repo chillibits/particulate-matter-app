@@ -34,7 +34,7 @@ import kotlin.random.Random
 private var selectedColor = 0
 private lateinit var sensorColorPreview: AppCompatImageView
 
-fun Context.showAddFavoriteDialog(sensor: SensorDto, user: UserDbo, fragmentManager: FragmentManager) {
+fun Context.showAddFavoriteDialog(sensor: SensorDto, user: UserDbo?, fragmentManager: FragmentManager) {
     val view = LayoutInflater.from(this).inflate(R.layout.dialog_add_favorite, null)
     sensorColorPreview = view.sensor_color
 
@@ -58,7 +58,13 @@ fun Context.showAddFavoriteDialog(sensor: SensorDto, user: UserDbo, fragmentMana
         .setPositiveText(R.string.add_favourite)
         .setNegativeText(R.string.cancel)
         .onPositive {
-            addSensorToFavorites(sensor, user, view.sensor_name_value.text.toString().trim(), selectedColor)
+            if(user != null) {
+                // Add sensor on the server and sync the changes later
+                addSensorToFavorites(sensor, user, view.sensor_name_value.text.toString().trim(), selectedColor)
+            } else {
+                // Add the sensor only locally, because the app user skipped the sign in process
+                // TODO: Implement the possibility to add a favorite only locally
+            }
         }
         .show()
 
@@ -74,7 +80,7 @@ private fun Context.addSensorToFavorites(sensorDto: SensorDto, user: UserDbo, na
         .setDialogCancelable(false)
         .show()
     CoroutineScope(Dispatchers.IO).launch {
-        val sensor = SensorDbo(sensorDto.chipId, name, color, false, true)
+        val sensor = SensorDbo(sensorDto.chipId, name, color, isOwner = false, isPublished = true)
         val link = Link(0, user, sensor, false, name, color, 0)
         val result = addLink(this@addSensorToFavorites, link, sensor.chipId)
         withContext(Dispatchers.Main) {

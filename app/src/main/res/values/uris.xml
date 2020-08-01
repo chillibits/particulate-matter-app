@@ -10,11 +10,10 @@
     <!-- Common URLs -->
     <string name="url_homepage" translatable="false">https://chillibits.com/</string>
     <string name="uri_contact_email" translatable="false">contact@chillibits.com</string>
-    <string name="uri_store_developer_site_market" translatable="false">market://dev?id=5593276126732355283</string>
     <string name="url_store_developer_site" translatable="false">https://play.google.com/store/apps/dev?id=5593276126732355283</string>
     <string name="url_github" translatable="false">https://github.com/chillibits/particulate-matter-app</string>
     <string name="url_faq" translatable="false">https://chillibits.com/pmapp?p=faq</string>
-    <string name="url_chip_id_info" translatable="false">https://sensor.community/en/sensors/airrohr#Get_the_ID</string>
+    <string name="url_chip_id_info" translatable="false">https://sensor.community/en/sensors/airrohr#Get_the_unique_station_ID</string>
     <string name="url_instant_color_converter" translatable="false">https://chillibits.com/instant/colorconverter</string>
     <string name="url_stats_page" translatable="false">https://chillibits.com/pmapp?p=stats</string>
 

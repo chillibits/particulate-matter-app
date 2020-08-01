@@ -20,7 +20,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.Preference
 import androidx.viewpager2.widget.ViewPager2
+import com.chillibits.simplesettings.clicklistener.LibsClickListener
+import com.chillibits.simplesettings.clicklistener.PlayStoreClickListener
+import com.chillibits.simplesettings.clicklistener.WebsiteClickListener
 import com.chillibits.simplesettings.core.SimpleSettings
 import com.chillibits.simplesettings.core.SimpleSettingsConfig
 import com.fxn.OnBubbleClickListener
@@ -50,7 +54,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.view_main_sidebar.*
 
 class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListener, PlacesSearchDialog.PlaceSelectedCallback,
-    LocalNetworkFragment.LocalSearchListener {
+    LocalNetworkFragment.LocalSearchListener, SimpleSettingsConfig.PreferenceCallback {
 
     // Constants
     private var isTablet = false
@@ -312,12 +316,28 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     fun openSettings(view: View) {
         val config = SimpleSettingsConfig().apply {
             showResetOption = true
+            preferenceCallback = this@MainActivity
         }
         SimpleSettings(this, config).show(R.xml.pref)
     }
 
+    override fun onPreferenceClick(key: String): Preference.OnPreferenceClickListener? {
+        return when(key) {
+            "clearSensorData" -> Preference.OnPreferenceClickListener {
+
+                true
+            }
+            "openSource" -> WebsiteClickListener(this, getString(R.string.url_github))
+            "openSourceLicenses" -> LibsClickListener(this)
+            "appVersion" -> PlayStoreClickListener(this)
+            "developers" -> WebsiteClickListener(this, getString(R.string.url_homepage))
+            "moreApps" -> WebsiteClickListener(this, getString(R.string.url_store_developer_site))
+            else -> super.onPreferenceClick(key)
+        }
+    }
+
     private fun initializeWebConnection(resultCode: Int, data: Intent?) {
-        try{
+        try {
             // Extract SyncKey out of QR-Code
             val syncKey = IntentIntegrator.parseActivityResult(resultCode, data).contents
             // Check key for validity
