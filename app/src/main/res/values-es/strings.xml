@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Sat, 01 Aug 2020 15:27:41 +0200
+ Exported at: Sat, 01 Aug 2020 16:44:59 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -316,4 +316,5 @@
     <string name="stats"></string>
     <string name="skip"></string>
     <string name="error"></string>
+    <string name="connection_to_server_failed"></string>
 </resources>

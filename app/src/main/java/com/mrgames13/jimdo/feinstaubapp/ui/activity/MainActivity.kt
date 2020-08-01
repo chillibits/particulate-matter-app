@@ -6,6 +6,7 @@ package com.mrgames13.jimdo.feinstaubapp.ui.activity
 
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Animatable
 import android.net.Uri
@@ -37,10 +38,7 @@ import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.PlacesSearchDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showImportExportDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRatingDialog
-import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showRecommendationDialog
+import com.mrgames13.jimdo.feinstaubapp.ui.dialog.*
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.AllSensorsFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.FavoritesFragment
 import com.mrgames13.jimdo.feinstaubapp.ui.fragment.LocalNetworkFragment
@@ -321,10 +319,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         SimpleSettings(this, config).show(R.xml.pref)
     }
 
-    override fun onPreferenceClick(key: String): Preference.OnPreferenceClickListener? {
+    override fun onPreferenceClick(context: Context, key: String): Preference.OnPreferenceClickListener? {
         return when(key) {
             "clearSensorData" -> Preference.OnPreferenceClickListener {
-
+                context.showClearSensorDataDialog()
                 true
             }
             "openSource" -> WebsiteClickListener(this, getString(R.string.url_github))
@@ -332,7 +330,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             "appVersion" -> PlayStoreClickListener(this)
             "developers" -> WebsiteClickListener(this, getString(R.string.url_homepage))
             "moreApps" -> WebsiteClickListener(this, getString(R.string.url_store_developer_site))
-            else -> super.onPreferenceClick(key)
+            else -> super.onPreferenceClick(context, key)
         }
     }
 

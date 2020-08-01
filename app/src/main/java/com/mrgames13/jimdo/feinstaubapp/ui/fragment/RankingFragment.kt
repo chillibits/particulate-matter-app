@@ -47,6 +47,10 @@ class RankingFragment(private val mode: Int) : Fragment() {
 
     private fun loadData(view: View) {
         CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                view.rankingLoading.visibility = View.GONE
+                view.rankingLoading.visibility = View.VISIBLE
+            }
             val mode = if(mode == 0) RANKING_CITY else RANKING_COUNTRY
             val rankingItems = ArrayList<RankingItem>()
             loadRanking(requireContext(), mode).forEachIndexed { index, item ->
@@ -59,6 +63,7 @@ class RankingFragment(private val mode: Int) : Fragment() {
             withContext(Dispatchers.Main) {
                 adapter.add(rankingItems)
                 view.rankingLoading.visibility = View.GONE
+                if(rankingItems.size == 0) view.connectionFailed.visibility = View.VISIBLE
             }
         }
     }
