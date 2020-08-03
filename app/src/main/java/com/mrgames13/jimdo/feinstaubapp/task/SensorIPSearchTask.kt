@@ -8,7 +8,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.util.Log
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.networkClient
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.JOB_COUNT
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG

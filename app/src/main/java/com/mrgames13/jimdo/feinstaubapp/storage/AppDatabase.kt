@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.storage
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mrgames13.jimdo.feinstaubapp.model.dao.*
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.*
 import com.mrgames13.jimdo.feinstaubapp.shared.Converters
 import com.mrgames13.jimdo.feinstaubapp.storage.dao.*
 

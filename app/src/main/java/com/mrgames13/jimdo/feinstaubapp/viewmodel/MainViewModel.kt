@@ -7,7 +7,7 @@ package com.mrgames13.jimdo.feinstaubapp.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository

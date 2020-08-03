@@ -4,8 +4,8 @@
 
 package com.mrgames13.jimdo.feinstaubapp.model.other
 
-import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
-import com.mrgames13.jimdo.feinstaubapp.model.dao.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.UserDbo
 
 data class Link (
     val id: Int,

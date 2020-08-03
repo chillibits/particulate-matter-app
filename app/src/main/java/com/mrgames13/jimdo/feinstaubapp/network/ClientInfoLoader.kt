@@ -5,11 +5,26 @@
 package com.mrgames13.jimdo.feinstaubapp.network
 
 import android.content.Context
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ClientInfoDbo
+import android.util.Log
+import com.mrgames13.jimdo.feinstaubapp.R
+import com.mrgames13.jimdo.feinstaubapp.model.other.ClientInfo
+import com.mrgames13.jimdo.feinstaubapp.shared.Constants
+import io.ktor.client.request.get
+import io.ktor.client.statement.HttpStatement
+import io.ktor.client.statement.readText
+import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.json.Json
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
-suspend fun loadClientInfo(context: Context): ClientInfoDbo? {
+suspend fun loadClientInfo(context: Context): ClientInfo? {
     try {
-
+        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "client/" + context.getString(R.string.client_name)).execute()
+        if(response.status == HttpStatusCode.OK) {
+            return Json.parse(ClientInfo.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
+        } else {
+            Log.e(Constants.TAG, response.status.toString())
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }

@@ -19,8 +19,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.materialdesigniconic.MaterialDesignIconic
 import com.mikepenz.iconics.utils.colorInt
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.dao.SensorDbo
-import com.mrgames13.jimdo.feinstaubapp.model.dao.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.SensorDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.UserDbo
 import com.mrgames13.jimdo.feinstaubapp.model.dto.SensorDto
 import com.mrgames13.jimdo.feinstaubapp.model.other.Link
 import com.mrgames13.jimdo.feinstaubapp.network.addLink

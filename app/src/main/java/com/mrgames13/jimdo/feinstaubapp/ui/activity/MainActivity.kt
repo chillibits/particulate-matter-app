@@ -34,7 +34,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.databinding.ActivityMainBinding
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.*
 import com.mrgames13.jimdo.feinstaubapp.task.SensorIPSearchTask
 import com.mrgames13.jimdo.feinstaubapp.ui.adapter.viewpager.ViewPagerAdapterMain
@@ -198,6 +198,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
                 insets
             }
         }
+    }
+
+    private fun loadClientPropertiesFromServer() {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -420,7 +424,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             this,
             object : SensorIPSearchTask.OnSearchEventListener {
                 override fun onProgressUpdate(progress: Int) {
-                    viewpagerAdapter.localNetworkFragment.updateSearchProgress(progress)
+                    if(isTablet)
+                        fragmentLocalNetwork.updateSearchProgress(progress)
+                    else
+                        viewpagerAdapter.localNetworkFragment.updateSearchProgress(progress)
                     fabAddSearch.setCurrentProgress(if(progress < 100) progress else 0, false)
                 }
 
@@ -435,7 +442,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         searchTask.execute()
         // Show searching screen
         if(isTablet)
-
+            fragmentLocalNetwork.showSearchingScreen()
         else
             viewpagerAdapter.localNetworkFragment.showSearchingScreen()
         fabAddSearch.fab.isEnabled = false
@@ -445,7 +452,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         fabAddSearch.fab.isEnabled = true
         fabAddSearch.setIcon(getDrawable(R.drawable.done_white))
         if(isTablet)
-
+            fragmentLocalNetwork.hideSearchingScreen()
         else
             viewpagerAdapter.localNetworkFragment.hideSearchingScreen()
 

@@ -39,19 +39,30 @@ fun Context.showSensorStatsDialog(chipId: Long) {
     dialogBuilder.show()
 
     CoroutineScope(Dispatchers.IO).launch {
-        loadStats(this@showSensorStatsDialog, chipId)?.let {
+        loadStats(this@showSensorStatsDialog, chipId).let {
             withContext(Dispatchers.Main) {
-                val formatter = NumberFormat.getNumberInstance()
-                view.stats_server_requests_today_value.text = formatter.format(it.serverRequestsTodayApp +
-                        it.serverRequestsTodayWebApp + it.serverRequestsTodayGoogleActions)
-                view.stats_server_requests_yesterday_value.text = formatter.format(it.serverRequestsYesterdayApp +
-                        it.serverRequestsYesterdayWebApp + it.serverRequestsYesterdayGoogleActions)
-                view.stats_server_requests_total_value.text = formatter.format(it.serverRequestsTotal)
-                view.stats_data_records_today_value.text = formatter.format(it.dataRecordsToday)
-                view.stats_data_records_yesterday_value.text = formatter.format(it.dataRecordsYesterday)
-                view.stats_data_records_this_month_value.text = formatter.format(it.dataRecordsThisMonth)
-                view.stats_data_records_prev_month_value.text = formatter.format(it.dataRecordsPrevMonth)
-                view.stats_data_records_total_value.text = formatter.format(it.dataRecordsTotal)
+                if(it != null) {
+                    val formatter = NumberFormat.getNumberInstance()
+                    view.stats_server_requests_today_value.text = formatter.format(it.serverRequestsTodayApp +
+                            it.serverRequestsTodayWebApp + it.serverRequestsTodayGoogleActions)
+                    view.stats_server_requests_yesterday_value.text = formatter.format(it.serverRequestsYesterdayApp +
+                            it.serverRequestsYesterdayWebApp + it.serverRequestsYesterdayGoogleActions)
+                    view.stats_server_requests_total_value.text = formatter.format(it.serverRequestsTotal)
+                    view.stats_data_records_today_value.text = formatter.format(it.dataRecordsToday)
+                    view.stats_data_records_yesterday_value.text = formatter.format(it.dataRecordsYesterday)
+                    view.stats_data_records_this_month_value.text = formatter.format(it.dataRecordsThisMonth)
+                    view.stats_data_records_prev_month_value.text = formatter.format(it.dataRecordsPrevMonth)
+                    view.stats_data_records_total_value.text = formatter.format(it.dataRecordsTotal)
+                } else {
+                    view.stats_server_requests_today_value.text = getString(R.string.error)
+                    view.stats_server_requests_yesterday_value.text = getString(R.string.error)
+                    view.stats_server_requests_total_value.text = getString(R.string.error)
+                    view.stats_data_records_today_value.text = getString(R.string.error)
+                    view.stats_data_records_yesterday_value.text = getString(R.string.error)
+                    view.stats_data_records_this_month_value.text = getString(R.string.error)
+                    view.stats_data_records_prev_month_value.text = getString(R.string.error)
+                    view.stats_data_records_total_value.text = getString(R.string.error)
+                }
             }
         }
     }

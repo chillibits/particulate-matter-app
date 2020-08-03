@@ -11,7 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.GoogleMap
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.dao.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.UserDbo
 import com.mrgames13.jimdo.feinstaubapp.network.loadSingleSensor
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.SignInDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showAddFavoriteDialog

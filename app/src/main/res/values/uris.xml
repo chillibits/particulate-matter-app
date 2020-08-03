@@ -6,6 +6,7 @@
 <resources>
     <!-- API Endpoints -->
     <string name="api_root" translatable="false">https://api.pm.chillibits.com</string>
+    <string name="client_name" translatable="false">pmapp</string>
 
     <!-- Common URLs -->
     <string name="url_homepage" translatable="false">https://chillibits.com/</string>

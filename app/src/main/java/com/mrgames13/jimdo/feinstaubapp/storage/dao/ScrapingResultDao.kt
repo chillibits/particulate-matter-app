@@ -9,7 +9,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 
 @Dao
 interface ScrapingResultDao {

@@ -60,6 +60,12 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
 
         // Expand address preview if address field is already set
         if(!viewModel.address.value.isNullOrBlank()) expandAddressPreview()
+
+        // Apply entries
+        if(intent.hasExtra(Constants.EXTRA_ADD_SENSOR_NAME))
+            viewModel.name.postValue(intent.getStringExtra(Constants.EXTRA_ADD_SENSOR_NAME))
+        if(intent.hasExtra(Constants.EXTRA_ADD_SENSOR_ID))
+            viewModel.chipId.postValue(intent.getLongExtra(Constants.EXTRA_ADD_SENSOR_ID, 0).toString())
     }
 
     private fun applyWindowInsets() = window.apply {

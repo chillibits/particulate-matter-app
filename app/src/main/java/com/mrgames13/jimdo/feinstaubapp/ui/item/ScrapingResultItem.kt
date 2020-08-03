@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.model.dao.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.AddSensorActivity
 import com.mrgames13.jimdo.feinstaubapp.ui.activity.SensorActivity
