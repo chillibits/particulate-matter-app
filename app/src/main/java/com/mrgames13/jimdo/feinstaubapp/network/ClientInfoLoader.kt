@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets
 
 suspend fun loadClientInfo(context: Context): ClientInfo? {
     try {
-        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "client/" + context.getString(R.string.client_name)).execute()
+        val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "client/" + context.getString(R.string.client_name_short)).execute()
         if(response.status == HttpStatusCode.OK) {
             return Json.parse(ClientInfo.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
         } else {
