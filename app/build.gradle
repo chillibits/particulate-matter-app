@@ -113,6 +113,7 @@ dependencies {
     implementation 'com.mikepenz:fastadapter:5.2.2'
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:3.0.2'
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation 'com.mikepenz:iconics-core:5.0.3'
     // Test at runtime before upgrading
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.6-kotlin@aar'
