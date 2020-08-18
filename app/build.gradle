@@ -9,13 +9,13 @@ apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3500
-        versionName "3.5.0"
+        versionCode 3501
+        versionName "3.5.1"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -101,7 +101,7 @@ task downloadTranslations {
     ext.apiKey2 = 'mg24uL96-mSwhchnk4LnJAzeyBtOsYy3'
 
     // English
-    doLast {
+    /*doLast {
         def f = new File("${project.projectDir}/src/main/res/values/strings.xml")
         new URL("https://localise.biz/api/export/locale/en.xml?format=android&key=${apiKey1}").withInputStream { i ->
             f.withOutputStream { it << i }
@@ -124,7 +124,7 @@ task downloadTranslations {
     // French
     doLast {
         def f = new File("${project.projectDir}/src/main/res/values-fr/strings.xml")
-        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey1}").withInputStream { i ->
+        new URL("https://localise.biz/api/export/locale/fr.xml?format=android&key=${apiKey2}").withInputStream { i ->
             f.withOutputStream { it << i }
         }
     }
@@ -177,6 +177,7 @@ task downloadTranslations {
             f.withOutputStream { it << i }
         }
     }
+    */
 }
 
 preBuild.dependsOn downloadTranslations

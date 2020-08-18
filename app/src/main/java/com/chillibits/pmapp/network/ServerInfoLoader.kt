@@ -11,13 +11,13 @@ import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.chillibits.pmapp.model.ServerInfo
+import com.chillibits.pmapp.tool.StorageUtils
 import com.google.android.material.snackbar.Snackbar
 import com.mrgames13.jimdo.feinstaubapp.BuildConfig
 import com.mrgames13.jimdo.feinstaubapp.R
-import io.ktor.client.request.forms.submitForm
-import io.ktor.client.statement.HttpStatement
-import io.ktor.client.statement.readText
-import io.ktor.http.Parameters
+import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 
 suspend fun loadServerInfo(activity: Activity): ServerInfo? {
@@ -25,7 +25,11 @@ suspend fun loadServerInfo(activity: Activity): ServerInfo? {
     val params = Parameters.build {
         append("command", "getserverinfo")
     }
-    val request = client.submitForm<HttpStatement>(getBackendMainUrl(activity), params, encodeInQuery = false)
+    val request = client.submitForm<HttpStatement>(
+        getBackendMainUrl(activity),
+        params,
+        encodeInQuery = false
+    )
     val response = request.execute()
     client.close()
     return if(handlePossibleErrors(activity, response.status))
@@ -36,18 +40,32 @@ suspend fun loadServerInfo(activity: Activity): ServerInfo? {
 fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
     var title = ""
     var message = ""
+    var cancelable = false
+    var notShowAgainKey = ""
+    var url = ""
     when(serverInfo.serverStatus) {
         ServerInfo.SERVER_STATUS_OFFLINE -> {
             title = activity.getString(R.string.offline_t)
-            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.offline_m) else serverInfo.userMessage
+            message =
+                if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.offline_m) else serverInfo.userMessage
         }
         ServerInfo.SERVER_STATUS_MAINTENANCE -> {
             title = activity.getString(R.string.maintenance_t)
-            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.maintenance_m) else serverInfo.userMessage
+            message =
+                if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.maintenance_m) else serverInfo.userMessage
         }
         ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> {
             title = activity.getString(R.string.support_end_t)
-            message = if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.support_end_m) else serverInfo.userMessage
+            message =
+                if (serverInfo.userMessage.isEmpty()) activity.getString(R.string.support_end_m) else serverInfo.userMessage
+        }
+        ServerInfo.SERVER_STATUS_ONLINE_WITH_CAMPAIGN -> {
+            val parts = serverInfo.userMessage.split("|")
+            notShowAgainKey = "campaign_" + parts[0]
+            title = parts[1]
+            message = parts[2]
+            url = parts[3]
+            cancelable = true
         }
     }
     if(serverInfo.serverStatus == ServerInfo.SERVER_STATUS_ONLINE) {
@@ -59,9 +77,19 @@ fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
                 .setMessage(activity.getString(R.string.update_necessary_m))
                 .setPositiveButton(activity.getString(R.string.download_update)) { _, _ ->
                     try {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${activity.packageName}")))
+                        activity.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=${activity.packageName}")
+                            )
+                        )
                     } catch (e: ActivityNotFoundException) {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")))
+                        activity.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")
+                            )
+                        )
                     }
                     activity.finish()
                 }
@@ -73,22 +101,42 @@ fun handleServerInfo(activity: Activity, view: View, serverInfo: ServerInfo) {
             Snackbar.make(view, activity.getString(R.string.update_available), Snackbar.LENGTH_LONG)
                 .setAction(activity.getString(R.string.download)) {
                     try {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${activity.packageName}")))
+                        activity.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=${activity.packageName}")
+                            )
+                        )
                     } catch (e: ActivityNotFoundException) {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")))
+                        activity.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=${activity.packageName}")
+                            )
+                        )
                     }
                 }
                 .show()
         }
     } else {
         // Show info dialog
-        AlertDialog.Builder(activity)
-            .setCancelable(false)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                activity.finish()
-            }
-            .show()
+        val su = StorageUtils(activity)
+        if(notShowAgainKey.isBlank() || !su.getBoolean(notShowAgainKey)) {
+            val d = AlertDialog.Builder(activity)
+                .setCancelable(cancelable)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
+                    if(url.isNotBlank()) {
+                        activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                    } else {
+                        activity.finish()
+                    }
+                }
+            if(cancelable) d.setNegativeButton(activity.getString(R.string.cancel), null)
+            d.show()
+
+            su.putBoolean(notShowAgainKey, true)
+        }
     }
 }

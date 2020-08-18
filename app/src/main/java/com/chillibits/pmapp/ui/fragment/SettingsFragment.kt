@@ -210,7 +210,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val result = loadServerInfo(activity)
 
                     val status = when(result?.serverStatus) {
-                        ServerInfo.SERVER_STATUS_ONLINE -> getString(R.string.server_status_online_short)
+                        ServerInfo.SERVER_STATUS_ONLINE, ServerInfo.SERVER_STATUS_ONLINE_WITH_CAMPAIGN -> getString(R.string.server_status_online_short)
                         ServerInfo.SERVER_STATUS_OFFLINE -> getString(R.string.server_status_offline_short)
                         ServerInfo.SERVER_STATUS_MAINTENANCE -> getString(R.string.server_status_maintenance_short)
                         ServerInfo.SERVER_STATUS_SUPPORT_ENDED -> getString(R.string.server_status_support_ended_short)

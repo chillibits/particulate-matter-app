@@ -22,5 +22,6 @@ data class ServerInfo(
         const val SERVER_STATUS_OFFLINE = 2
         const val SERVER_STATUS_MAINTENANCE = 3
         const val SERVER_STATUS_SUPPORT_ENDED = 4
+        const val SERVER_STATUS_ONLINE_WITH_CAMPAIGN = 5
     }
 }
