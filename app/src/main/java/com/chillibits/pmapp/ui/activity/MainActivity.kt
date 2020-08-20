@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     lateinit var pagerAdapter: ViewPagerAdapterMain
     private var prevMenuItem: MenuItem? = null
     private var searchItem: MenuItem? = null
-    //private val welcomeScreen = WelcomeHelper(this, WelcomeActivity::class.java)
 
     // Utils packages
     private lateinit var su: StorageUtils
@@ -88,9 +87,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Start WelcomeActivity
-        //welcomeScreen.show(savedInstanceState)
 
         // Initialize own instance
         own_instance = this
@@ -235,11 +231,6 @@ class MainActivity : AppCompatActivity(), PlacesSearchDialog.PlaceSelectedCallba
 
         initializeApp()
     }
-
-    /*override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        welcomeScreen.onSaveInstanceState(outState)
-    }*/
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
