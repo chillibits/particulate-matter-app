@@ -11,10 +11,10 @@ import com.mrgames13.jimdo.feinstaubapp.model.dbo.SensorDbo
 import com.mrgames13.jimdo.feinstaubapp.model.dto.SensorDto
 import com.mrgames13.jimdo.feinstaubapp.model.other.Link
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpStatement
-import io.ktor.client.statement.readText
-import io.ktor.http.HttpStatusCode
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -37,7 +37,8 @@ suspend fun loadSingleSensor(context: Context, chipId: Long): SensorDto? {
     try {
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + "/sensor/" + chipId.toString()).execute()
         if(response.status == HttpStatusCode.OK) {
-            return Json.parse(SensorDto.serializer(), URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name()))
+            val responseContent = URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())
+            return Json.decodeFromString(responseContent)
         }else {
             Log.e(Constants.TAG, response.status.toString())
         }

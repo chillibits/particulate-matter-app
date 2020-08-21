@@ -9,11 +9,10 @@ import android.util.Log
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.other.RankingItem
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpStatement
-import io.ktor.client.statement.readText
-import io.ktor.http.HttpStatusCode
-import kotlinx.serialization.builtins.list
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -26,9 +25,8 @@ suspend fun loadRanking(context: Context, mode: Int): List<RankingItem> {
         val subRes = if (mode == RANKING_CITY) "/ranking/city" else "/ranking/country"
         val response = networkClient.get<HttpStatement>(context.getString(R.string.api_root) + subRes + "?compressed").execute()
         if(response.status == HttpStatusCode.OK) {
-            return ArrayList(Json.parse(RankingItem.serializer().list, URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())).map {
-                RankingItem(it.country, it.city, it.count)
-            })
+            val responseContent = URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())
+            return Json.decodeFromString<List<RankingItem>>(responseContent).map { RankingItem(it.country, it.city, it.count) }
         } else {
             Log.e(TAG, response.status.toString())
         }
