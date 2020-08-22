@@ -14,9 +14,3 @@ data class ExternalSensor (
     @SerialName("lo") val longitude: Double,
     @SerialName("a") val active: Boolean
 )
-
-@Serializable
-data class ExternalSensorSyncPackage (
-    val ids: List<String>,
-    val update: List<ExternalSensor>
-)
