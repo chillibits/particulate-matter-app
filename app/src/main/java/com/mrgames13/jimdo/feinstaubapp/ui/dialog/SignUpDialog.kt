@@ -52,6 +52,7 @@ class SignUpDialog(
             }
             .autoDismiss(false)
     }
+
     fun setListener(listener: OnSignUpListener): SignUpDialog {
         this.listener = listener
         return this

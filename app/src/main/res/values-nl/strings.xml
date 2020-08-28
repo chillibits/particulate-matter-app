@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: nl, Dutch
  Exported by: ChilliBits
- Exported at: Sat, 22 Aug 2020 20:13:26 +0100
+ Exported at: Fri, 28 Aug 2020 19:41:38 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -317,4 +317,13 @@
     <string name="error"></string>
     <string name="connection_to_server_failed"></string>
     <string name="error_server_not_reachable"></string>
+    <string name="my_account"></string>
+    <string name="sign_out"></string>
+    <string name="first_name"></string>
+    <string name="last_name"></string>
+    <string name="delete_account"></string>
+    <string name="change_personal_data"></string>
+    <string name="data_protection"></string>
+    <string name="save_changes"></string>
+    <string name="delete_account_message"></string>
 </resources>

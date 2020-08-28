@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sat, 22 Aug 2020 21:13:27 +0200
+ Exported at: Fri, 28 Aug 2020 20:41:39 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -318,4 +318,13 @@
     <string name="error">Fehler</string>
     <string name="connection_to_server_failed">Verbindung fehlgeschlagen. Der Server scheint momentan offline zu sein. Bitte versuchen Sie es später erneut.</string>
     <string name="error_server_not_reachable">Fehler. Server nicht erreichbar.</string>
+    <string name="my_account">Mein Nutzerkonto</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="first_name">Vorname</string>
+    <string name="last_name">Nachname</string>
+    <string name="delete_account">Account löschen</string>
+    <string name="change_personal_data">Persönliche Daten ändern</string>
+    <string name="data_protection">Datenschutz</string>
+    <string name="save_changes">Änderungen speichern</string>
+    <string name="delete_account_message">Wollen Sie Ihr Nutzerkonto wirklich unwiderruflich löschen?</string>
 </resources>

@@ -10,6 +10,18 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/action_rate"
+        android:title="@string/rate_app"
+        android:icon="@drawable/star_border_white"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_account"
+        android:title="@string/my_account"
+        android:icon="@drawable/account_circle"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_search"
         android:title="@string/search_for_sensors"
         android:icon="@drawable/search_white"
@@ -22,12 +34,6 @@
         android:icon="@drawable/import_export_white"
         app:showAsAction="always"
         android:visible="false"/>
-
-    <item
-        android:id="@+id/action_rate"
-        android:title="@string/rate_app"
-        android:icon="@drawable/star_border_white"
-        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_settings"

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Sat, 22 Aug 2020 20:13:25 +0100
+ Exported at: Fri, 28 Aug 2020 19:41:37 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -54,7 +54,7 @@
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
     <string name="no_sensors">If you have a sensor from <a href="https://sensor.community/en">www.sensor.community</a>, you can link it here. Tap below to link a sensor.</string>
-    <string name="rate_app">rate app</string>
+    <string name="rate_app">Rate app</string>
     <string name="rate_m">If you\'re enjoying our app, please spend a minute and rate the Particulate Matter App with 5 stars on Google Play!</string>
     <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recommend</string>
@@ -317,4 +317,13 @@
     <string name="error">Error</string>
     <string name="connection_to_server_failed">Connection failed. Seems like the server is currently offline. Please try again later.</string>
     <string name="error_server_not_reachable">Error. Server not reachable.</string>
+    <string name="my_account">My account</string>
+    <string name="sign_out">Sign out</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="delete_account">Delete account</string>
+    <string name="change_personal_data">Change personal data</string>
+    <string name="data_protection">Data protection</string>
+    <string name="save_changes">Save changes</string>
+    <string name="delete_account_message">Do you really want to delete your account? It will be gone forever.</string>
 </resources>

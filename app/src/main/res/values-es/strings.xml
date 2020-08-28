@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Sat, 22 Aug 2020 21:13:27 +0200
+ Exported at: Fri, 28 Aug 2020 20:41:39 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -54,7 +54,7 @@
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">¿Realmente quieres desvincular el sensor \'%s\'?</string>
     <string name="no_sensors">Si tiene un sensor de <a href="https://www.luftdaten.info/es">www.luftdaten.info</a>, puede vincularlo aquí. Toque abajo para vincular al sensor.</string>
-    <string name="rate_app">calificar aplicacion</string>
+    <string name="rate_app">Calificar aplicacion</string>
     <string name="rate_m">Si estás disfrutando de nuestra aplicación, por favor pasa un minuto y califica la aplicación de partículas con 5 estrellas en Google Play!</string>
     <string name="recommend_string">La aplicación de partículas de materia: mostrar las mediciones de partículas de materia fácil y elegante. Descargar de Google Play: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Recomendar</string>
@@ -318,4 +318,13 @@
     <string name="error"></string>
     <string name="connection_to_server_failed"></string>
     <string name="error_server_not_reachable"></string>
+    <string name="my_account"></string>
+    <string name="sign_out"></string>
+    <string name="first_name"></string>
+    <string name="last_name"></string>
+    <string name="delete_account"></string>
+    <string name="change_personal_data"></string>
+    <string name="data_protection"></string>
+    <string name="save_changes"></string>
+    <string name="delete_account_message"></string>
 </resources>

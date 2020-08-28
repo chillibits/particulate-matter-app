@@ -15,5 +15,6 @@ data class UserDbo(
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String,
     @ColumnInfo(name = "role") val role: Int,
-    @ColumnInfo(name = "status") val status: Int
+    @ColumnInfo(name = "status") val status: Int,
+    @ColumnInfo(name = "signed_in") val signedIn: Boolean
 )

@@ -217,8 +217,9 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
         when(item.itemId) {
             R.id.action_search -> item.expandActionView()
             R.id.action_import_export -> showImportExportDialog()
-            R.id.action_rate -> showRatingDialog()
+            R.id.action_account -> signInOrAccountDetails()
             R.id.action_settings -> openSettings(container)
+            R.id.action_rate -> showRatingDialog()
             R.id.action_recommend -> showRecommendationDialog()
             R.id.action_web -> openQRScanner()
             R.id.action_help -> openFAQPage()
@@ -258,6 +259,16 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun signInOrAccountDetails() {
+        if(viewModel.users.value.isNullOrEmpty()) {
+            // Not signed in
+            SignInDialog(this).show()
+        } else {
+            // Already signed in
+            showAccountDialog(viewModel.users.value?.find { it.signedIn }!!)
+        }
     }
 
     private fun switchToFavoritesPage() { // page index 0
