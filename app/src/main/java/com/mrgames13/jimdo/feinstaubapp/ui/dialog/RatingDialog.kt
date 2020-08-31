@@ -7,13 +7,13 @@ package com.mrgames13.jimdo.feinstaubapp.ui.dialog
 import android.content.Context
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import com.chillibits.simplesettings.tool.openGooglePlayAppSite
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.github.javiersantos.materialstyleddialogs.enums.Style
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.materialdesigniconic.MaterialDesignIconic
 import com.mikepenz.iconics.utils.colorInt
 import com.mrgames13.jimdo.feinstaubapp.R
-import com.mrgames13.jimdo.feinstaubapp.shared.openGooglePlayAppSite
 
 fun Context.showRatingDialog() {
     MaterialStyledDialog.Builder(this)

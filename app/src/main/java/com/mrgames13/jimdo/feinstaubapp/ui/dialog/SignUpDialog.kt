@@ -48,7 +48,7 @@ class SignUpDialog(
                 val email = view.email.text.toString().trim()
                 val password = view.password.text.toString().trim()
                 val confirmPassword = view.confirmPassword.text.toString().trim()
-                createAccount(dialog, email, password, confirmPassword)
+                createAccount(email, password, confirmPassword)
             }
             .autoDismiss(false)
     }
@@ -62,15 +62,11 @@ class SignUpDialog(
         dialog = dialogBuilder.show()
     }
 
-    private fun createAccount(dialog: MaterialStyledDialog?, email: String, password: String, confirmPassword: String) {
+    private fun createAccount(email: String, password: String, confirmPassword: String) {
         // Check if form is filled correctly
         if(email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
             if(password == confirmPassword) {
-                val buttonPos = dialog?.positiveButton()
-                val buttonNeg = dialog?.negativeButton()
-                buttonPos?.text = context.getString(R.string.loading)
-                buttonPos?.isEnabled = false
-                buttonNeg?.isEnabled = false
+                startStopSignInProcess(true)
                 // Create account on server
                 CoroutineScope(Dispatchers.IO).launch {
                     val user = createUser(context, email, hashSha1(password))
@@ -80,13 +76,25 @@ class SignUpDialog(
                             listener?.onSignedUp(user)
                             dialog?.dismiss()
                         } else {
-                            buttonNeg?.isEnabled = true
-                            buttonPos?.isEnabled = true
-                            buttonPos?.text = context.getString(R.string.sign_up)
+                            startStopSignInProcess(false)
                         }
                     }
                 }
-            } else Toast.makeText(context, R.string.passwords_do_not_match, Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(context, R.string.not_all_filled, Toast.LENGTH_SHORT).show()
+            } else {
+                startStopSignInProcess(false)
+                Toast.makeText(context, R.string.passwords_do_not_match, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            startStopSignInProcess(false)
+            Toast.makeText(context, R.string.not_all_filled, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startStopSignInProcess(running: Boolean) {
+        val buttonPos = dialog?.positiveButton()
+        val buttonNeg = dialog?.negativeButton()
+        buttonPos?.text = context.getString(if(running) R.string.loading else R.string.sign_up)
+        buttonPos?.isEnabled = !running
+        buttonNeg?.isEnabled = !running
     }
 }

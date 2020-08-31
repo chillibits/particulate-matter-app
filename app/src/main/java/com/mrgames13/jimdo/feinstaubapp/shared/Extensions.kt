@@ -4,7 +4,6 @@
 
 package com.mrgames13.jimdo.feinstaubapp.shared
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -41,16 +40,10 @@ fun Context.getPreferenceValue(name: String, defaultValue: Double)
         = getPrefs().getFloat(name, defaultValue.toFloat()).toDouble()
 fun Context.getPreferenceValue(name: String, defaultValue: String)
         = getPrefs().getString(name, defaultValue)
-fun Context.openGooglePlayAppSite() {
-    try {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-    } catch (e: ActivityNotFoundException) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
-    }
-}
-
 fun Context.openGooglePlayDeveloperSite()
         = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_store_developer_site))))
+fun Context.getStringIdentifier(name: String)
+        = resources.getIdentifier(name, "string", packageName)
 
 // ---------------------------------------- Double Extensions --------------------------------------
 

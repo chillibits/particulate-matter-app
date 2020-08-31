@@ -12,11 +12,11 @@ import android.net.NetworkRequest
 import androidx.core.location.LocationManagerCompat
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants
-import io.ktor.client.HttpClient
-import io.ktor.client.features.auth.Auth
-import io.ktor.client.features.auth.providers.basic
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 
 var isInternetAvailable = false
 
@@ -24,6 +24,7 @@ val networkClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
+    expectSuccess = false
 }
 
 fun getNetworkClientWithAuth(context: Context): HttpClient {
@@ -37,6 +38,7 @@ fun getNetworkClientWithAuth(context: Context): HttpClient {
                 password = context.getString(R.string.api_client_key)
             }
         }
+        expectSuccess = false
     }
 }
 

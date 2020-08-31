@@ -5,7 +5,7 @@
 
 <resources>
     <!-- API Endpoints -->
-    <string name="api_root" translatable="false">https://api.pm.chillibits.com</string>
+    <string name="api_root" translatable="false">https://dev.api.pm.chillibits.com</string> <!-- TODO: Replace dev api with production api -->
     <string name="client_name_short" translatable="false">pmapp</string>
 
     <!-- Common URLs -->

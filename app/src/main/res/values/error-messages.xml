@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<!--
+ Loco xml export: Android string resources
+ Project: Particulate Matter App Error Messages
+ Release: Working copy
+ Locale: en, English
+ Exported by: ChilliBits
+ Exported at: Mon, 31 Aug 2020 23:43:38 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="error_message_100">Client does not exist</string>
+    <string name="error_message_101">Invalid client data</string>
+    <string name="error_message_200">Invalid time range</string>
+    <string name="error_message_201">Invalid field index</string>
+    <string name="error_message_202">Invalid merge count</string>
+    <string name="error_message_203">Invalid period</string>
+    <string name="error_message_400">Invalid items number</string>
+    <string name="error_message_500">Sensor already exists</string>
+    <string name="error_message_501">Sensor does not exist</string>
+    <string name="error_message_502">Invalid GPS coordinates</string>
+    <string name="error_message_503">No data records</string>
+    <string name="error_message_504">Cannot assign to user</string>
+    <string name="error_message_505">Invalid radius</string>
+    <string name="error_message_600">Stats item does not exist</string>
+    <string name="error_message_700">Invalid user data</string>
+    <string name="error_message_701">User does not exist</string>
+    <string name="error_message_702">User already exists</string>
+    <string name="error_message_703">The password is wrong</string>
+    <string name="error_message_800">Invalid link data</string>
+    <string name="error_message_900">Invalid time range</string>
+</resources>

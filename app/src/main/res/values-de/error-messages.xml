@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  -->
+
+<!--
+ Loco xml export: Android string resources
+ Project: Particulate Matter App Error Messages
+ Release: Working copy
+ Locale: de, German
+ Exported by: ChilliBits
+ Exported at: Mon, 31 Aug 2020 23:43:39 +0200
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="error_message_100">Dieser Client existiert nicht</string>
+    <string name="error_message_101">Ungültige Client-Daten</string>
+    <string name="error_message_200">Ungültige Zeitspanne</string>
+    <string name="error_message_201">Ungültiger Feld-Index</string>
+    <string name="error_message_202">Ungültige Merge-Anzahl</string>
+    <string name="error_message_203">Ungültige Periode</string>
+    <string name="error_message_400">Ungültige Item-Anzahl</string>
+    <string name="error_message_500">Dieser Sensor existiert bereits</string>
+    <string name="error_message_501">Dieser Sensor existiert nicht</string>
+    <string name="error_message_502">Ungültige GPS-Koordinaten</string>
+    <string name="error_message_503">Keine Datensätze gefunden</string>
+    <string name="error_message_504">Kann keinem Nutzer zugeordnet werden</string>
+    <string name="error_message_505">Ungültiger Radius</string>
+    <string name="error_message_600">Stats-Item existiert nicht</string>
+    <string name="error_message_700">Ungültige Nutzerdaten</string>
+    <string name="error_message_701">Dieser Nutzer existiert nicht</string>
+    <string name="error_message_702">Dieser Nutzer existiert bereits</string>
+    <string name="error_message_703">Das Passwort ist falsch</string>
+    <string name="error_message_800">Ungültige Verknüpfungsdaten</string>
+    <string name="error_message_900">Ungültige Zeitspanne</string>
+</resources>

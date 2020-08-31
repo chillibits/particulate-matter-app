@@ -10,7 +10,8 @@ import android.view.LayoutInflater
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.other.User
-import com.mrgames13.jimdo.feinstaubapp.shared.Constants
+import com.mrgames13.jimdo.feinstaubapp.network.loadUser
+import com.mrgames13.jimdo.feinstaubapp.shared.hashSha1
 import kotlinx.android.synthetic.main.dialog_sign_in.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,12 +43,14 @@ class SignInDialog(
             .setCustomView(view)
             .setNegativeText(R.string.cancel)
             .setPositiveText(R.string.sign_in)
-            .onNegative { listener?.onSkipOrCancelled() }
+            .onNegative {
+                dialog?.dismiss()
+                listener?.onSkipOrCancelled()
+            }
             .onPositive {
                 val email = view.email.text.toString().trim()
-                val password = view.password.toString().trim()
-                val user = User(0, email, password, "", "", emptyList(), Constants.ROLE_USER, Constants.STATUS_ACTIVE, 0, 0)
-                signIn(user)
+                val password = view.password.text.toString().trim()
+                signIn(email, password)
             }
             .autoDismiss(false)
 
@@ -76,16 +79,31 @@ class SignInDialog(
         dialog = dialogBuilder.show()
     }
 
-    private fun signIn(user: User) {
+    private fun signIn(email: String, password: String) {
+        startStopSignInProcess(true)
+        // Sign in
         CoroutineScope(Dispatchers.IO).launch {
-
-            withContext(Dispatchers.Main) {
-
+            val userDto = loadUser(context, email, hashSha1(password))
+            if(userDto != null) {
+                withContext(Dispatchers.Main) {
+                    listener?.onSignedIn()
+                    dialog?.dismiss()
+                }
+            } else {
+                withContext(Dispatchers.Main) { startStopSignInProcess(false) }
             }
         }
     }
 
-    override fun onSignedUp(user: User) = signIn(user)
+    private fun startStopSignInProcess(running: Boolean) {
+        val buttonPos = dialog?.positiveButton()
+        val buttonNeg = dialog?.negativeButton()
+        buttonPos?.text = context.getString(if(running) R.string.loading else R.string.sign_in)
+        buttonPos?.isEnabled = !running
+        buttonNeg?.isEnabled = !running
+    }
+
+    override fun onSignedUp(user: User) = signIn(user.email, user.password)
 
     override fun onCancelled() {
         listener?.onSkipOrCancelled()
