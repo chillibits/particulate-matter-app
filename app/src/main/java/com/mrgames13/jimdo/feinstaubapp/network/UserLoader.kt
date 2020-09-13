@@ -29,7 +29,7 @@ suspend fun loadUser(context: Context, email: String, password: String): UserDto
     try {
         val response = getNetworkClientWithAuth(context)
             .get<HttpStatement>(context.getString(R.string.api_root) + "/user/$email?password=$password").execute()
-        val responseContent = URLDecoder.decode(response.readText(), StandardCharsets.UTF_8.name())
+        val responseContent = URLDecoder.decode(response.readText().trim(), StandardCharsets.UTF_8.name())
         when (response.status) {
             HttpStatusCode.OK -> return Json.decodeFromString(responseContent)
             HttpStatusCode.NotAcceptable -> {
@@ -54,13 +54,18 @@ suspend fun createUser(context: Context, email: String, password: String): User?
             url(context.getString(R.string.api_root) + "/user")
             body = TextContent(Json.encodeToString(user), ContentType.Application.Json)
         }.execute()
-        if(response.status == HttpStatusCode.OK) {
-            val result = response.readText().trim()
-            if(result.isEmpty()) return null
-            val responseContent = URLDecoder.decode(result, StandardCharsets.UTF_8.name())
-            return Json.decodeFromString(responseContent)
-        } else {
-            Log.e(Constants.TAG, response.status.toString())
+        val responseContent = URLDecoder.decode(response.readText().trim(), StandardCharsets.UTF_8.name())
+        when (response.status) {
+            HttpStatusCode.OK -> return Json.decodeFromString(responseContent)
+            HttpStatusCode.NotAcceptable -> {
+                // An error occurred, extract error json and show error message
+                val error = Json.decodeFromString<ApiError>(responseContent)
+                val message = context.getString(context.getStringIdentifier("error_message_" + error.errorCode))
+                withContext(Dispatchers.Main) { Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
+            }
+            else -> {
+                Log.e(Constants.TAG, response.status.toString())
+            }
         }
     } catch (e: Exception) {
         e.printStackTrace()

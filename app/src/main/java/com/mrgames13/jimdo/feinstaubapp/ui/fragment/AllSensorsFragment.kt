@@ -289,7 +289,7 @@ class AllSensorsFragment(
 
     private fun showMarkerInfoWindow(item: MarkerItem) {
         view?.let { view ->
-            map?.let { showMarkerInfoWindow(it, view, item, childFragmentManager, viewModel.users.value?.get(0)) }
+            map?.let { showMarkerInfoWindow(it, view, item, childFragmentManager, viewModel.users.value?.get(0), viewModel) }
         }
     }
 

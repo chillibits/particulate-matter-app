@@ -18,6 +18,7 @@ import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showAddFavoriteDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorPropertiesDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.dialog.showSensorStatsDialog
 import com.mrgames13.jimdo.feinstaubapp.ui.item.MarkerItem
+import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_all_sensors.view.*
 import kotlinx.android.synthetic.main.info_window_marker.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +27,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 
-fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem, fragmentManager: FragmentManager, user: UserDbo?) {
+fun showMarkerInfoWindow(
+    map: GoogleMap,
+    view: View,
+    marker: MarkerItem,
+    fragmentManager: FragmentManager,
+    user: UserDbo?,
+    viewModel: MainViewModel
+) {
     // Collapse other windows
     if(view.clusterWindow1.isVisible) exitReveal(view.clusterWindow1)
     if(view.clusterWindow2.isVisible) exitReveal(view.clusterWindow2)
@@ -76,7 +84,7 @@ fun showMarkerInfoWindow(map: GoogleMap, view: View, marker: MarkerItem, fragmen
                         user?.let {
                             view.context.showAddFavoriteDialog(sensor!!, it, fragmentManager)
                         } ?: run {
-                            val signInDialog = SignInDialog(view.context)
+                            SignInDialog(view.context, viewModel)
                                 .withSkipOption()
                                 .setOnSignInListener(object: SignInDialog.OnSignInListener {
                                     override fun onSignedIn() { exitReveal(window) }

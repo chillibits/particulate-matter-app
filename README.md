@@ -1,6 +1,5 @@
 # Particulate Matter App
 [![Build Status](https://travis-ci.org/ChilliBits/particulate-matter-app.svg?branch=master)](https://travis-ci.org/ChilliBits/particulate-matter-app)
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/546c5e0356af45e099826b097ebfbc0e)](https://app.codacy.com/gh/ChilliBits/particulate-matter-app?utm_source=github.com&utm_medium=referral&utm_content=ChilliBits/particulate-matter-app&utm_campaign=Badge_Grade_Dashboard)
 
 **Be informed about the particulate matter situation and the air quality!**

@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: ChilliBits
- Exported at: Mon, 31 Aug 2020 23:43:38 +0200
+ Exported at: Sun, 13 Sep 2020 12:22:41 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="error_message_100">Client does not exist</string>
@@ -32,4 +32,7 @@
     <string name="error_message_703">The password is wrong</string>
     <string name="error_message_800">Invalid link data</string>
     <string name="error_message_900">Invalid time range</string>
+    <string name="error_message_704">The user exists, but the users email was not confirmed yet</string>
+    <string name="error_message_705">This user is suspended</string>
+    <string name="error_message_706">This user is locked</string>
 </resources>

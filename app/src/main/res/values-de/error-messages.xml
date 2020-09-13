@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Mon, 31 Aug 2020 23:43:39 +0200
+ Exported at: Sun, 13 Sep 2020 12:22:42 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="error_message_100">Dieser Client existiert nicht</string>
@@ -32,4 +32,7 @@
     <string name="error_message_703">Das Passwort ist falsch</string>
     <string name="error_message_800">Ungültige Verknüpfungsdaten</string>
     <string name="error_message_900">Ungültige Zeitspanne</string>
+    <string name="error_message_704">Der Nutzer existiert aber die E-Mail-Adresse wurde noch nicht bestätigt</string>
+    <string name="error_message_705">Dieser Nutzer ist suspendiert</string>
+    <string name="error_message_706">Dieser Nutzer ist gesperrt</string>
 </resources>

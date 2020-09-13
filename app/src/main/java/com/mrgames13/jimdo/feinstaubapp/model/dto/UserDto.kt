@@ -8,10 +8,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDto (
-    private val id: Int,
-    private val firstName: String,
-    private val lastName: String,
-    private val sensorLinks: List<LinkDto>,
-    private val role: Int,
-    private val status: Int
+    val id: Int,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val sensorLinks: List<LinkDto>,
+    val role: Int,
+    val status: Int
 )

@@ -8,6 +8,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dbo.UserDbo
+import com.mrgames13.jimdo.feinstaubapp.model.dto.UserDto
 import com.mrgames13.jimdo.feinstaubapp.network.registerNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.network.unregisterNetworkCallback
 import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository
@@ -44,6 +46,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun updateExternalSensorFilter() = externalSensorRepository.updateFilter()
     fun unregisterNetworkCallback() = context.unregisterNetworkCallback()
     fun addScrapingResult(sr: ScrapingResultDbo) = scrapingResultRepository.addScrapingResult(sr)
+
+    suspend fun signIn(userDto: UserDto) {
+        val userDbo = UserDbo(userDto.id, userDto.firstName, userDto.lastName, userDto.role, userDto.status, System.currentTimeMillis())
+        userRepository.insert(userDbo)
+    }
 
     override fun onCleared() {
         super.onCleared()

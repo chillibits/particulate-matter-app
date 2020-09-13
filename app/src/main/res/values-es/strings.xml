@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: es, Spanish
  Exported by: ChilliBits
- Exported at: Mon, 31 Aug 2020 16:45:57 +0200
+ Exported at: Sun, 13 Sep 2020 12:22:42 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -327,4 +327,5 @@
     <string name="data_protection"></string>
     <string name="save_changes"></string>
     <string name="delete_account_message"></string>
+    <string name="sign_up_confirmation_message"></string>
 </resources>

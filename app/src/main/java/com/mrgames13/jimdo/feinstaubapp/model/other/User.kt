@@ -9,15 +9,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User (
+data class User(
     @SerialName("id") val id: Int,
     @SerialName("email") val email: String,
-    @SerialName("password") val password: String,
-    @SerialName("firstName")val firstName: String,
+    @SerialName("password") val password: String = "",
+    @SerialName("firstName") val firstName: String,
     @SerialName("lastName") val lastName: String,
     @SerialName("sensorLinks") val sensorLinks: List<LinkDto> = emptyList(),
     @SerialName("role") val role: Int,
     @SerialName("status") val status: Int,
-    @SerialName("creationTimestamp") val creationTimestamp: Long,
-    @SerialName("lastEditTimestamp") val lastEditTimestamp: Long
+    @SerialName("creationTimestamp") val creationTimestamp: Long = 0,
+    @SerialName("lastEditTimestamp") val lastEditTimestamp: Long = 0
 )

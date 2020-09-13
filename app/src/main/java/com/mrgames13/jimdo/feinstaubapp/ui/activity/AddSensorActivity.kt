@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -70,6 +71,11 @@ class AddSensorActivity : AppCompatActivity(), OnChooseColorDialogSelectionListe
 
     private fun applyWindowInsets() = window.apply {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            decorView.setOnApplyWindowInsetsListener { _, insets ->
+                val systemBarInsets = insets.getInsets(WindowInsets.Type.systemBars())
+                toolbar.setPadding(0, systemBarInsets.top, 0, 0)
+                insets
+            }
             setDecorFitsSystemWindows(false)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             decorView.systemUiVisibility =

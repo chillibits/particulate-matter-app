@@ -7,11 +7,12 @@ package com.mrgames13.jimdo.feinstaubapp.ui.dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.network.createUser
-import com.mrgames13.jimdo.feinstaubapp.shared.hashSha1
+import com.mrgames13.jimdo.feinstaubapp.shared.hashSha256
 import kotlinx.android.synthetic.main.dialog_sign_up.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,11 +70,11 @@ class SignUpDialog(
                 startStopSignInProcess(true)
                 // Create account on server
                 CoroutineScope(Dispatchers.IO).launch {
-                    val user = createUser(context, email, hashSha1(password))
+                    val user = createUser(context, email, hashSha256(password))
                     withContext(Dispatchers.Main) {
                         if(user != null) {
-                            // Sign in
-                            listener?.onSignedUp(user)
+                            // Show confirmation message dialog
+                            showConfirmationDialog(user)
                             dialog?.dismiss()
                         } else {
                             startStopSignInProcess(false)
@@ -88,6 +89,17 @@ class SignUpDialog(
             startStopSignInProcess(false)
             Toast.makeText(context, R.string.not_all_filled, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showConfirmationDialog(user: User) {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.sign_up)
+            .setMessage(R.string.sign_up_confirmation_message)
+            .setPositiveButton(R.string.sign_in) { _, _ ->
+                listener?.onSignedUp(user)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun startStopSignInProcess(running: Boolean) {

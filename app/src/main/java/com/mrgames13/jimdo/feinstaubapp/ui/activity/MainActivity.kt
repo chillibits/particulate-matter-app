@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private lateinit var viewModel: MainViewModel
 
     // Fragments for tablets
-    lateinit var fragmentFavorites: FavoritesFragment
-    lateinit var fragmentOwnSensors: OwnSensorsFragment
+    private lateinit var fragmentFavorites: FavoritesFragment
+    private lateinit var fragmentOwnSensors: OwnSensorsFragment
     lateinit var fragmentLocalNetwork: LocalNetworkFragment
 
     // Variables
@@ -182,6 +182,16 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun applyWindowInsets() = window.apply {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            decorView.setOnApplyWindowInsetsListener { _, insets ->
+                val systemBarInsets = insets.getInsets(WindowInsets.Type.systemBars())
+                toolbar.setPadding(0, systemBarInsets.top, 0, 0)
+                if(isTablet) {
+                    viewContainer.setPadding(0, 0, 0, systemBarInsets.bottom)
+                } else {
+                    tabBar.setPadding(0, 0, 0, systemBarInsets.bottom)
+                }
+                insets
+            }
             setDecorFitsSystemWindows(false)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             decorView.setOnApplyWindowInsetsListener { _, insets ->
@@ -264,10 +274,10 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
     private fun signInOrAccountDetails() {
         if(viewModel.users.value.isNullOrEmpty()) {
             // Not signed in
-            SignInDialog(this).show()
+            SignInDialog(this, viewModel).show()
         } else {
             // Already signed in
-            showAccountDialog(viewModel.users.value?.find { it.signedIn }!!)
+            showAccountDialog(viewModel.users.value?.maxByOrNull { it -> it.lastSignIn }!!)
         }
     }
 

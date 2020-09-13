@@ -11,7 +11,8 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.network.loadUser
-import com.mrgames13.jimdo.feinstaubapp.shared.hashSha1
+import com.mrgames13.jimdo.feinstaubapp.shared.hashSha256
+import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.dialog_sign_in.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SignInDialog(
-    private val context: Context
+    private val context: Context,
+    private val viewModel: MainViewModel
 ) : SignUpDialog.OnSignUpListener {
 
     // Variables as objects
@@ -83,8 +85,11 @@ class SignInDialog(
         startStopSignInProcess(true)
         // Sign in
         CoroutineScope(Dispatchers.IO).launch {
-            val userDto = loadUser(context, email, hashSha1(password))
+            val userDto = loadUser(context, email, hashSha256(password))
             if(userDto != null) {
+                // Save user as signed in
+                viewModel.signIn(userDto)
+                // Close dialog and call callback
                 withContext(Dispatchers.Main) {
                     listener?.onSignedIn()
                     dialog?.dismiss()
