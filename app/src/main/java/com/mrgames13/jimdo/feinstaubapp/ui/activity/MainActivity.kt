@@ -96,8 +96,7 @@ class MainActivity : AppCompatActivity(), AllSensorsFragment.OnAdapterEventListe
 
     private fun initializePhoneComponents() {
         // Initialize ViewPager
-        viewpagerAdapter =
-            ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
+        viewpagerAdapter = ViewPagerAdapterMain(application, this, this, supportFragmentManager, lifecycle)
         viewPager.run {
             offscreenPageLimit = viewpagerAdapter.itemCount
             isUserInputEnabled = false

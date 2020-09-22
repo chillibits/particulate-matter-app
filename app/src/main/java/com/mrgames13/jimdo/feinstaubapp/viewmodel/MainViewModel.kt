@@ -5,6 +5,7 @@
 package com.mrgames13.jimdo.feinstaubapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
@@ -16,6 +17,7 @@ import com.mrgames13.jimdo.feinstaubapp.repository.ExternalSensorRepository
 import com.mrgames13.jimdo.feinstaubapp.repository.ScrapingResultRepository
 import com.mrgames13.jimdo.feinstaubapp.repository.SensorRepository
 import com.mrgames13.jimdo.feinstaubapp.repository.UserRepository
+import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,11 +46,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun manuallyRefreshSensors() = sensorRepository.manuallyRefreshSensors()
     suspend fun manuallyRefreshExternalSensors() = externalSensorRepository.manuallyRefreshExternalSensors()
     fun updateExternalSensorFilter() = externalSensorRepository.updateFilter()
-    fun unregisterNetworkCallback() = context.unregisterNetworkCallback()
     fun addScrapingResult(sr: ScrapingResultDbo) = scrapingResultRepository.addScrapingResult(sr)
 
     suspend fun signIn(userDto: UserDto) {
         val userDbo = UserDbo(userDto.id, userDto.firstName, userDto.lastName, userDto.role, userDto.status, System.currentTimeMillis())
+        Log.d(Constants.TAG, userDbo.firstName)
         userRepository.insert(userDbo)
     }
 

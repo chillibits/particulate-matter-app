@@ -6,11 +6,13 @@ package com.mrgames13.jimdo.feinstaubapp.ui.dialog
 
 import android.content.Context
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog
 import com.mrgames13.jimdo.feinstaubapp.R
 import com.mrgames13.jimdo.feinstaubapp.model.other.User
 import com.mrgames13.jimdo.feinstaubapp.network.loadUser
+import com.mrgames13.jimdo.feinstaubapp.shared.Constants
 import com.mrgames13.jimdo.feinstaubapp.shared.hashSha256
 import com.mrgames13.jimdo.feinstaubapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.dialog_sign_in.view.*
@@ -86,6 +88,7 @@ class SignInDialog(
         // Sign in
         CoroutineScope(Dispatchers.IO).launch {
             val userDto = loadUser(context, email, hashSha256(password))
+            Log.d(Constants.TAG, "Test")
             if(userDto != null) {
                 // Save user as signed in
                 viewModel.signIn(userDto)

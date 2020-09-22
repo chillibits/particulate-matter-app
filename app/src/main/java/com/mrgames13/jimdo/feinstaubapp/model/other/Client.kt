@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ClientInfo (
+data class Client (
     @SerialName("name") private val name: String,
     @SerialName("readable_name")  private val readableName: String,
     @SerialName("type")  private val type: Int,

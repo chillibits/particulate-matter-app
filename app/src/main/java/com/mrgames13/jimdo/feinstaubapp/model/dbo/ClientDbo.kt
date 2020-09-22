@@ -9,7 +9,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "client")
-data class ClientInfoDbo (
+data class ClientDbo (
     @PrimaryKey
     @ColumnInfo(name = "name") private val name: String,
     @ColumnInfo(name = "readable_name") private val readableName: String,
