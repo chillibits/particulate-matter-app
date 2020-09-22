@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Sat, 19 Sep 2020 19:13:50 +0200
+ Exported at: Tue, 22 Sep 2020 13:40:30 +0200
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="error_message_100">Dieser Client existiert nicht</string>
