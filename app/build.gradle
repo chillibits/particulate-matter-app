@@ -86,7 +86,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.4.0'
 
     // ZXing dependencies
-    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.google.zxing:core:3.4.1'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
 
