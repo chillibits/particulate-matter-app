@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Tue, 22 Sep 2020 12:40:30 +0100
+ Exported at: Mon, 12 Oct 2020 22:11:45 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -93,7 +93,7 @@
     <string name="do_not_show_again">Nie pokazuj ponownie</string>
     <string name="public_sensor">Pokaż sensor innym użytkownikom, pokaż go na mapie</string>
     <string name="choose_location">Wybierz dokładną lokalizację sensora</string>
-    <string name="sensor_height">Wysokość nad ziemią / ulicą (cm):</string>
+    <string name="sensor_height">Wysokość nad ziemią/ulicą (cm):</string>
     <string name="latitude">Szerokość</string>
     <string name="latitude_">Szerokość:</string>
     <string name="longitude">Długość</string>
@@ -156,7 +156,7 @@
     <string name="enable_daily_median">Pokaż dzienną medianę</string>
     <string name="enable_daily_average_median_s">Wyświetlaj poniżej rekordy danych</string>
     <string name="enable_nothing">Wyłącz średnią / medianę</string>
-    <string name="manage_auto_correction_t">Automatyczna korekcja błędów</string>
+    <string name="manage_auto_correction_t">Algorytm korekcji błędów</string>
     <string name="manage_auto_correction_s">Zarządzaj automatyczną korekcja dla wadliwych pomiarów</string>
     <!-- Sync Settings -->
     <string name="pref_header_sync">Synchronizacja</string>
@@ -304,29 +304,29 @@
     <string name="show_inactive_sensors_s">Nieaktywne sensory podświetlane są na pomarańczowo</string>
     <string name="local_network_start">Możemy wyszukać sensory w twojej sieci lokalnej, kliknij aby rozpocząć proces wyszukiwania.</string>
     <string name="indoor_">Wewnętrzny:</string>
-    <string name="sensor_stats"></string>
-    <string name="server_requests_today_"></string>
-    <string name="server_requests_yesterday_"></string>
-    <string name="data_records_today_"></string>
-    <string name="data_records_yesterday_"></string>
-    <string name="data_records_this_month_"></string>
-    <string name="data_records_prev_month_"></string>
-    <string name="data_records_total_"></string>
-    <string name="server_requests_total_"></string>
-    <string name="more_info"></string>
-    <string name="stats"></string>
-    <string name="skip"></string>
-    <string name="error"></string>
-    <string name="connection_to_server_failed"></string>
-    <string name="error_server_not_reachable"></string>
-    <string name="my_account"></string>
-    <string name="sign_out"></string>
-    <string name="first_name"></string>
-    <string name="last_name"></string>
-    <string name="delete_account"></string>
-    <string name="change_personal_data"></string>
-    <string name="data_protection"></string>
-    <string name="save_changes"></string>
-    <string name="delete_account_message"></string>
-    <string name="sign_up_confirmation_message"></string>
+    <string name="sensor_stats">Statystyki sensora</string>
+    <string name="server_requests_today_">Zapytania serwera z dzisiaj:</string>
+    <string name="server_requests_yesterday_">Zapytania serwera z wczoraj:</string>
+    <string name="data_records_today_">Dane z dzisiaj:</string>
+    <string name="data_records_yesterday_">Dane z wczoraj:</string>
+    <string name="data_records_this_month_">Dane zapisane w tym miesiącu:</string>
+    <string name="data_records_prev_month_">Dane za poprzedni miesiąc:</string>
+    <string name="data_records_total_">Dane łącznie:</string>
+    <string name="server_requests_total_">Żądań serwera łącznie:</string>
+    <string name="more_info">Więcej informacji</string>
+    <string name="stats">Statystyki</string>
+    <string name="skip">Pomiń</string>
+    <string name="error">Błąd</string>
+    <string name="connection_to_server_failed">Połączenie nieudane. Wygląda na to, że serwer jest offline. Spróbuj ponownie później</string>
+    <string name="error_server_not_reachable">Error. Serwer niedostępny</string>
+    <string name="my_account">Moje konto</string>
+    <string name="sign_out">Wyloguj</string>
+    <string name="first_name">Imię</string>
+    <string name="last_name">Nazwisko</string>
+    <string name="delete_account">Skasuj konto</string>
+    <string name="change_personal_data">Zmień dane osobiste</string>
+    <string name="data_protection">Ochrona danych</string>
+    <string name="save_changes">Zapisz zmiany</string>
+    <string name="delete_account_message">Chcesz skasować konto ? Zostanie skasowane na zawsze.</string>
+    <string name="sign_up_confirmation_message">Wysłaliśmy Ci link aktywacyjny na e-mail. Użyj go, aby aktywować swoje konto użytkownika. Po aktywacji możesz używać je do logowania..</string>
 </resources>
