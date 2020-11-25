@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation 'com.mikepenz:iconics-core:5.1.1'
     // Test at runtime before upgrading
-    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.7-kotlin@aar' // Maybe breaks app (https://github.com/mikepenz/Android-Iconics/issues/524)
+    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.8-kotlin@aar' // Maybe breaks app (https://github.com/mikepenz/Android-Iconics/issues/524)
     implementation 'com.github.ibrahimsn98:live-preferences:1.9'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.marcauberer:ProgressFloatingActionButton:1.1.0'
