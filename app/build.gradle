@@ -114,7 +114,7 @@ dependencies {
     implementation 'eu.davidea:flipview:1.2.0'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:3.0.2'
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
-    implementation 'com.mikepenz:iconics-core:5.2.1'
+    implementation 'com.mikepenz:iconics-core:5.2.4'
     // Test at runtime before upgrading
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.8-kotlin@aar' // Maybe breaks app (https://github.com/mikepenz/Android-Iconics/issues/524)
     implementation 'com.github.ibrahimsn98:live-preferences:1.9'
