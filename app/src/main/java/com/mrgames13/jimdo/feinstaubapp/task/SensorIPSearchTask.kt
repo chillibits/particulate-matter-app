@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2017 - 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2021. All rights reserved
  */
 
 package com.mrgames13.jimdo.feinstaubapp.task
@@ -12,11 +12,9 @@ import com.mrgames13.jimdo.feinstaubapp.model.dbo.ScrapingResultDbo
 import com.mrgames13.jimdo.feinstaubapp.network.networkClient
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.JOB_COUNT
 import com.mrgames13.jimdo.feinstaubapp.shared.Constants.TAG
-import io.ktor.client.request.forms.submitForm
-import io.ktor.client.statement.HttpStatement
-import io.ktor.client.statement.readText
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.Parameters
+import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.coroutines.*
 import java.net.ConnectException
 import java.net.Inet4Address

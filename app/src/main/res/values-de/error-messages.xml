@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: de, German
  Exported by: ChilliBits
- Exported at: Tue, 20 Oct 2020 18:54:08 +0200
+ Exported at: Wed, 25 Nov 2020 15:16:08 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="error_message_100">Dieser Client existiert nicht</string>

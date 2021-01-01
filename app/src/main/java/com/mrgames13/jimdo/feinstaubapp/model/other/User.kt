@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2017 - 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2021. All rights reserved
  */
 
 package com.mrgames13.jimdo.feinstaubapp.model.other
