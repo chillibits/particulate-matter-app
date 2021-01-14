@@ -105,7 +105,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // External dependencies
-    implementation 'com.fxn769:bubbletabbar:1.0.5'
+    implementation 'com.fxn769:bubbletabbar:1.0.6'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.21'
     implementation 'com.github.dhaval2404:colorpicker:1.2.1'
