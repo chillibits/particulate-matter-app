@@ -3,7 +3,7 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.4.21-2'
+    ext.kotlin_version = '1.4.30'
     ext.room_version = '2.3.0-beta01'
     ext.ktor_version = '1.4.1'
     repositories {
