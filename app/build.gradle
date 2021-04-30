@@ -108,7 +108,7 @@ dependencies {
     implementation 'com.fxn769:bubbletabbar:1.0.6'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
-    implementation 'com.github.dhaval2404:colorpicker:1.2.1'
+    implementation 'com.github.dhaval2404:colorpicker:2.0'
     implementation 'com.github.rtchagas:pingplacepicker:2.2.0'
     implementation 'com.mikepenz:fastadapter:5.4.1'
     implementation 'eu.davidea:flipview:1.2.0'
