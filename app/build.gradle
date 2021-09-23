@@ -132,7 +132,7 @@ task downloadTranslations {
 
     ext.apiKey1 = '7qUo-LUKd4VIHSwRYB5005T7QQbaFCGw'
     ext.apiKey2 = 'mg24uL96-mSwhchnk4LnJAzeyBtOsYy3'
-    ext.apiKeyErrorMessages = 'JFyLnIF73svZn0TnwkbubqjhovTL6Tq5'
+    ext.apiKeyErrorMessages = 'eRRfdqc5BoxMAdvyqAljTjEh1O0x35wO'
 
     // English
     doLast {

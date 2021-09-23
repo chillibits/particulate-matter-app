@@ -9,7 +9,7 @@
  Release: Working copy
  Locale: pl, Polish
  Exported by: ChilliBits
- Exported at: Wed, 25 Nov 2020 14:16:08 +0000
+ Exported at: Thu, 23 Sep 2021 20:55:18 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Common Strings -->
@@ -55,7 +55,7 @@
     <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
     <string name="no_sensors">Jeśli masz czujnik z <a href="https://sensor.community/pl">www.sensor.community</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
-    <string name="rate_m">Jeśli podoba Ci się nasza aplikacja, oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek!</string>
+    <string name="rate_m">Jeśli podoba Ci się nasza aplikacja, oceń Particulate Matter App w Google Play na 5 gwiazdek!</string>
     <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.mrgames13.jimdo.feinstaubapp</string>
     <string name="recommend">Polecam</string>
     <string name="recommend_app">Polecam aplikację</string>
