@@ -1,7 +1,4 @@
 # Particulate Matter App
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/546c5e0356af45e099826b097ebfbc0e)](https://app.codacy.com/gh/ChilliBits/particulate-matter-app?utm_source=github.com&utm_medium=referral&utm_content=ChilliBits/particulate-matter-app&utm_campaign=Badge_Grade_Dashboard)
-
 **Be informed about the particulate matter situation and the air quality!**
 
 The Particulate Matter App is an app for visualizing and collecting particulate matter data from all over the world! If you got an own sensor, built with the [instruction sheet](https://sensor.community/en/sensors/) of [www.sensor.community](https://sensor.community), you can link it within the app and publish its data to all app users. Even if you don't have access to an own pm sensor, you have the ability to look up the patriculate matter values from every sensor, which is registered in our worldwide network.
@@ -66,4 +63,4 @@ Thanks to following people:
 
 Thanks to all contributors and translators!
 
-© ChilliBits 2017-2020 (Designed and developed by Marc Auberer from 2017 to 2020)
+© ChilliBits 2017-2021 (Designed and developed by Marc Auberer from 2017 to 2021)
