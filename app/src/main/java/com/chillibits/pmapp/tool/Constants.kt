@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2017 - 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2021. All rights reserved
  */
 
 package com.chillibits.pmapp.tool
@@ -10,8 +10,8 @@ object Constants {
     const val TAG = "FA"
 
     // Thresholds
-    const val THRESHOLD_WHO_PM10 = 20.0
-    const val THRESHOLD_WHO_PM2_5 = 10.0
+    const val THRESHOLD_WHO_PM10 = 15.0
+    const val THRESHOLD_WHO_PM2_5 = 5.0
     const val THRESHOLD_EU_PM10 = 40.0
     const val THRESHOLD_EU_PM2_5 = 25.0
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © Marc Auberer 2017 - 2020. All rights reserved
+ * Copyright © Marc Auberer 2017 - 2021. All rights reserved
  */
 
 package com.chillibits.pmapp.ui.fragment
@@ -17,8 +17,6 @@ class SensorDiagramFragment : Fragment() {
     private lateinit var contentView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        contentView = LayoutInflater.from(container?.context).inflate(R.layout.tab_diagram, container, false)
-
-        return contentView
+        return LayoutInflater.from(container?.context).inflate(R.layout.tab_diagram, container, false)
     }
 }
