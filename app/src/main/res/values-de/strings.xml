@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Sensor entfernen</string>
     <!-- %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Wollen Sie den Sensor \'%s\' wirklich entfernen?</string>
-    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.luftdaten.info">www.luftdaten.info</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
+    <string name="no_sensors">Falls Sie einen eigenen Feinstaubsensor von <a href="https://www.sensor.community">www.sensor.community</a> haben, können Sie ihn hier verknüpfen. Tippen Sie unten, um einen Sensor zu verknüpfen.</string>
     <string name="rate_app">App bewerten</string>
     <string name="rate_m">Bewerten Sie die Feinstaub-App im Google PlayStore mit 5 Sternen, wenn Ihnen die App gefällt! Sie können auch Verbesserungsvorschläge mit in die Bewertung schreiben.</string>
     <string name="recommend_string">Die Feinstaub-App: Feinstaub-Messungen einfach und elegant grafisch darstellen. Download vom Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -261,7 +261,7 @@
     <string name="enable_traffic_by_default">Verkehr beim Appstart einblenden</string>
     <string name="sync_running">Synchronisation läuft …</string>
     <!-- Please only paste url with the correct anchor -->
-    <string name="url_id_info">http://luftdaten.info/feinstaubsensor-bauen/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/de/sensors/airrohr#Konfiguriere_die_Station</string>
     <string name="get_in_touch">Kontakt aufnehmen</string>
     <string name="sensor_highscore">Sensor-Bestenliste</string>
     <string name="connected_to_web_version">Verbunden mit feinstaub.chillibits.com</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Deconectare senzor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Doriți cu adevărat să deconectați senzorul \'%s\'?</string>
-    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, îl puteți conecta aici</string>
+    <string name="no_sensors">Dacă aveți un senzor de la <a href="https://www.sensor.community/ro">www.sensor.community</a>, îl puteți conecta aici</string>
     <string name="rate_app">cotati aplicatia</string>
     <string name="rate_m">Evaluează aplicația Particulate Matter în Google PlayStore cu 5 stele, dacă te bucuri de aplicație!</string>
     <string name="recommend_string">Aplicația Particulate Matter: afișează ușor și elegant măsurările de particule. Descărcați din PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -262,15 +262,15 @@
     <string name="enable_traffic_by_default">Activați traficul în mod implicit</string>
     <string name="sync_running">Sincronizarea rulează …</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/ro/sensors/airrohr#Configurati_statia</string>
     <string name="get_in_touch">Contactează-ne</string>
     <string name="sensor_highscore">Senzor scor</string>
     <string name="connected_to_web_version">Conectat la pm.chillibits.com</string>
     <string name="widget_label_small">Placă de informații rapide</string>
     <string name="pref_enable_threshold_notifications">Activați notificările de prag</string>
     <string name="find_sensor_locally">Găsiți senzorul în rețea</string>
-    <string name="searching_ip_address">Căutarea adresei IP ...</string>
-    <string name="searching_for_sensors">Căutarea senzorilor ...</string>
+    <string name="searching_ip_address">Căutarea adresei IP …</string>
+    <string name="searching_for_sensors">Căutarea senzorilor …</string>
     <string name="sensors_local_network">Senzori din rețeaua locală</string>
     <string name="no_sensors_found_local">Nu s-au găsit senzori în rețeaua locală. Uneori, un senzor este deconectat pentru o clipă, așa că dacă senzorul dvs. nu este listat, încercați-l din nou într-un minut.</string>
     <string name="open_sensor_config">Deschideți site-ul de configurare (link extern)</string>

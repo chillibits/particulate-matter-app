@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Отключить датчик</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Вы уверены, что хотите отлючить датчик \'%s\'?</string>
-    <string name="no_sensors">Вы можете подключить датчик с <a href="https://luftdaten.info/ru">luftdaten.info</a>. Нажмите ниже, чтобы добавить датчик.</string>
+    <string name="no_sensors">Вы можете подключить датчик с <a href="https://www.sensor.community/ru">www.sensor.community</a>. Нажмите ниже, чтобы добавить датчик.</string>
     <string name="rate_app">оцените приложение</string>
     <string name="rate_m">Оцените приложение Particulate Matter в Google Play: поставьте ему пять звёзд, если приложение вам нравится.</string>
     <string name="recommend_string">Приложение Particulate Matter отображает измерения твёрдых частиц в воздухе удобным и элегантным образом. Скачать из Google Play Store: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -262,15 +262,15 @@
     <string name="enable_traffic_by_default">По умолчанию показывать загруженность дорог</string>
     <string name="sync_running">Идёт синхронизация …</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/ru/sensors/airrohr#Kak_uznat_IP_stanczii</string>
     <string name="get_in_touch">Связаться с нами</string>
     <string name="sensor_highscore">Пиковые значения датчика</string>
     <string name="connected_to_web_version">Подключен к pm.chillibits.com</string>
     <string name="widget_label_small">Обзорная схема</string>
     <string name="pref_enable_threshold_notifications">Включить уведомления о превышении пороговых значений</string>
     <string name="find_sensor_locally">Найти датчик в сети</string>
-    <string name="searching_ip_address">Ищем IP адрес ...</string>
-    <string name="searching_for_sensors">Ищем датчики ...</string>
+    <string name="searching_ip_address">Ищем IP адрес …</string>
+    <string name="searching_for_sensors">Ищем датчики …</string>
     <string name="sensors_local_network">Датчики в локальной сети</string>
     <string name="no_sensors_found_local">Не найдено датчиков в локальной сети. Иногда датчик может ненадолго отключаться от сети. Поэтому если вашего датчика нет в списке, попробуйте через минуту ещё раз.</string>
     <string name="open_sensor_config">Открыть страницу настроек (внешняя ссылка)</string>

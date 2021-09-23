@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Премахни връзка със сензор</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Наистина ли искате да премахнете връзката със сензора \'%s\'?</string>
-    <string name="no_sensors">Ако имате сензор от <a href="https://www.luftdaten.info">www.luftdaten.info/en</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
+    <string name="no_sensors">Ако имате сензор от <a href="https://www.sensor.community/bg">www.sensor.community</a>, можете да го свържете тук. Чукнете отдолу, за да свържете сензор.</string>
     <string name="rate_app">Поставете рейтинг на приложението</string>
     <string name="rate_m">Поставете рейтинг на приложението Финни частици в Google PlayStore с 5 звезди, ако харесвате това приложение!</string>
     <string name="recommend_string">Приложение Финни частици: покажи измерванията за финни частици лесно и елегантно. Свали от Google PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -260,15 +260,15 @@
     <string name="enable_traffic_by_default">Активирайте трафика по подразбиране</string>
     <string name="sync_running">Синхронизирането се изпълнява …</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/bg/sensors/airrohr#Konfigurirajte_stancziyata</string>
     <string name="get_in_touch">Свържете се с нас</string>
     <string name="sensor_highscore">Сензорни резултати</string>
     <string name="connected_to_web_version">Свързан с pm.chillibits.com</string>
     <string name="widget_label_small">Бърза информация за плочки</string>
     <string name="pref_enable_threshold_notifications">Активиране на праговите известия</string>
     <string name="find_sensor_locally">Намери сензор в мрежата</string>
-    <string name="searching_ip_address">Търсене на IP адрес ...</string>
-    <string name="searching_for_sensors">Търсене на сензори ...</string>
+    <string name="searching_ip_address">Търсене на IP адрес …</string>
+    <string name="searching_for_sensors">Търсене на сензори …</string>
     <string name="sensors_local_network">Сензори в локалната мрежа</string>
     <string name="no_sensors_found_local">В локалната мрежа не са открити сензори. Понякога сензорът е офлайн за момент, така че ако сензорът ви не е в списъка, моля, опитайте го отново след минута.</string>
     <string name="open_sensor_config">Отваряне на сайта за конфигурация (външна връзка)</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Odepnij sensor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Czy naprawdę chcesz odpiąć sensor \'%s\'?</string>
-    <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.luftdaten.info/pl">www.luftdaten.info</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
+    <string name="no_sensors">Jeśli masz czujnik z <a href="https://www.sensor.community/pl">www.sensor.community</a> możesz połączyć go tutaj. Stuknij poniżej, aby połączyć czujnik.</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate_m">Oceń aplikację Particulate Matter App w Google Play na 5 gwiazdek, jeśli korzystasz z aplikacji!</string>
     <string name="recommend_string">Aplikacja Particulate Matter to pomiary łatwe i eleganckie pobierz z: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -262,15 +262,15 @@
     <string name="enable_traffic_by_default">Włącz ruch</string>
     <string name="sync_running">W trakcie synchronizacji…</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/pl/sensors/airrohr#Skonfiguruj_stacje</string>
     <string name="get_in_touch">Kontakt</string>
     <string name="sensor_highscore">Sensor z wysokim wynikiem</string>
     <string name="connected_to_web_version">Połączony z pm.chillibits.com</string>
     <string name="widget_label_small">Krótkie info</string>
     <string name="pref_enable_threshold_notifications">Włącz powiadomienia progowe</string>
     <string name="find_sensor_locally">Szukaj sensora w sieci</string>
-    <string name="searching_ip_address">Szukam adresu IP ...</string>
-    <string name="searching_for_sensors">Wyszukiwanie sensorów ...</string>
+    <string name="searching_ip_address">Szukam adresu IP …</string>
+    <string name="searching_for_sensors">Wyszukiwanie sensorów …</string>
     <string name="sensors_local_network">Sensory w sieci lokalnej</string>
     <string name="no_sensors_found_local">Nie znaleziono sensorów w sieci lokalnej, czasami sensory są chwilowo niedostępne, jeżeli nadal jest niedostępny spróbuj go dodać ponownie.</string>
     <string name="open_sensor_config">Otwórz stronę konfiguracyjną (link zewnętrzny)</string>

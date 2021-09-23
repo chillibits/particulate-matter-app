@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Unlink sensor</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Do you really want to unlink the sensor \'%s\'?</string>
-    <string name="no_sensors">If you have a sensor from <a href="https://www.luftdaten.info/en">www.luftdaten.info</a>, you can link it here. Tap below to link a sensor.</string>
+    <string name="no_sensors">If you have a sensor from <a href="https://www.sensor.community/en">www.sensor.community</a>, you can link it here. Tap below to link a sensor.</string>
     <string name="rate_app">rate app</string>
     <string name="rate_m">Rate The Particulate Matter App in Google PlayStore with 5 stars, if you are enjoying the app!</string>
     <string name="recommend_string">The Particulate Matter App: display particulate matter measurements easy and elegant. Download from PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -260,7 +260,7 @@
     <string name="enable_traffic_by_default">Enable traffic by default</string>
     <string name="sync_running">Synchronisation running …</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/en/construction-manual/#feinstaubsensor-konfiguration</string>
+    <string name="url_id_info">https://sensor.community/en/sensors/airrohr#Configure_the_station</string>
     <string name="get_in_touch">Contact us</string>
     <string name="sensor_highscore">Sensor highscore</string>
     <string name="connected_to_web_version">Connected to pm.chillibits.com</string>

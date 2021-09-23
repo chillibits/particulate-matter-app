@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Marc Auberer 2017 - 2020. All rights reserved
+  ~ Copyright © Marc Auberer 2017 - 2021. All rights reserved
   -->
 
 <!--
@@ -53,7 +53,7 @@
     <string name="unlink_sensor">Scollegare un sensore</string>
     <!--  %s is a placeholder for the number of seconds. Please make sure that %s is included also in your translation -->
     <string name="really_unlink_sensor">Vuoi veramente scollegare il sensore \'%s\'?</string>
-    <string name="no_sensors">Se hai un sensore da <a href="https://www.luftdaten.info/it">www.luftdaten.info</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
+    <string name="no_sensors">Se hai un sensore da <a href="https://www.sensor.community/it">www.sensor.community</a>, puoi collegarlo qui. Premi sotto per collegare un sensore.</string>
     <string name="rate_app">valuta l\'app</string>
     <string name="rate_m">Valuta l\'App Particulate Matter in Google PlayStore con 5 stelle, se ti piace!</string>
     <string name="recommend_string">Particulate Matter: l\'app. mostra le misurazioni del particolato in modo chiaro e dettagliato. Scaricala da PlayStore: https://play.google.com/store/apps/details?id=com.chillibits.pmapp</string>
@@ -260,15 +260,15 @@
     <string name="enable_traffic_by_default">Abilitare il traffico dati di default</string>
     <string name="sync_running">Sincronizzazione in corso …</string>
     <!-- Please only paste urls with correct anchors -->
-    <string name="url_id_info">https://luftdaten.info/it/montaggio-centralina/</string>
+    <string name="url_id_info">https://sensor.community/it/sensors/airrohr#Configurazione_della_scheda_NodeMCU</string>
     <string name="get_in_touch">Contattaci</string>
     <string name="sensor_highscore">Punteggio massimo del sensore</string>
     <string name="connected_to_web_version">Connesso con pm.chillibits.com</string>
     <string name="widget_label_small">Riquadro informazioni rapide</string>
     <string name="pref_enable_threshold_notifications">Abilitare notifica di soglia</string>
     <string name="find_sensor_locally">Trovato sensore nella rete</string>
-    <string name="searching_ip_address">Ricerva indirizzo IP...</string>
-    <string name="searching_for_sensors">Ricerca sensori...</string>
+    <string name="searching_ip_address">Ricerva indirizzo IP …</string>
+    <string name="searching_for_sensors">Ricerca sensori …</string>
     <string name="sensors_local_network">Sensori presenti nella rete locale\u0020</string>
     <string name="no_sensors_found_local">Non sono stati trovati sensori nella rete locale. In certi casi il sensore è fuori servizio per un breve periodo, se il tuo sensore non è in elenco per favore prova nuovamente tra un minuto.</string>
     <string name="open_sensor_config">Aprire il pannello di configurazione (link esterno)</string>
