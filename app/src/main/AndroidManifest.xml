@@ -36,6 +36,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/SplashTheme"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,21 +49,26 @@
             android:name=".ui.activity.SensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.AddSensorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
+            android:exported="false"
             tools:replace="android:screenOrientation" />
         <activity
             android:name="com.mikepenz.aboutlibraries.ui.LibsActivity"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".ui.activity.SettingsActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
