@@ -14,8 +14,8 @@ android {
         applicationId "com.mrgames13.jimdo.feinstaubapp"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 3501
-        versionName "3.5.1"
+        versionCode 3502
+        versionName "3.5.2"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
