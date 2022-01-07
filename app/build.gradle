@@ -122,7 +122,7 @@ dependencies {
     implementation 'com.github.marcauberer:ProgressFloatingActionButton:1.1.0'
 
     // Debug dependencies
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 }
 
 // Task for downloading all translation files
