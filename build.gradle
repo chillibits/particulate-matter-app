@@ -4,7 +4,7 @@
 
 buildscript {
     ext.kotlin_version = '1.5.31'
-    ext.room_version = '2.4.1'
+    ext.room_version = '2.4.2'
     ext.ktor_version = '1.6.8'
     repositories {
         google()
